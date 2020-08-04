@@ -1,0 +1,70 @@
+.backdrop {
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    opacity: .4;
+    user-select: none;
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.close-x {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(79, 80, 85);
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    cursor: pointer;
+    text-align: center;
+    z-index: 2;
+    line-height: 30px;
+    color: #eeeeee;
+}
+
+.close-x:hover {
+    background-color: rgb(121, 123, 131);
+}
+
+.modal {
+    width: 500px;
+    height: 500px;
+    background-color: #ebebeb;
+    z-index: 2;
+    position: absolute;
+    border: 3px solid #000000;
+}
+
+.modal-wrapper {
+    position: absolute;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 100.000000vw;
+    height: 100.000000vh;
+}
+
+.header {
+    position: relative;
+    top: 0px;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000000;
+    line-height: 50px;
+    padding: 0px 10px;
+}
+
+.body {
+    position: relative;
+    height: 100px;
+}
+
+.footer {
+    height: 100px;
+    width: 500px;
+    position: absolute;
+    bottom: 0px;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/lib/components.js"></script>
+    <style>
+        .character-customization {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .save {
+            margin-left: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .disabled {
+            background-color: #eeeeee;
+            color: #bfbfbf;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Chose a name for your character.</p>
+    <div class="character-customization">
+        <input for="name" type="text" />
+        <button type="button" class="button save disabled">Save</button>
+    </div>
+    <p class="name-text hidden">
+        <span>The name you chose is: </span>
+        <span class="name"></span>
+    </p>
+
+    <component-import data-url="my-modal"></component-import>
+    <script src="/components/modal/modal.js"></script>
+
+    <script>
+        const saveButton = document.querySelector('.save');
+        const nameField = document.querySelector('input[for="name"]');
+
+        nameField.addEventListener('keyup', (e) => {
+            if (nameField.value) return saveButton.classList.remove('disabled');
+            saveButton.classList.add('disabled')
+        });
+
+        saveButton.addEventListener('click', () => {
+            document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';
+        });
+    </script>
+</body>
+
+</html>
