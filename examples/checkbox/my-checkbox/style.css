@@ -1,0 +1,21 @@
+.checkbox-wrapper {
+    top: 0px;
+    width: 30px;
+    height: 30px;
+    border: 5px solid #ebebeb;
+}
+
+.check-mark {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: rgb(72, 212, 72);
+    width: 20px;
+    height: 20px;
+}
+
+.label {
+    position: relative;
+    padding-left: 10px;
+    line-height: 30px;
+}
