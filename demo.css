@@ -1,0 +1,35 @@
+body {
+    background-color: #ffffff;
+}
+
+.component-link {
+    height: 30px;
+    line-height: 30px;
+    background-color: #3fa9f5;
+    width: auto;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+}
+
+.menu {
+    width: 10vw;
+    min-width: 150px;
+}
+
+.preview {
+    width: 70vw;
+}
+
+.margin {
+    width: 10vw;
+}

@@ -1,0 +1,28 @@
+{
+  "name": "gameuicomponents",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "start:demo": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoherentLabs/GameUIComponents.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoherentLabs/GameUIComponents/issues"
+  },
+  "homepage": "https://github.com/CoherentLabs/GameUIComponents#readme",
+  "devDependencies": {
+    "webpack": "4.44.1",
+    "webpack-cli": "3.3.12",
+    "webpack-dev-server": "3.11.0"
+  }
+}
