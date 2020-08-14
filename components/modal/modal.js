@@ -6,8 +6,8 @@ class Modal extends HTMLElement {
         this.state = {
             display: 'none'
         };
-        this.style.display = 'none';
 
+        this.style.display = 'none';
         this.closeBound = e => this.close(e);
 
         const STYLE_URL = '/components/modal/modal.css';
