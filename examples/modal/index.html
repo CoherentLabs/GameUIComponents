@@ -19,7 +19,7 @@
 
         .disabled {
             background-color: #eeeeee;
-            color: #bfbfbf;
+            color: #7b7878;
             pointer-events: none;
         }
     </style>
@@ -40,18 +40,22 @@
     <script src="/components/modal/modal.js"></script>
 
     <script>
+        function onClick() {
+            document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';
+        };
+
         const saveButton = document.querySelector('.save');
         const nameField = document.querySelector('input[for="name"]');
 
         nameField.addEventListener('keyup', (e) => {
-            if (nameField.value) return saveButton.classList.remove('disabled');
+            if (nameField.value) {
+                saveButton.classList.remove('disabled');
+                saveButton.addEventListener('click', onClick);
+                return;
+            }
+            saveButton.removeEventListener('click', onClick);
             saveButton.classList.add('disabled')
         });
-
-        saveButton.addEventListener('click', () => {
-            document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';
-        });
-
     </script>
 </body>
 

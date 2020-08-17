@@ -2,6 +2,7 @@
     width: 100px;
     height: 30px;
     border: none;
+    background-color: #adacac;
 }
 
 .button:hover {
