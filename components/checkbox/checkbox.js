@@ -25,7 +25,7 @@ class Checkbox extends HTMLElement {
      * Toggles the checkbox value. Called on click.
      * Updated the state and the visibility of the check mark.
     */
-    check() {
+    toggleChecked() {
         this.state.checked = !this.state.checked;
         this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? '' : 'none';
     }
@@ -35,19 +35,17 @@ class Checkbox extends HTMLElement {
      * Attached click handler.
     */
     attachEventListeners() {
-        this.addEventListener('click', () => this.check());
+        this.addEventListener('click', () => this.toggleChecked());
     }
 
     /**
      * Renders a given content into its slots.
      */
     render(content) {
-        content = content;
+        const templateRoot = document.createElement('div')
+        templateRoot.appendChild(this.template);
 
-        const tempRoot = document.createElement('div')
-        tempRoot.appendChild(this.template);
-
-        const mySlots = components.findSlots(tempRoot);
+        const mySlots = components.findSlots(templateRoot);
         const userSlots = components.findSlots(content);
 
         // use for...of instead of for...in for better performance
@@ -56,7 +54,7 @@ class Checkbox extends HTMLElement {
             components.transferContent(userSlots[userSlot], mySlots[userSlot]);
         }
 
-        components.transferContent(tempRoot, this);
+        components.transferContent(templateRoot, this);
     }
 }
 

@@ -1,5 +1,5 @@
 components.whenDefined('gameface-checkbox').then(() => {
     components.loadHTML('/examples/checkbox/my-checkbox/index.html').then((html) => {
-        document.querySelector('.checkbox-component').parentNode.appendChild(html);
+        document.body.appendChild(html);
     });
 });

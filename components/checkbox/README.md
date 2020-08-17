@@ -1,17 +1,17 @@
-The checkbox is part of the Gameface custom components suite. As most of the components in this suite It uses slots to allow dynamic content.
+The checkbox is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
 
 Usage
 ===================
 Using the custom `<component-import>` element.
-After you install the components library and the checkbox component add the components library to your project:
+After you import the components library and the checkbox component add the components library to your project:
 
 ~~~~{.html}
 <script src="components.js"></script>
 ~~~~
 
 The checkbox has three slots:
-- **checkbox-wrapper** - holds the check box itself
+- **checkbox-background** - holds the check box itself
 - **check-mark** - holds the check symbol
 - **label** - holds the text of the checkbox; leave empty if no label is required
 
@@ -35,6 +35,8 @@ components.whenDefined('gameface-checkbox').then(() => {
     });
 });
 ~~~~
+
+In the example above we append the component to the document body, but you can append it to any element on the page.
 
 **Add any custom styles in the same folder. The default styles name is `style.css`.**
 
