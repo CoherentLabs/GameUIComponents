@@ -1,0 +1,24 @@
+.button {
+    width: 100px;
+    height: 30px;
+    border: none;
+    background-color: #adacac;
+}
+
+.button:hover {
+    background-color: rgb(121, 123, 131);
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.confirmation-text {
+    text-align: center;
+}
+
+.controls {
+    margin-left: 20px;
+}
