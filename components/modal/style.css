@@ -39,11 +39,13 @@
 
 .modal-wrapper {
     position: absolute;
+    top: 0px;
+    left: 0px;
     justify-content: center;
     display: flex;
     align-items: center;
-    width: 100.000000vw;
-    height: 100.000000vh;
+    width: 100vw;
+    height: 100vh;
 }
 
 .header {

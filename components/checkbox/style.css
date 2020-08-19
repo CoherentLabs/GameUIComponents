@@ -20,3 +20,9 @@
     width: 20px;
     height: 20px;
 }
+
+.label {
+    position: relative;
+    padding-left: 10px;
+    line-height: 30px;
+}
