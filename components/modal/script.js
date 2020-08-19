@@ -10,16 +10,16 @@ class Modal extends HTMLElement {
         this.style.display = 'none';
         this.closeBound = e => this.close(e);
 
-        const STYLE_URL = '/components/modal/modal.css';
+        const STYLE_URL = '/components/modal/style.css';
         components.importStyle(STYLE_URL);
     }
 
     connectedCallback() {
-        const VIEW_URL = '/components/modal/modal.html';
+        const VIEW_URL = '/components/modal/template.html';
         components.loadResource(VIEW_URL)
         .then((response) => {
             this.template = response[1].cloneNode(true);
-            this.render(this);
+            this.render(this.parentNode);
             this.attachEventListeners();
         })
         .catch(err => console.error(err));

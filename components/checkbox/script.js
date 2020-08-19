@@ -6,16 +6,16 @@ class Checkbox extends HTMLElement {
             checked: true
         }
 
-        const STYLE_URL = '/components/checkbox/checkbox.css';
+        const STYLE_URL = '/components/checkbox/style.css';
         components.importStyle(STYLE_URL);
     }
 
     connectedCallback() {
-        const VIEW_URL = '/components/checkbox/checkbox.html';
+        const VIEW_URL = '/components/checkbox/template.html';
         components.loadResource(VIEW_URL)
             .then((response) => {
                 this.template = response[1].cloneNode(true);
-                this.render(this);
+                this.render(this.parentNode);
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
