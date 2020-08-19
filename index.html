@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="lib/components.js"></script>
+    <link rel="stylesheet" href="demo.css">
+</head>
+
+<body>
+    <div class="page">
+        <div class="menu">
+            <div class="component-link" data-link="checkbox">Checkbox</div>
+            <div class="component-link" data-link="modal">Modal</div>
+        </div>
+        <div class="margin"></div>
+        <div class="preview">
+            <div class="hidden">
+                <component-import class="checkbox-component" data-url="/examples/checkbox/my-checkbox"></component-import>
+            </div>
+            <div class="hidden">
+                <component-import class="modal-component" data-url="/examples/modal/my-modal"></component-import>
+            </div>
+        </div>
+    </div>
+    <script src="demo.js"></script>
+</body>
+</html>
