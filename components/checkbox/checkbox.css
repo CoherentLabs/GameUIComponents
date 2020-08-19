@@ -1,0 +1,15 @@
+.checkbox-wrapper {
+    position: relative;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.check-mark {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: #cfc6c6;
+    width: 20px;
+    height: 20px;
+}
