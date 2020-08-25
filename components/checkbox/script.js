@@ -15,7 +15,7 @@ class Checkbox extends HTMLElement {
         components.loadResource(VIEW_URL)
             .then((response) => {
                 this.template = response[1].cloneNode(true);
-                this.render(this.parentNode);
+                components.render(this.parentNode, this);
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
@@ -36,25 +36,6 @@ class Checkbox extends HTMLElement {
     */
     attachEventListeners() {
         this.addEventListener('click', () => this.toggleChecked());
-    }
-
-    /**
-     * Renders a given content into its slots.
-     */
-    render(content) {
-        const templateRoot = document.createElement('div')
-        templateRoot.appendChild(this.template);
-
-        const mySlots = components.findSlots(templateRoot);
-        const userSlots = components.findSlots(content);
-
-        // use for...of instead of for...in for better performance
-        const userSlotsKeys = Object.keys(userSlots);
-        for (let userSlot of userSlotsKeys) {
-            components.transferContent(userSlots[userSlot], mySlots[userSlot]);
-        }
-
-        components.transferContent(templateRoot, this);
     }
 }
 

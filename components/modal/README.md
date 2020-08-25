@@ -1,10 +1,9 @@
-The modal is part of the Gameface custom components suite. It uses component slots to allow dynamic content.
+The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
 
 Usage
 ===================
-Using the custom `<component-import>` element.
-After you install the components library and the modal component add the components library to your project:
+First you need to import the components library:
 
 ~~~~{.html}
 <script src="components.js"></script>
@@ -17,40 +16,26 @@ The modal has three slots:
 
 **Add class="close" to any button that should close the modal.**
 
-Define your instance of the modal component in a separate file:
+Use the `<component-import>` to import the modal. Put any custom slots as children of the `<component-import>`.
 
-my-modal.html
 ~~~~{.html}
-<gameface-modal>
-    <component-slot data-name="header">This is header.</component-slot>
+<component-import data-url="modal">
+    <component-slot data-name="header">
+        <div class="header">
+            Character name selection
+        </div>
+    </component-slot>
     <component-slot data-name="body">
-        <div>This is body.</div>
+        <div class="confirmation-text">Are you sure you want to save this name?</div>
     </component-slot>
     <component-slot data-name="footer">
-        <div>Are you sure you want to cancel?</div>
-        <button class="close">Yes</button>
-        <button>No</button>
+        <div class="actions">
+            <button class="close button confirm controls" onclick="onConfirm()">Yes</button>
+            <button class="close button discard controls">No</button>
+        </div>
     </component-slot>
-</gameface-modal>
+</component-import>
 ~~~~
 
-In the same folder add the loading script in a `script.js` file:
 
-~~~~{.js}
-components.whenDefined('gameface-modal').then(() => {
-    components.loadHTML('my-modal.html').then((html) => {
-        document.body.appendChild(html);
-    });
-});
-~~~~
-
-**Add any custom styles in the same folder. The default styles name is `style.css`.**
-
-To import your modal add the `<component-import>` element to your html:
-
-~~~~{.html}
-  <component-import data-url="my-modal"></component-import>
-~~~~
-
-Add this as many times as you need to display your component.
-
+**You can put any custom styles inline or use class names and add an external file.** 
