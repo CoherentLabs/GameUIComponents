@@ -22,6 +22,31 @@
             color: #7b7878;
             pointer-events: none;
         }
+
+        .button {
+            width: 100px;
+            height: 30px;
+            border: none;
+            background-color: #adacac;
+        }
+
+        .button:hover {
+            background-color: rgb(121, 123, 131);
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .confirmation-text {
+            text-align: center;
+        }
+
+        .controls {
+            margin-left: 20px;
+        }
     </style>
 </head>
 
@@ -36,11 +61,24 @@
         <span class="name"></span>
     </p>
 
-    <component-import data-url="my-modal"></component-import>
-    <script src="/components/modal/modal.js"></script>
-
+    <component-import data-url="modal">
+        <component-slot data-name="header">
+            <div class="header">
+                Character name selection
+            </div>
+        </component-slot>
+        <component-slot data-name="body">
+            <div class="confirmation-text">Are you sure you want to save this name?</div>
+        </component-slot>
+        <component-slot data-name="footer">
+            <div class="actions">
+                <button class="close button confirm controls" onclick="onConfirm()">Yes</button>
+                <button class="close button discard controls">No</button>
+            </div>
+        </component-slot>
+    </component-import>
     <script>
-        function onClick() {
+        function onSaveName() {
             document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';
         };
 
@@ -50,12 +88,25 @@
         nameField.addEventListener('keyup', (e) => {
             if (nameField.value) {
                 saveButton.classList.remove('disabled');
-                saveButton.addEventListener('click', onClick);
+                saveButton.addEventListener('click', onSaveName);
                 return;
             }
-            saveButton.removeEventListener('click', onClick);
+            saveButton.removeEventListener('click', onSaveName);
             saveButton.classList.add('disabled')
         });
+
+        function onConfirm(e) {
+            const modal = document.getElementsByTagName('gameface-modal')[0];
+            const nameText = document.querySelector('.name-text');
+            const nameField = document.querySelector('input[for="name"]');
+
+            if (!nameText || !nameField) return modal.close();
+            document.querySelector('.name').textContent = nameField.value;
+            modal.close();
+
+            nameText.classList.remove('hidden');
+            nameText.querySelector('.name').textContent = nameField.value;
+        }
     </script>
 </body>
 

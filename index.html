@@ -15,10 +15,12 @@
         <div class="margin"></div>
         <div class="preview">
             <div class="hidden">
-                <component-import class="checkbox-component" data-url="/examples/checkbox/my-checkbox"></component-import>
+                <component-import class="checkbox-component" data-url="checkbox">
+                    <component-slot data-name="label"><span class="label">Enable Music</span></component-slot>
+                </component-import>
             </div>
             <div class="hidden">
-                <component-import class="modal-component" data-url="/examples/modal/my-modal"></component-import>
+                <component-import class="modal-component" data-url="modal"></component-import>
             </div>
         </div>
     </div>

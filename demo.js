@@ -10,10 +10,6 @@
 
         const name = e.currentTarget.dataset.link;
 
-        if (!document.querySelector(`[src="components/${name}/${name}.js"]`)) {
-            components.importScript(`components/${name}/${name}.js`);
-        }
-
         const component = document.querySelector(`.${name}-component`);
         if (!component) return;
 
