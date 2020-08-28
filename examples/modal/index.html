@@ -62,20 +62,18 @@
     </p>
 
     <component-import data-url="modal">
-        <component-slot data-name="header">
-            <div class="header">
+        <div slot="header">
                 Character name selection
-            </div>
-        </component-slot>
-        <component-slot data-name="body">
+        </div>
+        <div slot="body">
             <div class="confirmation-text">Are you sure you want to save this name?</div>
-        </component-slot>
-        <component-slot data-name="footer">
+        </div>
+        <div slot="footer">
             <div class="actions">
                 <button class="close button confirm controls" onclick="onConfirm()">Yes</button>
                 <button class="close button discard controls">No</button>
             </div>
-        </component-slot>
+        </div>
     </component-import>
     <script>
         function onSaveName() {
@@ -109,5 +107,4 @@
         }
     </script>
 </body>
-
 </html>

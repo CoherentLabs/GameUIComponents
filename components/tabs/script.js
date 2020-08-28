@@ -79,9 +79,6 @@ class Tabs extends HTMLElement {
         this.tabSlot = this.querySelector('[ data-name="tab"]');
         this.panelSlot = this.querySelector('[data-name="panel"]');
 
-        this.tabSlot.addEventListener('slotcontentchange', (e) => {debugger});
-        this.panelSlot.addEventListener('slotcontentchange', (e) => {debugger});
-
         // TODO: remove event listeners
         this.addEventListener('keydown', (e) => this.onKeyDown(e));
         this.addEventListener('click', (e) => this.onClick(e));
@@ -133,7 +130,6 @@ class Tabs extends HTMLElement {
 
    onKeyDown(event) {
        console.log('keydown')
-    //    debugger
      // If the keypress did not originate from a tab element itself,
      // it was a keypress inside the a panel or on empty space. Nothing to do.
      if (event.target.tagName !== 'TAB-HEADING') return;
@@ -169,16 +165,6 @@ class Tabs extends HTMLElement {
      event.preventDefault();
      // Select the new tab, that has been determined in the switch-case.
      this.selectTab(newTab);
-    }
-
-
-    addTab(position = -1) {
-        // add tab at the end of the tab list by default
-        // pass position for other position
-    }
-
-    removeTab(position) {
-        // remove tab placed at a specific position
     }
 }
 
@@ -269,7 +255,6 @@ class TabPanel extends HTMLElement {
     }
 
     connectedCallback() {
-        debugger
         if (!this.index) {
             this.index = `${panelsCounter++}`;
         }

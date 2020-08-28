@@ -1,4 +1,10 @@
 <div class="tabs-wrapper">
-    <component-slot data-name="tab" class="tabs-header"></component-slot>
-    <component-slot data-name="panel"></component-slot>
+    <component-slot data-name="tab" class="tabs-header">
+        <tab-heading slot="tab">First Tab</tab-heading>
+        <tab-heading slot="tab">Second Tab</tab-heading>
+    </component-slot>
+    <component-slot data-name="panel">
+        <tab-panel slot="panel">First Tab Content</tab-panel>
+        <tab-panel slot="panel">Second Tab Content</tab-panel>
+    </component-slot>
 </div>
