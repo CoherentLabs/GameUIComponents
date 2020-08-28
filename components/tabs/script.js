@@ -1,10 +1,5 @@
-// TODO: remove
 let tabsCounter = 0;
 let panelsCounter = 0;
-
-// TODO: add warnings
-// for uneven count of tabs vs panels
-// 
 
 const KEYCODE = {
     DOWN: 40,
@@ -19,9 +14,12 @@ class Tabs extends HTMLElement {
     constructor() {
         super();
 
+        // bind the scope to this so that we can access the current instance
+        this.onKeyDown = this.onKeyDown.bind(this);
+        this.onClick = this.onClick.bind(this);
+
         const STYLE_URL = '/components/tabs/style.css';
         components.importStyle(STYLE_URL);
-        // attach event listeners for keyboard control
     }
 
     connectedCallback() {
@@ -33,57 +31,96 @@ class Tabs extends HTMLElement {
             .then((response) => {
                 this.template = response[1].cloneNode(true);
                 components.render(this.parentNode, this);
-                this.attachEventListeners();
-
             })
             .catch(err => console.error(err));
 
-        // setup the link between the tabs and the panels
+        // wait for the tab-heading and tab-panel custom elements to be defined
+        // before attaching the events
         Promise.all([
             customElements.whenDefined('tab-heading'),
             customElements.whenDefined('tab-panel'),
-        ])
-            // .then(() => this.attachEventListeners());
+        ]).then(() => {
+            this.tabSlot = this.querySelector('[data-name="tab"]');
+            this.panelSlot = this.querySelector('[data-name="panel"]');
+
+            this.attachEventListeners();
+        });
     }
 
+    disconnectedCallback() {
+        this.removeEventListeners();
+    }
+
+    /**
+     * Called when the user clicks on the tab component.
+     * @param {MouseEvent} event - the event object.
+    */
     onClick(event) {
-        // If the click was not targeted on a tab element itself,
-        // it was a click inside the a panel or on empty space. Nothing to do.
-        if (event.target.tagName !== 'TAB-HEADING')
-            return;
-        // If it was on a tab element, though, select that tab.
-        this.selectTab(event.target);
+        // avoid all cases except when the target is a tab heading.
+        if (event.target.tagName === 'TAB-HEADING') {
+            this.selectTab(event.target);
+        }
     }
 
+    /**
+     * Gets a panel which should be opened by a specific tab.
+     * @param {TabHeading} tab - a tab heading element.
+     * @returns {HTMLElement} - the panel.
+    */
     getPanelForTab(tab) {
         return this.querySelector(`tab-panel[index="${tab.getAttribute('index')}"]`)
     }
 
-    getTabs() {
+    /**
+     * Gets all TabHeading child elements of the current Tab component.
+     * @returns {Array<TabHeading>} - the tabs of the tab component.
+    */
+    getAllTabs() {
         return Array.from(this.getElementsByTagName('tab-heading'));
     }
 
-    getPanels() {
+    /**
+     * Gets all TabPanel child element of the current Tab component.
+     * @returns {Array<TabPanel>} - the panels of the tab component.
+    */
+    getAllPanels() {
         return Array.from(this.getElementsByTagName('tab-panel'));
     }
 
+    /**
+     * Sets all tabs and panels in an inactive state.
+     * No tab is selected and no panel is visible. 
+    */
     reset() {
-        const tabs = this.getTabs();
-        const panels = this.getPanels();
+        const tabs = this.getAllTabs();
+        const panels = this.getAllPanels();
 
         tabs.forEach(tab => tab.selected = false);
         panels.forEach(panel => panel.selected = false);
     }
 
+    /**
+     * Attaches the keydown and click event listeners for keyboard and mouse
+     * controls respectively.
+    */
     attachEventListeners() {
-        this.tabSlot = this.querySelector('[ data-name="tab"]');
-        this.panelSlot = this.querySelector('[data-name="panel"]');
-
-        // TODO: remove event listeners
-        this.addEventListener('keydown', (e) => this.onKeyDown(e));
-        this.addEventListener('click', (e) => this.onClick(e));
+        this.addEventListener('keydown', this.onKeyDown);
+        this.addEventListener('click', this.onClick);
     }
 
+    /**
+     * Removes keydown and click event listeners.
+    */
+    removeEventListeners() {
+        this.removeEventListener('keydown', this.onKeyDown);
+        this.removeEventListener('click', this.onClick);
+    }
+
+    /**
+     * Sets a tab and its corresponding panel in an active state.
+     * The tab is highlighted and the panel is visible.
+     * @param {TabHeading} newTab - the tab which has been clicked on.
+    */
     selectTab(newTab) {
         // Deselect all tabs and hide all panels.
         this.reset();
@@ -91,80 +128,95 @@ class Tabs extends HTMLElement {
         // Get the panel that the `newTab` is associated with.
         const newPanel = this.getPanelForTab(newTab);
         // If that panel doesn’t exist, abort.
-        if (!newPanel)
-            throw new Error(`No panel was linked to ${newPanelId}`);
+        if (!newPanel) {
+            console.error(`Could not find tab panel corresponding to tab ${newPanel}`);
+            return;
+        }
         newTab.selected = true;
         newPanel.selected = true;
         newTab.focus();
     }
 
-    getAllTabs() {
-        return Array.from(this.querySelectorAll('tab-heading'));
-      }
-
+    /**
+     * Gets the previous tab in the tabs list.
+     * If the current tab is the first one - returns the last tab.
+     * @returns {TabHeading} - the previous tab.
+    */
     getPrevTab() {
         const tabs = this.getAllTabs();
 
         let newIdx =
-          tabs.findIndex(tab => tab.selected) - 1;
+            tabs.findIndex(tab => tab.selected) - 1;
         // Add `tabs.length` to make sure the index is a positive number
         // and get the modulus to wrap around if necessary.
         return tabs[(newIdx + tabs.length) % tabs.length];
-      }
+    }
 
-      getFirstTab() {
+    /**
+     * Gets the first tab in the tabs list.
+     * @returns {TabHeading} - the first tab.
+    */
+    getFirstTab() {
         const tabs = this.getAllTabs();
         return tabs[0];
-      }
+    }
 
-      getNextTab() {
+    /**
+     * Gets the next tab in the tabs list.
+     * If the current tab is the last one - returns the first tab.
+     * @returns {TabHeading} - the next tab.
+    */
+    getNextTab() {
         const tabs = this.getAllTabs();
         let newIdx = tabs.findIndex(tab => tab.selected) + 1;
         return tabs[newIdx % tabs.length];
-      }
+    }
 
-      getLastTab() {
+    /**
+     * Gets the last tab.
+     * @returns {TabHeading}
+    */
+    getLastTab() {
         const tabs = this.getAllTabs();
         return tabs[tabs.length - 1];
-      }
+    }
 
-   onKeyDown(event) {
-       console.log('keydown')
-     // If the keypress did not originate from a tab element itself,
-     // it was a keypress inside the a panel or on empty space. Nothing to do.
-     if (event.target.tagName !== 'TAB-HEADING') return;
-     // Don’t handle modifier shortcuts typically used by assistive technology.
-     if (event.altKey) return;
+    /**
+     * Called on keydown.
+     * Gets the currently pressed key from the event and calls a function based
+     * on the key code.
+     * @param {KeyboardEvent} event - the event object
+    */
+    onKeyDown(event) {
+        if (event.target.tagName !== 'TAB-HEADING' || event.altKey) return;
 
-     // The switch-case will determine which tab should be marked as active
-     // depending on the key that was pressed.
-     let newTab;
-     switch (event.keyCode) {
-       case KEYCODE.LEFT:
-       case KEYCODE.UP:
-         newTab = this.getPrevTab();
-         break;
+        // The switch-case will determine which tab should be marked as active
+        // depending on the key that was pressed.
+        let newTab;
+        switch (event.keyCode) {
+            case KEYCODE.LEFT:
+            case KEYCODE.UP:
+                newTab = this.getPrevTab();
+                break;
 
-       case KEYCODE.RIGHT:
-       case KEYCODE.DOWN:
-         newTab = this.getNextTab();
-         break;
+            case KEYCODE.RIGHT:
+            case KEYCODE.DOWN:
+                newTab = this.getNextTab();
+                break;
 
-       case KEYCODE.HOME:
-         newTab = this.getFirstTab();
-         break;
+            case KEYCODE.HOME:
+                newTab = this.getFirstTab();
+                break;
 
-       case KEYCODE.END:
-         newTab = this.getLastTab();
-         break;
-       // Any other key press is ignored and passed back to the browser.
-       default:
-         return;
-     }
+            case KEYCODE.END:
+                newTab = this.getLastTab();
+                break;
+            default:
+                return;
+        }
 
-     event.preventDefault();
-     // Select the new tab, that has been determined in the switch-case.
-     this.selectTab(newTab);
+        event.preventDefault();
+        this.selectTab(newTab);
     }
 }
 
@@ -183,7 +235,7 @@ class TabHeading extends HTMLElement {
     }
 
     set selected(value) {
-        if(value) {
+        if (value) {
             this.setAttribute('selected', value)
             this.classList.add('active');
         } else {
@@ -218,19 +270,20 @@ class TabPanel extends HTMLElement {
     static get observedAttributes() {
         return ['selected'];
     }
-    
+
     get selected() {
         return this.getAttribute('selected');
     }
 
     set selected(value) {
-        if(value) {
+        if (value) {
             this.setAttribute('selected', value)
             this.classList.add('active');
         } else {
             this.classList.remove('active');
             this.removeAttribute('selected');
-        }      }
+        }
+    }
 
     get index() {
         return this._index;
@@ -249,8 +302,7 @@ class TabPanel extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'selected') {
-            if (newValue === 'true') return this.style.display = 'block';
-            this.style.display = 'none';
+            this.style.display = (newValue === 'true') ? 'block' : 'none';
         }
     }
 
@@ -264,7 +316,3 @@ class TabPanel extends HTMLElement {
 components.defineCustomElement('gameface-tabs', Tabs);
 components.defineCustomElement('tab-heading', TabHeading);
 components.defineCustomElement('tab-panel', TabPanel);
-
-
-
-
