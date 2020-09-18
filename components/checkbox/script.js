@@ -1,3 +1,5 @@
+import components from '../../lib/components.js';
+
 class Checkbox extends HTMLElement {
     constructor() {
         super();
@@ -40,3 +42,5 @@ class Checkbox extends HTMLElement {
 }
 
 components.defineCustomElement('gameface-checkbox', Checkbox);
+
+export default Checkbox;

@@ -10,6 +10,8 @@ const KEYCODE = {
     END: 35,
 };
 
+import components from '../../lib/components.js';
+
 class Tabs extends HTMLElement {
     constructor() {
         super();
@@ -316,3 +318,6 @@ class TabPanel extends HTMLElement {
 components.defineCustomElement('gameface-tabs', Tabs);
 components.defineCustomElement('tab-heading', TabHeading);
 components.defineCustomElement('tab-panel', TabPanel);
+
+
+export {Tabs, TabHeading, TabPanel};
