@@ -1,0 +1,58 @@
+:root {
+	--default-color-white: #fff;
+	--default-color-blue: #25a5d6;
+	--default-color-gray: #e6e6e6;
+}
+
+/* Regular Elements */
+input, textarea, button {
+	border-color: var(--default-color-blue);
+	background-color: var(--default-color-white);
+}
+
+button, input[type="button"] {
+	background-color: var(--default-color-gray);
+}
+
+/* Custom Components */
+tab-heading, tab-panel, /* Tabs Component */
+.modal /* Modal Component */
+{
+	border-color: var(--default-color-blue);
+	background-color: var(--default-color-white);
+}
+
+tab-heading.active {
+	background-color: var(--default-color-gray);
+}
+
+/* Modal Component  */
+.header {
+	border-bottom-color: var(--default-color-blue);
+}
+
+.close-x {
+	background-color: var(--default-color-blue);
+	color: var(--default-color-gray);
+}
+
+.close-x:hover {
+	background-color: var(--default-color-gray);
+	color: var(--default-color-blue);
+}
+
+/* Checkbox Component */
+.checkbox-wrapper-inner {
+	background-color: var(--default-color-white);
+}
+
+.checkbox-background {
+	border-top-color: var(--default-color-gray);
+	border-right-color: var(--default-color-gray);
+	border-bottom-color: var(--default-color-gray);
+	border-left-color: var(--default-color-gray);
+}
+
+.check-mark {
+	background-color: var(--default-color-blue);
+}

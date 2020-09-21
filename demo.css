@@ -5,7 +5,8 @@ body {
 .component-link {
     height: 30px;
     line-height: 30px;
-    background-color: #3fa9f5;
+    background-color: #25a5d6;
+    color: #e6e6e6;
     width: auto;
     margin-top: 10px;
     cursor: pointer;
