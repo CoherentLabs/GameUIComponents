@@ -8,7 +8,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "start:demo": "webpack-dev-server"
+    "start:demo": "webpack-dev-server",
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,16 @@
   },
   "homepage": "https://github.com/CoherentLabs/GameUIComponents#readme",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "9.0.0",
+    "rollup": "2.27.1",
+    "rollup-plugin-multi-input": "1.1.1",
     "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0"
+  },
+  "dependencies": {
+    "-": "0.0.1",
+    "rollup-plugin-terser": "7.0.2",
+    "save-dev": "0.0.1-security"
   }
 }
