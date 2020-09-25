@@ -1,25 +1,28 @@
-import components from 'coherent-gameface-components';
+import {components} from 'coherent-gameface-components';
+import template from './template.html';
+import style from './style.css';
 
 class Modal extends HTMLElement {
     constructor() {
         super();
+
+        this.template = template;
+
+        components.importStyeTag('gameface-modal', style);
 
         this.state = {
             display: 'none'
         };
 
         this.closeBound = e => this.close(e);
-
-        const STYLE_URL = '/components/modal/style.css';
-        components.importStyle(STYLE_URL);
+        this.url = '/components/modal/template.html';
     }
 
     connectedCallback() {
-        const VIEW_URL = '/components/modal/template.html';
-        components.loadResource(VIEW_URL)
+        components.loadResource(this)
             .then((response) => {
                 this.template = response[1].cloneNode(true);
-                components.render(this.parentNode, this);
+                components.render(this);
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));

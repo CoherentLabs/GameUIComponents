@@ -2,8 +2,6 @@
 <html lang="en">
 
 <head>
-    <script src="/lib/umd/components.development.js"></script>
-    <script src="./umd/modal.development.js"></script>
     <style>
         .character-customization {
             display: flex;
@@ -71,41 +69,11 @@
         </div>
         <div slot="footer">
             <div class="actions">
-                <button class="close button confirm controls" onclick="onConfirm()">Yes</button>
+                <button id="confirm" class="close button confirm controls">Yes</button>
                 <button class="close button discard controls">No</button>
             </div>
         </div>
     </gameface-modal>
-    <script>
-        function onSaveName() {
-            document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';
-        };
-
-        const saveButton = document.querySelector('.save');
-        const nameField = document.querySelector('input[for="name"]');
-
-        nameField.addEventListener('keyup', (e) => {
-            if (nameField.value) {
-                saveButton.classList.remove('disabled');
-                saveButton.addEventListener('click', onSaveName);
-                return;
-            }
-            saveButton.removeEventListener('click', onSaveName);
-            saveButton.classList.add('disabled')
-        });
-
-        function onConfirm(e) {
-            const modal = document.getElementsByTagName('gameface-modal')[0];
-            const nameText = document.querySelector('.name-text');
-            const nameField = document.querySelector('input[for="name"]');
-
-            if (!nameText || !nameField) return modal.close();
-            document.querySelector('.name').textContent = nameField.value;
-            modal.close();
-
-            nameText.classList.remove('hidden');
-            nameText.querySelector('.name').textContent = nameField.value;
-        }
-    </script>
+    <script src="./bundle.js"></script>
 </body>
 </html>

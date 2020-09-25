@@ -18,14 +18,14 @@
   "files": [
     "LICENSE",
     "README.md",
-    "demo.html",
     "index.js",
     "script.js",
     "cjs/",
-    "umd/"
+    "umd/",
+    "demo/"
   ],
   "dependencies": {
-    "coherent-gameface-components": "1.0.0"
+    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz"
   },
   "author": "",
   "license": "ISC"

@@ -1,4 +1,6 @@
-import components from 'coherent-gameface-components';
+import {components} from 'coherent-gameface-components';
+import template from './template.html';
+import style from './style.css';
 
 let tabsCounter = 0;
 let panelsCounter = 0;
@@ -16,23 +18,25 @@ class Tabs extends HTMLElement {
     constructor() {
         super();
 
+        this.template = template;
+
+        components.importStyeTag('gameface-tabs', style);
+
         // bind the scope to this so that we can access the current instance
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onClick = this.onClick.bind(this);
 
-        const STYLE_URL = '/components/tabs/style.css';
-        components.importStyle(STYLE_URL);
+        this.url = '/components/tabs/template.html';
     }
 
     connectedCallback() {
         this.tabs = this.getElementsByTagName('tab-heading');
         this.panels = this.getElementsByTagName('tab-panel');
 
-        const VIEW_URL = '/components/tabs/template.html';
-        components.loadResource(VIEW_URL)
+        components.loadResource(this)
             .then((response) => {
                 this.template = response[1].cloneNode(true);
-                components.render(this.parentNode, this);
+                components.render(this);
             })
             .catch(err => console.error(err));
 
