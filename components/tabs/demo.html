@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="/lib/components.js"></script>
+    <script src="/lib/umd/components.development.js"></script>
+    <script src="./umd/tabs.development.js"></script>
 </head>
 <body>
-    <component-import data-url="tabs">
+    <gameface-tabs data-url="tabs">
         <tab-heading slot="tab">Chapter One</tab-heading>
         <tab-panel slot="panel">Chapter One Content</tab-panel>
         <tab-heading slot="tab">Chapter Two</tab-heading>
@@ -16,6 +17,6 @@
         <tab-panel slot="panel">Chapter Three Content</tab-panel>
         <tab-heading slot="tab">Chapter Four</tab-heading>
         <tab-panel slot="panel">Chapter Four Content</tab-panel>
-    </component-import>
+    </gameface-tabs>
 </body>
 </html>

@@ -1,3 +1,5 @@
+import components from 'coherent-gameface-components';
+
 let tabsCounter = 0;
 let panelsCounter = 0;
 
@@ -9,8 +11,6 @@ const KEYCODE = {
     HOME: 36,
     END: 35,
 };
-
-import components from '../../lib/components.js';
 
 class Tabs extends HTMLElement {
     constructor() {
@@ -320,4 +320,4 @@ components.defineCustomElement('tab-heading', TabHeading);
 components.defineCustomElement('tab-panel', TabPanel);
 
 
-export {Tabs, TabHeading, TabPanel};
+export { Tabs, TabHeading, TabPanel };

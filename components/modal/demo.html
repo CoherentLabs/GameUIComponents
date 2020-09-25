@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-    <script src="/lib/components.js"></script>
+    <script src="/lib/umd/components.development.js"></script>
+    <script src="./umd/modal.development.js"></script>
     <style>
         .character-customization {
             display: flex;
@@ -61,7 +62,7 @@
         <span class="name"></span>
     </p>
 
-    <component-import data-url="modal">
+    <gameface-modal data-url="modal">
         <div slot="header">
                 Character name selection
         </div>
@@ -74,7 +75,7 @@
                 <button class="close button discard controls">No</button>
             </div>
         </div>
-    </component-import>
+    </gameface-modal>
     <script>
         function onSaveName() {
             document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';

@@ -1,45 +1,42 @@
-import components from '../../lib/components.js';
-
+import components from 'coherent-gameface-components';
 
 class Modal extends HTMLElement {
-        constructor() {
-            super();
-            this.element = document.createElement('div');
+    constructor() {
+        super();
 
-            this.state = {
-                display: 'none'
-            };
+        this.state = {
+            display: 'none'
+        };
 
-            this.style.display = 'none';
-            this.closeBound = e => this.close(e);
+        this.closeBound = e => this.close(e);
 
-            const STYLE_URL = '/components/modal/style.css';
-            components.importStyle(STYLE_URL);
+        const STYLE_URL = '/components/modal/style.css';
+        components.importStyle(STYLE_URL);
+    }
+
+    connectedCallback() {
+        const VIEW_URL = '/components/modal/template.html';
+        components.loadResource(VIEW_URL)
+            .then((response) => {
+                this.template = response[1].cloneNode(true);
+                components.render(this.parentNode, this);
+                this.attachEventListeners();
+            })
+            .catch(err => console.error(err));
+    }
+
+    attachEventListeners() {
+        const closeButtons = this.querySelectorAll('.close');
+        for (let i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].addEventListener('click', this.closeBound);
         }
+    }
 
-        connectedCallback() {
-            const VIEW_URL = '/components/modal/template.html';
-            components.loadResource(VIEW_URL)
-                .then((response) => {
-                    this.template = response[1].cloneNode(true);
-                    components.render(this.parentNode, this);
-                    this.attachEventListeners();
-                })
-                .catch(err => console.error(err));
-        }
-
-        attachEventListeners() {
-            const closeButtons = this.querySelectorAll('.close');
-            for (let i = 0; i < closeButtons.length; i++) {
-                closeButtons[i].addEventListener('click', this.closeBound);
-            }
-        }
-
-        close(e) {
-            this.style.display = 'none';
-        }
+    close(e) {
+        this.style.display = 'none';
+    }
 }
 
 components.defineCustomElement('gameface-modal', Modal);
 
-export default Modal;
+export { Modal };

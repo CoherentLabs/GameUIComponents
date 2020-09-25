@@ -1,4 +1,4 @@
-import components from '../../lib/components.js';
+import components from 'coherent-gameface-components';
 
 class Checkbox extends HTMLElement {
     constructor() {
@@ -43,4 +43,4 @@ class Checkbox extends HTMLElement {
 
 components.defineCustomElement('gameface-checkbox', Checkbox);
 
-export default Checkbox;
+export { Checkbox };
