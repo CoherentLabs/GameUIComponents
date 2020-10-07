@@ -13,7 +13,6 @@
 .close-x {
     width: 30px;
     height: 30px;
-    background-color: rgb(79, 80, 85);
     position: absolute;
     right: 0px;
     top: 0px;
@@ -21,20 +20,16 @@
     text-align: center;
     z-index: 2;
     line-height: 30px;
-    color: #eeeeee;
-}
-
-.close-x:hover {
-    background-color: rgb(121, 123, 131);
 }
 
 .modal {
     width: 500px;
     height: 500px;
-    background-color: #ebebeb;
     z-index: 2;
     position: absolute;
-    border: 3px solid #000000;
+    border-width: 3px;
+    border-style: solid;
+	box-sizing: border-box;
 }
 
 .modal-wrapper {
@@ -53,9 +48,11 @@
     top: 0px;
     height: 50px;
     margin-bottom: 20px;
-    border-bottom: 2px solid #000000;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
     line-height: 50px;
     padding: 0px 10px;
+	box-sizing: border-box;
 }
 
 .body, .footer {
