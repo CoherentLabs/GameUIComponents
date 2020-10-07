@@ -123,7 +123,6 @@ function main() {
 
     if(arguments.indexOf('--library') > -1) {
         buildComponentsLibrary();
-        return;
     } else {
         buildEverything();
     }

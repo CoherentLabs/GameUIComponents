@@ -6,6 +6,7 @@
 }
 
 .checkbox-background {
+    box-sizing: border-box;
     top: 0px;
     width: 30px;
     height: 30px;

@@ -8,7 +8,7 @@ class Checkbox extends HTMLElement {
 
         this.template = template;
 
-        components.importStyeTag('gameface-checkbox', style);
+        components.importStyleTag('gameface-checkbox', style);
 
         this.state = {
             checked: true

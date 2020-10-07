@@ -25,7 +25,7 @@ class Demo {
                 return;
             }
             this.saveButton.removeEventListener('click', this.onSaveName);
-            this.saveButton.classList.add('disabled')
+            this.saveButton.classList.add('disabled');
         });
     }
 

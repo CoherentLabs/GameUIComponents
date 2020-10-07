@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const rimraf = require('rimraf');
 
-const FOLDERS_TO_CLEAN = ['umd', 'cjs', 'package-lock.json', 'node_modules'];
+const FOLDERS_TO_CLEAN = ['umd', 'cjs', 'node_modules'];
 
 /**
  * Remove all bundles and bundle folders in a directory starting from a root.
@@ -15,7 +15,7 @@ function cleanBundles(dir) {
         const filePath = path.join(dir, file);
 
         // ignore node_modules and .git
-        if((file ==='node_modules' && path.dirname(filePath) === process.cwd()) || file ==='.git') continue;
+        if ((file === 'node_modules' && path.dirname(filePath) === process.cwd()) || file === '.git') continue;
 
         if (FOLDERS_TO_CLEAN.indexOf(file) > -1 || path.extname(file) === '.tgz') {
             rimraf.sync(filePath);
@@ -23,7 +23,7 @@ function cleanBundles(dir) {
         }
 
         // loop recursively
-        if(fs.lstatSync(filePath).isDirectory()) {
+        if (fs.lstatSync(filePath).isDirectory()) {
             cleanBundles(filePath);
         }
     }

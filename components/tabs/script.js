@@ -20,7 +20,7 @@ class Tabs extends HTMLElement {
 
         this.template = template;
 
-        components.importStyeTag('gameface-tabs', style);
+        components.importStyleTag('gameface-tabs', style);
 
         // bind the scope to this so that we can access the current instance
         this.onKeyDown = this.onKeyDown.bind(this);

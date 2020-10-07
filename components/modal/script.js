@@ -8,7 +8,7 @@ class Modal extends HTMLElement {
 
         this.template = template;
 
-        components.importStyeTag('gameface-modal', style);
+        components.importStyleTag('gameface-modal', style);
 
         this.state = {
             display: 'none'
