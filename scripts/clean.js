@@ -15,9 +15,6 @@ function cleanBundles(dir) {
         const filePath = path.join(dir, file);
 
         // ignore node_modules and .git
-        if(file === 'node_modules') {
-            const a = '';
-        }
         if((file ==='node_modules' && path.dirname(filePath) === process.cwd()) || file ==='.git') continue;
 
         if (FOLDERS_TO_CLEAN.indexOf(file) > -1 || path.extname(file) === '.tgz') {

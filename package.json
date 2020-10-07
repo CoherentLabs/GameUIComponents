@@ -10,11 +10,13 @@
   "scripts": {
     "start:demo": "webpack-dev-server",
     "build": "node ./scripts/build.js",
+    "build:library": "node ./scripts/build.js --library",
     "clean": "node ./scripts/clean.js",
     "pack": "node ./scripts/pack.js",
-    "build:demos": "node ./scripts/build-demo.js",
+    "pack:library": "node ./scripts/pack.js --directory ./lib",
+    "build:demo": "node ./scripts/build-demo.js",
     "install:all": "npm-recursive-install",
-    "prepare-deploy": "npm run clean && npm run build && npm run pack && npm run install:all && npm run build:demos"
+    "rebuild": "npm run clean && npm run build:library && npm run pack:library && npm run install:all && npm run build && npm run build:demo && npm run pack"
   },
   "repository": {
     "type": "git",

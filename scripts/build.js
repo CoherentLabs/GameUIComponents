@@ -80,11 +80,7 @@ function buildForTargets(moduleName, inputOptions, formats, environments) {
  * and formats as targets. Builds the components library first.
 */
 function buildEverything() {
-    const inputOptions = {
-        input: path.join(__dirname, '../lib', 'components.js')
-    };
-    buildForTargets('components', inputOptions, FORMATS, ENVIRONMENTS);
-
+    buildComponentsLibrary();
     const components = getComponentDirectories();
 
     for (let component of components) {
@@ -102,6 +98,14 @@ function buildEverything() {
     }
 }
 
+
+function buildComponentsLibrary() {
+    const inputOptions = {
+        input: path.join(__dirname, '../lib', 'components.js')
+    };
+    buildForTargets('components', inputOptions, FORMATS, ENVIRONMENTS);
+}
+
 /**
  * Invokes the rollup JS API to create and write a bundle.
  * See https://rollupjs.org/guide/en/#rolluprollup.
@@ -114,4 +118,15 @@ async function createBundle(inputOptions, outputOptions) {
     await bundle.write(outputOptions);
 }
 
-buildEverything();
+function main() {
+    const arguments = process.argv.slice(2);
+
+    if(arguments.indexOf('--library') > -1) {
+        buildComponentsLibrary();
+        return;
+    } else {
+        buildEverything();
+    }
+}
+
+main();
