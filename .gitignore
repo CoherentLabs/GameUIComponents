@@ -1,1 +1,5 @@
 node_modules/
+cjs/
+umd/
+**.tgz
+bundle.js

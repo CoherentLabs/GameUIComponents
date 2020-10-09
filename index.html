@@ -2,7 +2,10 @@
 <html lang="en">
 
 <head>
-    <script src="lib/components.js"></script>
+    <script src="./lib/umd/components.development.js"></script>
+    <script src="./components/checkbox/umd/checkbox.development.js"></script>
+    <script src="./components/modal/umd/modal.development.js"></script>
+    <script src="./components/tabs/umd/tabs.development.js"></script>
     <link rel="stylesheet" href="demo.css">
     <link rel="stylesheet" href="theme/components-theme.css">
 </head>
@@ -17,13 +20,13 @@
         <div class="margin"></div>
         <div class="preview">
             <div class="hidden">
-                <component-import class="checkbox-component" data-url="checkbox"></component-import>
+                <gameface-checkbox class="checkbox-component"></gameface-checkbox>
             </div>
             <div class="hidden">
-                <component-import class="modal-component" data-url="modal"></component-import>
+                <gameface-modal class="modal-component"></gameface-modal>
             </div>
             <div class="hidden">
-                <component-import class="tabs-component" data-url="tabs"></component-import>
+                <gameface-tabs class="tabs-component"></gameface-tabs>
             </div>
         </div>
     </div>

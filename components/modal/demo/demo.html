@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .character-customization {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .save {
+            margin-left: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .disabled {
+            background-color: #eeeeee;
+            color: #7b7878;
+            pointer-events: none;
+        }
+
+        .modal-button {
+            width: 100px;
+            height: 30px;
+            border: none;
+            background-color: #adacac;
+        }
+
+        .modal-button:hover {
+            background-color: rgb(121, 123, 131);
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .confirmation-text {
+            text-align: center;
+        }
+
+        .controls {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Chose a name for your character.</p>
+    <div class="character-customization">
+        <input for="name" type="text" />
+        <button type="button" class="modal-button save disabled">Save</button>
+    </div>
+    <p class="name-text hidden">
+        <span>The name you chose is: </span>
+        <span class="name"></span>
+    </p>
+
+    <gameface-modal data-url="modal">
+        <div slot="header">
+                Character name selection
+        </div>
+        <div slot="body">
+            <div class="confirmation-text">Are you sure you want to save this name?</div>
+        </div>
+        <div slot="footer">
+            <div class="actions">
+                <button id="confirm" class="close modal-button confirm controls">Yes</button>
+                <button class="close modal-button discard controls">No</button>
+            </div>
+        </div>
+    </gameface-modal>
+    <script src="./bundle.js"></script>
+</body>
+</html>

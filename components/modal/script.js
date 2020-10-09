@@ -1,25 +1,30 @@
+import {components} from 'coherent-gameface-components';
+import template from './template.html';
+import theme from '../../theme/components-theme.css';
+import style from './style.css';
+
 class Modal extends HTMLElement {
     constructor() {
         super();
-        this.element = document.createElement('div');
+
+        this.template = template;
+
+        components.importStyleTag('gameface-checkbox-theme', theme);
+        components.importStyleTag('gameface-modal', style);
 
         this.state = {
             display: 'none'
         };
 
-        this.style.display = 'none';
         this.closeBound = e => this.close(e);
-
-        const STYLE_URL = '/components/modal/style.css';
-        components.importStyle(STYLE_URL);
+        this.url = '/components/modal/template.html';
     }
 
     connectedCallback() {
-        const VIEW_URL = '/components/modal/template.html';
-        components.loadResource(VIEW_URL)
+        components.loadResource(this)
             .then((response) => {
                 this.template = response[1].cloneNode(true);
-                components.render(this.parentNode, this);
+                components.render(this);
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
@@ -39,3 +44,4 @@ class Modal extends HTMLElement {
 
 components.defineCustomElement('gameface-modal', Modal);
 
+export { Modal };
