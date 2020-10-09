@@ -1,5 +1,6 @@
 import {components} from 'coherent-gameface-components';
 import template from './template.html';
+import theme from '../../theme/components-theme.css';
 import style from './style.css';
 
 class Checkbox extends HTMLElement {
@@ -8,6 +9,7 @@ class Checkbox extends HTMLElement {
 
         this.template = template;
 
+        components.importStyleTag('gameface-checkbox-theme', theme);
         components.importStyleTag('gameface-checkbox', style);
 
         this.state = {
