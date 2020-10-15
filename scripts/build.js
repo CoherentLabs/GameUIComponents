@@ -43,7 +43,8 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
         entryFileNames: `${moduleName}${suffix}.js`,
         globals: {
             'coherent-gameface-components': 'components'
-        }
+        },
+        exports: 'auto'
     };
 
     // When bundling for umd we need to specify a name for
@@ -59,7 +60,7 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
  * Creates bundles for given list of formats and environments.
  * @param {string} moduleName - the root name of the bundle.
  * @param {object} inputOptions - rollup input options.
- * @param {Array<string>} formats - the module types for which to bundle(umd, cjs).
+ * @param {Array<string>} formats - the module types for which to bundle(UMD, CJS).
  * @param {Array<string>} environments - the environments for which to bundle(prod, dev).
 */
 function buildForTargets(moduleName, inputOptions, formats, environments) {
