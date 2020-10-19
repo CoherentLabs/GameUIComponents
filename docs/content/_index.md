@@ -3,10 +3,8 @@ date: 2020-10-08T14:00:45Z
 lastmod: 2020-10-08T14:00:45Z
 publishdate: 2020-10-08T14:00:45Z
 
-title: Home title
+title: Home
 description: Text about this post
-images:
-- images/pexels-photo-196666.jpeg
 ---
 
 # Components for Game User Interface
