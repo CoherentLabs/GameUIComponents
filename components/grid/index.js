@@ -1,0 +1,1 @@
+module.exports = require('./dist/grid.production.min.css');
