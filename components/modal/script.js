@@ -1,4 +1,4 @@
-import {components} from 'coherent-gameface-components';
+import components from 'coherent-gameface-components';
 import template from './template.html';
 import theme from '../../theme/components-theme.css';
 import style from './style.css';

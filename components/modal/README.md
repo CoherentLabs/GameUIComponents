@@ -3,11 +3,61 @@ The modal is part of the Gameface custom components suite. As most of the compon
 
 Usage
 ===================
-First you need to import the components library:
+The modal component comes with UMD and CJS builds.
+
+## Usage with UMD modules:
+
+* import the components library:
 
 ~~~~{.html}
-<script src="components.js"></script>
+<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
 ~~~~
+
+* import the modal component:
+
+~~~~{.html}
+<script src="./node_modules/coherent-gameface-modal/umd/modal.production.min.js"></script>
+~~~~
+
+* add the modal component to your html:
+
+~~~~{.html}
+<gameface-modal></gameface-modal>
+~~~~
+
+This is all! Load the file in Gameface to see the modal.
+
+If you wish to import the modules using JavaScript you can remove the script tags
+which import the components and the modal from the node_modules folder and import them like this:
+
+~~~~~{.js}
+import components from 'coherent-gameface-components';
+import modal from 'coherent-gameface-modal';
+~~~~~
+
+Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
+modules from the node_modules folder. Alternatively you can import them directly from node_modules:
+
+~~~~{.js}
+import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
+import modal from './node_modules/coherent-gameface-modal/umd/modal.production.min.js';
+~~~~
+
+## Usage with CJS modules:
+
+* Import the components library:
+
+~~~~{.js}
+const components = require('coherent-gameface-components');
+const modal = require('coherent-gameface-modal');
+~~~~
+
+The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
+bundler in order to be use them in a browser.
+
+
+Customizing the Modal
+=========================
 
 The modal has three slots:
 - **header** - located on the top of the modal; it usually contains the heading
@@ -16,25 +66,23 @@ The modal has three slots:
 
 **Add class="close" to any button that should close the modal.**
 
-Use the `<component-import>` to import the modal. Put any custom slots as children of the `<component-import>`.
+Use the slots to put customized background or label.
 
 ~~~~{.html}
-<component-import data-url="modal">
-    <component-slot data-name="header">
-        <div class="header">
+<gameface-modal>
+    <div slot="header">
             Character name selection
-        </div>
-    </component-slot>
-    <component-slot data-name="body">
+    </div>
+    <div slot="body">
         <div class="confirmation-text">Are you sure you want to save this name?</div>
-    </component-slot>
-    <component-slot data-name="footer">
+    </div>
+    <div slot="footer">
         <div class="actions">
-            <button class="close button confirm controls" onclick="onConfirm()">Yes</button>
-            <button class="close button discard controls">No</button>
+            <button id="confirm" class="close modal-button confirm controls">Yes</button>
+            <button class="close modal-button discard controls">No</button>
         </div>
-    </component-slot>
-</component-import>
+    </div>
+</gameface-modal>
 ~~~~
 
 

@@ -1,4 +1,4 @@
-import { components } from 'coherent-gameface-components';
+import components from 'coherent-gameface-components';
 import modal from '../umd/modal.development.js'
 
 class Demo {
