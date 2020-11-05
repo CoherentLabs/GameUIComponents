@@ -75,18 +75,34 @@ function buildForTargets(moduleName, inputOptions, formats, environments) {
  * Calls buildForTargets for all components and passes all environments
  * and formats as targets. Builds the components library first.
 */
-function build() {
-        const inputOptions = {
-            input: path.resolve('./script.js'),
-            external: ['coherent-gameface-components'],
-            plugins: [
-                nodeResolve(),
-                html(),
-                importCss()
-            ],
-        };
+function build(watch) {
+    const inputOptions = {
+        input: path.resolve('./script.js'),
+        external: ['coherent-gameface-components'],
+        plugins: [
+            nodeResolve(),
+            html(),
+            importCss()
+        ],
+    };
 
-        buildForTargets(path.basename(process.cwd()), inputOptions, FORMATS, ENVIRONMENTS);
+    buildForTargets(path.basename(process.cwd()), inputOptions, FORMATS, ENVIRONMENTS);
+
+    if (watch) {
+        const watcher = rollup.watch({
+            ...inputOptions,
+            watch: {
+                buildDelay: 800
+            }
+        });
+
+        console.log(`coherent-guic-cli is watching for file changes.`);
+
+        watcher.on('change', (event) => {
+            buildForTargets(path.basename(process.cwd()), inputOptions, FORMATS, ENVIRONMENTS);
+            console.log(`change!`);
+        });
+    }
 }
 
 /**
@@ -96,21 +112,17 @@ function build() {
 async function createBundle(inputOptions, outputOptions) {
     // create a bundle
     const bundle = await rollup.rollup(inputOptions);
-
     // and write the bundle to disk
     await bundle.write(outputOptions);
 }
 
-
-
-module.exports = yargs(hideBin(process.argv))
-    .command('build', 'start the server', (yargs) => {
-    }, (argv) => {
-        build()
-    })
-    .option('verbose', {
-        alias: 'v',
-        type: 'boolean',
-        description: 'Run with verbose logging'
-    })
-    .argv
+exports.command = 'build [--watch]';
+exports.desc = 'start the server';
+exports.builder = {
+    '--watch': {
+        desc: 'Watch for changes in the source files and rebuild.',
+    }
+};
+exports.handler = function (argv) {
+    build(argv.watch);
+}

@@ -2,13 +2,15 @@ const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const fs = require('fs');
 const path = require('path');
+const { argv } = require('process');
+const build = require('./build');
 const templatesLocation = path.join(__dirname, '../templates');
 
 function createFolder(directory, folderName) {
     const fullPath = path.resolve(path.join(directory, folderName));
 
     if (!fs.existsSync(fullPath)) {
-        fs.mkdirSync(fullPath, {recursive: true});
+        fs.mkdirSync(fullPath, { recursive: true });
     } else {
         console.log(`Component with name ${folderName} already exists in ${directory}`);
         // TODO: would you like to overwite?
@@ -37,7 +39,7 @@ function create(name, directory) {
 
 
     fs.readdirSync(templatesLocation).forEach(file => {
-        const filename = file;
+        const filename = file.replace('.template', '');
         const data = fs.readFileSync(path.join(templatesLocation, file), 'utf8');
         const className = toUpperCamelCase(name.split('-'));
 
@@ -52,33 +54,29 @@ function create(name, directory) {
 
         const fileContent = fillTemplate(data, templateVars);
 
-        if(filename !== 'demo.html' && filename !== 'demo.js') {
+        if (filename !== 'demo.html' && filename !== 'demo.js') {
             fs.writeFileSync(path.join(componentFolder, filename), fileContent, 'utf8');
         } else {
             fs.writeFileSync(path.join(demoFolder, filename), fileContent, 'utf8');
         }
     });
+
+    console.log(`Created component ${name} in ${componentFolder}.`);
 }
 
-module.exports = yargs(hideBin(process.argv))
-    .command('create [name] [directory]', 'start the server', (yargs) => {
-        yargs
-            .positional('name', {
-                describe: 'port to bind on',
-                default: 'example-component'
-            })
-            .positional('directory', {
-                describe: 'port to bind on',
-                default: './example-component'
-            })
-    }, (argv) => {
-        if (argv.verbose) console.info(`start server on :${argv.port}`)
-        console.log('==============================');
-        create(argv.name, argv.directory)
-    })
-    .option('verbose', {
-        alias: 'v',
-        type: 'boolean',
-        description: 'Run with verbose logging'
-    })
-    .argv
+
+exports.command = 'create [name] [directory]';
+exports.desc = 'start the server';
+exports.builder = {
+    name: {
+        default: 'example-component',
+        desc: 'The name of the component.',
+    },
+    directory: {
+        desc: 'The directory where the component should be',
+        default: './example-component'
+    }
+};
+exports.handler = function (argv) {
+    create(argv.name, argv.directory);
+};
