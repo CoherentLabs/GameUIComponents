@@ -3,8 +3,7 @@ const path = require('path');
 const Webpack = require('webpack');
 
 /**
- * Calls buildForTargets for all components and passes all environments
- * and formats as targets. Builds the components library first.
+ * Builds the demo of the component.
 */
 function buildDemo() {
     const pathToDemo = path.resolve(path.join(process.cwd(), 'demo'));

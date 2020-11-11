@@ -26,7 +26,7 @@ describe('create component test', () => {
         });
     });
 
-    test("Creates a component wtesth given name at a given folder", () => {
+    test("Creates a component with given name at a given folder", () => {
         // create a component
         const result = execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
         // Verify the output is correct

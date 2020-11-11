@@ -64,7 +64,7 @@ function buildForTargets(moduleName, inputOptions, formats, environments) {
                 path.dirname(inputOptions.input),
                 format,
                 moduleName,
-                environment === 'prod' ? true : false
+                environment === 'prod'
             ));
         }
     }
@@ -97,7 +97,7 @@ function build(watch) {
 
         console.log(`coherent-guic-cli is watching for file changes.`);
 
-        watcher.on('change', (event) => {
+        watcher.on('change', () => {
             buildForTargets(path.basename(process.cwd()), inputOptions, FORMATS, ENVIRONMENTS);
             console.log(`change!`);
         });

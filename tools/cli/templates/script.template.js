@@ -6,7 +6,7 @@ class ${this.className} extends HTMLElement {
     constructor() {
         super();
         this.template = template;
-        components.importStyleTag('gameface-checkbox', style);
+        components.importStyleTag('${this.componentName}', style);
         this.url = '/components/${this.componentName}/template.html';
     }
     connectedCallback() {

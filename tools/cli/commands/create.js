@@ -68,12 +68,12 @@ exports.command = 'create [name] [directory]';
 exports.desc = 'start the server';
 exports.builder = {
     name: {
-        default: 'example-component',
         desc: 'The name of the component.',
+        default: 'example-component',
     },
     directory: {
         desc: 'The directory where the component should be',
-        default: './example-component'
+        default: './example-component',
     }
 };
 exports.handler = function (argv) {
