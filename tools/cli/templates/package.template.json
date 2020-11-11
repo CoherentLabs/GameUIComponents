@@ -1,7 +1,7 @@
 {
     "name": "coherent-gameface-${this.componentName}",
     "version": "1.0.0",
-    "description": "A checkbox component for Coherent Labs' Gameface.",
+    "description": "A checkbox component for Coherent Labs Gameface.",
     "main": "script.js",
     "repository": {
       "type": "git",
@@ -12,11 +12,13 @@
       "Component"
     ],
     "files": [
-      "LICENSE",
-      "README.md",
-      "demo/",
       "index.js",
+      "package.json",
+      "README.md",
       "script.js",
+      "style.css",
+      "template.html",
+      "demo/",
       "cjs/",
       "umd/"
     ],

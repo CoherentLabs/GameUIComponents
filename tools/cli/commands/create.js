@@ -1,5 +1,4 @@
 const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
 const fs = require('fs');
 const path = require('path');
 const { argv } = require('process');

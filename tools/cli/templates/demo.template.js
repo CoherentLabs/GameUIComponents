@@ -1,5 +1,5 @@
 import components from 'coherent-gameface-components';
-import ${this.ClassName} from '../umd/${this.componentName}.development.js';
+import ${this.className} from '../umd/${this.componentName}.development.js';
 import {pm} from 'postmessage-polyfill';
 import {fetch as fetchPolyfill} from 'whatwg-fetch';
 

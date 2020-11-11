@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
 const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
 const create = require('./commands/create');
 const build = require('./commands/build');
 const startDemo = require('./commands/start-demo');
 const buildDemo = require('./commands/build-demo');
 
-yargs(hideBin(process.argv))
+yargs(process.argv.slice(2))
     .scriptName("coherent-guic-cli")
     .command(create)
     .command(build)
