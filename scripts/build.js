@@ -5,7 +5,7 @@ const terser = require('rollup-plugin-terser').terser;
 const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const html = require('rollup-plugin-html');
 const importCss = require('@atomico/rollup-plugin-import-css');
-
+const buildCssComponents = require('./build-style-component');
 // The module formats which will be bundled
 const FORMATS = [
     'cjs',
@@ -85,8 +85,15 @@ function buildEverything() {
     const components = getComponentDirectories();
 
     for (let component of components) {
+        const componentPath = path.join(__dirname, '../components', component);
+ 
+        if (!fs.existsSync(path.join(componentPath, 'script.js'))) {
+            buildCssComponents(componentPath);
+            continue;
+        }
+
         const inputOptions = {
-            input: path.join(__dirname, '../components', component, 'script.js'),
+            input: path.join(componentPath, 'script.js'),
             external: ['coherent-gameface-components'],
             plugins: [
                 nodeResolve(),
