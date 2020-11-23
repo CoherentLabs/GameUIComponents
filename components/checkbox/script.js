@@ -35,7 +35,7 @@ class Checkbox extends HTMLElement {
     */
     toggleChecked() {
         this.state.checked = !this.state.checked;
-        this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? '' : 'none';
+        this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? 'block' : 'none';
     }
 
     /**
