@@ -1,5 +1,7 @@
 node_modules/
 cjs/
 umd/
+dist/
+tools/tests/**/**.development.js
 **.tgz
 bundle.js

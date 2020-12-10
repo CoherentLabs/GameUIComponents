@@ -62,6 +62,19 @@ To build and package everything run:
 
 `npm run rebuild`
 
+To start the tests run:
+
+`npm run test`
+
+If you haven't build the components or if you've made changes:
+
+`npm run test -- --rebuild`
+
+to create new builds.
+
+After you successfully execute `npm run tests` open the Gameface player with "--url=http://localhost:9876/debug.html" to see the tests running. You can open Chrome on the same URL to
+run the tests in a browser.
+
 ## Structure of a Component
 All components in the GameUIComponents suite are npm modules.
 

@@ -45,8 +45,8 @@ class Tabs extends HTMLElement {
         // wait for the tab-heading and tab-panel custom elements to be defined
         // before attaching the events
         Promise.all([
-            customElements.whenDefined('tab-heading'),
-            customElements.whenDefined('tab-panel'),
+            components.whenDefined('tab-heading'),
+            components.whenDefined('tab-panel'),
         ]).then(() => {
             this.tabSlot = this.querySelector('[data-name="tab"]');
             this.panelSlot = this.querySelector('[data-name="panel"]');

@@ -16,7 +16,8 @@
     "pack:library": "node ./scripts/pack.js --directory ./lib",
     "build:demo": "node ./scripts/build-demo.js",
     "install:all": "npm-recursive-install",
-    "rebuild": "npm run clean && npm run build:library && npm run pack:library && npm run install:all && npm run build && npm run build:demo && npm run pack"
+    "rebuild": "npm run clean && npm run build:library && npm run pack:library && npm run install:all && npm run build && npm run build:demo && npm run pack",
+    "test": "node ./scripts/test.js"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,12 @@
     "uglifycss": "0.0.29",
     "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
-    "webpack-dev-server": "3.11.0"
-  },
-  "dependencies": {}
+    "webpack-dev-server": "3.11.0",
+    "karma": "5.2.3",
+    "karma-chrome-launcher": "3.1.0",
+    "karma-html2js-preprocessor": "1.1.0",
+    "karma-jasmine": "4.0.1",
+    "karma-mocha": "2.0.1",
+    "mocha": "8.2.1"
+  }
 }
