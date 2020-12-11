@@ -12,6 +12,7 @@ function startDemo() {
 
     const compiler = Webpack({
         mode: 'development',
+        devtool: false,
         entry: path.join(pathToDemo, 'demo.js'),
         output: {
             path: pathToDemo,
@@ -38,5 +39,5 @@ function startDemo() {
 }
 
 exports.command = 'start:demo';
-exports.desc = 'start the server';
+exports.desc = 'Start a development server and host the demo.';
 exports.handler = startDemo;

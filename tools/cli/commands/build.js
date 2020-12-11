@@ -95,13 +95,16 @@ function build(watch) {
             }
         });
 
-        console.log(`coherent-guic-cli is watching for file changes.`);
+        console.log(`coherent-guic-cli is watching for file changes...`);
 
         watcher.on('change', () => {
+            console.log(`Rebuilding...`);
             buildForTargets(path.basename(process.cwd()), inputOptions, FORMATS, ENVIRONMENTS);
-            console.log(`change!`);
+            console.log(`Changes saved!`);
         });
+        return;
     }
+    console.log(`Build finished. \n Created bundle for ${inputOptions.input}`);
 }
 
 /**

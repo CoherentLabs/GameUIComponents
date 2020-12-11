@@ -22,7 +22,7 @@ command will generate the following files:
 ```
 \components:
 |
-\---my-first-guic
+\---gameface-my-first-guic
     |   index.js
     |   package.json
     |   README.md
@@ -46,15 +46,25 @@ The registered custom element will look like this:
 And the custom element's class look line this:
 
 ```
-class MyFirstGuic extends HTMLElement {
+class GamefaceMyFirstGuic extends HTMLElement {
     constructor() {
         super();
         this.template = template;
-        this.url = '/components/my-first-guic/template.html';
+        this.url = '/components/gameface-my-first-guic/template.html';
     }
     ...
 }
 ```
+
+Note that the 'gameface' prefix is added to the component name and to the containing folder.
+
+To build the component run:
+
+1. `npm i` in the component's folder to install the dependencies.
+2. `coherent-guic-cli build` to bundle the source of the component
+3. `coherent-guic-cli build:demo` and load the demo.html folder or
+4. `coherent-guic-cli start:demo` to start a development server that will host the
+demo page and will watch for changes
 
 ## Commands:
 

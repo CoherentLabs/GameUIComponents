@@ -12,7 +12,6 @@ function createFolder(directory, folderName) {
         fs.mkdirSync(fullPath, { recursive: true });
     } else {
         console.log(`Component with name ${folderName} already exists in ${directory}`);
-        // TODO: would you like to overwite?
     }
 
     return fullPath;
@@ -33,9 +32,10 @@ function toUpperCamelCase(words) {
 }
 
 function create(name, directory) {
+    name = `gameface-${name}`;
+    directory = directory || process.cwd();
     const componentFolder = createFolder(path.join(directory), name);
     const demoFolder = createFolder(componentFolder, 'demo');
-
 
     fs.readdirSync(templatesLocation).forEach(file => {
         const filename = file.replace('.template', '');
@@ -65,7 +65,7 @@ function create(name, directory) {
 
 
 exports.command = 'create [name] [directory]';
-exports.desc = 'start the server';
+exports.desc = 'Create a new component.';
 exports.builder = {
     name: {
         desc: 'The name of the component.',
@@ -73,7 +73,7 @@ exports.builder = {
     },
     directory: {
         desc: 'The directory where the component should be',
-        default: './example-component',
+        default: '',
     }
 };
 exports.handler = function (argv) {

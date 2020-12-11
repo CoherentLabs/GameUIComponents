@@ -16,7 +16,7 @@ The ${this.componentName} component comes with UMD and CJS builds.
 * import the ${this.componentName} component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-${this.componentName}/umd/${this.componentName}.production.min.js"></script>
+<script src="./node_modules/${this.componentName}/umd/${this.componentName}.production.min.js"></script>
 ~~~~
 
 * add the ${this.componentName} component to your html:
@@ -32,7 +32,7 @@ which import the components and the ${this.componentName} from the node_modules 
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import ${this.componentName} from 'coherent-gameface-${this.componentName}';
+import ${this.componentName} from '${this.componentName}';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -40,7 +40,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import ${this.componentName} from './node_modules/coherent-gameface-${this.componentName}/umd/${this.componentName}.production.min.js';
+import ${this.componentName} from './node_modules/${this.componentName}/umd/${this.componentName}.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -49,7 +49,7 @@ import ${this.componentName} from './node_modules/coherent-gameface-${this.compo
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const ${this.componentName} = require('coherent-gameface-${this.componentName}');
+const ${this.componentName} = require('${this.componentName}');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module

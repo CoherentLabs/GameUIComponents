@@ -1,6 +1,8 @@
 const yargs = require('yargs/yargs');
 const path = require('path');
 const Webpack = require('webpack');
+const { NoEmitOnErrorsPlugin } = require('webpack');
+const { start } = require('repl');
 
 /**
  * Builds the demo of the component.
@@ -11,13 +13,17 @@ function buildDemo() {
     Webpack({
         mode: 'production',
         entry: path.join(pathToDemo, 'demo.js'),
+        devtool: false,
         output: {
             path: pathToDemo,
             filename: "bundle.js"
         }
     }, (err, stats) => { // Stats Object
-        if (err || stats.hasErrors()) {
+        if (err) {
             console.error(err);
+        }
+        if(stats.hasErrors()) {
+            console.error(stats.compilation.getErrors().join('\n'));
         }
     });
 }
