@@ -4,17 +4,16 @@ const fs = require('fs');
 const { folderContainsFiles } = require('./test-helpers/utils');
 const rimraf = require('rimraf');
 
-const componentFolder = 'build-component-test-folder';
+const componentFolder = 'create-component-test-folder';
 const componentName = 'test-name';
-const componentsPackagePath = path.join(process.cwd(), 'tests', 'test-helpers', 'coherent-gameface-components-1.0.0.tgz');
+const generatedName = `gameface-${componentName}`;
 const componentFolderPath = path.resolve(path.join(process.cwd(), componentFolder));
-const componentSourcePath = path.join(componentFolderPath, componentName);
+const componentSourcePath = path.join(componentFolderPath, generatedName);
+const componentsPackagePath = path.join(process.cwd(), 'tests', 'test-helpers', 'coherent-gameface-components-1.0.0.tgz');
 
 describe('build component test', () => {
     afterAll(() => {
-        rimraf(componentFolderPath, (err) => {
-            if(err) console.error(err);
-        });
+        rimraf.sync(componentFolderPath);
     });
 
     test("Builds a component CJS and UMD modules from source", () => {
@@ -39,7 +38,7 @@ describe('build component test', () => {
         // check if the UMD JavaScript bundles were created
         const hasUMDBundles = folderContainsFiles(
             path.join(componentSourcePath, 'umd'),
-            [`${componentName}.development.js`, `${componentName}.production.min.js`]);
+            [`${generatedName}.development.js`, `${generatedName}.production.min.js`]);
 
         expect(hasUMDBundles).toBe(true);
     });
@@ -48,7 +47,7 @@ describe('build component test', () => {
         // check if the CJS JavaScript bundles were created
         const hasUMDBundles = folderContainsFiles(
             path.join(componentSourcePath, 'cjs'),
-            [`${componentName}.development.js`, `${componentName}.production.min.js`]);
+            [`${generatedName}.development.js`, `${generatedName}.production.min.js`]);
 
         expect(hasUMDBundles).toBe(true);
     });

@@ -5,8 +5,12 @@ const rimraf = require('rimraf');
 
 const componentFolder = 'create-component-test-folder';
 const componentName = 'test-name';
+const generatedName = `gameface-${componentName}`;
+const componentFolderPath = path.resolve(path.join(process.cwd(), componentFolder));
+const componentSourcePath = path.join(componentFolderPath, generatedName);
+
 const componentFiles = {
-    'test-name': [
+    'gameface-test-name': [
         'index.js',
         'package.json',
         'README.md',
@@ -16,26 +20,22 @@ const componentFiles = {
     ],
     'demo': ['demo.html', 'demo.js']
 };
-const componentFolderPath = path.resolve(path.join(process.cwd(), componentFolder));
-const componentSourcePath = path.join(componentFolderPath, componentName);
 
 describe('create component test', () => {
     afterAll(() => {
-        rimraf(componentFolderPath, (err) => {
-            if(err) console.error(err);
-        });
+        rimraf.sync(componentFolderPath);
     });
 
     test("Creates a component with given name at a given folder", () => {
         // create a component
         const result = execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
         // Verify the output is correct
-        expect(result).toMatch(`Created component ${componentName}`);
+        expect(result).toMatch(`Created component ${generatedName} in C:\\GameUIComponents\\GameUIComponents\\tools\\cli\\create-component-test-folder\\${generatedName}.`);
     });
 
     test("Created the component files", () => {
         // Verify the output is correct
-        const hasComponentFiles = folderContainsFiles(componentSourcePath, componentFiles[componentName]);
+        const hasComponentFiles = folderContainsFiles(componentSourcePath, componentFiles[generatedName]);
         expect(hasComponentFiles).toBe(true);
     });
 
@@ -48,7 +48,7 @@ describe('create component test', () => {
     test("Generates component source files with valid content", () => {
         // Check if the generated files have valid content
         const componentFilesTree = folderToTree(componentSourcePath);
-        const isContentValid = filesHaveCorrectContent(componentSourcePath, componentFilesTree[componentName]);
+        const isContentValid = filesHaveCorrectContent(componentSourcePath, componentFilesTree[generatedName]);
 
         expect(isContentValid).toBe(true);
     });

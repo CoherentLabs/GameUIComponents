@@ -4,17 +4,17 @@ const fs = require('fs');
 const { folderContainsFiles } = require('./test-helpers/utils');
 const rimraf = require('rimraf');
 
-const componentFolder = 'build-demo-test-folder';
+
+const componentFolder = 'create-component-test-folder';
 const componentName = 'test-name';
-const componentsPackagePath = path.join(process.cwd(), 'tests', 'test-helpers', 'coherent-gameface-components-1.0.0.tgz');
+const generatedName = `gameface-${componentName}`;
 const componentFolderPath = path.resolve(path.join(process.cwd(), componentFolder));
-const componentSourcePath = path.join(componentFolderPath, componentName);
+const componentSourcePath = path.join(componentFolderPath, generatedName);
+const componentsPackagePath = path.join(process.cwd(), 'tests', 'test-helpers', 'coherent-gameface-components-1.0.0.tgz');
 
 describe('Build demo test', () => {
     afterAll(() => {
-        rimraf(componentFolderPath, (err) => {
-            if(err) console.error(err);
-        });
+        rimraf.sync(componentFolderPath);
     });
 
     test("Builds a demo bundle from source", () => {

@@ -37,7 +37,7 @@ exports.folderToTree = (folderPath, tree = {}) => {
 exports.folderContainsFiles = (folderPath, files) => {
     const filesInFolder = fs.readdirSync(folderPath, { withFileTypes: false });
 
-    return files.every(() => filesInFolder.indexOf(file) !== -1);
+    return files.every((file) => filesInFolder.indexOf(file) !== -1);
 }
 
 /**
