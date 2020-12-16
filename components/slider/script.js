@@ -1,11 +1,28 @@
 import components from 'coherent-gameface-components';
-import template from './template.html';
-import style from './style.css';
+import verticalTemplate from './vertical.html';
+import horizontalTemplate from './horizontal.html';
+import verticalStyle from './vertical.css';
+import horizontalStyle from './horizontal.css'
+
  
+const dimentionUnitsNames = new Map([
+    ['vertical', {
+        mouseAxisCoords: 'clientY',
+        size: 'height',
+        position: 'top'
+    }],
+    ['horizontal', {
+        mouseAxisCoords: 'clientX',
+        size: 'width',
+        position: 'left'
+    }]
+]);
+
+
 class Slider extends HTMLElement {
     set handlePosition (value) {
         this._handlePosition = value;
-        this.handle.style.top = value + '%';
+        this.handle.style[this.units.position] = value + '%';
     }
 
     get handlePosition () {
@@ -14,12 +31,14 @@ class Slider extends HTMLElement {
 
     constructor() {
         super();
-
         this.step = 10;
         this._handlePosition = 0;
-        this.template = template;
-        components.importStyleTag('gameface-slider', style);
-        this.url = '/components/slider/template.html';
+        components.importStyleTag('gameface-slider-vertical', verticalStyle);
+        components.importStyleTag('gameface-slider-horizontal', horizontalStyle);
+
+        this.orientation = this.getAttribute('orientation') || 'vertical';
+        this.template = (this.orientation === 'vertical') ? horizontalTemplate : verticalTemplate;
+        this.units = dimentionUnitsNames.get(this.orientation);
     }
 
     connectedCallback() {
@@ -33,18 +52,18 @@ class Slider extends HTMLElement {
     }
 
     setup() {
-        this.slider = this.getElementsByClassName('slider')[0];
-        this.handle = this.getElementsByClassName('handle')[0];
+        this.slider = this.getElementsByClassName(`${this.orientation}-slider`)[0];
+        this.handle = this.getElementsByClassName(`${this.orientation}-handle`)[0];
 
         this.attachEventListeners();
     }
 
     resize(scrollbleContainer) {
         setTimeout(() => {
-            const sliderHeight = this.slider.getBoundingClientRect().height;
+            const sliderHeight = this.slider.getBoundingClientRect()[this.units.size];
             const handleHeightPercent = (sliderHeight / scrollbleContainer.scrollHeight) * 100;
             this.handleHeight = (sliderHeight / 90) * handleHeightPercent;
-            this.handle.style.height = this.handleHeight + 'px';
+            this.handle.style[this.units.size] = this.handleHeight + 'px';
         }, 2);
     }
 
@@ -65,10 +84,10 @@ class Slider extends HTMLElement {
         const handleRect = this.handle.getBoundingClientRect();
         const sliderRect = this.slider.getBoundingClientRect();
 
-        const sliderY = sliderRect.top;
+        const sliderY = sliderRect[this.units.position];
         // get the handle position within the 
-        const handleY = handleRect.top - sliderY;
-        const mouseY = e.clientY - sliderY;
+        const handleY = handleRect[this.units.position] - sliderY;
+        const mouseY = e[this.units.mouseAxisCoords] - sliderY;
 
         this.delta = mouseY - handleY;
     }
@@ -88,7 +107,7 @@ class Slider extends HTMLElement {
         this.dragging = true;
         const sliderRect = this.slider.getBoundingClientRect();
         // get the mouse position within the slider coordinates
-        const mouseY = e.clientY - sliderRect.top;
+        const mouseY = e[this.units.mouseAxisCoords] - sliderRect[this.units.position];
         this.scrollTo(mouseY - this.delta);
     }
 
@@ -101,9 +120,9 @@ class Slider extends HTMLElement {
         const handleRect = this.handle.getBoundingClientRect();
         const sliderRect = this.slider.getBoundingClientRect();
 
-        const handleSizePercent = (handleRect.height / sliderRect.height) * 100;
+        const handleSizePercent = (handleRect[this.units.size] / sliderRect[this.units.size]) * 100;
         // new position in %
-        let newPosPercents = (position / sliderRect.height) * 100;
+        let newPosPercents = (position / sliderRect[this.units.size]) * 100;
 
         if (newPosPercents < 0) newPosPercents = 0;
         if (newPosPercents + handleSizePercent > 100) newPosPercents = 100 - handleSizePercent;
@@ -121,12 +140,12 @@ class Slider extends HTMLElement {
     onClick(e) {
         if (e.target.classList.contains('handle')) return;
         let direction = -1;
-        if (this.handle.getBoundingClientRect().top < e.clientY) direction = 1;
+        if (this.handle.getBoundingClientRect()[this.units.position] < e[this.units.mouseAxisCoords]) direction = 1;
         this.scrollTo(this.getNextScrollPosition(direction, 10));
     }
 
     getNextScrollPosition(direction, step = this.step) {
-        const scrollTop = this.handlePosition * this.slider.getBoundingClientRect().height / 100;
+        const scrollTop = this.handlePosition * this.slider.getBoundingClientRect()[this.units.size] / 100;
         return scrollTop + (direction * step);
     }
 }

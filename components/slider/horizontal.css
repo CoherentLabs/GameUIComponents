@@ -1,0 +1,29 @@
+body {
+    background-color: #ebebeb;
+}
+
+.horizontal-slider-wrapper {
+    width: 90vh;
+    display: flex;
+    flex-direction: row;
+    max-height: 20px;
+}
+
+.horizontal-arrow {
+    width: 5%;
+    background-color: red;
+}
+
+.horizontal-slider {
+    width: 90%;
+    background-color: gray;
+}
+
+.horizontal-handle {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 50px;
+    background-color: blue;
+}
