@@ -1,23 +1,9 @@
 import components from 'coherent-gameface-components';
-import verticalTemplate from './vertical.html';
-import horizontalTemplate from './horizontal.html';
-import verticalStyle from './vertical.css';
-import horizontalStyle from './horizontal.css'
-
- 
-const dimentionUnitsNames = new Map([
-    ['vertical', {
-        mouseAxisCoords: 'clientY',
-        size: 'height',
-        position: 'top'
-    }],
-    ['horizontal', {
-        mouseAxisCoords: 'clientX',
-        size: 'width',
-        position: 'left'
-    }]
-]);
-
+import verticalTemplate from './templates/vertical.html';
+import horizontalTemplate from './templates/horizontal.html';
+import verticalStyle from './styles/vertical.css';
+import horizontalStyle from './styles/horizontal.css';
+import { orientationUnitsNames } from './orientationUnitsNames';
 
 class Slider extends HTMLElement {
     set handlePosition (value) {
@@ -37,8 +23,8 @@ class Slider extends HTMLElement {
         components.importStyleTag('gameface-slider-horizontal', horizontalStyle);
 
         this.orientation = this.getAttribute('orientation') || 'vertical';
-        this.template = (this.orientation === 'vertical') ? horizontalTemplate : verticalTemplate;
-        this.units = dimentionUnitsNames.get(this.orientation);
+        this.template = (this.orientation === 'vertical') ? verticalTemplate : horizontalTemplate;
+        this.units = orientationUnitsNames.get(this.orientation);
     }
 
     connectedCallback() {
