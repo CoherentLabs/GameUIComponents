@@ -45,12 +45,16 @@ class Slider extends HTMLElement {
     }
 
     resize(scrollbleContainer) {
-        setTimeout(() => {
-            const sliderHeight = this.slider.getBoundingClientRect()[this.units.size];
-            const handleHeightPercent = (sliderHeight / scrollbleContainer.scrollHeight) * 100;
-            this.handleHeight = (sliderHeight / 90) * handleHeightPercent;
-            this.handle.style[this.units.size] = this.handleHeight + 'px';
-        }, 2);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                const sliderHeight = this.slider.getBoundingClientRect()[this.units.size];
+                const handleHeightPercent = (sliderHeight / scrollbleContainer[this.units.scroll]) * 100;
+                this.handleHeight = (sliderHeight / 90) * handleHeightPercent;
+                this.handle.style[this.units.size] = this.handleHeight + 'px';
+            });
+        });
+      });
     }
 
     attachEventListeners() {

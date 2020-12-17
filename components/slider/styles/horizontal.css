@@ -6,17 +6,22 @@ body {
     width: 90vh;
     display: flex;
     flex-direction: row;
-    max-height: 20px;
+    max-height: 25px;
 }
 
 .horizontal-arrow {
-    width: 5%;
-    background-color: red;
+    height: 25px;
+    width: 25px;
+    background-color: #d1d1d1;
+}
+
+.horizontal-arrow:hover {
+    background-color: #c1c1c1;
 }
 
 .horizontal-slider {
     width: 90%;
-    background-color: gray;
+    background-color: #f1f1f1;
 }
 
 .horizontal-handle {
@@ -25,5 +30,10 @@ body {
     left: 0px;
     height: 100%;
     width: 50px;
-    background-color: blue;
+    background-color: #c1c1c1;
+    cursor: pointer;
+}
+
+.horizontal-handle:hover {
+    background-color: #787878;
 }

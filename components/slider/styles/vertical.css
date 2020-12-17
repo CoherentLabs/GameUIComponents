@@ -6,18 +6,22 @@ body {
     height: 90vh;
     display: flex;
     flex-direction: column;
-    max-width: 20px;
-    width: 10%;
+    max-width: 25px;
 }
 
 .vertical-arrow {
-    height: 5%;
-    background-color: red;
+    height: 25px;
+    width: 25px;
+    background-color: #d1d1d1;
+}
+
+.vertical-arrow:hover {
+    background-color: #c1c1c1;
 }
 
 .vertical-slider {
-    height: 90%;
-    background-color: gray;
+    background-color: #f1f1f1;
+    flex: 1;
 }
 
 .vertical-handle {
@@ -26,5 +30,10 @@ body {
     left: 0px;
     width: 100%;
     height: 50px;
-    background-color: blue;
+    background-color: #c1c1c1;
+    cursor: pointer;
+}
+
+.vertical-handle:hover {
+    background-color: #787878;
 }
