@@ -24,7 +24,6 @@
   ],
   "dependencies": {
     "coherent-gameface-components": "file:coherent-gameface-components-1.0.0.tgz",
-    "i": "^0.3.6",
     "postmessage-polyfill": "1.0.0",
     "slider": "file:slider-1.0.0.tgz",
     "whatwg-fetch": "3.4.1"
