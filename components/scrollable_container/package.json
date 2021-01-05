@@ -23,9 +23,9 @@
     "umd/"
   ],
   "dependencies": {
-    "coherent-gameface-components": "file:coherent-gameface-components-1.0.0.tgz",
+    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
     "postmessage-polyfill": "1.0.0",
-    "slider": "file:slider-1.0.0.tgz",
+    "slider": "file:../slider/slider-1.0.0.tgz",
     "whatwg-fetch": "3.4.1"
   },
   "author": "",

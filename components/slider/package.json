@@ -24,7 +24,7 @@
     "orientationUnitsNames.js"
   ],
   "dependencies": {
-    "coherent-gameface-components": "file:coherent-gameface-components-1.0.0.tgz",
+    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },

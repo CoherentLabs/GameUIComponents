@@ -10,7 +10,7 @@ body {
 
 .wrapper {
     position: relative;
-    width: 100vw;
+    width: 80vw;
     height: 90vh;
     display: flex;
     flex-direction: row;

@@ -112,7 +112,7 @@ class Slider extends HTMLElement {
     resize(scrollbleContainer) {
         Slider.waitForFrames(() => {
             // get the size of the whole slider element
-            const  sliderWrapperSize = this._getPxSizeWithoutUnits(document.querySelector(`.${this.orientation}-slider-wrapper`));
+            const sliderWrapperSize = this._getPxSizeWithoutUnits(document.querySelector(`.${this.orientation}-slider-wrapper`));
             // get the size of the up or down buttons in px
             const controlsSize = this._getPxSizeWithoutUnits(document.querySelector(`.${this.orientation}-arrow`));
             // get the combined size of the up and down buttons in % of the sliderWrapperSize
@@ -126,6 +126,8 @@ class Slider extends HTMLElement {
             const handleSize = (sliderSize / (100 - controlsSizePercent)) * handleSizePercent;
             // set the new size of the handle
             this.handle.style[this.units.size] = handleSize + 'px';
+
+            this.dispatchEvent(new CustomEvent({type: 'resized'}));
         });
     }
 
@@ -225,9 +227,6 @@ class Slider extends HTMLElement {
         if (newPosPercents < 0) newPosPercents = 0;
         if (newPosPercents + handleSizePercent > 100) newPosPercents = 100 - handleSizePercent;
         this.handlePosition = newPosPercents;
-
-        //dispatch an event in case something needs to be done on scroll
-        this.dispatchEvent(new CustomEvent('slider-scroll', { detail: { handlePosition: newPosPercents } }));
     }
 
     /**
