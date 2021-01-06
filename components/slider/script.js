@@ -32,6 +32,11 @@ class Slider extends HTMLElement {
         return this._handlePosition;
     }
 
+    get handlePositionPx() {
+        const sliderSize = this.slider.getBoundingClientRect()[this.units.size];
+        return this.handlePosition/100 * sliderSize;
+    }
+
     /**
      * Delay the execution of a callback function by n amount of frames.
      * Used to retrieve the computed styles of elements.
@@ -102,7 +107,10 @@ class Slider extends HTMLElement {
      * @returns {number} - the size in pixels.
     */
     _getPxSizeWithoutUnits(element) {
-        const size = getComputedStyle(element)[this.units.sizePX];
+        let unitsName = this.units.sizePX;
+        if (!navigator.userAgent.includes('Cohtml')) unitsName = unitsName.substring(0, unitsName.length - 2);
+
+        const size = getComputedStyle(element)[unitsName];
         return Number(size.substring(0, size.length - 2));
     }
 
@@ -127,7 +135,7 @@ class Slider extends HTMLElement {
             // set the new size of the handle
             this.handle.style[this.units.size] = handleSize + 'px';
 
-            this.dispatchEvent(new CustomEvent({type: 'resized'}));
+            this.scrollTo(this.handlePositionPx);
         });
     }
 
@@ -227,6 +235,9 @@ class Slider extends HTMLElement {
         if (newPosPercents < 0) newPosPercents = 0;
         if (newPosPercents + handleSizePercent > 100) newPosPercents = 100 - handleSizePercent;
         this.handlePosition = newPosPercents;
+
+        //dispatch an event in case something needs to be done on scroll
+        this.dispatchEvent(new CustomEvent('slider-scroll', { detail: { handlePosition: newPosPercents } }));
     }
 
     /**
