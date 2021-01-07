@@ -104,10 +104,10 @@ and
 After that create an index.html and index.js files.
 Import the components library and the component's definition file using script tag:
 
-`
+```
 <script src="node_modules/coherent-gameface-components/umd/components.development.js"></script>
 <script src="script.js"></script>
-`
+```
 
 Add the custom component to the page:
 
@@ -119,7 +119,7 @@ path to the template html file. Use the `importStyle` method from the components
 library to dynamically import style files. Use the `loadReaource` method to load
 the template. When the template is loaded you can render the component.
 
-`
+```
 class LabeledInput extends HTMLElement {
     constructor() {
         super();
@@ -139,7 +139,7 @@ class LabeledInput extends HTMLElement {
 }
 
 components.defineCustomElement('labeled-input', LabeledInput);
-`
+```
 
 To test the component start an http server at the root and open demo.html. If
 you use http-server go to /labeled-input and run:
@@ -167,11 +167,11 @@ bundler that is used is Rollup. This means that we can use `import` and `export`
 and rollup will automatically resolve all modules. Now we can import all dependencies
 at the top of the script.js file:
 
-`
+```
 import components from 'coherent-gameface-components';
 import template from './template.html';
 import style from './style.css';
-`
+```
 
 And we can export the labeled input at the bottom:
 
@@ -190,7 +190,7 @@ The loadResource method can work with both URL and an imported template. The usa
 is the same so that it is more convenient to switch between XHR and imported template.
 This is how the component's definition looks like after the changes:
 
-`
+```
 import components from 'coherent-gameface-components';
 import template from './template.html';
 import style from './style.css';
@@ -217,7 +217,7 @@ class LabeledInput extends HTMLElement {
 components.defineCustomElement('gameface-labeled-input', LabeledInput);
 
 export { LabeledInput };
-`
+```
 
 Because all components are npm packages you need to add an entry index.js file.
 This is the file that would be loaded when you import your component from node_modules
@@ -227,32 +227,33 @@ like this:
 
 It should export either the development or the production CJS bundle:
 
-`
+```
 if (process.env.NODE_ENV === 'production') {
     module.exports = require('./cjs/labeled-input.production.min.js');
 } else {
     module.exports = require('./cjs/labeled-input.development.js');
 }
-`
+```
+
 Each component has a demo page. It is placed in a /demo folder.
 The JavaScript file of the demo should be bundled so that it can be easily checked with double click
 or drag and drop without the need to start a server.
 
 The demo.js file imports all dependencies so that Rollup can resolve and bundle them.
 
-`
+```
 import components from 'coherent-gameface-components';
 import LabeledInput from './umd/labeled-input.development.js'
-`
+```
 
 The demo.html file should import the bundle.js and use the custom element:
 
-`
+```
 <body>
     <gameface-labeled-input></gameface-labeled-input>
     <script src="./bundle.js"></script>
 </body>
-`
+```
 
 Note that the demo files should have the names demo.js and demo.html for the
 JavaScript and html files respectively.
@@ -262,7 +263,7 @@ build the component is to specify which files will be added to the npm package.
 This is done in the package.json
 file using the files field:
 
-`
+```
   "files": [
     "LICENSE",
     "README.md",
@@ -272,7 +273,7 @@ file using the files field:
     "cjs/",
     "umd/"
   ],
-`
+```
 
 Use the LICENSE template.
 
