@@ -8,6 +8,10 @@ Navigate to the root directory and run:
 
 This will install a webpack server. After that run:
 
+    npm run build
+
+This will build all components used in the demo. After that run:
+
     npm run start:demo
 
 This will serve the files on http://localhost:8080. Load that url in the Gameface player and preview the components.
