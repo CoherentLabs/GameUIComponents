@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .nested-menu-settings {
+            display: none;
+            width: 250px;
+            height: 178px;
+            background-color: rgb(153, 154, 235);
+            position: absolute;
+            left: 106px;
+            top: 56px;
+        }
+    </style>
+</head>
+
+<body>
+    <gameface-menu class="gameface-menu-component" orientation="horizontal">
+        <menu-item slot="menu-item">Start Game</menu-item>
+        <menu-item slot="menu-item" data-toggle="settings">
+            Settings
+            <gameface-menu class="nested-menu-settings" id="settings" orientation="vertical">
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">Keyboard</menu-item>
+                <menu-item slot="menu-item">Mouse</menu-item>
+            </gameface-menu>
+        </menu-item>
+        <menu-item slot="menu-item">Hero Gallery</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+    </gameface-menu>
+
+    <script src="./bundle.js"></script>
+</body>
+
+</html>
