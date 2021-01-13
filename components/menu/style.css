@@ -1,5 +1,5 @@
 body {
-    background-color: #ebebeb;
+    background-color: grey;
 }
 
 gameface-menu {
@@ -12,8 +12,12 @@ menu-item {
     cursor: pointer;
 }
 
+menu-item.active {
+    background-color: rgb(63, 97, 250);
+}
+
 menu-item:hover {
-    background-color: #bdbdbd;
+    color: #bdbdbd;
 }
 
 .horizontal {
