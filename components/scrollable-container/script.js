@@ -11,8 +11,8 @@ class ScrollableContainer extends HTMLElement {
     constructor() {
         super();
         this.template = template;
-        components.importStyleTag('scrollable_container', style);
-        this.url = '/components/scrollable_container/template.html';
+        components.importStyleTag('scrollable-container', style);
+        this.url = '/components/scrollable-container/template.html';
     }
 
     /**
@@ -33,10 +33,10 @@ class ScrollableContainer extends HTMLElement {
     }
 
     /**
-     * Set the scrollbleContainer and scrollbar members and attach event listeners.
+     * Set the scrollableContainer  and scrollbar members and attach event listeners.
     */
     setup() {
-        this.scrollbleContainer = this.getElementsByClassName('scrollable-container')[0];
+        this.scrollableContainer = this.getElementsByClassName('scrollable-container')[0];
         this.scrollbar = this.getElementsByClassName('slider-component')[0];
 
         this.addEventListeners();
@@ -47,9 +47,9 @@ class ScrollableContainer extends HTMLElement {
      * and scroll of the scrollabe container.
     */
     addEventListeners() {
-        window.addEventListener('resize', () => this.scrollbar.resize(this.scrollbleContainer));
+        window.addEventListener('resize', () => this.scrollbar.resize(this.scrollableContainer));
         this.scrollbar.addEventListener('slider-scroll', (e) => this.onScrollSlider(e));
-        this.scrollbleContainer.addEventListener('scroll', (e) => this.onScroll(e));
+        this.scrollableContainer.addEventListener('scroll', (e) => this.onScroll(e));
     }
 
     /**
@@ -58,11 +58,11 @@ class ScrollableContainer extends HTMLElement {
     */
     onScrollSlider(event) {
         // get the new scroll position in pixels
-        const scrollTop = event.detail.handlePosition * this.scrollbleContainer.scrollHeight / 100;
+        const scrollTop = event.detail.handlePosition * this.scrollableContainer.scrollHeight / 100;
         // set the new scroll position
-        this.scrollbleContainer.scrollTop = scrollTop;
+        this.scrollableContainer.scrollTop = scrollTop;
         // force a scroll event as setting scrollTop doesn't automatically emit it
-        this.scrollbleContainer.dispatchEvent(new CustomEvent('scroll'));
+        this.scrollableContainer.dispatchEvent(new CustomEvent('scroll'));
     }
 
     /**
@@ -70,7 +70,7 @@ class ScrollableContainer extends HTMLElement {
      */
     onScroll() {
         // get the scroll position in percents
-        this.scrollPos = ((this.scrollbleContainer.scrollTop) / this.scrollbleContainer.scrollHeight) * 100;
+        this.scrollPos = (this.scrollableContainer.scrollTop / this.scrollableContainer.scrollHeight) * 100;
         // set the position of the scrollbar handle
         this.scrollbar.handlePosition = this.scrollPos;
     }
@@ -101,9 +101,9 @@ class ScrollableContainer extends HTMLElement {
             const scrollableContentRect = scrollableContent.getBoundingClientRect();
             const boundingRect = this.getBoundingClientRect();
 
-            if (!(scrollableContentRect.height > boundingRect.height)) return;
+            if (scrollableContentRect.height <= boundingRect.height) return;
             this.showScrollBar(this.scrollbar);
-            this.scrollbar.resize(this.scrollbleContainer);
+            this.scrollbar.resize(this.scrollableContainer);
         });
     }
 }

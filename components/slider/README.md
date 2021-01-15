@@ -22,7 +22,7 @@ The gameface-slider component comes with UMD and CJS builds.
 * add the gameface-slider component to your html:
 
 ~~~~{.html}
-<gameface-gameface-slider class="gameface-slider-component"></gameface-gameface-slider>
+<gameface-slider class="gameface-slider-component"></gameface-slider>
 ~~~~
 
 This is all! Load the file in Gameface to see the gameface-slider.
@@ -32,7 +32,7 @@ which import the components and the gameface-slider from the node_modules folder
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import gameface-slider from 'gameface-slider';
+import GamefaceSlider from 'gameface-slider';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -40,7 +40,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import gameface-slider from './node_modules/gameface-slider/umd/gameface-slider.production.min.js';
+import GamefaceSlider from './node_modules/gameface-slider/umd/gameface-slider.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -49,7 +49,7 @@ import gameface-slider from './node_modules/gameface-slider/umd/gameface-slider.
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const gameface-slider = require('gameface-slider');
+const GamefaceSlider = require('gameface-slider');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module

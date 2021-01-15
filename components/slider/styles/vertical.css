@@ -6,17 +6,38 @@ body {
     height: 90vh;
     display: flex;
     flex-direction: column;
-    max-width: 25px;
+    max-width: 15px;
 }
 
 .vertical-arrow {
-    height: 25px;
-    width: 25px;
-    background-color: #d1d1d1;
+    height: 15px;
+    width: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
 }
 
 .vertical-arrow:hover {
     background-color: #c1c1c1;
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-bottom: 5px solid #505050;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-top: 5px solid #505050;
 }
 
 .vertical-slider {

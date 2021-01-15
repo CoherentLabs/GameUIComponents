@@ -1,5 +1,5 @@
 import components from 'coherent-gameface-components';
-import ScrollableContainer from '../umd/scrollable_container.development.js';
+import ScrollableContainer from '../umd/scrollable-container.development.js';
 import {pm} from 'postmessage-polyfill';
 import {fetch as fetchPolyfill} from 'whatwg-fetch';
 

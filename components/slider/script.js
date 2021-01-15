@@ -6,6 +6,8 @@ import horizontalStyle from './styles/horizontal.css';
 import { orientationUnitsNames } from './orientationUnitsNames';
 
 
+const customEvent = new MouseEvent ('click', );
+
 /**
  * @class Slider.
  * Slider component; can be independently or as a building block of another
@@ -32,6 +34,10 @@ class Slider extends HTMLElement {
         return this._handlePosition;
     }
 
+    /**
+     * Get the current position of the slider's handle in pixels.
+     * @returns {number} - the value of the position.
+    */
     get handlePositionPx() {
         const sliderSize = this.slider.getBoundingClientRect()[this.units.size];
         return this.handlePosition/100 * sliderSize;
@@ -53,7 +59,7 @@ class Slider extends HTMLElement {
     constructor() {
         super();
         // the amount of units that the slider will be updated
-        this.step = 10;
+        this.step = this.getAttribute('step') || 10;
         // the initial position of the handle
         this._handlePosition = 0;
 
@@ -117,19 +123,19 @@ class Slider extends HTMLElement {
     /**
      * Update the size of the slider thumb.
     */
-    resize(scrollbleContainer) {
+    resize(scrollableContainer) {
         Slider.waitForFrames(() => {
             // get the size of the whole slider element
-            const sliderWrapperSize = this._getPxSizeWithoutUnits(document.querySelector(`.${this.orientation}-slider-wrapper`));
+            const sliderWrapperSize = this._getPxSizeWithoutUnits(this.querySelector(`.${this.orientation}-slider-wrapper`));
             // get the size of the up or down buttons in px
-            const controlsSize = this._getPxSizeWithoutUnits(document.querySelector(`.${this.orientation}-arrow`));
+            const controlsSize = this._getPxSizeWithoutUnits(this.querySelector(`.${this.orientation}-arrow`));
             // get the combined size of the up and down buttons in % of the sliderWrapperSize
             const controlsSizePercent = controlsSize * 2 / sliderWrapperSize * 100;
 
             // get the size of the slider area
             const sliderSize = this.slider.getBoundingClientRect()[this.units.size];
             // get the size of the handle in percents relative to the current scroll(Height/Width)
-            const handleSizePercent = (sliderSize / scrollbleContainer[this.units.scroll]) * 100;
+            const handleSizePercent = (sliderSize / scrollableContainer[this.units.scroll]) * 100;
             // get the size of the handle in px; exclude the controlsSizePercent from the whole size
             const handleSize = (sliderSize / (100 - controlsSizePercent)) * handleSizePercent;
             // set the new size of the handle
@@ -179,7 +185,7 @@ class Slider extends HTMLElement {
     }
 
     /**
-     * Called on mousedown.
+     * Called on mouseup.
      * Resets the mousedown, dragging and slidingWithArrows properties
      * and clears intervals.
     */
@@ -214,7 +220,7 @@ class Slider extends HTMLElement {
     */
     onSlideWithArrorws(direction) {
         this.slidingWithArrows = true;
-        this.interval = setInterval(() => this.scrollTo(this.getNextScrollPosition(direction, 10)), 10);
+        this.interval = setInterval(() => this.scrollTo(this.getNextScrollPosition(direction, this.step)), 10);
     }
 
     /**
@@ -246,8 +252,8 @@ class Slider extends HTMLElement {
      * @param {WheelEvent} event
     */
     onWheel(event) {
-        let direction = (event.deltaY < 0) ? -1 : 1;
-        this.scrollTo(this.getNextScrollPosition(direction, 10));
+        const direction = (event.deltaY < 0) ? -1 : 1;
+        this.scrollTo(this.getNextScrollPosition(direction, this.step));
     }
 
     /**

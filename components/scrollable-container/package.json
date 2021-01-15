@@ -1,11 +1,11 @@
 {
-  "name": "gameface-scrollable_container",
+  "name": "gameface-scrollable-container",
   "version": "1.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-scrollable_container"
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-scrollable-container"
   },
   "keywords": [
     "UI",

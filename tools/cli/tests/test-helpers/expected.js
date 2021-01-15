@@ -105,7 +105,7 @@ exports.READMEmd = `
     * add the gameface-test-name component to your html:
 
     ~~~~{.html}
-    <gameface-gameface-test-name class="gameface-test-name-component"></gameface-gameface-test-name>
+    <gameface-test-name class="gameface-test-name-component"></gameface-test-name>
     ~~~~
 
     This is all! Load the file in Gameface to see the gameface-test-name.
