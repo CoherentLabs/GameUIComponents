@@ -58,55 +58,80 @@ bundler in order to be use them in a browser.
 
 ## Usage in the HTML:
 
-The menu component exposes two custom HTML elements:
-* <gameface-menu> - the menu component, it has one slot name menu-item; this is
-where the menu elements go to
+The menu component exposes several custom HTML elements:
+* <gameface-base-menu> - the menu component, it has one slot name menu-item; this is
+where the menu elements go to; it has no anchored position
 * <menu-item> - the menu item; provides navigation and onevent handlers
 
+* <gameface-left-menu> - a gameface menu that is anchored to the left
+* <gameface-right-menu> - a gameface menu that is anchored to the right
+* <gameface-bottom-menu> - a gameface menu that is anchored to the bottom
+
 ~~~~{.html}
-<gameface-menu>
+<gameface-base-menu>
     <menu-item slot="menu-item">Start Game</menu-item>
     <menu-item slot="menu-item">Settings</menu-item>
     <menu-item slot="menu-item">Credits</menu-item>
-</gameface-menu>
+</gameface-base-menu>
 ~~~~
 
-This will produce a horizontal menu component. Use the orientation attribute to
+This will create a horizontal menu component. Use the orientation attribute to
 change the layout of the menu to vertical:
 
 ~~~~{.html}
-<gameface-menu orientation="vertical">
+<gameface-base-menu orientation="vertical">
     <menu-item slot="menu-item">Start Game</menu-item>
     <menu-item slot="menu-item">Settings</menu-item>
     <menu-item slot="menu-item">Credits</menu-item>
-</gameface-menu>
+</gameface-base-menu>
 ~~~~
 
 The supported orientation values are horizontal and vertical.
 
-The <menu-item> element supports the following attributes:
-* callback - a JavaScript code that will be executed on click
-* data-toggle - the id of a sub-menu that should be opened on click of this menu item
-* hover - true or false - show and hide the sub-menu on `mouseover` and `mouseout` instead of on click
+Or you can use one of the anchored menus for easier positioning.
+
+The <menu-item> element supports all onevent handlers. If you want to execute a
+function on click add it as you would normally add it to an HTMLElement:
+
+
+~~~~{.html}
+<gameface-base-menu orientation="vertical">
+    <menu-item slot="menu-item" onclick="console.log('Clicked on Start Game.')">Start Game</menu-item>
+</gameface-base-menu>
+~~~~
+
+or pass a function
+
+~~~~{.html}
+<script>
+function onStartGame() {
+    console.log('Clicked on Start Game.);
+}
+</script>
+
+<gameface-base-menu orientation="vertical">
+    <menu-item slot="menu-item" onclick="onStartGame()">Start Game</menu-item>
+</gameface-base-menu>
+~~~~
 
 
 ## Nesting Menus
 
-You can put a <gameface-menu> element as a child of <menu-item> of you want to have a
-sub-menu. Use the data-toggle attribute to specify which menu should be displayed on
-click of a certain <menu-item>:
+You can put a <gameface-base-menu> element as a child of <menu-item> of you want to have a
+sub-menu. The nested menu will be automatically displayed on click of the parent menu-item.
+It will also be automatically positioned.
 
 ~~~~{.html}
-<gameface-menu class="gameface-menu-component" orientation="horizontal">
+<gameface-base-menu>
     <menu-item slot="menu-item">Start Game</menu-item>
-    <menu-item slot="menu-item" data-toggle="settings">
+    <menu-item slot="menu-item">
         Settings
-        <gameface-menu id="settings" orientation="vertical">
+        <gameface-base-menu id="settings" orientation="vertical">
             <menu-item slot="menu-item">Graphics</menu-item>
             <menu-item slot="menu-item">Keyboard</menu-item>
             <menu-item slot="menu-item">Mouse</menu-item>
-        </gameface-menu>
+        </gameface-base-menu>
     </menu-item>
     <menu-item slot="menu-item">Credits</menu-item>
-</gameface-menu>
+</gameface-base-menu>
 ~~~~
