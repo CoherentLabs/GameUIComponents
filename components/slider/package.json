@@ -1,0 +1,33 @@
+{
+  "name": "slider",
+  "version": "1.0.0",
+  "description": "A component for Coherent Labs Gameface.",
+  "main": "script.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/slider"
+  },
+  "keywords": [
+    "UI",
+    "Component"
+  ],
+  "files": [
+    "demo/",
+    "cjs/",
+    "umd/",
+    "templates/",
+    "styles/",
+    "index.js",
+    "package.json",
+    "README.md",
+    "script.js",
+    "orientationUnitsNames.js"
+  ],
+  "dependencies": {
+    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
+    "postmessage-polyfill": "1.0.0",
+    "whatwg-fetch": "3.4.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
