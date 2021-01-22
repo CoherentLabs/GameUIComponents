@@ -2,34 +2,40 @@
 <html lang="en">
 
 <head>
-    <script src="./lib/umd/components.development.js"></script>
-    <script src="./components/checkbox/umd/checkbox.development.js"></script>
-    <script src="./components/modal/umd/modal.development.js"></script>
-    <script src="./components/tabs/umd/tabs.development.js"></script>
     <link rel="stylesheet" href="demo.css">
     <link rel="stylesheet" href="theme/components-theme.css">
+    <link rel="stylesheet" href="components/grid/dist/grid.production.min.css">
+
+    <script src="./lib/umd/components.development.js"></script>
 </head>
 
 <body>
-    <div class="page">
-        <div class="menu">
-            <div class="component-link" data-link="checkbox">Checkbox</div>
-            <div class="component-link" data-link="modal">Modal</div>
-            <div class="component-link" data-link="tabs">Tabs</div>
-        </div>
-        <div class="margin"></div>
-        <div class="preview">
-            <div class="hidden">
-                <gameface-checkbox class="checkbox-component"></gameface-checkbox>
-            </div>
-            <div class="hidden">
-                <gameface-modal class="modal-component"></gameface-modal>
-            </div>
-            <div class="hidden">
-                <gameface-tabs class="tabs-component"></gameface-tabs>
-            </div>
-        </div>
+    <div class="router-menu">
+        <gameface-route class="active-route" to="/">Home</gameface-route>
+        <gameface-route to="/checkbox">Checkbox</gameface-route>
+        <gameface-route to="/dropdown">Dropdown</gameface-route>
+        <gameface-route to="/responsive-grid">Responsive Grid</gameface-route>
+        <gameface-route to="/menu">Menu</gameface-route>
+        <gameface-route to="/scrollable-container">Scrollable Container</gameface-route>
+        <gameface-route to="/slider">Slider</gameface-route>
+        <gameface-route to="/modal">Modal</gameface-route>
+        <gameface-route to="/tabs">Tabs</gameface-route>
+        <gameface-route to="/radial-menu">Radial Menu</gameface-route>
     </div>
-    <script src="demo.js"></script>
+
+    <router-view></router-view>
+
+    <script src="./components/router/umd/router.development.js"></script>
+    <script src="./components/checkbox/umd/checkbox.development.js"></script>
+    <script src="./components/modal/umd/modal.development.js"></script>
+    <script src="./components/tabs/umd/tabs.development.js"></script>
+    <script src="./components/dropdown/umd/dropdown.development.js"></script>
+    <script src="./components/menu/umd/menu.development.js"></script>
+    <script src="./components/slider/umd/slider.development.js"></script>
+    <script src="./components/scrollable-container/umd/scrollable-container.development.js"></script>
+    <script src="./components/radial-menu/umd/radial-menu.development.js"></script>
+    <script type="module" src="demoTemplates.js"></script>
+    <script type="module" src="demo.js"></script>
 </body>
+
 </html>

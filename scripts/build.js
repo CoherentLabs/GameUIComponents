@@ -66,7 +66,7 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
  * @param {Array<string>} environments - the environments for which to bundle(prod, dev).
  * @param {string} path - the path to either the library or a component.
 */
-async function buildAndPackage(moduleName, inputOptions, formats, environments, path) {
+async function buildAndPackage(moduleName, inputOptions, formats, environments, libPath) {
     for (let format of formats) {
         for (let environment of environments) {
             await createBundle(inputOptions, generateOutputOptions(
@@ -80,17 +80,17 @@ async function buildAndPackage(moduleName, inputOptions, formats, environments, 
 
     // npm pack must run after createBundle has finished, otherwise the rollup
     // bundling will not be ready yet and not everything will be packed.
-    execSync('npm pack', { cwd: path });
+    execSync('npm pack', { cwd: libPath });
 }
 
 /**
  * Calls buildAndPackage for all components and passes all environments
  * and formats as targets. Builds the components library first.
 */
-function buildEverything() {
+async function buildEverything() {
     buildComponentsLibrary();
     let components = getComponentDirectories();
-    const ordered = ['scrollable-container', 'dropdown'];
+    const ordered = ['slider', 'scrollable-container', 'dropdown'];
 
     // get only the elements that are not included in the ordered list
     components = components.filter(el => !ordered.includes(el));
@@ -102,7 +102,11 @@ function buildEverything() {
 
         if (!fs.existsSync(componentPath)) continue;
 
-        execSync('npm i', { cwd: componentPath });
+        try {
+            execSync('npm i', { cwd: componentPath });
+        } catch (err) {
+            console.error(err)
+        }``
 
         if (!fs.existsSync(path.join(componentPath, 'script.js'))) {
             buildCssComponents(componentPath);
@@ -124,7 +128,7 @@ function buildEverything() {
             ],
         };
 
-        buildAndPackage(component, inputOptions, FORMATS, ENVIRONMENTS, componentPath);
+        await buildAndPackage(component, inputOptions, FORMATS, ENVIRONMENTS, componentPath);
     }
 }
 

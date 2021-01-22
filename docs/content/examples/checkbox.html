@@ -10,17 +10,24 @@ draft: false
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .page-wrapper {
+            height: 45vh;
+        }
+    </style>
 </head>
 
 <body>
-    <gameface-checkbox class="checkbox-component" data-url="checkbox">
-        <component-slot data-name="checkbox-background">
-            <div class="checkbox-background"></div>
-        </component-slot>
-        <component-slot data-name="label">
-            <span class="label">Enable Music</span>
-        </component-slot>
-    </gameface-checkbox>
+    <div class="page-wrapper">
+        <gameface-checkbox class="checkbox-component" data-url="checkbox">
+            <component-slot data-name="checkbox-background">
+                <div class="checkbox-background"></div>
+            </component-slot>
+            <component-slot data-name="label">
+                <span class="label">Enable Music</span>
+            </component-slot>
+        </gameface-checkbox>
+    </div>
     <script src="/components/checkbox/bundle.js"></script>
 </body>
 

@@ -9,7 +9,7 @@ dropdown-option {
     width: 150px;
 }
 
-.header {
+.dropdown-header {
     align-items: center;
     display: flex;
 }
@@ -53,7 +53,7 @@ gameface-dropdown {
     align-items: center;
 }
 
-.full-width {
+gameface-dropdown .scrollable-container.full-width {
     width: 100%;
 }
 

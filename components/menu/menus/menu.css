@@ -8,7 +8,7 @@ menu-item {
     cursor: pointer;
 }
 
-menu-item.active {
+menu-item.active-menu-item {
     background-color: var(--default-color-blue);
 }
 

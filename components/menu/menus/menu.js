@@ -421,9 +421,9 @@ class MenuItem extends HTMLElement {
     set selected(value) {
         if (value) {
             this.setAttribute('selected', value);
-            this.classList.add('active');
+            this.classList.add('active-menu-item');
         } else {
-            this.classList.remove('active');
+            this.classList.remove('active-menu-item');
             this.removeAttribute('selected');
         }
     }

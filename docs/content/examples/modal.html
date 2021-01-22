@@ -8,6 +8,10 @@ draft: false
 
 <head>
     <style>
+        .page-wrapper {
+            height: 45vh;
+        }
+
         .character-customization {
             display: flex;
             flex-direction: row;
@@ -55,30 +59,32 @@ draft: false
 </head>
 
 <body>
-    <p>Chose a name for your character.</p>
-    <div class="character-customization">
-        <input for="name" type="text" />
-        <button type="button" class="modal-button save disabled">Save</button>
-    </div>
-    <p class="name-text hidden">
-        <span>The name you chose is: </span>
-        <span class="name"></span>
-    </p>
+    <div class="page-wrapper">
+        <p>Chose a name for your character.</p>
+        <div class="character-customization">
+            <input for="name" type="text" />
+            <button type="button" class="modal-button save disabled">Save</button>
+        </div>
+        <p class="name-text hidden">
+            <span>The name you chose is: </span>
+            <span class="name"></span>
+        </p>
 
-    <gameface-modal data-url="modal">
-        <div slot="header">
-            Character name selection
-        </div>
-        <div slot="body">
-            <div class="confirmation-text">Are you sure you want to save this name?</div>
-        </div>
-        <div slot="footer">
-            <div class="actions">
-                <button id="confirm" class="close modal-button confirm controls">Yes</button>
-                <button class="close modal-button discard controls">No</button>
+        <gameface-modal data-url="modal">
+            <div slot="header">
+                Character name selection
             </div>
-        </div>
-    </gameface-modal>
+            <div slot="body">
+                <div class="confirmation-text">Are you sure you want to save this name?</div>
+            </div>
+            <div slot="footer">
+                <div class="actions">
+                    <button id="confirm" class="close modal-button confirm controls">Yes</button>
+                    <button class="close modal-button discard controls">No</button>
+                </div>
+            </div>
+        </gameface-modal>
+    </div>
     <script src="/components/modal/bundle.js"></script>
 </body>
 

@@ -54,3 +54,37 @@ const GamefaceScrollableContainer = require('gameface-scrollable-container');
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
 bundler in order to use them in a browser.
+
+## Manually showing and resizing the scrollbar
+
+If the scrollable container is hidden, you'll need to manually re-initialize the scrollbar once you show the scrollable container.
+The scrollable container has a method called **showScrollBar**. It accepts the scrollbar as an argument:
+
+~~~~{.js}
+const scrollableContainer = document.querySelector('.scrollable-container');
+scrollableContainer.showScrollBar(scrollableContainer.scrollbar);
+~~~~
+
+To resize the scrollbar call the **resize** function of the scrollbar and pass it the
+scrollable container as an argument:
+
+~~~~{.js}
+const scrollableContent = scrollableContainer.querySelector('[name="scrollable-content"]');
+const scrollableContainer = document.querySelector('.scrollable-container');
+
+scrollableContainer.scrollbar.resize(scrollableContent);
+~~~~
+
+The scrollableContainer has a method called **shouldShowScrollbar** which checks if the scrollable content is bigger than the scrollable container and if it is - it shows the scrollbar. Use this if you are not sure if you have to show the scrollbar:
+
+~~~~{.js}
+const scrollableContainer = document.querySelector('.scrollable-container');
+scrollableContainer.shouldShowScrollbar();
+~~~~
+
+If you need to hide the scrollbar - use the **hideScrollBar method** and pass it the scrollbar as an argument:
+
+~~~~{.js}
+const scrollableContainer = document.querySelector('.scrollable-container');
+scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
+~~~~
