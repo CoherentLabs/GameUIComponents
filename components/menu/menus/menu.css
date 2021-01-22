@@ -1,12 +1,4 @@
-body {
-    background-color: grey;
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-}
-
-gameface-base-menu {
+gameface-menu {
     position: absolute;
 }
 
@@ -17,11 +9,16 @@ menu-item {
 }
 
 menu-item.active {
-    background-color: #25a5d6;
+    background-color: var(--default-color-blue);
+}
+
+menu-item:disabled {
+    background-color: var(--default-color-gray);
+    pointer-events: none;
 }
 
 menu-item.hover {
-    background-color: #e6e6e6;
+    background-color: var(--default-color-gray);
 }
 
 .horizontal {

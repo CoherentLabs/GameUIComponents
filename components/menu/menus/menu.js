@@ -1,8 +1,8 @@
 import components from 'coherent-gameface-components';
-import template from '../../template.html';
-import style from './base.css';
-import theme from '../../../../theme/components-theme.css';
-import {TAG_NAMES, KEYCODES} from '../../constants';
+import template from '../template.html';
+import style from './menu.css';
+import theme from '../../../theme/components-theme.css';
+import {TAG_NAMES} from '../constants';
 
 /**
  * Helper function used to check if an element is a child of another element
@@ -22,6 +22,8 @@ function isDescendant(parent, child) {
     return false;
 }
 
+const KEYCODES = components.KEYCODES;
+
 const KEY_MAPPING = {
     FORWARD: KEYCODES.RIGHT,
     BACK: KEYCODES.LEFT,
@@ -30,7 +32,7 @@ const KEY_MAPPING = {
     SELECT: KEYCODES.ENTER,
 };
 
-class GamefaceBaseMenu extends HTMLElement {
+class GamefaceMenu extends HTMLElement {
     constructor() {
         super();
 
@@ -43,7 +45,7 @@ class GamefaceBaseMenu extends HTMLElement {
         this.onFocusOut = this.onFocusOut.bind(this);
 
         components.importStyleTag('gameface-menu-theme', theme);
-        components.importStyleTag('gameface-base-menu', style);
+        components.importStyleTag('gameface-menu', style);
         this.url = '/components/menu/template.html';
     }
 
@@ -58,16 +60,44 @@ class GamefaceBaseMenu extends HTMLElement {
                 this.template = response[1].cloneNode(true);
                 components.render(this);
 
-                this.addEventListener('keydown', this.onKeyDown);
-                this.addEventListener('click', this.onClick);
-                this.addEventListener('focusout', this.onFocusOut);
+                this.removeEventListeners();
+                this.attachEventListeners();
 
+                // setup the initial position of the menu items
                 this.setupMenuItems(true);
                 this.setOrientation();
             })
             .catch(err => {
                 console.error(err);
             });
+    }
+
+
+
+    /**
+     * Attaches click event listeners
+    */
+   removeEventListeners () {
+        this.removeEventListener('keydown', this.onKeyDown);
+        this.removeEventListener('focusout', this.onFocusOut);
+
+        const menuItems = this.querySelectorAll('menu-item');
+        for(let i = 0; i < menuItems.length; i++) {
+            menuItems[i].removeEventListener('click', this.onClick);
+        }
+    }
+
+    /**
+     * Attaches click event listeners to all menu-item elements in this menu
+    */
+    attachEventListeners () {
+        this.addEventListener('keydown', this.onKeyDown);
+        this.addEventListener('focusout', this.onFocusOut);
+
+        const menuItems = this.querySelectorAll('menu-item');
+        for(let i = 0; i < menuItems.length; i++) {
+            menuItems[i].addEventListener('click', this.onClick);
+        }
     }
 
     /**
@@ -87,11 +117,22 @@ class GamefaceBaseMenu extends HTMLElement {
 
             const parentPosition = menuItems[i].getBoundingClientRect();
 
-            nested.style.left = '0px';
-            nested.style.top = parentPosition.height + 'px';
+            this.setPosition(nested, parentPosition);
 
-            if (hide) nested.style.display = 'none';
+            if (hide) nested.hide();
         }
+    }
+
+    /**
+     * Sets an inline style to properly position the element
+     * Different menus have use different properties - top, left, right or bottom
+     *
+     * @param {HTMLElement} element - the element that needs to be positioned
+     * @param {DOMRect} parentPosition - the bounding box of the parent element
+    */
+    setPosition(element, parentPosition) {
+        element.style.left = '0px';
+        element.style.top = parentPosition.height + 'px';
     }
 
     /**
@@ -104,9 +145,21 @@ class GamefaceBaseMenu extends HTMLElement {
         // get the element which lost focus
         const lostFocus = event.target;
 
-        // if the newly focused element is descendant of this menu, do nothing
-        if (receivedFocus !== null && isDescendant(lostFocus.parentElement, receivedFocus)) return;
+        if(receivedFocus !== null && isDescendant(this, receivedFocus)) {
+            return;
+        }
 
+        // console.log('====', (receivedFocus !== null && (isDescendant(lostFocus.parentElement, receivedFocus) || receivedFocus.parentElement === lostFocus.parentElement)))
+        // console.log('receivedFocus', receivedFocus)
+        // console.log('lostFocus', lostFocus)
+        // if the newly focused element is descendant of this menu, do nothing
+        // console.log('=============',(receivedFocus !== null && (isDescendant(lostFocus.parentElement, receivedFocus) || receivedFocus.parentElement === lostFocus.parentElement)))
+        // if (!(receivedFocus !== null && (isDescendant(lostFocus.parentElement, receivedFocus) || receivedFocus.parentElement === lostFocus.parentElement))) {
+        //     debugger
+        // }
+        // return
+        // console.log('(isDescendant======================', isDescendant(lostFocus.parentElement, receivedFocus))
+        // console.log('(are siblings======================', receivedFocus.parentElement === lostFocus.parentElement)
         // if the newly focused element is not descendant of this menu
         // reset the current selection
         this.reset();
@@ -115,8 +168,7 @@ class GamefaceBaseMenu extends HTMLElement {
     }
 
     /**
-     * Sets all tabs and panels in an inactive state.
-     * No tab is selected and no panel is visible.
+     * Sets all menu items in an inactive state.
     */
     reset() {
         const menuItems = this.getAllMenuItems();
@@ -124,8 +176,8 @@ class GamefaceBaseMenu extends HTMLElement {
     }
 
     /**
-     * Gets all MenuItem child elements of the current Menu component.
-     * @returns {Array<MenuItem>} - the tabs of the tab component.
+     * Gets all active MenuItem child elements of the current Menu component.
+     * @returns {Array<MenuItem>} - the menu items of the menu component.
     */
     getAllMenuItems() {
         return Array.from(this.children).filter(child => child.hasAttribute('disabled') === false);
@@ -133,7 +185,7 @@ class GamefaceBaseMenu extends HTMLElement {
 
     /**
      * Gets the previous MenuItem in the items list.
-     * If the current mnu item is the first one - returns the last one.
+     * If the current menu item is the first one - returns the last one.
      * @returns {MenuItem} - the previous menu item.
     */
     getPrevMenuItem() {
@@ -179,7 +231,7 @@ class GamefaceBaseMenu extends HTMLElement {
     * @param {MenuItem} newMenuItem - the menuItem which has been clicked on.
     */
     selectMenuItem(newMenuItem) {
-        // Deselect all tabs and hide all panels.
+        // Deselect all menu items
         this.reset();
         newMenuItem.selected = true;
         newMenuItem.focus();
@@ -190,16 +242,17 @@ class GamefaceBaseMenu extends HTMLElement {
      * @param {MouseEvent} event
     */
     onClick(event) {
-        event.stopPropagation()
-        // avoid all cases except when the target is a tab heading.
-        if (event.target.tagName.toLowerCase() !== 'menu-item' || event.target.hasAttribute('disabled')) return;
+        // debugger
+        event.stopPropagation();
+        // avoid all cases except when the target is a menu item
+        if (event.currentTarget.hasAttribute('disabled')) return;
 
-        this.selectMenuItem(event.target);
+        this.selectMenuItem(event.currentTarget);
 
         // if the click should open a submenu - open it and return
-        if(this.openSubmenu(event)) return;
-        // if the click should no open submenu - close the menu
-        this.closeSubmenu(event);
+        if (this.openSubmenu(event)) return;
+        // if the click should not open submenu - close the menu
+        this.close(event);
     }
 
     /**
@@ -213,7 +266,7 @@ class GamefaceBaseMenu extends HTMLElement {
 
     /**
      * Gets a nested menu
-     * @param {MenuItem} - the item in which to look for a nested menu
+     * @param {MenuItem} menuItem - the item in which to look for a nested menu
      * @returns {HTMLElement} - the nested menu
     */
     getSubmenu(menuItem) {
@@ -227,10 +280,12 @@ class GamefaceBaseMenu extends HTMLElement {
      * @returns {boolean} - true, if a menu was opened and false if not
     */
     openSubmenu(event) {
-        const submenu = this.getSubmenu(event.target);
+        const submenu = this.getSubmenu(event.currentTarget);
         if(!submenu) return false;
 
         submenu.show();
+
+        // update the position of the menu items now that its relative parent is also visible
         this.setupMenuItems();
         submenu.select();
 
@@ -241,7 +296,7 @@ class GamefaceBaseMenu extends HTMLElement {
      * Closes a nested menu; practically closes itself if this is a nested menu
      * but the action that triggers this function is closing a nested menu.
     */
-    closeSubmenu() {
+    close() {
         const parentMenu = this.getParentMenu();
         if(!parentMenu) return;
         this.hide();
@@ -254,26 +309,19 @@ class GamefaceBaseMenu extends HTMLElement {
      * @returns {MenuItem | null}
     */
     getNextMenuItemFromKey(event) {
-        // The switch-case will determine which tab should be marked as active
+        // The switch-case will determine which menu item should be marked as active
         // depending on the key that was pressed.
         switch (event.keyCode) {
             case this.keyMapping.SELECT:
-                console.log('SELECT', event.target);
-                this.closeSubmenu(event);
+            case this.keyMapping.CLOSE:
+                this.close();
                 break;
             case this.keyMapping.FORWARD:
-                console.log('FORWARD', event.target);
                 return this.getNextMenuItem();
             case this.keyMapping.BACK:
-                console.log('BACK', event.target);
                 return this.getPrevMenuItem();
             case this.keyMapping.OPEN_SUBMENU:
-                console.log('OPEN_SUBMENU', event.target)
                 this.openSubmenu(event);
-                break;
-            case this.keyMapping.CLOSE:
-                console.log('CLOSE', event.target);
-                this.closeSubmenu();
                 break;
             default:
                 return null;
@@ -285,6 +333,8 @@ class GamefaceBaseMenu extends HTMLElement {
      * @param {number} index
     */
     select(index = 0) {
+        // do nothing if there are no menu items or there is no item at this index
+        if (!this.getAllMenuItems().length || !this.getAllMenuItems()[index]) return;
         this.selectMenuItem(this.getAllMenuItems()[index]);
     }
 
@@ -335,21 +385,20 @@ class MenuItem extends HTMLElement {
     */
     attributeChangedCallback() {
         if(this.hasAttribute('disabled')) {
-             // if the element is no longer disabled, make it possible to select it
-             // by adding it a tabindex
+             // if the element is disabled, make it no longer selectable
+             // by removing the tabindex
             this.removeAttribute('tabindex');
-            // remove the museenter and mouseleave listeners so that it's
+            // remove the mouseenter and mouseleave listeners so that it's
             // not possible to hover the element
             this.removeEventListener('mouseenter', this.onMouseEnter);
             this.removeEventListener('mouseleave', this.onMouseLeave);
-            return;
+        } else {
+            // if it's not disabled update the tabindex and attach the mouseenter and
+            // mouseleave listeners
+            const value = this.hasAttribute('selected');
+            this.setAttribute('tabindex', value ? 0 : -1);
+            this.attachEventListeners();
         }
-
-        // if it's not disabled update the tabindex and attach the mouseenter and
-        // mouseleave listeners
-        const value = this.hasAttribute('selected');
-        this.setAttribute('tabindex', value ? 0 : -1);
-        this.attachEventListeners();
     }
 
     constructor() {
@@ -379,10 +428,9 @@ class MenuItem extends HTMLElement {
 
     /**
      * Sets the selected attribute
-     * @param {boolean} vlaue - the new value of the selected attribute
+     * @param {boolean} value - the new value of the selected attribute
     */
     set selected(value) {
-        console.log('selected');
         if (value) {
             this.setAttribute('selected', value);
             this.classList.add('active');
@@ -397,7 +445,10 @@ class MenuItem extends HTMLElement {
      * @param {MouseEvent} event
     */
     onMouseEnter (event) {
-        event.target.classList.add('hover');
+        const menuItem = event.target;
+
+        if (menuItem.hasAttribute('selected')) return;
+        menuItem.classList.add('hover');
     }
 
     /**
@@ -405,11 +456,14 @@ class MenuItem extends HTMLElement {
      * @param {MouseEvent} event
     */
     onMouseLeave (event) {
-        event.target.classList.remove('hover');
+        const menuItem = event.target;
+
+        if (!menuItem.classList.contains('hover')) return;
+        menuItem.classList.remove('hover');
     }
 }
 
-components.defineCustomElement('gameface-base-menu', GamefaceBaseMenu);
+components.defineCustomElement('gameface-menu', GamefaceMenu);
 components.defineCustomElement('menu-item', MenuItem);
 
-export default GamefaceBaseMenu;
+export default GamefaceMenu;

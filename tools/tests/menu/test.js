@@ -1,6 +1,6 @@
 function setupTestPage() {
     document.body.innerHTML = `
-    <gameface-base-menu class="gameface-base-menu-component" orientation="horizontal">
+    <gameface-menu orientation="horizontal">
     <menu-item id="game" slot="menu-item">Start Game</menu-item>
     <menu-item id="settings" slot="menu-item">
         Settings
@@ -10,12 +10,11 @@ function setupTestPage() {
         </gameface-left-menu>
     </menu-item>
     <menu-item slot="menu-item" id="hero_gallery" disabled>Hero Gallery</menu-item>
-</gameface-base-menu>
+</gameface-menu>
     `;
 
     return new Promise(resolve => {
         setTimeout(() => {
-            console.log('setup')
             resolve();
         }, 1000);
     });

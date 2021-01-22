@@ -3,6 +3,14 @@
 
 <head>
     <style>
+        body {
+            background-color: grey;
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
         .left-menu,
         .right-menu {
             top: 20vh;
@@ -11,20 +19,20 @@
 </head>
 
 <body>
-    <gameface-base-menu class="gameface-base-menu-component" orientation="horizontal">
-        <menu-item id="game" slot="menu-item" callback="console.log('aaaaaaaaaaaaaa')">Start Game</menu-item>
-        <menu-item id="test" slot="menu-item">
+    <gameface-menu orientation="horizontal">
+        <menu-item slot="menu-item">Start Game</menu-item>
+        <menu-item slot="menu-item">
             Settings
-            <gameface-left-menu class="nested-menu-settings" orientation="vertical">
+            <gameface-left-menu>
                 <menu-item slot="menu-item">Graphics</menu-item>
                 <menu-item slot="menu-item">
                     Keyboard
-                    <gameface-left-menu class="nested-menu-settings1" orientation="vertical">
+                    <gameface-left-menu>
                         <menu-item slot="menu-item">Graphics</menu-item>
                         <menu-item slot="menu-item">Keyboard</menu-item>
                         <menu-item slot="menu-item">
                             Mouse
-                            <gameface-left-menu class="nested-menu-settings1" orientation="vertical">
+                            <gameface-left-menu>
                                 <menu-item slot="menu-item">Graphics</menu-item>
                                 <menu-item slot="menu-item">Keyboard</menu-item>
                                 <menu-item slot="menu-item">Mouse</menu-item>
@@ -37,12 +45,12 @@
                 </menu-item>
             </gameface-left-menu>
         </menu-item>
-        <menu-item slot="menu-item" id="hero" disabled>Hero Gallery</menu-item>
+        <menu-item slot="menu-item" disabled>Hero Gallery</menu-item>
         <menu-item slot="menu-item">Credits</menu-item>
-    </gameface-base-menu>
+    </gameface-menu>
 
 
-    <gameface-left-menu orientation="vertical" class="left-menu">
+    <gameface-left-menu class="left-menu">
         <menu-item slot="menu-item">
             Settings
             <gameface-left-menu class="nested-menu-left-settings" orientation="vertical">

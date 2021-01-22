@@ -1,7 +1,8 @@
 import components from 'coherent-gameface-components';
 import style from './left.css';
-import GamefaceBaseMenu from '../base/base';
-import {TAG_NAMES, KEYCODES} from '../../constants';
+import GamefaceMenu from '../menu';
+
+const KEYCODES = components.KEYCODES;
 
 const KEY_MAPPING = {
     FORWARD: KEYCODES.DOWN,
@@ -11,7 +12,7 @@ const KEY_MAPPING = {
     SELECT: KEYCODES.ENTER,
 };
 
-class GamefaceLeftMenu extends GamefaceBaseMenu {
+class GamefaceLeftMenu extends GamefaceMenu {
     constructor() {
         super();
 
@@ -20,27 +21,15 @@ class GamefaceLeftMenu extends GamefaceBaseMenu {
     }
 
     /**
-     * Sets the positions of the nested menus; doesn't need to be recursive
-     * because each menu calls it for itself
-     * @param {boolean} hide - the nested menus need to be hidden, by default the
-     * setup function won't hide them, but when the menus are rendered for the
-     * first time they'll be hidden
+     * Sets an inline style to properly position the element
+     * Different menus have use different properties - top, left, right or bottom
+     *
+     * @param {HTMLElement} element - the element that needs to be positioned
+     * @param {DOMRect} parentPosition - the bounding box of the parent element
     */
-    setupMenuItems(hide = false) {
-        const menuItems = this.getAllMenuItems();
-
-        for(let i = 0; i < menuItems.length; i++) {
-            const nested = menuItems[i].querySelector(TAG_NAMES);
-
-            if (!nested) continue;
-
-            const parentPosition = menuItems[i].getBoundingClientRect();
-
-            nested.style.left = parentPosition.width + 'px';
-            nested.style.top = '0px';
-
-            if (hide) nested.style.display = 'none';
-        }
+    setPosition(element, parentPosition) {
+        element.style.left = parentPosition.width + 'px';
+        element.style.top = '0px';
     }
 }
 
