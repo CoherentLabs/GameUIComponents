@@ -23,7 +23,7 @@ class Modal extends HTMLElement {
     connectedCallback() {
         components.loadResource(this)
             .then((response) => {
-                this.template = response[1].cloneNode(true);
+                this.template = response[1];
                 components.render(this);
                 this.attachEventListeners();
             })

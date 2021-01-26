@@ -22,7 +22,7 @@ class ScrollableContainer extends HTMLElement {
         // load the template
         components.loadResource(this)
             .then((response) => {
-                this.template = response[1].cloneNode(true);
+                this.template = response[1];
                 // render the component
                 components.render(this);
                 // do the initial setup - add event listeners, assign members
