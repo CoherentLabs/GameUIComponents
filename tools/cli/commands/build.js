@@ -5,7 +5,7 @@ const rollup = require('rollup');
 const terser = require('rollup-plugin-terser').terser;
 const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const html = require('rollup-plugin-html');
-const importCss = require('@atomico/rollup-plugin-import-css');
+const styles = require("rollup-plugin-styles");
 
 // The module formats which will be bundled
 const FORMATS = [
@@ -81,7 +81,7 @@ function build(watch) {
         plugins: [
             nodeResolve(),
             html(),
-            importCss()
+            styles()
         ],
     };
 
@@ -113,9 +113,10 @@ function build(watch) {
 */
 async function createBundle(inputOptions, outputOptions) {
     // create a bundle
-    const bundle = await rollup.rollup(inputOptions);
-    // and write the bundle to disk
-    await bundle.write(outputOptions);
+    return rollup.rollup(inputOptions).then(bundle => {
+         // and write the bundle to disk
+        bundle.write(outputOptions).then(() => console.log('success')).catch(err => console.error(err));
+    }).catch(err => console.error(err));
 }
 
 exports.command = 'build [--watch]';
