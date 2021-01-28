@@ -26,9 +26,9 @@ describe('Components Library', () => {
             template: '<div>This is a dummy template.</div>'
         };
 
-        const loadedResource = await components.loadResource(component);
-        expect(loadedResource[1]).toBeDefined();
-        expect(loadedResource[1].textContent).toEqual('This is a dummy template.');
+        const [loadedResource] = await components.loadResource(component);
+        expect(loadedResource).toBeDefined();
+        expect(loadedResource.textContent).toEqual('This is a dummy template.');
     });
 
     it('Should import link tag', () => {
@@ -135,9 +135,9 @@ describe('Components Library', () => {
             }
             connectedCallback() {
                 components.loadResource(this, this.template)
-                    .then((response) => {
-                        this.template = response[1];
-                        if (components.render(this)) {
+                    .then(([loadedTemplate]) => {
+                        this.template = loadedTemplate;
+                        if (components.renderOnce(this)) {
                             this.timesRendered += 1;
                         };
                     })
@@ -153,9 +153,9 @@ describe('Components Library', () => {
             }
             connectedCallback() {
                 components.loadResource(this, this.template)
-                    .then((response) => {
-                        this.template = response[1];
-                        if (components.render(this)) {
+                    .then(([loadedTemplate]) => {
+                        this.template = loadedTemplate;
+                        if (components.renderOnce(this)) {
                             this.timesRendered += 1;
                         };
                     })

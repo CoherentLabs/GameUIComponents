@@ -98,7 +98,12 @@ function buildEverything() {
             plugins: [
                 nodeResolve(),
                 html(),
-                styles()
+                styles({
+                    // add this to prevent automatic style injection
+                    // this function will be executed instead of the default
+                    // inject which adds style tags to the head
+                    mode: ["inject", (varname, id) => {}],
+                })
             ],
         };
 
@@ -118,11 +123,11 @@ function buildComponentsLibrary() {
  * Invokes the rollup JS API to create and write a bundle.
  * See https://rollupjs.org/guide/en/#rolluprollup.
 */
-async function createBundle(inputOptions, outputOptions) {
+function createBundle(inputOptions, outputOptions) {
     // create a bundle
     return rollup.rollup(inputOptions).then(bundle => {
         // and write the bundle to disk
-        bundle.write(outputOptions).then(() => console.log('success')).catch(err => console.error(err));
+        return bundle.write(outputOptions);
     }).catch(err => console.error(err));
 }
 

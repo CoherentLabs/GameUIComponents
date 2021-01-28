@@ -153,9 +153,9 @@ exports.scriptjs = `
         }
         connectedCallback() {
             components.loadResource(this)
-                .then((response) => {
-                    this.template = response[1];
-                    components.render(this);
+                .then(([loadedTemplate]) => {
+                    this.template = loadedTemplate;
+                    components.renderOnce(this);
                 })
                 .catch(err => console.error(err));
         }
