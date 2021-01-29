@@ -1,0 +1,32 @@
+{
+  "name": "gameface-example-ui",
+  "version": "1.0.0",
+  "description": "A component for Coherent Labs Gameface.",
+  "main": "script.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-example-component"
+  },
+  "keywords": [
+    "UI",
+    "Component"
+  ],
+  "files": [
+    "index.js",
+    "package.json",
+    "README.md",
+    "script.js",
+    "style.css",
+    "demo/",
+    "cjs/",
+    "umd/"
+  ],
+  "dependencies": {
+    "coherent-gameface-grid": "file:coherent-gameface-grid-1.0.0.tgz",
+    "gameface-menu": "file:gameface-menu-1.0.0.tgz",
+    "postmessage-polyfill": "1.0.0",
+    "whatwg-fetch": "3.4.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
