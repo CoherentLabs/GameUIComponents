@@ -6,14 +6,7 @@ import style from './style.css';
 let tabsCounter = 0;
 let panelsCounter = 0;
 
-const KEYCODE = {
-    DOWN: 40,
-    LEFT: 37,
-    RIGHT: 39,
-    UP: 38,
-    HOME: 36,
-    END: 35,
-};
+const KEYCODES = components.KEYCODES;
 
 class Tabs extends HTMLElement {
     constructor() {
@@ -201,22 +194,22 @@ class Tabs extends HTMLElement {
         // The switch-case will determine which tab should be marked as active
         // depending on the key that was pressed.
         let newTab;
-        switch (event.keyCode) {
-            case KEYCODE.LEFT:
-            case KEYCODE.UP:
+        switch (event.KEYCODES) {
+            case KEYCODES.LEFT:
+            case KEYCODES.UP:
                 newTab = this.getPrevTab();
                 break;
 
-            case KEYCODE.RIGHT:
-            case KEYCODE.DOWN:
+            case KEYCODES.RIGHT:
+            case KEYCODES.DOWN:
                 newTab = this.getNextTab();
                 break;
 
-            case KEYCODE.HOME:
+            case KEYCODES.HOME:
                 newTab = this.getFirstTab();
                 break;
 
-            case KEYCODE.END:
+            case KEYCODES.END:
                 newTab = this.getLastTab();
                 break;
             default:

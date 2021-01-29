@@ -1,0 +1,6 @@
+gameface-right-menu {
+    position: absolute;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,6 @@
+gameface-left-menu {
+    position: absolute;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+}

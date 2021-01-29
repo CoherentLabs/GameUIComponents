@@ -1,0 +1,6 @@
+gameface-bottom-menu {
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    flex-direction: row;
+}

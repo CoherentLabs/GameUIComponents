@@ -5,7 +5,7 @@
 }
 
 /* Regular Elements */
-input, textarea, button {
+input, textarea, button, menu-item {
 	border-color: var(--default-color-blue);
 	background-color: var(--default-color-white);
 }
@@ -16,7 +16,11 @@ button, input[type="button"] {
 
 /* Custom Components */
 tab-heading, tab-panel, /* Tabs Component */
-.modal /* Modal Component */
+.modal, /* Modal Component */
+gameface-menu,
+gameface-right-menu,
+gameface-left-menu,
+gameface-bottom-menu
 {
 	border-color: var(--default-color-blue);
 	background-color: var(--default-color-white);
