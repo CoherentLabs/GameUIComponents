@@ -12,8 +12,8 @@ menu-item.active {
     background-color: var(--default-color-blue);
 }
 
-menu-item:disabled {
-    background-color: var(--default-color-gray);
+menu-item[disabled] {
+    color: var(--default-color-gray);
     pointer-events: none;
 }
 

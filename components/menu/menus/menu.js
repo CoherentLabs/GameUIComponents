@@ -388,13 +388,13 @@ class MenuItem extends HTMLElement {
              // if the element is disabled, make it no longer selectable
              // by removing the tabindex
             this.removeAttribute('tabindex');
-            // remove the mouseenter and mouseleave listeners so that it's
+            // remove the mouseover and mouseout listeners so that it's
             // not possible to hover the element
-            this.removeEventListener('mouseenter', this.onMouseEnter);
-            this.removeEventListener('mouseleave', this.onMouseLeave);
+            this.removeEventListener('mouseover', this.onMouseOver);
+            this.removeEventListener('mouseout', this.onMouseOut);
         } else {
-            // if it's not disabled update the tabindex and attach the mouseenter and
-            // mouseleave listeners
+            // if it's not disabled update the tabindex and attach the mouseover and
+            // mouseout listeners
             const value = this.hasAttribute('selected');
             this.setAttribute('tabindex', value ? 0 : -1);
             this.attachEventListeners();
@@ -411,11 +411,11 @@ class MenuItem extends HTMLElement {
     }
 
     /**
-     * Attaches mouseenter and mouseleave event listeners
+     * Attaches mouseover and mouseout event listeners
     */
     attachEventListeners() {
-        this.addEventListener('mouseenter', this.onMouseEnter);
-        this.addEventListener('mouseleave', this.onMouseLeave);
+        this.addEventListener('mouseover', this.onMouseOver);
+        this.addEventListener('mouseout', this.onMouseOut);
     }
 
     /**
@@ -441,10 +441,11 @@ class MenuItem extends HTMLElement {
     }
 
     /**
-     * Called on mouseenter. Adds class hover.
+     * Called on mouseover. Adds class hover.
      * @param {MouseEvent} event
     */
-    onMouseEnter (event) {
+    onMouseOver (event) {
+        event.stopPropagation();
         const menuItem = event.target;
 
         if (menuItem.hasAttribute('selected')) return;
@@ -452,10 +453,11 @@ class MenuItem extends HTMLElement {
     }
 
     /**
-     * Called on mouseleave. Removes class hover.
+     * Called on mouseout. Removes class hover.
      * @param {MouseEvent} event
     */
-    onMouseLeave (event) {
+    onMouseOut (event) {
+        event.stopPropagation();
         const menuItem = event.target;
 
         if (!menuItem.classList.contains('hover')) return;
