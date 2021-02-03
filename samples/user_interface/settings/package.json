@@ -1,0 +1,38 @@
+{
+  "name": "gameface-example-ui",
+  "version": "1.0.0",
+  "description": "A component for Coherent Labs Gameface.",
+  "main": "script.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-example-component"
+  },
+  "keywords": [
+    "UI",
+    "Component"
+  ],
+  "files": [
+    "index.js",
+    "package.json",
+    "README.md",
+    "script.js",
+    "style.css",
+    "demo/",
+    "cjs/",
+    "umd/"
+  ],
+  "dependencies": {
+    "coherent-gameface-checkbox": "file:../../../components/checkbox/coherent-gameface-checkbox-1.0.0.tgz",
+    "coherent-gameface-components": "file:../../../lib/coherent-gameface-components-1.0.0.tgz",
+    "coherent-gameface-grid": "file:../../../components/grid/coherent-gameface-grid-1.0.0.tgz",
+    "coherent-gameface-modal": "file:../../../components/modal/coherent-gameface-modal-1.0.0.tgz",
+    "coherent-gameface-tabs": "file:../../../components/tabs/coherent-gameface-tabs-1.0.0.tgz",
+    "gameface-menu": "file:../../../components/menu/gameface-menu-1.0.0.tgz",
+    "gameface-scrollable-container": "file:../../../components/scrollable-container/gameface-scrollable-container-1.0.0.tgz",
+    "postmessage-polyfill": "1.0.0",
+    "slider": "file:../../../components/slider/slider-1.0.0.tgz",
+    "whatwg-fetch": "3.4.1"
+  },
+  "author": "",
+  "license": "ISC"
+}

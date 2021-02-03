@@ -22,8 +22,6 @@
     "umd/"
   ],
   "dependencies": {
-    "coherent-gameface-grid": "file:coherent-gameface-grid-1.0.0.tgz",
-    "gameface-menu": "file:gameface-menu-1.0.0.tgz",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
