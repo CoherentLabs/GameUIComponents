@@ -56,8 +56,8 @@ class GamefaceMenu extends HTMLElement {
         this.wasConnected = true;
 
         components.loadResource(this, this.template)
-            .then((response) => {
-                this.template = response[1].cloneNode(true);
+            .then(([loadedTemplate]) => {
+                this.template = loadedTemplate.cloneNode(true);
                 components.render(this);
 
                 this.removeEventListeners();

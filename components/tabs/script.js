@@ -29,9 +29,9 @@ class Tabs extends HTMLElement {
         this.panels = this.getElementsByTagName('tab-panel');
 
         components.loadResource(this)
-            .then((response) => {
-                this.template = response[1].cloneNode(true);
-                components.render(this);
+            .then(([loadedTemplate]) => {
+                this.template = loadedTemplate;
+                components.renderOnce(this);
             })
             .catch(err => console.error(err));
 
