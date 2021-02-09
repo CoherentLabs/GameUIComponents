@@ -80,9 +80,9 @@ The menu component can be configured entirely through HTML. The options in the m
 </gameface-menu>
 ```
 
-Note, that they have id attributes. We'll use them for the navigation. In order to keep this guide simple, We'll implement the simplest navigation. We'll use the ids of the menu items and the ids of their corresponding panels to match them. The naming convention that we'll use is:
+Note, that they have id attributes. We'll use them for the navigation. In order to keep this guide simple, we'll implement the simplest navigation. We'll use the ids of the menu items and the ids of their corresponding panels to match them. The naming convention that we'll use is:
 - menu item with id "name" is linked to panel with id "name-panel"
-If the id of a menu item is "interface", it's corresponding panel will have an id equal to "interface-panel". And we'll do that for all menu-items:
+If the id of a menu item is "interface", its corresponding panel will have an id equal to "interface-panel". And we'll do that for all menu-items:
 
 ```
 const menuItems = document.querySelectorAll('menu-item');
@@ -156,7 +156,7 @@ Note, that here we have an element that will hold the slider's value.
 
 Use different combinations of rows and columns to construct the layout you want.
 
-We also need to add a scrollable container. It will automatically display a scrollbar if the contend does not fit in its container.
+We also need to add a scrollable container. It will automatically display a scrollbar if the content does not fit in its container.
 
 
 Let's add it to the Interface panel. The scrollable container has one slot which contains the content which could overflow.
