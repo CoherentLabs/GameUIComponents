@@ -1,6 +1,6 @@
 #Creating a Settings Screen Using GameUIComponents
 
-All GameUI Component are node modules. This means that they can be installed
+All GameUI components are node modules. This means that they can be installed
 using the node package manager - npm. We'll use all components in this sample, so
 we'll need to installed them. To do this simply run
 
@@ -12,7 +12,7 @@ npm i coherent-gameface-checkbox
 npm i coherent-gameface-grid
 npm i coherent-gameface-modal
 npm i coherent-gameface-tabs
-npm i gameface-menu",
+npm i gameface-menu
 npm i gameface-scrollable-container
 ```
 
@@ -38,7 +38,7 @@ width. A row can be split into 12 equal parts. The class names are `guic-row` an
 `guic-col-n`, where n is a number from 1 to 12.
 
 Before we can use any of the components we must import them. To do so, add these
-script tags to the `bottom` of the screen:
+script tags to the **bottom** of the screen:
 
 ```
 <script src="node_modules/coherent-gameface-components/umd/components.development.js"></script>
@@ -80,13 +80,15 @@ The menu component can be configured entirely through HTML. The options in the m
 </gameface-menu>
 ```
 
-Note, that they have id attributes. We'll use them for the navigation. In order to keep this guide simple, We'll implement the simplest navigation. We'll use the ids of the menu items and the ids of their corresponding panels to match them. So if a click occurs on a menu item with id interface, we'll display an element that matches an id interface-panel. And we'll do that for all menu-items:
+Note, that they have id attributes. We'll use them for the navigation. In order to keep this guide simple, We'll implement the simplest navigation. We'll use the ids of the menu items and the ids of their corresponding panels to match them. The naming convention that we'll use is:
+- menu item with id "name" is linked to panel with id "name-panel"
+If the id of a menu item is "interface", it's corresponding panel will have an id equal to "interface-panel". And we'll do that for all menu-items:
 
 ```
 const menuItems = document.querySelectorAll('menu-item');
 for (let i = 0; i < menuItems.length; i++) {
     menuItems[i].addEventListener('click', (e) => {
-        const panel = document.querySelector(`#${e.currentTarget.id}-panel`);
+        const panel = document.getElementById(`${e.currentTarget.id}-panel`);
         const activePanel = document.querySelector('.active-panel');
         activePanel.classList.remove('active-panel');
         activePanel.classList.add('inactive-panel');
@@ -95,7 +97,7 @@ for (let i = 0; i < menuItems.length; i++) {
 }
 ```
 
-The active-panel and inactive-panel class names define css rules that change the display property of an element. We'll use them to toggle the visibility of the active and inactive panels.
+The `active-panel` and `inactive-panel` class names define CSS rules that change the display property of an element. We'll use them to toggle the visibility of the active and inactive panels.
 
 The first panel that we'll add is the one for the graphics options:
 
@@ -152,9 +154,9 @@ We'll use the same structure for all other controls. Here's how we'll use the sl
 
 Note, that here we have an element that will hold the slider's value.
 
-Use different combinations of rows and columns to construct the  layout you want.
+Use different combinations of rows and columns to construct the layout you want.
 
-We also need to add a scrollable container. It will automatically display a scrollbar of the contend does not fit in its container.
+We also need to add a scrollable container. It will automatically display a scrollbar if the contend does not fit in its container.
 
 
 Let's add it to the Interface panel. The scrollable container has one slot which contains the content which could overflow.
@@ -167,4 +169,4 @@ Let's add it to the Interface panel. The scrollable container has one slot which
 </div>
 ```
 
-This is how you can use the gameui components to create a user interface. Check the full example for more complex structure with a lot of components.
+This is how you can use the GameUI components to create a user interface. Check the full example for more complex structure with a lot of components.

@@ -79,6 +79,14 @@ class Slider extends HTMLElement {
          * ['clientX', 'width', 'widthPX', 'left', 'scrollWidth] for horizontal
         */
         this.units = orientationUnitsNames.get(this.orientation);
+
+        this.onSlideUp = (e) => { this.onSlideWithArrorws(-1); }
+        this.onSlideDown = (e) => { this.onSlideWithArrorws(1); }
+        this.onClick = this.onClick.bind(this);
+        this.onWheel = this.onWheel.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
     }
 
     /**
@@ -104,6 +112,7 @@ class Slider extends HTMLElement {
         this.slider = this.getElementsByClassName(`${this.orientation}-slider`)[0];
         this.handle = this.getElementsByClassName(`${this.orientation}-handle`)[0];
 
+        this.removeEventListeners();
         this.attachEventListeners();
     }
 
@@ -146,19 +155,35 @@ class Slider extends HTMLElement {
     }
 
     /**
+     * Remove event listeners.
+     */
+    removeEventListeners() {
+        // local listeners
+        this.slider.removeEventListener('click', this.onClick);
+        this.slider.removeEventListener('wheel', this.onWheel);
+        this.handle.removeEventListener('mousedown', this.onMouseDown);
+        this.querySelector('.up').removeEventListener('mousedown', this.onSlideUp);
+        this.querySelector('.down').removeEventListener('mousedown', this.onSlideDown);
+
+        // document listeners
+        document.removeEventListener('mousemove', this.onMouseMove);
+        document.removeEventListener('mouseup', this.onMouseUp);
+    }
+
+    /**
      * Add event listeners to handle user interaction.
     */
     attachEventListeners() {
         // local listeners
-        this.slider.addEventListener('click', (e) => this.onClick(e));
-        this.slider.addEventListener('wheel', (e) => this.onWheel(e));
-        this.handle.addEventListener('mousedown', (e) => this.onMouseDown(e));
-        this.querySelector('.up').addEventListener('mousedown', () => this.onSlideWithArrorws(-1));
-        this.querySelector('.down').addEventListener('mousedown', () => this.onSlideWithArrorws(1));
+        this.slider.addEventListener('click', this.onClick);
+        this.slider.addEventListener('wheel', this.onWheel);
+        this.handle.addEventListener('mousedown', this.onMouseDown);
+        this.querySelector('.up').addEventListener('mousedown', this.onSlideUp);
+        this.querySelector('.down').addEventListener('mousedown', this.onSlideDown);
 
         // document listeners
-        document.addEventListener('mousemove', (e) => this.onMouseMove(e));
-        document.addEventListener('mouseup', (e) => this.onMouseUp(e));
+        document.addEventListener('mousemove', this.onMouseMove);
+        document.addEventListener('mouseup', this.onMouseUp);
     }
 
     /**

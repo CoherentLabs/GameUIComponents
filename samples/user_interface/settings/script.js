@@ -1,5 +1,5 @@
-const tabs = document.querySelector('gameface-tabs');
-tabs.selectTab(tabs.querySelector('tab-heading'));
+const tabsContainer = document.querySelector('gameface-tabs');
+tabsContainer.selectTab(tabsContainer.querySelector('tab-heading'));
 
 function setupScrollbars() {
     const scrollableContainers = document.querySelectorAll('scrollable-container');
@@ -20,7 +20,7 @@ setupScrollbars();
 const menuItems = document.querySelectorAll('menu-item');
 for (let i = 0; i < menuItems.length; i++) {
     menuItems[i].addEventListener('click', (e) => {
-        const panel = document.querySelector(`#${e.currentTarget.id}-panel`);
+        const panel = document.getElementById(`${e.currentTarget.id}-panel`);
         const activePanel = document.querySelector('.active-panel');
         activePanel.classList.remove('active-panel');
         activePanel.classList.add('inactive-panel');

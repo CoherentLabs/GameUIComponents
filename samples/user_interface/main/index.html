@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="node_modules/coherent-gameface-grid/dist/grid.production.min.css"></link>
+    <link rel="stylesheet" href="node_modules/coherent-gameface-grid/dist/grid.production.min.css">
+    </link>
     <style>
         body {
             background-color: grey;
@@ -23,38 +25,48 @@
             padding-bottom: 5px;
             padding-top: 5px;
         }
+
         .left-menu {
-                    font-size: 26px;
-                    top: 30vh;
-                    left: 20vh;
-                    background-color: transparent;
-                }
+            font-size: 26px;
+            top: 30vh;
+            left: 20vh;
+            background-color: transparent;
+        }
 
-                .left-menu menu-item {
-                    padding: 0px;
-                }
+        .left-menu menu-item {
+            padding: 0px;
+        }
 
-                menu-item:hover {
-                    background-color: #707070;
-                }
+        menu-item:hover {
+            background-color: #707070;
+        }
 
-                gameface-bottom-menu.bottom-menu {
-                    right: 50px;
-                    background-color: transparent;
-                }
+        .bottom-menu {
+            right: 50px;
+            background-color: transparent;
+        }
 
-                menu-item {
-                    background-color: transparent;
-                }
+        menu-item {
+            background-color: transparent;
+        }
     </style>
 
 </head>
+
 <body>
     <gameface-left-menu class="left-menu">
-        <menu-item slot="menu-item"> <div class="option">New Game</div></menu-item>
-        <menu-item slot="menu-item"> <div class="option">Social</div></menu-item>
-        <menu-item slot="menu-item"> <div class="option">Options</div></menu-item>
-        <menu-item slot="menu-item"> <div class="option">Quit Game</div></menu-item>
+        <menu-item slot="menu-item">
+            <div class="option">New Game</div>
+        </menu-item>
+        <menu-item slot="menu-item">
+            <div class="option">Social</div>
+        </menu-item>
+        <menu-item slot="menu-item">
+            <div class="option">Options</div>
+        </menu-item>
+        <menu-item slot="menu-item">
+            <div class="option">Quit Game</div>
+        </menu-item>
     </gameface-left-menu>
 
     <gameface-bottom-menu class="bottom-menu">
@@ -67,4 +79,5 @@
     <script src="node_modules/coherent-gameface-components/umd/components.development.js"></script>
     <script src="node_modules/gameface-menu/umd/menu.development.js"></script>
 </body>
+
 </html>
