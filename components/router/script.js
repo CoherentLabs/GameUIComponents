@@ -43,32 +43,64 @@ class Router {
         if (history) {
             this.history = history;
 
+            window.onpopstate = (event) => {
+                console.log('onpopstate', window.location.href.replace('C:', ''))
+                // this.navigateTo(window.location.href.replace('C:', ''));
+            };
+
             this.history.listen((current) => {
                 this.navigateTo(current);
             });
         }
     }
 
-    navigateTo(current) {
-        console.log('current history', current);
 
-        const bestMatchedRoute = this.matches(current, this.routes)[0];
+    parseURL(url) {
+        const parse_url_exp = new RegExp([
+            '(.+?(?=\/))'                     // host
+            , '(/[^?#]*|)'                    // pathname
+            , '(\\?([^#]*)|)'                 // search & query
+          ].join(''));
+
+        const parses_url_map = {
+            host:     1
+          , pathname: 2
+          , search  : 3
+          , query   : 4
+        }
+
+        let match = url.match(parse_url_exp);
+
+        if(!match || !match.length) return; // not valid error?
+
+        const parsedURL = {...{}, ...parses_url_map};
+        const parsedURLKeys = Object.keys(parsedURL);
+
+        for(let i = 0; i < parsedURLKeys.length; i++) {
+            const key = parsedURLKeys[i];
+            if (match[parsedURL[key]]) parsedURL[key] = match[parsedURL[key]];
+        }
+
+        return parsedURL;
+    }
+
+    navigateTo(current, root) {
+        const matches = this.matches(current, this.routes);
+        const bestMatchedRoute = matches.routes[0];
+        const params = matches.params;
         const component = this.routes[bestMatchedRoute];
-
 
         if(!component) return;
         if(component instanceof Router) {
-            // debugger
-            // TODO: fix
-            const root = this.getSegmetsFromURL(bestMatchedRoute)[0];
-            component.navigateTo(current.split('/'+root)[1]);
+            const url = this.parseURL(current);
+            component.navigateTo(url.pathname, this.routes[url.host]);
         } else {
             let view = document.querySelector('router-view');
             const el = document.createElement(component);
+            el.params = params;
 
-            if(this.root) {
-                debugger
-                view = document.querySelector(this.root).querySelector('router-view');
+            if(root) {
+                view = document.querySelector(root).querySelector('router-view');
             }
 
             view.innerHTML = '';
@@ -77,6 +109,7 @@ class Router {
     }
 
     getSegmetsFromURL(url) {
+        // suport single slash / for home
         const slashes = new RegExp(/(^\/+|\/+$)/, 'g');
         return url.replace(slashes, '').split('/');
     }
@@ -84,6 +117,7 @@ class Router {
     matches(currentURL, routes) {
         // if (routes[currentURL]) return routes[currentURL];
         const star = new RegExp(/\*\*/);
+        const parameter = new RegExp(/(:.*)/);
         const flags = new RegExp(/[+*?]+$/);
         // matches all slashes in the beginning and the end of the url
         
@@ -91,8 +125,11 @@ class Router {
         // currentURL:   /heroes/tanks
         // routes[i]: /heroes
         // routes[i]: /heroes/**
-    
+        
+        // debugger
+
         let matches = [];
+        let params = {};
         const currentURLSegments = this.getSegmetsFromURL(currentURL);
         const routesKeys = Object.keys(routes);
 
@@ -109,21 +146,24 @@ class Router {
                 const urlSegment = currentURLSegments[i];
                 // no match
                 if (!routeSegment || !urlSegment) continue;
-                if(urlSegment !== routeSegment && !routeSegment.match(star)) continue;
+                if(urlSegment !== routeSegment && !routeSegment.match(parameter)) continue;
     
                 if(urlSegment === routeSegment) {
                     currentMatch += '/' + routeSegment;
                     if (matches.indexOf(currentMatch) === -1) matches.push(currentMatch);
                 }
-    
-                if(routeSegment.match(star)) {
+                
+                const urlParam = routeSegment.match(parameter);
+
+                if(urlParam) {
                     currentMatch += '/' + routeSegment;
+                    params[urlParam[0].replace(':', '')] = urlSegment;
                     matches.push(currentMatch);
                 }
             }
         }
 
-        return matches.sort((a, b) => a.length > b.length ? -1: 1);
+        return {routes: matches.sort((a, b) => a.length > b.length ? -1: 1), params: params};
     }
 }
 
@@ -140,8 +180,8 @@ class GamefaceRoute extends HTMLElement {
             const route = e.currentTarget;
             const url = route.getAttribute('to');
 
-            const state = { test: '1' };
-            const title = '';
+            const state = { current: url };
+            const title = url;
 
             this.history.pushState(state, title, url);
         });
@@ -185,7 +225,7 @@ class StartGame extends HTMLElement {
 class Healers extends HTMLElement {
     constructor() {
         super();
-        this.template = `<div>Healers</div>`;
+        this.template = `<div><div>Healers</div><p></p><div class="menu"><gameface-route slot="route" to="/heroes/healers/priest">Priest</gameface-route><gameface-route slot="route" to="/heroes/healers/monk">Monk</gameface-route><gameface-route slot="route" to="/heroes/healers/paladin">Paladin</gameface-route><gameface-route slot="route" to="/heroes/healers/paladin/sasho/100">Shasho</gameface-route></div><router-view></router-view></div>`;
     }
 
     connectedCallback() {
@@ -219,7 +259,18 @@ class DPS extends HTMLElement {
 class Tanks extends HTMLElement {
     constructor() {
         super();
-        this.template = `<div>Tanks</div>`;
+        this.template = `
+        <div>
+            <div>Tanks Container:</div>
+            <p></p>
+            <div class="menu">
+                <gameface-route slot="route" to="/heroes/tanks/one">Tank One</gameface-route>
+                <gameface-route slot="route" to="/heroes/tanks/two">Tank Two</gameface-route>
+                <gameface-route slot="route" to="/heroes/tanks/three">Tank Three</gameface-route>
+            </div>
+                <p></p>
+            <router-view></router-view>
+        </div>`;
     }
 
     connectedCallback() {
@@ -236,14 +287,27 @@ class Tanks extends HTMLElement {
 class Heroes extends HTMLElement {
     constructor() {
         super();
+        this.template = `<div><div>Heroes:</div><div class="menu"><gameface-route slot="route" to="/heroes/tanks">Tanks</gameface-route><gameface-route slot="route" to="/heroes/healers">Healers</gameface-route><gameface-route slot="route" to="/heroes/dps">Damage Dealers</gameface-route></div><router-view></router-view></div>`;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then(([loadedTemplate]) => {
+                this.template = loadedTemplate;
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
+    }
+}
+
+class TankOne extends HTMLElement {
+    constructor() {
+        super();
         this.template = `
         <div>
-            <div>Heroes:</div>
-            <gameface-route slot="route" to="/heroes/tanks">Tanks</gameface-route>
-            <gameface-route slot="route" to="/heroes/healers">Healers</gameface-route>
-            <gameface-route slot="route" to="/heroes/dps">Damage Dealers</gameface-route>
+            <div>Tank One:</div>
+            <p>Tank One is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p>
 
-            <router-view></router-view>
         </div>`;
     }
 
@@ -251,6 +315,85 @@ class Heroes extends HTMLElement {
         components.loadResource(this)
             .then(([loadedTemplate]) => {
                 this.template = loadedTemplate;
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
+    }
+}
+
+class TankTwo extends HTMLElement {
+    constructor() {
+        super();
+        this.template = `
+        <div>
+            <div>Tank Two:</div>
+            <p>Tank Two is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p>
+
+        </div>`;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then(([loadedTemplate]) => {
+                this.template = loadedTemplate;
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
+    }
+}
+
+class TankThree extends HTMLElement {
+    constructor() {
+        super();
+        this.template = `
+        <div>
+            <div>Tank Three:</div>
+            <p>Tank Three is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p>
+
+        </div>`;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then(([loadedTemplate]) => {
+                this.template = loadedTemplate;
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
+    }
+}
+
+class Healer extends HTMLElement {
+    constructor() {
+        super();
+
+        this.healers = {
+            'priest': {
+                name: 'Farondis',
+                strength: 100
+            },
+            'paladin': {
+                name: 'Flynn',
+                strength: 90
+            },
+            'monk': {
+                name: 'Cho',
+                strength: 110
+            },
+        }
+
+       this.template = `<div><div>Name: <span id="name"></span></div><div>Strength: <span id="strength"></span></div></div>`;
+    }
+
+    connectedCallback() {
+        const id = this.params.id;
+        this.model = this.healers[id];
+
+        components.loadResource(this)
+            .then(([loadedTemplate]) => {
+                this.template = loadedTemplate;
+                this.template.querySelector('#name').textContent = this.model.name;
+                this.template.querySelector('#strength').textContent = this.model.strength;
                 components.renderOnce(this);
             })
             .catch(err => console.error(err));
@@ -280,19 +423,36 @@ components.defineCustomElement('start-game-page', StartGame);
 components.defineCustomElement('heroes-page', Heroes);
 components.defineCustomElement('tanks-page', Tanks);
 components.defineCustomElement('healers-page', Healers);
+components.defineCustomElement('healer-page', Healer);
 components.defineCustomElement('dps-page', DPS);
+components.defineCustomElement('tank-one-page', TankOne);
+components.defineCustomElement('tank-two-page', TankTwo);
+components.defineCustomElement('tank-three-page', TankThree);
 components.defineCustomElement('router-view', RouterView);
 
 
+let tanksRouter = new Router({
+    '/one'     : 'tank-one-page',
+    '/two'     : 'tank-two-page',
+    '/three'   : 'tank-three-page',
+});
+
 let heroesRouter = new Router({
-    '/dps'     : 'dps-page',
-    '/healers' : 'healers-page',
-    '/tanks'   : 'tanks-page',
-}, null, 'heroes-page');
+    '/dps'         : 'dps-page',
+    '/healers'     : 'healers-page',
+    '/healers/:id/:name/:age' : 'healer-page',
+    '/tanks'       : 'tanks-page',
+    '/tanks/:id'   : tanksRouter,
+});
 
 let router = new Router({
-    '/'           : 'home-page',
+    '/home'       : 'home-page',
     '/start-game' : 'start-game-page',
     '/heroes'     : 'heroes-page',
-    '/heroes/**'  : heroesRouter,
+    '/heroes/:id'  : heroesRouter,
 }, browserHistory);
+
+
+const state = { current: '/home' };
+const title = 'home';
+browserHistory.pushState(state, title, '/home');
