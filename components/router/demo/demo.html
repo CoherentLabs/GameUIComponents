@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        .menu {
+            display: flex;
+            flex-direction: row;
+        }
+
+        gameface-route {
+            background-color: gray;
+            margin-left: 10px;
+        }
+    </style>
+<body>
+
+    <!-- <gameface-route slot="route" to="/back">Back</gameface-route> -->
+    <div class="menu">
+        <gameface-route slot="route" to="/home">Home</gameface-route>
+        <gameface-route slot="route" to="/start-game">Start Game</gameface-route>
+        <gameface-route slot="route" to="/heroes">Heroes</gameface-route>
+    </div>
+    
+    <router-view></router-view>
+
+    <script src="../node_modules/coherent-gameface-components/umd/components.development.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>

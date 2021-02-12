@@ -44,8 +44,14 @@ class Router {
             this.history = history;
 
             window.onpopstate = (event) => {
-                console.log('onpopstate', window.location.href.replace('C:', ''))
-                // this.navigateTo(window.location.href.replace('C:', ''));
+                if(!window.history || !window.history.state) return;
+                console.log(window.history.state.current);
+                // console.log('onpopstate', window.location.href.replace('C:', ''))
+                console.log('onpopstate', window.history.state.current);
+                // history.pushState({current: window.history.state.current}, '', window.history.state.current)
+                 setTimeout(() => {
+                    this.navigateTo(window.history.state.current);
+                 }, 0);
             };
 
             this.history.listen((current) => {
@@ -84,28 +90,25 @@ class Router {
         return parsedURL;
     }
 
-    navigateTo(current, root) {
-        const matches = this.matches(current, this.routes);
-        const bestMatchedRoute = matches.routes[0];
-        const params = matches.params;
-        const component = this.routes[bestMatchedRoute];
-
-        if(!component) return;
-        if(component instanceof Router) {
-            const url = this.parseURL(current);
-            component.navigateTo(url.pathname, this.routes[url.host]);
-        } else {
-            let view = document.querySelector('router-view');
+    navigateTo(current) {
+            const matches = this.matches(current, this.routes);
+        
+            const bestMatchedRoute = matches.routes[0];
+            const params = matches.params;
+            const component = this.routes[bestMatchedRoute];
+    
+            if(!component) return;
+            if(component instanceof Router) {
+                const url = this.parseURL(current);
+                component.navigateTo(url.pathname);
+                return;
+            }
+            const view = document.querySelector('router-view');
             const el = document.createElement(component);
             el.params = params;
 
-            if(root) {
-                view = document.querySelector(root).querySelector('router-view');
-            }
-
             view.innerHTML = '';
             view.appendChild(el);
-        }
     }
 
     getSegmetsFromURL(url) {
@@ -259,18 +262,7 @@ class DPS extends HTMLElement {
 class Tanks extends HTMLElement {
     constructor() {
         super();
-        this.template = `
-        <div>
-            <div>Tanks Container:</div>
-            <p></p>
-            <div class="menu">
-                <gameface-route slot="route" to="/heroes/tanks/one">Tank One</gameface-route>
-                <gameface-route slot="route" to="/heroes/tanks/two">Tank Two</gameface-route>
-                <gameface-route slot="route" to="/heroes/tanks/three">Tank Three</gameface-route>
-            </div>
-                <p></p>
-            <router-view></router-view>
-        </div>`;
+        this.template = `<div><div>Tanks Container:</div><p></p><div class="menu"><gameface-route slot="route" to="/heroes/tanks/one">Tank One</gameface-route><gameface-route slot="route" to="/heroes/tanks/two">Tank Two</gameface-route><gameface-route slot="route" to="/heroes/tanks/three">Tank Three</gameface-route></div><p></p><router-view></router-view></div>`;
     }
 
     connectedCallback() {
@@ -303,12 +295,7 @@ class Heroes extends HTMLElement {
 class TankOne extends HTMLElement {
     constructor() {
         super();
-        this.template = `
-        <div>
-            <div>Tank One:</div>
-            <p>Tank One is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p>
-
-        </div>`;
+        this.template = `<div><div>Tank One:</div><p>Tank One is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p></div>`;
     }
 
     connectedCallback() {
@@ -324,12 +311,7 @@ class TankOne extends HTMLElement {
 class TankTwo extends HTMLElement {
     constructor() {
         super();
-        this.template = `
-        <div>
-            <div>Tank Two:</div>
-            <p>Tank Two is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p>
-
-        </div>`;
+        this.template = `<div><div>Tank Two:</div><p>Tank Two is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p></div>`;
     }
 
     connectedCallback() {
@@ -345,12 +327,7 @@ class TankTwo extends HTMLElement {
 class TankThree extends HTMLElement {
     constructor() {
         super();
-        this.template = `
-        <div>
-            <div>Tank Three:</div>
-            <p>Tank Three is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p>
-
-        </div>`;
+        this.template = `<div><div>Tank Three:</div><p>Tank Three is the very first tank in the Evergloom. It uses its roots to defend the realm of trees.</p></div>`;
     }
 
     connectedCallback() {
@@ -440,7 +417,7 @@ let tanksRouter = new Router({
 let heroesRouter = new Router({
     '/dps'         : 'dps-page',
     '/healers'     : 'healers-page',
-    '/healers/:id/:name/:age' : 'healer-page',
+    '/healers/:id' : 'healer-page',
     '/tanks'       : 'tanks-page',
     '/tanks/:id'   : tanksRouter,
 });
