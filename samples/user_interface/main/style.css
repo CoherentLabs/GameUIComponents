@@ -1,0 +1,41 @@
+body {
+    background-color: grey;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    color: #dadada;
+}
+
+.option {
+    width: 300px;
+    border-bottom-style: solid;
+    border-bottom-color: #dadada;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.left-menu {
+    font-size: 26px;
+    top: 30vh;
+    left: 20vh;
+    background-color: transparent;
+}
+
+.left-menu menu-item {
+    padding: 0px;
+}
+
+menu-item:hover {
+    background-color: #707070;
+}
+
+gameface-bottom-menu.bottom-menu {
+    right: 50px;
+    background-color: transparent;
+}
+
+menu-item {
+    background-color: transparent;
+}

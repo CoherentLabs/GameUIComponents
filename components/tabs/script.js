@@ -58,7 +58,7 @@ class Tabs extends HTMLElement {
     */
     onClick(event) {
         // avoid all cases except when the target is a tab heading.
-        if (event.target.tagName === 'TAB-HEADING') {
+        if (event.target.tagName.toLowerCase() === 'tab-heading') {
             this.selectTab(event.target);
         }
     }
@@ -189,7 +189,7 @@ class Tabs extends HTMLElement {
      * @param {KeyboardEvent} event - the event object
     */
     onKeyDown(event) {
-        if (event.target.tagName !== 'TAB-HEADING' || event.altKey) return;
+        if (event.target.tagName.toLowerCase() !== 'tab-heading' || event.altKey) return;
 
         // The switch-case will determine which tab should be marked as active
         // depending on the key that was pressed.
