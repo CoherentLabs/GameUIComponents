@@ -8,6 +8,12 @@ class BrowserHistory {
     constructor() {
         this.listeners = [];
         this.current = '';
+        this.currentRouteId = 0;
+    }
+
+    onBeforeNavigation() {
+        console.log('--- onBeforeNavigation');
+        return true;
     }
 
     listen(callback) {
@@ -21,7 +27,9 @@ class BrowserHistory {
     }
 
     go(index) {
-        return history.go(index);
+        if (this.onBeforeNavigation(() => history.go(), [index])) {
+            return history.go(index);
+        }
     }
 
     pushState(state, title, url) {
@@ -31,28 +39,63 @@ class BrowserHistory {
 
         return result;
     }
+
+    back() {
+        if (this.onBeforeNavigation( () => history.back(), [])) {
+            history.back();
+        }
+    }
+
+    forward() {
+        if (this.onBeforeNavigation(() => history.forward(), [])) {
+            history.forward();
+        }
+    }
 }
 
 const browserHistory = new BrowserHistory();
 
+browserHistory.onBack = function() {
+    // navigate
+    return true;
+    // don't navigate
+    return false;
+}
+
+
 class Router {
-    constructor(routes, history, root) {
+    constructor(routes, history, onBeforeNavigation = () => {return true}) {
         this.routes = routes;
-        this.root = root || null;
 
         if (history) {
             this.history = history;
+            this.history.onBeforeNavigation = onBeforeNavigation;
 
-            window.onpopstate = (event) => {
+            window.addEventListener('popstate', (event) => {
                 if(!window.history || !window.history.state) return;
-                console.log(window.history.state.current);
-                // console.log('onpopstate', window.location.href.replace('C:', ''))
-                console.log('onpopstate', window.history.state.current);
-                // history.pushState({current: window.history.state.current}, '', window.history.state.current)
+
+                let callback;
+
+                if(this.isBack(browserHistory.currentRouteId, event.state.id)) {
+                    this.history.currentRouteId -= 1;
+                    callback = () => window.history.back;
+                } else if (this.isForward(browserHistory.currentRouteId, event.state.id)) {
+                    this.history.currentRouteId += 1;
+                    callback = () => window.history.forward;
+                }
                  setTimeout(() => {
-                    this.navigateTo(window.history.state.current);
+                    if (history.onBeforeNavigation(() => {
+                        callback();
+                        this.navigateTo(window.history.state.current);
+                    }, [])) {
+                        // console.log('onpopstate --- onBeforeNavigation');
+                    }
                  }, 0);
-            };
+            });
+
+            window.addEventListener("beforeunload", function(event) {
+                console.log();
+             });
 
             this.history.listen((current) => {
                 this.navigateTo(current);
@@ -60,6 +103,13 @@ class Router {
         }
     }
 
+    isBack(previous, current) {
+        return previous > current;
+    }
+
+    isForward(previous, current) {
+        return previous < current;
+    }
 
     parseURL(url) {
         const parse_url_exp = new RegExp([
@@ -91,24 +141,24 @@ class Router {
     }
 
     navigateTo(current) {
-            const matches = this.matches(current, this.routes);
-        
-            const bestMatchedRoute = matches.routes[0];
-            const params = matches.params;
-            const component = this.routes[bestMatchedRoute];
-    
-            if(!component) return;
-            if(component instanceof Router) {
-                const url = this.parseURL(current);
-                component.navigateTo(url.pathname);
-                return;
-            }
-            const view = document.querySelector('router-view');
-            const el = document.createElement(component);
-            el.params = params;
+        const matches = this.matches(current, this.routes);
+        const bestMatchedRoute = matches.matchedConfig;
+        const params = matches.routeParams;
+        const component = this.routes[bestMatchedRoute];
 
-            view.innerHTML = '';
-            view.appendChild(el);
+        if(!component) return;
+        if(component instanceof Router) {
+            const url = this.parseURL(current);
+            component.navigateTo(url.pathname);
+            return;
+        }
+        const view = document.querySelector('router-view');
+        const el = document.createElement(component);
+        // TODO rename - route params
+        el.params = params;
+
+        view.innerHTML = '';
+        view.appendChild(el);
     }
 
     getSegmetsFromURL(url) {
@@ -118,55 +168,43 @@ class Router {
     }
 
     matches(currentURL, routes) {
-        // if (routes[currentURL]) return routes[currentURL];
-        const star = new RegExp(/\*\*/);
-        const parameter = new RegExp(/(:.*)/);
-        const flags = new RegExp(/[+*?]+$/);
-        // matches all slashes in the beginning and the end of the url
-        
-    
-        // currentURL:   /heroes/tanks
-        // routes[i]: /heroes
-        // routes[i]: /heroes/**
-        
-        // debugger
+        let isHome = currentURL === '/';
+        if(isHome) {
+            return {matchedConfig: currentURL, params: {}}
+        }
 
-        let matches = [];
-        let params = {};
-        const currentURLSegments = this.getSegmetsFromURL(currentURL);
-        const routesKeys = Object.keys(routes);
+        let isExact = true;
 
-        for (let r = 0; r < routesKeys.length; r++) {
-            let currentMatch = '';
-            // debugger
-            const route = routesKeys[r];
-            const routeSegments = this.getSegmetsFromURL(route);
-    
-            let max = Math.max(currentURLSegments.length, routeSegments.length);
-    
-            for(let i = 0; i < max; i++) {
-                const routeSegment = routeSegments[i];
-                const urlSegment = currentURLSegments[i];
-                // no match
-                if (!routeSegment || !urlSegment) continue;
-                if(urlSegment !== routeSegment && !routeSegment.match(parameter)) continue;
-    
-                if(urlSegment === routeSegment) {
-                    currentMatch += '/' + routeSegment;
-                    if (matches.indexOf(currentMatch) === -1) matches.push(currentMatch);
-                }
-                
-                const urlParam = routeSegment.match(parameter);
+        let matchedConfiguration = [];
+        const routeKeys = Object.keys(routes);
+        for(let i = 0; i < routeKeys.length; i++) {
+            const url = routeKeys[i];
+            if(url === '/' || url === '**') continue;
+            const isNested = this.routes[url] instanceof Router;
+            isExact = !isNested;
 
-                if(urlParam) {
-                    currentMatch += '/' + routeSegment;
-                    params[urlParam[0].replace(':', '')] = urlSegment;
-                    matches.push(currentMatch);
-                }
+            let routeParams = {};
+            let configuration = url.split('/').filter((n) => n).map((segment, index) => {
+                if (segment.substr(0, 1) !== ':') return segment;
+                routeParams[segment.substr(1)] = currentURL.split('/')[index + 1];
+                return '([a-z0-9]+)';
+            });
+
+            let finalRegex = configuration.join('/');
+            let urlRegex = isExact ? new RegExp(`^(\/${finalRegex})$`, 'g') : new RegExp(`^(\/${finalRegex})`, 'g') ;
+            const result = currentURL.match(urlRegex);
+            if (result) {
+                matchedConfiguration.push({ matchedConfig: url, matchedURL: result[0], routeParams });
             }
         }
 
-        return {routes: matches.sort((a, b) => a.length > b.length ? -1: 1), params: params};
+        if(!matchedConfiguration.length) {
+            // 404 or home
+            let fallbackRoute = this.routes['**'] ? '**' : '/';
+            matchedConfiguration.push({matchedConfig: fallbackRoute});
+        }
+
+        return matchedConfiguration[0];
     }
 }
 
@@ -183,7 +221,10 @@ class GamefaceRoute extends HTMLElement {
             const route = e.currentTarget;
             const url = route.getAttribute('to');
 
-            const state = { current: url };
+            this.history.currentRouteId;
+            this.history.currentRouteId += 1;
+
+            const state = { current: url, id: this.history.currentRouteId};
             const title = url;
 
             this.history.pushState(state, title, url);
@@ -262,7 +303,7 @@ class DPS extends HTMLElement {
 class Tanks extends HTMLElement {
     constructor() {
         super();
-        this.template = `<div><div>Tanks Container:</div><p></p><div class="menu"><gameface-route slot="route" to="/heroes/tanks/one">Tank One</gameface-route><gameface-route slot="route" to="/heroes/tanks/two">Tank Two</gameface-route><gameface-route slot="route" to="/heroes/tanks/three">Tank Three</gameface-route></div><p></p><router-view></router-view></div>`;
+        this.template = `<div><div>Tanks Container:</div><p></p><div class="menu"><gameface-route slot="route" to="/heroes/tanks/one/79/12">Tank One</gameface-route><gameface-route slot="route" to="/heroes/tanks/two">Tank Two</gameface-route><gameface-route slot="route" to="/heroes/tanks/three">Tank Three</gameface-route></div><p></p><router-view></router-view></div>`;
     }
 
     connectedCallback() {
@@ -394,6 +435,23 @@ class RouterView extends HTMLElement {
     }
 }
 
+class NotFound extends HTMLElement {
+    constructor() {
+        super();
+        this.template = `<div>404</div>`;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then(([loadedTemplate]) => {
+                this.template = loadedTemplate;
+                
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
+    }
+}
+
 components.defineCustomElement('gameface-route', GamefaceRoute);
 components.defineCustomElement('home-page', Home);
 components.defineCustomElement('start-game-page', StartGame);
@@ -406,10 +464,11 @@ components.defineCustomElement('tank-one-page', TankOne);
 components.defineCustomElement('tank-two-page', TankTwo);
 components.defineCustomElement('tank-three-page', TankThree);
 components.defineCustomElement('router-view', RouterView);
+components.defineCustomElement('not-found-page', NotFound);
 
 
 let tanksRouter = new Router({
-    '/one'     : 'tank-one-page',
+    '/one/:health/:mana'     : 'tank-one-page',
     '/two'     : 'tank-two-page',
     '/three'   : 'tank-three-page',
 });
@@ -419,17 +478,43 @@ let heroesRouter = new Router({
     '/healers'     : 'healers-page',
     '/healers/:id' : 'healer-page',
     '/tanks'       : 'tanks-page',
-    '/tanks/:id'   : tanksRouter,
+    '/tanks/:id'   : tanksRouter, 
 });
 
 let router = new Router({
-    '/home'       : 'home-page',
+    '/'       : 'home-page',
     '/start-game' : 'start-game-page',
     '/heroes'     : 'heroes-page',
-    '/heroes/:id'  : heroesRouter,
-}, browserHistory);
+    '/heroes/:id' : heroesRouter,
+    '**'          : 'not-found-page'
+}, browserHistory, (callback, params) => {
+    const confirmationDialog = document.createElement('div');
+    const message = document.createElement('p');
+    const confirmButton = document.createElement('button');
+    const discardButton = document.createElement('button');
+
+    message.textContent = 'Are you sure you want to navigate?';
+    confirmButton.textContent = 'Yes';
+    discardButton.textContent = 'No';
+
+    confirmButton.onclick = () => {
+        callback.apply(null, params);
+        confirmationDialog.parentElement.removeChild(confirmationDialog);
+    }
+
+    discardButton.onclick = () => {
+        confirmationDialog.parentElement.removeChild(confirmationDialog);
+    }
+
+    confirmationDialog.appendChild(confirmButton);
+    confirmationDialog.appendChild(discardButton);
+
+    document.body.appendChild(confirmationDialog);
+
+    return false;
+});
 
 
-const state = { current: '/home' };
+const state = { current: '/', id: browserHistory.currentRouteId };
 const title = 'home';
-browserHistory.pushState(state, title, '/home');
+browserHistory.pushState(state, title, '/');
