@@ -3,27 +3,47 @@
     <style>
         .menu {
             display: flex;
-            flex-direction: row;
+            align-items: center;
+            border: 1px solid #a5a3a3;
+            height: 25px;
+            margin-bottom: 25px;
         }
 
-        gameface-route {
-            background-color: gray;
-            margin-left: 10px;
+        body {
+            background-color: #fff;
+        }
+
+        .active {
+            color: var(--default-color-blue);
         }
     </style>
 <body>
-
-    <!-- <gameface-route slot="route" to="/back">Back</gameface-route> -->
     <div class="menu">
-        <gameface-route slot="route" to="/">Home</gameface-route>
-        <gameface-route slot="route" to="/start-game">Start Game</gameface-route>
-        <gameface-route slot="route" to="/heroes">Heroes</gameface-route>
-        <gameface-route slot="route" to="/asdasds">Heroes</gameface-route>
+        <gameface-route class="active" to="/">Home</gameface-route>
+        <gameface-route to="/start-game">Start Game</gameface-route>
+        <gameface-route to="/heroes">Heroes</gameface-route>
+        <gameface-route to="/missing">Missing Page</gameface-route>
     </div>
     
     <router-view></router-view>
 
-    <script src="../node_modules/coherent-gameface-components/umd/components.development.js"></script>
-    <script src="../script.js"></script>
+    <script src="./bundle.js"></script>
+
+    <script>
+        const routes = document.querySelectorAll('gameface-route');
+        let activeRoute = document.querySelector('gameface-route.active');
+
+        for (let i = 0; i < routes.length; i++) {
+            const route = routes[i];
+
+            route.addEventListener('click', (e) => {
+                const currentRoute = e.currentTarget;
+                activeRoute.classList.remove('active');
+                currentRoute.classList.add('active');
+
+                activeRoute = currentRoute;
+            });
+        }
+    </script>
 </body>
 </html>
