@@ -314,33 +314,6 @@ let router = new Router({
     '**': 'not-found-page'
 }, browserHistory);
 
-let beforeUnload = (callback, params) => {
-    const confirmationDialog = document.createElement('div');
-    const message = document.createElement('p');
-    const confirmButton = document.createElement('button');
-    const discardButton = document.createElement('button');
-
-    message.textContent = 'Are you sure you want to navigate?';
-    confirmButton.textContent = 'Yes';
-    discardButton.textContent = 'No';
-
-    confirmButton.onclick = () => {
-        callback.apply(null, params);
-        confirmationDialog.parentElement.removeChild(confirmationDialog);
-    }
-
-    discardButton.onclick = () => {
-        confirmationDialog.parentElement.removeChild(confirmationDialog);
-    }
-
-    confirmationDialog.appendChild(confirmButton);
-    confirmationDialog.appendChild(discardButton);
-
-    document.body.appendChild(confirmationDialog);
-
-    return false;
-}
-
 const state = { current: '/', id: browserHistory.currentRouteId };
 const title = 'home';
 browserHistory.pushState(state, title, '/');

@@ -5,7 +5,7 @@ module.exports = function(config) {
     files: [
       {pattern: 'lib/components.development.js', served: true },
       {pattern: 'actions.js', served: true },
-      '**/router/*.js',
+      '**/**/*.js',
       '**/*.html',
     ],
     preprocessors: {

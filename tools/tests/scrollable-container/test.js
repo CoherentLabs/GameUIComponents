@@ -17,21 +17,21 @@ describe('Scrollable Container Component', () => {
         waitForStyles(() => {
             const style = getComputedStyle(document.querySelector('.slider-component')).display;
             expect(style).toEqual('block');
-        }, 2);
+        }, 100);
     });
 
     it('Should scroll using the control buttons', async (done) => {
-        const handle = document.querySelector('.handle');
-        const downButton = document.querySelector('.down');
-        expect(getComputedStyle(handle).top).toEqual('0.000000%');
+            const handle = document.querySelector('.handle');
+            const downButton = document.querySelector('.down');
+            expect(getComputedStyle(handle).top).toEqual('0.000000%');
 
-        downButton.dispatchEvent(new CustomEvent('mousedown', {}));
+            downButton.dispatchEvent(new CustomEvent('mousedown', {}));
 
-        waitForStyles(() => {
-            downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-            expect(getComputedStyle(handle).top).not.toEqual('0.000000%');
-            done();
-        }, 10); // 10 frames are enough for a visible scroll
+            waitForStyles(() => {
+                downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
+                expect(getComputedStyle(handle).top).not.toEqual('0.000000%');
+                done();
+            }, 10); // 10 frames are enough for a visible scroll
     });
 })
 

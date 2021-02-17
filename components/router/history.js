@@ -1,7 +1,7 @@
 class BrowserHistory {
     constructor() {
         this.listeners = [];
-        this.current = '';
+        this.currentURL = '';
         this.currentRouteId = 0;
     }
 
@@ -13,12 +13,16 @@ class BrowserHistory {
         this.listeners.push(callback);
     }
 
+    get nextRouteId() {
+        return this.currentRouteId + 1;
+    }
+
     /**
      * Calls all functions added to the listeners array.
     */
     dispatch() {
         for (let listener of this.listeners) {
-            listener(this.current);
+            listener(this.currentURL);
         }
     }
 
@@ -41,7 +45,7 @@ class BrowserHistory {
      */
     pushState(state, title, url) {
         history.pushState(state, title, url);
-        this.current = url;
+        this.currentURL = url;
         this.dispatch();
     }
 

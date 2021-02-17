@@ -6,13 +6,12 @@ const HOME = '/';
 class Router {
     constructor(routes, history, onBeforeNavigation) {
         this.routes = routes;
-        this.onPopState = this.onPopState.bind(this);
 
         if (history) {
             this.history = history;
             if (onBeforeNavigation) this.history.onBeforeNavigation = onBeforeNavigation;
 
-            window.addEventListener('popstate', (event) => this.onPopState);
+            window.addEventListener('popstate', (event) => this.onPopState(event));
 
             this.history.listen((current) => {
                 this.navigateTo(current);
@@ -150,7 +149,7 @@ class Router {
 
             // Nested routes should not be matched exactly as the parent router
             // might match part of the url and pass the pathname to the child
-            // router. If we try to match the whole url nighter the parent nor the
+            // router. If we try to match the whole url neither the parent nor the
             // child router will match.
             const isNested = this.routes[url] instanceof Router;
             isExact = !isNested;

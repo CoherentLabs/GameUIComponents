@@ -28,27 +28,18 @@ const consonantTemplate = `<div>In articulatory phonetics, a consonant is a spee
 
 function beforeUnload(callback, params) {
     const confirmationDialog = document.createElement('div');
-    const message = document.createElement('p');
     const confirmButton = document.createElement('button');
     confirmButton.classList.add('confirmButton');
-    const discardButton = document.createElement('button');
 
-    message.textContent = 'Are you sure you want to navigate?';
     confirmButton.textContent = 'Yes';
-    discardButton.textContent = 'No';
 
-    confirmButton.onclick = () => {
+    confirmButton.onclick = (e) => {
         callback.apply(null, params);
         confirmationDialog.parentElement.removeChild(confirmationDialog);
-    }
-
-    discardButton.onclick = () => {
-        confirmationDialog.parentElement.removeChild(confirmationDialog);
+        confirmButton.style.display = 'none';
     }
 
     confirmationDialog.appendChild(confirmButton);
-    confirmationDialog.appendChild(discardButton);
-
     document.body.appendChild(confirmationDialog);
 
     return false;
@@ -190,12 +181,12 @@ const routeIdToPageMap = {
     'missing': 'not-found-page',
 };
 
-function createAsyncSpec(callback) {
+function createAsyncSpec(callback, time = 100) {
     return new Promise(resolve => {
         setTimeout(() => {
             callback();
             resolve();
-        }, 100);
+        }, time);
     });
 }
 
@@ -297,5 +288,39 @@ describe('Router Component', () => {
                 done();
             });
         });
+    });
+
+    it('Should show warning on forward', async (done) => {
+        click(document.getElementById("home"));
+        click(document.getElementById("numbers"));
+        click(document.getElementById("vowel"));
+
+        createAsyncSpec(() => {
+            history.back();
+        }).then(() => {
+            return createAsyncSpec(() => {
+                click(document.querySelector('.confirmButton'));
+                history.forward();
+            }).then(() => {
+                return createAsyncSpec(() => {
+                    click(document.querySelector('.confirmButton'));
+                }, 1000)
+            }).then(() => {
+                expect(history.state.current).toEqual('/letters/vowel');
+                done();
+            });
+        });
+    });
+
+    it('Should navigate to fallback route using pushState', async (done) => {
+        const state = { current: '/wrongpath', id: browserHistory.currentRouteId };
+        const title = 'wrongpath';
+        browserHistory.pushState(state, title, '/wrongpath');
+
+        createAsyncSpec(() => {
+            expect(history.state.current).toEqual('/wrongpath');
+            expect(document.querySelector('router-view').textContent).toEqual(`Can't find this page.`);
+            done();
+        })
     });
 });
