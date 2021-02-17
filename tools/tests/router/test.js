@@ -190,13 +190,6 @@ const routeIdToPageMap = {
     'missing': 'not-found-page',
 };
 
-
-// TODO: move these to actions
-function click(element, customEventInit = {}) {
-    element.dispatchEvent(new CustomEvent('click', customEventInit));
-}
-
-
 function createAsyncSpec(callback) {
     return new Promise(resolve => {
         setTimeout(() => {
