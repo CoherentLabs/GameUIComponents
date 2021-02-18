@@ -22,7 +22,7 @@ The ${this.componentName} component comes with UMD and CJS builds.
 * add the ${this.componentName} component to your html:
 
 ~~~~{.html}
-<gameface-${this.componentName} class="${this.componentName}-component"></gameface-${this.componentName}>
+<${this.componentName} class="${this.componentName}-component"></${this.componentName}>
 ~~~~
 
 This is all! Load the file in Gameface to see the ${this.componentName}.

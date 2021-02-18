@@ -85,7 +85,7 @@ It will automatically try to import `style.css` and `script.js`.
 Uses an XMLHttpRequest to load an external file.
 
 **Kind**: instance method of [<code>GamefaceComponents</code>](#GamefaceComponents)
-**Returns**: <code>promise</code> - - A promise that is resolved with the file's text content.
+**Returns**: <code>promise</code> - - A promise that is resolved with an object that contains the file's text content.
 
 | Param | Type | Description |
 | --- | --- | --- |

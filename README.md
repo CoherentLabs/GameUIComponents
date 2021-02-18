@@ -120,7 +120,7 @@ Add the custom component to the page:
 The JavaScript definition is a simple class which extends the HTMLElemnt. The
 template is loaded using XHR. The url property of the component class show the
 path to the template html file. Use the `importStyle` method from the components
-library to dynamically import style files. Use the `loadReaource` method to load
+library to dynamically import style files. Use the `loadResource` method to load
 the template. When the template is loaded you can render the component.
 
 ```
@@ -134,8 +134,8 @@ class LabeledInput extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 components.renderOnce(this);
             })
             .catch(err => console.error(err));
@@ -181,7 +181,7 @@ And we can export the labeled input at the bottom:
 
 `export { LabeledInput };`
 
-Because the styles and the template are imported as modules we no longer need to 
+Because the styles and the template are imported as modules we no longer need to
 load them using XHR. The styles are imported using the `importStyleTag` method:
 
 `components.importStyleTag('gameface-labeled-input', style);`
@@ -210,8 +210,8 @@ class LabeledInput extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 components.renderOnce(this);
             })
             .catch(err => console.error(err));

@@ -21,8 +21,8 @@ class Checkbox extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 components.renderOnce(this);
                 this.attachEventListeners();
             })

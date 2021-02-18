@@ -95,8 +95,8 @@ class Slider extends HTMLElement {
     connectedCallback() {
         // Load the template
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 // render the template
                 components.renderOnce(this);
                 // do the initial setup - add event listeners, assign members
