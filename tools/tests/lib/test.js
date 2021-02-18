@@ -123,7 +123,7 @@ describe('Components Library', () => {
         expect(target.querySelector('#name').textContent).toEqual('Name');
     });
 
-    it('Should not render connected elements multiple time', () => {
+    it('Should not render connected elements multiple time', async (done) => {
         const parentTemplate = '<div><component-slot data-name="content"></component-slot></div>'
         const childTemplate = '<div>Hello, <component-slot data-name="name"></component-slot></div>'
 
@@ -135,8 +135,8 @@ describe('Components Library', () => {
             }
             connectedCallback() {
                 components.loadResource(this, this.template)
-                    .then(([loadedTemplate]) => {
-                        this.template = loadedTemplate;
+                    .then((result) => {
+                        this.template = result.template;
                         if (components.renderOnce(this)) {
                             this.timesRendered += 1;
                         };
@@ -217,6 +217,7 @@ describe('Components Library', () => {
            for (let i = 0; i < childElements.length; i++) {
                expect(childElements[i].timesRendered).toEqual(1);
            }
-       });
+           done();
+       }, 10);
     });
   });
