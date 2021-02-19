@@ -1,0 +1,28 @@
+body {
+    background-color: #ebebeb;
+}
+
+gameface-dropdown {
+    width: 100px;
+    height: 200px;
+}
+
+dropdown-option {
+    background-color: #ffffff;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+}
+
+#selected {
+    height: 19px;
+    width: 200px;
+    background-color: #6de7e1;
+}
+
+.asdasd {
+    height: 200px;
+    width: 200px;
+}
