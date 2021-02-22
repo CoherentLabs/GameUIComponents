@@ -6,14 +6,20 @@
         .hidden {
             display: none;
         }
+
+        scrollable-content,
+        .wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .vertical-slider-wrapper {
+            height: 100%;
+        }
     </style>
 </head>
 
 <body>
-
-
-
-
 
 
     <gameface-dropdown class="gameface-dropdown-component">
@@ -132,6 +138,15 @@
         <dropdown-option slot="option">Parrot</dropdown-option>
         <dropdown-option slot="option">Parrot</dropdown-option>
         <dropdown-option slot="option">Parrot</dropdown-option>
+        <dropdown-option slot="option">Last Parrot</dropdown-option>
+    </gameface-dropdown>
+
+    <gameface-dropdown class="gameface-dropdown-component">
+        <dropdown-option slot="option">11111</dropdown-option>
+        <dropdown-option slot="option">22222</dropdown-option>
+        <dropdown-option slot="option">33333</dropdown-option>
+        <dropdown-option slot="option">444444</dropdown-option>
+        <dropdown-option slot="option">555555</dropdown-option>
     </gameface-dropdown>
 
     <script src="./bundle.js"></script>
@@ -140,11 +155,11 @@
         scrollable-content,
         .wrapper {
             width: 100%;
-            height: 100%;
+            height: 21vw;
         }
 
         .vertical-slider-wrapper {
-            height: 100%;
+            height: 21vw;
         }`;
 
         setTimeout(() => importStyleTag('', style), 500)

@@ -3,8 +3,8 @@ body {
 }
 
 gameface-dropdown {
-    width: 100px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
 }
 
 dropdown-option {
@@ -22,7 +22,7 @@ dropdown-option {
     background-color: #6de7e1;
 }
 
-.asdasd {
+.dropdown {
     height: 200px;
     width: 200px;
 }
