@@ -2,11 +2,6 @@ body {
     background-color: #ebebeb;
 }
 
-gameface-dropdown {
-    width: 300px;
-    height: 300px;
-}
-
 dropdown-option {
     background-color: #ffffff;
 }
@@ -14,15 +9,72 @@ dropdown-option {
 .options {
     display: flex;
     flex-direction: column;
+    background-color: white;
+    width: 150px;
 }
 
-#selected {
-    height: 19px;
-    width: 200px;
-    background-color: #6de7e1;
+.selected {
+    height: 30px;
+    width: 150px;
+    background-color: rgba(255, 255, 255, 1);
+    align-items: center;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-.dropdown {
+.options-container {
     height: 200px;
-    width: 200px;
+    width: 150px;
+    border: 2px;
+    border-style: solid;
+    border-color: #6688bf;
+}
+
+gameface-dropdown {
+    width: 150px;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    padding: 1px 18px 1px 4px;
+}
+
+gameface-dropdown:hover {
+    border-color: #7f7f7f;
+}
+
+
+.custom-select-arrow {
+    position: absolute;
+    right: 4px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #000;
+}
+
+dropdown-option {
+    padding: 1px 4px;
+}
+
+#pet-select {
+    position: relative;
+    top: 10px;
+    left: 30px;
+}
+
+gameface-dropdown.selected:hover {
+    border-color: #6688bf;
+}
+
+.active {
+    background-color: #80c1ff;
+}
+
+.hidden {
+    display: none;
 }

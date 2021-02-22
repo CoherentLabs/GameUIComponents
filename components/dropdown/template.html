@@ -1,10 +1,12 @@
 <div class="dropdown">
     <div class="selected">Selected</div>
-    <scrollable-container class="scrollable-container-component hidden">
-        <div slot="scrollable-content" name="scrollable-content">
-            <div class="options">
-                <component-slot data-name="option"></component-slot>
+    <div class="options-container hidden">
+        <scrollable-container class="scrollable-container-component">
+            <div slot="scrollable-content" data-name="scrollable-content">
+                <div class="options">
+                    <component-slot data-name="option"></component-slot>
+                </div>
             </div>
-        </div>
-    </scrollable-container>
+        </scrollable-container>
+    </div>
 </div>
