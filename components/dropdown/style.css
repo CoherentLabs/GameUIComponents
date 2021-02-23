@@ -1,34 +1,46 @@
-body {
-    background-color: #ebebeb;
-}
-
 dropdown-option {
-    background-color: #ffffff;
+    background-color: var(--default-color-white);
 }
 
 .options {
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: var(--default-color-white);
     width: 150px;
+}
+
+.header {
+    align-items: center;
+    display: flex;
 }
 
 .selected {
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
     height: 30px;
     width: 150px;
-    background-color: rgba(255, 255, 255, 1);
-    align-items: center;
-    display: flex;
-    padding-left: 10px;
-    padding-right: 10px;
+    background-color: var(--default-color-white);
+    padding: 0px 10px;
+}
+
+.selected:hover {
+    border: 2px solid;
+    border-top-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
 }
 
 .options-container {
-    height: 200px;
+    height: 204px;
     width: 150px;
     border: 2px;
     border-style: solid;
-    border-color: #6688bf;
+    border-top-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
 }
 
 gameface-dropdown {
@@ -39,13 +51,7 @@ gameface-dropdown {
     margin-left: 20px;
     display: flex;
     align-items: center;
-    padding: 1px 18px 1px 4px;
 }
-
-gameface-dropdown:hover {
-    border-color: #7f7f7f;
-}
-
 
 .custom-select-arrow {
     position: absolute;
@@ -61,18 +67,12 @@ dropdown-option {
     padding: 1px 4px;
 }
 
-#pet-select {
-    position: relative;
-    top: 10px;
-    left: 30px;
-}
-
-gameface-dropdown.selected:hover {
-    border-color: #6688bf;
+dropdown-option:hover {
+    background-color: var(--default-color-gray);
 }
 
 .active {
-    background-color: #80c1ff;
+    background-color: var(--default-color-blue);
 }
 
 .hidden {

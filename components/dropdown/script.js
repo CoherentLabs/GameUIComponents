@@ -1,6 +1,7 @@
 import components from 'coherent-gameface-components';
 import ScrollableContainer from 'gameface-scrollable-container';
 import template from './template.html';
+import theme from '../../theme/components-theme.css';
 import style from './style.css';
 
 const KEY_CODES = {
@@ -25,6 +26,7 @@ class GamefaceDropdown extends HTMLElement {
         this._selected = 0;
 
         this.template = template;
+        components.importStyleTag('gameface-dropdown-theme', theme);
         components.importStyleTag('gameface-dropdown', style);
     }
 
