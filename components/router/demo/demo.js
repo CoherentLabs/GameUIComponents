@@ -34,8 +34,8 @@ class Home extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
 
                 components.renderOnce(this);
             })
@@ -51,8 +51,8 @@ class StartGame extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
 
                 components.renderOnce(this);
             })
@@ -102,8 +102,8 @@ class Healers extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
 
                 components.renderOnce(this);
             })
@@ -152,8 +152,8 @@ class Tanks extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
 
                 components.renderOnce(this);
             })
@@ -169,8 +169,8 @@ class Heroes extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 components.renderOnce(this);
             })
             .catch(err => console.error(err));
@@ -185,8 +185,8 @@ class TankOne extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 components.renderOnce(this);
             })
             .catch(err => console.error(err));
@@ -201,8 +201,8 @@ class TankTwo extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 components.renderOnce(this);
             })
             .catch(err => console.error(err));
@@ -217,8 +217,8 @@ class TankThree extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 components.renderOnce(this);
             })
             .catch(err => console.error(err));
@@ -253,8 +253,8 @@ class Healer extends HTMLElement {
         this.model = this.healers[id];
 
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 this.template.querySelector('#mana').textContent = this.model.mana;
                 this.template.querySelector('#strength').textContent = this.model.strength;
                 components.renderOnce(this);
@@ -272,8 +272,8 @@ class NotFound extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
 
                 components.renderOnce(this);
             })

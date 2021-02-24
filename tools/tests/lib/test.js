@@ -26,9 +26,9 @@ describe('Components Library', () => {
             template: '<div>This is a dummy template.</div>'
         };
 
-        const [loadedResource] = await components.loadResource(component);
+        const loadedResource = await components.loadResource(component);
         expect(loadedResource).toBeDefined();
-        expect(loadedResource.textContent).toEqual('This is a dummy template.');
+        expect(loadedResource.template.textContent).toEqual('This is a dummy template.');
     });
 
     it('Should import link tag', () => {
@@ -123,7 +123,7 @@ describe('Components Library', () => {
         expect(target.querySelector('#name').textContent).toEqual('Name');
     });
 
-    it('Should not render connected elements multiple time', () => {
+    it('Should not render connected elements multiple time', async (done) => {
         const parentTemplate = '<div><component-slot data-name="content"></component-slot></div>'
         const childTemplate = '<div>Hello, <component-slot data-name="name"></component-slot></div>'
 
@@ -135,8 +135,8 @@ describe('Components Library', () => {
             }
             connectedCallback() {
                 components.loadResource(this, this.template)
-                    .then(([loadedTemplate]) => {
-                        this.template = loadedTemplate;
+                    .then((result) => {
+                        this.template = result.template;
                         if (components.renderOnce(this)) {
                             this.timesRendered += 1;
                         };
@@ -153,8 +153,8 @@ describe('Components Library', () => {
             }
             connectedCallback() {
                 components.loadResource(this, this.template)
-                    .then(([loadedTemplate]) => {
-                        this.template = loadedTemplate;
+                    .then((result) => {
+                        this.template = result.template;
                         if (components.renderOnce(this)) {
                             this.timesRendered += 1;
                         };
@@ -217,103 +217,7 @@ describe('Components Library', () => {
            for (let i = 0; i < childElements.length; i++) {
                expect(childElements[i].timesRendered).toEqual(1);
            }
-       });
-    });
-
-    it('Should not render connected elements multiple time', () => {
-        const parentTemplate = '<div><component-slot data-name="content"></component-slot></div>'
-        const childTemplate = '<div>Hello, <component-slot data-name="name"></component-slot></div>'
-
-        class ParentEl extends HTMLElement {
-            constructor() {
-                super();
-                this.template = parentTemplate;
-                this.timesRendered = 0;
-            }
-            connectedCallback() {
-                components.loadResource(this, this.template)
-                    .then((response) => {
-                        this.template = response[1];
-                        if (components.render(this)) {
-                            this.timesRendered += 1;
-                        };
-                    })
-                    .catch(err => console.error(err));
-            }
-        }
-
-        class ChildEl extends HTMLElement {
-            constructor() {
-                super();
-                this.template = childTemplate;
-                this.timesRendered = 0;
-            }
-            connectedCallback() {
-                components.loadResource(this, this.template)
-                    .then((response) => {
-                        this.template = response[1];
-                        if (components.render(this)) {
-                            this.timesRendered += 1;
-                        };
-                    })
-                    .catch(err => console.error(err));
-            }
-        }
-
-        components.defineCustomElement('child-el', ChildEl);
-        components.defineCustomElement('parent-el', ParentEl);
-
-        document.body.innerHTML = `
-        <parent-el>
-        <div slot="content">
-            <child-el>
-                <div slot="name">
-                    Mars
-                    <parent-el>
-                        <div slot="content">
-                            <child-el>
-                                <div slot="name">Jupiter</div>
-                            </child-el>
-                        </div>
-                    </parent-el>
-                    <parent-el>
-                        <div slot="content">
-                            <child-el>
-                                <div slot="name">Saturn</div>
-                            </child-el>
-                        </div>
-                    </parent-el>
-                    <parent-el>
-                        <div slot="content">
-                            <child-el>
-                                <div slot="name">
-                                    Mercury
-                                    <parent-el>
-                                        <div slot="content">
-                                            <child-el>
-                                                <div slot="name">Earth</div>
-                                            </child-el>
-                                        </div>
-                                    </parent-el>
-                                </div>
-                            </child-el>
-                        </div>
-                    </parent-el>
-                </div>
-            </child-el>
-        </div>
-    </parent-el>`
-
-       waitForStyles(() => {
-           const parentElements = document.querySelectorAll('parent-el');
-           for (let i = 0; i < parentElements.length; i++) {
-               expect(parentElements[i].timesRendered).toEqual(1);
-           }
-
-           const childElements = document.querySelectorAll('child-el');
-           for (let i = 0; i < childElements.length; i++) {
-               expect(childElements[i].timesRendered).toEqual(1);
-           }
-       });
+           done();
+       }, 10);
     });
   });

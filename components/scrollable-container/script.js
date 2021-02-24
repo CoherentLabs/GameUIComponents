@@ -21,8 +21,8 @@ class ScrollableContainer extends HTMLElement {
     connectedCallback() {
         // load the template
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 // render the component
                 components.render(this);
                 // do the initial setup - add event listeners, assign members
