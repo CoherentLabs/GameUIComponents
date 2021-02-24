@@ -48,5 +48,10 @@
     "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0"
+  },
+  "dependencies": {
+    "@babel/core": "7.12.16",
+    "babel-loader": "8.2.2",
+    "karma-webpack": "5.0.0"
   }
 }

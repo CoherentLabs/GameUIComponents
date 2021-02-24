@@ -1,0 +1,8 @@
+gameface-route {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+gameface-route:hover {
+    color: var(--default-color-blue);
+}
