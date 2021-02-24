@@ -164,7 +164,7 @@ Let's add it to the Interface panel. The scrollable container has one slot which
 ```
 <div id="interface-panel" class="inactive-panel">
     <scrollable-container>
-    <component-slot name="scrollable-content"></component-slot>
+    <component-slot data-name="scrollable-content"></component-slot>
     </scrollable-container>
 </div>
 ```

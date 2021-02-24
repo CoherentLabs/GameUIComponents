@@ -8,7 +8,7 @@ function setupScrollbars() {
         const scrollableContainer = scrollableContainers[i];
 
         scrollableContainer.showScrollBar(scrollableContainer.scrollbar);
-        const scrollableContent = scrollableContainer.querySelector('[name="scrollable-content"]')
+        const scrollableContent = scrollableContainer.querySelector('[data-name="scrollable-content"]')
         scrollableContainer.scrollbar.resize(scrollableContent);
         scrollableContainer.shouldShowScrollbar();
         scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
