@@ -6,6 +6,8 @@ const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const html = require('rollup-plugin-html');
 const styles = require("rollup-plugin-styles");
 const buildCssComponents = require('./build-style-component');
+
+const { execSync } = require('child_process');
 // The module formats which will be bundled
 const FORMATS = [
     'cjs',
@@ -82,11 +84,21 @@ function buildForTargets(moduleName, inputOptions, formats, environments) {
 */
 function buildEverything() {
     buildComponentsLibrary();
-    const components = getComponentDirectories();
+    let components = getComponentDirectories();
+    const ordered = ['scrollable-container', 'dropdown'];
+
+    // get only the elements that are not included in the ordered list
+    components = components.filter(el => !ordered.includes(el));
+    // add the ['scrollable-container', 'dropdown'] in the order they should be build
+    components = [...components, ...ordered];
 
     for (let component of components) {
         const componentPath = path.join(__dirname, '../components', component);
- 
+
+        if (!fs.existsSync(componentPath)) continue;
+
+        execSync('npm i', { cwd:componentPath });
+
         if (!fs.existsSync(path.join(componentPath, 'script.js'))) {
             buildCssComponents(componentPath);
             continue;
@@ -108,6 +120,8 @@ function buildEverything() {
         };
 
         buildForTargets(component, inputOptions, FORMATS, ENVIRONMENTS);
+
+        execSync('npm pack', { cwd: componentPath });
     }
 }
 
