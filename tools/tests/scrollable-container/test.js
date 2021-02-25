@@ -1,7 +1,7 @@
 describe('Scrollable Container Component', () => {
     beforeAll(async () => {
         document.body.innerHTML = `<scrollable-container class="scrollable-container">
-        <component-slot name="scrollable-content">${longContent}</component-slot>
+        <component-slot data-name="scrollable-content">${longContent}</component-slot>
         </scrollable-container>`;
 
         return new Promise((resolve, reject) => {
