@@ -53,6 +53,14 @@ gameface-dropdown {
     align-items: center;
 }
 
+.full-width {
+    width: 100%;
+}
+
+gameface-dropdown * {
+    box-sizing: border-box;
+}
+
 .custom-select-arrow {
     position: absolute;
     right: 4px;
@@ -66,10 +74,6 @@ gameface-dropdown {
 dropdown-option {
     padding: 1px 4px;
 }
-
-/* dropdown-option:hover {
-    background-color: var(--default-color-blue);
-} */
 
 .disabled {
     color: var(--default-color-gray);

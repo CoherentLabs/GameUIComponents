@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <body>
     <gameface-dropdown class="gameface-dropdown-component">
         <dropdown-option slot="option" >Cat1</dropdown-option>
@@ -40,7 +39,6 @@
             let style = document.createElement('style');
             style.setAttribute('data-name', componentName)
             style.textContent = css;
-            // document.head.insertBefore(style, document.head.firstChild);
             document.head.appendChild(style);
         }
 

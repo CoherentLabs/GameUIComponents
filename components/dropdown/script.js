@@ -117,8 +117,8 @@ class GamefaceDropdown extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-            .then(([loadedTemplate]) => {
-                this.template = loadedTemplate;
+            .then((result) => {
+                this.template = result.template;
                 components.renderOnce(this);
                 // make this element focusable
                 this.setAttribute('tabindex', '1');
@@ -140,7 +140,7 @@ class GamefaceDropdown extends HTMLElement {
     }
 
     /**
-     * Focuses a option from the enabledOptions list.
+     * Focuses an option from the enabledOptions list.
      * Uses the index of the enabled option to find the index of the same option
      * in the full list.
      * @param {number} newIndex - the index of the enabled option.
@@ -193,11 +193,11 @@ class GamefaceDropdown extends HTMLElement {
             case KEYCODES.ENTER:
                 this.focusOption(this.hoveredElIndex);
                 this.closeOptionsPanel();
-                break;
+                return;
             case KEYCODES.TAB:
             case KEYCODES.ESCAPE:
                 this.closeOptionsPanel();
-                break;
+                return;
             case KEYCODES.HOME:
                 // focus first
                 this.focusEnabledOption(0);
@@ -220,6 +220,13 @@ class GamefaceDropdown extends HTMLElement {
     }
 
     /**
+     * Checks if the current user agent is Cohtml
+    */
+    isGameface() {
+        return navigator.userAgent.match('Cohtml');
+    }
+
+    /**
      * Called on click on the select element.
      * Toggles the options panel, shows the scrollbar and scrolls to
      * the selected option element.
@@ -232,8 +239,14 @@ class GamefaceDropdown extends HTMLElement {
             return;
         }
 
+        debugger
+        if (!this.isGameface()) {
+            scrollableContainer.querySelector('.scrollable-container').classList.add('full-width');
+        } else if (this.isGameface()){
+            scrollableContainer.shouldShowScrollbar();
+        }
+
         this.scrollToSelectedElement();
-        scrollableContainer.shouldShowScrollbar();
         this.openOptionsPanel();
     }
 
@@ -245,16 +258,15 @@ class GamefaceDropdown extends HTMLElement {
         this.addEventListener('keydown', (event) => this.onKeydown(event));
 
         // handle click on the select element
-        const selectedElementPlaceholer = this.querySelector('.selected');
-        selectedElementPlaceholer.addEventListener('click', (event) => this.onClick(event));
+        const selectedElementPlaceholder = this.querySelector('.selected');
+        selectedElementPlaceholder.addEventListener('click', (event) => this.onClick(event));
 
-        // // handle click on the option elements
+        // handle click on the option elements
         const options = this.querySelectorAll('dropdown-option');
         for (let i = 0; i < options.length; i++) {
             options[i].addEventListener('selected-option', (event) => this.onClickOption(event));
             options[i].addEventListener('mouseover', (event) => this.onMouseOverOption(event));
             options[i].addEventListener('mouseout', (event) => {
-                // if (this.keydown) return;
                 event.target.classList.remove('active');
             });
         }
@@ -290,7 +302,7 @@ class GamefaceDropdown extends HTMLElement {
         const optionsPanel = this.querySelector('.options-container');
         this.isOpened = false;
         optionsPanel.classList.add('hidden');
-        this.stopListeningToDocumentClick();
+        document.removeEventListener('click', this.onDocumentClick);
     }
 
     /**
@@ -304,25 +316,7 @@ class GamefaceDropdown extends HTMLElement {
         this.isOpened = true;
         optionsPanel.classList.remove('hidden');
         this.focus();
-        this.listenToDocumentClick();
-    }
-
-    /**
-     * Starts listening to document click.
-     * Used to detect if the user clicked outside the dropdown, in which case
-     * the options panel should be closed. It's a workaround to COH-14366.
-    */
-    listenToDocumentClick() {
         document.addEventListener('click', this.onDocumentClick);
-    }
-
-    /**
-     * Stop listening to document click.
-     * If the options panel was manually closed, we no longer need to listen
-     * to document click.
-    */
-    stopListeningToDocumentClick() {
-        document.removeEventListener('click', this.onDocumentClick);
     }
 
     /**
@@ -338,17 +332,12 @@ class GamefaceDropdown extends HTMLElement {
      * Scrolls to the selected option element.
     */
     scrollToSelectedElement() {
-        // this.keydown = true;
-        // get the scrollable container
         const scrollbleContainer = this.querySelector('.scrollable-container');
-        // get an option element
         const option = this.querySelector('dropdown-option');
-        // get the height of the option element
         const optionSize = option.getBoundingClientRect().height;
 
         // the scroll position in pixels is equal to the height of the selected
         // option multiplied by its index
-        
         clearTimeout(this.timeout)
         document.body.classList.add('disable-hover');
         let scrollInPX = this.hoveredElIndex * optionSize;
@@ -372,24 +361,16 @@ class DropdownOption extends HTMLElement {
     attributeChangedCallback() {
         if (this.hasAttribute('disabled')) {
             this.classList.add('disabled');
-            this.stopListeningToClick();
+            this.removeEventListener('click', this.onClick);
         } else {
             this.classList.remove('disabled');
-            this.listenToClick();
+            this.addEventListener('click', this.onClick);
         }
     }
 
     constructor() {
         super();
         this.attributeChangedCallback();
-    }
-
-    listenToClick() {
-        this.addEventListener('click', this.onClick);
-    }
-
-    stopListeningToClick() {
-        this.removeEventListener('click', this.onClick);
     }
 
     onClick(event) {

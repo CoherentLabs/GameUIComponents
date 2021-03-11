@@ -193,6 +193,7 @@ describe('Dropdown Component', () => {
         dispatchKeyboardEvent(KEY_CODES.END, dropdown);
         click(document);
         expect(dropdown.value).toEqual(lastValue);
+        expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
     });
 
     it('Should select the next enabled option', async (done) => {
@@ -210,7 +211,7 @@ describe('Dropdown Component', () => {
             setTimeout(() => {
                 expect(dropdown.value).toEqual('Eagle');
                 done();
-            });
+            }, 300);
         }, 300);
     });
 
@@ -229,7 +230,7 @@ describe('Dropdown Component', () => {
             setTimeout(() => {
                 expect(dropdown.value).toEqual('Lion');
                 done();
-            });
+            }, 300);
         }, 300);
     });
 });
