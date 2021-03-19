@@ -6,7 +6,10 @@
 
 /* Regular Elements */
 input, textarea, button, menu-item {
-	border-color: var(--default-color-blue);
+	border-top-color: var(--default-color-blue);
+	border-right-color: var(--default-color-blue);
+	border-bottom-color: var(--default-color-blue);
+	border-left-color: var(--default-color-blue);
 	background-color: var(--default-color-white);
 }
 
@@ -22,7 +25,10 @@ gameface-right-menu,
 gameface-left-menu,
 gameface-bottom-menu
 {
-	border-color: var(--default-color-blue);
+	border-top-color: var(--default-color-blue);
+	border-right-color: var(--default-color-blue);
+	border-bottom-color: var(--default-color-blue);
+	border-left-color: var(--default-color-blue);
 	background-color: var(--default-color-white);
 }
 

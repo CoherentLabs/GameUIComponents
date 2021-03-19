@@ -1,0 +1,217 @@
+body {
+    background-color: #ebebeb;
+	font-size: 26px;
+	display: flex;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	color: #000;
+}
+
+/* Back Button */
+.menu-back-button {
+	position: absolute;
+	left: 23px;
+	padding: 10px 15px;
+	border: none;
+	background-color: #adacac;
+	font-size: 20px;
+}
+
+.menu-back-button:hover {
+	background-color: #797b83;
+	color: #fff;
+}
+
+/* Top Section */
+.top-section {
+	position: absolute;
+	top: 13vh;
+	align-self: center;
+}
+
+.top-section-row {
+	width: 75vw;
+}
+
+.top-section-left-col,
+.top-section-right-col {
+	position: relative;
+	flex-direction: row;
+	display: flex;
+	align-items: center;
+}
+
+.top-section-right-col {
+	justify-content: flex-end;
+}
+
+.shop-title {
+	font-size: 36px;
+}
+
+.shop-icon {
+	width: 75px;
+	height: 67px;
+	background: url('./images/iconShop.png') no-repeat center / contain;
+	margin-right: 1vw;
+}
+
+.time {
+	position: absolute;
+	right: 0;
+	display: flex;
+	align-items: center;
+}
+
+.time-icon {
+	width: 40px;
+	height: 40px;
+	background: url('./images/icon_Clock.png') no-repeat center / contain;
+	margin-right: 0.5vw;
+	filter: invert(100%);
+}
+
+.credits-available-icon {
+	width: 5.5vmin;
+	height: 5.5vmin;
+	margin-right: 0.75vh;
+	background: url('./images/iconCurrency.png') no-repeat center / contain;
+}
+
+.credits-available {
+	font-size: 30px;
+}
+
+/* Items List */
+.shop-items {
+	position: absolute;
+	top: 25vh;
+	width: 80vw;
+}
+
+.shop-items-align {
+	align-self: flex-end;
+}
+
+.shop-item {
+	justify-content: center;
+	align-items: center;
+	margin: 2vh;
+	border: 1px solid transparent;
+}
+
+.shop-item-active {
+	border: 1px solid #25a5d6;
+}
+
+.item-name {
+	font-size: 2.2vmin;
+	text-align: center;
+	color: #25a5d6;
+}
+
+.item-image {
+	height: 10vh;
+	margin: 0.3vw 0;
+	background: no-repeat center / contain;
+}
+
+.item-image-pistol {
+	background-image: url('./images/weapon1.png');
+}
+
+.item-image-rifle {
+	background-image: url('./images/weapon2.png');
+}
+
+.item-image-blaster {
+	background-image: url('./images/weapon3.png');
+}
+
+.item-image-sabres {
+	background-image: url('./images/weapon4.png');
+}
+
+.item-image-rpg {
+	background-image: url('./images/weapon5.png');
+}
+
+.item-image-slagger {
+	background-image: url('./images/weapon6.png');
+}
+
+.item-price {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.item-price-icon {
+	width: 3vmin;
+	height: 3vmin;
+	margin-right: 0.5vh;
+	background: url('./images/iconCurrency.png') no-repeat center / contain;
+}
+
+.item-price-value {
+	font-size: 2vmin;
+}
+
+/* Modal */
+.modal {
+	height:  auto;
+	width: 20vw;
+}
+
+.header {
+	height:  auto;
+	line-height: 150%;
+	font-size: 2vw;
+}
+
+.body {
+	height: auto;
+}
+
+.modal-confirmation-text {
+	padding: 0 0.3vw;
+	font-size: 1.5vw;
+	text-align: center;
+}
+
+.footer {
+	position: static;
+	width: 100%;
+	margin: 1vw 0;
+	height: auto;
+}
+
+.close-x {
+	font-size: 1.3vw;
+	width: 2.2vw;
+	height: 2.2vw;
+	line-height: 150%;
+}
+
+.modal-actions {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.modal-button {
+	width: 4vw;
+	height: 2vw;
+	border: none;
+	background-color: #adacac;
+	margin: 0 1vh;
+	font-size: 1.1vw;
+}
+
+.modal-button:hover {
+	background-color: rgb(121, 123, 131);
+	cursor: pointer;
+}

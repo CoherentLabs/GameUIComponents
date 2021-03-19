@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="node_modules/coherent-gameface-grid/dist/grid.production.min.css">
-    </link>
     <style>
         body {
             background-color: grey;
@@ -15,6 +14,20 @@
             height: 100%;
             margin: 0px;
             padding: 0px;
+        }
+
+        .menu-back-button {
+            position: absolute;
+            left: 23px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #adacac;
+            font-size: 20px;
+        }
+
+        .menu-back-button:hover {
+            background-color: #797b83;
+            color: #fff;
         }
 
         .left-menu {
@@ -107,6 +120,8 @@
 </head>
 
 <body>
+    <button id="menu-back-button" class="menu-back-button">Main Menu <<<</button>
+
     <div class="guic-row">
         <div class="guic-col-2">
             <gameface-menu class="left-menu" orientation="vertical">
@@ -745,6 +760,11 @@
     <script src="node_modules/coherent-gameface-checkbox/umd/checkbox.development.js"></script>
 
     <script src="./script.js"></script>
+
+    <script type="text/javascript">
+        // Back button
+        document.getElementById('menu-back-button').addEventListener('click', () => { location.href = '../main/index.html' });
+    </script>
 </body>
 
 </html>

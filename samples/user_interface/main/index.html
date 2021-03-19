@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="node_modules/coherent-gameface-grid/dist/grid.production.min.css">
-    </link>
-    <link rel="stylesheet" href="./style.css"></link>
+    <link rel="stylesheet" href="./style.css">
     <style>
         .left-menu {
             font-size: 26px;
@@ -29,7 +28,7 @@
             background-color: transparent;
         }
     </style>
- 
+
 </head>
 
 <body>
@@ -41,7 +40,7 @@
             <div class="option">Social</div>
         </menu-item>
         <menu-item slot="menu-item">
-            <div class="option">Options</div>
+            <div id="settings-button" class="option">> Options <</div>
         </menu-item>
         <menu-item slot="menu-item">
             <div class="option">Quit Game</div>
@@ -50,13 +49,18 @@
 
     <gameface-bottom-menu class="bottom-menu">
         <menu-item slot="menu-item">About</menu-item>
-        <menu-item slot="menu-item">Store</menu-item>
+        <menu-item id="store-button" slot="menu-item">> Store <</menu-item>
         <menu-item slot="menu-item">Friends</menu-item>
         <menu-item slot="menu-item">Join Co-Op</menu-item>
     </gameface-bottom-menu>
 
     <script src="node_modules/coherent-gameface-components/umd/components.development.js"></script>
     <script src="node_modules/gameface-menu/umd/menu.development.js"></script>
+
+	<script type="text/javascript">
+		document.getElementById('store-button').addEventListener('click', () => { location.href = '../shop/shop.html' });
+		document.getElementById('settings-button').addEventListener('click', () => { location.href = '../settings/settings.html' });
+	</script>
 </body>
 
 </html>
