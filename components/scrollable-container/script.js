@@ -95,7 +95,7 @@ class ScrollableContainer extends HTMLElement {
      * Checks if a scrollbar should be visible.
     */
     shouldShowScrollbar() {
-        const scrollableContent = this.querySelector('[name="scrollable-content"]');
+        const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
 
         Slider.waitForFrames(() => {
             const scrollableContentRect = scrollableContent.getBoundingClientRect();

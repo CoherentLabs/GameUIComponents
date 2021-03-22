@@ -1,0 +1,15 @@
+<div class="dropdown">
+    <div class="header">
+        <div class="selected">Selected</div>
+        <div class="custom-select-arrow"></div>
+    </div>
+    <div class="options-container hidden">
+        <scrollable-container class="scrollable-container-component">
+            <div slot="scrollable-content" data-name="scrollable-content">
+                <div class="options">
+                    <component-slot data-name="option"></component-slot>
+                </div>
+            </div>
+        </scrollable-container>
+    </div>
+</div>
