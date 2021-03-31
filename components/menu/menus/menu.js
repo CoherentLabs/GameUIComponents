@@ -149,17 +149,6 @@ class GamefaceMenu extends HTMLElement {
             return;
         }
 
-        // console.log('====', (receivedFocus !== null && (isDescendant(lostFocus.parentElement, receivedFocus) || receivedFocus.parentElement === lostFocus.parentElement)))
-        // console.log('receivedFocus', receivedFocus)
-        // console.log('lostFocus', lostFocus)
-        // if the newly focused element is descendant of this menu, do nothing
-        // console.log('=============',(receivedFocus !== null && (isDescendant(lostFocus.parentElement, receivedFocus) || receivedFocus.parentElement === lostFocus.parentElement)))
-        // if (!(receivedFocus !== null && (isDescendant(lostFocus.parentElement, receivedFocus) || receivedFocus.parentElement === lostFocus.parentElement))) {
-        //     debugger
-        // }
-        // return
-        // console.log('(isDescendant======================', isDescendant(lostFocus.parentElement, receivedFocus))
-        // console.log('(are siblings======================', receivedFocus.parentElement === lostFocus.parentElement)
         // if the newly focused element is not descendant of this menu
         // reset the current selection
         this.reset();
@@ -242,7 +231,6 @@ class GamefaceMenu extends HTMLElement {
      * @param {MouseEvent} event
     */
     onClick(event) {
-        // debugger
         event.stopPropagation();
         // avoid all cases except when the target is a menu item
         if (event.currentTarget.hasAttribute('disabled')) return;

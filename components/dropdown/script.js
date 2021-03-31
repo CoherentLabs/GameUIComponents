@@ -239,7 +239,6 @@ class GamefaceDropdown extends HTMLElement {
             return;
         }
 
-        debugger
         if (!this.isGameface()) {
             scrollableContainer.querySelector('.scrollable-container').classList.add('full-width');
         } else if (this.isGameface()){
