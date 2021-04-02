@@ -64,11 +64,12 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
  * @param {object} inputOptions - rollup input options.
  * @param {Array<string>} formats - the module types for which to bundle(UMD, CJS).
  * @param {Array<string>} environments - the environments for which to bundle(prod, dev).
+ * @param {string} path - the path to either the library or a component.
 */
-function buildForTargets(moduleName, inputOptions, formats, environments) {
+async function buildAndPackage(moduleName, inputOptions, formats, environments, path) {
     for (let format of formats) {
         for (let environment of environments) {
-            createBundle(inputOptions, generateOutputOptions(
+            await createBundle(inputOptions, generateOutputOptions(
                 path.dirname(inputOptions.input),
                 format,
                 moduleName,
@@ -76,10 +77,14 @@ function buildForTargets(moduleName, inputOptions, formats, environments) {
             ));
         }
     }
+
+    // npm pack must run after createBundle has finished, otherwise the rollup
+    // bundling will not be ready yet and not everything will be packed.
+    execSync('npm pack', { cwd: path });
 }
 
 /**
- * Calls buildForTargets for all components and passes all environments
+ * Calls buildAndPackage for all components and passes all environments
  * and formats as targets. Builds the components library first.
 */
 function buildEverything() {
@@ -97,7 +102,7 @@ function buildEverything() {
 
         if (!fs.existsSync(componentPath)) continue;
 
-        execSync('npm i', { cwd:componentPath });
+        execSync('npm i', { cwd: componentPath });
 
         if (!fs.existsSync(path.join(componentPath, 'script.js'))) {
             buildCssComponents(componentPath);
@@ -119,18 +124,19 @@ function buildEverything() {
             ],
         };
 
-        buildForTargets(component, inputOptions, FORMATS, ENVIRONMENTS);
-
-        execSync('npm pack', { cwd: componentPath });
+        buildAndPackage(component, inputOptions, FORMATS, ENVIRONMENTS, componentPath);
     }
 }
 
 
 function buildComponentsLibrary() {
+    const libPath = path.join(__dirname, '../lib');
+
     const inputOptions = {
-        input: path.join(__dirname, '../lib', 'components.js')
+        input: path.join(libPath, 'components.js')
     };
-    buildForTargets('components', inputOptions, FORMATS, ENVIRONMENTS);
+
+    buildAndPackage('components', inputOptions, FORMATS, ENVIRONMENTS, libPath);
 }
 
 /**
