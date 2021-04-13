@@ -1,0 +1,18 @@
+{
+  "name": "gameuicomponents",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "node ./scripts/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoherentLabs/GameUIComponents.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoherentLabs/GameUIComponents/issues"
+  },
+  "homepage": "https://github.com/CoherentLabs/GameUIComponents#readme"
+}

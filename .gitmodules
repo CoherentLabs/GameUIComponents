@@ -1,0 +1,3 @@
+[submodule "GameUIComponents_Public"]
+	path = GameUIComponents_Public
+	url = git@github.com:CoherentLabs/GameUIComponents_Public.git
