@@ -26,7 +26,7 @@ function areComponentsPackaged() {
 }
 
 
-function test(rebuild) {
+function test(rebuild, browsersArg) {
     if (rebuild) execSync('npm run rebuild', { cwd: path.join(__dirname, '../'), stdio: 'inherit' });
     if(!areComponentsPackaged()) return;
 
@@ -45,7 +45,7 @@ function test(rebuild) {
             path.join(TESTS_FOLDER, component, componentPackageName));
     });
 
-    const process = exec('karma start tools/tests/karma.conf.js', { cwd: path.join(__dirname, '../') });
+    const process = exec(`karma start tools/tests/karma.conf.js ${browsersArg}`, { cwd: path.join(__dirname, '../') });
 
     process.stdout.on('data', function (data) {
         console.log(data.toString());
@@ -55,7 +55,12 @@ function test(rebuild) {
 function main() {
     const arguments = process.argv.slice(2);
     const rebuild = (arguments.indexOf('--rebuild') > -1);
-    test(rebuild);
+    let browsersArg = '';
+
+    const browsersArgIndex = arguments.indexOf('--browsers');
+    if (browsersArgIndex > -1) browsersArg = `--browsers ${arguments[browsersArgIndex + 1]}`;
+
+    test(rebuild, browsersArg);
 }
 
 main();
