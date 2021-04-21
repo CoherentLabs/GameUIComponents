@@ -53,9 +53,13 @@ function test(rebuild, cohtmlPath) {
         // karma is listening
         if (cohtmlPath && data.match('Karma v5.2.3 server started at http://localhost:9876/')) {
             // run gameface
-            cohtmlPlayer = spawn(`${cohtmlPath}/Player/Player.exe`, ['--url=http://localhost:9876/debug.html'], {
+            const playerPath = path.normalize(path.join(cohtmlPath, '/Player/Player.exe'));
+            cohtmlPlayer = spawn(playerPath, ['--url=http://localhost:9876/debug.html'], {
                 cwd: `${cohtmlPath}/Samples`
             });
+
+            cohtmlPlayer.on('error', err => console.error(err))
+            cohtmlPlayer.on('data', data => console.log(data))
         }
         console.log(data);
     });
