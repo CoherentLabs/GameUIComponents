@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 const execSync = require('child_process').execSync;
 const path = require('path');
 const { folderContainsFiles, folderToTree, filesHaveCorrectContent } = require('./test-helpers/utils');

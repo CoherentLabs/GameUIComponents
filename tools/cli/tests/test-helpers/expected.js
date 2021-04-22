@@ -1,3 +1,7 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 /**
  * These are the expected sources of the generated component files.
  * This file can be automatically generated but for now it's manually updated.

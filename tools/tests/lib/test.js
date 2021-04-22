@@ -1,4 +1,7 @@
-
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 function createAsyncSpec(callback, time = 1000) {
     return new Promise(resolve => {
         setTimeout(() => {

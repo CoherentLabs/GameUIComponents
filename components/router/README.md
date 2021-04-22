@@ -1,3 +1,4 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library 
 similar to the components library.
 
