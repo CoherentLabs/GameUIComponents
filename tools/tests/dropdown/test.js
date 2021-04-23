@@ -76,6 +76,15 @@ function renewDropdown() {
     document.body.innerHTML = template;
 }
 
+function createAsyncSpec(callback, time = 1000) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            callback();
+            resolve();
+        }, time);
+    });
+}
+
 const KEY_CODES = {
     'ARROW_UP': 38,
     'ARROW_DOWN': 40,
@@ -185,15 +194,18 @@ describe('Dropdown Component', () => {
         expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
     });
 
-    it('Should close the options list on document click', () => {
+    it('Should close the options list on document click', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         const selectedElPlaceholder = dropdown.querySelector('.selected');
         click(selectedElPlaceholder);
-
         dispatchKeyboardEvent(KEY_CODES.END, dropdown);
-        click(document);
-        expect(dropdown.value).toEqual(lastValue);
-        expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+
+        await createAsyncSpec(() => { click(document) });
+        return createAsyncSpec(() => {
+            expect(dropdown.value).toEqual(lastValue);
+            expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+        }, 2000);
+    });
     });
 
     it('Should select the next enabled option', async (done) => {

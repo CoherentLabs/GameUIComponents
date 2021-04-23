@@ -9,13 +9,13 @@ const components = fs.readdirSync(COMPONENTS_FOLDER, { withFileTypes: false });
 
 function areComponentsPackaged() {
     const notBuildComponents = [];
-    for(let i = 0; i < components.length; i++) {
-        const componentFolder = path.join(COMPONENTS_FOLDER, components[i], 'umd');
-        const componentTestFolder = path.join(TESTS_FOLDER, components[i]);
+    for(let component of components) {
+        const componentFolder = path.join(COMPONENTS_FOLDER, component, 'umd');
+        const componentTestFolder = path.join(TESTS_FOLDER, component);
 
         // if there is a test for this component but doesn't have umd package
         if (!fs.existsSync(componentTestFolder) || fs.existsSync(componentFolder)) continue;
-        notBuildComponents.push(components[i]);
+        notBuildComponents.push(component);
     }
     if (!notBuildComponents.length) return true;
     console.error(`Missing packages for ${components.join(', ')}.
