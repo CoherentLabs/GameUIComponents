@@ -17,7 +17,8 @@
     "build:demo": "node ./scripts/build-demo.js",
     "install:all": "npm-recursive-install --rootDir=components",
     "rebuild": "npm i && npm run clean && npm run build:library && npm run pack:library && npm run build && npm run build:demo",
-    "test": "node ./scripts/test.js"
+    "test": "node ./scripts/test.js",
+    "test:Chrome": "node ./scripts/test.js -- --browsers Chrome"
   },
   "repository": {
     "type": "git",

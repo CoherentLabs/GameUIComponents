@@ -1,3 +1,14 @@
+
+function createAsyncSpec(callback, time = 1000) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            callback();
+            resolve();
+        }, time);
+    });
+}
+
+
 describe('Components Library', () => {
     it('Should be exposed to the global namespace', () => {
       expect(window.components).toBeDefined();
@@ -123,7 +134,7 @@ describe('Components Library', () => {
         expect(target.querySelector('#name').textContent).toEqual('Name');
     });
 
-    it('Should not render connected elements multiple time', async (done) => {
+    it('Should not render connected elements multiple time', async () => {
         const parentTemplate = '<div><component-slot data-name="content"></component-slot></div>'
         const childTemplate = '<div>Hello, <component-slot data-name="name"></component-slot></div>'
 
@@ -206,18 +217,17 @@ describe('Components Library', () => {
             </child-el>
         </div>
     </parent-el>`
-
-       waitForStyles(() => {
-           const parentElements = document.querySelectorAll('parent-el');
-           for (let i = 0; i < parentElements.length; i++) {
-               expect(parentElements[i].timesRendered).toEqual(1);
-           }
-
-           const childElements = document.querySelectorAll('child-el');
-           for (let i = 0; i < childElements.length; i++) {
-               expect(childElements[i].timesRendered).toEqual(1);
-           }
-           done();
-       }, 10);
+        return createAsyncSpec(() => {
+            waitForStyles(() => {
+                const parentElements = document.querySelectorAll('parent-el');
+                for (let i = 0; i < parentElements.length; i++) {
+                    expect(parentElements[i].timesRendered).toEqual(1);
+                }
+                const childElements = document.querySelectorAll('child-el');
+                for (let i = 0; i < childElements.length; i++) {
+                    expect(childElements[i].timesRendered).toEqual(1);
+                }
+            });
+        });
     });
   });

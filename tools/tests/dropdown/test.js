@@ -66,6 +66,27 @@ const template = `<gameface-dropdown class="gameface-dropdown-component">
 <dropdown-option slot="option" disabled="disabled">Disabled Parrot</dropdown-option>
 </gameface-dropdown>`;
 
+
+function setupDropdownTestPage() {
+    document.body.innerHTML = template;
+
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve();
+        }, 1000);
+    });
+}
+
+function createDropdownAsyncSpec(callback, time = 500) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            callback();
+            resolve();
+        }, time);
+    });
+}
+
+
 const firstValue = 'Cat';
 const secondValue = 'Dog';
 const changedValue = 'Giraffe';
@@ -73,7 +94,15 @@ const lastValue = 'Last Parrot';
 
 function renewDropdown() {
     document.body.innerHTML = '';
-    document.body.innerHTML = template;
+}
+
+function createDropdownAsyncSpec(callback, time = 1000) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            callback();
+            resolve();
+        }, time);
+    });
 }
 
 const KEY_CODES = {
@@ -88,13 +117,13 @@ const KEY_CODES = {
 };
 
 function dispatchKeyboardEvent(keyCode, element) {
-    element.dispatchEvent(new KeyboardEvent('keydown', {keyCode: keyCode}));
+    element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: keyCode }));
 }
 
 describe('Dropdown Component', () => {
-    beforeEach(async (done) => {
+    beforeAll(async () => {
         renewDropdown();
-        setTimeout(done, 300);
+        await setupDropdownTestPage();
     });
 
     it('Should be rendered', () => {
@@ -110,18 +139,37 @@ describe('Dropdown Component', () => {
         const dropdown = document.querySelector('gameface-dropdown');
         expect(dropdown.querySelector('.selected').textContent).toEqual(firstValue);
     });
+});
 
-    it('Should toggle the options list on click', () => {
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
+    });
+    it('Should toggle the options list on click', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         const selectedElPlaceholder = dropdown.querySelector('.selected');
 
         click(selectedElPlaceholder);
-        expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeFalse();
+        await createDropdownAsyncSpec(() => {
+            expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeFalse();
+        });
+       
         click(selectedElPlaceholder);
-        expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+        return createDropdownAsyncSpec(() => {
+            expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+        });
     });
+});
 
-    it('Should change the selected option on click', async (done) => {
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
+    });
+    it('Should change the selected option on click', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         const selectedElPlaceholder = dropdown.querySelector('.selected');
 
@@ -129,108 +177,192 @@ describe('Dropdown Component', () => {
 
         const option = dropdown.allOptions[2];
         click(option);
-        setTimeout(() => {
+        return createDropdownAsyncSpec(() => {
             expect(dropdown.querySelector('.selected').textContent).toEqual(changedValue);
-            done();
-        }, 300);
+        });
+    });
+});
+
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
     });
 
-    it('Should select using keyboard ARROW_DOWN and ARROW_UP keys', () => {
+    it('Should select using keyboard ARROW_DOWN and ARROW_UP keys', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         dispatchKeyboardEvent(KEY_CODES.ARROW_DOWN, dropdown);
-        expect(dropdown.value).toEqual(secondValue);
+        await createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual(secondValue);
+        });
 
         dispatchKeyboardEvent(KEY_CODES.ARROW_UP, dropdown);
-        expect(dropdown.value).toEqual(firstValue);
+
+        return createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual(firstValue);
+        });
+    });
+});
+
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
     });
 
-    it('Should select using keyboard ARROW_RIGHT and ARROW_LEFT keys', () => {
+    it('Should select using keyboard ARROW_RIGHT and ARROW_LEFT keys', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         dispatchKeyboardEvent(KEY_CODES.ARROW_RIGHT, dropdown);
-        expect(dropdown.value).toEqual(secondValue);
+
+        await createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual(secondValue);
+        });
 
         dispatchKeyboardEvent(KEY_CODES.ARROW_LEFT, dropdown);
-        expect(dropdown.value).toEqual(firstValue);
+        return createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual(firstValue);
+        });
+    });
+});
+
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
     });
 
-    it('Should select using keyboard HOME and END keys', () => {
+    it('Should select using keyboard HOME and END keys', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         dispatchKeyboardEvent(KEY_CODES.END, dropdown);
-        expect(dropdown.value).toEqual(lastValue);
+        await createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual(lastValue);
+        });
 
         dispatchKeyboardEvent(KEY_CODES.HOME, dropdown);
-        expect(dropdown.value).toEqual(firstValue);
+        return createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual(firstValue);
+        });
+    });
+});
+
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
     });
 
-    it('Should close the options list using keyboard ENTER key', () => {
+    it('Should close the options list using keyboard ENTER key', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         const selectedElPlaceholder = dropdown.querySelector('.selected');
         click(selectedElPlaceholder);
 
-        dispatchKeyboardEvent(KEY_CODES.ARROW_DOWN, dropdown);
-        dispatchKeyboardEvent(KEY_CODES.ENTER, dropdown);
-        expect(dropdown.value).toEqual(secondValue);
-        expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+        await createDropdownAsyncSpec(() => {
+            dispatchKeyboardEvent(KEY_CODES.ENTER, dropdown);
+        });
+        return createDropdownAsyncSpec(() => {
+            expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+        });
+    });
+});
+
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
     });
 
-    it('Should close the options list using keyboard ESC key', () => {
+    it('Should close the options list using keyboard ESC key', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         const selectedElPlaceholder = dropdown.querySelector('.selected');
         click(selectedElPlaceholder);
+        await createDropdownAsyncSpec(() => {
+            dispatchKeyboardEvent(KEY_CODES.ESCAPE, dropdown);
+        });
 
-        dispatchKeyboardEvent(KEY_CODES.ARROW_DOWN, dropdown);
-        dispatchKeyboardEvent(KEY_CODES.ARROW_DOWN, dropdown);
-        dispatchKeyboardEvent(KEY_CODES.ESCAPE, dropdown);
-        expect(dropdown.value).toEqual(changedValue);
-        expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+        return createDropdownAsyncSpec(() => {
+            expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+        });
+    });
+});
+
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
     });
 
-    it('Should close the options list on document click', () => {
+    it('Should close the options list on document click', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         const selectedElPlaceholder = dropdown.querySelector('.selected');
         click(selectedElPlaceholder);
-
         dispatchKeyboardEvent(KEY_CODES.END, dropdown);
-        click(document);
-        expect(dropdown.value).toEqual(lastValue);
-        expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+
+        await createDropdownAsyncSpec(() => { click(document) });
+        return createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual(lastValue);
+            expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTrue();
+        }, 2000);
+    });
+});
+
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
     });
 
-    it('Should select the next enabled option', async (done) => {
+    it('Should select the next enabled option', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         const selectedElPlaceholder = dropdown.querySelector('.selected');
 
         click(selectedElPlaceholder);
 
-        const option = dropdown.allOptions[3];
-        click(option);
-        setTimeout(() => {
+        await createDropdownAsyncSpec(() => {
+            const option = dropdown.allOptions[3];
+            click(option);
+        }, 100);
+        await createDropdownAsyncSpec(() => {
             expect(dropdown.querySelector('.selected').textContent).toEqual('Lion');
             click(selectedElPlaceholder);
             dispatchKeyboardEvent(KEY_CODES.ARROW_RIGHT, dropdown);
-            setTimeout(() => {
-                expect(dropdown.value).toEqual('Eagle');
-                done();
-            }, 300);
-        }, 300);
+        }, 100);
+        return createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual('Eagle');
+        }, 100);
+    });
+});
+
+
+describe('Dropdown Component', () => {
+    beforeAll(async () => {
+        renewDropdown();
+        await setupDropdownTestPage();
     });
 
-    it('Should select the previous enabled option', async (done) => {
+    it('Should select the previous enabled option', async () => {
         const dropdown = document.querySelector('gameface-dropdown');
         const selectedElPlaceholder = dropdown.querySelector('.selected');
 
         click(selectedElPlaceholder);
 
-        const option = dropdown.allOptions[5];
-        click(option);
-        setTimeout(() => {
+        await createDropdownAsyncSpec(() => {
+            const option = dropdown.allOptions[5];
+            click(option);
+        }, 100);
+        await createDropdownAsyncSpec(() => {
             expect(dropdown.querySelector('.selected').textContent).toEqual('Eagle');
             click(selectedElPlaceholder);
             dispatchKeyboardEvent(KEY_CODES.ARROW_LEFT, dropdown);
-            setTimeout(() => {
-                expect(dropdown.value).toEqual('Lion');
-                done();
-            }, 300);
-        }, 300);
+        }, 100);
+        await createDropdownAsyncSpec(() => {
+            expect(dropdown.value).toEqual('Lion');
+        }, 100);
     });
 });
