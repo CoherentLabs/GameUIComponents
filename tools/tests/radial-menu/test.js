@@ -1,4 +1,4 @@
-function setupTestPage() {
+function setupRadialMenuTestPage() {
 	document.body.innerHTML = `
 	<radial-menu id="radial-menu-one"
 		data-name="Radial Menu Name Test"
@@ -29,7 +29,7 @@ function dispatchKeyboardEventKeyUp(keyCode, element) {
 
 describe('Radial Menu', () => {
 	beforeAll(async function () {
-		await setupTestPage();
+		await setupRadialMenuTestPage();
 	}, 3000);
 
 	it('Should be created', () => {
@@ -39,7 +39,7 @@ describe('Radial Menu', () => {
 
 describe('Radial Menu', () => {
 	beforeAll(async function () {
-		await setupTestPage();
+		await setupRadialMenuTestPage();
 	}, 3000);
 
 	it('Should set the provided name', () => {
@@ -49,7 +49,7 @@ describe('Radial Menu', () => {
 
 describe('Radial Menu', () => {
 	beforeAll(async function () {
-		await setupTestPage();
+		await setupRadialMenuTestPage();
 	}, 3000);
 
 	it('Should have items and their count to be 8', () => {
@@ -59,7 +59,7 @@ describe('Radial Menu', () => {
 
 describe('Radial Menu', () => {
 	beforeAll(async function () {
-		await setupTestPage();
+		await setupRadialMenuTestPage();
 	}, 3000);
 
 	it('Should have background image url on a populated element', () => {
@@ -69,7 +69,7 @@ describe('Radial Menu', () => {
 
 describe('Radial Menu', () => {
 	beforeAll(async function () {
-		await setupTestPage();
+		await setupRadialMenuTestPage();
 	}, 3000);
 
 	it('Should have transform rotate on a populated element', () => {
@@ -79,7 +79,7 @@ describe('Radial Menu', () => {
 
 describe('Radial Menu', () => {
 	beforeAll(async function () {
-		await setupTestPage();
+		await setupRadialMenuTestPage();
 	}, 3000);
 
 	it('Should have opened on keydown', () => {
@@ -97,7 +97,7 @@ describe('Radial Menu', () => {
 
 describe('Radial Menu', () => {
 	beforeAll(async function () {
-		await setupTestPage();
+		await setupRadialMenuTestPage();
 	}, 3000);
 
 	it('Should have closed on keyup after opening', () => {
@@ -117,7 +117,7 @@ describe('Radial Menu', () => {
 
 describe('Radial Menu', () => {
 	beforeAll(async function () {
-		await setupTestPage();
+		await setupRadialMenuTestPage();
 	}, 3000);
 
 	it('Should successfully attach to and use custom event', () => {

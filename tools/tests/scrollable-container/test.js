@@ -1,3 +1,13 @@
+
+function createAsyncSpec(callback, time = 500) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            callback();
+            resolve();
+        }, time);
+    });
+}
+
 describe('Scrollable Container Component', () => {
     beforeAll(async () => {
         document.body.innerHTML = `<scrollable-container class="scrollable-container">
@@ -20,18 +30,21 @@ describe('Scrollable Container Component', () => {
         }, 100);
     });
 
-    it('Should scroll using the control buttons', async (done) => {
+    it('Should scroll using the control buttons', async () => {
             const handle = document.querySelector('.handle');
             const downButton = document.querySelector('.down');
-            expect(getComputedStyle(handle).top).toEqual('0.000000%');
+
+            expect(parseInt(getComputedStyle(handle).top)).toEqual(0);
 
             downButton.dispatchEvent(new CustomEvent('mousedown', {}));
 
-            waitForStyles(() => {
-                downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-                expect(getComputedStyle(handle).top).not.toEqual('0.000000%');
-                done();
-            }, 10); // 10 frames are enough for a visible scroll
+            return createAsyncSpec(() => {
+                waitForStyles(() => {
+                    downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
+                    expect(parseInt(getComputedStyle(handle).top)).not.toEqual(0);
+                    done();
+                }, 10); // 10 frames are enough for a visible scroll
+            });
     });
 })
 

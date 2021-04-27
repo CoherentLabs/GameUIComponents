@@ -191,7 +191,7 @@ function createAsyncSpec(callback, time = 1000) {
 }
 
 
-function setupTestPage() {
+function setupRouterTestPage() {
     document.body.innerHTML = template;
     setupPage();
     return new Promise(resolve => {
@@ -203,7 +203,7 @@ function setupTestPage() {
 
 describe('Router Component', () => {
     beforeAll(async function () {
-        await setupTestPage();
+        await setupRouterTestPage();
     }, 3000);
 
     it('Should be rendered', async () => {
