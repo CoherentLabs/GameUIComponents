@@ -4,4 +4,4 @@ umd/
 dist/
 tools/tests/**/**.development.js
 **.tgz
-bundle.js
+components/**/bundle.js

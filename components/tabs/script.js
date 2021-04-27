@@ -35,17 +35,10 @@ class Tabs extends HTMLElement {
             })
             .catch(err => console.error(err));
 
-        // wait for the tab-heading and tab-panel custom elements to be defined
-        // before attaching the events
-        Promise.all([
-            components.whenDefined('tab-heading'),
-            components.whenDefined('tab-panel'),
-        ]).then(() => {
             this.tabSlot = this.querySelector('[data-name="tab"]');
             this.panelSlot = this.querySelector('[data-name="panel"]');
 
             this.attachEventListeners();
-        });
     }
 
     disconnectedCallback() {
@@ -238,9 +231,9 @@ class TabHeading extends HTMLElement {
     set selected(value) {
         if (value) {
             this.setAttribute('selected', value)
-            this.classList.add('active');
+            this.classList.add('active-tab');
         } else {
-            this.classList.remove('active');
+            this.classList.remove('active-tab');
             this.removeAttribute('selected');
         }
     }
@@ -279,9 +272,9 @@ class TabPanel extends HTMLElement {
     set selected(value) {
         if (value) {
             this.setAttribute('selected', value)
-            this.classList.add('active');
+            this.classList.add('active-tab');
         } else {
-            this.classList.remove('active');
+            this.classList.remove('active-tab');
             this.removeAttribute('selected');
         }
     }

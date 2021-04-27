@@ -1,0 +1,63 @@
+---
+title: "Router"
+date: 2021-03-08T14:00:45Z
+draft: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .page-wrapper {
+        height: 45vh;
+    }
+
+    .menu {
+        display: flex;
+        align-items: center;
+        border: 1px solid #a5a3a3;
+        height: 25px;
+        margin-bottom: 25px;
+    }
+
+    body {
+        background-color: #fff;
+    }
+
+    .active {
+        color: var(--default-color-blue);
+    }
+</style>
+
+<body>
+    <div class="page-wrapper">
+
+        <div class="menu">
+            <gameface-route class="active" to="/">Home</gameface-route>
+            <gameface-route to="/start-game">Start Game</gameface-route>
+            <gameface-route to="/heroes">Heroes</gameface-route>
+            <gameface-route to="/missing">Missing Page</gameface-route>
+        </div>
+
+        <router-view></router-view>
+    </div>
+
+    <script src="/components/router/bundle.js"></script>
+
+    <script>
+        const routes = document.querySelectorAll('gameface-route');
+        let activeRoute = document.querySelector('gameface-route.active');
+
+        for (let i = 0; i < routes.length; i++) {
+            const route = routes[i];
+
+            route.addEventListener('click', (e) => {
+                const currentRoute = e.currentTarget;
+                activeRoute.classList.remove('active');
+                currentRoute.classList.add('active');
+
+                activeRoute = currentRoute;
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -19,7 +19,7 @@ tab-heading {
 	box-sizing: border-box;
 }
 
-tab-heading.active {
+tab-heading.active-tab {
     background-color: #ebebeb;
     border-bottom: none;
 }

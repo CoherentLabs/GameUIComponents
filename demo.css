@@ -1,5 +1,6 @@
 body {
     background-color: #ffffff;
+    font-size: 16px;
 }
 
 .component-link {
@@ -17,20 +18,47 @@ body {
     display: none;
 }
 
-.page {
-    display: flex;
-    flex-direction: row;
-}
-
-.menu {
-    width: 10vw;
-    min-width: 150px;
-}
-
-.preview {
-    width: 70vw;
-}
-
 .margin {
     width: 10vw;
 }
+
+/* Grid */
+.box {
+    box-sizing: border-box;
+    background: #25a5d6;
+    margin-bottom: 1rem;
+    height: 4rem;
+}
+
+.title {
+    margin-bottom: 3rem;
+}
+
+.custom-static-col-300px {
+    flex: 0 0 auto;
+    max-width: none;
+    width: 300px;
+}
+
+/* Grid */
+
+/* Slider */
+.horizontal-slider-component {
+    position: relative;
+    top: 120px;
+}
+
+.horizontal-slider-component .horizontal-slider-wrapper {
+    width: 400px;
+}
+/* Slider */
+
+/* Router */
+.router-menu {
+    display: flex;
+    align-items: center;
+    border: 1px solid #a5a3a3;
+    height: 25px;
+    margin-bottom: 25px;
+}
+/* Router */
