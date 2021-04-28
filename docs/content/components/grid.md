@@ -4,6 +4,8 @@ date: 2020-10-08T14:00:45Z
 draft: false
 ---
 
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+
 The grid is part of the Gameface components suite. It provides a set of styles which enable the creation of
 a responsive grid.
 
