@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Dropdown - Gameface Game UI Components</title>
+<meta name="description" content="GameUIComponents">
+<meta name="generator" content="Hugo 0.76.0" />
+<link href="http://localhost:8080//index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://localhost:8080/components/dropdown/">
+<link rel="stylesheet" href="http://localhost:8080/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://localhost:8080/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="http://localhost:8080/js/bundle.js"></script><style>
+:root {}
+</style>
+<meta property="og:title" content="Dropdown" />
+<meta property="og:description" content="The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage The gameface-dropdown component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the gameface-dropdown component:  &lt;script src=&quot;./node_modules/gameface-dropdown/umd/dropdown.production.min.js&quot;&gt;&lt;/script&gt; add the gameface-dropdown component to your html:  &lt;gameface-dropdown&gt;&lt;/gameface-dropdown&gt;To add options to the dropdown use the option slot:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:8080/components/dropdown/" />
+<meta property="og:image" content="http://localhost:8080/images/og-image.png"/>
+<meta property="article:published_time" content="2020-10-08T14:00:45+00:00" />
+<meta property="article:modified_time" content="2020-10-08T14:00:45+00:00" /><meta property="og:site_name" content="Hugo Techdoc Theme" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://localhost:8080/images/og-image.png"/>
+
+<meta name="twitter:title" content="Dropdown"/>
+<meta name="twitter:description" content="The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage The gameface-dropdown component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the gameface-dropdown component:  &lt;script src=&quot;./node_modules/gameface-dropdown/umd/dropdown.production.min.js&quot;&gt;&lt;/script&gt; add the gameface-dropdown component to your html:  &lt;gameface-dropdown&gt;&lt;/gameface-dropdown&gt;To add options to the dropdown use the option slot:"/>
+<meta itemprop="name" content="Dropdown">
+<meta itemprop="description" content="The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage The gameface-dropdown component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the gameface-dropdown component:  &lt;script src=&quot;./node_modules/gameface-dropdown/umd/dropdown.production.min.js&quot;&gt;&lt;/script&gt; add the gameface-dropdown component to your html:  &lt;gameface-dropdown&gt;&lt;/gameface-dropdown&gt;To add options to the dropdown use the option slot:">
+<meta itemprop="datePublished" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="dateModified" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="wordCount" content="235">
+<meta itemprop="image" content="http://localhost:8080/images/og-image.png"/>
+
+
+
+<meta itemprop="keywords" content="" />
+</head>
+<body><div class="container"><header>
+<h1>Gameface Game UI Components</h1><span class="version">Version 1.0.0</span><a href="https://github.com/CoherentLabs/GameUIComponents_Public" class="github"><i class="fab fa-github"></i></a>
+<p class="description">GameUIComponents</p>
+
+</header>
+<div class="global-menu">
+<nav>
+<ul>
+<li><a href="/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>Dropdown</h1>
+<p>The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.</p>
+<h1 id="usage">Usage</h1>
+<p>The gameface-dropdown component comes with UMD and CJS builds.</p>
+<h2 id="usage-with-umd-modules">Usage with UMD modules:</h2>
+<ul>
+<li>import the components library:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>import the gameface-dropdown component:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/gameface-dropdown/umd/dropdown.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>add the gameface-dropdown component to your html:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-dropdown&gt;&lt;/gameface-dropdown&gt;
+</code></pre><p>To add options to the dropdown use the <strong>option</strong> slot:</p>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-dropdown id=&quot;my-dropdown&quot;&gt;
+    &lt;dropdown-option slot=&quot;option&quot;&gt;Cat&lt;/dropdown-option&gt;
+    &lt;dropdown-option slot=&quot;option&quot;&gt;Dog&lt;/dropdown-option&gt;
+    &lt;dropdown-option slot=&quot;option&quot;&gt;Giraffe&lt;/dropdown-option&gt;
+    &lt;dropdown-option slot=&quot;option&quot;&gt;Lion&lt;/dropdown-option&gt;
+&lt;/gameface-dropdown&gt;
+</code></pre><p>To manually select an option use the setSelected(<code>&lt;optionIndex&gt;</code>) function.
+For example - to select the Giraffe option from the dropdown above call:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">const dropdown = document.getElementById('my-dropdown');
+dropdown.setSelected(2);
+</code></pre><p>This is all! Load the file in Gameface to see the gameface-dropdown.</p>
+<p>If you wish to import the modules using JavaScript you can remove the script tags
+which import the components and the gameface-dropdown from the node_modules folder and import them like this:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from 'coherent-gameface-components';
+import GamefaceDropdown from 'gameface-dropdown';
+</code></pre><p>Note that this approach requires a module bundler like <a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/guide/en/">Rollup</a> to resolve the
+modules from the node_modules folder. Alternatively you can import them directly from node_modules:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
+import GamefaceDropdown from './node_modules/gameface-dropdown/umd/dropdown.production.min.js';
+</code></pre><h2 id="usage-with-cjs-modules">Usage with CJS modules:</h2>
+<ul>
+<li>Import the components library:</li>
+</ul>
+<pre><code class="language-{.js}" data-lang="{.js}">const components = require('coherent-gameface-components');
+const GamefaceDropdown = require('gameface-dropdown');
+</code></pre><p>The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
+bundler in order to be use them in a browser.</p>
+<div class="edit-meta">
+Last updated on 8 Oct 2020
+
+
+<br>
+Published on 8 Oct 2020
+<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/components%5cdropdown.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="http://localhost:8080/components/checkbox/" title="Checkbox"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Checkbox</a>
+<a class="nav nav-next" href="http://localhost:8080/components/grid/" title="Grid">Next - Grid <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main>
+<div class="sidebar">
+
+<nav class="open-menu">
+<ul>
+<li class=""><a href="http://localhost:8080/">Home</a></li>
+
+<li class=""><a href="http://localhost:8080/examples/">Examples</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="http://localhost:8080/examples/menu/">Menu</a></li>
+<li class=""><a href="http://localhost:8080/examples/router/">Router</a></li>
+<li class=""><a href="http://localhost:8080/examples/checkbox/">Checkbox</a></li>
+<li class=""><a href="http://localhost:8080/examples/dropdown/">Dropdown</a></li>
+<li class=""><a href="http://localhost:8080/examples/grid/">Grid</a></li>
+<li class=""><a href="http://localhost:8080/examples/modal/">Modal</a></li>
+<li class=""><a href="http://localhost:8080/examples/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="http://localhost:8080/examples/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="http://localhost:8080/examples/slider/">Slider</a></li>
+<li class=""><a href="http://localhost:8080/examples/tabs/">Tabs</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="http://localhost:8080/components/">Components</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="http://localhost:8080/components/menu/">Menu</a></li>
+<li class=""><a href="http://localhost:8080/components/router/">Router</a></li>
+<li class=""><a href="http://localhost:8080/components/checkbox/">Checkbox</a></li>
+<li class="active"><a href="http://localhost:8080/components/dropdown/">Dropdown</a></li>
+<li class=""><a href="http://localhost:8080/components/grid/">Grid</a></li>
+<li class=""><a href="http://localhost:8080/components/modal/">Modal</a></li>
+<li class=""><a href="http://localhost:8080/components/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="http://localhost:8080/components/scrollable-container/">Scrollabe Container</a></li>
+<li class=""><a href="http://localhost:8080/components/slider/">Slider</a></li>
+<li class=""><a href="http://localhost:8080/components/tabs/">Tabs</a></li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+
+<div class="sidebar-footer"></div>
+</div>
+
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>
