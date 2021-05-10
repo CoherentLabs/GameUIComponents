@@ -4,6 +4,8 @@ date: 2020-10-08T14:00:45Z
 draft: false
 ---
 
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+
 The radial-menu is part of the Gameface custom Components suite.
 
 Usage

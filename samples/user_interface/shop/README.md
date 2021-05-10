@@ -1,3 +1,4 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 # Creating a Shop Screen Using GameUI Components
 
 If you haven't yet built components before, go to the repository

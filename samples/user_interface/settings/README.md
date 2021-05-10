@@ -1,3 +1,4 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 #Creating a Settings Screen Using GameUIComponents
 
 All GameUI components are node modules. This means that they can be installed

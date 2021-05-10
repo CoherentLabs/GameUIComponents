@@ -1,3 +1,4 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 coherent-guic-cli is a tool that helps you create and develop components
 part of the GameUIComponents suite.
 

@@ -4,6 +4,7 @@ date: 2020-10-08T14:00:45Z
 draft: false
 ---
 
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 
 The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 

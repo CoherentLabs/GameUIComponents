@@ -1,3 +1,4 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 #Creating a Main Page of Game User Interface
 
 To create the main page of the game ui in this sample you'll need to install the gameface-menu component. To do so run:

@@ -7,6 +7,8 @@ title: Home
 description: Text about this post
 ---
 
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+
 # Components for Game User Interface
 
 This is a suite of custom elements designed specifically for Gameface. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package.

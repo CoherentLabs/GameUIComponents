@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 const template = `<gameface-dropdown class="gameface-dropdown-component">
 <dropdown-option slot="option">Cat</dropdown-option>
 <dropdown-option slot="option">Dog</dropdown-option>

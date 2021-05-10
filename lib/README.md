@@ -1,4 +1,4 @@
-
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 Component library which supports the creation and usage of custom elements. Provides a way to encapsulate a component specific functionality and reuse it. Similar to the [Web Components suite](https://developer.mozilla.org/en-US/docs/Web/Web_Components). Exposes a components object to the Global namespace.
 
 
