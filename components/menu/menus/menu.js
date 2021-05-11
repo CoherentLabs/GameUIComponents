@@ -49,8 +49,6 @@ class GamefaceMenu extends HTMLElement {
         this.onClick = this.onClick.bind(this);
         this.onFocusOut = this.onFocusOut.bind(this);
 
-        components.importStyleTag('gameface-menu-theme', theme);
-        components.importStyleTag('gameface-menu', style);
         this.url = '/components/menu/template.html';
     }
 

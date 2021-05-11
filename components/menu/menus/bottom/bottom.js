@@ -22,7 +22,6 @@ class GamefaceBottomMenu extends GamefaceMenu {
         super();
 
         this.keyMapping = KEY_MAPPING;
-        components.importStyleTag('gameface-bottom-menu', style);
     }
 
     /**

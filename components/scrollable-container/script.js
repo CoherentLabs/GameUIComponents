@@ -6,7 +6,6 @@
 import components from 'coherent-gameface-components';
 import Slider from 'slider';
 import template from './template.html';
-import style from './style.css';
 
 /**
  * @class ScrollableContainer.
@@ -16,7 +15,6 @@ class ScrollableContainer extends HTMLElement {
     constructor() {
         super();
         this.template = template;
-        components.importStyleTag('scrollable-container', style);
         this.url = '/components/scrollable-container/template.html';
     }
 

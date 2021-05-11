@@ -5,8 +5,6 @@
 
 import components from 'coherent-gameface-components';
 import template from './template.html';
-import theme from '../../theme/components-theme.css';
-import style from './style.css';
 
 let tabsCounter = 0;
 let panelsCounter = 0;
@@ -18,9 +16,6 @@ class Tabs extends HTMLElement {
         super();
 
         this.template = template;
-
-        components.importStyleTag('gameface-checkbox-theme', theme);
-        components.importStyleTag('gameface-tabs', style);
 
         // bind the scope to this so that we can access the current instance
         this.onKeyDown = this.onKeyDown.bind(this);

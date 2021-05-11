@@ -6,8 +6,6 @@
 import components from 'coherent-gameface-components';
 import verticalTemplate from './templates/vertical.html';
 import horizontalTemplate from './templates/horizontal.html';
-import verticalStyle from './styles/vertical.css';
-import horizontalStyle from './styles/horizontal.css';
 import { orientationUnitsNames } from './orientationUnitsNames';
 
 
@@ -72,12 +70,6 @@ class Slider extends HTMLElement {
         this.orientation = this.getAttribute('orientation') || 'vertical';
         // use the template for the current slider orientation
         this.template = (this.orientation === 'vertical') ? verticalTemplate : horizontalTemplate;
-        // use the styles for the current slider orientation
-        const styles = (this.orientation === 'vertical') ? verticalStyle : horizontalStyle;
-
-        // import the styles
-        components.importStyleTag(`gameface-slider-${this.orientation}`, styles);
-
         /**
          * The names of the units are different for the two slider types.
          * ['clientY', 'height', 'heightPX', 'top', 'scrollHeight] for vertical and

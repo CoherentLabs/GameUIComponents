@@ -5,7 +5,6 @@
 
 import components from 'coherent-gameface-components';
 import template from './template.html';
-import style from './style.css';
 
 class RadialMenu extends HTMLElement {
 	constructor() {
@@ -25,8 +24,6 @@ class RadialMenu extends HTMLElement {
 		this.segmentDegrees = 0;
 		this.currentSegmentId = 0;
 		this.radialMenuTemplateWrapper = {};
-
-		components.importStyleTag('radial-menu', style);
 	}
 
 	set items(value) {
