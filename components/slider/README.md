@@ -55,3 +55,12 @@ const GamefaceSlider = require('gameface-slider');
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
 bundler in order to be use them in a browser.
+
+
+## Adding the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="styles/horizontal.css">
+<link rel="stylesheet" href="styles/vertical.css">
+~~~~

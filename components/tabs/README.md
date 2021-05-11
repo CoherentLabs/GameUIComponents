@@ -97,3 +97,10 @@ panel.innerText = 'My new panel.';
 panel.slot = 'panel';
 document.querySelector('[data-name="panel"]').appendChild(panel);
 ~~~~
+
+## Adding the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="styles.css">
+~~~~

@@ -79,4 +79,11 @@ Use the slots to put customized background or label.
 ~~~~
 
 
+## Import the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="style.css">
+~~~~
+
 **You can put any custom styles inline or use class names and add an external file.**

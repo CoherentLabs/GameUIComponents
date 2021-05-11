@@ -74,3 +74,18 @@ const GamefaceDropdown = require('gameface-dropdown');
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
 bundler in order to be use them in a browser.
+
+
+## Import the Styles
+
+Each component requires the styles for the components theme and its own styles.
+The dropdown components depends on the scrollable container and the slider
+components. Their styles should also be added:
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="node_modules/gameface-scrollable-container/style.css">
+<link rel="stylesheet" href="node_modules/slider/styles/horizontal.css">
+<link rel="stylesheet" href="node_modules/slider/styles/vertical.css">
+~~~~

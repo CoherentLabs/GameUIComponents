@@ -257,3 +257,10 @@ browserHistory.pushState(state, title, '/');
 
 This is all the information you need to setup the router. For more detailed example check
 the demo located the /demo folder.
+
+## Adding the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="style.css">
+~~~~

@@ -89,3 +89,13 @@ If you need to hide the scrollbar - use the **hideScrollBar method** and pass it
 const scrollableContainer = document.querySelector('.scrollable-container');
 scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 ~~~~
+
+## Adding the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="node_modules/slider/styles/horizontal.css">
+<link rel="stylesheet" href="node_modules/slider/styles/vertical.css">
+~~~~

@@ -136,3 +136,15 @@ It will also be automatically positioned.
     <menu-item slot="menu-item">Credits</menu-item>
 </gameface-menu>
 ~~~~
+
+## Import the Styles
+
+These are the styles required for all menus:
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="menus/menu.css">
+<link rel="stylesheet" href="menus/bottom/bottom.css">
+<link rel="stylesheet" href="menus/left/left.css">
+<link rel="stylesheet" href="menus/right/right.css">
+~~~~

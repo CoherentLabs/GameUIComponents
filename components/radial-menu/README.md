@@ -129,3 +129,10 @@ provided array is created there.
 
 * The menu is hidden with `visibility: hidden` so it is more light when it is
 opened again.
+
+## Adding the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="style.css">
+~~~~
