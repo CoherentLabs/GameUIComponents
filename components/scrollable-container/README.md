@@ -90,7 +90,7 @@ const scrollableContainer = document.querySelector('.scrollable-container');
 scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 ~~~~
 
-## Adding the Styles
+## Add the Styles
 
 ~~~~{.css}
 <link rel="stylesheet" href="components-theme.css">
@@ -99,3 +99,6 @@ scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 <link rel="stylesheet" href="node_modules/slider/styles/horizontal.css">
 <link rel="stylesheet" href="node_modules/slider/styles/vertical.css">
 ~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

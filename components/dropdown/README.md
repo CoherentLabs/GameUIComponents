@@ -76,11 +76,8 @@ The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a mod
 bundler in order to be use them in a browser.
 
 
-## Import the Styles
 
-Each component requires the styles for the components theme and its own styles.
-The dropdown components depends on the scrollable container and the slider
-components. Their styles should also be added:
+## Add the Styles
 
 ~~~~{.css}
 <link rel="stylesheet" href="components-theme.css">
@@ -89,3 +86,6 @@ components. Their styles should also be added:
 <link rel="stylesheet" href="node_modules/slider/styles/horizontal.css">
 <link rel="stylesheet" href="node_modules/slider/styles/vertical.css">
 ~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

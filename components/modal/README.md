@@ -86,11 +86,14 @@ Use the slots to put customized background or label.
 </gameface-modal>
 ~~~~
 
-## Adding the Styles
+## Add the Styles
 
 ~~~~{.css}
 <link rel="stylesheet" href="components-theme.css">
 <link rel="stylesheet" href="style.css">
 ~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.
 
 **You can put any custom styles inline or use class names and add an external file.** 
