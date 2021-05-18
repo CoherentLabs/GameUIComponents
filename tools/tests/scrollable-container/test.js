@@ -12,41 +12,54 @@ function createAsyncSpec(callback, time = 500) {
 }
 
 describe('Scrollable Container Component', () => {
-    beforeAll(async () => {
-        document.body.innerHTML = `<scrollable-container class="scrollable-container">
+    beforeEach(async () => {
+        const template = `<scrollable-container class="scrollable-container">
         <component-slot data-name="scrollable-content">${longContent}</component-slot>
         </scrollable-container>`;
+
+        const el = document.createElement('div');
+        el.innerHTML = template;
+        el.className = 'scrollable-container-test-wrapper';
+
+        let currentElement = document.querySelector('.scrollable-container-test-wrapper');
+
+        if (currentElement) {
+            currentElement.parentElement.removeChild(currentElement);
+        }
+
+        document.body.appendChild(el);
 
         return new Promise((resolve, reject) => {
             setTimeout(resolve, 2000);
         });
-    }, 10000);
-
-    it('Should be rendered', () => {
-        expect(document.querySelector('.scrollable-container')).toBeTruthy();
     });
 
-    it('Should show scrollbar if the content overflows', () => {
-        waitForStyles(() => {
+    it('Should be rendered', () => {
+        assert(document.querySelector('.scrollable-container') !== null, 'Scrollable container is not rendered.');
+    });
+
+    it('Should show scrollbar if the content overflows', async () => {
+        return createAsyncSpec(() => {
             const style = getComputedStyle(document.querySelector('.slider-component')).display;
-            expect(style).toEqual('block');
-        }, 100);
+            assert(style === 'block', 'The scrollbr is not visible.');
+        });
     });
 
     it('Should scroll using the control buttons', async () => {
             const handle = document.querySelector('.handle');
             const downButton = document.querySelector('.down');
 
-            expect(parseInt(getComputedStyle(handle).top)).toEqual(0);
+            await createAsyncSpec(() => {
+                assert(parseInt(getComputedStyle(handle).top) === 0, 'The scrollbar handle is not at the top.');
+                downButton.dispatchEvent(new CustomEvent('mousedown', {}));
+            });
 
-            downButton.dispatchEvent(new CustomEvent('mousedown', {}));
+            await createAsyncSpec(() => {
+                downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
+            });
 
             return createAsyncSpec(() => {
-                waitForStyles(() => {
-                    downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-                    expect(parseInt(getComputedStyle(handle).top)).not.toEqual(0);
-                    done();
-                }, 10); // 10 frames are enough for a visible scroll
+                assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');
             });
     });
 })

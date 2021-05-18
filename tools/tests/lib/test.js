@@ -45,19 +45,6 @@ describe('Components Library', () => {
         expect(loadedResource.template.textContent).toEqual('This is a dummy template.');
     });
 
-    it('Should import link tag', () => {
-        components.importStyle('test-style-url');
-        const styleTag = document.head.querySelector('link[href="test-style-url"]')
-        expect(styleTag).toBeTruthy();
-    });
-
-    xit('Should import style tag with css', () => {
-        components.importStyleTag('test-component', '.testComponent: {background-color: blue}');
-        const styleTag = document.head.querySelector('style[data-name="test-component"]');
-        expect(styleTag).toBeTruthy();
-        expect(styleTag.textContent).toEqual('.testComponent: {background-color: blue}');
-    });
-
     it('Should find slots', () => {
         const template = `
             <div>

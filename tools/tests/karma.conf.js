@@ -1,16 +1,33 @@
 
 module.exports = function(config) {
   config.set({
-        frameworks: ['jasmine'],
-
+    failOnFailingTestSuite : false,
+    client: {
+      mocha: {
+        timeout: 10000,
+      },
+      // useIframe: false
+      clearContext: true
+    },
+    frameworks: ['mocha', 'chai'],
     files: [
       {pattern: 'lib/components.development.js', served: true },
       {pattern: 'actions.js', served: true },
-      '**/**/*.js',
+      // '**/**/*.js',
+      // '**/checkbox/*.js',
+      '**/dropdown/*.js',
+      // '**/lib/*.js',
+      '**/menu/*.js',
+      // '**/modal/*.js',
+      '**/radial-menu/*.js',
+      // '**/router/*.js',
+      '**/scrollable-container/*.js',
+      // '**/tabs/*.js',
+      {pattern: '**/**/*.css', included: true, type:'css' },
       '**/*.html',
     ],
-    singleRun: true,
-    retryLimit: 0,
+    // singleRun: true,
+    retryLimit: 2,
     preprocessors: {
       '**/*.html': ['html2js'],
       '**/router/*.js': ['webpack'],
@@ -37,7 +54,10 @@ module.exports = function(config) {
     exclude: [
       'node_modules/'
     ],
+    // customContextFile: 'specRunner.html',
     customDebugFile: 'specRunner.html',
-    logLevel: config.LOG_INFO
+    logLevel: config.LOG_INFO,
+    processKillTimeout: 20000,
+    browserSocketTimeout: 20000,
   });
 };

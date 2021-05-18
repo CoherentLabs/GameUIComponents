@@ -197,7 +197,18 @@ function createAsyncSpec(callback, time = 1000) {
 
 
 function setupRouterTestPage() {
-    document.body.innerHTML = template;
+    const el = document.createElement('div');
+    el.innerHTML = template;
+    el.className = 'router-test-wrapper';
+
+    let currentElement = document.querySelector('.router-test-wrapper');
+
+    if (currentElement) {
+        currentElement.parentElement.removeChild(currentElement);
+    }
+
+    document.body.appendChild(testWrapper);
+
     setupPage();
     return new Promise(resolve => {
         setTimeout(() => {
@@ -207,12 +218,12 @@ function setupRouterTestPage() {
 }
 
 describe('Router Component', () => {
-    beforeAll(async function () {
+    beforeEach(async function () {
         await setupRouterTestPage();
     }, 3000);
 
     it('Should be rendered', async () => {
-        expect(document.querySelector('gameface-route')).toBeTruthy();
+        assert(document.querySelector('gameface-route') !== null, 'The router component is not rendered.');
     });
 
     it('Should show home', async () => {
@@ -236,30 +247,27 @@ describe('Router Component', () => {
         });
     });
 
-    it('Should show whole numbers', async (done) => {
+    it('Should show whole numbers', async () => {
         click(document.getElementById("numbers"));
-        createAsyncSpec(() => {
+        return createAsyncSpec(() => {
             click(document.getElementById("whole"));
             expect(document.querySelector(routeIdToPageMap['whole'])).toBeTruthy();
         }).then(() => {
-            createAsyncSpec(() => {
+            return createAsyncSpec(() => {
                 expect(document.querySelector(routeIdToPageMap['whole']).textContent).toEqual(NumbersModel.whole.join(','));
-                done();
             });
         });
     });
 
-    it('Should show rational numbers', async (done) => {
+    it('Should show rational numbers', async () => {
         click(document.getElementById("numbers"));
-        createAsyncSpec(() => {
+        await createAsyncSpec(() => {
             click(document.getElementById("rational"));
             expect(document.querySelector(routeIdToPageMap['rational'])).toBeTruthy();
-        }).then(() => {
-            createAsyncSpec(() => {
-                expect(document.querySelector(routeIdToPageMap['rational'])).toBeTruthy();
-                expect(document.querySelector(routeIdToPageMap['rational']).textContent).toEqual(NumbersModel.rational.join(','));
-                done();
-            });
+        }) 
+        return createAsyncSpec(() => {
+            expect(document.querySelector(routeIdToPageMap['rational'])).toBeTruthy();
+            expect(document.querySelector(routeIdToPageMap['rational']).textContent).toEqual(NumbersModel.rational.join(','));
         });
     });
 
@@ -277,21 +285,17 @@ describe('Router Component', () => {
         })
     });
 
-    xit('Should show warning on back', async (done) => {
+    xit('Should show warning on back', async () => {
         click(document.getElementById("home"));
         click(document.getElementById("numbers"));
         click(document.getElementById("vowel"));
 
-        createAsyncSpec(() => {
+        await createAsyncSpec(() => {
             history.back();
-        }).then(() => {
-            expect(history.state.current).toEqual('/letters/vowel');
-            createAsyncSpec(() => {
-                click(document.querySelector('.confirmButton'));
-            }).then(() => {
-                expect(history.state.current).toEqual('/numbers');
-                done();
-            });
+        });
+        click(document.querySelector('.confirmButton'));
+        return createAsyncSpec(() => {
+            expect(history.state.current).toEqual('/numbers');
         });
     });
 
@@ -300,21 +304,18 @@ describe('Router Component', () => {
         click(document.getElementById("numbers"));
         click(document.getElementById("vowel"));
 
-        createAsyncSpec(() => {
+        await createAsyncSpec(() => {
             history.back();
-        }).then(() => {
-            return createAsyncSpec(() => {
-                click(document.querySelector('.confirmButton'));
-                history.forward();
-            }).then(() => {
-                return createAsyncSpec(() => {
-                    click(document.querySelector('.confirmButton'));
-                }, 1000)
-            }).then(() => {
-                expect(history.state.current).toEqual('/letters/vowel');
-                done();
-            });
         });
+
+        await createAsyncSpec(() => {
+            click(document.querySelector('.confirmButton'));
+            history.forward();
+        })
+        click(document.querySelector('.confirmButton'));
+        return createAsyncSpec(() => {
+            expect(history.state.current).toEqual('/letters/vowel');
+        }, 1000);
     });
 
     xit('Should navigate to fallback route using pushState', async (done) => {
@@ -322,10 +323,9 @@ describe('Router Component', () => {
         const title = 'wrongpath';
         browserHistory.pushState(state, title, '/wrongpath');
 
-        createAsyncSpec(() => {
+        return createAsyncSpec(() => {
             expect(history.state.current).toEqual('/wrongpath');
             expect(document.querySelector('router-view').textContent).toEqual(`Can't find this page.`);
-            done();
         })
     });
 });
