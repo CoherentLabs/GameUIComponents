@@ -1,0 +1,66 @@
+
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+    background-color: #ebebeb;
+}
+
+.horizontal-slider-wrapper {
+    width: 90vh;
+    display: flex;
+    flex-direction: row;
+    max-height: 15px;
+}
+
+.horizontal-arrow {
+    height: 15px;
+    width: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
+}
+
+.arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+
+    border-left: 5px solid #505050;
+}
+
+.arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+
+    border-right: 5px solid #505050;
+}
+
+.horizontal-arrow:hover {
+    background-color: #c1c1c1;
+}
+
+.horizontal-slider {
+    width: 90%;
+    background-color: #f1f1f1;
+}
+
+.horizontal-handle {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 50px;
+    background-color: #c1c1c1;
+    cursor: pointer;
+}
+
+.horizontal-handle:hover {
+    background-color: #787878;
+}

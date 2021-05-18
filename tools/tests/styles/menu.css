@@ -1,0 +1,37 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+gameface-menu {
+    position: absolute;
+}
+
+menu-item {
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+}
+
+menu-item.active-menu-item {
+    background-color: var(--default-color-blue);
+}
+
+menu-item[disabled] {
+    color: var(--default-color-gray);
+    pointer-events: none;
+}
+
+menu-item.hover {
+    background-color: var(--default-color-gray);
+}
+
+.horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
