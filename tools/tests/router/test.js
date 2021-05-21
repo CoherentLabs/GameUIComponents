@@ -195,7 +195,6 @@ function createAsyncSpec(callback, time = 1000) {
     });
 }
 
-
 function setupRouterTestPage() {
     const el = document.createElement('div');
     el.innerHTML = template;
@@ -207,7 +206,7 @@ function setupRouterTestPage() {
         currentElement.parentElement.removeChild(currentElement);
     }
 
-    document.body.appendChild(testWrapper);
+    document.body.appendChild(el);
 
     setupPage();
     return new Promise(resolve => {
@@ -218,8 +217,16 @@ function setupRouterTestPage() {
 }
 
 describe('Router Component', () => {
-    beforeEach(async function () {
-        await setupRouterTestPage();
+    afterAll(() => {
+        let currentElement = document.querySelector('.router-test-wrapper');
+
+        if (currentElement) {
+            currentElement.parentElement.removeChild(currentElement);
+        }
+    });
+
+    beforeEach(function (done) {
+        setupRouterTestPage().then(done).catch(err => console.errror(err));
     }, 3000);
 
     it('Should be rendered', async () => {
@@ -229,21 +236,21 @@ describe('Router Component', () => {
     it('Should show home', async () => {
         click(document.getElementById("home"));
         return createAsyncSpec(() => {
-            expect(document.querySelector(routeIdToPageMap['home'])).toBeTruthy();
+            assert(document.querySelector(routeIdToPageMap['home']) !== null, `Current page is not "home".`);
         });
     });
 
     it('Should show not found page', async () => {
         click(document.getElementById("missing"));
         return createAsyncSpec(() => {
-            expect(document.querySelector(routeIdToPageMap['missing'])).toBeTruthy();
+            assert(document.querySelector(routeIdToPageMap['missing']) !== null, `Current page is not "missing".`);
         });
     });
 
     it('Should show numbers', async () => {
         click(document.getElementById("numbers"));
         return createAsyncSpec(() => {
-            expect(document.querySelector(routeIdToPageMap['numbers'])).toBeTruthy();
+            assert(document.querySelector(routeIdToPageMap['numbers']) !== null, `Current page is not "numbers"`);
         });
     });
 
@@ -251,10 +258,10 @@ describe('Router Component', () => {
         click(document.getElementById("numbers"));
         return createAsyncSpec(() => {
             click(document.getElementById("whole"));
-            expect(document.querySelector(routeIdToPageMap['whole'])).toBeTruthy();
+            assert(document.querySelector(routeIdToPageMap['whole']) !== null, 'Current page is not "whole".');
         }).then(() => {
             return createAsyncSpec(() => {
-                expect(document.querySelector(routeIdToPageMap['whole']).textContent).toEqual(NumbersModel.whole.join(','));
+                assert(document.querySelector(routeIdToPageMap['whole']).textContent === NumbersModel.whole.join(','), 'Page "/whole" content is not correct; perhaps it failed to render.');
             });
         });
     });
@@ -263,25 +270,24 @@ describe('Router Component', () => {
         click(document.getElementById("numbers"));
         await createAsyncSpec(() => {
             click(document.getElementById("rational"));
-            expect(document.querySelector(routeIdToPageMap['rational'])).toBeTruthy();
+            assert(document.querySelector(routeIdToPageMap['rational']) !== null, 'Current page is not "rational".');
         }) 
         return createAsyncSpec(() => {
-            expect(document.querySelector(routeIdToPageMap['rational'])).toBeTruthy();
-            expect(document.querySelector(routeIdToPageMap['rational']).textContent).toEqual(NumbersModel.rational.join(','));
+            assert(document.querySelector(routeIdToPageMap['rational']).textContent === NumbersModel.rational.join(','), 'Page "/rational" content is not correct; perhaps it failed to render.');
         });
     });
 
     it('Should show vowel page', async () => {
         click(document.getElementById("vowel"));
         return createAsyncSpec(() => {
-            expect(document.querySelector(routeIdToPageMap['vowel'])).toBeTruthy();
+            assert(document.querySelector(routeIdToPageMap['vowel']) !== null, 'Current page is not "vowel".');
         })
     });
 
     it('Should show consonant page', async () => {
         click(document.getElementById("consonant"));
         return createAsyncSpec(() => {
-            expect(document.querySelector(routeIdToPageMap['consonant'])).toBeTruthy();
+            assert(document.querySelector(routeIdToPageMap['consonant']) !== null, 'Current page is not "consonant".');
         })
     });
 
@@ -295,7 +301,7 @@ describe('Router Component', () => {
         });
         click(document.querySelector('.confirmButton'));
         return createAsyncSpec(() => {
-            expect(history.state.current).toEqual('/numbers');
+            assert(history.state.current === '/numbers', 'Current history state is not "/numbers".');
         });
     });
 
@@ -314,7 +320,7 @@ describe('Router Component', () => {
         })
         click(document.querySelector('.confirmButton'));
         return createAsyncSpec(() => {
-            expect(history.state.current).toEqual('/letters/vowel');
+            assert(history.state.current === '/letters/vowel', 'Current history state is not "/letters/vowel".');
         }, 1000);
     });
 
@@ -324,8 +330,8 @@ describe('Router Component', () => {
         browserHistory.pushState(state, title, '/wrongpath');
 
         return createAsyncSpec(() => {
-            expect(history.state.current).toEqual('/wrongpath');
-            expect(document.querySelector('router-view').textContent).toEqual(`Can't find this page.`);
+            assert(history.state.current === '/wrongpath', 'Current history state is not "/wrongpath".');
+            assert(document.querySelector('router-view').textContent === `Can't find this page.`, 'Current page "/wrongpath" content is not correct; perhaps it failed to render.');
         })
     });
 });

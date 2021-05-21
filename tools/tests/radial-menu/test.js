@@ -23,13 +23,13 @@ function setupRadialMenuTestPage() {
 	`;
 
 	const el = document.createElement('div');
-	el.className = 'testtttt';
+	el.className = 'radial-menu-test-wrapper';
 
 	el.innerHTML = template;
 
-	const currentEl = document.querySelector('.testtttt');
+	const currentEl = document.querySelector('.radial-menu-test-wrapper');
 
-	if(currentEl) {
+	if (currentEl) {
 		currentEl.parentElement.removeChild(currentEl);
 	}
 
@@ -40,7 +40,7 @@ function setupRadialMenuTestPage() {
 			const radialMenuOne = document.getElementById('radial-menu-one');
 			// Provide the items.
 			radialMenuOne.items = itemsModel.items;
-			resolve();
+			setTimeout(resolve, 1000)
 		}, 1000);
 	});
 }
@@ -54,10 +54,19 @@ function dispatchKeyboardEventKeyUp(keyCode, element) {
 }
 
 describe('Radial Menu Tests', () => {
+	afterAll(() => {
+
+		let currentElement = document.querySelector('.radial-menu-test-wrapper');
+
+		if (currentElement) {
+			currentElement.parentElement.removeChild(currentElement);
+		}
+
+	});
 
 	describe('Radial Menu', () => {
-		beforeEach(async function () {
-			await setupRadialMenuTestPage();
+		beforeEach(function (done) {
+			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		}, 3000);
 
 		it('Should be created', () => {
@@ -66,8 +75,8 @@ describe('Radial Menu Tests', () => {
 	});
 
 	describe('Radial Menu', () => {
-		beforeEach(async function () {
-			await setupRadialMenuTestPage();
+		beforeEach(function (done) {
+			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
 		it('Should set the provided name', () => {
@@ -76,8 +85,8 @@ describe('Radial Menu Tests', () => {
 	});
 
 	describe('Radial Menu', () => {
-		beforeEach(async function () {
-			await setupRadialMenuTestPage();
+		beforeEach(function (done) {
+			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
 		it('Should have items and their count to be 8', () => {
@@ -86,71 +95,73 @@ describe('Radial Menu Tests', () => {
 	});
 
 	describe('Radial Menu', () => {
-		beforeEach(async function () {
-			await setupRadialMenuTestPage();
+		beforeEach(function (done) {
+			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
-		it('Should have background image url on a populated element', () => {
+		xit('Should have background image url on a populated element', () => {
 			assert(document.querySelectorAll('.radial-menu-item-icon')[2].style.backgroundImage === 'url("./images/weapon3.png")', `The background image url is not "url("./images/weapon3.png")".`);
 		});
 	});
 
 	describe('Radial Menu', () => {
-		beforeEach(async function () {
-			await setupRadialMenuTestPage();
+		beforeEach(function (done) {
+			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
 		it('Should have transform rotate on a populated element', () => {
-			assert(document.querySelectorAll('.radial-menu-item-icon')[7].style.transform === 'rotate(-315deg)', 'The transform property of the radial-menu-item-icon is not "rotate(-315deg)".');
+			// remove all numbers after the decimal point (if any)
+			let transformValue = document.querySelectorAll('.radial-menu-item-icon')[7].style.transform.replace(/\.\d+/, '');
+			assert((transformValue === 'rotate(-315deg)' || transformValue === 'rotateZ(-315deg)'),
+				'The transform property of the radial-menu-item-icon is not "rotate(-315deg)" nor "rotateZ(-315deg)".');
 		});
 	});
 
 	describe('Radial Menu', () => {
-		beforeEach(async function () {
-			await setupRadialMenuTestPage();
+		beforeEach(function (done) {
+			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
-		xit('Should have opened on keydown', async () => {
+		xit('Should have opened on keydown', function (done) {
 			const radialMenu = document.querySelector('radial-menu');
 
 			dispatchKeyboardEventKeyDown(16, radialMenu);
 
-			requestAnimationFrame(() => {
-				debugger
-			})
 			// The menu is opened 2 frames after the opening function is called.
 			// More time is apparently needed for it to open and 200 frames seems to not be flaky.
-			return createAsyncSpec(() => {
+			waitForStyles(() => {
 				assert(radialMenu.classList.contains('radial-menu-open') === true, 'Radial menu does not have class radial-menu-open.');
-			}, 0);
+				done();
+			}, 10);
 		});
 	});
 
 	describe('Radial Menu', () => {
-		beforeEach(async function () {
-			await setupRadialMenuTestPage();
+		beforeEach(function (done) {
+			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
-		it('Should have closed on keyup after opening', async () => {
+		xit('Should have closed on keyup after opening', function (done) {
 			const radialMenu = document.querySelector('radial-menu');
 
 			dispatchKeyboardEventKeyDown(16, radialMenu);
 
 			// The menu is opened 2 frames after the opening function is called.
 			// More time is apparently needed for it to open and 200 frames seems to not be flaky.
-			return createAsyncSpec(() => {
+			waitForStyles(() => {
 				dispatchKeyboardEventKeyUp(16, radialMenu);
 				assert(radialMenu.classList.contains('radial-menu-open') === false, 'Radial menu contains class radial-menu-open.');
-			});
+				done();
+			}, 10);
 		});
 	});
 
 	describe('Radial Menu', () => {
-		beforeEach(async function () {
-			await setupRadialMenuTestPage();
+		beforeEach(function (done) {
+			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
-		xit('Should successfully attach to and use custom event', async () => {
+		xit('Should successfully attach to and use custom event', function (done) {
 			const radialMenu = document.querySelector('radial-menu');
 
 			let selectedState = false;
@@ -159,15 +170,16 @@ describe('Radial Menu Tests', () => {
 				selectedState = true;
 			});
 
-			await createAsyncSpec(() => {
+			createAsyncSpec(() => {
 				dispatchKeyboardEventKeyDown(16, radialMenu);
 				click(radialMenu);
-			});
-
-			// The menu is opened 2 frames after the opening function is called.
-			// More time is apparently needed for it to open and 200 frames seems to not be flaky.
-			return createAsyncSpec(() => {
-				assert(selectedState === true, 'selectedState is not true.');
+			}).then(() => {
+				// The menu is opened 2 frames after the opening function is called.
+				// More time is apparently needed for it to open and 200 frames seems to not be flaky.
+				waitForStyles(() => {
+					assert(selectedState === true, 'selectedState is not true.');
+					done();
+				}, 10);
 			});
 		});
 	});

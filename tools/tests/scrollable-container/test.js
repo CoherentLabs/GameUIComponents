@@ -12,7 +12,15 @@ function createAsyncSpec(callback, time = 500) {
 }
 
 describe('Scrollable Container Component', () => {
-    beforeEach(async () => {
+    afterAll(() => {
+        let currentElement = document.querySelector('.scrollable-container-test-wrapper');
+
+        if (currentElement) {
+            currentElement.parentElement.removeChild(currentElement);
+        }
+    });
+
+    beforeEach(function (done) {
         const template = `<scrollable-container class="scrollable-container">
         <component-slot data-name="scrollable-content">${longContent}</component-slot>
         </scrollable-container>`;
@@ -27,22 +35,19 @@ describe('Scrollable Container Component', () => {
             currentElement.parentElement.removeChild(currentElement);
         }
 
-        document.body.appendChild(el);
+        document.body.insertBefore(el, document.body.firstElementChild);
+        // document.body.appendChild(el);
 
-        return new Promise((resolve, reject) => {
-            setTimeout(resolve, 2000);
-        });
+        setTimeout(done, 3000);
     });
 
     it('Should be rendered', () => {
         assert(document.querySelector('.scrollable-container') !== null, 'Scrollable container is not rendered.');
     });
 
-    it('Should show scrollbar if the content overflows', async () => {
-        return createAsyncSpec(() => {
-            const style = getComputedStyle(document.querySelector('.slider-component')).display;
-            assert(style === 'block', 'The scrollbr is not visible.');
-        });
+    it('Should show scrollbar if the content overflows', () => {
+        const style = getComputedStyle(document.querySelector('.slider-component')).display;
+        assert(style === 'block', 'The scrollbr is not visible.');
     });
 
     it('Should scroll using the control buttons', async () => {
@@ -52,11 +57,11 @@ describe('Scrollable Container Component', () => {
             await createAsyncSpec(() => {
                 assert(parseInt(getComputedStyle(handle).top) === 0, 'The scrollbar handle is not at the top.');
                 downButton.dispatchEvent(new CustomEvent('mousedown', {}));
-            });
+            }, 1000);
 
             await createAsyncSpec(() => {
                 downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-            });
+            }, 1000);
 
             return createAsyncSpec(() => {
                 assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');

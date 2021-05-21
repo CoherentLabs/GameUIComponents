@@ -31,14 +31,12 @@ function setupMenuTestPage() {
     document.body.appendChild(el);
 
     return new Promise(resolve => {
-        setTimeout(() => {
-            resolve();
-        }, 1000);
+        setTimeout(resolve, 1000);
     });
 }
 
 describe('Menu Component Tests', () => {
-    after(() => {
+    afterAll(() => {
 
         let currentElement = document.querySelector('.menu-test-wrapper');
 
@@ -49,9 +47,9 @@ describe('Menu Component Tests', () => {
     });
 
     describe('Menu Component', () => {
-        beforeEach(async function () {
-            await setupMenuTestPage();
-        }, 3000);
+        beforeEach(function (done) {
+            setupMenuTestPage().then(done);
+        });
 
         it('Should be rendered', function () {
             assert(document.querySelectorAll('menu-item')[0].textContent === 'Start Game', 'The textContent of the menu is not Start Game');
@@ -60,9 +58,9 @@ describe('Menu Component Tests', () => {
 
 
     describe('Menu Component', () => {
-        beforeEach(async function () {
-            await setupMenuTestPage();
-        }, 3000);
+        beforeEach(function (done) {
+            setupMenuTestPage().then(done);
+        });
 
         it('Should open a nested menu', () => {
             click(document.getElementById("settings"), { bubbles: true });
@@ -71,8 +69,8 @@ describe('Menu Component Tests', () => {
     });
 
     describe('Menu Component', () => {
-        beforeEach(async function () {
-            await setupMenuTestPage();
+        beforeEach(function (done) {
+            setupMenuTestPage().then(done);
         }, 3000);
 
         it('Should select an element', () => {
@@ -82,8 +80,8 @@ describe('Menu Component Tests', () => {
     });
 
     describe('Menu Component', () => {
-        beforeEach(async function () {
-            await setupMenuTestPage();
+        beforeEach(function (done) {
+            setupMenuTestPage().then(done);
         }, 3000);
 
         it('Should not select a disabled element', () => {

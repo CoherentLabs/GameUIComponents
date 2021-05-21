@@ -13,26 +13,32 @@ function createAsyncSpec(callback, time = 1000) {
 
 
 describe('Components Library', () => {
+    afterAll(() => {
+        let testWrapper = document.querySelector('.components-library-test');
+        if(testWrapper) testWrapper.parentElement.removeChild(testWrapper);
+    });
+
     it('Should be exposed to the global namespace', () => {
-      expect(window.components).toBeDefined();
+      assert(window.components !== null, 'The components global was not defined.');
     });
 
     it('Should import script tag', () => {
         components.importScript('test-url');
         const scriptTag = document.querySelector('script[src="test-url"]');
-        expect(scriptTag).toBeTruthy();
+        assert(scriptTag !== null, 'The script tag was not imported.');
     });
 
     it('Should resolve a promise when a component is defined', async () => {
         components.defineCustomElement('test-element', class TestElement extends HTMLElement { });
         return components.whenDefined('test-element').then((component) => {
-            expect(component.name).toEqual('TestElement');
+            assert(component.name === 'TestElement',
+                 `The whenDefined promise was not resolved with the correct name; expected TestElement, received ${component.name}.`);
         });
     });
 
     it('Should define custom element', () => {
         components.defineCustomElement('defined-element', class TestElement extends HTMLElement { });
-        expect(components.definedElements['defined-element']).toBeDefined();
+        assert(components.definedElements['defined-element'] !== undefined, 'defined-element was not defined.');
     });
 
     it('Should load html from a component with template', async () => {
@@ -41,8 +47,8 @@ describe('Components Library', () => {
         };
 
         const loadedResource = await components.loadResource(component);
-        expect(loadedResource).toBeDefined();
-        expect(loadedResource.template.textContent).toEqual('This is a dummy template.');
+        assert(loadedResource !== undefined, 'Resource was not loaded.');
+        assert(loadedResource.template.textContent === 'This is a dummy template.', 'The template of the loaded resource is not correct.');
     });
 
     it('Should find slots', () => {
@@ -59,8 +65,8 @@ describe('Components Library', () => {
         element.innerHTML = template;
         const slots = components.findSlots(element);
 
-        expect(slots['name']).toBeDefined();
-        expect(slots['health']).toBeDefined();
+        assert(slots['name'] !== undefined, 'Slot "name" was not found.');
+        assert(slots['health'] !== undefined, 'Slot "health" was not found.');
     });
 
     it('Should transfer slot content from the element to the template', () => {
@@ -100,11 +106,11 @@ describe('Components Library', () => {
         const nameElement = target.querySelector('#name');
         const healthElement = target.querySelector('#health');
         // name
-        expect(nameElement).toBeDefined();
-        expect(nameElement.textContent).toEqual('Test Component');
+        assert(nameElement !== undefined, 'Element #name was not found in the current component.');
+        assert(nameElement.textContent === 'Test Component', 'The content of the #name element is not correct.');
         // health
-        expect(healthElement).toBeDefined();
-        expect(healthElement.textContent).toEqual('10');
+        assert(healthElement !== undefined, 'Element #health was not found in the current component.');
+        assert(healthElement.textContent === '10', 'The content of the  #health element is not correct.');
     });
 
     it('Should transfer one element\'s content to another', () => {
@@ -121,7 +127,7 @@ describe('Components Library', () => {
 
         components.transferContent(source, target);
 
-        expect(target.querySelector('#name').textContent).toEqual('Name');
+        assert(target.querySelector('#name').textContent === 'Name', 'The content of the slotted element is not correct.');
     });
 
     it('Should not render connected elements multiple time', async () => {
@@ -167,7 +173,11 @@ describe('Components Library', () => {
         components.defineCustomElement('child-el', ChildEl);
         components.defineCustomElement('parent-el', ParentEl);
 
-        document.body.innerHTML = `
+
+        let testWrapper = document.createElement('div');
+        testWrapper.className = 'components-library-test';
+
+        testWrapper.innerHTML = `
         <parent-el>
         <div slot="content">
             <child-el>
@@ -206,18 +216,20 @@ describe('Components Library', () => {
                 </div>
             </child-el>
         </div>
-    </parent-el>`
+        </parent-el>`
+
+        document.body.appendChild(testWrapper);
         return createAsyncSpec(() => {
             waitForStyles(() => {
                 const parentElements = document.querySelectorAll('parent-el');
                 for (let i = 0; i < parentElements.length; i++) {
-                    expect(parentElements[i].timesRendered).toEqual(1);
+                    assert(parentElements[i].timesRendered === 1, `Parent element ${parentElements[i]} was rendered more than once.`);
                 }
                 const childElements = document.querySelectorAll('child-el');
                 for (let i = 0; i < childElements.length; i++) {
-                    expect(childElements[i].timesRendered).toEqual(1);
+                    assert(childElements[i].timesRendered === 1, `Child element ${childElements[i]} was rendered more than once.`);
                 }
             });
         });
     });
-  });
+});
