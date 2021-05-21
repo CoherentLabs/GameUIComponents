@@ -10,12 +10,11 @@ const rimraf = require('rimraf');
 
 const componentFolder = 'create-component-test-folder';
 const componentName = 'test-name';
-const generatedName = `gameface-${componentName}`;
 const componentFolderPath = path.resolve(path.join(process.cwd(), componentFolder));
-const componentSourcePath = path.join(componentFolderPath, generatedName);
+const componentSourcePath = path.join(componentFolderPath, componentName);
 
 const componentFiles = {
-    'gameface-test-name': [
+    'test-name': [
         'index.js',
         'package.json',
         'README.md',
@@ -35,12 +34,14 @@ describe('create component test', () => {
         // create a component
         const result = execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
         // Verify the output is correct
-        expect(result).toMatch(`Created component ${generatedName} in C:\\GameUIComponents\\GameUIComponents\\tools\\cli\\create-component-test-folder\\${generatedName}.`);
+        const generatedInPath = path.join(process.cwd(), componentFolder, componentName);
+        const expectedResult = `Created component ${componentName} in ${generatedInPath}.`
+        expect(result).toMatch(expectedResult);
     });
 
     test("Created the component files", () => {
         // Verify the output is correct
-        const hasComponentFiles = folderContainsFiles(componentSourcePath, componentFiles[generatedName]);
+        const hasComponentFiles = folderContainsFiles(componentSourcePath, componentFiles[componentName]);
         expect(hasComponentFiles).toBe(true);
     });
 
@@ -53,7 +54,7 @@ describe('create component test', () => {
     test("Generates component source files with valid content", () => {
         // Check if the generated files have valid content
         const componentFilesTree = folderToTree(componentSourcePath);
-        const isContentValid = filesHaveCorrectContent(componentSourcePath, componentFilesTree[generatedName]);
+        const isContentValid = filesHaveCorrectContent(componentSourcePath, componentFilesTree[componentName]);
 
         expect(isContentValid).toBe(true);
     });
