@@ -69,6 +69,10 @@ class GamefaceMenu extends HTMLElement {
                 // setup the initial position of the menu items
                 this.setupMenuItems(true);
                 this.setOrientation();
+
+                if(!this.hasAttribute('disabled')) {
+                    this.setAttribute('tabindex', 0);
+                }
             })
             .catch(err => {
                 console.error(err);
@@ -394,10 +398,6 @@ class MenuItem extends HTMLElement {
 
     constructor() {
         super();
-
-        if(!this.hasAttribute('disabled')) {
-            this.setAttribute('tabindex', 0);
-        }
         this.attachEventListeners();
     }
 

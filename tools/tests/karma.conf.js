@@ -2,34 +2,30 @@
 module.exports = function(config) {
   config.set({
     failOnFailingTestSuite : false,
+    frameworks: ['jasmine', 'chai'],
     client: {
-      mocha: {
-        timeout: 10000,
+      jasmine: {
+        timeoutInterval: 30000,
       },
-      // useIframe: false
-      clearContext: true
+      clearContext: false,
     },
-    frameworks: ['mocha', 'chai'],
     files: [
+      {pattern: '**/**/*.css', included: true, type:'css' },
       {pattern: 'lib/components.development.js', served: true },
       {pattern: 'actions.js', served: true },
-      // '**/**/*.js',
-      // '**/checkbox/*.js',
-      '**/dropdown/*.js',
-      // '**/lib/*.js',
-      '**/menu/*.js',
-      // '**/modal/*.js',
-      '**/radial-menu/*.js',
-      // '**/router/*.js',
       '**/scrollable-container/*.js',
-      // '**/tabs/*.js',
-      {pattern: '**/**/*.css', included: true, type:'css' },
-      '**/*.html',
+      '**/checkbox/**.js',
+      '**/dropdown/*.js',
+      '**/lib/*.js',
+      '**/menu/*.js',
+      '**/modal/*.js',
+      '**/radial-menu/*.js',
+      '**/router/*.js',
+      '**/tabs/*.js',
     ],
-    // singleRun: true,
-    retryLimit: 2,
+    singleRun: true,
+    retryLimit: 0,
     preprocessors: {
-      '**/*.html': ['html2js'],
       '**/router/*.js': ['webpack'],
     },
     webpack: {
@@ -54,7 +50,6 @@ module.exports = function(config) {
     exclude: [
       'node_modules/'
     ],
-    // customContextFile: 'specRunner.html',
     customDebugFile: 'specRunner.html',
     logLevel: config.LOG_INFO,
     processKillTimeout: 20000,
