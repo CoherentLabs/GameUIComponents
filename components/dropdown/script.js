@@ -38,7 +38,6 @@ class GamefaceDropdown extends HTMLElement {
         this.selectedOption = null;
         this.isOpened = false;
         // the index of the currently selected option element
-        // this._selected = this.multiple ? -1 : 0;
         this._selected = 0;
         this.selectedList = [];
         this._hovered = 0;
@@ -78,6 +77,7 @@ class GamefaceDropdown extends HTMLElement {
      * Dispatches a change event to notify that the active option has been changed.
     */
     set selected(option) {
+        // reset
         if (option === null && this.selectedList.length > 0) {
             for (let index of this.selectedList) {
                 this.allOptions[index].classList.remove('active');
@@ -96,7 +96,6 @@ class GamefaceDropdown extends HTMLElement {
         // get the index of the current option
         const selectedIndex = this.allOptions.indexOf(option);
 
-        // TODO: fix
         if (!this.multiple) {
             components.transferContent(option.cloneNode(true), this.querySelector('.selected'));
         }
@@ -121,16 +120,6 @@ class GamefaceDropdown extends HTMLElement {
         }));
     }
 
-    setMultipleSelected(value, option) {
-        // TODO: fix; there must be an easier, shorter way to do this
-        if (this.selectedList.indexOf(value) > -1) {
-            this.selectedList.splice(this.selectedList.indexOf(value), 1);
-            option.classList.remove('active');
-        } else {
-            this.selectedList.push(value);
-        }
-    }
-
     /**
      * Sets the currently hovered element's index.
      * @param {Number} value
@@ -153,8 +142,11 @@ class GamefaceDropdown extends HTMLElement {
      * @returns {HTMLElement}
     */
     get selected() {
-        // if (this.multiple) return this.selectedList;
         return this.allOptions[this._selected];
+    }
+
+    get selectedOptions () {
+        return this.selectedList.map(selected => this.allOptions[selected]);
     }
 
     waitForFrames(callback = () => { }, count = 3) {
@@ -172,8 +164,11 @@ class GamefaceDropdown extends HTMLElement {
                 this.setAttribute('tabindex', '1');
                 if (this.multiple && !this.collapsable) {
                     this.querySelector('.dropdown-header').style.display = 'none';
-                    this.onClick();
+                    this.waitForFrames(() => {
+                        this.onClick();
+                    }, 6)
                 }
+
                 // select the default element
                 if (this._selected > -1) this.selected = this.enabledOptions[this._selected];
                 this.attachEventListeners();
@@ -241,6 +236,7 @@ class GamefaceDropdown extends HTMLElement {
     onKeydown(event) {
         let currentOptionIndex = this.enabledOptions.indexOf(this.allOptions[this.hoveredElIndex]);
 
+        // If the select is multiple, the keyboard navigation should start from the element that was selected last
         if (this.multiple && this.selectedList.length > 1) {
             const lastSelectedOptionIndex = this.selectedList[this.selectedList.length-1];
             currentOptionIndex = this.enabledOptions.indexOf(this.allOptions[lastSelectedOptionIndex]);
@@ -311,16 +307,13 @@ class GamefaceDropdown extends HTMLElement {
 
         this.openOptionsPanel();
 
-        this.waitForFrames(() => {
-            if (!this.isGameface()) {
-                scrollableContainer.querySelector('.scrollable-container').classList.add('full-width');
-            } else if (this.isGameface()) {
-                scrollableContainer.shouldShowScrollbar();
-            }
+        if (!this.isGameface()) {
+            scrollableContainer.querySelector('.scrollable-container').classList.add('full-width');
+        } else if (this.isGameface()) {
+            scrollableContainer.shouldShowScrollbar();
+        }
 
-            this.scrollToSelectedElement();
-        }, 3)
-
+        this.scrollToSelectedElement();
     }
 
     /**
@@ -338,10 +331,9 @@ class GamefaceDropdown extends HTMLElement {
         const options = this.querySelectorAll('dropdown-option');
         for (let i = 0; i < options.length; i++) {
             options[i].addEventListener('selected-option', (event) => this.onClickOption(event));
-            options[i].addEventListener('mouseover', (event) => this.onMouseOverOption(event));
-            options[i].addEventListener('mouseout', (event) => {
-                const options = this.allOptions;
-                const index = options.indexOf(event.target);
+            options[i].addEventListener('mouseenter', (event) => this.onMouseOverOption(event));
+            options[i].addEventListener('mouseleave', (event) => {
+                const index = this.allOptions.indexOf(event.target);
                 if (this.multiple && this.selectedList.indexOf(index) > -1) return;
                 event.target.classList.remove('active');
             });
@@ -378,7 +370,7 @@ class GamefaceDropdown extends HTMLElement {
         }
 
         this.selected = event.target;
-        if (!this.multiple) this.closeOptionsPanel();
+        this.closeOptionsPanel();
     }
 
     /**
