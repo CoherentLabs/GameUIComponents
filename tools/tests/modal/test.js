@@ -8,6 +8,11 @@ describe('Modal Component', () => {
         const el = document.createElement('gameface-modal');
         const currentElement = document.querySelector('gameface-modal');
 
+        // Since we don't want to replace the whole content of the body using
+        // innerHtml setter, we query only the current custom element and we replace
+        // it with a new one; this is needed because the specs are executed in a random
+        // order and sometimes the component might be left in a state that is not
+        // ready for testing
         if(currentElement) {
             currentElement.parentElement.removeChild(currentElement);
         }

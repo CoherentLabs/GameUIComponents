@@ -18,4 +18,4 @@ function copyCSSTheme() {
     });
 }
 
-copyCSSTheme();
+module.exports = copyCSSTheme;

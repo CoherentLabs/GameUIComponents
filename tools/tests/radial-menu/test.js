@@ -29,6 +29,11 @@ function setupRadialMenuTestPage() {
 
 	const currentEl = document.querySelector('.radial-menu-test-wrapper');
 
+	// Since we don't want to replace the whole content of the body using
+	// innerHtml setter, we query only the current custom element and we replace
+	// it with a new one; this is needed because the specs are executed in a random
+	// order and sometimes the component might be left in a state that is not
+	// ready for testing
 	if (currentEl) {
 		currentEl.parentElement.removeChild(currentEl);
 	}
@@ -40,7 +45,9 @@ function setupRadialMenuTestPage() {
 			const radialMenuOne = document.getElementById('radial-menu-one');
 			// Provide the items.
 			radialMenuOne.items = itemsModel.items;
-			setTimeout(resolve, 1000)
+			// the .items setter triggers a DOM change, so we wait a second to make
+			// sure the DOM is ready
+			setTimeout(resolve, 1000);
 		}, 1000);
 	});
 }
