@@ -136,3 +136,16 @@ It will also be automatically positioned.
     <menu-item slot="menu-item">Credits</menu-item>
 </gameface-menu>
 ~~~~
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="menus/menu.css">
+<link rel="stylesheet" href="menus/bottom/bottom.css">
+<link rel="stylesheet" href="menus/left/left.css">
+<link rel="stylesheet" href="menus/right/right.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

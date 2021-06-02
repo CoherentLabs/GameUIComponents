@@ -12,41 +12,64 @@ function createAsyncSpec(callback, time = 500) {
 }
 
 describe('Scrollable Container Component', () => {
-    beforeAll(async () => {
-        document.body.innerHTML = `<scrollable-container class="scrollable-container">
+    afterAll(() => {
+        // Since we don't want to replace the whole content of the body using
+        // innerHtml setter, we query only the current custom element and we replace
+        // it with a new one; this is needed because the specs are executed in a random
+        // order and sometimes the component might be left in a state that is not
+        // ready for testing
+        let currentElement = document.querySelector('.scrollable-container-test-wrapper');
+
+        if (currentElement) {
+            currentElement.parentElement.removeChild(currentElement);
+        }
+    });
+
+    beforeEach(function (done) {
+        const template = `<scrollable-container class="scrollable-container">
         <component-slot data-name="scrollable-content">${longContent}</component-slot>
         </scrollable-container>`;
 
-        return new Promise((resolve, reject) => {
-            setTimeout(resolve, 2000);
-        });
-    }, 10000);
+        const el = document.createElement('div');
+        el.innerHTML = template;
+        el.className = 'scrollable-container-test-wrapper';
+
+        let currentElement = document.querySelector('.scrollable-container-test-wrapper');
+
+        if (currentElement) {
+            currentElement.parentElement.removeChild(currentElement);
+        }
+
+        document.body.insertBefore(el, document.body.firstElementChild);
+        // document.body.appendChild(el);
+
+        setTimeout(done, 3000);
+    });
 
     it('Should be rendered', () => {
-        expect(document.querySelector('.scrollable-container')).toBeTruthy();
+        assert(document.querySelector('.scrollable-container') !== null, 'Scrollable container is not rendered.');
     });
 
     it('Should show scrollbar if the content overflows', () => {
-        waitForStyles(() => {
-            const style = getComputedStyle(document.querySelector('.slider-component')).display;
-            expect(style).toEqual('block');
-        }, 100);
+        const style = getComputedStyle(document.querySelector('.slider-component')).display;
+        assert(style === 'block', 'The scrollbr is not visible.');
     });
 
     it('Should scroll using the control buttons', async () => {
             const handle = document.querySelector('.handle');
             const downButton = document.querySelector('.down');
 
-            expect(parseInt(getComputedStyle(handle).top)).toEqual(0);
+            await createAsyncSpec(() => {
+                assert(parseInt(getComputedStyle(handle).top) === 0, 'The scrollbar handle is not at the top.');
+                downButton.dispatchEvent(new CustomEvent('mousedown', {}));
+            }, 1000);
 
-            downButton.dispatchEvent(new CustomEvent('mousedown', {}));
+            await createAsyncSpec(() => {
+                downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
+            }, 1000);
 
             return createAsyncSpec(() => {
-                waitForStyles(() => {
-                    downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-                    expect(parseInt(getComputedStyle(handle).top)).not.toEqual(0);
-                    done();
-                }, 10); // 10 frames are enough for a visible scroll
+                assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');
             });
     });
 })

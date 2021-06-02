@@ -11,17 +11,6 @@
     "UI",
     "Component"
   ],
-  "files": [
-    "index.js",
-    "package.json",
-    "README.md",
-    "script.js",
-    "style.css",
-    "template.html",
-    "demo/",
-    "cjs/",
-    "umd/"
-  ],
   "dependencies": {
     "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
     "postmessage-polyfill": "1.0.0",

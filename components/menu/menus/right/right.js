@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import style from './right.css';
 import GamefaceMenu from '../menu';
 
 const KEYCODES = components.KEYCODES;
@@ -22,7 +21,6 @@ class GamefaceRightMenu extends GamefaceMenu {
         super();
 
         this.keyMapping = KEY_MAPPING;
-        components.importStyleTag('gameface-right-menu', style);
     }
 
     /**

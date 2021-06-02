@@ -129,3 +129,13 @@ provided array is created there.
 
 * The menu is hidden with `visibility: hidden` so it is more light when it is
 opened again.
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="style.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

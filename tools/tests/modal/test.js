@@ -4,18 +4,40 @@
  *--------------------------------------------------------------------------------------------*/
 
 describe('Modal Component', () => {
-    beforeAll(() => {
-        document.body.innerHTML = '<gameface-modal></gameface-modal>';
+    beforeEach(function (done) {
+        const el = document.createElement('gameface-modal');
+        const currentElement = document.querySelector('gameface-modal');
+
+        // Since we don't want to replace the whole content of the body using
+        // innerHtml setter, we query only the current custom element and we replace
+        // it with a new one; this is needed because the specs are executed in a random
+        // order and sometimes the component might be left in a state that is not
+        // ready for testing
+        if(currentElement) {
+            currentElement.parentElement.removeChild(currentElement);
+        }
+
+        document.body.appendChild(el);
+
+        setTimeout(done, 2000);
+    });
+
+    afterAll(() => {
+        const currentElement = document.querySelector('gameface-modal');
+
+        if(currentElement) {
+            currentElement.parentElement.removeChild(currentElement);
+        }
     });
 
     it('Should be rendered', () => {
-        expect(document.querySelector('.modal-wrapper')).toBeTruthy();
+        assert(document.querySelector('.modal-wrapper') !== null, 'The modal was not rendered.');
     });
 
     it('Should close when the close button is clicked', () => {
         const modal = document.getElementsByTagName('gameface-modal')[0];
         click(modal.querySelector('.close'));
 
-        expect(modal.style.display).toEqual('none');
+        assert(modal.style.display === 'none', 'The modal is not hidden.');
     });
 });

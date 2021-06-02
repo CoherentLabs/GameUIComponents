@@ -4,8 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import theme from '../../theme/components-theme.css';
-import styles from './style.css';
 import { BrowserHistory } from './history';
 
 /**
@@ -37,9 +35,6 @@ class GamefaceRoute extends HTMLElement {
         super();
 
         this.addEventListener('click', this.onClick);
-
-        components.importStyleTag('gameface-theme', theme);
-        components.importStyleTag('gameface-route', styles);
     }
 
     /**

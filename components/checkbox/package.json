@@ -15,15 +15,6 @@
     "UI",
     "Component"
   ],
-  "files": [
-    "LICENSE",
-    "README.md",
-    "demo.html",
-    "index.js",
-    "script.js",
-    "cjs/",
-    "umd/"
-  ],
   "dependencies": {
     "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz"
   },

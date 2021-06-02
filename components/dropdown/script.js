@@ -40,9 +40,6 @@ class GamefaceDropdown extends HTMLElement {
         this.template = template;
         this.onDocumentClick = this.onDocumentClick.bind(this);
         this.onClickOption = this.onClickOption.bind(this);
-
-        components.importStyleTag('gameface-dropdown-theme', theme);
-        components.importStyleTag('gameface-dropdown', style);
     }
 
     /**

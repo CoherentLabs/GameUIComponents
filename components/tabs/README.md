@@ -97,3 +97,13 @@ panel.innerText = 'My new panel.';
 panel.slot = 'panel';
 document.querySelector('[data-name="panel"]').appendChild(panel);
 ~~~~
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="styles.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

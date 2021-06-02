@@ -49,8 +49,6 @@ class GamefaceMenu extends HTMLElement {
         this.onClick = this.onClick.bind(this);
         this.onFocusOut = this.onFocusOut.bind(this);
 
-        components.importStyleTag('gameface-menu-theme', theme);
-        components.importStyleTag('gameface-menu', style);
         this.url = '/components/menu/template.html';
     }
 
@@ -71,6 +69,10 @@ class GamefaceMenu extends HTMLElement {
                 // setup the initial position of the menu items
                 this.setupMenuItems(true);
                 this.setOrientation();
+
+                if(!this.hasAttribute('disabled')) {
+                    this.setAttribute('tabindex', 0);
+                }
             })
             .catch(err => {
                 console.error(err);
@@ -396,10 +398,6 @@ class MenuItem extends HTMLElement {
 
     constructor() {
         super();
-
-        if(!this.hasAttribute('disabled')) {
-            this.setAttribute('tabindex', 0);
-        }
         this.attachEventListeners();
     }
 

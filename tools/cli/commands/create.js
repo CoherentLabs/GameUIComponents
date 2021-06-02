@@ -37,7 +37,7 @@ function toUpperCamelCase(words) {
 }
 
 function create(name, directory) {
-    name = `gameface-${name}`;
+    name = `${name}`;
     directory = directory || process.cwd();
     const componentFolder = createFolder(path.join(directory), name);
     const demoFolder = createFolder(componentFolder, 'demo');

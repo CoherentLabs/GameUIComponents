@@ -257,3 +257,13 @@ browserHistory.pushState(state, title, '/');
 
 This is all the information you need to setup the router. For more detailed example check
 the demo located the /demo folder.
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="style.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

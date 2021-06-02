@@ -11,6 +11,7 @@ const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const html = require('rollup-plugin-html');
 const styles = require("rollup-plugin-styles");
 const buildCssComponents = require('./build-style-component');
+const copyCSSTheme = require('./copy-theme');
 
 const { execSync } = require('child_process');
 // The module formats which will be bundled
@@ -161,6 +162,7 @@ function createBundle(inputOptions, outputOptions) {
 }
 
 function main() {
+    copyCSSTheme();
     const arguments = process.argv.slice(2);
 
     if(arguments.indexOf('--library') > -1) {

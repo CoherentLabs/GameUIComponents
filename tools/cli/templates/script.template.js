@@ -1,12 +1,10 @@
 import components from 'coherent-gameface-components';
 import template from './template.html';
-import style from './style.css';
  
 class ${this.className} extends HTMLElement {
     constructor() {
         super();
         this.template = template;
-        components.importStyleTag('${this.componentName}', style);
         this.url = '/components/${this.componentName}/template.html';
     }
     connectedCallback() {

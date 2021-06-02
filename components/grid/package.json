@@ -6,14 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "files": [
-    "demo.html",
-    "index.js",
-    "style.css",
-    "README.md",
-    "LICENSE",
-    "dist/"
-  ],
   "author": "",
   "license": "ISC"
 }
