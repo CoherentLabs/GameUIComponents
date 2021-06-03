@@ -3,15 +3,42 @@ title: "Dropdown"
 date: 2020-10-08T14:00:45Z
 draft: false
 ---
-
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="/components/components-theme.css">
+    <link rel="stylesheet" href="/components/scrollable-container/style.css">
+    <link rel="stylesheet" href="/components/slider/horizontal.css">
+    <link rel="stylesheet" href="/components/slider/vertical.css">
+    <link rel="stylesheet" href="/components/dropdown/style.css">
     <style>
+        scrollable-content,
+        .wrapper {
+            width: 100%;
+            height: 200px;
+        }
+
+        .vertical-slider-wrapper {
+            height: 200px;
+        }
+
         .page-wrapper {
             height: 45vh;
+        }
+
+        scrollable-content,
+        .wrapper {
+            width: 100%;
+            height: 200px;
+        }
+
+        .vertical-slider-wrapper {
+            height: 200px;
+        }
+
+        gameface-dropdown {
+            line-height: 100%;
         }
     </style>
 </head>
@@ -36,36 +63,8 @@ draft: false
         </gameface-dropdown>
     </div>
 
-    <script src="./bundle.js"></script>
-    <script>
-        const style = `
-            scrollable-content,
-            .wrapper {
-                width: 100%;
-                height: 200px;
-            }
-
-            .vertical-slider-wrapper {
-                height: 200px;
-            }
-            gameface-dropdown {
-                line-height: 100%;
-            }
-            `;
-
-        setTimeout(() => importStyleTag('', style), 500)
-
-        function importStyleTag(componentName, css) {
-            if (document.querySelector(`[data-name="${componentName}"]`)) return;
-
-            let style = document.createElement('style');
-            style.setAttribute('data-name', componentName)
-            style.textContent = css;
-            document.head.appendChild(style);
-        }
-
-    </script>
     <script src="/components/dropdown/bundle.js"></script>
+
 </body>
 
 </html>

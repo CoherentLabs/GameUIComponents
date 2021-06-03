@@ -3,44 +3,101 @@ title: "Router"
 date: 2021-03-08T14:00:45Z
 draft: false
 ---
-
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    .page-wrapper {
-        height: 45vh;
-    }
+    <link rel="stylesheet" href="/components/components-theme.css">
+    <link rel="stylesheet" href="/components/router/style.css">
+    <style>
+        .page-wrapper {
+            height: 45vh;
+        }
 
-    .menu {
-        display: flex;
-        align-items: center;
-        border: 1px solid #a5a3a3;
-        height: 25px;
-        margin-bottom: 25px;
-    }
+        .menu {
+            display: flex;
+            align-items: center;
+            border: 1px solid #a5a3a3;
+            height: 25px;
+            margin-bottom: 25px;
+        }
 
-    body {
-        background-color: #fff;
-    }
+        body {
+            background-color: #fff;
+        }
 
-    .active {
-        color: var(--default-color-blue);
-    }
-</style>
+        .active {
+            color: var(--default-color-blue);
+        }
 
+        .healers-menu {
+            display: flex;
+            height: 135px;
+            margin-bottom: 25px;
+        }
+
+        .avatar-container {
+            display: flex;
+            flex-direction: column;
+            width: 100px;
+        }
+
+        .avatar {
+            margin-bottom: 5px;
+            min-height: 50px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat no-repeat;
+        }
+        .avatar1 {
+            background-image: url(images/imgAvatar_2.png);
+        }
+
+        .avatar2 {
+            background-image: url(images/imgAvatar_3.png);
+        }
+        .avatar3 {
+            background-image: url(images/imgAvatar_4.png);
+        }
+        .tanks-menu {
+                display: flex;
+                height: 135px;
+                margin-bottom: 25px;
+            }
+
+            .avatar-container {
+                display: flex;
+                flex-direction: column;
+                width: 100px;
+            }
+
+            .avatar {
+                margin-bottom: 5px;
+                min-height: 50px;
+                height: 100px;
+                background-size: contain;
+                background-repeat: no-repeat no-repeat;
+            }
+            .tank-avatar1 {
+                background-image: url(images/avatar1.png);
+            }
+
+            .tank-avatar2 {
+                background-image: url(images/avatar4.png);
+            }
+            .tank-avatar3 {
+                background-image: url(images/avatar5.png);
+            }
+    </style>
 <body>
     <div class="page-wrapper">
-
-        <div class="menu">
-            <gameface-route class="active" to="/">Home</gameface-route>
-            <gameface-route to="/start-game">Start Game</gameface-route>
-            <gameface-route to="/heroes">Heroes</gameface-route>
-            <gameface-route to="/missing">Missing Page</gameface-route>
-        </div>
-
-        <router-view></router-view>
+    <div class="menu">
+        <gameface-route class="active" to="/">Home</gameface-route>
+        <gameface-route to="/start-game">Start Game</gameface-route>
+        <gameface-route to="/heroes">Heroes</gameface-route>
+        <gameface-route to="/missing">Missing Page</gameface-route>
     </div>
+
+    <router-view></router-view>
+</div>
 
     <script src="/components/router/bundle.js"></script>
 
@@ -61,5 +118,4 @@ draft: false
         }
     </script>
 </body>
-
 </html>
