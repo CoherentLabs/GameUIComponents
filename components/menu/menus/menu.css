@@ -23,7 +23,7 @@ menu-item[disabled] {
 }
 
 menu-item.hover {
-    background-color: var(--default-color-gray);
+    background-color: #cfcfcf;
 }
 
 .horizontal {

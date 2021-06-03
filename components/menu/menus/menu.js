@@ -69,10 +69,7 @@ class GamefaceMenu extends HTMLElement {
                 // setup the initial position of the menu items
                 this.setupMenuItems(true);
                 this.setOrientation();
-
-                if(!this.hasAttribute('disabled')) {
-                    this.setAttribute('tabindex', 0);
-                }
+                this.setAttribute('tabindex', 0);
             })
             .catch(err => {
                 console.error(err);
@@ -152,7 +149,7 @@ class GamefaceMenu extends HTMLElement {
         // get the element which lost focus
         const lostFocus = event.target;
 
-        if(receivedFocus !== null && isDescendant(this, receivedFocus)) {
+        if (receivedFocus !== null && isDescendant(this, receivedFocus)) {
             return;
         }
 
@@ -239,6 +236,7 @@ class GamefaceMenu extends HTMLElement {
     */
     onClick(event) {
         event.stopPropagation();
+
         // avoid all cases except when the target is a menu item
         if (event.currentTarget.hasAttribute('disabled')) return;
 
@@ -275,7 +273,7 @@ class GamefaceMenu extends HTMLElement {
      * @returns {boolean} - true, if a menu was opened and false if not
     */
     openSubmenu(event) {
-        const submenu = this.getSubmenu(event.currentTarget);
+        const submenu = this.getSubmenu(event.target);
         if(!submenu) return false;
 
         submenu.show();
@@ -388,11 +386,13 @@ class MenuItem extends HTMLElement {
             this.removeEventListener('mouseover', this.onMouseOver);
             this.removeEventListener('mouseout', this.onMouseOut);
         } else {
-            // if it's not disabled update the tabindex and attach the mouseover and
-            // mouseout listeners
-            const value = this.hasAttribute('selected');
-            this.setAttribute('tabindex', value ? 0 : -1);
             this.attachEventListeners();
+        }
+    }
+
+    connectedCallback() {
+        if(!this.hasAttribute('disabled')) {
+            this.setAttribute('tabindex', 0);
         }
     }
 
@@ -439,7 +439,6 @@ class MenuItem extends HTMLElement {
         event.stopPropagation();
         const menuItem = event.target;
 
-        if (menuItem.hasAttribute('selected')) return;
         menuItem.classList.add('hover');
     }
 
