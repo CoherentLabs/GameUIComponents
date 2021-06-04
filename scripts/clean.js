@@ -7,7 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const rimraf = require('rimraf');
 
-const FOLDERS_TO_CLEAN = ['umd', 'cjs', 'dist', 'node_modules'];
+const FOLDERS_TO_CLEAN = ['umd', 'cjs', 'dist', 'node_modules', 'package-lock.json'];
 
 /**
  * Remove all bundles and bundle folders in a directory starting from a root.

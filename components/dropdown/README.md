@@ -78,7 +78,7 @@ bundler in order to be use them in a browser.
 
 ## Multiple Select
 
-To enable multiple selection add an attribute multiple to the gameface-dropdown:
+To enable multiple selection add a `multiple` attribute to the gameface-dropdown:
 
 ~~~~{.html}
 <gameface-dropdown class="gameface-dropdown-component" multiple>
@@ -89,7 +89,7 @@ To enable multiple selection add an attribute multiple to the gameface-dropdown:
 
 By default the multiple select will have its options list expanded and it won't have
 a header. If you would like to have a dropdown that looks like a single select, but
-supports multiple selected elements - add the collapsable attribute along with the multiple:
+supports multiple selected elements - add the `collapsable` attribute along with the `multiple` attribute:
 
 ~~~~{.html}
 <gameface-dropdown class="gameface-dropdown-component" multiple collapsable>

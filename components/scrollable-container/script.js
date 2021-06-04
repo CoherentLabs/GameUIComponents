@@ -100,7 +100,7 @@ class ScrollableContainer extends HTMLElement {
     shouldShowScrollbar() {
         const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
 
-        Slider.waitForFrames(() => {
+        components.waitForFrames(() => {
             const scrollableContentRect = scrollableContent.getBoundingClientRect();
             const boundingRect = this.getBoundingClientRect();
 

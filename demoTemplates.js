@@ -9,18 +9,18 @@ const checkBoxTemplate = `<gameface-checkbox class="checkbox-component"></gamefa
 const dropDownTemplate = `
 <gameface-dropdown class="gameface-dropdown-component">
 <dropdown-option slot="option">Cat1</dropdown-option>
-<dropdown-option slot="option" disabled="disabled">Cat1</dropdown-option>
-<dropdown-option slot="option" disabled="disabled">Cat1</dropdown-option>
+<dropdown-option slot="option" disabled>Cat1</dropdown-option>
+<dropdown-option slot="option" disabled>Cat1</dropdown-option>
 <dropdown-option slot="option">Cat3</dropdown-option>
 <dropdown-option slot="option">Cat4</dropdown-option>
 <dropdown-option slot="option">Dog</dropdown-option>
 <dropdown-option slot="option">Giraffe</dropdown-option>
 <dropdown-option slot="option">Lion</dropdown-option>
-<dropdown-option slot="option" disabled="disabled">Pig</dropdown-option>
+<dropdown-option slot="option" disabled>Pig</dropdown-option>
 <dropdown-option slot="option">Eagle</dropdown-option>
 <dropdown-option slot="option">Parrot</dropdown-option>
-<dropdown-option slot="option" disabled="disabled">Last Parrot</dropdown-option>
-<dropdown-option slot="option" disabled="disabled">Last Parrota</dropdown-option>
+<dropdown-option slot="option" disabled>Last Parrot</dropdown-option>
+<dropdown-option slot="option" disabled>Last Parrota</dropdown-option>
 <dropdown-option slot="option">Last Parrot</dropdown-option>
 </gameface-dropdown>`;
 
