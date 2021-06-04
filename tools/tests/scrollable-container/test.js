@@ -41,7 +41,6 @@ describe('Scrollable Container Component', () => {
         }
 
         document.body.insertBefore(el, document.body.firstElementChild);
-        // document.body.appendChild(el);
 
         setTimeout(done, 3000);
     });
