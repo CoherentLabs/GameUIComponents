@@ -1,7 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 # Components for Game User Interface
 
-This is a suite of custom elements designed specifically for Gameface. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package.
+This is a suite of custom elements designed specifically for Gameface. All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package.
 
 Navigate to the root directory and run:
 
@@ -15,7 +15,7 @@ This will build all components used in the demo. After that run:
 
     npm run start:demo
 
-This will serve the files on http://localhost:8080. Load that url in the Gameface player and preview the components.
+This will serve the files on http://localhost:8080. Load that url in the Gameface player or in Chrome and preview the components.
 You can change the port in the webpack.config.js file.
 
 Custom components examples.
@@ -34,9 +34,9 @@ Creating new Components
 ===================
 
 All components are npm modules. Your component doesn't have to be an npm module.
-If you need to use it in your project only you can skip the steps which make a
+If you need to use it in your project only, you can skip the steps which make a
 component an npm module. However if at some point you decide that you want to make
-your component an npm module follow the steps below to see how to do it.
+your component an npm module - follow the steps below to see how to do it.
 
 These are the commands used to build and package the components.
 
@@ -71,14 +71,13 @@ To start the tests run:
 
 `npm run test`
 
-If you haven't build the components or if you've made changes:
+If you haven't built the components or if you've made changes:
 
 `npm run test -- --rebuild`
 
-to create new builds.
+to create new bundles.
 
-After you successfully execute `npm run tests` open the Gameface player with "--url=http://localhost:9876/debug.html" to see the tests running. You can open Chrome on the same URL to
-run the tests in a browser.
+After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
 
 ## Structure of a Component
 All components in the GameUIComponents suite are npm modules.
@@ -86,7 +85,7 @@ All components in the GameUIComponents suite are npm modules.
 All Gameface JavaScript components are custom HTML elements. Each component has:
 * a JavaScript source file - the custom element's definition; where all the logic is implemented
 * a JavaScript index file - the entry file
-* an HTML file - the component's template; it's structure described with html
+* an HTML file - the component's template;
 * a CSS file - the component's styles
 * a package.json file
 * a README markdown file - short documentation explaining what the component does and how it's used
@@ -119,9 +118,8 @@ Add the custom component to the page:
 `<labeled-input></labeled-input>`
 
 The JavaScript definition is a simple class which extends the HTMLElemnt. The
-template is loaded using XHR. The url property of the component class show the
-path to the template html file. Use the `importStyle` method from the components
-library to dynamically import style files. Use the `loadResource` method to load
+template is loaded using XHR. The url property of the component class shows the
+path to the template html file. Use the <link> tags to import style files. Use the `loadResource` method to load
 the template. When the template is loaded you can render the component.
 
 ```
@@ -129,7 +127,6 @@ class LabeledInput extends HTMLElement {
     constructor() {
         super();
 
-        components.importStyle('/style.css');
         this.url = '/template.html';
     }
 
@@ -157,8 +154,8 @@ Adding component to the components suite
 =========================================
 
 If you want to contribute to the components library and add a new component you
-need to add the required files in the correct folders. Make sure they build and bundle
-successfully and add documentation.
+need to add the required files in the correct folders. Make sure they can be
+successfully bundled and add documentation.
 
 All components are placed in the /components folder.
 The folders are named using lower case and camel-case for longer names.
@@ -175,36 +172,29 @@ at the top of the script.js file:
 ```
 import components from 'coherent-gameface-components';
 import template from './template.html';
-import style from './style.css';
 ```
 
 And we can export the labeled input at the bottom:
 
 `export { LabeledInput };`
 
-Because the styles and the template are imported as modules we no longer need to
-load them using XHR. The styles are imported using the `importStyleTag` method:
-
-`components.importStyleTag('gameface-labeled-input', style);`
-
-And the template need to be added as a property of the component:
+Because the templates are imported as modules we no longer need to
+load them using XHR.
+Set the template as a property of the component:
 
 `this.template = template;`
 
-The loadResource method can work with both URL and an imported template. The usage
+The loadResource method can both work with URL and an imported template. The usage
 is the same so that it is more convenient to switch between XHR and imported template.
 This is how the component's definition looks like after the changes:
 
 ```
 import components from 'coherent-gameface-components';
 import template from './template.html';
-import style from './style.css';
 
 class LabeledInput extends HTMLElement {
     constructor() {
         super();
-
-        components.importStyleTag('gameface-labeled-input', style);
 
         this.template = template;
     }
@@ -234,15 +224,15 @@ It should export either the development or the production CJS bundle:
 
 ```
 if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/labeled-input.production.min.js');
+    module.exports = require('./cjs/gameface-labeled-input.production.min.js');
 } else {
-    module.exports = require('./cjs/labeled-input.development.js');
+    module.exports = require('./cjs/gameface-labeled-input.development.js');
 }
 ```
 
 Each component has a demo page. It is placed in a /demo folder.
 The JavaScript file of the demo should be bundled so that it can be easily checked with double click
-or drag and drop without the need to start a server.
+or drag and drop without the need to manually setup an environment.
 
 The demo.js file imports all dependencies so that Rollup can resolve and bundle them.
 
@@ -265,8 +255,7 @@ JavaScript and html files respectively.
 
 We have the definition, the demo, the entry file. All that is left in order to
 build the component is to specify which files will be added to the npm package.
-This is done in the package.json
-file using the files field:
+This is done in the package.json file using the files field:
 
 ```
   "files": [
@@ -279,6 +268,7 @@ file using the files field:
     "umd/"
   ],
 ```
+*Skip the files property if you want to include all files.*
 
 Use the LICENSE template.
 

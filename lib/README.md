@@ -17,7 +17,6 @@ API Reference
     * [.defineCustomElement(name, element)](#GamefaceComponents+defineCustomElement)
     * [.importComponent(url)](#GamefaceComponents+importComponent)
     * [.loadResource(url)](#GamefaceComponents+loadResource) => <code>promise</code>
-    * [.importStyle(url)](#GamefaceComponents+importStyle)
     * [.findSlots(parent, result)](#GamefaceComponents+findSlots) => <code>Object</code>
     * [.transferContent(source, target)](#GamefaceComponents+transferContent)
 
@@ -90,17 +89,6 @@ Uses an XMLHttpRequest to load an external file.
 | Param | Type | Description |
 | --- | --- | --- |
 | url | <code>string</code> | The url of the file. |
-
-<a name="GamefaceComponents+importStyle"></a>
-
-### GamefaceComponents.importStyle(url)
-Appends a `<link>` element which imports a given css file.
-
-**Kind**: instance method of [<code>GamefaceComponents</code>](#GamefaceComponents)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| url | <code>string</code> | The source to a given css file. |
 
 <a name="GamefaceComponents+findSlots"></a>
 
