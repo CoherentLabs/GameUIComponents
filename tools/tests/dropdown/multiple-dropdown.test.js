@@ -19,13 +19,17 @@ const multipleDropdownCollapsableTemplate = `<gameface-dropdown multiple collaps
 </gameface-dropdown>`;
 
 
-function setupDropdownTestPage(template) {
-    const currentElement = document.body.querySelector('gameface-dropdown');
+function setupMultipleDropdownTestPage(template) {
+    const el = document.createElement('div');
+    el.className = 'multiple-dropdown-test-wrapper';
+    el.innerHTML = template;
+
+    const currentElement = document.body.querySelector('.multiple-dropdown-test-wrapper');
     if (currentElement) {
         currentElement.parentElement.removeChild(currentElement);
     }
 
-    document.body.innerHTML = template;
+    document.body.appendChild(el);
 
     return new Promise(resolve => {
         setTimeout(() => {
@@ -43,75 +47,94 @@ const expectedValuesAfterDeselect = ['Cat', 'Parrot'];
 
 
 
-describe('Multiple Dropdown Component', () => {
-    beforeAll(async () => {
-        await setupDropdownTestPage(multipleDropdownTemplate);
+describe('Multiple Dropdown Test', () => {
+    afterAll(() => {
+        const currentElement = document.querySelector('.multiple-dropdown-test-wrapper');
+
+        if (currentElement) {
+            currentElement.parentElement.removeChild(currentElement);
+        }
     });
 
-    it('Should have its options list expanded', () => {
-        expect(document.querySelector('.options-container').classList.contains('hidden') === false).toBeTruthy();
+    describe('Multiple Dropdown Component', () => {
+        beforeEach(function (done) {
+            setupMultipleDropdownTestPage(multipleDropdownTemplate).then(done).catch(err => console.error(err));
+        });
+
+        it('Should have its options list expanded', () => {
+            assert(document.querySelector('.options-container').classList.contains('hidden') === false,
+                'Options container is not hidden.');
+        });
+
+        it('Should select multiple elements', () => {
+            const dropdownWrapper = document.querySelector('.multiple-dropdown-test-wrapper');
+            const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
+
+            options[1].onClick({ target: options[1], ctrlKey: true });
+            options[2].onClick({ target: options[2], ctrlKey: true });
+
+            assert(dropdown.selectedOptions.length === 3,
+                `Expected selected options length to be 3, got ${dropdown.selectedOptions.length}.`);
+        });
     });
 
-    it('Should select multiple elements', () => {
-        const dropdown = document.querySelector('gameface-dropdown');
-        const options = dropdown.querySelectorAll('dropdown-option');
+    describe('Multiple Dropdown Component', () => {
+        beforeEach(function (done) {
+            setupMultipleDropdownTestPage(multipleDropdownTemplate).then(done).catch(err => console.error(err));
+        });
 
-        options[1].onClick({target: options[1], ctrlKey: true});
-        options[2].onClick({target: options[2], ctrlKey: true});
+        it('Should deselect multiple elements', () => {
+            const dropdownWrapper = document.querySelector('.multiple-dropdown-test-wrapper');
+            const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
 
-        expect(dropdown.selectedOptions.length === 3).toBeTruthy();
-    });
-});
+            options[1].onClick({ target: options[1], ctrlKey: true });
+            options[2].onClick({ target: options[2], ctrlKey: true });
 
-describe('Multiple Dropdown Component', () => {
-    beforeAll(async () => {
-        await setupDropdownTestPage(multipleDropdownTemplate);
-    });
+            options[1].onClick({ target: options[1], ctrlKey: true });
+            options[2].onClick({ target: options[2], ctrlKey: true });
 
-    it('Should deselect multiple elements', () => {
-        const dropdown = document.querySelector('gameface-dropdown');
-        const options = dropdown.querySelectorAll('dropdown-option');
-
-        options[1].onClick({target: options[1], ctrlKey: true});
-        options[2].onClick({target: options[2], ctrlKey: true});
-
-        options[1].onClick({target: options[1], ctrlKey: true});
-        options[2].onClick({target: options[2], ctrlKey: true});
-
-        expect(dropdown.selectedOptions.length === 1).toBeTruthy();
-    });
-});
-
-describe('Multiple Dropdown Component', () => {
-    beforeAll(async () => {
-        await setupDropdownTestPage(multipleDropdownTemplate);
+            assert(dropdown.selectedOptions.length === 1,
+                `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
+        });
     });
 
-    it('Should select multiple elements and then select 1', () => {
-        const dropdown = document.querySelector('gameface-dropdown');
-        const options = dropdown.querySelectorAll('dropdown-option');
+    describe('Multiple Dropdown Component', () => {
+        beforeEach(function (done) {
+            setupMultipleDropdownTestPage(multipleDropdownTemplate).then(done).catch(err => console.error(err));
+        });
 
-        options[1].onClick({target: options[1], ctrlKey: true});
-        options[2].onClick({target: options[2], ctrlKey: true});
-        options[3].onClick({target: options[2], ctrlKey: true});
-        options[0].onClick({target: options[0]});
+        it('Should select multiple elements and then select 1', () => {
+            const dropdownWrapper = document.querySelector('.multiple-dropdown-test-wrapper');
+            const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
 
-        expect(dropdown.selectedOptions.length === 1).toBeTruthy();
+            options[1].onClick({ target: options[1], ctrlKey: true });
+            options[2].onClick({ target: options[2], ctrlKey: true });
+            options[3].onClick({ target: options[2], ctrlKey: true });
+            options[0].onClick({ target: options[0] });
+
+            assert(dropdown.selectedOptions.length === 1,
+                `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
+        });
     });
-});
 
-describe('Multiple Dropdown Component', () => {
-    beforeAll(async () => {
-        await setupDropdownTestPage(multipleDropdownCollapsableTemplate);
-    });
+    describe('Multiple Dropdown Component', () => {
+        beforeEach(function (done) {
+            setupMultipleDropdownTestPage(multipleDropdownCollapsableTemplate).then(done).catch(err => console.error(err));
+        });
 
-    it('Should hide the options list if it is collapsable', () => {
-        const dropdown = document.querySelector('gameface-dropdown');
-        const options = dropdown.querySelectorAll('dropdown-option');
+        it('Should hide the options list if it is collapsable', function () {
+            const dropdownWrapper = document.querySelector('.multiple-dropdown-test-wrapper');
+            const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
 
-        options[1].onClick({target: options[1], ctrlKey: true});
-        click(document);
+            options[1].onClick({ target: options[1], ctrlKey: true });
 
-        expect(dropdown.querySelector('.options-container').classList.contains('hidden')).toBeTruthy();
+            click(document);
+            assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true,
+                `Options container is not hidden.`);
+        });
     });
 });
