@@ -38,7 +38,7 @@ class GamefaceDropdown extends HTMLElement {
         this.selectedOption = null;
         this.isOpened = false;
         // the index of the currently selected option element
-        this._lastSelectedIndex  = 0;
+        this._lastSelectedIndex = 0;
         this.selectedList = [];
         this._hovered = 0;
         this.template = template;
@@ -177,7 +177,11 @@ class GamefaceDropdown extends HTMLElement {
     */
     onDocumentClick(event) {
         if (event.target === this || isDescendant(this, event.target)) return;
-        if (this.isOpened) this.closeOptionsPanel();
+
+        if (this.isOpened) {
+            if (this.multiple && !this.collapsable) return;
+            this.closeOptionsPanel();
+        }
     }
 
     /**
@@ -359,11 +363,16 @@ class GamefaceDropdown extends HTMLElement {
      * @param {MouseEvent} event - the current event object.
     */
     onClickOption(event) {
-        if (this.multiple && !event.detail.ctrlKey) {
-            this.selected = null;
+        // handle multiple
+        if (this.multiple ) {
+            // reset the selectedList if only one option is selected
+            if (!event.detail.ctrlKey) this.selected = null;
+            this.selected = event.target;
+            return;
         }
+
         this.selected = event.target;
-        if (this.collapsable || !this.multiple) this.closeOptionsPanel();
+        this.closeOptionsPanel()
     }
 
     /**
@@ -373,7 +382,7 @@ class GamefaceDropdown extends HTMLElement {
         const optionsPanel = this.querySelector('.options-container');
         this.isOpened = false;
         optionsPanel.classList.add('hidden');
-        if(this.collapsable) document.removeEventListener('click', this.onDocumentClick);
+        document.removeEventListener('click', this.onDocumentClick);
     }
 
     /**
@@ -387,7 +396,7 @@ class GamefaceDropdown extends HTMLElement {
         this.isOpened = true;
         optionsPanel.classList.remove('hidden');
         this.focus();
-        if (this.collapsable) document.addEventListener('click', this.onDocumentClick);
+        document.addEventListener('click', this.onDocumentClick);
     }
 
     /**
