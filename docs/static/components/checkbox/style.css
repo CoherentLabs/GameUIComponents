@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
- .checkbox-wrapper {
+.checkbox-wrapper {
     position: relative;
     margin-top: 10px;
     display: flex;
@@ -17,7 +17,7 @@
     height: 30px;
     border-width: 5px;
     border-style: solid;
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .check-mark {

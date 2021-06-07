@@ -93,6 +93,6 @@ dropdown-option {
     display: none;
 }
 
-.disable-hover{
+.disable-hover {
     pointer-events: none;
 }

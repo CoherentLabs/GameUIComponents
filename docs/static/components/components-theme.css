@@ -10,6 +10,7 @@
 }
 
 /* Regular Elements */
+
 input, textarea, button, menu-item {
 	border-top-color: var(--default-color-blue);
 	border-right-color: var(--default-color-blue);
@@ -23,13 +24,14 @@ button, input[type="button"] {
 }
 
 /* Custom Components */
-tab-heading, tab-panel, /* Tabs Component */
-.modal, /* Modal Component */
-gameface-menu,
-gameface-right-menu,
-gameface-left-menu,
-gameface-bottom-menu
-{
+
+tab-heading, tab-panel,
+/* Tabs Component */
+
+.modal,
+/* Modal Component */
+
+gameface-menu, gameface-right-menu, gameface-left-menu, gameface-bottom-menu {
 	border-top-color: var(--default-color-blue);
 	border-right-color: var(--default-color-blue);
 	border-bottom-color: var(--default-color-blue);
@@ -42,6 +44,7 @@ tab-heading.active {
 }
 
 /* Modal Component  */
+
 .header {
 	border-bottom-color: var(--default-color-blue);
 }
@@ -57,6 +60,7 @@ tab-heading.active {
 }
 
 /* Checkbox Component */
+
 .checkbox-wrapper-inner {
 	background-color: var(--default-color-white);
 }

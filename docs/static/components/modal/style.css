@@ -34,7 +34,7 @@
     position: absolute;
     border-width: 3px;
     border-style: solid;
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .modal-wrapper {
@@ -57,7 +57,7 @@
     border-bottom-style: solid;
     line-height: 50px;
     padding: 0px 10px;
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .body, .footer {
