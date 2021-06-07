@@ -100,6 +100,7 @@ supports multiple selected elements - add the `collapsable` attribute along with
 
 ## Add the Styles
 
+
 ~~~~{.css}
 <link rel="stylesheet" href="components-theme.css">
 <link rel="stylesheet" href="style.css">
@@ -110,3 +111,13 @@ supports multiple selected elements - add the `collapsable` attribute along with
 
 To overwrite the default styles, simply create new rules for the class names that
 you wish to change and include them after the default styles.
+
+### Limitations
+
+This is not a standard HTML select multiple. It is a custom HTML element that enables you to define a list of options.
+The `multiple` attribute makes it possible to select more than one option using the **Control** key and the mouse.
+
+These are some of the differences to the standard select that are not yet supported:
+
+- *Selecting multiple elements via keyboard*.
+- *Selecting a range of elements*.

@@ -248,6 +248,7 @@ class GamefaceDropdown extends HTMLElement {
                 this.closeOptionsPanel();
                 return;
             case KEYCODES.HOME:
+            case KEYCODES.PAGE_UP:
                 // only one option can be selected via keyboard!
                 this.selected = null;
                 // focus first
@@ -255,6 +256,7 @@ class GamefaceDropdown extends HTMLElement {
                 this.scrollToSelectedElement();
                 break;
             case KEYCODES.END:
+            case KEYCODES.PAGE_DOWN:
                 // only one option can be selected via keyboard!
                 this.selected = null;
                 // focus last
@@ -361,7 +363,7 @@ class GamefaceDropdown extends HTMLElement {
             this.selected = null;
         }
         this.selected = event.target;
-        if (this.multiple) this.closeOptionsPanel();
+        if (this.collapsable || !this.multiple) this.closeOptionsPanel();
     }
 
     /**
