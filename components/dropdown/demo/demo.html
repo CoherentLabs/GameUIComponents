@@ -17,28 +17,95 @@
             .vertical-slider-wrapper {
                 height: 200px;
             }
+
+            .selected {
+                flex-wrap: wrap;
+            }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .column {
+                width: 33%;
+                min-width: 200px;
+                display: flex;
+                justify-content: center;
+            }
     </style>
 </head>
+
 <body>
-    <gameface-dropdown class="gameface-dropdown-component">
-        <dropdown-option slot="option" >Cat1</dropdown-option>
-        <dropdown-option slot="option" disabled="disabled">Cat1</dropdown-option>
-        <dropdown-option slot="option" disabled="disabled">Cat1</dropdown-option>
-        <dropdown-option slot="option">Cat3</dropdown-option>
-        <dropdown-option slot="option">Cat4</dropdown-option>
-        <dropdown-option slot="option">Dog</dropdown-option>
-        <dropdown-option slot="option">Giraffe</dropdown-option>
-        <dropdown-option slot="option">Lion</dropdown-option>
-        <dropdown-option slot="option" disabled="disabled">Pig</dropdown-option>
-        <dropdown-option slot="option">Eagle</dropdown-option>
-        <dropdown-option slot="option">Parrot</dropdown-option>
-        <dropdown-option slot="option" disabled="disabled">Last Parrot</dropdown-option>
-        <dropdown-option slot="option" disabled="disabled">Last Parrota</dropdown-option>
-        <dropdown-option slot="option">Last Parrot</dropdown-option>
-    </gameface-dropdown>
+    <div class="row">
+        <div class="column">
+            <span>Single</span>
+        </div>
+        <div class="column">
+            <span>Multiple</span>
+        </div>
+        <div class="column">
+            <span>Multiple Collapsable</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <gameface-dropdown class="gameface-dropdown-component">
+                <dropdown-option slot="option">Cat1</dropdown-option>
+                <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+                <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+                <dropdown-option slot="option">Cat3</dropdown-option>
+                <dropdown-option slot="option">Cat4</dropdown-option>
+                <dropdown-option slot="option">Dog</dropdown-option>
+                <dropdown-option slot="option">Giraffe</dropdown-option>
+                <dropdown-option slot="option">Lion</dropdown-option>
+                <dropdown-option slot="option" disabled>Pig</dropdown-option>
+                <dropdown-option slot="option">Eagle</dropdown-option>
+                <dropdown-option slot="option">Parrot</dropdown-option>
+                <dropdown-option slot="option" disabled>Last Parrot</dropdown-option>
+                <dropdown-option slot="option" disabled>Last Parrota</dropdown-option>
+                <dropdown-option slot="option">Last Parrot</dropdown-option>
+            </gameface-dropdown>
+        </div>
+        <div class="column">
+            <gameface-dropdown class="gameface-dropdown-component" multiple>
+                <dropdown-option slot="option">Cat1</dropdown-option>
+                <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+                <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+                <dropdown-option slot="option">Cat3</dropdown-option>
+                <dropdown-option slot="option">Cat4</dropdown-option>
+                <dropdown-option slot="option">Dog</dropdown-option>
+                <dropdown-option slot="option">Giraffe</dropdown-option>
+                <dropdown-option slot="option">Lion</dropdown-option>
+                <dropdown-option slot="option" disabled>Pig</dropdown-option>
+                <dropdown-option slot="option">Eagle</dropdown-option>
+                <dropdown-option slot="option">Parrot</dropdown-option>
+                <dropdown-option slot="option" disabled>Last Parrot</dropdown-option>
+                <dropdown-option slot="option" disabled>Last Parrota</dropdown-option>
+                <dropdown-option slot="option">Last Parrot</dropdown-option>
+            </gameface-dropdown>
+        </div>
+        <div class="column">
+            <gameface-dropdown class="gameface-dropdown-component" multiple collapsable>
+                <dropdown-option slot="option">Cat1</dropdown-option>
+                <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+                <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+                <dropdown-option slot="option">Cat3</dropdown-option>
+                <dropdown-option slot="option">Cat4</dropdown-option>
+                <dropdown-option slot="option">Dog</dropdown-option>
+                <dropdown-option slot="option">Giraffe</dropdown-option>
+                <dropdown-option slot="option">Lion</dropdown-option>
+                <dropdown-option slot="option" disabled>Pig</dropdown-option>
+                <dropdown-option slot="option">Eagle</dropdown-option>
+                <dropdown-option slot="option">Parrot</dropdown-option>
+                <dropdown-option slot="option" disabled>Last Parrot</dropdown-option>
+                <dropdown-option slot="option" disabled>Last Parrota</dropdown-option>
+                <dropdown-option slot="option">Last Parrot</dropdown-option>
+            </gameface-dropdown>
+        </div>
+    </div>
 
     <script src="./bundle.js"></script>
-
 </body>
-
 </html>

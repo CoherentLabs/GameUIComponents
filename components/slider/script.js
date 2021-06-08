@@ -46,19 +46,6 @@ class Slider extends HTMLElement {
         return this.handlePosition/100 * sliderSize;
     }
 
-    /**
-     * Delay the execution of a callback function by n amount of frames.
-     * Used to retrieve the computed styles of elements.
-     * @param {Function} callback - the function that will be executed.
-     * @param {number} count - the amount of frames that the callback execution
-     * should be delayed by.
-    */
-    static waitForFrames(callback = () => {}, count = 3) {
-        if (count === 0) return callback();
-        count--;
-        requestAnimationFrame(() => this.waitForFrames(callback, count));
-    }
-
     constructor() {
         super();
         // the amount of units that the slider will be updated
@@ -130,7 +117,7 @@ class Slider extends HTMLElement {
      * Update the size of the slider thumb.
     */
     resize(scrollableContainer) {
-        Slider.waitForFrames(() => {
+        components.waitForFrames(() => {
             // get the size of the whole slider element
             const sliderWrapperSize = this._getPxSizeWithoutUnits(this.querySelector(`.${this.orientation}-slider-wrapper`));
             // get the size of the up or down buttons in px
