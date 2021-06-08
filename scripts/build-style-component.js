@@ -6,6 +6,7 @@
 const path = require('path');
 const fs = require('fs');
 const uglifycss = require('uglifycss');
+const { execSync } = require('child_process');
 
 if (require.main === module) {
     const arguments = process.argv.slice(2);
@@ -38,6 +39,8 @@ function build(componentPath) {
     fs.writeFile(outputFile, uglified, 'utf8', (err) => {
         if (err) console.error(err);
     });
+
+    execSync('npm pack', { cwd: componentPath });
 }
 
 module.exports = build;

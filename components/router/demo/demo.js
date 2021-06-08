@@ -69,39 +69,6 @@ class Healers extends HTMLElement {
     constructor() {
         super();
 
-        const style = `
-        .healers-menu {
-            display: flex;
-            height: 135px;
-            margin-bottom: 25px;
-        }
-
-        .avatar-container {
-            display: flex;
-            flex-direction: column;
-            width: 100px;
-        }
-
-        .avatar {
-            margin-bottom: 5px;
-            min-height: 50px;
-            height: 100px;
-            background-size: contain;
-            background-repeat: no-repeat no-repeat;
-        }
-        .avatar1 {
-            background-image: url(/images/imgAvatar_2.png);
-        }
-
-        .avatar2 {
-            background-image: url(/images/imgAvatar_3.png);
-        }
-        .avatar3 {
-            background-image: url(/images/imgAvatar_4.png);
-        }
-    `;
-        
-        components.importStyleTag('supports', style);
         this.template = healersTemplate;
     }
 
@@ -119,39 +86,6 @@ class Healers extends HTMLElement {
 class Tanks extends HTMLElement {
     constructor() {
         super();
-        const style = `
-            .tanks-menu {
-                display: flex;
-                height: 135px;
-                margin-bottom: 25px;
-            }
-
-            .avatar-container {
-                display: flex;
-                flex-direction: column;
-                width: 100px;
-            }
-
-            .avatar {
-                margin-bottom: 5px;
-                min-height: 50px;
-                height: 100px;
-                background-size: contain;
-                background-repeat: no-repeat no-repeat;
-            }
-            .tank-avatar1 {
-                background-image: url(/images/avatar1.png);
-            }
-
-            .tank-avatar2 {
-                background-image: url(/images/avatar4.png);
-            }
-            .tank-avatar3 {
-                background-image: url(/images/avatar5.png);
-            }
-        `;
-
-        components.importStyleTag('tanks', style);
         this.template = tanksTemplate;
     }
 

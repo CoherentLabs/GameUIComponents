@@ -1,4 +1,4 @@
-baseURL = "https://example.com"
+baseURL = "http://CoherentLabs.github.io/GameUIComponents"
 
 languageCode = "en-us"
 DefaultContentLanguage = "en"
