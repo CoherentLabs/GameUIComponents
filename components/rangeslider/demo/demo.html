@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <gameface-rangeslider orientation="horizontal"
+                          min="56"
+                          max="255"
+                          grid
+                          thumb
+                          step="20"></gameface-rangeslider>
+    <gameface-rangeslider orientation="horizontal"
+                          min="56"
+                          max="255"
+                          grid
+                          thumb
+                          two-handles
+                          step="20"></gameface-rangeslider>
+    <gameface-rangeslider orientation="horizontal"
+                          grid
+                          thumb
+                          value="Hard"
+                          values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+                          step="20"></gameface-rangeslider>
+
+    <p>
+
+        <gameface-rangeslider orientation="vertical"
+                              min="56"
+                              max="255"
+                              grid
+                              thumb
+                              step="20"></gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical"
+                              value="Hard"
+                              values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+                              grid
+                              thumb
+                              step="20"></gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical"
+                              min="56"
+                              max="255"
+                              grid
+                              thumb
+                              two-handles
+                              step="20"></gameface-rangeslider>
+    </p>
+
+    <script src="./bundle.js"></script>
+</body>
+
+</html>
