@@ -55,6 +55,10 @@ function test(rebuild, browsersArg) {
     process.stdout.on('data', function (data) {
         console.log(data.toString());
     });
+
+    process.on('exit', function (code) {
+        global.process.exit(code);
+    });
 }
 
 function main() {
