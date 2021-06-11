@@ -1,7 +1,7 @@
 
 module.exports = function(config) {
   config.set({
-    failOnFailingTestSuite : true,
+    failOnFailingTestSuite : false,
     frameworks: ['jasmine', 'chai'],
     client: {
       jasmine: {
@@ -13,15 +13,16 @@ module.exports = function(config) {
       {pattern: '**/**/*.css', included: true, type:'css' },
       {pattern: 'lib/components.development.js', served: true },
       {pattern: 'actions.js', served: true },
+      '**/scrollable-container/*.js',
+      '**/checkbox/**.js',
+      '**/dropdown/*.js',
+      '**/lib/*.js',
+      '**/menu/*.js',
+      '**/modal/*.js',
+      '**/radial-menu/*.js',
+      '**/router/*.js',
       '**/tabs/*.js',
       '**/progress-bar/*.js',
-      // '**/checkbox/**.js',
-      // '**/dropdown/*.js',
-      // '**/lib/*.js',
-      // '**/menu/*.js',
-      // '**/modal/*.js',
-      // '**/radial-menu/*.js',
-      // '**/router/*.js',
     ],
     singleRun: true,
     retryLimit: 0,

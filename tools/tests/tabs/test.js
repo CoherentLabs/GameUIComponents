@@ -33,8 +33,7 @@ describe('Tabs Components', () => {
     });
 
     it('Should be rendered', () => {
-        // assert(document.querySelector('.tabs-wrapper') !== null, 'Tabs component was not rendered.');
-        assert(true === false, 'Tabs component was not rendered.');
+        assert(document.querySelector('.tabs-wrapper') !== null, 'Tabs component was not rendered.');
     });
 
     xit('Should set tab to active on click', () => {
