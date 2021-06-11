@@ -22,6 +22,7 @@ module.exports = function(config) {
       '**/radial-menu/*.js',
       '**/router/*.js',
       '**/tabs/*.js',
+      '**/progress-bar/*.js',
     ],
     singleRun: true,
     retryLimit: 0,

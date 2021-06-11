@@ -25,14 +25,11 @@ describe('Checkbox component', () => {
         }
 
         const el = document.createElement('gameface-checkbox');
-        console.log('append custom el')
         document.body.appendChild(el);
 
-        // document.body.insertBefore(el, document.body.firstElementChild);
-
         setTimeout(() => {
-            done()
-        }, 1000)
+            done();
+        }, 1000);
     });
 
     it('Should be rendered', () => {

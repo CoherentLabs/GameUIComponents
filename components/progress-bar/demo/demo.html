@@ -1,0 +1,87 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="../components-theme.css">
+	<link rel="stylesheet" href="../style.css">
+	<style>
+		body {
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			background-color: rgba(0, 0, 0, 0.5);
+			color: #fff;
+			font-size: 3vh;
+		}
+
+		.progress-bar-wrapper-one,
+		.progress-bar-wrapper-two,
+		.progress-bar-wrapper-three {
+			position: absolute;
+			top: 10vh;
+			width: 60%;
+			height: 15px;
+		}
+
+		.progress-bar-wrapper-two {
+			top: 20vh;
+		}
+
+		.progress-bar-wrapper-three {
+			top: 30vh;
+		}
+	</style>
+</head>
+<body>
+
+<div class="progress-bar-wrapper-one">
+	<div>0% -> 100% with 2000ms animation duration.</div>
+	<progress-bar
+		id="progress-bar-one"
+		data-animation-duration="2000">
+	</progress-bar>
+</div>
+<div class="progress-bar-wrapper-two">
+	<div>0% -> 100% with no animation.</div>
+	<progress-bar
+		id="progress-bar-two">
+	</progress-bar>
+</div>
+<div class="progress-bar-wrapper-three">
+	<div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
+	<progress-bar
+		id="progress-bar-three"
+		data-animation-duration="1000">
+	</progress-bar>
+</div>
+
+<script src="./bundle.js"></script>
+
+<script type="text/javascript">
+	const progressBarOne = document.getElementById('progress-bar-one');
+	progressBarOne.setProgress(100);
+
+	function getRandomInt(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min) + min);
+	}
+
+	const progressBarTwo = document.getElementById('progress-bar-two');
+	let progressBarTwoValue = 0;
+
+	setInterval(() => {
+		(progressBarTwoValue < 100) ? progressBarTwoValue += 2 : progressBarTwoValue = 0;
+		progressBarTwo.setProgress(progressBarTwoValue);
+	}, 100);
+
+	const progressBarThree = document.getElementById('progress-bar-three');
+
+	setInterval(() => {
+		progressBarThree.setProgress(getRandomInt(0, 100));
+	}, getRandomInt(250, 750));
+</script>
+</body>
+
+</html>
