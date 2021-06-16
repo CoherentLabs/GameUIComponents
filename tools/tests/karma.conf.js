@@ -23,6 +23,7 @@ module.exports = function(config) {
       '**/router/*.js',
       '**/tabs/*.js',
       '**/progress-bar/*.js',
+      '**/rangeslider/*.js'
     ],
     singleRun: true,
     retryLimit: 0,
