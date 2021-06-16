@@ -3,8 +3,6 @@ import verticalTemplate from './templates/vertical.html';
 import verticalTemplateTwoHandles from './templates/verticalTwoHandles.html';
 import horizontalTemplate from './templates/horizontal.html';
 import horizontalTemplateTwoHandles from './templates/horizontalTwoHandles.html';
-import verticalStyle from './styles/vertical.css';
-import horizontalStyle from './styles/horizontal.css';
 import { orientationUnitsNames } from './orientationUnitsNames';
 
 const ORIENTATIONS = ['vertical', 'horizontal'];
@@ -88,8 +86,18 @@ class Rangeslider extends HTMLElement {
     constructor() {
         super();
 
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
+    }
+
+    /**
+     * Called when the element was attached to the DOM.
+     */
+    connectedCallback() {
         //if an array is passed the values of the array
-        this._values = this.getAttribute('values') ? JSON.parse(this.getAttribute('values')) : null;
+
+        this._values = this.hasAttribute('values') ? JSON.parse(this.getAttribute('values')) : null;
 
         //if an array is passed
         this.isArray = Array.isArray(this._values) && this._values.length > 0;
@@ -104,20 +112,15 @@ class Rangeslider extends HTMLElement {
         //the slider orientation, can be 'vertical' or 'horizontal'
         this.orientation = this.checkOrientation(this.getAttribute('orientation'));
         //if there will be two handles
-        this.twoHandles = !this.isArray && typeof this.getAttribute('two-handles') === 'string';
+        this.twoHandles = !this.isArray && this.hasAttribute('two-handles');
 
         //if there is a grid
-        this.grid = typeof this.getAttribute('grid') === 'string';
+        this.grid = this.hasAttribute('grid');
         //if there are thumbs
-        this.thumb = typeof this.getAttribute('thumb') === 'string';
+        this.thumb = this.hasAttribute('thumb');
 
         // use the template for the current slider orientation and number of handles
         this.template = this.getTemplate(this.orientation, this.twoHandles);
-        // use the styles for the current slider orientation
-        const styles = this.orientation === 'horizontal' ? horizontalStyle : verticalStyle;
-
-        // import the styles
-        components.importStyleTag(`gameface-slider-${this.orientation}`, styles);
 
         /**
          * The names of the units are different for the two slider types.
@@ -126,15 +129,6 @@ class Rangeslider extends HTMLElement {
          */
         this.units = orientationUnitsNames.get(this.orientation);
 
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
-    }
-
-    /**
-     * Called when the element was attached to the DOM.
-     */
-    connectedCallback() {
         // Load the template
         components
             .loadResource(this)
@@ -145,7 +139,7 @@ class Rangeslider extends HTMLElement {
                 // do the initial setup - add event listeners, assign members
                 this.setup();
             })
-            .catch((err) => console.error(err));
+            .catch((err) => console.error(JSON.stringify(err)));
     }
 
     /**
@@ -216,7 +210,6 @@ class Rangeslider extends HTMLElement {
                 ? percent.forEach((p, i) => this.updateSliderPosition(p, i))
                 : this.updateSliderPosition(percent, 0);
 
-            this.removeEventListeners();
             this.attachEventListeners();
         }, 3);
     }
@@ -350,18 +343,8 @@ class Rangeslider extends HTMLElement {
     }
 
     /**
-     * Removes the event listener
-     */
-    removeEventListeners() {
-        this.querySelector(`.${this.orientation}-rangeslider-wrapper`).removeEventListener(
-            'mousedown',
-            this.onMouseDown
-        );
-    }
-
-    /**
      * Updates the positions of the handles and the width of the bar
-     * @param {number} percent 
+     * @param {number} percent
      * @param {number} index - the index of the handle we want to update
      */
 
@@ -388,7 +371,7 @@ class Rangeslider extends HTMLElement {
                         : [parseFloat(this.handle[0].style[this.units.position]), 100];
             }
         }
-        //the provided percent is clamped 
+        //the provided percent is clamped
         percent = Rangeslider.clamp(Math.round(percent / percentStep) * percentStep, ...clampRange);
         this.handle[index].style[this.units.position] = `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
 
@@ -405,7 +388,7 @@ class Rangeslider extends HTMLElement {
         if (this.twoHandles && index === 0) {
             this.bar.style[this.units.position] = `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
         }
-        
+
         this._value[index] = this.isArray
             ? this._values[percent / percentStep]
             : parseFloat(this.calculateHandleValue(percent).toFixed(2));
@@ -416,13 +399,17 @@ class Rangeslider extends HTMLElement {
                 this.orientation === 'vertical' ? 100 - percent : percent
             }%`;
         }
+
+        //dispatching a custom event with the rangeslider values
+        this.dispatchEvent(new CustomEvent('sliderupdate', { detail: this._value }));
     }
 
     /**
      * Executed on mousedown. Sets the handle to the clicked coordinates and attaches event listeners to the document
-     * @param {MouseEvent} e 
+     * @param {MouseEvent} e
      */
     onMouseDown(e) {
+
         //creates the active handle
         this.activeHandle = 0;
 
@@ -453,9 +440,6 @@ class Rangeslider extends HTMLElement {
 
         this.updateSliderPosition(percent, this.activeHandle);
 
-        //dispatching a custom event with the rangeslider values
-        this.dispatchEvent(new CustomEvent('sliderupdate', { detail: this._value }));
-
         //attaching event listeners on mousedown so we don't have them attached all the time
         document.addEventListener('mousemove', this.onMouseMove);
         document.addEventListener('mouseup', this.onMouseUp);
@@ -463,7 +447,7 @@ class Rangeslider extends HTMLElement {
 
     /**
      * Moving the handle with the mouse
-     * @param {MouseEvent} e 
+     * @param {MouseEvent} e
      */
     onMouseMove(e) {
         const offset =
@@ -476,10 +460,7 @@ class Rangeslider extends HTMLElement {
         const percent = Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
 
         this.updateSliderPosition(percent, this.activeHandle);
-
-        this.dispatchEvent(new CustomEvent('sliderupdate', { detail: this._value }));
     }
-
 
     /**
      * Removes the event listeners that we attach in onMouseDown

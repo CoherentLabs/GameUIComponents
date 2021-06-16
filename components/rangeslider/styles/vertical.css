@@ -45,7 +45,6 @@
     left: 110%;
     height: 100%;
     justify-content: space-between;
-    z-index: -1;
 }
 
 .vertical-grid-pol-container {
