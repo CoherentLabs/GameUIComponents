@@ -21,7 +21,8 @@
     "package.json",
     "README.md",
     "script.js",
-    "orientationUnitsNames.js"
+    "orientationUnitsNames.js",
+    "components-theme.css"
   ],
   "dependencies": {
     "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
