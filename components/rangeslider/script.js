@@ -344,7 +344,7 @@ class Rangeslider extends HTMLElement {
         //if we have two handles we need to clamp each so that it doesn't pass beyond the other handle
         if (this.twoHandles && this.handle[1].style[this.units.position]) {
             const handleZeroPosition = this.handle[0].style[this.units.position];
-            const handleOnePosition = handle[1].style[this.units.position];
+            const handleOnePosition = this.handle[1].style[this.units.position];
 
             if (index === 0) {
                 clampRange =
