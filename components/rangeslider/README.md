@@ -16,19 +16,19 @@ The gameface-rangeslider component comes with UMD and CJS builds.
 * import the gameface-rangeslider component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-slider/umd/rangeslider.production.min.js"></script>
+<script src="./node_modules/rangeslider/umd/rangeslider.production.min.js"></script>
 ~~~~
 
 * add the gameface-rangeslider component to your html:
 
 ~~~~{.html}
-<gameface-rangeslider></gameface-slider>
+<gameface-rangeslider></gameface-rangeslider>
 ~~~~
 
-This is all! Load the file in Gameface to see the gameface-slider.
+This is all! Load the file in Gameface to see the rangeslider.
 
 If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the gameface-slider from the node_modules folder and import them like this:
+which import the components and the rangeslider from the node_modules folder and import them like this:
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
@@ -40,7 +40,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceSlider from './node_modules/gameface-slider/umd/rangeslider.production.min.js';
+import GamefaceSlider from './node_modules/rangeslider/umd/rangeslider.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -49,31 +49,22 @@ import GamefaceSlider from './node_modules/gameface-slider/umd/rangeslider.produ
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const RangeSlider = require('gameface-slider');
+const RangeSlider = require('rangeslider');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
 bundler in order to be use them in a browser.
 
-## Add the Styles
 
-~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
-<link rel="stylesheet" href="styles/horizontal.css">
-<link rel="stylesheet" href="styles/vertical.css">
-~~~~
-
-To overwrite the default styles, simply create new rules for the class names that
-you wish to change and include them after the default styles.
 
 ## How to use
 
 To use simply add
 ~~~~{.html}
-<gameface-rangeslider></gameface-slider>
+<gameface-rangeslider></gameface-rangeslider>
 ~~~~
 
-To your html file.
+to your html file.
 
 You can use the following attributes to customize the rangeslider
 

@@ -47,26 +47,12 @@ class Rangeslider extends HTMLElement {
     }
 
     /**
-     * Delay the execution of a callback function by n amount of frames.
-     * Used to retrieve the computed styles of elements.
-     * @param {Function} callback - the function that will be executed.
-     * @param {number} count - the amount of frames that the callback execution
-     * should be delayed by.
-     */
-    static waitForFrames(callback = () => {}, count = 3) {
-        if (count === 0) return callback();
-        count--;
-        window.requestAnimationFrame(() => this.waitForFrames(callback, count));
-    }
-
-    /**
      * Converts a value to percent in a range
      * @param {number} value - the value to be converted
      * @param {number} min - the minimum value of the range
      * @param {number} max - the maximum number of the range
      * @returns {number} - returns the value in percent
      */
-
     static valueToPercent(value, min, max) {
         return (value * 100) / (max - min);
     }
@@ -78,7 +64,6 @@ class Rangeslider extends HTMLElement {
      * @param {number} max - the maximum number of the range
      * @returns {number}
      */
-
     static clamp(val, min, max) {
         return Math.min(Math.max(val, min), max);
     }
@@ -95,12 +80,11 @@ class Rangeslider extends HTMLElement {
      * Called when the element was attached to the DOM.
      */
     connectedCallback() {
-        //if an array is passed the values of the array
-
+        //if an array is passed these are the values of the array
         this._values = this.hasAttribute('values') ? JSON.parse(this.getAttribute('values')) : null;
 
         //if an array is passed
-        this.isArray = Array.isArray(this._values) && this._values.length > 0;
+        this.hasValuesArray = Array.isArray(this._values) && this._values.length > 0;
 
         //the step of the slider
         this.step = this.getAttribute('step') || 1;
@@ -112,7 +96,7 @@ class Rangeslider extends HTMLElement {
         //the slider orientation, can be 'vertical' or 'horizontal'
         this.orientation = this.checkOrientation(this.getAttribute('orientation'));
         //if there will be two handles
-        this.twoHandles = !this.isArray && this.hasAttribute('two-handles');
+        this.twoHandles = !this.isValuesArray && this.hasAttribute('two-handles');
 
         //if there is a grid
         this.grid = this.hasAttribute('grid');
@@ -170,7 +154,7 @@ class Rangeslider extends HTMLElement {
      */
 
     setup() {
-        Rangeslider.waitForFrames(() => {
+        components.waitForFrames(() => {
             //saves the size of the rangeslider so we don't have to request it on every action
             this.sizes = this.getRangeSliderSize();
 
@@ -178,6 +162,7 @@ class Rangeslider extends HTMLElement {
             this.handle = !this.twoHandles
                 ? [this.querySelector(`.${this.orientation}-rangeslider-handle`)]
                 : this.querySelectorAll(`.${this.orientation}-rangeslider-handle`);
+
             this.bar = this.querySelector(`.${this.orientation}-rangeslider-bar`);
 
             this.setMinAndMax();
@@ -185,7 +170,7 @@ class Rangeslider extends HTMLElement {
 
             //if the grid attribute is added, the grid is created
             if (this.grid) {
-                this.isArray ? this.buildArrayGrid() : this.buildGrid();
+                this.isValuesArray ? this.buildArrayGrid() : this.buildGrid();
             }
 
             //if the thumb attribute is added, the thumbs are created
@@ -202,7 +187,7 @@ class Rangeslider extends HTMLElement {
             let percent = this.twoHandles ? [0, 100] : [Rangeslider.valueToPercent(this.value, this.min, this.max)];
 
             //if an array is passed the percent changes
-            if (this.isArray) {
+            if (this.isValuesArray) {
                 percent = this._values.findIndex((el) => el == this._value) * (100 / this._values.length);
             }
 
@@ -210,7 +195,7 @@ class Rangeslider extends HTMLElement {
                 ? percent.forEach((p, i) => this.updateSliderPosition(p, i))
                 : this.updateSliderPosition(percent, 0);
 
-            this.attachEventListeners();
+            this.attachEventListener();
         }, 3);
     }
 
@@ -219,20 +204,20 @@ class Rangeslider extends HTMLElement {
      */
     buildGrid() {
         //calculates the number of pols the grid will have based on the size of the slider
-        const numberOfPols = Math.round(this.sizes[this.units.size] / SPACE_BETWEEN_GRID_POLS / 4) * 4;
+        const numberOfPols = Math.round(this.sizes[this.units.size] / SPACE_BETWEEN_GRID_POLS / 4) * 4; //here we round to a number that is divisible by 4 and to make sure, the last pol has a number
         const grid = document.createElement('div');
         grid.classList.add(`${this.orientation}-rangeslider-grid`);
         for (let i = 0; i <= numberOfPols; i++) {
             //each forth poll will be larger with a value added
             if (i % (numberOfPols / 4) === 0) {
                 grid.appendChild(
-                    this.createGridPoll(
+                    this.createGridPol(
                         parseFloat((parseInt(this.min) + (this.max - this.min) * (i / numberOfPols)).toFixed(2))
                     )
                 );
                 continue;
             }
-            grid.appendChild(this.createGridPoll());
+            grid.appendChild(this.createGridPol());
         }
 
         this.rangeslider.appendChild(grid);
@@ -247,18 +232,18 @@ class Rangeslider extends HTMLElement {
         //builds only pols for the values of the array
         for (let i = 0; i < this._values.length; i++) {
             const entry = this._values[i];
-            grid.appendChild(this.createGridPoll(entry));
+            grid.appendChild(this.createGridPol(entry));
         }
 
         this.rangeslider.appendChild(grid);
     }
 
     /**
-     * Creates a grid poll
-     * @param {number} value - value of the grid poll
+     * Creates a grid pol
+     * @param {number} value - value of the grid pol
      * @returns {HTMLDivElement}
      */
-    createGridPoll(value) {
+    createGridPol(value) {
         const polContainer = document.createElement('div');
         polContainer.classList.add(`${this.orientation}-grid-pol-container`);
 
@@ -301,7 +286,7 @@ class Rangeslider extends HTMLElement {
      */
     setMinAndMax() {
         //if we have an array we set the min and max values to the first and last entry of the array
-        if (this.isArray) {
+        if (this.isValuesArray) {
             this.min = this._values[0];
             this.max = this._values[this._values.length - 1];
             return;
@@ -338,7 +323,7 @@ class Rangeslider extends HTMLElement {
     /**
      * Attaches the event listener
      */
-    attachEventListeners() {
+    attachEventListener() {
         this.querySelector(`.${this.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
     }
 
@@ -350,7 +335,7 @@ class Rangeslider extends HTMLElement {
 
     updateSliderPosition(percent, index) {
         //The percent of the step that is set, if the values are an array, the step is between each array value
-        const percentStep = this.isArray
+        const percentStep = this.isValuesArray
             ? 100 / (this._values.length - 1)
             : Rangeslider.valueToPercent(this.step, this.min, this.max);
 
@@ -358,17 +343,19 @@ class Rangeslider extends HTMLElement {
         let clampRange = [0, 100];
         //if we have two handles we need to clamp each so that it doesn't pass beyond the other handle
         if (this.twoHandles && this.handle[1].style[this.units.position]) {
+            const handleZeroPosition = this.handle[0].style[this.units.position];
+            const handleOnePosition = handle[1].style[this.units.position];
+
             if (index === 0) {
                 clampRange =
                     this.orientation === 'vertical'
-                        ? [0, 100 - parseFloat(this.handle[1].style[this.units.position])]
-                        : [0, parseFloat(this.handle[1].style[this.units.position])];
-            }
-            if (index === 1) {
+                        ? [0, 100 - parseFloat(handleOnePosition)]
+                        : [0, parseFloat(handleOnePosition)];
+            } else if (index === 1) {
                 clampRange =
                     this.orientation === 'vertical'
-                        ? [100 - parseFloat(this.handle[0].style[this.units.position]), 100]
-                        : [parseFloat(this.handle[0].style[this.units.position]), 100];
+                        ? [100 - parseFloat(handleZeroPosition), 100]
+                        : [parseFloat(handleZeroPosition), 100];
             }
         }
         //the provided percent is clamped
@@ -389,15 +376,14 @@ class Rangeslider extends HTMLElement {
             this.bar.style[this.units.position] = `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
         }
 
-        this._value[index] = this.isArray
+        this._value[index] = this.isValuesArray
             ? this._values[percent / percentStep]
             : parseFloat(this.calculateHandleValue(percent).toFixed(2));
 
         if (this.thumb) {
             this.thumbElement[index].innerHTML = this._value[index];
-            this.thumbElement[index].style[this.units.position] = `${
-                this.orientation === 'vertical' ? 100 - percent : percent
-            }%`;
+            this.thumbElement[index].style[this.units.position] = 
+                `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
         }
 
         //dispatching a custom event with the rangeslider values
@@ -409,7 +395,6 @@ class Rangeslider extends HTMLElement {
      * @param {MouseEvent} e
      */
     onMouseDown(e) {
-
         //creates the active handle
         this.activeHandle = 0;
 

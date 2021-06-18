@@ -2,12 +2,9 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet"
-          href="../components-theme.css">
-    <link rel="stylesheet"
-          href="../styles/horizontal.css">
-    <link rel="stylesheet"
-          href="../styles/vertical.css">
+    <link rel="stylesheet" href="../components-theme.css">
+    <link rel="stylesheet" href="../styles/horizontal.css">
+    <link rel="stylesheet" href="../styles/vertical.css">
 
     <style>
         body {
@@ -17,46 +14,17 @@
 </head>
 
 <body>
-    <gameface-rangeslider orientation="horizontal"
-                          min="56"
-                          max="255"
-                          grid
-                          thumb></gameface-rangeslider>
-    <gameface-rangeslider orientation="horizontal"
-                          min="56"
-                          max="255"
-                          grid
-                          thumb
-                          two-handles
-                          step="20"></gameface-rangeslider>
-    <gameface-rangeslider orientation="horizontal"
-                          grid
-                          thumb
-                          value="Hard"
-                          values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
-                          step="20"></gameface-rangeslider>
+    <gameface-rangeslider orientation="horizontal" min="56" max="255" grid thumb></gameface-rangeslider>
+    <gameface-rangeslider orientation="horizontal" min="56" max="255" grid thumb two-handles step="20"></gameface-rangeslider>
+    <gameface-rangeslider orientation="horizontal" grid thumb value="Hard" values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]' step="20">
+    </gameface-rangeslider>
 
     <p>
 
-        <gameface-rangeslider orientation="vertical"
-                              min="56"
-                              max="255"
-                              grid
-                              thumb
-                              step="20"></gameface-rangeslider>
-        <gameface-rangeslider orientation="vertical"
-                              value="Hard"
-                              values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
-                              grid
-                              thumb
-                              step="20"></gameface-rangeslider>
-        <gameface-rangeslider orientation="vertical"
-                              min="56"
-                              max="255"
-                              grid
-                              thumb
-                              two-handles
-                              step="20"></gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical" min="56" max="255" grid thumb step="20"></gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical" value="Hard" values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]' grid thumb step="20">
+        </gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical" min="56" max="255" grid thumb two-handles step="20"></gameface-rangeslider>
     </p>
 
     <script src="./bundle.js"></script>
