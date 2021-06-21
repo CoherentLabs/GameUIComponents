@@ -96,7 +96,7 @@ class Rangeslider extends HTMLElement {
         //the slider orientation, can be 'vertical' or 'horizontal'
         this.orientation = this.checkOrientation(this.getAttribute('orientation'));
         //if there will be two handles
-        this.twoHandles = !this.isValuesArray && this.hasAttribute('two-handles');
+        this.twoHandles = !this.hasValuesArray && this.hasAttribute('two-handles');
 
         //if there is a grid
         this.grid = this.hasAttribute('grid');
@@ -170,7 +170,7 @@ class Rangeslider extends HTMLElement {
 
             //if the grid attribute is added, the grid is created
             if (this.grid) {
-                this.isValuesArray ? this.buildArrayGrid() : this.buildGrid();
+                this.hasValuesArray ? this.buildArrayGrid() : this.buildGrid();
             }
 
             //if the thumb attribute is added, the thumbs are created
@@ -187,7 +187,7 @@ class Rangeslider extends HTMLElement {
             let percent = this.twoHandles ? [0, 100] : [Rangeslider.valueToPercent(this.value, this.min, this.max)];
 
             //if an array is passed the percent changes
-            if (this.isValuesArray) {
+            if (this.hasValuesArray) {
                 percent = this._values.findIndex((el) => el == this._value) * (100 / this._values.length);
             }
 
@@ -286,7 +286,7 @@ class Rangeslider extends HTMLElement {
      */
     setMinAndMax() {
         //if we have an array we set the min and max values to the first and last entry of the array
-        if (this.isValuesArray) {
+        if (this.hasValuesArray) {
             this.min = this._values[0];
             this.max = this._values[this._values.length - 1];
             return;
@@ -335,7 +335,7 @@ class Rangeslider extends HTMLElement {
 
     updateSliderPosition(percent, index) {
         //The percent of the step that is set, if the values are an array, the step is between each array value
-        const percentStep = this.isValuesArray
+        const percentStep = this.hasValuesArray
             ? 100 / (this._values.length - 1)
             : Rangeslider.valueToPercent(this.step, this.min, this.max);
 
@@ -376,7 +376,7 @@ class Rangeslider extends HTMLElement {
             this.bar.style[this.units.position] = `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
         }
 
-        this._value[index] = this.isValuesArray
+        this._value[index] = this.hasValuesArray
             ? this._values[percent / percentStep]
             : parseFloat(this.calculateHandleValue(percent).toFixed(2));
 
@@ -391,6 +391,23 @@ class Rangeslider extends HTMLElement {
     }
 
     /**
+     * Calculates the position of the slider in percent based on the mouse coordinates
+     * @param {MouseEvent} e 
+     * @returns {Number} Position in percent
+     */
+    getHandlePercent(e) {
+        //we calculate the offsetX or offsetY of the click event
+        const offset =
+        this.orientation === 'vertical'
+            ? this.sizes[this.units.coordinate] +
+                this.sizes[this.units.size] -
+                (document.body.scrollTop + e[this.units.mouseAxisCoords])
+            : document.body.scrollLeft + e[this.units.mouseAxisCoords] - this.sizes[this.units.coordinate];
+
+        return Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
+    }
+
+    /**
      * Executed on mousedown. Sets the handle to the clicked coordinates and attaches event listeners to the document
      * @param {MouseEvent} e
      */
@@ -398,17 +415,9 @@ class Rangeslider extends HTMLElement {
         //creates the active handle
         this.activeHandle = 0;
 
-        //we calculate the offsetX or offsetY of the click event
-        const offset =
-            this.orientation === 'vertical'
-                ? this.sizes[this.units.coordinate] +
-                  this.sizes[this.units.size] -
-                  (document.body.scrollTop + e[this.units.mouseAxisCoords])
-                : document.body.scrollLeft + e[this.units.mouseAxisCoords] - this.sizes[this.units.coordinate];
+        const percent = this.getHandlePercent(e);
 
-        const percent = Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
-
-        //get the closes handle to the click if we have two handles
+        //get the closest handle to the click if we have two handles
         if (this.twoHandles) {
             const distance = [];
 
@@ -435,14 +444,7 @@ class Rangeslider extends HTMLElement {
      * @param {MouseEvent} e
      */
     onMouseMove(e) {
-        const offset =
-            this.orientation === 'vertical'
-                ? this.sizes[this.units.coordinate] +
-                  this.sizes[this.units.size] -
-                  (document.body.scrollTop + e[this.units.mouseAxisCoords])
-                : document.body.scrollLeft + e[this.units.mouseAxisCoords] - this.sizes[this.units.coordinate];
-
-        const percent = Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
+        const percent = this.getHandlePercent(e);
 
         this.updateSliderPosition(percent, this.activeHandle);
     }

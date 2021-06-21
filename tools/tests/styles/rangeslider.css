@@ -70,7 +70,7 @@
 
 .horizontal-rangeslider-thumb {
     position: absolute;
-    top: -800%;
+    top: -800%; /* Since the percent of the top property is based on the height of the parent, to position the handle above we need 8x the height */
     left: 50%;
     transform: translateX(-50%);
     background-color: #0085a7;
@@ -152,7 +152,7 @@
 
 .vertical-rangeslider-thumb {
     position: absolute;
-    right: 300%;
+    right: 300%; /* Since the percent of the left/right property is based on the width of the parent, to position the handle to the left we need 3x the width */
     transform: translateY(-50%);
     background-color: #0085a7;
     padding: 5px;
