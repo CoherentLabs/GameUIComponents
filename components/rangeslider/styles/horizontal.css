@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     margin: 10vh;
+    user-select: none;
 }
 
 .horizontal-rangeslider{
@@ -70,7 +71,7 @@
 
 .horizontal-rangeslider-thumb {
     position: absolute;
-    top: -800%;
+    top: -800%; /* Since the percent of the top property is based on the height of the parent, to position the handle above we need 8x the height */
     left: 50%;
     transform: translateX(-50%);
     background-color: #0085a7;

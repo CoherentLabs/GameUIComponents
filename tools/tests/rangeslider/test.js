@@ -74,7 +74,7 @@ describe('Rangeslider component', () => {
         assert.isAbove(height, width);
     });
 
-    it('Handle should corespond to value', async () => {
+    it('Handle should correspond to value', async () => {
         const value = 50;
         await loadRangeslider({ value });
         const rangesliderHandle = document.querySelector('.horizontal-rangeslider-handle');
@@ -83,7 +83,7 @@ describe('Rangeslider component', () => {
         assert.equal(left, value);
     });
 
-    it('Bar should corespond to value', async () => {
+    it('Bar should correspond to value', async () => {
         const value = 50;
         await loadRangeslider({ value });
         const rangesliderBar = document.querySelector('.horizontal-rangeslider-bar');
@@ -145,14 +145,14 @@ describe('Rangeslider component', () => {
         });
     });
 
-    it('Should move closes handle when clicked on', (done) => {
+    it('Should move closest handle when clicked on', (done) => {
         loadRangeslider({ twoHandles: true, thumb: true }).then(() => {
             const rangeslider = document.querySelector('gameface-rangeslider');
             const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
             const handles = rangeslider.querySelectorAll('.horizontal-rangeslider-handle');
             const { x, width } = rangesliderElement.getBoundingClientRect();
 
-            rangeslider.onMouseDown({ clientX: x + width * (3 / 4) });
+            rangeslider.onMouseDown({ clientX: x + width * 0.75 }); //0.75 so that I am sure that the click is closer to the second handle
             rangeslider.onMouseUp();
 
             assert.equal(parseFloat(handles[1].style.left), 75);
