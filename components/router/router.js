@@ -122,7 +122,7 @@ class Router {
             el = document.createElement(component);
         } else {
             el = document.createElement('div');
-            el.innerHTML = component
+            el.innerHTML = component;
         }
         // inject the params to the el
         // el is a custom element

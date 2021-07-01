@@ -12,6 +12,7 @@ const NumbersModel = {
 
 const template = `<div>
 <gameface-route id="home" to="/">Home</gameface-route>
+<gameface-route id="documentation" to="/documentation">Documentation</gameface-route>
 <gameface-route id="numbers" to="/numbers">Numbers</gameface-route>
 <gameface-route id="vowel" to="/letters/vowel">Vowels</gameface-route>
 <gameface-route id="consonant" to="/letters/consonant">Consonant</gameface-route>
@@ -170,6 +171,7 @@ function setupPage() {
     let router = new Router({
         '/': 'home-page',
         '/numbers': 'numbers-page',
+        '/documentation': '<div class="documentation">Documentation<div>',
         '/numbers/:type': 'number-page',
         '/letters/:type': lettersRouter,
         '**': 'not-found-page'
@@ -242,6 +244,13 @@ describe('Router Component', () => {
         click(document.getElementById("home"));
         return createAsyncSpec(() => {
             assert(document.querySelector(routeIdToPageMap['home']) !== null, `Current page is not "home".`);
+        });
+    });
+
+    it('Should show documentation page that is not a component', async () => {
+        click(document.getElementById("documentation"));
+        return createAsyncSpec(() => {
+            assert(document.querySelector('.documentation')!== null, `Current page is not "documentation".`);
         });
     });
 
@@ -337,6 +346,6 @@ describe('Router Component', () => {
         return createAsyncSpec(() => {
             assert(history.state.current === '/wrongpath', 'Current history state is not "/wrongpath".');
             assert(document.querySelector('router-view').textContent === `Can't find this page.`, 'Current page "/wrongpath" content is not correct; perhaps it failed to render.');
-        })
+        });
     });
 });

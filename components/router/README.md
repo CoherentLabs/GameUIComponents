@@ -21,6 +21,21 @@ The router component comes with UMD and CJS builds.
 <script src="./node_modules/gameface-router/umd/router.production.min.js"></script>
 ~~~~
 
+If you import the router using a script tag - a global variable *router* will be available.
+You can access the Router, Route, BrowserHistory from it:
+
+~~~~{.js}
+const browserHistory = new router.BrowserHistory();
+router.Route.use(browserHistory);
+
+new router.Router({
+    '/': 'home-page',
+    '/start-game': '<div>Start Game</div>',
+    '/heroes': '<div>Heroes Page</div>',
+    '**': '<div>404</div>'
+}, browserHistory);
+~~~~
+
 If you wish to import the modules using JavaScript you can remove the script tags
 which import the components and the gameface-router from the node_modules folder and import them like this:
 
@@ -107,13 +122,20 @@ The `<gameface-route>` also depends on the history. To initialize it do:
 Route.use(myBrowserHistory);
 ~~~~
 
-The router is configured using an object of { 'route': 'component-name' } pairs:
+The router is configured using an object of { 'route': 'component-name | HTML' } pairs:
 
 ~~~~{.js}
 const config = {
     '/': 'home-page',
     '/start-game': 'start-game-page',
     '/heroes': 'heroes-page',
+};
+
+You can also directly put the HTML that you want to be displayed:
+
+const config = {
+    '/': '<div>Home</div>',
+    '/start-game': '<button>Start Game<button>',
 };
 
 const router = new Router(config, browserHistory);
