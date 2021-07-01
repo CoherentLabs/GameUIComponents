@@ -116,7 +116,14 @@ class Router {
         // get the <router-view> element and replace its content with the
         // new component
         const view = document.querySelector('router-view');
-        const el = document.createElement(component);
+
+        let el;
+        if (components.definedElements[component]) {
+            el = document.createElement(component);
+        } else {
+            el = document.createElement('div');
+            el.innerHTML = component
+        }
         // inject the params to the el
         // el is a custom element
         el.params = params;
