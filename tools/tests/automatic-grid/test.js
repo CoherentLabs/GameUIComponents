@@ -19,9 +19,9 @@ const loadGrid = () => {
     });
 };
 
-const dragSim = (cell1, cell2) => {
+const dragItemSim = (cell1, cell2) => {
     const step = 3000 / 60;
-    
+
     const { x: startX, y: startY } = cell1.getBoundingClientRect();
     const { x: endX, y: endY } = cell2.getBoundingClientRect();
 
@@ -96,7 +96,7 @@ describe('Automatic grid component', () => {
             assert.equal(cell1.childElementCount, 1);
             assert.equal(cell2.childElementCount, 0);
 
-            dragSim(cell1, cell2).then(() => {
+            dragItemSim(cell1, cell2).then(() => {
                 document.querySelector('gameface-automatic-grid').dragEnd({ target: cell2 });
 
                 assert.equal(cell1.childElementCount, 0);
