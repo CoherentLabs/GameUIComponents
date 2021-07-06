@@ -36,9 +36,7 @@ function build(componentPath) {
     createDist(componentPath);
     const outputFile = path.join(componentPath, 'dist', `${path.basename(componentPath)}.production.min.css`);
 
-    fs.writeFile(outputFile, uglified, 'utf8', (err) => {
-        if (err) console.error(err);
-    });
+    fs.writeFileSync(outputFile, uglified, { encoding: 'utf8' });
 
     execSync('npm pack', { cwd: componentPath });
 }
