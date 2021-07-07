@@ -32,8 +32,8 @@ class GamefaceDropdown extends HTMLElement {
     constructor() {
         super();
 
-        this.multiple = this.hasAttribute('multiple');
-        this.collapsable = this.hasAttribute('collapsable');
+        this.multiple = false;
+        this.collapsable = false;
 
         this.selectedOption = null;
         this.isOpened = false;
@@ -42,6 +42,7 @@ class GamefaceDropdown extends HTMLElement {
         this.selectedList = [];
         this._hovered = 0;
         this.template = template;
+
         // bound handlers
         this.onDocumentClick = this.onDocumentClick.bind(this);
         this.onClickOption = this.onClickOption.bind(this);
@@ -94,8 +95,8 @@ class GamefaceDropdown extends HTMLElement {
         }
         // if there is a selected option and multiple select is not enabled
         // remove the active class from the currently selected option
-        if (this.allOptions[this._lastSelectedIndex ] && !this.multiple) {
-            this.allOptions[this._lastSelectedIndex ].classList.remove('active');
+        if (this.allOptions[this._lastSelectedIndex] && !this.multiple) {
+            this.allOptions[this._lastSelectedIndex].classList.remove('active');
         }
 
         // get the index of the current option
@@ -147,7 +148,8 @@ class GamefaceDropdown extends HTMLElement {
      * @returns {HTMLElement}
     */
     get selected() {
-        return this.allOptions[this._lastSelectedIndex ];
+        // Fallback to a cached option if options are not available yet.
+        return this.allOptions[this._lastSelectedIndex] || components.cachedComponents.dropdowns[this.id].options[this._lastSelectedIndex];
     }
 
     get selectedOptions () {
@@ -159,6 +161,21 @@ class GamefaceDropdown extends HTMLElement {
             .then((result) => {
                 this.template = result.template;
                 components.renderOnce(this);
+
+                // Check the type after the component has rendered.
+                this.multiple = this.hasAttribute('multiple');
+                this.collapsable = this.hasAttribute('collapsable');
+
+                // Pull out the cached options if available for this dropdown and append them inside .options element.
+                if (components.cachedComponents.dropdowns && Object.keys(components.cachedComponents.dropdowns).indexOf(this.id) > -1) {
+                    const optionsElement = this.querySelector('.options');
+                    const cachedDropdownOptions = components.cachedComponents.dropdowns[this.id].options;
+
+                    for (let i = 0; i < cachedDropdownOptions.length; i++) {
+                        optionsElement.appendChild(cachedDropdownOptions[i]);
+                    }
+                }
+
                 // make this element focusable
                 this.setAttribute('tabindex', '1');
                 if (this.multiple && !this.collapsable) {
@@ -169,27 +186,19 @@ class GamefaceDropdown extends HTMLElement {
                 }
 
                 // select the default element
-                if (this._lastSelectedIndex > -1) this.selected = this.enabledOptions[this._lastSelectedIndex ];
+                if (this._lastSelectedIndex > -1) this.selected = this.enabledOptions[this._lastSelectedIndex];
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
     }
 
     disconnectedCallback() {
-        // handle keyboard
-        this.removeEventListener('keydown', this.onKeydown);
+        this.removeEventListeners();
 
-        // handle click on the select element
-        const selectedElementPlaceholder = this.querySelector('.selected');
-        selectedElementPlaceholder.removeEventListener('click', this.onClick);
-
-        // handle click on the option elements
-        const options = this.querySelectorAll('dropdown-option');
-        for (let i = 0; i < options.length; i++) {
-            options[i].removeEventListener('selected-option', this.onClickOption);
-            options[i].removeEventListener('mouseenter', this.onMouseOverOption);
-            options[i].removeEventListener('mouseleave', this.onMouseLeave);
-        }
+        // Cache the dropdown options for adding them back if the component is re-added to the document.
+        if (!components.cachedComponents.dropdowns) components.cachedComponents.dropdowns = {};
+        const dropdownInstanceCache = components.cachedComponents.dropdowns[this.id] = {};
+        dropdownInstanceCache.options = Array.from(this.querySelectorAll('dropdown-option'));
     }
 
     /**
@@ -357,7 +366,19 @@ class GamefaceDropdown extends HTMLElement {
         }
     }
 
-    onMouseLeave (event) {
+    removeEventListeners() {
+        this.removeEventListener('keydown', this.onKeydown);
+        this.querySelector('.selected').removeEventListener('click', this.onClick);
+
+        const options = this.querySelectorAll('dropdown-option');
+        for (let i = 0; i < options.length; i++) {
+            options[i].removeEventListener('selected-option', this.onClickOption);
+            options[i].removeEventListener('mouseenter', this.onMouseOverOption);
+            options[i].removeEventListener('mouseleave', this.onMouseLeave);
+        }
+    }
+
+    onMouseLeave(event) {
         const index = this.allOptions.indexOf(event.target);
         if (this.multiple && this.selectedList.indexOf(index) > -1) return;
         event.target.classList.remove('active');
@@ -388,7 +409,7 @@ class GamefaceDropdown extends HTMLElement {
     */
     onClickOption(event) {
         // handle multiple
-        if (this.multiple ) {
+        if (this.multiple) {
             // reset the selectedList if only one option is selected
             if (!event.detail.ctrlKey) this.selected = null;
             this.selected = event.target;
@@ -396,7 +417,7 @@ class GamefaceDropdown extends HTMLElement {
         }
 
         this.selected = event.target;
-        this.closeOptionsPanel()
+        this.closeOptionsPanel();
     }
 
     /**
@@ -415,7 +436,7 @@ class GamefaceDropdown extends HTMLElement {
      * Focuses the dropdown element.
     */
     openOptionsPanel() {
-        if (this._lastSelectedIndex  > -1) this.selected.classList.add('active');
+        if (this._lastSelectedIndex > -1) this.selected.classList.add('active');
         const optionsPanel = this.querySelector('.options-container');
         this.isOpened = true;
         optionsPanel.classList.remove('hidden');
@@ -437,12 +458,12 @@ class GamefaceDropdown extends HTMLElement {
     */
     scrollToSelectedElement() {
         const scrollbleContainer = this.querySelector('.scrollable-container');
-        const option = this.querySelector('dropdown-option');
+        const option = this.querySelector('dropdown-option') || components.cachedComponents.dropdowns[this.id].options[this._lastSelectedIndex];
         const optionSize = option.getBoundingClientRect().height;
 
         // the scroll position in pixels is equal to the height of the selected
         // option multiplied by its index
-        clearTimeout(this.timeout)
+        clearTimeout(this.timeout);
         document.body.classList.add('disable-hover');
 
         let scrollInPX = this._lastSelectedIndex  * optionSize;
@@ -451,7 +472,7 @@ class GamefaceDropdown extends HTMLElement {
 
         this.timeout = setTimeout(() => {
             document.body.classList.remove('disable-hover');
-        }, 500)
+        }, 500);
     }
 }
 
