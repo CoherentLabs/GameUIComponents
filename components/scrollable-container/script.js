@@ -27,7 +27,7 @@ class ScrollableContainer extends HTMLElement {
             .then((result) => {
                 this.template = result.template;
                 // render the component
-                components.render(this);
+                components.renderOnce(this);
                 // do the initial setup - add event listeners, assign members
                 this.setup();
                 this.shouldShowScrollbar();

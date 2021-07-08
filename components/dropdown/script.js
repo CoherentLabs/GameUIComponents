@@ -42,8 +42,13 @@ class GamefaceDropdown extends HTMLElement {
         this.selectedList = [];
         this._hovered = 0;
         this.template = template;
+        // bound handlers
         this.onDocumentClick = this.onDocumentClick.bind(this);
         this.onClickOption = this.onClickOption.bind(this);
+        this.onKeydown = this.onKeydown.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.onMouseOverOption = this.onMouseOverOption.bind(this);
+        this.onMouseLeave = this.onMouseLeave.bind(this);
     }
 
     /**
@@ -160,14 +165,31 @@ class GamefaceDropdown extends HTMLElement {
                     this.querySelector('.dropdown-header').style.display = 'none';
                     components.waitForFrames(() => {
                         this.onClick();
-                    }, 6)
+                    }, 6);
                 }
 
                 // select the default element
-                if (this._lastSelectedIndex  > -1) this.selected = this.enabledOptions[this._lastSelectedIndex ];
+                if (this._lastSelectedIndex > -1) this.selected = this.enabledOptions[this._lastSelectedIndex ];
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
+    }
+
+    disconnectedCallback() {
+        // handle keyboard
+        this.removeEventListener('keydown', this.onKeydown);
+
+        // handle click on the select element
+        const selectedElementPlaceholder = this.querySelector('.selected');
+        selectedElementPlaceholder.removeEventListener('click', this.onClick);
+
+        // handle click on the option elements
+        const options = this.querySelectorAll('dropdown-option');
+        for (let i = 0; i < options.length; i++) {
+            options[i].removeEventListener('selected-option', this.onClickOption);
+            options[i].removeEventListener('mouseenter', this.onMouseOverOption);
+            options[i].removeEventListener('mouseleave', this.onMouseLeave);
+        }
     }
 
     /**
@@ -320,23 +342,25 @@ class GamefaceDropdown extends HTMLElement {
     */
     attachEventListeners() {
         // handle keyboard
-        this.addEventListener('keydown', (event) => this.onKeydown(event));
+        this.addEventListener('keydown', this.onKeydown);
 
         // handle click on the select element
         const selectedElementPlaceholder = this.querySelector('.selected');
-        selectedElementPlaceholder.addEventListener('click', (event) => this.onClick(event));
+        selectedElementPlaceholder.addEventListener('click', this.onClick);
 
         // handle click on the option elements
         const options = this.querySelectorAll('dropdown-option');
         for (let i = 0; i < options.length; i++) {
-            options[i].addEventListener('selected-option', (event) => this.onClickOption(event));
-            options[i].addEventListener('mouseenter', (event) => this.onMouseOverOption(event));
-            options[i].addEventListener('mouseleave', (event) => {
-                const index = this.allOptions.indexOf(event.target);
-                if (this.multiple && this.selectedList.indexOf(index) > -1) return;
-                event.target.classList.remove('active');
-            });
+            options[i].addEventListener('selected-option', this.onClickOption);
+            options[i].addEventListener('mouseenter', this.onMouseOverOption);
+            options[i].addEventListener('mouseleave', this.onMouseLeave);
         }
+    }
+
+    onMouseLeave (event) {
+        const index = this.allOptions.indexOf(event.target);
+        if (this.multiple && this.selectedList.indexOf(index) > -1) return;
+        event.target.classList.remove('active');
     }
 
     /**

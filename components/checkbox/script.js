@@ -14,7 +14,9 @@ class Checkbox extends HTMLElement {
 
         this.state = {
             checked: true
-        }
+        };
+
+        this.toggleChecked = this.toggleChecked.bind(this);
 
         this.url = '/components/checkbox/template.html';
     }
@@ -24,9 +26,13 @@ class Checkbox extends HTMLElement {
             .then((result) => {
                 this.template = result.template;
                 components.renderOnce(this);
-                this.attachEventListeners();
+                this.addEventListener('click', this.toggleChecked);
             })
             .catch(err => console.error(err));
+    }
+
+    disconnectedCallback() {
+        this.removeEventListener('click', this.toggleChecked);
     }
 
     /**
@@ -36,14 +42,6 @@ class Checkbox extends HTMLElement {
     toggleChecked() {
         this.state.checked = !this.state.checked;
         this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? 'block' : 'none';
-    }
-
-    /**
-     * Adds event listeners to the checkbox.
-     * Attached click handler.
-    */
-    attachEventListeners() {
-        this.addEventListener('click', () => this.toggleChecked());
     }
 }
 
