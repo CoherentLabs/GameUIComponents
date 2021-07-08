@@ -6,13 +6,13 @@ const maxColumns = 12; //Max number of columns as it's based on the grid compone
 class AutomaticGrid extends HTMLElement {
     /**
      * Formats floats to have only 1 decimal integer or if 0 to be parsed into an integer. Then replaces the decimal separator to "_" so it can be used as a css class
-     * @param {Float} number 
-     * @returns {String}
+     * @param {number} number
+     * @returns {string}
      */
     static formatFloat(number) {
         return `${parseFloat(number.toFixed(1))}`.replace('.', '_');
     }
-    
+
     /**
      * Gets the first empty cell of the cells array
      * @returns {HTMLElement}
@@ -50,8 +50,7 @@ class AutomaticGrid extends HTMLElement {
         this._cells = [];
 
         // Load the template
-        components
-            .loadResource(this)
+        components.loadResource(this)
             .then((result) => {
                 this.template = result.template;
                 //render the template
@@ -152,8 +151,8 @@ class AutomaticGrid extends HTMLElement {
 
     /**
      * Helper function to find the cell that is on the specified row and column
-     * @param {Number} col 
-     * @param {Number} row 
+     * @param {Number} col
+     * @param {Number} row
      * @returns {HTMLElement}
      */
     getMatchingCell(col, row) {
@@ -162,7 +161,7 @@ class AutomaticGrid extends HTMLElement {
 
     /**
      * The function that triggers when we start to drag an item
-     * @param {MouseEvent} event 
+     * @param {MouseEvent} event
      */
     dragStart(event) {
         //We set the draggedItem to the one we are dragging so it can be used in other functions.
@@ -170,6 +169,13 @@ class AutomaticGrid extends HTMLElement {
 
         //Add a class to make the element have a position absolute and become semi-transparent when dragging
         this._draggedItem.classList.add('guic-dragged');
+
+        //Calculate offsetX and offsetY from the top left corner of the dragged item
+        const offsetX = event.clientX - this._draggedItem.getBoundingClientRect().x;
+        const offsetY = event.clientY - this._draggedItem.getBoundingClientRect().y;
+        
+        //Set the registry point for the drag to be the mouse cursor
+        this._draggedItem.style.transform = `translateX(-${offsetX}px) translateY(-${offsetY}px)`;
 
         //Sets the position of the dragged element to be the same as the mouse
         this._draggedItem.style.left = `${event.clientX}px`;
@@ -180,6 +186,7 @@ class AutomaticGrid extends HTMLElement {
     }
 
     dragMove(event) {
+
         //Sets the position of the dragged element to be the same as the mouse
         this._draggedItem.style.left = `${event.clientX}px`;
         this._draggedItem.style.top = `${event.clientY}px`;
@@ -191,6 +198,9 @@ class AutomaticGrid extends HTMLElement {
 
         this.dropItem(event.target);
 
+        //Reset the registry point to the top left
+        this._draggedItem.style.transform = `translateX(0) translateY(0)`;
+
         //Removes the dragged item
         this._draggedItem = null;
 
@@ -200,7 +210,7 @@ class AutomaticGrid extends HTMLElement {
 
     /**
      * When we stop the drag, we run this function to check if the drop target is a valid target.
-     * @param {HTMLElement} target 
+     * @param {HTMLElement} target
      */
     dropItem(target) {
         //Check if the target is a cell
@@ -228,7 +238,7 @@ class AutomaticGrid extends HTMLElement {
             closestEmptyCellDistance *= -1;
 
             //Get the direction of which the for loop should go. It's either 1 or -1
-            const direction = closestEmptyCellDistance / Math.abs(closestEmptyCellDistance); 
+            const direction = closestEmptyCellDistance / Math.abs(closestEmptyCellDistance);
 
             //Shift the cells to the nearest empty one
             for (let i = dropCellIndex; i !== dropCellIndex + closestEmptyCellDistance; i += direction) {
