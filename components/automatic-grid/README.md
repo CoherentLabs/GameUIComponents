@@ -22,7 +22,7 @@ The automatic-grid component comes with UMD and CJS builds.
 * add the automatic-grid component to your html:
 
 ~~~~{.html}
-<gameface-automatic-grid class="automatic-grid-component"></gameface-automatic-grid>
+<gameface-automatic-grid></gameface-automatic-grid>
 ~~~~
 
 This is all! Load the file in Gameface to see the automatic-grid.
