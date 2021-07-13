@@ -296,7 +296,7 @@ class TabPanel extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'selected') {
-            this.style.display = (newValue === 'true') ? 'block' : 'none';
+            this.style.visibility = (newValue === 'true') ? 'visible' : 'hidden';
         }
     }
 
