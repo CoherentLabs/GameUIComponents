@@ -1,5 +1,6 @@
 .automatic-grid-cell {
     height: 50px;
+    user-select: none;
 }
 
 .guic-col-2_4 {
