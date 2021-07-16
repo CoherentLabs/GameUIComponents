@@ -167,19 +167,20 @@ class AutomaticGrid extends HTMLElement {
         //We set the draggedItem to the one we are dragging so it can be used in other functions.
         this._draggedItem = event.currentTarget;
 
-        //Add a class to make the element have a position absolute and become semi-transparent when dragging
-        this._draggedItem.classList.add('guic-dragged');
-
+        
         //Calculate offsetX and offsetY from the top left corner of the dragged item
         const offsetX = event.clientX - this._draggedItem.getBoundingClientRect().x;
         const offsetY = event.clientY - this._draggedItem.getBoundingClientRect().y;
         
         //Set the registry point for the drag to be the mouse cursor
         this._draggedItem.style.transform = `translateX(-${offsetX}px) translateY(-${offsetY}px)`;
-
+        
         //Sets the position of the dragged element to be the same as the mouse
         this._draggedItem.style.left = `${event.clientX}px`;
         this._draggedItem.style.top = `${event.clientY}px`;
+        
+        //Add a class to make the element have a position absolute and become semi-transparent when dragging
+        this._draggedItem.classList.add('guic-dragged');
 
         document.addEventListener('mousemove', this.dragMove);
         document.addEventListener('mouseup', this.dragEnd);
