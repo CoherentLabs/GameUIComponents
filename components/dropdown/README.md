@@ -37,6 +37,8 @@ To add options to the dropdown use the **option** slot:
 </gameface-dropdown>
 ~~~~
 
+Adding the `id` attribute is **required** for the dropdown to work correctly.
+
 To manually select an option use the setSelected(`<optionIndex>`) function.
 For example - to select the Giraffe option from the dropdown above call:
 
