@@ -103,8 +103,11 @@ class Rangeslider extends HTMLElement {
         //if there are thumbs
         this.thumb = this.hasAttribute('thumb');
 
-        // use the template for the current slider orientation and number of handles
-        this.template = this.getTemplate(this.orientation, this.twoHandles);
+        //check if component has already been rendered if not
+        if (typeof this.template !== 'object') {
+            // use the template for the current slider orientation and number of handles
+            this.template = this.getTemplate(this.orientation, this.twoHandles);
+        }
 
         /**
          * The names of the units are different for the two slider types.
