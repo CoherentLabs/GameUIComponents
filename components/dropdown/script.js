@@ -186,7 +186,7 @@ class GamefaceDropdown extends HTMLElement {
                 }
 
                 // select the default element
-                if (this._lastSelectedIndex > -1) this.selected = this.enabledOptions[this._lastSelectedIndex];
+                if (this._lastSelectedIndex > -1 && this.enabledOptions.length > 0) this.selected = this.enabledOptions[this._lastSelectedIndex];
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
