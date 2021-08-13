@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Scrollabe Container - Gameface Game UI Components</title>
+<meta name="description" content="GameUIComponents">
+<meta name="generator" content="Hugo 0.76.0" />
+<link href="http://CoherentLabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/">
+<link rel="stylesheet" href="http://CoherentLabs.github.io/GameUIComponents/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://CoherentLabs.github.io/GameUIComponents/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="http://CoherentLabs.github.io/GameUIComponents/js/bundle.js"></script><style>
+:root {}
+</style>
+<meta property="og:title" content="Scrollabe Container" />
+<meta property="og:description" content="The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage The gameface-scrollable-container component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the gameface-scrollable-container component:  &lt;script src=&quot;./node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js&quot;&gt;&lt;/script&gt; add the gameface-scrollable-container component to your html:  &lt;gameface-scrollable-container class=&quot;gameface-scrollable-container-component&quot;&gt;&lt;/gameface-scrollable-container&gt;This is all! Load the file in Gameface to see the gameface-scrollable-container." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/" />
+<meta property="og:image" content="http://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+<meta property="article:published_time" content="2020-10-08T14:00:45+00:00" />
+<meta property="article:modified_time" content="2020-10-08T14:00:45+00:00" /><meta property="og:site_name" content="Hugo Techdoc Theme" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+<meta name="twitter:title" content="Scrollabe Container"/>
+<meta name="twitter:description" content="The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage The gameface-scrollable-container component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the gameface-scrollable-container component:  &lt;script src=&quot;./node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js&quot;&gt;&lt;/script&gt; add the gameface-scrollable-container component to your html:  &lt;gameface-scrollable-container class=&quot;gameface-scrollable-container-component&quot;&gt;&lt;/gameface-scrollable-container&gt;This is all! Load the file in Gameface to see the gameface-scrollable-container."/>
+<meta itemprop="name" content="Scrollabe Container">
+<meta itemprop="description" content="The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage The gameface-scrollable-container component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the gameface-scrollable-container component:  &lt;script src=&quot;./node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js&quot;&gt;&lt;/script&gt; add the gameface-scrollable-container component to your html:  &lt;gameface-scrollable-container class=&quot;gameface-scrollable-container-component&quot;&gt;&lt;/gameface-scrollable-container&gt;This is all! Load the file in Gameface to see the gameface-scrollable-container.">
+<meta itemprop="datePublished" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="dateModified" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="wordCount" content="333">
+<meta itemprop="image" content="http://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+
+
+<meta itemprop="keywords" content="" />
+</head>
+<body><div class="container"><header>
+<h1>Gameface Game UI Components</h1><span class="version">Version 1.0.0</span><a href="https://github.com/CoherentLabs/GameUIComponents_Public" class="github"><i class="fab fa-github"></i></a>
+<p class="description">GameUIComponents</p>
+
+</header>
+<div class="global-menu">
+<nav>
+<ul>
+<li><a href="/GameUIComponents/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>Scrollabe Container</h1>
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<p>The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.</p>
+<h1 id="usage">Usage</h1>
+<p>The gameface-scrollable-container component comes with UMD and CJS builds.</p>
+<h2 id="usage-with-umd-modules">Usage with UMD modules:</h2>
+<ul>
+<li>import the components library:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>import the gameface-scrollable-container component:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>add the gameface-scrollable-container component to your html:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-scrollable-container class=&quot;gameface-scrollable-container-component&quot;&gt;&lt;/gameface-scrollable-container&gt;
+</code></pre><p>This is all! Load the file in Gameface to see the gameface-scrollable-container.</p>
+<p>If you wish to import the modules using JavaScript you can remove the script tags
+which import the components and the gameface-scrollable-container from the node_modules folder and import them like this:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from 'coherent-gameface-components';
+import GamefaceScrollableContainer from 'gameface-scrollable-container';
+</code></pre><p>Note that this approach requires a module bundler like <a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/guide/en/">Rollup</a> to resolve the
+modules from the node_modules folder. Alternatively you can import them directly from node_modules:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
+import GamefaceScrollableContainer from './node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js';
+</code></pre><h2 id="usage-with-cjs-modules">Usage with CJS modules:</h2>
+<ul>
+<li>Import the components library:</li>
+</ul>
+<pre><code class="language-{.js}" data-lang="{.js}">const components = require('coherent-gameface-components');
+const GamefaceScrollableContainer = require('gameface-scrollable-container');
+</code></pre><p>The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
+bundler in order to use them in a browser.</p>
+<h2 id="manually-showing-and-resizing-the-scrollbar">Manually showing and resizing the scrollbar</h2>
+<p>If the scrollable container is hidden, you&rsquo;ll need to manually re-initialize the scrollbar once you show the scrollable container.
+The scrollable container has a method called <strong>showScrollBar</strong>. It accepts the scrollbar as an argument:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">const scrollableContainer = document.querySelector('.scrollable-container');
+scrollableContainer.showScrollBar(scrollableContainer.scrollbar);
+</code></pre><p>To resize the scrollbar call the <strong>resize</strong> function of the scrollbar and pass it the
+scrollable container as an argument:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">const scrollableContent = scrollableContainer.querySelector('[name=&quot;scrollable-content&quot;]');
+const scrollableContainer = document.querySelector('.scrollable-container');
+
+scrollableContainer.scrollbar.resize(scrollableContent);
+</code></pre><p>The scrollableContainer has a method called <strong>shouldShowScrollbar</strong> which checks if the scrollable content is bigger than the scrollable container and if it is - it shows the scrollbar. Use this if you are not sure if you have to show the scrollbar:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">const scrollableContainer = document.querySelector('.scrollable-container');
+scrollableContainer.shouldShowScrollbar();
+</code></pre><p>If you need to hide the scrollbar - use the <strong>hideScrollBar method</strong> and pass it the scrollbar as an argument:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">const scrollableContainer = document.querySelector('.scrollable-container');
+scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
+</code></pre><div class="edit-meta">
+Last updated on 8 Oct 2020
+
+
+<br>
+Published on 8 Oct 2020
+<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/components%5cscrollable-container.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="http://CoherentLabs.github.io/GameUIComponents/components/radial-menu/" title="Radial Menu"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Radial Menu</a>
+<a class="nav nav-next" href="http://CoherentLabs.github.io/GameUIComponents/components/slider/" title="Slider">Next - Slider <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main>
+<div class="sidebar">
+
+<nav class="open-menu">
+<ul>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents">Home</a></li>
+
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/">Examples</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/menu/">Menu</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/router/">Router</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/tabs/">Tabs</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="http://CoherentLabs.github.io/GameUIComponents/components/">Components</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/menu/">Menu</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/router/">Router</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/checkbox/">Checkbox</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/dropdown/">Dropdown</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/grid/">Grid</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/modal/">Modal</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/radial-menu/">Radial Menu</a></li>
+<li class="active"><a href="http://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/">Scrollabe Container</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/slider/">Slider</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/tabs/">Tabs</a></li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+
+<div class="sidebar-footer"></div>
+</div>
+
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

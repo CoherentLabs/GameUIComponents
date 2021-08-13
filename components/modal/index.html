@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Modal - Gameface Game UI Components</title>
+<meta name="description" content="GameUIComponents">
+<meta name="generator" content="Hugo 0.76.0" />
+<link href="http://CoherentLabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://CoherentLabs.github.io/GameUIComponents/components/modal/">
+<link rel="stylesheet" href="http://CoherentLabs.github.io/GameUIComponents/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://CoherentLabs.github.io/GameUIComponents/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="http://CoherentLabs.github.io/GameUIComponents/js/bundle.js"></script><style>
+:root {}
+</style>
+<meta property="og:title" content="Modal" />
+<meta property="og:description" content="The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage First you need to import the components library:
+&lt;script src=&quot;components.js&quot;&gt;&lt;/script&gt;The modal has three slots:
+ header - located on the top of the modal; it usually contains the heading body - located in the center; this is where the main content is put footer - located at the bottom; this is where the action buttons are placed  Add class=&ldquo;close&rdquo; to any button that should close the modal." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://CoherentLabs.github.io/GameUIComponents/components/modal/" />
+<meta property="og:image" content="http://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+<meta property="article:published_time" content="2020-10-08T14:00:45+00:00" />
+<meta property="article:modified_time" content="2020-10-08T14:00:45+00:00" /><meta property="og:site_name" content="Hugo Techdoc Theme" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+<meta name="twitter:title" content="Modal"/>
+<meta name="twitter:description" content="The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage First you need to import the components library:
+&lt;script src=&quot;components.js&quot;&gt;&lt;/script&gt;The modal has three slots:
+ header - located on the top of the modal; it usually contains the heading body - located in the center; this is where the main content is put footer - located at the bottom; this is where the action buttons are placed  Add class=&ldquo;close&rdquo; to any button that should close the modal."/>
+<meta itemprop="name" content="Modal">
+<meta itemprop="description" content="The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Usage First you need to import the components library:
+&lt;script src=&quot;components.js&quot;&gt;&lt;/script&gt;The modal has three slots:
+ header - located on the top of the modal; it usually contains the heading body - located in the center; this is where the main content is put footer - located at the bottom; this is where the action buttons are placed  Add class=&ldquo;close&rdquo; to any button that should close the modal.">
+<meta itemprop="datePublished" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="dateModified" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="wordCount" content="167">
+<meta itemprop="image" content="http://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+
+
+<meta itemprop="keywords" content="" />
+</head>
+<body><div class="container"><header>
+<h1>Gameface Game UI Components</h1><span class="version">Version 1.0.0</span><a href="https://github.com/CoherentLabs/GameUIComponents_Public" class="github"><i class="fab fa-github"></i></a>
+<p class="description">GameUIComponents</p>
+
+</header>
+<div class="global-menu">
+<nav>
+<ul>
+<li><a href="/GameUIComponents/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>Modal</h1>
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<p>The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.</p>
+<h1 id="usage">Usage</h1>
+<p>First you need to import the components library:</p>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;components.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>The modal has three slots:</p>
+<ul>
+<li><strong>header</strong> - located on the top of the modal; it usually contains the heading</li>
+<li><strong>body</strong> - located in the center; this is where the main content is put</li>
+<li><strong>footer</strong> - located at the bottom; this is where the action buttons are placed</li>
+</ul>
+<p><strong>Add class=&ldquo;close&rdquo; to any button that should close the modal.</strong></p>
+<p>Use the <code>&lt;component-import&gt;</code> to import the modal. Put any custom slots as children of the <code>&lt;component-import&gt;</code>.</p>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;component-import data-url=&quot;modal&quot;&gt;
+    &lt;component-slot data-name=&quot;header&quot;&gt;
+        &lt;div class=&quot;header&quot;&gt;
+            Character name selection
+        &lt;/div&gt;
+    &lt;/component-slot&gt;
+    &lt;component-slot data-name=&quot;body&quot;&gt;
+        &lt;div class=&quot;confirmation-text&quot;&gt;Are you sure you want to save this name?&lt;/div&gt;
+    &lt;/component-slot&gt;
+    &lt;component-slot data-name=&quot;footer&quot;&gt;
+        &lt;div class=&quot;actions&quot;&gt;
+            &lt;button class=&quot;close button confirm controls&quot; onclick=&quot;onConfirm()&quot;&gt;Yes&lt;/button&gt;
+            &lt;button class=&quot;close button discard controls&quot;&gt;No&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/component-slot&gt;
+&lt;/component-import&gt;
+</code></pre><p><strong>You can put any custom styles inline or use class names and add an external file.</strong></p>
+<div class="edit-meta">
+Last updated on 8 Oct 2020
+
+
+<br>
+Published on 8 Oct 2020
+<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/components%5cmodal.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="http://CoherentLabs.github.io/GameUIComponents/components/grid/" title="Grid"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Grid</a>
+<a class="nav nav-next" href="http://CoherentLabs.github.io/GameUIComponents/components/radial-menu/" title="Radial Menu">Next - Radial Menu <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main>
+<div class="sidebar">
+
+<nav class="open-menu">
+<ul>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents">Home</a></li>
+
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/">Examples</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/menu/">Menu</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/router/">Router</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/examples/tabs/">Tabs</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="http://CoherentLabs.github.io/GameUIComponents/components/">Components</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/menu/">Menu</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/router/">Router</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/checkbox/">Checkbox</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/dropdown/">Dropdown</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/grid/">Grid</a></li>
+<li class="active"><a href="http://CoherentLabs.github.io/GameUIComponents/components/modal/">Modal</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/">Scrollabe Container</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/slider/">Slider</a></li>
+<li class=""><a href="http://CoherentLabs.github.io/GameUIComponents/components/tabs/">Tabs</a></li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+
+<div class="sidebar-footer"></div>
+</div>
+
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

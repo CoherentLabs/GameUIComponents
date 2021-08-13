@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Examples on Gameface Game UI Components</title>
+    <link>http://CoherentLabs.github.io/GameUIComponents/examples/</link>
+    <description>Recent content in Examples on Gameface Game UI Components</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 08 Mar 2021 14:00:45 +0000</lastBuildDate><atom:link href="http://CoherentLabs.github.io/GameUIComponents/examples/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Menu</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/menu/</link>
+      <pubDate>Mon, 08 Mar 2021 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/menu/</guid>
+      <description>   body { background-color: grey; width: 100%; height: 100%; margin: 0px; padding: 0px; } .left-menu, .right-menu { top: 20vh; } .page-wrapper { height: 45vh; }    Start Game Settings  Graphics Keyboard  Graphics Keyboard Mouse  Graphics Keyboard Mouse     Mouse    Hero Gallery Credits     </description>
+    </item>
+    
+    <item>
+      <title>Router</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/router/</link>
+      <pubDate>Mon, 08 Mar 2021 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/router/</guid>
+      <description>.page-wrapper { height: 45vh; } .menu { display: flex; align-items: center; border: 1px solid #a5a3a3; height: 25px; margin-bottom: 25px; } body { background-color: #fff; } .active { color: var(--default-color-blue); } .healers-menu { display: flex; height: 135px; margin-bottom: 25px; } .avatar-container { display: flex; flex-direction: column; width: 100px; } .avatar { margin-bottom: 5px; min-height: 50px; height: 100px; background-size: contain; background-repeat: no-repeat no-repeat; } .avatar1 { background-image: url(/images/imgAvatar_2.png); } .avatar2 { background-image: url(/images/imgAvatar_3.</description>
+    </item>
+    
+    <item>
+      <title>Checkbox</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/checkbox/</link>
+      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/checkbox/</guid>
+      <description>Document.page-wrapper {height: 45vh;}Enable Music</description>
+    </item>
+    
+    <item>
+      <title>Dropdown</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/dropdown/</link>
+      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/dropdown/</guid>
+      <description>   scrollable-content, .wrapper { width: 100%; height: 200px; } .vertical-slider-wrapper { height: 200px; } .page-wrapper { height: 45vh; } gameface-dropdown { line-height: 100%; }    Cat1 Cat1 Cat1 Cat3 Cat4 Dog Giraffe Lion Pig Eagle Parrot Last Parrot Last Parrota Last Parrot     </description>
+    </item>
+    
+    <item>
+      <title>Grid</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/grid/</link>
+      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/grid/</guid>
+      <description>Document.box {box-sizing: border-box;background: #25a5d6;margin-bottom: 1rem;height: 4rem;}body {font-size: 16px;background-color: #ffffff;}.title {margin-bottom: 3rem;}.selected {transform: scale(1.2);}.avatar {margin-bottom: 2rem;min-height: 21vw;background-size: contain;background-repeat: no-repeat no-repeat;}.avatar-container {z-index: 1;}.avatar-container:hover {z-index: 3;}.avatar:hover,.class:hover {cursor: pointer;transform: scale(1.2);}.avatar1 {background-image: url(/images/avatar1.png);}.avatar2 {background-image: url(/images/avatar2.</description>
+    </item>
+    
+    <item>
+      <title>Modal</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/modal/</link>
+      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/modal/</guid>
+      <description>.page-wrapper {height: 45vh;}.character-customization {display: flex;flex-direction: row;}.save {margin-left: 10px;}.hidden {display: none;}.disabled {background-color: #eeeeee;color: #7b7878;pointer-events: none;}.modal-button {width: 100px;height: 30px;border: none;background-color: #adacac;}.modal-button:hover {background-color: rgb(121, 123, 131);}.actions {display: flex;flex-direction: row;justify-content: center;}.confirmation-text {text-align: center;}.controls {margin-left: 20px;}Chose a name for your character.</description>
+    </item>
+    
+    <item>
+      <title>Radial Menu</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/</link>
+      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/</guid>
+      <description>body { width: 100vw; height: 100vh; margin: 0; overflow: hidden; background-color: rgba(0, 0, 0, 0.5); } .radial-menu-component { position: absolute; left: 40vw; top: 20vh; } .radial-menu-component-two { position: absolute; right: 5vw; top: 15vh; } .page-wrapper { height: 45vh; }    Hold the Left Shift button to show the menu.
+     const radialMenuOne = document.getElementById(&#39;radial-menu-one&#39;); // Provide the items. radialMenuOne.items = itemsModel.items; const radialMenuTwo = document.</description>
+    </item>
+    
+    <item>
+      <title>Scrollable Container</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/</link>
+      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/</guid>
+      <description>gameface-slider.slider-component { width: 30px; } .scrollable-container { width: 70%; height: 30vw; } .vertical-slider-wrapper { height: 30vw; }     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu urna tempus, ultricies lacus fermentum, posuere arcu. Ut eget elit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse feugiat auctor finibus. Ut in euismod magna. Fusce eget dapibus arcu. Curabitur laoreet elit id lobortis tristique.</description>
+    </item>
+    
+    <item>
+      <title>Slider</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/slider/</link>
+      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/slider/</guid>
+      <description>   .horiontal-slider-component { margin-left: 100px; }        </description>
+    </item>
+    
+    <item>
+      <title>Tabs</title>
+      <link>http://CoherentLabs.github.io/GameUIComponents/examples/tabs/</link>
+      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
+      
+      <guid>http://CoherentLabs.github.io/GameUIComponents/examples/tabs/</guid>
+      <description>Document.page-wrapper {height: 45vh;}tab-panel {border-width: 2px;border-style: solid;padding: 10px;width: 496px;height: 205px;display: none;box-sizing: border-box;background-color: #ffffff;}Chapter OneChapter One ContentChapter TwoChapter Two ContentChapter ThreeChapter Three ContentChapter FourChapter Four Content</description>
+    </item>
+    
+  </channel>
+</rss>
