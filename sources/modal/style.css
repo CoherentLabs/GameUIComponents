@@ -1,0 +1,80 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.backdrop {
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    opacity: .4;
+    user-select: none;
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.close-x {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    cursor: pointer;
+    text-align: center;
+    z-index: 2;
+    line-height: 30px;
+}
+
+.modal {
+    width: 500px;
+    height: 500px;
+    z-index: 2;
+    position: absolute;
+    border-width: 3px;
+    border-style: solid;
+    box-sizing: border-box;
+}
+
+.modal-wrapper {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.header {
+    position: relative;
+    top: 0px;
+    height: 50px;
+    margin-bottom: 20px;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    line-height: 50px;
+    padding: 0px 10px;
+    box-sizing: border-box;
+}
+
+.body, .footer {
+    position: absolute;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.body {
+    position: relative;
+    height: 100px;
+}
+
+.footer {
+    height: 100px;
+    width: 500px;
+    position: absolute;
+    bottom: 0px;
+}

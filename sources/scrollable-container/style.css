@@ -1,0 +1,27 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+    background-color: #ebebeb;
+}
+
+.slider-component, .vertical-slider-component {
+    width: 10%;
+    display: none;
+}
+
+.wrapper {
+    position: relative;
+    width: 80vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.scrollable-container {
+    width: 90%;
+    overflow: scroll;
+    background-color: #ebebeb;
+}

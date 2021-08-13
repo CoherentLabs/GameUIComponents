@@ -1,0 +1,35 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.checkbox-wrapper {
+    position: relative;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.checkbox-background {
+    box-sizing: border-box;
+    top: 0px;
+    width: 30px;
+    height: 30px;
+    border-width: 5px;
+    border-style: solid;
+    box-sizing: border-box;
+}
+
+.check-mark {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.label {
+    position: relative;
+    padding-left: 10px;
+    line-height: 30px;
+}

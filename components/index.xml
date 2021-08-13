@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Components on Gameface Game UI Components</title>
-    <link>https://CoherentLabs.github.io/GameUIComponents/components/</link>
+    <link>https://coherentlabs.github.io/GameUIComponents/components/</link>
     <description>Recent content in Components on Gameface Game UI Components</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Oct 2020 14:00:45 +0000</lastBuildDate><atom:link href="https://CoherentLabs.github.io/GameUIComponents/components/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Oct 2020 14:00:45 +0000</lastBuildDate><atom:link href="https://coherentlabs.github.io/GameUIComponents/components/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Menu</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/menu/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/menu/</link>
       <pubDate>Mon, 08 Mar 2021 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/menu/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/menu/</guid>
       <description>The gameface-menu is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 Usage The gameface-menu component comes with UMD and CJS builds.
 Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the menu component:  &amp;lt;script src=&amp;quot;./node_modules/gameface-menu/umd/gameface-menu.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the menu component to your html:  &amp;lt;gameface-menu&amp;gt;&amp;lt;/gameface-menu&amp;gt;This is all! Load the file in Gameface to see the menu.</description>
@@ -20,10 +20,10 @@ Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp
     
     <item>
       <title>Router</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/router/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/router/</link>
       <pubDate>Mon, 08 Mar 2021 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/router/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/router/</guid>
       <description>The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
 Importing the Router The router component comes with UMD and CJS builds.
 With UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the gameface-router component:  &amp;lt;script src=&amp;quot;./node_modules/gameface-router/umd/router.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;If you wish to import the modules using JavaScript you can remove the script tags which import the components and the gameface-router from the node_modules folder and import them like this:</description>
@@ -31,10 +31,10 @@ With UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;
     
     <item>
       <title>Checkbox</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/checkbox/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/checkbox/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/checkbox/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/checkbox/</guid>
       <description>The checkbox is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 Usage First you need to import the components library:
 &amp;lt;script src=&amp;quot;components.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;The checkbox has three slots:
@@ -43,10 +43,10 @@ Usage First you need to import the components library:
     
     <item>
       <title>Dropdown</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/dropdown/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/dropdown/</guid>
       <description>The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 Usage The gameface-dropdown component comes with UMD and CJS builds.
 Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the gameface-dropdown component:  &amp;lt;script src=&amp;quot;./node_modules/gameface-dropdown/umd/dropdown.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the gameface-dropdown component to your html:  &amp;lt;gameface-dropdown&amp;gt;&amp;lt;/gameface-dropdown&amp;gt;To add options to the dropdown use the option slot:</description>
@@ -54,10 +54,10 @@ Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp
     
     <item>
       <title>Grid</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/grid/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/grid/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/grid/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/grid/</guid>
       <description>The grid is part of the Gameface components suite. It provides a set of styles which enable the creation of a responsive grid.
 Usage First you need to import the grid library:
 &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;&amp;lt;path_to_grid.css&amp;gt;&amp;quot;&amp;gt;Or if you use a css-loader:
@@ -66,10 +66,10 @@ import grid from &#39;coherent-gameface-grid&#39;;The grid is made up of rows a
     
     <item>
       <title>Modal</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/modal/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/modal/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/modal/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/modal/</guid>
       <description>The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 Usage First you need to import the components library:
 &amp;lt;script src=&amp;quot;components.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;The modal has three slots:
@@ -78,10 +78,10 @@ Usage First you need to import the components library:
     
     <item>
       <title>Radial Menu</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/radial-menu/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/radial-menu/</guid>
       <description>The radial-menu is part of the Gameface custom Components suite.
 Usage The radial-menu Component comes with UMD and CJS builds.
 Usage with UMD modules:  import the Components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the radial-menu Component:  &amp;lt;script src=&amp;quot;./node_modules/radial-menu/umd/radial-menu.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the radial-menu Component to your html:  &amp;lt;radial-menu&amp;gt;&amp;lt;/radial-menu&amp;gt;This is all! Load the file in Gameface to see the radial-menu.
@@ -91,10 +91,10 @@ import components from &#39;coherent-gameface-components&#39;;import RadialMenu
     
     <item>
       <title>Scrollabe Container</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/scrollable-container/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/scrollable-container/</guid>
       <description>The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 Usage The gameface-scrollable-container component comes with UMD and CJS builds.
 Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the gameface-scrollable-container component:  &amp;lt;script src=&amp;quot;./node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the gameface-scrollable-container component to your html:  &amp;lt;gameface-scrollable-container class=&amp;quot;gameface-scrollable-container-component&amp;quot;&amp;gt;&amp;lt;/gameface-scrollable-container&amp;gt;This is all! Load the file in Gameface to see the gameface-scrollable-container.</description>
@@ -102,10 +102,10 @@ Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp
     
     <item>
       <title>Slider</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/slider/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/slider/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/slider/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/slider/</guid>
       <description>The gameface-slider is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 Usage The gameface-slider component comes with UMD and CJS builds.
 Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the gameface-slider component:  &amp;lt;script src=&amp;quot;./node_modules/gameface-slider/umd/gameface-slider.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the gameface-slider component to your html:  &amp;lt;gameface-slider class=&amp;quot;gameface-slider-component&amp;quot;&amp;gt;&amp;lt;/gameface-slider&amp;gt;This is all! Load the file in Gameface to see the gameface-slider.</description>
@@ -113,10 +113,10 @@ Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp
     
     <item>
       <title>Tabs</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/tabs/</link>
+      <link>https://coherentlabs.github.io/GameUIComponents/components/tabs/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
       
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/tabs/</guid>
+      <guid>https://coherentlabs.github.io/GameUIComponents/components/tabs/</guid>
       <description>The tabs component is part of the Gameface custom components suite. As most of the components in this suite, it uses slots to allow dynamic content.
 Usage First you need to import the components library:
 &amp;lt;script src=&amp;quot;components.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;The tabs component has two slots:
