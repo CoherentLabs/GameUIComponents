@@ -153,9 +153,19 @@ class Rangeslider extends HTMLElement {
     }
 
     /**
+     * Will validate the custom handle selector and if element with that selector exists.
+     * @param {string} customHandleSelector
+     * @param {HTMLElement} customHandleElement
+     */
+    validateCustomHandle(customHandleSelector, customHandleElement) {
+        if (customHandleSelector && !customHandleElement) {
+            console.warn(`Unable to find element with selector - "${customHandleSelector}" that will be used for displaying the range slider value.`);
+        }
+    }
+
+    /**
      * Sets up the rangeslider, draws the additional things like grid and thumbs, attaches the event listeners
      */
-
     setup() {
         components.waitForFrames(() => {
             //saves the size of the rangeslider so we don't have to request it on every action
@@ -198,16 +208,27 @@ class Rangeslider extends HTMLElement {
                 ? percent.forEach((p, i) => this.updateSliderPosition(p, i))
                 : this.updateSliderPosition(percent, 0);
 
-            const customHandle = this.getAttribute('custom-handle'),
-                customHandleLeft = this.getAttribute('custom-handle-left'),
-                customHandleRight = this.getAttribute('custom-handle-right');
+            const customHandleSelectors = {
+                SINGLE: this.getAttribute('custom-handle'),
+                LEFT: this.getAttribute('custom-handle-left'),
+                RIGHT: this.getAttribute('custom-handle-right')
+            };
 
-            this.customHandle = customHandle ? document.querySelector(customHandle) : null;
-            this.customHandleLeft = customHandleLeft ? document.querySelector(customHandleLeft) : null;
-            this.customHandleRight = customHandleRight ? document.querySelector(customHandleRight) : null;
+            const customHandleVariableNames = {
+                SINGLE: 'customHandle',
+                LEFT: 'customHandleLeft',
+                RIGHT: 'customHandleRight'
+            }
+
+            for (let key of Object.keys(customHandleSelectors)) {
+                const customHandleVariableName = customHandleVariableNames[key],
+                    customHandleSelector = customHandleSelectors[key];
+
+                this[customHandleVariableName] = customHandleSelector ? document.querySelector(customHandleSelector) : null;
+                this.validateCustomHandle(customHandleSelector, this[customHandleVariableName]);
+            }
 
             this.updateCustomHandles();
-
             this.attachEventListener();
         }, 3);
     }
@@ -422,12 +443,13 @@ class Rangeslider extends HTMLElement {
      */
     getHandlePercent(e) {
         //we calculate the offsetX or offsetY of the click event
-        const offset =
-            this.orientation === 'vertical'
-                ? this.sizes[this.units.coordinate] +
-                this.sizes[this.units.size] -
-                (document.body.scrollTop + e[this.units.mouseAxisCoords])
-                : document.body.scrollLeft + e[this.units.mouseAxisCoords] - this.sizes[this.units.coordinate];
+        const size = this.sizes[this.units.coordinate];
+        const mouseCoords = e[this.units.mouseAxisCoords];
+
+        let offset = document.body.scrollLeft + mouseCoords - size;
+        if (this.orientation === 'vertical') {
+            offset = this.sizes[this.units.size] - (document.body.scrollTop + mouseCoords);
+        }
 
         return Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
     }

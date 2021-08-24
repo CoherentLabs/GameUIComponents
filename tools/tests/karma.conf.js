@@ -1,7 +1,7 @@
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
-    failOnFailingTestSuite : false,
+    failOnFailingTestSuite: false,
     frameworks: ['jasmine', 'chai'],
     client: {
       jasmine: {
@@ -9,10 +9,25 @@ module.exports = function(config) {
       },
       clearContext: false,
     },
+    reporters: ["spec"],
+    specReporter: {
+      maxLogLines: 5,             // limit number of lines logged per test
+      suppressErrorSummary: true, // do not print error summary
+      suppressFailed: false,      // do not print information about failed tests
+      suppressPassed: false,      // do not print information about passed tests
+      suppressSkipped: false,     // do not print information about skipped tests
+      showSpecTiming: true,       // print the time elapsed for each spec
+      failFast: false,            // test would finish with error when a first fail occurs
+      prefixes: {
+        success: '     [OK] ',      // override prefix for passed tests, default is '✓ '
+        failure: ' [FAILED] ',      // override prefix for failed tests, default is '✗ '
+        skipped: '[SKIPPED] '      // override prefix for skipped tests, default is '- '
+      }
+    },
     files: [
-      {pattern: '**/**/*.css', included: true, type:'css' },
-      {pattern: 'lib/components.development.js', served: true },
-      {pattern: 'actions.js', served: true },
+      { pattern: '**/**/*.css', included: true, type: 'css' },
+      { pattern: 'lib/components.development.js', served: true },
+      { pattern: 'actions.js', served: true },
       '**/scrollable-container/*.js',
       '**/checkbox/**.js',
       '**/dropdown/*.js',
@@ -33,12 +48,12 @@ module.exports = function(config) {
     },
     webpack: {
       externals: {
-        'coherent-gameface-components' : 'components'
+        'coherent-gameface-components': 'components'
       },
       module: {
         rules: [
           {
-            test:/\.js$/,
+            test: /\.js$/,
             loader: 'babel-loader',
             exclude: [/node_modules/, /helpers/],
           }
