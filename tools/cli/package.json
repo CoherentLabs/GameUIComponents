@@ -9,7 +9,11 @@
   "bin": {
     "coherent-guic-cli": "./index.js"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli"
+  },
+  "author": "CoherentLabs",
   "license": "ISC",
   "dependencies": {
     "@rollup/plugin-node-resolve": "9.0.0",
