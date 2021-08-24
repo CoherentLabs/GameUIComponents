@@ -465,6 +465,7 @@ const scrollableContainerTemplate = `
 `;
 
 const sliderTemplate = `<gameface-slider class="horizontal-slider-component" orientation="horizontal"></gameface-slider>`;
+const rangeSliderTemplate = `<gameface-rangeslider orientation="horizontal" min="56" max="255" grid thumb></gameface-rangeslider>`;
 const modalTemplate = `<gameface-modal class="modal-component"></gameface-modal>`;
 const tabsTemplate = `<gameface-tabs>
 <tab-heading slot="tab">Chapter One</tab-heading>
@@ -496,6 +497,7 @@ export {
     menuTemplate,
     scrollableContainerTemplate,
     sliderTemplate,
+    rangeSliderTemplate,
     modalTemplate,
     tabsTemplate,
     radialMenuTemplate,

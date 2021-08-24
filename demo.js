@@ -10,6 +10,7 @@ import {
     menuTemplate,
     scrollableContainerTemplate,
     sliderTemplate,
+    rangeSliderTemplate,
     modalTemplate,
     tabsTemplate,
     radialMenuTemplate,
@@ -219,6 +220,23 @@ class Slider extends HTMLElement {
     }
 }
 
+class RangeSlider extends HTMLElement {
+    constructor() {
+        super();
+        this.template = rangeSliderTemplate;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then((result) => {
+                this.template = result.template;
+
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
+    }
+}
+
 class Modal extends HTMLElement {
     constructor() {
         super();
@@ -290,6 +308,7 @@ components.defineCustomElement('responsive-grid-page', ResponsiveGrid);
 components.defineCustomElement('menu-page', Menu);
 components.defineCustomElement('scrollable-container-page', ScrollableContainer);
 components.defineCustomElement('slider-page', Slider);
+components.defineCustomElement('range-slider-page', RangeSlider);
 components.defineCustomElement('modal-page', Modal);
 components.defineCustomElement('tabs-page', Tabs);
 components.defineCustomElement('radial-menu-page', RadialMenu);
@@ -305,6 +324,7 @@ new router.Router({
     '/menu': 'menu-page',
     '/scrollable-container': 'scrollable-container-page',
     'slider': 'slider-page',
+    'range-slider': 'range-slider-page',
     'modal': 'modal-page',
     'tabs': 'tabs-page',
     'radial-menu': 'radial-menu-page',

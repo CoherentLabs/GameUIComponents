@@ -198,6 +198,16 @@ class Rangeslider extends HTMLElement {
                 ? percent.forEach((p, i) => this.updateSliderPosition(p, i))
                 : this.updateSliderPosition(percent, 0);
 
+            const customHandle = this.getAttribute('custom-handle'),
+                customHandleLeft = this.getAttribute('custom-handle-left'),
+                customHandleRight = this.getAttribute('custom-handle-right');
+
+            this.customHandle = customHandle ? document.querySelector(customHandle) : null;
+            this.customHandleLeft = customHandleLeft ? document.querySelector(customHandleLeft) : null;
+            this.customHandleRight = customHandleRight ? document.querySelector(customHandleRight) : null;
+
+            this.updateCustomHandles();
+
             this.attachEventListener();
         }, 3);
     }
@@ -330,6 +340,16 @@ class Rangeslider extends HTMLElement {
         this.querySelector(`.${this.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
     }
 
+    updateCustomHandles() {
+        if (this.twoHandles) {
+            if (this.customHandleLeft && this._value[0] !== undefined) this.customHandleLeft.textContent = this._value[0];
+            if (this.customHandleRight && this._value[1] !== undefined) this.customHandleRight.textContent = this._value[1];
+            return;
+        }
+
+        if (this.customHandle && this._value[0] !== undefined) this.customHandle.textContent = this._value[0];
+    }
+
     /**
      * Updates the positions of the handles and the width of the bar
      * @param {number} percent
@@ -370,7 +390,7 @@ class Rangeslider extends HTMLElement {
             this.twoHandles &&
             Math.abs(
                 parseFloat(this.handle[0].style[this.units.position]) -
-                    parseFloat(this.handle[1].style[this.units.position])
+                parseFloat(this.handle[1].style[this.units.position])
             );
 
         this.bar.style[this.units.size] = this.twoHandles ? `${distanceBetweenHandles}%` : `${percent}%`;
@@ -385,9 +405,11 @@ class Rangeslider extends HTMLElement {
 
         if (this.thumb) {
             this.thumbElement[index].innerHTML = this._value[index];
-            this.thumbElement[index].style[this.units.position] = 
+            this.thumbElement[index].style[this.units.position] =
                 `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
         }
+
+        this.updateCustomHandles();
 
         //dispatching a custom event with the rangeslider values
         this.dispatchEvent(new CustomEvent('sliderupdate', { detail: this._value }));
@@ -401,11 +423,11 @@ class Rangeslider extends HTMLElement {
     getHandlePercent(e) {
         //we calculate the offsetX or offsetY of the click event
         const offset =
-        this.orientation === 'vertical'
-            ? this.sizes[this.units.coordinate] +
+            this.orientation === 'vertical'
+                ? this.sizes[this.units.coordinate] +
                 this.sizes[this.units.size] -
                 (document.body.scrollTop + e[this.units.mouseAxisCoords])
-            : document.body.scrollLeft + e[this.units.mouseAxisCoords] - this.sizes[this.units.coordinate];
+                : document.body.scrollLeft + e[this.units.mouseAxisCoords] - this.sizes[this.units.coordinate];
 
         return Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
     }
