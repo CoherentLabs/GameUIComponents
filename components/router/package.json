@@ -1,22 +1,22 @@
 {
-  "name": "coherent-gameface-router",
+  "name": "gameface-router",
   "version": "1.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/router"
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-router"
   },
   "keywords": [
     "UI",
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "1.0.0",
+    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
     "postmessage-polyfill": "1.0.0",
     "url-js": "^0.2.5",
     "whatwg-fetch": "3.4.1"
   },
-  "author": "CoherentLabs",
+  "author": "",
   "license": "ISC"
 }

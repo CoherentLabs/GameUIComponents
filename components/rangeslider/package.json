@@ -1,5 +1,5 @@
 {
-  "name": "coherent-gameface-rangeslider",
+  "name": "rangeslider",
   "version": "1.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
@@ -11,11 +11,24 @@
     "UI",
     "Component"
   ],
+  "files": [
+    "demo/",
+    "cjs/",
+    "umd/",
+    "templates/",
+    "styles/",
+    "index.js",
+    "package.json",
+    "README.md",
+    "script.js",
+    "orientationUnitsNames.js",
+    "components-theme.css"
+  ],
   "dependencies": {
-    "coherent-gameface-components": "1.0.0",
+    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
-  "author": "CoherentLabs",
+  "author": "",
   "license": "ISC"
 }

@@ -3,15 +3,9 @@
   "version": "1.0.0",
   "description": "A responsove CSS grid.",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/grid"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "Grid",
-    "UI",
-    "Component"
-  ],
-  "author": "CoherentLabs",
+  "author": "",
   "license": "ISC"
 }
