@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import {Router, Route, BrowserHistory} from '../umd/router.development.js';
+import { Router, Route, BrowserHistory, HashHistory } from '../umd/router.development.js';
 import { pm } from 'postmessage-polyfill';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
 import {
@@ -20,8 +20,9 @@ import {
     notFoundTemplate,
 } from './templates';
 
-const browserHistory = new BrowserHistory();
-Route.use(browserHistory);
+// window.cohHistory  = new BrowserHistory();
+window.cohHistory = new HashHistory();
+Route.use(cohHistory);
 
 window.postMessage = function (message) {
     pm({
@@ -119,10 +120,13 @@ class Heroes extends HTMLElement {
 class TankOne extends HTMLElement {
     constructor() {
         super();
-        this.template = tankOneTemplate;
+        this.template = '<div></div>';
     }
 
     connectedCallback() {
+        //dynamically set params from the current path
+        this.template = tankOneTemplate(this.params);
+
         components.loadResource(this)
             .then((result) => {
                 this.template = result.template;
@@ -183,7 +187,6 @@ class Healer extends HTMLElement {
             },
         }
 
-        
         this.template = healerTemplate;
     }
 
@@ -251,8 +254,8 @@ let router = new Router({
     '/heroes': 'heroes-page',
     '/heroes/:id': heroesRouter,
     '**': 'not-found-page'
-}, browserHistory);
+}, cohHistory);
 
-const state = { current: '/', id: browserHistory.currentRouteId };
+const state = { current: '/', id: cohHistory.currentRouteId };
 const title = 'home';
-browserHistory.pushState(state, title, '/');
+cohHistory.pushState(state, title, '/');

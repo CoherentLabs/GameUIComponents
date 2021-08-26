@@ -68,10 +68,10 @@ const heroesTemplate = `<div>
 const startGameTemplate = `<div>Start Game</div>`;
 const homeTemplate = `<div>Home</div>`;
 
-const tankOneTemplate = `<div>
+const tankOneTemplate = ({ health, mana }) => `<div>
     <div>Tank One:</div>
-    <p>Health: 100</p>
-    <p>Armor: 500</p>
+    <p>Health: ${health}</p>
+    <p>Armor: ${mana}</p>
 </div>`;
 
 const tankTwoTemplate = `<div>

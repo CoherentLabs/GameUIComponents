@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import { BrowserHistory } from './history';
+import { BrowserHistory, HashHistory } from './history';
 
 /**
  * Creates the GamefaceRoute component class and registers it.
@@ -21,12 +21,12 @@ class Route {
         return this._history;
     }
 
-    static use(browserHistory) {
-        if (!(browserHistory instanceof BrowserHistory)) {
-            console.error(`Type error: ${browserHistory} is not an instance of BrowserHistory.
-             Make sure you pass an instance of BrowserHistory to Route.use()!`);
+    static use(history) {
+        if (!(history instanceof BrowserHistory) && !(history instanceof HashHistory)) {
+            console.error(`Type error: ${history} is not an instance of BrowserHistory or HashHistory.
+             Make sure you pass an instance of BrowserHistory or HashHistory to Route.use()!`);
         }
-        this.history = browserHistory;
+        this.history = history;
     }
 }
 

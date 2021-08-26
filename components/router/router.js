@@ -4,11 +4,22 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
+import { HashHistory, BrowserHistory } from './history';
+import { Route } from './route';
 
 const WILDCARD = '**';
 const HOME = '/';
 
 class Router {
+    /**
+     * @typedef {Record<string, string|Router>} Routes
+     */
+
+    /**
+     * @param {Routes} routes - The routes map
+     * @param {HashHistory|BrowserHistory} history - The router history
+     * @param {any} onBeforeNavigation - Method that can be used for code execution before the next history navigation
+     */
     constructor(routes, history, onBeforeNavigation) {
         this.routes = routes;
 
@@ -16,47 +27,23 @@ class Router {
             this.history = history;
             if (onBeforeNavigation) this.history.onBeforeNavigation = onBeforeNavigation;
 
-            window.addEventListener('popstate', (event) => this.onPopState(event));
-
-            this.history.listen((current) => {
-                this.navigateTo(current);
-            });
+            this.history.addPopStateListener();
+            this.history.onHistoryChange = () => this.navigateTo(window.history.state.current);
         }
     }
 
     /**
-     * Called onpopstate event.
-     * Does nothing if there's no history or no history state.
-     * @param {Event} event - the current event object.
+     * Will clear the router data and remove the history listeners
      */
-    onPopState(event) {
-        if (!window.history || !window.history.state) return;
+    clear() {
+        if (this.history) {
+            this.history.removePopStateListener();
+            this.history.onBeforeNavigation = null;
+            this.history.onHistoryChange = null;
+            this.history = null;
+        }
 
-        // onpopstate is triggered when back, go or forward is called and the event object
-        // does not hold information about which one of these methods triggered the event
-        // so we keep track of the currentRouteId, we set it ot each pushState and we compare the
-        // values on popstate to see if the user's going back or forward
-        const navDirection = this.getNavigationDirection(this.history.currentRouteId, event.state.id);
-        this.history.currentRouteId += navDirection;
-
-        if (!this.history.onBeforeNavigation) return this.navigateTo(window.history.state.current);
-
-        this.history.onBeforeNavigation(() => {
-            this.navigateTo(window.history.state.current);
-        });
-    }
-
-    /**
-     * Compares the currentRouteId of the current route and the previous one and
-     * determines if the user's going back or forward.
-     * @param {number} previous - the id of the history state before navigation
-     * @param {number} current - the id of the history state after navigation attempt
-     * @returns {number} - 0 if it's the same route, -1 if going back, 1 if going forward
-     */
-    getNavigationDirection(previous, current) {
-        if (previous === current) return 0; // same
-        if (previous > current) return -1;  // back
-        return 1;                           // forward
+        this.routes = null;
     }
 
     /**
@@ -69,23 +56,23 @@ class Router {
         const parse_url_exp = new RegExp([
             '(.+?(?=\/))'                     // host
             , '(/[^?#]*|)'                    // pathname
-          ].join(''));
+        ].join(''));
 
         const parses_url_map = {
-            host:     1
-          , pathname: 2
+            host: 1,
+            pathname: 2
         }
 
         let match = url.match(parse_url_exp);
 
-        if(!match || !match.length) return console.error(`The provided url - ${url} is not valid!`);
+        if (!match || !match.length) return console.error(`The provided url - ${url} is not valid!`);
 
         // create a new object from the map
-        const parsedURL = {...{}, ...parses_url_map};
+        const parsedURL = { ...{}, ...parses_url_map };
         const parsedURLKeys = Object.keys(parsedURL);
 
         // assign the values of the parsed url to the map keys
-        for(let i = 0; i < parsedURLKeys.length; i++) {
+        for (let i = 0; i < parsedURLKeys.length; i++) {
             const key = parsedURLKeys[i];
             if (match[parsedURL[key]]) parsedURL[key] = match[parsedURL[key]];
         }
@@ -104,10 +91,10 @@ class Router {
         const component = this.routes[bestMatchedRoute];
 
         // if there is no component specified for this match, do nothing
-        if(!component) return;
+        if (!component) return;
         // if the component is a Router, then the route is nested and we need
         // to pass it to the nested router to process it.
-        if(component instanceof Router) {
+        if (component instanceof Router) {
             const url = this.parseURL(current);
             component.navigateTo(url.pathname);
             return;
@@ -172,17 +159,17 @@ class Router {
             let configuration = url.split('/') // split url into segments by '/'
                 .filter((value) => value)      // remove the empty strings - '/path'.split('/') will return ['', 'path']
                 .map((segment, index) => {     // loop all segments and generate regular expressions for them
-                
-                // if the current segment doesn't contain a param, return the segment
-                if (segment.substr(0, 1) !== ':') return segment;
 
-                // assign the param name to its value
-                // the name is the value after the : - for path '/:id' it's id
-                // the value is the part of the url at the same position
-                routeParams[segment.substr(1)] = currentURL.split('/')[index + 1]; // + 1 to compensate for the empty string result from the split
-                // match all letters and numbers one or more times
-                return '([a-z0-9]+)';
-            });
+                    // if the current segment doesn't contain a param, return the segment
+                    if (segment.substr(0, 1) !== ':') return segment;
+
+                    // assign the param name to its value
+                    // the name is the value after the : - for path '/:id' it's id
+                    // the value is the part of the url at the same position
+                    routeParams[segment.substr(1)] = currentURL.split('/')[index + 1]; // + 1 to compensate for the empty string result from the split
+                    // match all letters and numbers one or more times
+                    return '([a-z0-9]+)';
+                });
 
             const finalRegex = configuration.join('/');
             // match from the beginning ^ of the url to the end $ if the match is exact
@@ -206,7 +193,7 @@ class Router {
 }
 
 if (!components.definedElements['router-view']) {
-    components.defineCustomElement('router-view', class RouterView extends HTMLElement {});
+    components.defineCustomElement('router-view', class RouterView extends HTMLElement { });
 }
 
-export { Router };
+export { Router, Route, HashHistory, BrowserHistory };
