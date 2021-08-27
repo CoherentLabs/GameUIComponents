@@ -77,6 +77,9 @@ You can use the following attributes to customize the rangeslider
 |grid   | Boolean  | false  | Draws a grid with numbers or array entries  | To enable it you just need to put 'grid' as attribute   |
 |thumb   | Boolean  | false  | Draws a thumb with a value for each handle  | To enable it you just need to put 'thumb' as attribute   |
 |two-handles   | Boolean  | false  | Creates two handles to specify a range  | To enable it you just need to put 'two-handles' as attribute. If enabled the value attribute is ignored   |
+|custom-handle   | String  | ''  | Element selector  | Will find the element with the specified selector and will automatically render the slider value in it. This option will work when the two-handles option is set to false. |
+|custom-handle-left   | String  | ''  | Element selector  | Will find the element with the specified selector and will automatically render the left slider value in it. This option will work when the two-handles option is set to true. |
+|custom-handle-right   | String  | ''  | Element selector | Will find the element with the specified selector and will automatically render the right slider value in it. This option will work when the two-handles option is set to true.  |
 |values   | Array  | []  | Uses an array for the rangeslider  | The array must be added in the following format '["value1", "value2"]' where the array is wrapped in single quotes and the values in double. If there is an Array the two-handles, min and max attributes are ignored   |
 
 ## Examples

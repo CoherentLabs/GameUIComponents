@@ -153,9 +153,19 @@ class Rangeslider extends HTMLElement {
     }
 
     /**
+     * Will validate the custom handle selector and if element with that selector exists.
+     * @param {string} customHandleSelector
+     * @param {HTMLElement} customHandleElement
+     */
+    validateCustomHandle(customHandleSelector, customHandleElement) {
+        if (customHandleSelector && !customHandleElement) {
+            console.warn(`Unable to find element with selector - "${customHandleSelector}" that will be used for displaying the range slider value.`);
+        }
+    }
+
+    /**
      * Sets up the rangeslider, draws the additional things like grid and thumbs, attaches the event listeners
      */
-
     setup() {
         components.waitForFrames(() => {
             //saves the size of the rangeslider so we don't have to request it on every action
@@ -198,6 +208,27 @@ class Rangeslider extends HTMLElement {
                 ? percent.forEach((p, i) => this.updateSliderPosition(p, i))
                 : this.updateSliderPosition(percent, 0);
 
+            const customHandleSelectors = {
+                SINGLE: this.getAttribute('custom-handle'),
+                LEFT: this.getAttribute('custom-handle-left'),
+                RIGHT: this.getAttribute('custom-handle-right')
+            };
+
+            const customHandleVariableNames = {
+                SINGLE: 'customHandle',
+                LEFT: 'customHandleLeft',
+                RIGHT: 'customHandleRight'
+            }
+
+            for (let key of Object.keys(customHandleSelectors)) {
+                const customHandleVariableName = customHandleVariableNames[key],
+                    customHandleSelector = customHandleSelectors[key];
+
+                this[customHandleVariableName] = customHandleSelector ? document.querySelector(customHandleSelector) : null;
+                this.validateCustomHandle(customHandleSelector, this[customHandleVariableName]);
+            }
+
+            this.updateCustomHandles();
             this.attachEventListener();
         }, 3);
     }
@@ -330,6 +361,16 @@ class Rangeslider extends HTMLElement {
         this.querySelector(`.${this.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
     }
 
+    updateCustomHandles() {
+        if (this.twoHandles) {
+            if (this.customHandleLeft && this._value[0] !== undefined) this.customHandleLeft.textContent = this._value[0];
+            if (this.customHandleRight && this._value[1] !== undefined) this.customHandleRight.textContent = this._value[1];
+            return;
+        }
+
+        if (this.customHandle && this._value[0] !== undefined) this.customHandle.textContent = this._value[0];
+    }
+
     /**
      * Updates the positions of the handles and the width of the bar
      * @param {number} percent
@@ -370,7 +411,7 @@ class Rangeslider extends HTMLElement {
             this.twoHandles &&
             Math.abs(
                 parseFloat(this.handle[0].style[this.units.position]) -
-                    parseFloat(this.handle[1].style[this.units.position])
+                parseFloat(this.handle[1].style[this.units.position])
             );
 
         this.bar.style[this.units.size] = this.twoHandles ? `${distanceBetweenHandles}%` : `${percent}%`;
@@ -385,9 +426,11 @@ class Rangeslider extends HTMLElement {
 
         if (this.thumb) {
             this.thumbElement[index].innerHTML = this._value[index];
-            this.thumbElement[index].style[this.units.position] = 
+            this.thumbElement[index].style[this.units.position] =
                 `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
         }
+
+        this.updateCustomHandles();
 
         //dispatching a custom event with the rangeslider values
         this.dispatchEvent(new CustomEvent('sliderupdate', { detail: this._value }));
@@ -400,12 +443,13 @@ class Rangeslider extends HTMLElement {
      */
     getHandlePercent(e) {
         //we calculate the offsetX or offsetY of the click event
-        const offset =
-        this.orientation === 'vertical'
-            ? this.sizes[this.units.coordinate] +
-                this.sizes[this.units.size] -
-                (document.body.scrollTop + e[this.units.mouseAxisCoords])
-            : document.body.scrollLeft + e[this.units.mouseAxisCoords] - this.sizes[this.units.coordinate];
+        const size = this.sizes[this.units.coordinate];
+        const mouseCoords = e[this.units.mouseAxisCoords];
+
+        let offset = document.body.scrollLeft + mouseCoords - size;
+        if (this.orientation === 'vertical') {
+            offset = this.sizes[this.units.size] - (document.body.scrollTop + mouseCoords);
+        }
 
         return Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
     }

@@ -1,4 +1,11 @@
-const loadRangeslider = ({ value, min, max, values, grid, thumb, twoHandles, orientation, step }) => {
+function addCustomElementValue(customHandle) {
+    const customElementValue = document.createElement('span');
+    customElementValue.id = customHandle.replace('#', '');
+    customElementValue.style.marginRight = '20px';
+    document.body.appendChild(customElementValue);
+}
+
+const loadRangeslider = ({ value, min, max, values, grid, thumb, twoHandles, orientation, step, customHandle, customHandleLeft, customHandleRight }) => {
     const attributes = [
         value ? `value="${value}"` : '',
         min ? `min="${min}"` : '',
@@ -8,16 +15,23 @@ const loadRangeslider = ({ value, min, max, values, grid, thumb, twoHandles, ori
         step ? `step="${step}"` : '',
         grid ? `grid` : '',
         thumb ? `thumb` : '',
-        twoHandles ? `two-handles` : ''
+        twoHandles ? `two-handles` : '',
+        customHandle ? `custom-handle="${customHandle}"` : '',
+        customHandleLeft ? `custom-handle-left="${customHandleLeft}"` : '',
+        customHandleRight ? `custom-handle-right="${customHandleRight}"` : '',
     ];
 
     const wrapper = document.createElement('div');
     wrapper.innerHTML = `<gameface-rangeslider ${attributes.join(' ')}></gameface-rangeslider>`;
 
+    customHandle && addCustomElementValue(customHandle);
+    customHandleLeft && addCustomElementValue(customHandleLeft);
+    customHandleRight && addCustomElementValue(customHandleRight);
+
     document.body.appendChild(wrapper.children[0]);
 
     return new Promise((resolve) => {
-        setTimeout(() => resolve(), 1000);
+        waitForStyles(resolve, 4)
     });
 };
 
@@ -27,7 +41,7 @@ const dragSim = (start, end, element) => {
             element.onMouseMove({ clientX: currX });
 
             if (currX < endX) {
-                requestAnimationFrame(() => drag(++currX, endX));
+                requestAnimationFrame(() => drag(currX + 1, endX));
                 return;
             }
 
@@ -37,6 +51,22 @@ const dragSim = (start, end, element) => {
         drag(start, end);
     });
 };
+
+const customHandleSelectors = {
+    SINGLE: '#myValue',
+    LEFT: '#myValueLeft',
+    RIGHT: '#myValueRight'
+}
+
+function removeCustomHandles() {
+    for (let value of Object.values(customHandleSelectors)) {
+        const element = document.querySelector(value);
+
+        if (element) {
+            document.body.removeChild(element);
+        }
+    }
+}
 
 describe('Rangeslider component', () => {
     afterEach(() => {
@@ -50,6 +80,8 @@ describe('Rangeslider component', () => {
         if (rangeslider) {
             rangeslider.parentElement.removeChild(rangeslider);
         }
+
+        removeCustomHandles();
     });
 
     it('Should be rendered', async () => {
@@ -81,6 +113,14 @@ describe('Rangeslider component', () => {
         const left = parseFloat(rangesliderHandle.style.left);
 
         assert.equal(left, value);
+    });
+
+    it('Custom handle should correspond to value', async () => {
+        const value = 50;
+        await loadRangeslider({ value, customHandle: customHandleSelectors.SINGLE });
+        const customHandle = document.querySelector(customHandleSelectors.SINGLE);
+        assert.exists(customHandle, 'Custom handle element is rendered in the DOM');
+        assert.equal(customHandle.textContent, value);
     });
 
     it('Bar should correspond to value', async () => {
@@ -128,94 +168,111 @@ describe('Rangeslider component', () => {
         });
     });
 
-    it('Should move handle and change bar width when clicked on', (done) => {
-        loadRangeslider({}).then(() => {
-            const rangeslider = document.querySelector('gameface-rangeslider');
-            const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
-            const handle = rangeslider.querySelector('.horizontal-rangeslider-handle');
-            const bar = rangeslider.querySelector('.horizontal-rangeslider-bar');
-            const { x, width } = rangesliderElement.getBoundingClientRect();
+    it('Should move handle and change bar width when clicked on', async () => {
+        await loadRangeslider({});
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
+        const handle = rangeslider.querySelector('.horizontal-rangeslider-handle');
+        const bar = rangeslider.querySelector('.horizontal-rangeslider-bar');
+        const { x, width } = rangesliderElement.getBoundingClientRect();
 
-            rangeslider.onMouseDown({ clientX: x + width / 2 });
-            rangeslider.onMouseUp();
+        rangeslider.onMouseDown({ clientX: x + width / 2 });
+        rangeslider.onMouseUp();
 
-            assert.equal(parseFloat(bar.style.width), 50);
-            assert.equal(parseFloat(handle.style.left), 50);
-            done();
-        });
+        assert.equal(parseFloat(bar.style.width), 50);
+        assert.equal(parseFloat(handle.style.left), 50);
     });
 
-    it('Should move closest handle when clicked on', (done) => {
-        loadRangeslider({ twoHandles: true, thumb: true }).then(() => {
-            const rangeslider = document.querySelector('gameface-rangeslider');
-            const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
-            const handles = rangeslider.querySelectorAll('.horizontal-rangeslider-handle');
-            const { x, width } = rangesliderElement.getBoundingClientRect();
+    it('Should move closest handle when clicked on', async () => {
+        await loadRangeslider({ twoHandles: true, thumb: true });
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
+        const handles = rangeslider.querySelectorAll('.horizontal-rangeslider-handle');
+        const { x, width } = rangesliderElement.getBoundingClientRect();
 
-            rangeslider.onMouseDown({ clientX: x + width * 0.75 }); //0.75 so that I am sure that the click is closer to the second handle
-            rangeslider.onMouseUp();
+        rangeslider.onMouseDown({ clientX: x + width * 0.75 }); //0.75 so that I am sure that the click is closer to the second handle
+        rangeslider.onMouseUp();
 
-            assert.equal(parseFloat(handles[1].style.left), 75);
-            done();
-        });
+        assert.equal(parseFloat(handles[1].style.left), 75);
     });
 
-    it('Should change handle positon and bar width when dragged', (done) => {
-        loadRangeslider({}).then(() => {
-            const rangeslider = document.querySelector('gameface-rangeslider');
-            const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
-            const handle = rangeslider.querySelector('.horizontal-rangeslider-handle');
-            const bar = rangeslider.querySelector('.horizontal-rangeslider-bar');
-            const { x, width } = rangesliderElement.getBoundingClientRect();
+    it('Should change handle positon and bar width when dragged', async () => {
+        await loadRangeslider({});
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
+        const handle = rangeslider.querySelector('.horizontal-rangeslider-handle');
+        const bar = rangeslider.querySelector('.horizontal-rangeslider-bar');
+        const { x, width } = rangesliderElement.getBoundingClientRect();
 
-            rangeslider.onMouseDown({ clientX: x });
+        rangeslider.onMouseDown({ clientX: x });
 
-            dragSim(x, x + width / 4, rangeslider).then(() => {
-                rangeslider.onMouseUp();
+        await dragSim(x, x + width / 4, rangeslider)
+        rangeslider.onMouseUp();
 
-                assert.equal(parseFloat(bar.style.width), 25);
-                assert.equal(parseFloat(handle.style.left), 25);
-                done();
-            });
-        });
+        assert.equal(parseFloat(bar.style.width), 25);
+        assert.equal(parseFloat(handle.style.left), 25);
     });
 
-    it('Should change thumb positon and value when dragged', (done) => {
-        loadRangeslider({ thumb: true }).then(() => {
-            const rangeslider = document.querySelector('gameface-rangeslider');
-            const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
-            const thumb = rangeslider.querySelector('.horizontal-rangeslider-thumb');
-            const { x, width } = rangesliderElement.getBoundingClientRect();
+    it('Should change thumb positon and value when dragged', async () => {
+        await loadRangeslider({ thumb: true });
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
+        const thumb = rangeslider.querySelector('.horizontal-rangeslider-thumb');
+        const { x, width } = rangesliderElement.getBoundingClientRect();
 
-            rangeslider.onMouseDown({ clientX: x });
+        rangeslider.onMouseDown({ clientX: x });
 
-            dragSim(x, x + width / 4, rangeslider).then(() => {
-                rangeslider.onMouseUp();
+        await dragSim(x, x + width / 4, rangeslider)
+        rangeslider.onMouseUp();
 
-                assert.equal(parseFloat(thumb.style.left), 25);
-                assert.equal(parseFloat(thumb.textContent), 25);
-                done();
-            });
-        });
+        assert.equal(parseFloat(thumb.style.left), 25);
+        assert.equal(parseFloat(thumb.textContent), 25);
     });
 
-    it('Should change handle position and thumb value according to step', (done) => {
-        loadRangeslider({ thumb: true, step: 40 }).then(() => {
-            const rangeslider = document.querySelector('gameface-rangeslider');
-            const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
-            const thumb = rangeslider.querySelector('.horizontal-rangeslider-thumb');
-            const handle = rangeslider.querySelector('.horizontal-rangeslider-handle');
-            const { x, width } = rangesliderElement.getBoundingClientRect();
+    it('Should change handle position and thumb value according to step', async () => {
+        await loadRangeslider({ thumb: true, step: 40 });
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
+        const thumb = rangeslider.querySelector('.horizontal-rangeslider-thumb');
+        const handle = rangeslider.querySelector('.horizontal-rangeslider-handle');
+        const { x, width } = rangesliderElement.getBoundingClientRect();
 
-            rangeslider.onMouseDown({ clientX: x });
+        rangeslider.onMouseDown({ clientX: x });
 
-            dragSim(x, x + width / 4, rangeslider).then(() => {
-                rangeslider.onMouseUp();
+        await dragSim(x, x + width / 4, rangeslider)
+        rangeslider.onMouseUp();
 
-                assert.equal(parseFloat(handle.style.left), 40);
-                assert.equal(parseFloat(thumb.textContent), 40);
-                done();
-            });
-        });
+        assert.equal(parseFloat(handle.style.left), 40);
+        assert.equal(parseFloat(thumb.textContent), 40);
+    });
+
+    it('Should change handle position and custom element value according to step', async () => {
+        await loadRangeslider({ customHandle: customHandleSelectors.SINGLE, step: 40 })
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
+        const handle = rangeslider.querySelector('.horizontal-rangeslider-handle');
+        const { x, width } = rangesliderElement.getBoundingClientRect();
+        const customHandle = document.querySelector(customHandleSelectors.SINGLE);
+
+        rangeslider.onMouseDown({ clientX: x });
+
+        await dragSim(x, x + width / 4, rangeslider)
+        rangeslider.onMouseUp();
+
+        assert.equal(parseFloat(handle.style.left), 40);
+        assert.equal(customHandle.textContent, 40);
+    });
+
+    it('Should move closest handle when clicked on and update the custom handle element', async () => {
+        await loadRangeslider({ twoHandles: true, customHandleLeft: customHandleSelectors.LEFT, customHandleRight: customHandleSelectors.RIGHT })
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
+        const customHandleRight = document.querySelector(customHandleSelectors.RIGHT);
+        const { x, width } = rangesliderElement.getBoundingClientRect();
+
+        rangeslider.onMouseDown({ clientX: x + width * 0.75 }); //0.75 so that I am sure that the click is closer to the second handle
+        rangeslider.onMouseUp();
+
+        assert.equal(customHandleRight.textContent, 75);
     });
 });
