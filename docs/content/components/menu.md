@@ -24,7 +24,7 @@ The gameface-menu component comes with UMD and CJS builds.
 * import the menu component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-menu/umd/gameface-menu.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-menu/umd/gameface-menu.production.min.js"></script>
 ~~~~
 
 * add the menu component to your html:
@@ -40,7 +40,7 @@ which import the components and the gameface-menu from the node_modules folder a
 
 ~~~~{.js}
 import components from 'gameface-components';
-import menu from 'gameface-menu';
+import menu from 'coherent-gameface-menu';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -48,7 +48,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import menu from './node_modules/gameface-menu/umd/gameface-menu.production.min.js';
+import menu from './node_modules/coherent-gameface-menu/umd/gameface-menu.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -57,7 +57,7 @@ import menu from './node_modules/gameface-menu/umd/gameface-menu.production.min.
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const gameface-menu = require('gameface-menu');
+const gameface-menu = require('coherent-gameface-menu');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module

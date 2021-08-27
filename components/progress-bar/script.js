@@ -101,6 +101,6 @@ class ProgressBar extends HTMLElement {
 	}
 }
 
-components.defineCustomElement('progress-bar', ProgressBar);
+components.defineCustomElement('gameface-progress-bar', ProgressBar);
 
 export default ProgressBar;

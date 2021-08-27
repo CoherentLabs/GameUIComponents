@@ -1,6 +1,10 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-scrollable-container`
 
 Usage
 ===================
@@ -17,7 +21,7 @@ The gameface-scrollable-container component comes with UMD and CJS builds.
 * import the gameface-scrollable-container component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.production.min.js"></script>
 ~~~~
 
 * add the gameface-scrollable-container component to your html:
@@ -33,7 +37,7 @@ which import the components and the gameface-scrollable-container from the node_
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import GamefaceScrollableContainer from 'gameface-scrollable-container';
+import GamefaceScrollableContainer from 'coherent-gameface-scrollable-container';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -41,7 +45,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceScrollableContainer from './node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js';
+import GamefaceScrollableContainer from './node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -50,7 +54,7 @@ import GamefaceScrollableContainer from './node_modules/gameface-scrollable-cont
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const GamefaceScrollableContainer = require('gameface-scrollable-container');
+const GamefaceScrollableContainer = require('coherent-gameface-scrollable-container');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
@@ -96,8 +100,8 @@ scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 <link rel="stylesheet" href="components-theme.css">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="components-theme.css">
-<link rel="stylesheet" href="node_modules/slider/styles/horizontal.css">
-<link rel="stylesheet" href="node_modules/slider/styles/vertical.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/horizontal.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/vertical.css">
 ~~~~
 
 To overwrite the default styles, simply create new rules for the class names that

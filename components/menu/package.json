@@ -1,21 +1,22 @@
 {
-  "name": "gameface-menu",
+  "name": "coherent-gameface-menu",
   "version": "1.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-menu"
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/menu"
   },
   "keywords": [
+    "Menu",
     "UI",
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
+    "coherent-gameface-components": "1.0.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
-  "author": "",
+  "author": "CoherentLabs",
   "license": "ISC"
 }

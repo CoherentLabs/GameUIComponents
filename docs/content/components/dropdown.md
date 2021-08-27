@@ -24,7 +24,7 @@ The gameface-dropdown component comes with UMD and CJS builds.
 * import the gameface-dropdown component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-dropdown/umd/dropdown.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-dropdown/umd/dropdown.production.min.js"></script>
 ~~~~
 
 * add the gameface-dropdown component to your html:
@@ -59,7 +59,7 @@ which import the components and the gameface-dropdown from the node_modules fold
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import GamefaceDropdown from 'gameface-dropdown';
+import GamefaceDropdown from 'coherent-gameface-dropdown';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -67,7 +67,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceDropdown from './node_modules/gameface-dropdown/umd/dropdown.production.min.js';
+import GamefaceDropdown from './node_modules/coherent-gameface-dropdown/umd/dropdown.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -76,7 +76,7 @@ import GamefaceDropdown from './node_modules/gameface-dropdown/umd/dropdown.prod
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const GamefaceDropdown = require('gameface-dropdown');
+const GamefaceDropdown = require('coherent-gameface-dropdown');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module

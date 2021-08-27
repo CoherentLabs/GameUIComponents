@@ -2,6 +2,10 @@
 The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library 
 similar to the components library.
 
+Installation
+===================
+
+`npm i coherent-gameface-router`
 
 Importing the Router
 ===================
@@ -18,7 +22,7 @@ The router component comes with UMD and CJS builds.
 * import the gameface-router component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-router/umd/router.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-router/umd/router.production.min.js"></script>
 ~~~~
 
 If you import the router using a script tag - a global variable *router* will be available.
@@ -41,7 +45,7 @@ which import the components and the gameface-router from the node_modules folder
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import { Router } from 'gameface-router';
+import { Router } from 'coherent-gameface-router';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -49,7 +53,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import { Router } from './node_modules/gameface-router/umd/router.production.min.js';
+import { Router } from './node_modules/coherent-gameface-router/umd/router.production.min.js';
 ~~~~
 
 ## With CJS modules:
@@ -58,7 +62,7 @@ import { Router } from './node_modules/gameface-router/umd/router.production.min
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const gameface-router = require('gameface-router');
+const gameface-router = require('coherent-gameface-router');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
@@ -104,7 +108,7 @@ Usage
 You can import the Router, Route and the BrowserHistory like this:
 
 ~~~~{.js}
-import { Router, Route, BrowserHistory } from 'gameface-router';
+import { Router, Route, BrowserHistory } from 'coherent-gameface-router';
 ~~~~
 
 Route is a helper class that sets up the `<gameface-route>` element.

@@ -1,6 +1,10 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-dropdown`
 
 Usage
 ===================
@@ -17,7 +21,7 @@ The gameface-dropdown component comes with UMD and CJS builds.
 * import the gameface-dropdown component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-dropdown/umd/dropdown.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-dropdown/umd/dropdown.production.min.js"></script>
 ~~~~
 
 * add the gameface-dropdown component to your html:
@@ -54,7 +58,7 @@ which import the components and the gameface-dropdown from the node_modules fold
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import GamefaceDropdown from 'gameface-dropdown';
+import GamefaceDropdown from 'coherent-gameface-dropdown';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -62,7 +66,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceDropdown from './node_modules/gameface-dropdown/umd/dropdown.production.min.js';
+import GamefaceDropdown from './node_modules/coherent-gameface-dropdown/umd/dropdown.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -71,7 +75,7 @@ import GamefaceDropdown from './node_modules/gameface-dropdown/umd/dropdown.prod
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const GamefaceDropdown = require('gameface-dropdown');
+const GamefaceDropdown = require('coherent-gameface-dropdown');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
@@ -115,9 +119,9 @@ These are some of the differences to the standard select that are not yet suppor
 ~~~~{.css}
 <link rel="stylesheet" href="components-theme.css">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="node_modules/gameface-scrollable-container/style.css">
-<link rel="stylesheet" href="node_modules/slider/styles/horizontal.css">
-<link rel="stylesheet" href="node_modules/slider/styles/vertical.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-scrollable-container/style.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/horizontal.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/vertical.css">
 ~~~~
 
 To overwrite the default styles, simply create new rules for the class names that

@@ -3,7 +3,7 @@
 
 To create the main page of the game ui in this sample you'll need to install the gameface-menu component. To do so run:
 
-`npm i gameface-menu`
+`npm i coherent-gameface-menu`
 
 The gameface menu exports several custom elements. The gameface-left-menu
 is a menu that is anchored to the left of the screen. We'll use it to create the main menu.

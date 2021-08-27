@@ -13,8 +13,8 @@ npm i coherent-gameface-checkbox
 npm i coherent-gameface-grid
 npm i coherent-gameface-modal
 npm i coherent-gameface-tabs
-npm i gameface-menu
-npm i gameface-scrollable-container
+npm i coherent-gameface-menu
+npm i coherent-gameface-scrollable-container
 ```
 
 Each of these components export either a custom element or a suite of class names
@@ -43,8 +43,8 @@ script tags to the **bottom** of the screen:
 
 ```
 <script src="node_modules/coherent-gameface-components/umd/components.development.js"></script>
-<script src="node_modules/gameface-menu/umd/menu.development.js"></script>
-<script src="node_modules/gameface-scrollable-container/umd/scrollable-container.development.js"></script>
+<script src="node_modules/coherent-gameface-menu/umd/menu.development.js"></script>
+<script src="node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.development.js"></script>
 <script src="node_modules/coherent-gameface-tabs/umd/tabs.development.js"></script>
 <script src="node_modules/coherent-gameface-checkbox/umd/checkbox.development.js"></script>
 ```
@@ -164,9 +164,9 @@ Let's add it to the Interface panel. The scrollable container has one slot which
 
 ```
 <div id="interface-panel" class="inactive-panel">
-    <scrollable-container>
-    <component-slot data-name="scrollable-content"></component-slot>
-    </scrollable-container>
+    <gameface-scrollable-container>
+        <component-slot data-name="scrollable-content"></component-slot>
+    </gameface-scrollable-container>
 </div>
 ```
 

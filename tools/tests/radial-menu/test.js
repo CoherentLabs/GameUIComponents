@@ -14,12 +14,12 @@ function createAsyncSpec(callback, time = 500) {
 
 function setupRadialMenuTestPage() {
 	const template = `
-	<radial-menu id="radial-menu-one"
+	<gameface-radial-menu id="radial-menu-one"
 		data-name="Radial Menu Name Test"
 		data-change-event-name="radOneItemChanged"
 		data-select-event-name="radOneItemSelected"
 		data-open-key-code="16"
-		class="radial-menu-component"></radial-menu>
+		class="radial-menu-component"></gameface-radial-menu>
 	`;
 
 	const el = document.createElement('div');
@@ -77,7 +77,7 @@ describe('Radial Menu Tests', () => {
 		}, 3000);
 
 		it('Should be created', () => {
-			assert(document.querySelector('radial-menu').id === 'radial-menu-one', 'The id of the radial menu is not radial-menu-one.');
+			assert(document.querySelector('gameface-radial-menu').id === 'radial-menu-one', 'The id of the radial menu is not radial-menu-one.');
 		});
 	});
 
@@ -130,7 +130,7 @@ describe('Radial Menu Tests', () => {
 		});
 
 		xit('Should have opened on keydown', function (done) {
-			const radialMenu = document.querySelector('radial-menu');
+			const radialMenu = document.querySelector('gameface-radial-menu');
 
 			dispatchKeyboardEventKeyDown(16, radialMenu);
 
@@ -149,7 +149,7 @@ describe('Radial Menu Tests', () => {
 		});
 
 		xit('Should have closed on keyup after opening', function (done) {
-			const radialMenu = document.querySelector('radial-menu');
+			const radialMenu = document.querySelector('gameface-radial-menu');
 
 			dispatchKeyboardEventKeyDown(16, radialMenu);
 
@@ -169,7 +169,7 @@ describe('Radial Menu Tests', () => {
 		});
 
 		xit('Should successfully attach to and use custom event', function (done) {
-			const radialMenu = document.querySelector('radial-menu');
+			const radialMenu = document.querySelector('gameface-radial-menu');
 
 			let selectedState = false;
 

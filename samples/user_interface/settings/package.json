@@ -5,22 +5,22 @@
   "main": "script.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-example-component"
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/samples/user_interface/settings"
   },
   "keywords": [
     "UI",
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-checkbox": "file:../../../components/checkbox/coherent-gameface-checkbox-1.0.0.tgz",
-    "coherent-gameface-components": "file:../../../lib/coherent-gameface-components-1.0.0.tgz",
-    "coherent-gameface-grid": "file:../../../components/grid/coherent-gameface-grid-1.0.0.tgz",
-    "coherent-gameface-modal": "file:../../../components/modal/coherent-gameface-modal-1.0.0.tgz",
-    "coherent-gameface-tabs": "file:../../../components/tabs/coherent-gameface-tabs-1.0.0.tgz",
-    "gameface-menu": "file:../../../components/menu/gameface-menu-1.0.0.tgz",
-    "gameface-scrollable-container": "file:../../../components/scrollable-container/gameface-scrollable-container-1.0.0.tgz",
-    "slider": "file:../../../components/slider/slider-1.0.0.tgz"
+    "coherent-gameface-components": "1.0.0",
+    "coherent-gameface-checkbox": "1.0.0",
+    "coherent-gameface-grid": "1.0.0",
+    "coherent-gameface-modal": "1.0.0",
+    "coherent-gameface-tabs": "1.0.0",
+    "coherent-gameface-menu": "1.0.0",
+    "coherent-gameface-scrollable-container": "1.0.0",
+    "coherent-gameface-slider": "1.0.0"
   },
-  "author": "",
+  "author": "CoherentLabs",
   "license": "ISC"
 }

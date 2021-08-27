@@ -249,6 +249,6 @@ class RadialMenu extends HTMLElement {
 	}
 }
 
-components.defineCustomElement('radial-menu', RadialMenu);
+components.defineCustomElement('gameface-radial-menu', RadialMenu);
 
 export default RadialMenu;

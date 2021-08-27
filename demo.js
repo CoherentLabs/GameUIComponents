@@ -14,7 +14,7 @@ import {
     modalTemplate,
     tabsTemplate,
     radialMenuTemplate,
-} from '/demoTemplates.js';
+} from './demoTemplates.js';
 
 // radial menu
 const itemsModel = {
@@ -295,7 +295,7 @@ class RadialMenu extends HTMLElement {
 
     setupItems() {
         const radialMenu = this.querySelector('#radial-menu-one');
-        components.whenDefined('radial-menu').then((menu) => {
+        components.whenDefined('gameface-radial-menu').then((menu) => {
             radialMenu.items = itemsModel.items;
         });
     }

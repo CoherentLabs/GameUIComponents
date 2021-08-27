@@ -26,9 +26,9 @@ describe('Scrollable Container Component', () => {
     });
 
     beforeEach(function (done) {
-        const template = `<scrollable-container class="scrollable-container">
+        const template = `<gameface-scrollable-container class="scrollable-container">
         <component-slot data-name="scrollable-content">${longContent}</component-slot>
-        </scrollable-container>`;
+        </gameface-scrollable-container>`;
 
         const el = document.createElement('div');
         el.innerHTML = template;
@@ -55,21 +55,21 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should scroll using the control buttons', async () => {
-            const handle = document.querySelector('.handle');
-            const downButton = document.querySelector('.down');
+        const handle = document.querySelector('.handle');
+        const downButton = document.querySelector('.down');
 
-            await createAsyncSpec(() => {
-                assert(parseInt(getComputedStyle(handle).top) === 0, 'The scrollbar handle is not at the top.');
-                downButton.dispatchEvent(new CustomEvent('mousedown', {}));
-            }, 1000);
+        await createAsyncSpec(() => {
+            assert(parseInt(getComputedStyle(handle).top) === 0, 'The scrollbar handle is not at the top.');
+            downButton.dispatchEvent(new CustomEvent('mousedown', {}));
+        }, 1000);
 
-            await createAsyncSpec(() => {
-                downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-            }, 1000);
+        await createAsyncSpec(() => {
+            downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
+        }, 1000);
 
-            return createAsyncSpec(() => {
-                assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');
-            });
+        return createAsyncSpec(() => {
+            assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');
+        });
     });
 })
 

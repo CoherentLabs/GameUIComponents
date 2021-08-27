@@ -1,22 +1,23 @@
 {
-  "name": "gameface-dropdown",
+  "name": "coherent-gameface-dropdown",
   "version": "1.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-dropdown"
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/dropdown"
   },
   "keywords": [
+    "Dropdown",
     "UI",
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
-    "gameface-scrollable-container": "file:../scrollable-container/gameface-scrollable-container-1.0.0.tgz",
+    "coherent-gameface-components": "1.0.0",
+    "coherent-gameface-scrollable-container": "1.0.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
-  "author": "",
+  "author": "CoherentLabs",
   "license": "ISC"
 }

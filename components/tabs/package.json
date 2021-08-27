@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Tabs component for Coherent Labs' Gameface.",
   "main": "script.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/tabs"
@@ -16,8 +13,8 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz"
+    "coherent-gameface-components": "1.0.0"
   },
-  "author": "",
+  "author": "CoherentLabs",
   "license": "ISC"
 }

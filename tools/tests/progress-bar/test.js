@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-const templateNoAnimation = `<progress-bar></progress-bar>`;
+const templateNoAnimation = `<gameface-progress-bar></gameface-progress-bar>`;
 
 // Async will test after 1000ms that is why the duration is set below 1000ms.
-const templateAnimation100 = `<progress-bar data-animation-duration="100"></progress-bar>`;
+const templateAnimation100 = `<gameface-progress-bar data-animation-duration="100"></gameface-progress-bar>`;
 
 
 function setupProgressBar(template) {
@@ -61,7 +61,7 @@ describe('Progress Bar Tests', () => {
     });
 
     it(`Should have rendered`, () => {
-      assert(document.querySelector('progress-bar') !== null, `Progress Bar element is not rendered.`);
+      assert(document.querySelector('gameface-progress-bar') !== null, `Progress Bar element is not rendered.`);
     });
   });
 
@@ -71,7 +71,7 @@ describe('Progress Bar Tests', () => {
     });
 
     it(`Should have been set to ${targetValue}% width.`, () => {
-      document.querySelector('progress-bar').setProgress(targetValue);
+      document.querySelector('gameface-progress-bar').setProgress(targetValue);
       assert(document.querySelector('.progress-bar-filler').style.width === `${targetValue}%`, `Progress bar has not been set to ${targetValue}% width.`);
     });
   });
@@ -82,7 +82,7 @@ describe('Progress Bar Tests', () => {
     });
 
     it(`Should have been set to 0% width when a value lower than 0 is passed.`, () => {
-      document.querySelector('progress-bar').setProgress(-50);
+      document.querySelector('gameface-progress-bar').setProgress(-50);
       assert(document.querySelector('.progress-bar-filler').style.width === `0%`, `Progress bar has not been set to 0% width.`);
     });
   });
@@ -93,7 +93,7 @@ describe('Progress Bar Tests', () => {
     });
 
     it(`Should have been set to 100% width when a value higher than the maximum is passed.`, () => {
-      document.querySelector('progress-bar').setProgress(200);
+      document.querySelector('gameface-progress-bar').setProgress(200);
       assert(document.querySelector('.progress-bar-filler').style.width === `100%`, `Progress bar has not been set to 100% width.`);
     });
   });
@@ -104,7 +104,7 @@ describe('Progress Bar Tests', () => {
     });
 
     it(`Should have animated to ${targetValue}% width.`, async (done) => {
-      const progressBar = document.querySelector('progress-bar');
+      const progressBar = document.querySelector('gameface-progress-bar');
 
       progressBar.setProgress(targetValue);
       createProgressBarAsyncSpec(() => {
@@ -119,7 +119,7 @@ describe('Progress Bar Tests', () => {
     });
 
     it(`Should have animated to ${targetValue2}% width.`, async (done) => {
-      const progressBar = document.querySelector('progress-bar');
+      const progressBar = document.querySelector('gameface-progress-bar');
       const progressBarFiller = document.querySelector('.progress-bar-filler');
 
       progressBar.setProgress(targetValue);

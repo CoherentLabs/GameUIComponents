@@ -1,5 +1,5 @@
 {
-  "name": "progress-bar",
+  "name": "coherent-gameface-progress-bar",
   "version": "1.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
@@ -8,14 +8,15 @@
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/progress-bar"
   },
   "keywords": [
+    "Progress bar",
     "UI",
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
+    "coherent-gameface-components": "1.0.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
-  "author": "",
+  "author": "CoherentLabs",
   "license": "ISC"
 }

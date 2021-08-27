@@ -112,7 +112,7 @@ async function buildEverything() {
             execSync('npm i', { cwd: componentPath });
         } catch (err) {
             console.error(err)
-        }``
+        }
 
         if (!fs.existsSync(path.join(componentPath, 'script.js'))) {
             buildCssComponents(componentPath);
