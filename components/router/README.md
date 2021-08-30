@@ -1,6 +1,5 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
-The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library 
-similar to the components library.
+The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
 
 Installation
 ===================
@@ -26,7 +25,7 @@ The router component comes with UMD and CJS builds.
 ~~~~
 
 If you import the router using a script tag - a global variable *router* will be available.
-You can access the Router, Route, BrowserHistory from it:
+You can access the Router, Route, BrowserHistory, HashHistory from it:
 
 ~~~~{.js}
 const browserHistory = new router.BrowserHistory();
@@ -49,7 +48,7 @@ import { Router } from 'coherent-gameface-router';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
+modules from the node_modules folder. Alternatively, you can import them directly from node_modules:
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
@@ -66,26 +65,34 @@ const gameface-router = require('coherent-gameface-router');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
+bundler in order to use them in a browser.
 
 Available Modules
 ===================
 
-Along with the router comes the BrowserHistory package, a custom element called `<gameface-route>` and another custom element called `<router-view>`.
+Along with the router comes the BrowserHistory and HashHistory package, a custom element called `<gameface-route>` and another custom element called `<router-view>`.
 
-### The Browser History
+### The Browser and Hash History
 
-The BrowserHistory is a thin wrapper around the HTML5 history object. It provides methods that
-help the router keep better track of the state of the history.
+Both histories are a thin wrapper around the HTML5 history object. It provides methods that
+help the router keep better track of the state of history. The main difference between them is that the BrowserHistory will use the history object to control the current path and the HashHistory will use the history object in collaboration with the `window.location.hash`. When the router path has changed:
+
+* BrowserHistory will change the path directly in the page URL (for example - from 'C:/Test/' to 'C:/Test/start')
+* HashHistory will append the hash symbol `#` to the current URL and then append the current router path (for example - from 'C:/Test/index.html' to 'C:/Test/index.html#/start')
+
+#### When to use the browser or hash history?
+
+If you have a component that is linked with a route path and inside this component, you are referring assets relative to the main directory then it is a good idea to use the HashHistory instead the BrowserHistory because it will preserve the current working directory (that is the directory of the index page) and the assets will be linked correctly to the component.
+
+In any other scenario, the BrowserHistory can be used.
 
 ### The Route Element
 
 The `<gameface-route>` custom element is a special link element that
-navigates to a specified page. It updates the BrowserHistory and in result of this
+navigates to a specified page. It updates the BrowserHistory or HashHistory and as a result of this,
 the router updates the page.
 
-The `<gameface-route>` has an attribute called **to**. It specifies the path to the
-page it is supposed to navigate to.
+The `<gameface-route>` has an attribute called **to**. It specifies the path to the page it is supposed to navigate to.
 
 ~~~~{.js}
 <gameface-route to="/start-game">Start Game</gameface-route>
@@ -93,7 +100,7 @@ page it is supposed to navigate to.
 
 ### The RouterView Element
 
-The `<router-view>` element is a placeholder for the components that will be rendred
+The `<router-view>` element is a placeholder for the components that will be rendered
 upon navigation. Put the `<router-view>` somewhere in the document:
 
 ~~~~{.js}
@@ -105,10 +112,10 @@ upon navigation. Put the `<router-view>` somewhere in the document:
 Usage
 ===================
 
-You can import the Router, Route and the BrowserHistory like this:
+You can import the Router, Route, BrowserHistory, and the HashHistory like this:
 
 ~~~~{.js}
-import { Router, Route, BrowserHistory } from 'coherent-gameface-router';
+import { Router, Route, BrowserHistory, HashHistory } from 'coherent-gameface-router';
 ~~~~
 
 Route is a helper class that sets up the `<gameface-route>` element.
@@ -117,13 +124,15 @@ The router **can not** work without history, it is mandatory, so the first thing
 you need to do is to instantiate the history:
 
 ~~~~{.js}
-const myBrowserHistory = new BrowserHistory();
+const myHistory = new BrowserHistory();
+or
+const myHistory = new HashHistory();
 ~~~~
 
 The `<gameface-route>` also depends on the history. To initialize it do:
 
 ~~~~{.js}
-Route.use(myBrowserHistory);
+Route.use(myHistory);
 ~~~~
 
 The router is configured using an object of { 'route': 'component-name | HTML' } pairs:
@@ -142,11 +151,11 @@ const config = {
     '/start-game': '<button>Start Game<button>',
 };
 
-const router = new Router(config, browserHistory);
+const router = new Router(config, myHistory);
 ~~~~
 
 And the second parameter is the history. The components in the configuration are
-the names of custom element. When the router navigates to '/start-game' it will
+the names of the custom element. When the router navigates to '/start-game' it will
 show the `<start-game-page>` element.
 
 ## Route Params & Wildcard Navigation
@@ -163,7 +172,7 @@ const config = {
     '/heroes/:id': 'hero-component',
 };
 
-const router = new Router(config, browserHistory);
+const router = new Router(config, myHistory);
 ~~~~
 
 Now, if the router navigates to a route '/heroes/support', the hero-component will
@@ -194,7 +203,7 @@ const config = {
     '**': 'not-found-page'
 };
 
-const router = new Router(config, browserHistory);
+const router = new Router(config, myHistory);
 ~~~~
 
 ## Nesting Routers
@@ -259,29 +268,30 @@ function preventNavigation (callback, params) => {
 
 And pass this callback to the router:
 ~~~~{.js}
-const router = new Router({}, myBrowserHistory, preventNavigation);
+const router = new Router({}, myHistory, preventNavigation);
 ~~~~
 
 **Just like the history, only the main router can receive a preventNavigation callback.**
 
 
-## Manually Updating the History
+## Manually updating the History
 
 You can manually set new entries to the history stack. For example to setup the
 initial page:
 
 ~~~~{.js}
-const state = { current: '/', id: browserHistory.currentRouteId };
+const state = { current: '/', id: myHistory.currentRouteId };
 const title = 'home';
-browserHistory.pushState(state, title, '/');
+myHistory.pushState(state, title, '/');
 ~~~~
 
-`BrowserHistory.pushState` accepts the same parameter the standard [history.pushState](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState) accepts.
-
+`BrowserHistory.pushState` and `HashHistory.pushState` accepts the same parameter the standard [history.pushState](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState) accepts.
 
 **Directly updating the global history object will not trigger the router, if you want to navigate manually, use the BrowserHistory instance.**
 
-This is all the information you need to setup the router. For more detailed example check
+You can also use the history methods for manually updating the history like `history.go`, `history.back`, `history.forward` - **This will work just in Chrome and not in GameFace!**
+
+This is all the information you need to setup the router. For more detailed examples check
 the demo located the /demo folder.
 
 ## Add the Styles
