@@ -12,7 +12,7 @@ const HOME = '/';
 
 class Router {
     /**
-     * @typedef {Record<string, string|Router>} Routes
+     * @typedef {Object<string, string|Router>} Routes
      */
 
     /**
@@ -28,7 +28,7 @@ class Router {
             if (onBeforeNavigation) this.history.onBeforeNavigation = onBeforeNavigation;
 
             this.history.addPopStateListener();
-            this.history.onHistoryChange = () => this.navigateTo(window.history.state.current);
+            this.history.onHistoryChange = (curentPath) => this.navigateTo(curentPath);
         }
     }
 

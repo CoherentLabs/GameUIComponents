@@ -25,12 +25,12 @@ class History {
      */
     _dispatchHistoryChange() {
         if (!this.onBeforeNavigation) {
-            if (this.onHistoryChange) this.onHistoryChange();
+            if (this.onHistoryChange) this.onHistoryChange(this.currentState);
             return;
         }
 
         this.onBeforeNavigation(() => {
-            if (this.onHistoryChange) this.onHistoryChange();
+            if (this.onHistoryChange) this.onHistoryChange(this.currentState);
         });
     }
 
@@ -43,7 +43,7 @@ class History {
         if (!window.history || !window.history.state) return;
         // onpopstate is triggered when back, go or forward is called and the event object
         // does not hold information about which one of these methods triggered the event
-        // so we keep track of the currentRouteId, we set it ot each pushState and we compare the
+        // so we keep track of the currentRouteId, we set it to each pushState and we compare the
         // values on popstate to see if the user's going back or forward
         const navDirection = this._getNavigationDirection(this.currentRouteId, event.state.id);
         this.currentRouteId += navDirection;

@@ -20,9 +20,8 @@ import {
     notFoundTemplate,
 } from './templates';
 
-// window.cohHistory  = new BrowserHistory();
-window.cohHistory = new HashHistory();
-Route.use(cohHistory);
+const history = window.routerHistory && window.routerHistory === 'hashHistory' ? new HashHistory() : new BrowserHistory();
+Route.use(history);
 
 window.postMessage = function (message) {
     pm({
@@ -254,8 +253,8 @@ let router = new Router({
     '/heroes': 'heroes-page',
     '/heroes/:id': heroesRouter,
     '**': 'not-found-page'
-}, cohHistory);
+}, history);
 
-const state = { current: '/', id: cohHistory.currentRouteId };
+const state = { current: '/', id: history.currentRouteId };
 const title = 'home';
-cohHistory.pushState(state, title, '/');
+history.pushState(state, title, '/');
