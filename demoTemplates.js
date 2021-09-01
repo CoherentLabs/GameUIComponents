@@ -489,6 +489,35 @@ const radialMenuTemplate = `
 <div>
 `;
 
+const switchTemplate = `
+<div class="switch-components-wrapper">
+    <gameface-switch>
+        <component-slot data-name="switch-unchecked">Off</component-slot>
+        <component-slot data-name="switch-checked">On</component-slot>
+    </gameface-switch>
+    <gameface-switch type="inset" checked>
+        <component-slot data-name="switch-unchecked">Off</component-slot>
+        <component-slot data-name="switch-checked">On</component-slot>
+    </gameface-switch>
+    <gameface-switch type="text-inside">
+        <component-slot data-name="switch-unchecked">Off</component-slot>
+        <component-slot data-name="switch-checked">On</component-slot>
+    </gameface-switch>
+    <gameface-switch disabled checked>
+        <component-slot data-name="switch-unchecked">Off</component-slot>
+        <component-slot data-name="switch-checked">On</component-slot>
+    </gameface-switch>
+    <gameface-switch type="inset" disabled>
+        <component-slot data-name="switch-unchecked">Off</component-slot>
+        <component-slot data-name="switch-checked">On</component-slot>
+    </gameface-switch>
+    <gameface-switch type="text-inside" disabled checked>
+        <component-slot data-name="switch-unchecked">Off</component-slot>
+        <component-slot data-name="switch-checked">On</component-slot>
+    </gameface-switch>
+</div>
+`;
+
 export {
     homeTemplate,
     checkBoxTemplate,
@@ -501,4 +530,5 @@ export {
     modalTemplate,
     tabsTemplate,
     radialMenuTemplate,
+    switchTemplate,
 }
