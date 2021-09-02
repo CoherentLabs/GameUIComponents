@@ -12,14 +12,14 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "1.0.0",
-    "coherent-gameface-checkbox": "1.0.0",
-    "coherent-gameface-grid": "1.0.0",
-    "coherent-gameface-modal": "1.0.0",
-    "coherent-gameface-tabs": "1.0.0",
-    "coherent-gameface-menu": "1.0.0",
-    "coherent-gameface-scrollable-container": "1.0.0",
-    "coherent-gameface-slider": "1.0.0"
+    "coherent-gameface-components": "1.0.1",
+    "coherent-gameface-checkbox": "1.0.1",
+    "coherent-gameface-grid": "1.0.1",
+    "coherent-gameface-modal": "1.0.1",
+    "coherent-gameface-tabs": "1.0.1",
+    "coherent-gameface-menu": "1.0.1",
+    "coherent-gameface-scrollable-container": "1.0.1",
+    "coherent-gameface-slider": "1.0.1"
   },
   "author": "CoherentLabs",
   "license": "ISC"

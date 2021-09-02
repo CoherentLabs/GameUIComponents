@@ -12,8 +12,8 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "1.0.0",
-    "coherent-gameface-menu": "1.0.0"
+    "coherent-gameface-components": "1.0.1",
+    "coherent-gameface-menu": "1.0.1"
   },
   "author": "CoherentLabs",
   "license": "ISC"
