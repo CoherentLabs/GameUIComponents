@@ -63,7 +63,7 @@ bundler in order to be use them in a browser.
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="styles/horizontal.css">
 <link rel="stylesheet" href="styles/vertical.css">
 ~~~~

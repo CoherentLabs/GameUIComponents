@@ -93,7 +93,7 @@ Use the slots to put customized background or label.
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="style.css">
 ~~~~
 

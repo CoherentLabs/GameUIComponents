@@ -63,7 +63,7 @@ bundler in order to be use them in a browser.
 ## Add the styles
 
 ~~~~{.html}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="grid.production.min.css">
 <link rel="stylesheet" href="style.css">
 ~~~~

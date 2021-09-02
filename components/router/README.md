@@ -287,7 +287,7 @@ the demo located the /demo folder.
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="style.css">
 ~~~~
 

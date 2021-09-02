@@ -97,9 +97,8 @@ scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="components-theme.css">
 <link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/horizontal.css">
 <link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/vertical.css">
 ~~~~

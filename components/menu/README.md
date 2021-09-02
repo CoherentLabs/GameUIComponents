@@ -144,7 +144,7 @@ It will also be automatically positioned.
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="menus/menu.css">
 <link rel="stylesheet" href="menus/bottom/bottom.css">
 <link rel="stylesheet" href="menus/left/left.css">
