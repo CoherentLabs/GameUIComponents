@@ -55,6 +55,11 @@ To clean all build and installation files run:
 
 `npm run clean`
 
+To build the components and update the documentation files:
+
+`npm run build:documentation` or
+`npm run build -- --documentation`
+
 To create the npm packages run:
 
 `npm run pack`

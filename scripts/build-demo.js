@@ -12,7 +12,7 @@ const webpack = require('webpack');
  * @returns {Array<string>}
 */
 function getComponentDirectories() {
-    return fs.readdirSync(path.join(__dirname, '../components'), { withFileTypes: false });
+    return fs.readdirSync(path.join(__dirname, '../components'));
 }
 
 /**

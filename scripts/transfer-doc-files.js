@@ -4,13 +4,14 @@ const { execSync } = require('child_process');
 
 const DOC_FILES_DIRECTORY = path.join(__dirname, '../docs/static/components');
 const DOC_FILES_CONTENT_DIRECTORY = path.join(__dirname, '../docs/content/components');
+const EXCLUDED_FILES = new Set(['components-theme.css', 'demo.html']);
 
 const frontMatterTemplate = (componentName) => {
-    return `----
+    return `---
 title: "${componentName.charAt(0).toUpperCase() + componentName.slice(1)}"
 date: 2020-10-08T14:00:45Z
 draft: false
-----`;
+---`;
 };
 
 /**
@@ -18,11 +19,11 @@ draft: false
  * @returns {Array<string>}
 */
 function getFolderDirectories(folder) {
-    return fs.readdirSync(path.join(__dirname, folder), { withFileTypes: false });
+    return fs.readdirSync(path.join(__dirname, folder));
 }
 
 /**
- * Copies all .css files withing a folder and its nested folders
+ * Copies all .css files within a folder and its nested folders
  * Same names are ignored, will be overwritten - this case is so
  * uncommon that it is easier to leave it for manual fix, instead of
  * doing it programmatically
@@ -34,21 +35,21 @@ function copyAllStyleFiles(folder, component) {
     const folderFiles = fs.readdirSync(folder);
 
     for (let file of folderFiles) {
-        if (file === 'components-theme.css' || file === 'demo') continue;
+        if (EXCLUDED_FILES.has(file)) continue;
         const filePath = path.resolve(folder, file);
 
         if (fs.lstatSync(filePath).isDirectory()) copyAllStyleFiles(filePath, component);
         if(!file.match('.css')) continue;
 
         copyFile(
-            path.join(folder, file),
+            filePath,
             path.join(DOC_FILES_DIRECTORY, component, file)
             );
     }
 }
 
 /**
- * Reads all components folders and copies the bundle.js and README.ms files
+ * Reads all components folders and copies the bundle.js and README.md files
  * into their respective folders in the documentation; Creates a new folder for
  * the component in the docs directory if it doesn't exit.
 */
