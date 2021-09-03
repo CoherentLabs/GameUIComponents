@@ -328,7 +328,7 @@ class GamefaceDropdown extends HTMLElement {
      * the selected option element.
     */
     onClick() {
-        const scrollableContainer = this.querySelector('scrollable-container');
+        const scrollableContainer = this.querySelector('gameface-scrollable-container');
 
         if (this.isOpened) {
             this.closeOptionsPanel();
