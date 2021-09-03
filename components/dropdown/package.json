@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "coherent-gameface-components": "1.0.1",
-    "coherent-gameface-scrollable-container": "1.0.1",
+    "coherent-gameface-scrollable-container": "1.0.2",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
