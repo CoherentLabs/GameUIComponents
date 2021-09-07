@@ -46,6 +46,7 @@ module.exports = function (config) {
       '**/form-control/*.js',
       '**/tooltip/*js',
       '**/text-field/*.js',
+      '**/accordion-menu/*.js',
     ],
     singleRun: true,
     retryLimit: 0,
