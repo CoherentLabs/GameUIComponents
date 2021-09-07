@@ -286,3 +286,7 @@ folders. To test if everything works open the demo.html file.
 
 If everything works, add a README.md file to the component folder and add
 a documentation page to the docs/ folder.
+
+# Testing
+
+All tests are located in tools/tests. For more information on how to create and run a test refer to the [documentation](https://github.com/CoherentLabs/GameUIComponents/tree/documentation/tests/tools/tests#readme).
