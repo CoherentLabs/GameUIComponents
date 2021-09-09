@@ -1,7 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 # Testing the components
 
-The components are tested using [Jasmine](https://jasmine.github.io/) for assertions
+The components are tested using [Jasmine](https://jasmine.github.io/), [Chai](https://www.chaijs.com/) for assertions
 and checks and [Karma](https://karma-runner.github.io/latest/index.html) for running the tests.
 
 The test.js file located in scripts runs all tests. It builds the components and
@@ -24,17 +24,17 @@ The name of the folder should be the same as the name of the folder that contain
 source of the component. For example the test folder for the radial-menu should be radial-menu.
 This is required in order to simplify the setup process that copies the source bundles into
 the test folders. All tests are named **test.js**. The `karma.config.js` file
-contains the list of tests that are going tp be executed. If you need to disable a test or
-add a new one - edit the files filed in the configuration.
+contains the list of tests that are going to be executed. If you need to disable a test or
+add a new one - edit the files property in the configuration.
 
 The actions.js file contains common helper functions that are used in a lot of tests -
 click, nested requestAnimationFrame for the cases where you need to wait a couple of
-frames for the page to be completely rendered before you continue with the test.
+frames for the component to be completely rendered before you continue with the test.
 
 
 # The structure of a test
 
- In order to setup the test page we need to manually create the content and attach it to the DOM using JavaScript. For this we create a template that is going to be the content of the component:
+In order to setup the test page we need to manually create the content and attach it to the DOM using JavaScript. For this we create a template that is going to be the content of the component:
 
 At the top of test.js:
 
@@ -93,6 +93,15 @@ function setupDropdownTestPage() {
 }
 ````
 
-All tests are wrapped in describe. Use the built in lifecycle hooks to do any setup before the tests or cleanup after it. Use individual describes if the tests require different environment that needs to be setup independently.
+All tests are wrapped in `describe`. Use the built in lifecycle hooks to do any setup before the tests or cleanup after it. Use individual describes if the tests require different environment that needs to be setup independently.
 
 Refer to the Jasmine and Karma documentations for more information on their APIs.
+
+
+# Inspecting running tests
+
+The `npm run tests` command will start Karma which will spawn a server that will host and
+execute the tests. Karma will automatically open the test page in Google Chrome.
+The default page is http://localhost:9876. You can inspect and debug this page by
+clicking th debug button located in the top right corner of the page.
+The default debugging page in Gameface is http://localhost:9876/debug.html.
