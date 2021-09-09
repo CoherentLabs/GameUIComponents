@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 
 const DOC_FILES_DIRECTORY = path.join(__dirname, '../docs/static/components');
 const DOC_FILES_CONTENT_DIRECTORY = path.join(__dirname, '../docs/content/components');
-const EXCLUDED_FILES = new Set(['components-theme.css', 'demo.html']);
+const EXCLUDED_FILES = new Set(['coherent-gameface-components-theme.css', 'demo.html']);
 
 const frontMatterTemplate = (componentName) => {
     return `---
