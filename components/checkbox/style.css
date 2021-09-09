@@ -10,6 +10,10 @@
     flex-direction: row;
 }
 
+.checkbox-wrapper-inner {
+    background-color: var(--default-color-white);
+}
+
 .checkbox-background {
     box-sizing: border-box;
     top: 0px;
@@ -17,7 +21,10 @@
     height: 30px;
     border-width: 5px;
     border-style: solid;
-	box-sizing: border-box;
+    border-top-color: var(--default-color-gray);
+    border-right-color: var(--default-color-gray);
+    border-bottom-color: var(--default-color-gray);
+    border-left-color: var(--default-color-gray);
 }
 
 .check-mark {
@@ -26,6 +33,7 @@
     left: 5px;
     width: 20px;
     height: 20px;
+    background-color: var(--default-color-blue);
 }
 
 .label {

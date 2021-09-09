@@ -7,10 +7,26 @@ gameface-menu {
     position: absolute;
 }
 
+gameface-menu,
+gameface-right-menu,
+gameface-left-menu,
+gameface-bottom-menu {
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
+}
+
 menu-item {
     position: relative;
     padding: 10px;
     cursor: pointer;
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
 }
 
 menu-item.active-menu-item {
