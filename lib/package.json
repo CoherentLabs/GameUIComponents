@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-components",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A UI components library for the Web.",
   "main": "components.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "keywords": [
     "components"
   ],
-  "author": "",
+  "author": "CoherentLabs",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/CoherentLabs/GameUIComponents/issues"

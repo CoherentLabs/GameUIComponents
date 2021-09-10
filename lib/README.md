@@ -1,6 +1,10 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 Component library which supports the creation and usage of custom elements. Provides a way to encapsulate a component specific functionality and reuse it. Similar to the [Web Components suite](https://developer.mozilla.org/en-US/docs/Web/Web_Components). Exposes a components object to the Global namespace.
 
+Installation
+===================
+
+`npm i coherent-gameface-components`
 
 API Reference
 ===================
@@ -10,15 +14,17 @@ API Reference
 ## GamefaceComponents
 **Kind**: global class
 
-* [GamefaceComponents](#GamefaceComponents)
-    * [.importScript(url)](#GamefaceComponents+importScript)
-    * [.loadHTML(url)](#GamefaceComponents+loadHTML) => <code>promise</code>
-    * [.whenDefined(name)](#GamefaceComponents+whenDefined) => <code>promise</code>
-    * [.defineCustomElement(name, element)](#GamefaceComponents+defineCustomElement)
-    * [.importComponent(url)](#GamefaceComponents+importComponent)
-    * [.loadResource(url)](#GamefaceComponents+loadResource) => <code>promise</code>
-    * [.findSlots(parent, result)](#GamefaceComponents+findSlots) => <code>Object</code>
-    * [.transferContent(source, target)](#GamefaceComponents+transferContent)
+- [Installation](#installation)
+- [API Reference](#api-reference)
+  - [GamefaceComponents](#gamefacecomponents)
+    - [GamefaceComponents.importScript(url)](#gamefacecomponentsimportscripturl)
+    - [GamefaceComponents.loadHTML(url) => <code>promise</code>](#gamefacecomponentsloadhtmlurl--promise)
+    - [GamefaceComponents.whenDefined(name) => <code>promise</code>](#gamefacecomponentswhendefinedname--promise)
+    - [GamefaceComponents.defineCustomElement(name, element)](#gamefacecomponentsdefinecustomelementname-element)
+    - [GamefaceComponents.importComponent(url)](#gamefacecomponentsimportcomponenturl)
+    - [GamefaceComponents.loadResource(url) => <code>promise</code>](#gamefacecomponentsloadresourceurl--promise)
+    - [GamefaceComponents.findSlots(parent, result) => <code>Object</code>](#gamefacecomponentsfindslotsparent-result--object)
+    - [GamefaceComponents.transferContent(source, target)](#gamefacecomponentstransfercontentsource-target)
 
 <a name="GamefaceComponents+importScript"></a>
 

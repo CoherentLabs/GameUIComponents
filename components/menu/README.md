@@ -1,6 +1,10 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 The gameface-menu is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-menu`
 
 Usage
 ===================
@@ -17,7 +21,7 @@ The gameface-menu component comes with UMD and CJS builds.
 * import the menu component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-menu/umd/gameface-menu.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-menu/umd/menu.production.min.js"></script>
 ~~~~
 
 * add the menu component to your html:
@@ -32,8 +36,8 @@ If you wish to import the modules using JavaScript you can remove the script tag
 which import the components and the gameface-menu from the node_modules folder and import them like this:
 
 ~~~~{.js}
-import components from 'gameface-components';
-import menu from 'gameface-menu';
+import components from 'coherent-gameface-components';
+import menu from 'coherent-gameface-menu';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -41,7 +45,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import menu from './node_modules/gameface-menu/umd/gameface-menu.production.min.js';
+import menu from './node_modules/coherent-gameface-menu/umd/menu.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -50,7 +54,7 @@ import menu from './node_modules/gameface-menu/umd/gameface-menu.production.min.
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const gameface-menu = require('gameface-menu');
+const gameface-menu = require('coherent-gameface-menu');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
@@ -140,7 +144,7 @@ It will also be automatically positioned.
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="menus/menu.css">
 <link rel="stylesheet" href="menus/bottom/bottom.css">
 <link rel="stylesheet" href="menus/left/left.css">

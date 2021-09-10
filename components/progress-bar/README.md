@@ -2,6 +2,11 @@
 
 The progress-bar is part of the Gameface custom components suite.
 
+Installation
+===================
+
+`npm i coherent-gameface-progress-bar`
+
 Usage
 ===================
 The progress-bar component comes with UMD and CJS builds.
@@ -17,13 +22,13 @@ The progress-bar component comes with UMD and CJS builds.
 * import the progress-bar component:
 
 ~~~~{.html}
-<script src="./node_modules/progress-bar/umd/progress-bar.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-progress-bar/umd/progress-bar.production.min.js"></script>
 ~~~~
 
 * add the progress-bar component to your html:
 
 ~~~~{.html}
-<progress-bar></progress-bar>
+<gameface-progress-bar></gameface-progress-bar>
 ~~~~
 
 Configuration and usage is explained further down the document. 
@@ -32,7 +37,7 @@ Import using ES modules:
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import progressBar from 'progress-bar';
+import progressBar from 'coherent-gameface-progress-bar';
 ~~~~
 
 Note that this approach requires a module bundler like
@@ -45,7 +50,7 @@ to resolve the modules from the node_modules folder.
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const progressBar = require('progress-bar');
+const progressBar = require('coherent-gameface-progress-bar');
 ~~~~
 
 The CommonJS(CJS) modules are native for NodeJS environment, be sure to use a
@@ -62,15 +67,15 @@ setting the new progress.
 
 Here is an example:
 ```html
-<progress-bar
+<gameface-progress-bar
 	data-animation-duration="2000">
-</progress-bar>
+</gameface-progress-bar>
 ```
 
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="style.css">
 ~~~~
 
@@ -84,7 +89,7 @@ Load the HTML file in Gameface to see the progress-bar.
 Taking into account the example code above and then:
 
 ```js
-const progressBar = document.querySelector('progress-bar');
+const progressBar = document.querySelector('gameface-progress-bar');
 // and set the progress with:
 progressBarOne.setProgress(100);
 ```

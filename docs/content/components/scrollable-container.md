@@ -24,7 +24,7 @@ The gameface-scrollable-container component comes with UMD and CJS builds.
 * import the gameface-scrollable-container component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js"></script>
 ~~~~
 
 * add the gameface-scrollable-container component to your html:
@@ -40,7 +40,7 @@ which import the components and the gameface-scrollable-container from the node_
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import GamefaceScrollableContainer from 'gameface-scrollable-container';
+import GamefaceScrollableContainer from 'coherent-gameface-scrollable-container';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -48,7 +48,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceScrollableContainer from './node_modules/gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js';
+import GamefaceScrollableContainer from './node_modules/coherent-gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -57,7 +57,7 @@ import GamefaceScrollableContainer from './node_modules/gameface-scrollable-cont
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const GamefaceScrollableContainer = require('gameface-scrollable-container');
+const GamefaceScrollableContainer = require('coherent-gameface-scrollable-container');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module

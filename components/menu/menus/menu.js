@@ -6,7 +6,7 @@
 import components from 'coherent-gameface-components';
 import template from '../template.html';
 import style from './menu.css';
-import theme from '../../../theme/components-theme.css';
+import theme from '../../../theme/coherent-gameface-components-theme.css';
 import {TAG_NAMES} from '../constants';
 
 /**

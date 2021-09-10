@@ -5,16 +5,16 @@
   "main": "script.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-example-component"
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/samples/user_interface/main"
   },
   "keywords": [
     "UI",
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "file:../../../lib/coherent-gameface-components-1.0.0.tgz",
-    "gameface-menu": "file:../../../components/menu/gameface-menu-1.0.0.tgz"
+    "coherent-gameface-components": "^1.0.1",
+    "coherent-gameface-menu": "^1.0.2"
   },
-  "author": "",
+  "author": "CoherentLabs",
   "license": "ISC"
 }

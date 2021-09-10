@@ -289,7 +289,7 @@ const menuTemplate = `
 `;
 
 const scrollableContainerTemplate = `
-<scrollable-container class="scrollbar-component">
+<gameface-scrollable-container class="scrollbar-component">
 <component-slot data-name="scrollable-content">
     <div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu urna tempus, ultricies lacus
@@ -461,7 +461,7 @@ const scrollableContainerTemplate = `
         libero sit amet mollis. Nulla ut consequat nisl. Proin eu dignissim nisi.
     </div>
 </component-slot>
-</scrollable-container>
+</gameface-scrollable-container>
 `;
 
 const sliderTemplate = `<gameface-slider class="horizontal-slider-component" orientation="horizontal"></gameface-slider>`;
@@ -482,9 +482,9 @@ const radialMenuTemplate = `
 <div>
 <p>Press the Left Shift key to open the menu.</p>
 <!-- Shift key to open. -->
-<radial-menu id="radial-menu-one" data-name="Radial Menu" data-change-event-name="radOneItemChanged"
+<gameface-radial-menu id="radial-menu-one" data-name="Radial Menu" data-change-event-name="radOneItemChanged"
     data-select-event-name="radOneItemSelected" data-open-key-code="shift"
-    class="radial-menu-component"></radial-menu>
+    class="radial-menu-component"></gameface-radial-menu>
 </div>
 <div>
 `;

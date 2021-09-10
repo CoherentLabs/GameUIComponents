@@ -1,6 +1,6 @@
 {
-  "name": "radial-menu",
-  "version": "1.0.0",
+  "name": "coherent-gameface-radial-menu",
+  "version": "1.0.2",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
   "repository": {
@@ -8,14 +8,15 @@
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/radial-menu"
   },
   "keywords": [
+    "Radial menu",
     "UI",
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "file:../../lib/coherent-gameface-components-1.0.0.tgz",
+    "coherent-gameface-components": "^1.0.1",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
-  "author": "",
+  "author": "CoherentLabs",
   "license": "ISC"
 }

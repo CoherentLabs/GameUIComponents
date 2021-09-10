@@ -7,7 +7,7 @@ const tabsContainer = document.querySelector('gameface-tabs');
 tabsContainer.selectTab(tabsContainer.querySelector('tab-heading'));
 
 function setupScrollbars() {
-    const scrollableContainers = document.querySelectorAll('scrollable-container');
+    const scrollableContainers = document.querySelectorAll('gameface-scrollable-container');
 
     for (let i = 0; i < scrollableContainers.length; i++) {
         const scrollableContainer = scrollableContainers[i];

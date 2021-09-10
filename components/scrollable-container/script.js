@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import Slider from 'slider';
+import Slider from 'coherent-gameface-slider';
 import template from './template.html';
 
 /**
@@ -110,5 +110,5 @@ class ScrollableContainer extends HTMLElement {
         });
     }
 }
-components.defineCustomElement('scrollable-container', ScrollableContainer);
+components.defineCustomElement('gameface-scrollable-container', ScrollableContainer);
 export default ScrollableContainer;

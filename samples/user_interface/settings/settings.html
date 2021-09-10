@@ -7,17 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="node_modules/coherent-gameface-grid/dist/grid.production.min.css">
-    <link rel="stylesheet" href="node_modules/coherent-gameface-checkbox/components-theme.css">
+    <link rel="stylesheet" href="node_modules/coherent-gameface-checkbox/coherent-gameface-components-theme.css">
     <link rel="stylesheet" href="node_modules/coherent-gameface-checkbox/style.css">
     <link rel="stylesheet" href="node_modules/coherent-gameface-modal/style.css">
     <link rel="stylesheet" href="node_modules/coherent-gameface-tabs/style.css">
-    <link rel="stylesheet" href="node_modules/gameface-menu/menus/menu.css">
-    <link rel="stylesheet" href="node_modules/gameface-menu/menus/left/left.css">
-    <link rel="stylesheet" href="node_modules/gameface-menu/menus/right/right.css">
-    <link rel="stylesheet" href="node_modules/gameface-menu/menus/bottom/bottom.css">
-    <link rel="stylesheet" href="node_modules/gameface-scrollable-container/style.css">
-    <link rel="stylesheet" href="node_modules/slider/styles/vertical.css">
-    <link rel="stylesheet" href="node_modules/slider/styles/horizontal.css">
+    <link rel="stylesheet" href="node_modules/coherent-gameface-menu/menus/menu.css">
+    <link rel="stylesheet" href="node_modules/coherent-gameface-menu/menus/left/left.css">
+    <link rel="stylesheet" href="node_modules/coherent-gameface-menu/menus/right/right.css">
+    <link rel="stylesheet" href="node_modules/coherent-gameface-menu/menus/bottom/bottom.css">
+    <link rel="stylesheet" href="node_modules/coherent-gameface-scrollable-container/style.css">
+    <link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/vertical.css">
+    <link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/horizontal.css">
     <style>
         body {
             background-color: grey;
@@ -402,7 +402,7 @@
                 </gameface-tabs>
             </div>
             <div id="gameplay-controls-panel" class="inactive-panel">
-                <scrollable-container class="scrollable-container-component">
+                <gameface-scrollable-container class="scrollable-container-component">
                     <component-slot data-name="scrollable-content">
                         <div class="guic-row white-bg">
                             <div class="guic-col-12 top-row padding-bottom">
@@ -545,10 +545,10 @@
                             </div>
                         </div>
                     </component-slot>
-                </scrollable-container>
+                </gameface-scrollable-container>
             </div>
             <div id="interface-panel" class="inactive-panel">
-                <scrollable-container class="scrollable-container-component">
+                <gameface-scrollable-container class="scrollable-container-component">
                     <component-slot data-name="scrollable-content">
                         <div class="guic-row white-bg">
                         <div class="guic-row">
@@ -760,14 +760,14 @@
                         </div>
                     </div>
                     </component-slot>
-                </scrollable-container>
+                </gameface-scrollable-container>
             </div>
         </div>
     </div>
     </div>
     <script src="node_modules/coherent-gameface-components/umd/components.development.js"></script>
-    <script src="node_modules/gameface-menu/umd/menu.development.js"></script>
-    <script src="node_modules/gameface-scrollable-container/umd/scrollable-container.development.js"></script>
+    <script src="node_modules/coherent-gameface-menu/umd/menu.development.js"></script>
+    <script src="node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.development.js"></script>
     <script src="node_modules/coherent-gameface-tabs/umd/tabs.development.js"></script>
     <script src="node_modules/coherent-gameface-checkbox/umd/checkbox.development.js"></script>
 

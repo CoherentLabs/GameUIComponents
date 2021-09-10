@@ -1,6 +1,10 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 The gameface-slider is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-slider`
 
 Usage
 ===================
@@ -17,7 +21,7 @@ The gameface-slider component comes with UMD and CJS builds.
 * import the gameface-slider component:
 
 ~~~~{.html}
-<script src="./node_modules/gameface-slider/umd/gameface-slider.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-slider/umd/slider.production.min.js"></script>
 ~~~~
 
 * add the gameface-slider component to your html:
@@ -33,7 +37,7 @@ which import the components and the gameface-slider from the node_modules folder
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import GamefaceSlider from 'gameface-slider';
+import GamefaceSlider from 'coherent-gameface-slider';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -41,7 +45,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceSlider from './node_modules/gameface-slider/umd/gameface-slider.production.min.js';
+import GamefaceSlider from './node_modules/coherent-gameface-slider/umd/slider.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -50,7 +54,7 @@ import GamefaceSlider from './node_modules/gameface-slider/umd/gameface-slider.p
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const GamefaceSlider = require('gameface-slider');
+const GamefaceSlider = require('coherent-gameface-slider');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
@@ -59,7 +63,7 @@ bundler in order to be use them in a browser.
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="styles/horizontal.css">
 <link rel="stylesheet" href="styles/vertical.css">
 ~~~~

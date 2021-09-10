@@ -1,5 +1,9 @@
 The gameface-rangeslider is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-rangeslider`
 
 Usage
 ===================
@@ -16,7 +20,7 @@ The gameface-rangeslider component comes with UMD and CJS builds.
 * import the gameface-rangeslider component:
 
 ~~~~{.html}
-<script src="./node_modules/rangeslider/umd/rangeslider.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-rangeslider/umd/rangeslider.production.min.js"></script>
 ~~~~
 
 * add the gameface-rangeslider component to your html:
@@ -32,7 +36,7 @@ which import the components and the rangeslider from the node_modules folder and
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import RangeSlider from 'rangeslider';
+import RangeSlider from 'coherent-gameface-rangeslider';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -40,7 +44,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceSlider from './node_modules/rangeslider/umd/rangeslider.production.min.js';
+import GamefaceSlider from './node_modules/coherent-gameface-rangeslider/umd/rangeslider.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -49,7 +53,7 @@ import GamefaceSlider from './node_modules/rangeslider/umd/rangeslider.productio
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const RangeSlider = require('rangeslider');
+const RangeSlider = require('coherent-gameface-rangeslider');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module

@@ -224,9 +224,9 @@ It should export either the development or the production CJS bundle:
 
 ```
 if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/gameface-labeled-input.production.min.js');
+    module.exports = require('./cjs/labeled-input.production.min.js');
 } else {
-    module.exports = require('./cjs/gameface-labeled-input.development.js');
+    module.exports = require('./cjs/labeled-input.development.js');
 }
 ```
 

@@ -1,5 +1,9 @@
 The automatic-grid is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-automatic-grid`
 
 Usage
 ===================
@@ -16,7 +20,7 @@ The automatic-grid component comes with UMD and CJS builds.
 * import the automatic-grid component:
 
 ~~~~{.html}
-<script src="./node_modules/automatic-grid/umd/automatic-grid.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js"></script>
 ~~~~
 
 * add the automatic-grid component to your html:
@@ -32,7 +36,7 @@ which import the components and the automatic-grid from the node_modules folder 
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import automatic-grid from 'automatic-grid';
+import automatic-grid from 'coherent-gameface-automatic-grid';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
@@ -40,7 +44,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import automatic-grid from './node_modules/automatic-grid/umd/automatic-grid.production.min.js';
+import automatic-grid from './node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -49,7 +53,7 @@ import automatic-grid from './node_modules/automatic-grid/umd/automatic-grid.pro
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const automatic-grid = require('automatic-grid');
+const automatic-grid = require('coherent-gameface-automatic-grid');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
@@ -59,7 +63,7 @@ bundler in order to be use them in a browser.
 ## Add the styles
 
 ~~~~{.html}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="grid.production.min.css">
 <link rel="stylesheet" href="style.css">
 ~~~~
@@ -73,7 +77,7 @@ Load the HTML file in Gameface to see the automatic-grid.
 
 To use the automatic-grid component add the following element to your html
 ~~~~{.html}
-<automatic-grid class="automatic-grid-component"></automatic-grid>
+<gameface-automatic-grid class="automatic-grid-component"></gameface-automatic-grid>
 ~~~~
 
 To add items to your grid you need to add componet-slot elements to the grid

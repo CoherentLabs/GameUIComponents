@@ -1,6 +1,10 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-modal`
 
 Usage
 ===================
@@ -89,7 +93,7 @@ Use the slots to put customized background or label.
 ## Add the Styles
 
 ~~~~{.css}
-<link rel="stylesheet" href="components-theme.css">
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="style.css">
 ~~~~
 

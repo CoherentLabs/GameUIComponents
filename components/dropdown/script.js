@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import ScrollableContainer from 'gameface-scrollable-container';
+import ScrollableContainer from 'coherent-gameface-scrollable-container';
 import template from './template.html';
-import theme from '../../theme/components-theme.css';
+import theme from '../../theme/coherent-gameface-components-theme.css';
 import style from './style.css';
 
 const KEYCODES = components.KEYCODES;
@@ -328,7 +328,7 @@ class GamefaceDropdown extends HTMLElement {
      * the selected option element.
     */
     onClick() {
-        const scrollableContainer = this.querySelector('scrollable-container');
+        const scrollableContainer = this.querySelector('gameface-scrollable-container');
 
         if (this.isOpened) {
             this.closeOptionsPanel();

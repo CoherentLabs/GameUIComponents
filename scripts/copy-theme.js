@@ -12,8 +12,8 @@ const components = fs.readdirSync(COMPONENTS_FOLDER, { withFileTypes: false });
 function copyCSSTheme() {
     components.forEach(component => {
         fs.copyFileSync(
-            path.join(__dirname, '../', 'theme/components-theme.css'),
-            path.join(COMPONENTS_FOLDER, component, 'components-theme.css')
+            path.join(__dirname, '../', 'theme/coherent-gameface-components-theme.css'),
+            path.join(COMPONENTS_FOLDER, component, 'coherent-gameface-components-theme.css')
         );
     });
 }
