@@ -219,6 +219,36 @@ components.defineCustomElement('gameface-labeled-input', LabeledInput);
 export { LabeledInput };
 ```
 
+**Important for components compatible with Gameface**:
+
+When using [data-binding](https://coherent-labs.com/Documentation/cpp-gameface/d1/ddb/data_binding.html)
+you must call `engine.synchronizeModels();` within the `connectedCallback` for the component like so:
+
+```js
+connectedCallback() {
+    components.loadResource(this)
+        .then((result) => {
+            this.template = result.template;
+            components.renderOnce(this);
+			
+			engine.synchronizeModels();
+        })
+        .catch(err => console.error(err));
+}
+```
+
+For example if the **template** of the component is:
+
+```html
+<div class="input-label" data-bind-value="{{Inputs.exampleInput.label}}">Input Label Placeholder</div>
+<div class="input"></div>
+```
+
+Not including `engine.synchronizeModels();` will result in not updating the
+`.input-label` Element value and the value will always remain
+"Input Label Placeholder" as it is in the template.
+
+
 Because all components are npm packages you need to add an entry index.js file.
 This is the file that would be loaded when you import your component from node_modules
 like this:
