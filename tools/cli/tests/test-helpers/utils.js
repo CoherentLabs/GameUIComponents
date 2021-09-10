@@ -17,7 +17,7 @@ const expectedFiles = require('./expected');
 exports.folderToTree = (folderPath, tree = {}) => {
     const root = path.basename(folderPath);
     tree[root] = tree[root] || [];
-    const filesInFolder = fs.readdirSync(folderPath, { withFileTypes: false });
+    const filesInFolder = fs.readdirSync(folderPath);
 
     for (let file of filesInFolder) {
         const filePath = path.join(folderPath, file);
@@ -40,7 +40,7 @@ exports.folderToTree = (folderPath, tree = {}) => {
  * @returns {boolean}
 */
 exports.folderContainsFiles = (folderPath, files) => {
-    const filesInFolder = fs.readdirSync(folderPath, { withFileTypes: false });
+    const filesInFolder = fs.readdirSync(folderPath);
 
     return files.every((file) => filesInFolder.indexOf(file) !== -1);
 }

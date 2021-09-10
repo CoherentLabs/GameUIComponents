@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const COMPONENTS_FOLDER = path.join(__dirname, '../components');
-const components = fs.readdirSync(COMPONENTS_FOLDER, { withFileTypes: false });
+const components = fs.readdirSync(COMPONENTS_FOLDER);
 
 function copyCSSTheme() {
     components.forEach(component => {

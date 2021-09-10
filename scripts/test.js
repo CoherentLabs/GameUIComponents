@@ -10,7 +10,7 @@ const { execSync, exec } = require('child_process');
 const COMPONENTS_FOLDER = path.join(__dirname, '../components');
 const TESTS_FOLDER = path.join(__dirname, '../tools/tests');
 
-const components = fs.readdirSync(COMPONENTS_FOLDER, { withFileTypes: false });
+const components = fs.readdirSync(COMPONENTS_FOLDER);
 
 function areComponentsPackaged() {
     const notBuildComponents = [];

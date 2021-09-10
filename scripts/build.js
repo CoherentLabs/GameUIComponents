@@ -31,7 +31,7 @@ const ENVIRONMENTS = [
  * @returns {Array<string>}
 */
 function getComponentDirectories() {
-    return fs.readdirSync(path.join(__dirname, '../components'), { withFileTypes: false });
+    return fs.readdirSync(path.join(__dirname, '../components'));
 }
 
 /**
@@ -161,14 +161,19 @@ function createBundle(inputOptions, outputOptions) {
     }).catch(err => console.error(err));
 }
 
-function main() {
+async function main() {
     copyCSSTheme();
     const arguments = process.argv.slice(2);
 
     if(arguments.indexOf('--library') > -1) {
         buildComponentsLibrary();
     } else {
-        buildEverything();
+        await buildEverything();
+    }
+
+    if (arguments.indexOf('--documentation') > -1) {
+        const result = execSync('node scripts/transfer-doc-files.js', { cwd: path.join(__dirname, '../'), encoding: 'utf8' });
+        console.log(result);
     }
 }
 
