@@ -1,7 +1,7 @@
 
 module.exports = function (config) {
   config.set({
-    failOnFailingTestSuite: false,
+    failOnFailingTestSuite: true,
     frameworks: ['jasmine', 'chai'],
     client: {
       jasmine: {
