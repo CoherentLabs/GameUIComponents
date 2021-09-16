@@ -39,7 +39,8 @@ module.exports = function (config) {
       '**/tabs/*.js',
       '**/progress-bar/*.js',
       '**/rangeslider/*.js',
-      '**/automatic-grid/*.js'
+      '**/automatic-grid/*.js',
+      '**/radio-button/*.js'
     ],
     singleRun: true,
     retryLimit: 0,

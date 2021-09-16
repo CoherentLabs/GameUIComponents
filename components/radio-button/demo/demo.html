@@ -1,0 +1,47 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="../coherent-gameface-components-theme.css">
+	<link rel="stylesheet" href="../style.css">
+	<style>
+		body {
+			width: 100vw;
+			height: 100vh;
+			justify-content: center;
+			background-color: rgba(0, 0, 0, 0.5);
+			color: #fff;
+		}
+
+		.section {
+			margin-bottom: 15px;
+		}
+
+		.section-label {
+			font-size: 24px;
+			margin-bottom: 5px;
+		}
+	</style>
+</head>
+<body>
+
+<div class="section">
+	<div class="section-label">Targeting System:</div>
+	<gameface-radio-group>
+		<radio-button>Tab Targeting</radio-button>
+		<radio-button checked>Action Combat</radio-button>
+	</gameface-radio-group>
+</div>
+<div class="section">
+	<div class="section-label">HUD Elements Placement:</div>
+	<gameface-radio-group>
+		<radio-button checked>Locked (Default)</radio-button>
+		<radio-button>Grid Slots (Sticky)</radio-button>
+		<radio-button>Unlocked</radio-button>
+	</gameface-radio-group>
+</div>
+
+<script src="./bundle.js"></script>
+</body>
+
+</html>
