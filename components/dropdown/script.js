@@ -193,7 +193,6 @@ class GamefaceDropdown extends HTMLElement {
     }
 
     disconnectedCallback() {
-        this.removeEventListeners();
 
         // Cache the dropdown options for adding them back if the component is re-added to the document.
         if (!components.cachedComponents.dropdowns) components.cachedComponents.dropdowns = {};
@@ -363,18 +362,6 @@ class GamefaceDropdown extends HTMLElement {
             options[i].addEventListener('selected-option', this.onClickOption);
             options[i].addEventListener('mouseenter', this.onMouseOverOption);
             options[i].addEventListener('mouseleave', this.onMouseLeave);
-        }
-    }
-
-    removeEventListeners() {
-        this.removeEventListener('keydown', this.onKeydown);
-        this.querySelector('.selected').removeEventListener('click', this.onClick);
-
-        const options = this.querySelectorAll('dropdown-option');
-        for (let i = 0; i < options.length; i++) {
-            options[i].removeEventListener('selected-option', this.onClickOption);
-            options[i].removeEventListener('mouseenter', this.onMouseOverOption);
-            options[i].removeEventListener('mouseleave', this.onMouseLeave);
         }
     }
 

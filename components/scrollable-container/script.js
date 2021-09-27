@@ -16,6 +16,10 @@ class ScrollableContainer extends HTMLElement {
         super();
         this.template = template;
         this.url = '/components/scrollable-container/template.html';
+
+        this.onScrollSlider = this.onScrollSlider.bind(this);
+        this.onScroll = this.onScroll.bind(this);
+        this.onResize = this.onResize.bind(this);
     }
 
     /**
@@ -45,14 +49,29 @@ class ScrollableContainer extends HTMLElement {
         this.addEventListeners();
     }
 
+    disconnectedCallback() {
+        this.removeEventListeners();
+    }
+
     /**
      * Add event listeners to handle resize, slider scroll
      * and scroll of the scrollabe container.
     */
     addEventListeners() {
-        window.addEventListener('resize', () => this.scrollbar.resize(this.scrollableContainer));
-        this.scrollbar.addEventListener('slider-scroll', (e) => this.onScrollSlider(e));
-        this.scrollableContainer.addEventListener('scroll', (e) => this.onScroll(e));
+        window.addEventListener('resize', this.onResize);
+        this.scrollbar.addEventListener('slider-scroll', this.onScrollSlider);
+        this.scrollableContainer.addEventListener('scroll', this.onScroll);
+    }
+
+    removeEventListeners() {
+        window.removeEventListener('resize', this.onResize);
+    }
+
+    /**
+     * Called on window resize
+     */
+    onResize() {
+        this.scrollbar.resize(this.scrollableContainer);
     }
 
     /**

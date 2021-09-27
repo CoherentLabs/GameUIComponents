@@ -31,10 +31,6 @@ class Checkbox extends HTMLElement {
             .catch(err => console.error(err));
     }
 
-    disconnectedCallback() {
-        this.removeEventListener('click', this.toggleChecked);
-    }
-
     /**
      * Toggles the checkbox value. Called on click.
      * Updated the state and the visibility of the check mark.

@@ -74,7 +74,7 @@ class History {
      * Will remove the popstate event
      */
     removePopStateListener() {
-        window.addEventListener('popstate', this._onPopStateBound);
+        window.removeEventListener('popstate', this._onPopStateBound);
     }
 }
 

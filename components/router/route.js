@@ -34,7 +34,9 @@ class GamefaceRoute extends HTMLElement {
     constructor() {
         super();
 
-        this.addEventListener('click', this.onClick);
+        this.onClick = this.onClick.bind(this);
+
+        
     }
 
     /**
@@ -50,6 +52,10 @@ class GamefaceRoute extends HTMLElement {
         const title = url;
 
         Route.history.pushState(state, title, url);
+    }
+
+    connectedCallback() {
+        this.addEventListener('click', this.onClick);
     }
 }
 

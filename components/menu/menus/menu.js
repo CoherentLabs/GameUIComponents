@@ -45,9 +45,9 @@ class GamefaceMenu extends HTMLElement {
         this.template = template;
         this.orientation = this.getAttribute('orientation');
 
-        this.onKeyDown = this.onKeyDown.bind(this);
-        this.onClick = this.onClick.bind(this);
-        this.onFocusOut = this.onFocusOut.bind(this);
+        this.onKeyDownBound = this.onKeyDown.bind(this);
+        this.onClickBound = this.onClick.bind(this);
+        this.onFocusOutBound = this.onFocusOut.bind(this);
 
         this.url = '/components/menu/template.html';
     }
@@ -61,9 +61,8 @@ class GamefaceMenu extends HTMLElement {
         components.loadResource(this, this.template)
             .then((result) => {
                 this.template = result.template;
-                components.render(this);
+                components.renderOnce(this);
 
-                this.removeEventListeners();
                 this.attachEventListeners();
 
                 // setup the initial position of the menu items
@@ -76,31 +75,16 @@ class GamefaceMenu extends HTMLElement {
             });
     }
 
-
-
-    /**
-     * Attaches click event listeners
-    */
-   removeEventListeners () {
-        this.removeEventListener('keydown', this.onKeyDown);
-        this.removeEventListener('focusout', this.onFocusOut);
-
-        const menuItems = this.querySelectorAll('menu-item');
-        for(let i = 0; i < menuItems.length; i++) {
-            menuItems[i].removeEventListener('click', this.onClick);
-        }
-    }
-
     /**
      * Attaches click event listeners to all menu-item elements in this menu
     */
     attachEventListeners () {
-        this.addEventListener('keydown', this.onKeyDown);
-        this.addEventListener('focusout', this.onFocusOut);
+        this.addEventListener('keydown', this.onKeyDownBound);
+        this.addEventListener('focusout', this.onFocusOutBound);
 
         const menuItems = this.querySelectorAll('menu-item');
         for(let i = 0; i < menuItems.length; i++) {
-            menuItems[i].addEventListener('click', this.onClick);
+            menuItems[i].addEventListener('click', this.onClickBound);
         }
     }
 

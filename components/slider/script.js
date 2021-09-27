@@ -96,10 +96,12 @@ class Slider extends HTMLElement {
         this.slider = this.getElementsByClassName(`${this.orientation}-slider`)[0];
         this.handle = this.getElementsByClassName(`${this.orientation}-handle`)[0];
 
-        this.removeEventListeners();
         this.attachEventListeners();
     }
 
+    disconnectedCallback() {
+        this.removeEventListeners();
+    }
     /**
      * Gets the size of an element in px.
      * Uses the computed styles which return the size in pixels as a string.
@@ -142,12 +144,6 @@ class Slider extends HTMLElement {
      * Remove event listeners.
      */
     removeEventListeners() {
-        // local listeners
-        this.slider.removeEventListener('click', this.onClick);
-        this.slider.removeEventListener('wheel', this.onWheel);
-        this.handle.removeEventListener('mousedown', this.onMouseDown);
-        this.querySelector('.up').removeEventListener('mousedown', this.onSlideUp);
-        this.querySelector('.down').removeEventListener('mousedown', this.onSlideDown);
 
         // document listeners
         document.removeEventListener('mousemove', this.onMouseMove);

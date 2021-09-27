@@ -41,10 +41,6 @@ class Tabs extends HTMLElement {
             this.attachEventListeners();
     }
 
-    disconnectedCallback() {
-        this.removeEventListeners();
-    }
-
     /**
      * Called when the user clicks on the tab component.
      * @param {MouseEvent} event - the event object.
@@ -101,15 +97,6 @@ class Tabs extends HTMLElement {
         this.addEventListener('keydown', this.onKeyDown);
         this.addEventListener('click', this.onClick);
     }
-
-    /**
-     * Removes keydown and click event listeners.
-    */
-    removeEventListeners() {
-        this.removeEventListener('keydown', this.onKeyDown);
-        this.removeEventListener('click', this.onClick);
-    }
-
     /**
      * Sets a tab and its corresponding panel in an active state.
      * The tab is highlighted and the panel is visible.
