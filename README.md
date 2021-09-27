@@ -1,5 +1,12 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
-# Components for Game User Interface
+# Components for Game User Interface [![CI status][github-action-image]][github-action-url] [![NPM version][npm-image]][npm-url]
+
+[npm-image]: http://img.shields.io/npm/v/coherent-gameface-components.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/coherent-gameface-components
+
+[github-action-url]: https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml?query=workflow%3A%22Run+Tests%22++
+[github-action-image]: https://github.com/CoherentLabs/GameUIComponents/workflows/Run%20Tests/badge.svg
+
 
 This is a suite of custom elements designed specifically for Gameface. All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package.
 
@@ -319,4 +326,4 @@ a documentation page to the docs/ folder.
 
 # Testing
 
-All tests are located in tools/tests. For more information on how to create and run a test refer to the [documentation](https://github.com/CoherentLabs/GameUIComponents/tree/documentation/tests/tools/tests#readme).
+All tests are located in tools/tests. For more information on how to create and run a test refer to the [documentation](https://github.com/CoherentLabs/GameUIComponents/blob/master/tools/tests/README.md).
