@@ -338,7 +338,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
             })
         });
 
-        it('Should show warning on back', async () => {
+        xit('Should show warning on back', async () => {
             await navigateTo('home', confirmation);
 
             await createAsyncSpec(() => {
@@ -350,7 +350,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
             await createAsyncSpec(() => {
                 assert(document.querySelector(routeIdToPageMap['numbers']) !== null, 'Current page is not "numbers".');
             });
-            
+
             await navigateTo('vowel', confirmation);
 
             await createAsyncSpec(() => {
@@ -364,7 +364,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
             });
         });
 
-        it('Should show warning on forward', async () => {
+        xit('Should show warning on forward', async () => {
             await navigateTo('home', confirmation);
             await navigateTo('numbers', confirmation);
             await navigateTo('vowel', confirmation);
@@ -390,7 +390,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
             });
         });
 
-        it('Should navigate to fallback route using pushState', async () => {
+        xit('Should navigate to fallback route using pushState', async () => {
             const state = { current: '/', id: currentHistory.currentRouteId };
             const title = 'home';
             Route.history.pushState(state, title, '/');

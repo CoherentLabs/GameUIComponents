@@ -11,8 +11,6 @@ class ProgressBar extends HTMLElement {
 		super();
 		this.template = template;
 
-		this.animDuration = parseInt(this.dataset.animationDuration) || 0;
-
 		this.filler = {};
 
 		this.targetValue = 0;
@@ -30,6 +28,7 @@ class ProgressBar extends HTMLElement {
 
 				// Get the filler element when the component is rendered.
 				this.filler = this.querySelector('.progress-bar-filler');
+				this.animDuration = parseInt(this.dataset.animationDuration) || 0;
 			})
 			.catch(err => console.error(err));
 	}

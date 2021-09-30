@@ -266,22 +266,20 @@ describe('Dropdown Tests', () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedElPlaceholder = dropdown.querySelector('.selected');
 
-            await createDropdownAsyncSpec(() => {
-                click(selectedElPlaceholder);
-            });
+            // The reset of the .options is needed because of the caching feature of the dropdown.
+            const options = dropdown.querySelector('.options');
+            options.innerHTML = `<dropdown-option slot="option">${firstValue}</dropdown-option>
+<dropdown-option slot="option">${lastValue}</dropdown-option>
+<dropdown-option slot="option" disabled="disabled">Disabled Parrot</dropdown-option>`;
 
-            await createDropdownAsyncSpec(() => {
-                dispatchKeyboardEvent(KEY_CODES.END, dropdown);
-            });
+            click(selectedElPlaceholder);
+            dropdown.dispatchEvent(new KeyboardEvent('keydown', { keyCode: KEY_CODES.END }));
 
-            await createDropdownAsyncSpec(() => {
-                assert(dropdown.value === lastValue, `Dropdown value is not ${lastValue}`);
-            });
+            assert(dropdown.value === lastValue, `Dropdown value is not ${lastValue}`);
 
-            dispatchKeyboardEvent(KEY_CODES.HOME, dropdown);
-            return createDropdownAsyncSpec(() => {
-                assert(dropdown.value === firstValue, `Dropdown value is not ${firstValue}`);
-            });
+            dropdown.dispatchEvent(new KeyboardEvent('keydown', { keyCode: KEY_CODES.HOME }));
+
+            assert(dropdown.value === firstValue, `Dropdown value is not ${firstValue}`);
         });
     });
 
@@ -337,13 +335,13 @@ describe('Dropdown Tests', () => {
             setupDropdownTestPage().then(done).catch(err => console.error(err));
         });
 
-        xit('Should close the options list on document click', function (done) {
-            click(document.querySelector('gameface-dropdown').querySelector('.selected'));
+        it('Should close the options list on clicking outside of the dropdown', function (done) {
+            const dropdown = document.querySelector('gameface-dropdown');
 
-            click(document);
+            click(document.querySelector('.dropdown-test-wrapper'));
 
             createDropdownAsyncSpec(() => {
-                assert(document.querySelector('gameface-dropdown').querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not have class hidden.');
+                assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not have class hidden.');
                 done();
             });
         });

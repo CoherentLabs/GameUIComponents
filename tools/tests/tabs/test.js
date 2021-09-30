@@ -36,7 +36,7 @@ describe('Tabs Components', () => {
         assert(document.querySelector('.tabs-wrapper') !== null, 'Tabs component was not rendered.');
     });
 
-    xit('Should set tab to active on click', () => {
+    it('Should set tab to active on click', () => {
         const tabs = document.getElementsByTagName('tab-heading');
         const firstTab = tabs[0];
         const secondTab = tabs[1];
@@ -44,7 +44,6 @@ describe('Tabs Components', () => {
         assert(document.querySelector('tab-panel[selected="true"]').textContent === `${firstTab.textContent} Content`,
             `First tab's content is not correct`);
         click(secondTab, { bubbles: true });
-        expect(document.querySelector('tab-panel[selected="true"]').textContent === `${secondTab.textContent} Content`,
-            `Second tab's content is not correct.`);
+        assert(document.querySelector('tab-panel[selected="true"]').textContent === `${secondTab.textContent} Content`, `Second tab's content is not correct.`);
     });
-})
+});
