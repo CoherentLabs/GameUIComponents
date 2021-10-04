@@ -37,6 +37,41 @@ You can use [http-server](https://www.npmjs.com/package/http-server) or any http
 
 
 
+Available Commands
+===================
+
+These are the commands used to build and package the components.
+
+|Command   |Description   |Arguments   |Usage   |
+|---|---|---|---|
+|rebuild               |Do a clean install of all dependencies and build everything.                 |N/A|`npm run rebuild`|
+|build                 |Build all components - create their demo, umd and cjs bundles.               |[--no-install -ni][--no-install], [--library][--library], [ --documentation][ --documentation]|`npm run build -- --no-install --library --documentation`|
+|build:demo            |Build only the demos of all components.                                      |N/A|`npm run build:demo`|
+|build:library         |Build only the components library.                                           |N/A|`npm run build:library`|
+|build:dev             |Build the components using only the local packages. Will install dependencies only from source, not the npm registry. |N/A|`npm run build:dev`|
+|build:documentation   |Build the components, the demos and the documentation.                       |N/A|`npm run build:documentation`|
+|start:demo            |Serve the demo project.                                                      |N/A|`npm run start:demo`|
+|test                  |Start Karma server on loalhost:<port>/debug.html                             |N/A|`npm run test`|
+|test:Chrome           |Start Karma server and run the tests in Google Chrome.                       |N/A|`npm run test:Chrome`|
+|pack                  |Bundle the components tp npm packages ready for publish.                     |N/A|`npm run pack`|
+|pack:library          |Create npm package of the component library.                                 |N/A|`npm run pack:library`|
+|link                  |Create links for all components to test with local packages only[^1].        |N/A|`npm run link`|
+|install:all           |Recursively Install dependencies in all folders located in given root.       |[--rootDir][--rootDir]|`npm run install:all -- --rootDir=components/checkbox`|
+|clean                 |Remove all existing bundles, packages and installed dependencies.            |N/A|`npm run clean`|
+
+[^1]: The components will not use the local packages created from source, not the ones from the npm
+registry. Useful when you are doing changes the core library or to any of the existing components
+and you want to test your changes. Remember to build with the **--no-install** option when using links
+as otherwise the build will perform `npm install` which will overwrite the links.
+
+[--no-install]: ## "skip the npm install step"
+[--library]: ## "builds only the components library"
+[--documentation]: ## "also build the documentation"
+[--rootDir]: ## "the folder in which to perform recursive npm install"
+
+After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
+
+
 Creating new Components
 ===================
 
@@ -44,66 +79,6 @@ All components are npm modules. Your component doesn't have to be an npm module.
 If you need to use it in your project only, you can skip the steps which make a
 component an npm module. However if at some point you decide that you want to make
 your component an npm module - follow the steps below to see how to do it.
-
-These are the commands used to build and package the components.
-
-To build all components run:
-
-`npm run build`
-
-This will create bundles with ready to use CJS and UMD modules.
-
-
-To build the demo pages only run:
-
-`npm run build:demo`
-
-To clean all build and installation files run:
-
-`npm run clean`
-
-To build the components and update the documentation files:
-
-`npm run build:documentation` or
-`npm run build -- --documentation`
-
-To create the npm packages run:
-
-`npm run pack`
-
-To package the components library only run:
-
-`npm run pack:library`
-
-To build and package everything run:
-
-`npm run rebuild`
-
-If you haven't built the components or if you've made changes:
-
-`npm run test -- --rebuild`
-
-to create new bundles.
-
-To build the components using **only** the local packages run:
-
-`npm run build:dev`
-
-This will make links between all components allowing you to test with your local
-changes.
-
-To create links without building run:
-
-`npm run link`
-
-Make sure to run the `build` command with the **--no-install** or **-ni** option to avoid
-executing `npm i` which will overwrite your links.
-
-To start the tests run:
-
-`npm run test`
-
-After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
 
 ## Structure of a Component
 All components in the GameUIComponents suite are npm modules.
