@@ -79,15 +79,29 @@ To build and package everything run:
 
 `npm run rebuild`
 
-To start the tests run:
-
-`npm run test`
-
 If you haven't built the components or if you've made changes:
 
 `npm run test -- --rebuild`
 
 to create new bundles.
+
+To build the components using **only** the local packages run:
+
+`npm run build:dev`
+
+This will make links between all components allowing you to test with your local
+changes.
+
+To create links without building run:
+
+`npm run link`
+
+Make sure to run the `build` command with the **--no-install** or **-ni** option to avoid
+executing `npm i` which will overwrite your links.
+
+To start the tests run:
+
+`npm run test`
 
 After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
 
