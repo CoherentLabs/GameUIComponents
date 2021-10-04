@@ -14,6 +14,8 @@ const buildCssComponents = require('./build-style-component');
 const copyCSSTheme = require('./copy-theme');
 
 const { execSync } = require('child_process');
+
+let noInstall = false;
 // The module formats which will be bundled
 const FORMATS = [
     'cjs',
@@ -89,6 +91,14 @@ async function buildAndPackage(moduleName, inputOptions, formats, environments, 
     execSync('npm pack', { cwd: libPath });
 }
 
+function installDependencies(componentPath) {
+    try {
+      execSync('npm i', { cwd: componentPath });
+    } catch (err) {
+        console.error(err)
+    }
+}
+
 /**
  * Calls buildAndPackage for all components and passes all environments
  * and formats as targets. Builds the components library first.
@@ -108,11 +118,7 @@ async function buildEverything() {
 
         if (!fs.existsSync(componentPath)) continue;
 
-        try {
-            execSync('npm i', { cwd: componentPath });
-        } catch (err) {
-            console.error(err)
-        }
+        if(!noInstall) installDependencies(componentPath);
 
         if (!fs.existsSync(path.join(componentPath, 'script.js'))) {
             buildCssComponents(componentPath);
@@ -164,6 +170,7 @@ function createBundle(inputOptions, outputOptions) {
 async function main() {
     copyCSSTheme();
     const arguments = process.argv.slice(2);
+    if (arguments.indexOf('--no-install') > -1 || arguments.indexOf('-ni') > -1) noInstall = true;
 
     if(arguments.indexOf('--library') > -1) {
         buildComponentsLibrary();

@@ -11,9 +11,6 @@ function getPackageJSON(component) {
 }
 
 function main() {
-    const arguments = process.argv.slice(2);
-    if (arguments.indexOf('--no-build') === -1) execSync('npm run rebuild', { cwd: path.join(__dirname, '../') });
-
     // link the components library
     execSync('npm link', { cwd: path.join(__dirname, '../lib') });
     const components = fs.readdirSync(COMPONENTS_PATH);
