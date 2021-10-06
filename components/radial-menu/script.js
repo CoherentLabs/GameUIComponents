@@ -44,6 +44,11 @@ class RadialMenu extends HTMLElement {
 			.catch(err => console.error(err));
 	}
 
+	disconnectedCallback() {
+		this.removeOpenKeyEvent();
+		this.closeAndRemoveEventListeners();
+	}
+
 	setSelectorSize() {
 		// When there are 2 segments, use a rectangle.
 		if (this.itemsCount === 2) {

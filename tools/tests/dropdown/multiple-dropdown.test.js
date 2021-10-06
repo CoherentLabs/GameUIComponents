@@ -46,7 +46,6 @@ const expectedValues = ['Cat', 'Parrot', 'Parrot1'];
 const expectedValuesAfterDeselect = ['Cat', 'Parrot'];
 
 
-
 describe('Multiple Dropdown Test', () => {
     afterAll(() => {
         const currentElement = document.querySelector('.multiple-dropdown-test-wrapper');
@@ -132,7 +131,7 @@ describe('Multiple Dropdown Test', () => {
 
             options[1].onClick({ target: options[1], ctrlKey: true });
 
-            click(document);
+            click(document.body);
             assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true,
                 `Options container is not hidden.`);
         });

@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-function createAsyncSpec(callback, time = 500) {
+function createAsyncSpec(callback, time = 1000) {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			callback();
@@ -74,7 +74,7 @@ describe('Radial Menu Tests', () => {
 	describe('Radial Menu', () => {
 		beforeEach(function (done) {
 			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
-		}, 3000);
+		});
 
 		it('Should be created', () => {
 			assert(document.querySelector('gameface-radial-menu').id === 'radial-menu-one', 'The id of the radial menu is not radial-menu-one.');
@@ -106,8 +106,10 @@ describe('Radial Menu Tests', () => {
 			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
-		xit('Should have background image url on a populated element', () => {
-			assert(document.querySelectorAll('.radial-menu-item-icon')[2].style.backgroundImage === 'url("./images/weapon3.png")', `The background image url is not "url("./images/weapon3.png")".`);
+		it('Should have background image url on a populated element', () => {
+			const backgroundImageUrl = document.querySelectorAll('.radial-menu-item-icon')[2].style.backgroundImage;
+
+			assert(backgroundImageUrl.includes('weapon3') === true, `The background image url is not "url("./images/weapon3.png")".`);
 		});
 	});
 
@@ -129,17 +131,16 @@ describe('Radial Menu Tests', () => {
 			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
-		xit('Should have opened on keydown', function (done) {
+		it('Should have opened on keydown', function (done) {
 			const radialMenu = document.querySelector('gameface-radial-menu');
 
-			dispatchKeyboardEventKeyDown(16, radialMenu);
+			dispatchKeyboardEventKeyDown(16, window);
 
 			// The menu is opened 2 frames after the opening function is called.
-			// More time is apparently needed for it to open and 200 frames seems to not be flaky.
 			waitForStyles(() => {
-				assert(radialMenu.classList.contains('radial-menu-open') === true, 'Radial menu does not have class radial-menu-open.');
+				assert(radialMenu.classList.contains('radial-menu-open') === true, 'Radial menu did not open.');
 				done();
-			}, 10);
+			}, 2);
 		});
 	});
 
@@ -148,18 +149,22 @@ describe('Radial Menu Tests', () => {
 			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
-		xit('Should have closed on keyup after opening', function (done) {
+		it('Should have closed on keyup after opening', async () => {
 			const radialMenu = document.querySelector('gameface-radial-menu');
 
-			dispatchKeyboardEventKeyDown(16, radialMenu);
+			dispatchKeyboardEventKeyDown(16, window);
 
-			// The menu is opened 2 frames after the opening function is called.
-			// More time is apparently needed for it to open and 200 frames seems to not be flaky.
-			waitForStyles(() => {
-				dispatchKeyboardEventKeyUp(16, radialMenu);
-				assert(radialMenu.classList.contains('radial-menu-open') === false, 'Radial menu contains class radial-menu-open.');
-				done();
-			}, 10);
+			await createAsyncSpec(() => {
+				assert(radialMenu.classList.contains('radial-menu-open') === true, 'Radial menu did not open prior to finishing the test.');
+			});
+
+			await createAsyncSpec(() => {
+				dispatchKeyboardEventKeyUp(16, window);
+			});
+
+			return createAsyncSpec(() => {
+				assert(radialMenu.classList.contains('radial-menu-open') === false, 'Radial menu has not closed.');
+			});
 		});
 	});
 
@@ -168,25 +173,27 @@ describe('Radial Menu Tests', () => {
 			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
-		xit('Should successfully attach to and use custom event', function (done) {
+		it('Should successfully attach to and use custom event', async () => {
 			const radialMenu = document.querySelector('gameface-radial-menu');
 
 			let selectedState = false;
 
-			radialMenu.addEventListener('radOneItemSelected', () => {
-				selectedState = true;
+			await createAsyncSpec(() => {
+				radialMenu.addEventListener('radOneItemSelected', () => {
+					selectedState = true;
+				});
 			});
 
-			createAsyncSpec(() => {
-				dispatchKeyboardEventKeyDown(16, radialMenu);
-				click(radialMenu);
-			}).then(() => {
-				// The menu is opened 2 frames after the opening function is called.
-				// More time is apparently needed for it to open and 200 frames seems to not be flaky.
-				waitForStyles(() => {
-					assert(selectedState === true, 'selectedState is not true.');
-					done();
-				}, 10);
+			await createAsyncSpec(() => {
+				dispatchKeyboardEventKeyDown(16, window);
+			});
+
+			await createAsyncSpec(() => {
+				dispatchKeyboardEventKeyUp(16, window);
+			});
+
+			return createAsyncSpec(() => {
+				assert(selectedState === true, 'selectedState is not true.');
 			});
 		});
 	});
