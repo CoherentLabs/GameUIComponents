@@ -14,6 +14,8 @@ import {
     modalTemplate,
     tabsTemplate,
     radialMenuTemplate,
+    automaticGridTemplate,
+    progressBarTemplate,
     switchTemplate,
 } from './demoTemplates.js';
 
@@ -78,7 +80,7 @@ for (let i = 0; i < routes.length; i++) {
     });
 }
 
-class Home extends HTMLElement {
+class HomePage extends HTMLElement {
     constructor() {
         super();
         this.template = homeTemplate;
@@ -95,7 +97,7 @@ class Home extends HTMLElement {
     }
 }
 
-class Checkbox extends HTMLElement {
+class CheckboxPage extends HTMLElement {
     constructor() {
         super();
         this.template = checkBoxTemplate;
@@ -112,7 +114,7 @@ class Checkbox extends HTMLElement {
     }
 }
 
-class Dropdown extends HTMLElement {
+class DropdownPage extends HTMLElement {
     constructor() {
         super();
         this.template = dropDownTemplate;
@@ -153,7 +155,7 @@ class Dropdown extends HTMLElement {
     }
 }
 
-class ResponsiveGrid extends HTMLElement {
+class ResponsiveGridPage extends HTMLElement {
     constructor() {
         super();
         this.template = responsiveGridTemplate;
@@ -170,7 +172,7 @@ class ResponsiveGrid extends HTMLElement {
     }
 }
 
-class Menu extends HTMLElement {
+class MenuPage extends HTMLElement {
     constructor() {
         super();
         this.template = menuTemplate;
@@ -187,7 +189,7 @@ class Menu extends HTMLElement {
     }
 }
 
-class ScrollableContainer extends HTMLElement {
+class ScrollableContainerPage extends HTMLElement {
     constructor() {
         super();
         this.template = scrollableContainerTemplate;
@@ -204,7 +206,7 @@ class ScrollableContainer extends HTMLElement {
     }
 }
 
-class Slider extends HTMLElement {
+class SliderPage extends HTMLElement {
     constructor() {
         super();
         this.template = sliderTemplate;
@@ -221,7 +223,7 @@ class Slider extends HTMLElement {
     }
 }
 
-class RangeSlider extends HTMLElement {
+class RangeSliderPage extends HTMLElement {
     constructor() {
         super();
         this.template = rangeSliderTemplate;
@@ -238,7 +240,7 @@ class RangeSlider extends HTMLElement {
     }
 }
 
-class Modal extends HTMLElement {
+class ModalPage extends HTMLElement {
     constructor() {
         super();
         this.template = modalTemplate;
@@ -255,7 +257,7 @@ class Modal extends HTMLElement {
     }
 }
 
-class Tabs extends HTMLElement {
+class TabsPage extends HTMLElement {
     constructor() {
         super();
         this.template = tabsTemplate;
@@ -272,7 +274,7 @@ class Tabs extends HTMLElement {
     }
 }
 
-class RadialMenu extends HTMLElement {
+class RadialMenuPage extends HTMLElement {
     constructor() {
         super();
         this.template = radialMenuTemplate;
@@ -302,6 +304,53 @@ class RadialMenu extends HTMLElement {
     }
 }
 
+class AutomaticGridPage extends HTMLElement {
+    constructor() {
+        super();
+        this.template = automaticGridTemplate;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+          .then((result) => {
+              this.template = result.template;
+
+              components.renderOnce(this);
+          })
+          .catch(err => console.error(err));
+    }
+}
+
+class ProgressBarPage extends HTMLElement {
+    constructor() {
+        super();
+        this.template = progressBarTemplate;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+          .then((result) => {
+              this.template = result.template;
+
+              components.renderOnce(this);
+
+              this.setupProgressBar();
+          })
+          .catch(err => console.error(err));
+    }
+
+    setupProgressBar() {
+        const progressBar = document.getElementById('progress-bar');
+        let progressBarValue = 0;
+        progressBar.setProgress(progressBarValue);
+
+        setInterval(() => {
+            (progressBarValue < 100) ? progressBarValue += 10 : progressBarValue = 0;
+            progressBar.setProgress(progressBarValue);
+        }, 1000);
+    }
+}
+
 class SwitchPage extends HTMLElement {
     constructor() {
         super();
@@ -319,17 +368,19 @@ class SwitchPage extends HTMLElement {
     }
 }
 
-components.defineCustomElement('home-page', Home);
-components.defineCustomElement('checkbox-page', Checkbox);
-components.defineCustomElement('dropdown-page', Dropdown);
-components.defineCustomElement('responsive-grid-page', ResponsiveGrid);
-components.defineCustomElement('menu-page', Menu);
-components.defineCustomElement('scrollable-container-page', ScrollableContainer);
-components.defineCustomElement('slider-page', Slider);
-components.defineCustomElement('range-slider-page', RangeSlider);
-components.defineCustomElement('modal-page', Modal);
-components.defineCustomElement('tabs-page', Tabs);
-components.defineCustomElement('radial-menu-page', RadialMenu);
+components.defineCustomElement('home-page', HomePage);
+components.defineCustomElement('checkbox-page', CheckboxPage);
+components.defineCustomElement('dropdown-page', DropdownPage);
+components.defineCustomElement('responsive-grid-page', ResponsiveGridPage);
+components.defineCustomElement('menu-page', MenuPage);
+components.defineCustomElement('scrollable-container-page', ScrollableContainerPage);
+components.defineCustomElement('slider-page', SliderPage);
+components.defineCustomElement('range-slider-page', RangeSliderPage);
+components.defineCustomElement('modal-page', ModalPage);
+components.defineCustomElement('tabs-page', TabsPage);
+components.defineCustomElement('radial-menu-page', RadialMenuPage);
+components.defineCustomElement('automatic-grid-page', AutomaticGridPage);
+components.defineCustomElement('progress-bar-page', ProgressBarPage);
 components.defineCustomElement('switch-page', SwitchPage);
 
 const browserHistory = new router.BrowserHistory();
@@ -347,6 +398,8 @@ new router.Router({
     'modal': 'modal-page',
     'tabs': 'tabs-page',
     'radial-menu': 'radial-menu-page',
+    'automatic-grid': 'automatic-grid-page',
+    'progress-bar': 'progress-bar-page',
     'switch': 'switch-page',
     '**': 'home-page'
 }, browserHistory);

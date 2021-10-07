@@ -68,6 +68,68 @@ body {
 }
 /* Router */
 
+/* Tabs */
+.tabs-wrapper {
+    position: relative;
+}
+
+.tabs-wrapper tab-panel {
+    top: 44px;
+}
+/* Tabs */
+
+/* Menu */
+gameface-menu {
+    top: 150px;
+    left: 50px;
+}
+/* Menu */
+
+/* Automatic Grid */
+.automatic-grid-component {
+    width: 80vw;
+}
+
+.guic-row {
+    margin: 0;
+}
+
+.guic-automatic-grid-container {
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+.automatic-grid-cell {
+    border-top: 3px solid black;
+    border-left: 3px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.automatic-grid-cell .box {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: cadetblue;
+    color: white;
+    font-size: 1.5rem;
+    margin: 0;
+}
+/* Automatic Grid */
+
+/* Progress Bar */
+.progress-bar-wrapper {
+    position: relative;
+    top: 10vh;
+    width: 60vw;
+    height: 15px;
+}
+/* Progress Bar */
+
+
 /* Switch */
 .switch-components-wrapper {
     display: flex;

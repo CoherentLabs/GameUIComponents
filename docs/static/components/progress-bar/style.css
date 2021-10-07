@@ -3,26 +3,17 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-body {
-    background-color: #ebebeb;
+.progress-bar {
+	border: 2px solid;
+	border-top-color: var(--default-color-gray);
+	border-right-color: var(--default-color-gray);
+	border-bottom-color: var(--default-color-gray);
+	border-left-color: var(--default-color-gray);
+	height: 100%;
+	width: 100%;
 }
 
-.slider-component,
-.vertical-slider-component {
-    width: 10%;
-    display: none;
-}
-
-.wrapper {
-    position: relative;
-    width: 80vw;
-    height: 90vh;
-    display: flex;
-    flex-direction: row;
-}
-
-.scrollable-container {
-    width: 90%;
-    overflow: scroll;
-    background-color: #ebebeb;
+.progress-bar-filler {
+	height: 100%;
+	background-color: var(--default-color-blue);
 }

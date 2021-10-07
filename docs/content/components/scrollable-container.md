@@ -1,13 +1,16 @@
 ---
-title: "Scrollabe Container"
+title: "Scrollable Container"
 date: 2020-10-08T14:00:45Z
 draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
-
 The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-scrollable-container`
 
 Usage
 ===================
@@ -24,7 +27,7 @@ The gameface-scrollable-container component comes with UMD and CJS builds.
 * import the gameface-scrollable-container component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.production.min.js"></script>
 ~~~~
 
 * add the gameface-scrollable-container component to your html:
@@ -48,7 +51,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceScrollableContainer from './node_modules/coherent-gameface-scrollable-container/umd/gameface-scrollable-container.production.min.js';
+import GamefaceScrollableContainer from './node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -96,3 +99,15 @@ If you need to hide the scrollbar - use the **hideScrollBar method** and pass it
 const scrollableContainer = document.querySelector('.scrollable-container');
 scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 ~~~~
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/horizontal.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/vertical.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

@@ -14,7 +14,16 @@ Before you start the hugo server you need to fetch the theme. Run:
 git submodule update --init
 ```
 
-After hugo was installed navigate to the /docs folder and run:
+After hugo is installed navigate to the /docs folder.
+
+In order to test the example pages locally, open **config.toml** and edit the
+first line to:
+
+```baseURL = "localhost"```
+
+This will use the proper paths to the required files in the examples.
+
+Now run:
 
 ```
 hugo server -t hugo-theme-techdoc
@@ -27,3 +36,5 @@ hugo server -D
 ```
 
 to start a development server.
+
+**Important:** remember to revert the **config.toml** file when done.

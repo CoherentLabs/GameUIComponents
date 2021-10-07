@@ -5,8 +5,12 @@ draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
-
 The radial-menu is part of the Gameface custom Components suite.
+
+Installation
+===================
+
+`npm i coherent-gameface-radial-menu`
 
 Usage
 ===================
@@ -23,13 +27,13 @@ The radial-menu Component comes with UMD and CJS builds.
 * import the radial-menu Component:
 
 ~~~~{.html}
-<script src="./node_modules/radial-menu/umd/radial-menu.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-radial-menu/umd/radial-menu.production.min.js"></script>
 ~~~~
 
 * add the radial-menu Component to your html:
 
 ~~~~{.html}
-<radial-menu></radial-menu>
+<gameface-radial-menu></gameface-radial-menu>
 ~~~~
 
 This is all! Load the file in Gameface to see the radial-menu.
@@ -38,7 +42,7 @@ Import using ES modules:
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import RadialMenu from 'radial-menu';
+import RadialMenu from 'coherent-gameface-radial-menu';
 ~~~~
 
 Note that this approach requires a module bundler like
@@ -51,7 +55,7 @@ to resolve the modules from the node_modules folder.
 
 ~~~~{.js}
 const components = require('coherent-gameface-components');
-const RadialMenu = require('radial-menu');
+const RadialMenu = require('coherent-gameface-radial-menu');
 ~~~~
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a
@@ -63,13 +67,13 @@ The radial menu has a few `data-`* attributes by which it is configured.
 
 Here is an example with all available attributes:
 ```html
-<radial-menu
+<gameface-radial-menu
     id="radial-menu-one"
 	data-name="Radial Menu"
 	data-change-event-name="radOneItemChanged"
 	data-select-event-name="radOneItemSelected"
 	data-open-key-code="SHIFT">
-</radial-menu>
+</gameface-radial-menu>
 ```
 
 The `id` attribute is added so the radial menu instance can be accessed later
@@ -136,3 +140,13 @@ provided array is created there.
 
 * The menu is hidden with `visibility: hidden` so it is more light when it is
 opened again.
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="style.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.
