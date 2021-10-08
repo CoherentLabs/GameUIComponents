@@ -11,6 +11,7 @@
     "start:demo": "webpack-dev-server",
     "build": "node ./scripts/build.js",
     "link": "node ./scripts/link.js",
+    "unlink": "node ./scripts/unlink.js",
     "build:dev": "npm run clean && npm run link && npm run build -- -ni",
     "build:library": "node ./scripts/build.js --library",
     "build:documentation": "node ./scripts/build.js --documentation",
