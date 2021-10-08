@@ -12,6 +12,8 @@ const { start } = require('repl');
 /**
  * Builds the demo of the component.
 */
+
+
 function buildDemo() {
     const pathToDemo = path.resolve(path.join(process.cwd(), 'demo'));
 
@@ -19,6 +21,9 @@ function buildDemo() {
         mode: 'production',
         entry: path.join(pathToDemo, 'demo.js'),
         devtool: false,
+        resolve: {
+            symlinks: true,
+        },
         output: {
             path: pathToDemo,
             filename: "bundle.js"
