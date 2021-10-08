@@ -51,12 +51,13 @@ These are the commands used to build and package the components.
 |build:dev             |Build the components using only the local packages. Will install dependencies only from source, not the npm registry. |N/A|`npm run build:dev`|
 |build:documentation   |Build the components, the demos and the documentation.                       |N/A|`npm run build:documentation`|
 |start:demo            |Serve the demo project.                                                      |N/A|`npm run start:demo`|
-|test                  |Start Karma server on loalhost:<port>/debug.html                             |N/A|`npm run test`|
+|test                  |Start Karma server on localhost:`<port>`/debug.html                             |N/A|`npm run test`|
 |test:Chrome           |Start Karma server and run the tests in Google Chrome.                       |N/A|`npm run test:Chrome`|
-|pack                  |Bundle the components tp npm packages ready for publish.                     |N/A|`npm run pack`|
+|pack                  |Bundle the components to npm packages ready for publish.                     |N/A|`npm run pack`|
 |pack:library          |Create npm package of the component library.                                 |N/A|`npm run pack:library`|
 |link                  |Create links for all components to test with local packages only[^1].        |N/A|`npm run link`|
-|install:all           |Recursively Install dependencies in all folders located in given root.       |[--rootDir][--rootDir]|`npm run install:all -- --rootDir=components/checkbox`|
+|unlink                |Remove all global links that exist for components. To remove the local packages use `npm run clean`.|N/A|`npm run link`|
+|install:all           |Recursively install dependencies in all folders located in given root.       |[--rootDir][--rootDir]|`npm run install:all -- --rootDir=components/checkbox`|
 |clean                 |Remove all existing bundles, packages and installed dependencies.            |N/A|`npm run clean`|
 
 [^1]: The components will not use the local packages created from source, not the ones from the npm
