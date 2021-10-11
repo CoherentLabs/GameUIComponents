@@ -81,6 +81,7 @@ function buildForTargets(moduleName, inputOptions, formats, environments) {
 */
 function build(watch) {
     const inputOptions = {
+        preserveSymlinks: true,
         input: path.resolve('./script.js'),
         external: ['coherent-gameface-components'],
         plugins: [
