@@ -5,9 +5,23 @@ const { getPackageJSON } = require('./helpers');
 
 const COMPONENTS_PATH = path.join(__dirname, '../components');
 
+function safelyCreateLink(cwd, component, packages = '') {
+    const linked = packages || component;
+    try {
+        execSync(`npm link ${packages}`, { cwd: cwd, encoding: 'utf8'});
+        if (packages) {
+            console.log(`Linked dependencies - ${packages.replace(/\s/g, ', ')} for component ${component}.`);
+        } else {
+            console.log(`Created link for ${component}.`);
+        }
+    } catch (err) {
+        console.error(`The following error ocurred while linking ${linked}: ${err}`);
+    }
+}
+
 function main() {
     // link the components library
-    execSync('npm link', { cwd: path.join(__dirname, '../lib'), encoding: 'utf8' });
+    safelyCreateLink(path.join(__dirname, '../lib'), 'coherent-gameface-components');
     const components = fs.readdirSync(COMPONENTS_PATH);
 
     // loop all components once to create links to the global node_modules.
@@ -20,7 +34,7 @@ function main() {
         const packageJSON = getPackageJSON(component);
 
         if (!packageJSON) continue;
-        execSync('npm link', { cwd: path.join(COMPONENTS_PATH, component), encoding: 'utf8' });
+        safelyCreateLink(path.join(COMPONENTS_PATH, component), component);
     }
 
     // loop all components to link their local dependencies to the global
@@ -36,7 +50,7 @@ function main() {
             componentsDeps += ` ${dependency}`;
         }
 
-        execSync(`npm link ${componentsDeps}`, { cwd: path.join(COMPONENTS_PATH, component), encoding: 'utf8'});
+        safelyCreateLink(path.join(COMPONENTS_PATH, component), component, componentsDeps.trim())
     }
 }
 
