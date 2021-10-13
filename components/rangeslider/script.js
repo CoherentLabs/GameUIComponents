@@ -438,7 +438,7 @@ class Rangeslider extends HTMLElement {
 
     /**
      * Calculates the position of the slider in percent based on the mouse coordinates
-     * @param {MouseEvent} e 
+     * @param {MouseEvent} e
      * @returns {Number} Position in percent
      */
     getHandlePercent(e) {
@@ -448,7 +448,7 @@ class Rangeslider extends HTMLElement {
 
         let offset = document.body.scrollLeft + mouseCoords - size;
         if (this.orientation === 'vertical') {
-            offset = this.sizes[this.units.size] - (document.body.scrollTop + mouseCoords);
+            offset = size + this.sizes[this.units.size] - (document.body.scrollTop + mouseCoords);
         }
 
         return Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
