@@ -14,6 +14,7 @@ import {
     modalTemplate,
     tabsTemplate,
     radialMenuTemplate,
+    switchTemplate,
 } from './demoTemplates.js';
 
 // radial menu
@@ -301,6 +302,23 @@ class RadialMenu extends HTMLElement {
     }
 }
 
+class SwitchPage extends HTMLElement {
+    constructor() {
+        super();
+        this.template = switchTemplate;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+          .then((result) => {
+              this.template = result.template;
+
+              components.renderOnce(this);
+          })
+          .catch(err => console.error(err));
+    }
+}
+
 components.defineCustomElement('home-page', Home);
 components.defineCustomElement('checkbox-page', Checkbox);
 components.defineCustomElement('dropdown-page', Dropdown);
@@ -312,6 +330,7 @@ components.defineCustomElement('range-slider-page', RangeSlider);
 components.defineCustomElement('modal-page', Modal);
 components.defineCustomElement('tabs-page', Tabs);
 components.defineCustomElement('radial-menu-page', RadialMenu);
+components.defineCustomElement('switch-page', SwitchPage);
 
 const browserHistory = new router.BrowserHistory();
 router.Route.use(browserHistory);
@@ -328,6 +347,7 @@ new router.Router({
     'modal': 'modal-page',
     'tabs': 'tabs-page',
     'radial-menu': 'radial-menu-page',
+    'switch': 'switch-page',
     '**': 'home-page'
 }, browserHistory);
 

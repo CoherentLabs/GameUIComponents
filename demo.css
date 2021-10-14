@@ -67,3 +67,12 @@ body {
     margin-bottom: 25px;
 }
 /* Router */
+
+/* Switch */
+.switch-components-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    justify-content: space-between;
+}
+/* Switch */
