@@ -1,0 +1,22 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+:root {
+	--default-color-white: #fff;
+	--default-color-blue: #25a5d6;
+	--default-color-gray: #e6e6e6;
+}
+
+input, textarea, button {
+	border-top-color: var(--default-color-blue);
+	border-right-color: var(--default-color-blue);
+	border-bottom-color: var(--default-color-blue);
+	border-left-color: var(--default-color-blue);
+	background-color: var(--default-color-white);
+}
+
+button, input[type="button"] {
+	background-color: var(--default-color-gray);
+}

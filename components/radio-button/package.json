@@ -1,0 +1,21 @@
+{
+  "name": "coherent-gameface-radio-button",
+  "version": "1.0.0",
+  "description": "A component for Coherent Labs Gameface.",
+  "main": "script.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/radio-button"
+  },
+  "keywords": [
+    "UI",
+    "Component"
+  ],
+  "dependencies": {
+    "coherent-gameface-components": "^1.0.1",
+    "postmessage-polyfill": "1.0.0",
+    "whatwg-fetch": "3.4.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
