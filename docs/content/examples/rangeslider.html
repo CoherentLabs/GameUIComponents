@@ -1,0 +1,99 @@
+---
+title: "Rangeslider"
+date: 2020-10-08T14:00:45Z
+draft: false
+---
+
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/components/coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="/components/rangeslider/horizontal.css">
+    <link rel="stylesheet" href="/components/rangeslider/vertical.css">
+
+    <style>
+        gameface-rangeslider {
+            /* reset the :root styles comming from Hugo's theme.min.css in order to show the thumb correctly */
+            line-height: normal;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <gameface-rangeslider orientation="horizontal" min="56" max="255" grid thumb>
+    </gameface-rangeslider>
+
+    <div class="flex-container">
+        <gameface-rangeslider orientation="horizontal" min="56" max="255" grid custom-handle='#myValue1'>
+        </gameface-rangeslider>
+        <span>Current value: <span id="myValue1"></span></span>
+    </div>
+
+    <gameface-rangeslider orientation="horizontal" min="56" max="255" grid thumb two-handles step="20">
+    </gameface-rangeslider>
+
+    <div class="flex-container">
+        <gameface-rangeslider orientation="horizontal" min="56" max="255" grid custom-handle-left="#myValue2"
+            custom-handle-right="#myValue3" two-handles step="20"></gameface-rangeslider>
+        <span>Current left value: <span id="myValue2"></span></span>
+        <span style="margin-left: 10px;">Current right value: <span id="myValue3"></span></span>
+    </div>
+
+    <gameface-rangeslider orientation="horizontal" grid thumb value="Hard"
+        values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]' step="20">
+    </gameface-rangeslider>
+
+    <div class="flex-container">
+        <gameface-rangeslider orientation="horizontal" grid custom-handle="#myValue4" value="Hard"
+            values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]' step="20">
+        </gameface-rangeslider>
+        <span>Current value: <span id="myValue4"></span></span>
+    </div>
+
+    <p class="flex-container">
+        <gameface-rangeslider orientation="vertical" min="56" max="255" grid thumb step="20">
+        </gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical" value="Hard"
+            values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]' grid thumb step="20">
+        </gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical" min="56" max="255" grid thumb two-handles step="20">
+        </gameface-rangeslider>
+    </p>
+
+    <div class="flex-container">
+        <div class="flex-container">
+            <gameface-rangeslider orientation="vertical" min="56" max="255" grid custom-handle="#myValue5" step="20">
+            </gameface-rangeslider>
+            <span>Current value: <span id="myValue5"></span></span>
+        </div>
+
+        <div class="flex-container">
+            <gameface-rangeslider orientation="vertical" value="Hard"
+                values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]' grid custom-handle="#myValue6" step="20">
+            </gameface-rangeslider>
+            <span>Current value: <span id="myValue6"></span></span>
+        </div>
+
+        <div class="flex-container">
+            <gameface-rangeslider orientation="vertical" min="56" max="255" grid custom-handle-left="#myValue7"
+                custom-handle-right="#myValue8" two-handles step="20">
+            </gameface-rangeslider>
+            <span>Current value: <span id="myValue7"></span></span>
+            <span style="margin-left: 10px;">Current value: <span id="myValue8"></span></span>
+        </div>
+
+    </div>
+
+    <script src="/components/rangeslider/bundle.js"></script>
+</body>
+
+</html>

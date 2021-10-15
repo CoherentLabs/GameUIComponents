@@ -489,6 +489,23 @@ const radialMenuTemplate = `
 <div>
 `;
 
+const automaticGridTemplate = `
+<gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable>
+    <component-slot data-name="item" col="3" row="2" class="box">1</component-slot>
+    <component-slot data-name="item" col="3" row="2" class="box">2</component-slot>
+    <component-slot data-name="item" col="8" row="8" class="box">3</component-slot>
+    <component-slot data-name="item" class="box">4</component-slot>
+    <component-slot data-name="item" class="box">5</component-slot>
+    <component-slot data-name="item" class="box">6</component-slot>
+</gameface-automatic-grid>
+`;
+
+const progressBarTemplate = `
+<div class="progress-bar-wrapper">
+<gameface-progress-bar id="progress-bar" data-animation-duration="500"></gameface-progress-bar>
+</div>
+`;
+
 const switchTemplate = `
 <div class="switch-components-wrapper">
     <gameface-switch>
@@ -530,5 +547,7 @@ export {
     modalTemplate,
     tabsTemplate,
     radialMenuTemplate,
+    automaticGridTemplate,
+    progressBarTemplate,
     switchTemplate,
 }

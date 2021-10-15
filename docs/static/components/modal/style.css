@@ -25,6 +25,13 @@
     text-align: center;
     z-index: 2;
     line-height: 30px;
+    background-color: var(--default-color-blue);
+    color: var(--default-color-gray);
+}
+
+.close-x:hover {
+    background-color: var(--default-color-gray);
+    color: var(--default-color-blue);
 }
 
 .modal {
@@ -34,7 +41,12 @@
     position: absolute;
     border-width: 3px;
     border-style: solid;
-    box-sizing: border-box;
+	box-sizing: border-box;
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
 }
 
 .modal-wrapper {
@@ -55,9 +67,10 @@
     margin-bottom: 20px;
     border-bottom-width: 2px;
     border-bottom-style: solid;
+    border-bottom-color: var(--default-color-blue);
     line-height: 50px;
     padding: 0px 10px;
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .body, .footer {

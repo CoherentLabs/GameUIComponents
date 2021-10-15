@@ -5,9 +5,12 @@ draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
-
 The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-dropdown`
 
 Usage
 ===================
@@ -43,6 +46,8 @@ To add options to the dropdown use the **option** slot:
     <dropdown-option slot="option">Lion</dropdown-option>
 </gameface-dropdown>
 ~~~~
+
+Adding the `id` attribute is **required** for the dropdown to work correctly.
 
 To manually select an option use the setSelected(`<optionIndex>`) function.
 For example - to select the Giraffe option from the dropdown above call:
@@ -81,3 +86,49 @@ const GamefaceDropdown = require('coherent-gameface-dropdown');
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
 bundler in order to be use them in a browser.
+
+
+## Multiple Select
+
+To enable multiple selection add a `multiple` attribute to the gameface-dropdown:
+
+~~~~{.html}
+<gameface-dropdown class="gameface-dropdown-component" multiple>
+    <dropdown-option slot="option" >Cat1</dropdown-option>
+    <dropdown-option slot="option">Parrot</dropdown-option>
+</gameface-dropdown>
+~~~~
+
+By default the multiple select will have its options list expanded and it won't have
+a header. If you would like to have a dropdown that looks like a single select, but
+supports multiple selected elements - add the `collapsable` attribute along with the `multiple` attribute:
+
+~~~~{.html}
+<gameface-dropdown class="gameface-dropdown-component" multiple collapsable>
+    <dropdown-option slot="option" >Cat1</dropdown-option>
+    <dropdown-option slot="option">Parrot</dropdown-option>
+</gameface-dropdown>
+~~~~
+
+### Limitations
+
+This is not a standard HTML select multiple. It is a custom HTML element that enables you to define a list of options.
+The `multiple` attribute makes it possible to select more than one option using the **Control** key and the mouse.
+
+These are some of the differences to the standard select that are not yet supported:
+
+- *Selecting multiple elements via keyboard*.
+- *Selecting a range of elements*.
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-scrollable-container/style.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/horizontal.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/vertical.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

@@ -5,9 +5,12 @@ draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
-
 The gameface-slider is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-slider`
 
 Usage
 ===================
@@ -24,7 +27,7 @@ The gameface-slider component comes with UMD and CJS builds.
 * import the gameface-slider component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-slider/umd/gameface-slider.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-slider/umd/slider.production.min.js"></script>
 ~~~~
 
 * add the gameface-slider component to your html:
@@ -48,7 +51,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceSlider from './node_modules/coherent-gameface-slider/umd/gameface-slider.production.min.js';
+import GamefaceSlider from './node_modules/coherent-gameface-slider/umd/slider.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -62,3 +65,14 @@ const GamefaceSlider = require('coherent-gameface-slider');
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
 bundler in order to be use them in a browser.
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="styles/horizontal.css">
+<link rel="stylesheet" href="styles/vertical.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.

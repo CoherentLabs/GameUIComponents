@@ -1,13 +1,16 @@
 ---
 title: "Menu"
-date: 2021-03-08T14:00:45Z
+date: 2020-10-08T14:00:45Z
 draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
-
 The gameface-menu is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
+Installation
+===================
+
+`npm i coherent-gameface-menu`
 
 Usage
 ===================
@@ -24,7 +27,7 @@ The gameface-menu component comes with UMD and CJS builds.
 * import the menu component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-menu/umd/gameface-menu.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-menu/umd/menu.production.min.js"></script>
 ~~~~
 
 * add the menu component to your html:
@@ -39,7 +42,7 @@ If you wish to import the modules using JavaScript you can remove the script tag
 which import the components and the gameface-menu from the node_modules folder and import them like this:
 
 ~~~~{.js}
-import components from 'gameface-components';
+import components from 'coherent-gameface-components';
 import menu from 'coherent-gameface-menu';
 ~~~~
 
@@ -48,7 +51,7 @@ modules from the node_modules folder. Alternatively you can import them directly
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import menu from './node_modules/coherent-gameface-menu/umd/gameface-menu.production.min.js';
+import menu from './node_modules/coherent-gameface-menu/umd/menu.production.min.js';
 ~~~~
 
 ## Usage with CJS modules:
@@ -143,3 +146,16 @@ It will also be automatically positioned.
     <menu-item slot="menu-item">Credits</menu-item>
 </gameface-menu>
 ~~~~
+
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="menus/menu.css">
+<link rel="stylesheet" href="menus/bottom/bottom.css">
+<link rel="stylesheet" href="menus/left/left.css">
+<link rel="stylesheet" href="menus/right/right.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.
