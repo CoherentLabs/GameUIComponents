@@ -19,7 +19,9 @@ describe('Modal Component', () => {
 
         document.body.appendChild(el);
 
-        setTimeout(done, 2000);
+        waitForStyles(() => {
+            done();
+        });
     });
 
     afterAll(() => {

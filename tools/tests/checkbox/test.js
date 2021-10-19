@@ -27,13 +27,13 @@ describe('Checkbox component', () => {
         const el = document.createElement('gameface-checkbox');
         document.body.appendChild(el);
 
-        setTimeout(() => {
+        waitForStyles(() => {
             done();
-        }, 1000);
+        });
     });
 
     it('Should be rendered', () => {
-        assert(document.querySelector('gameface-checkbox') !== 'null', 'Checkbox was not rendered.');
+        assert(document.querySelector('gameface-checkbox') !== null, 'Checkbox was not rendered.');
     });
 
     it('Should toggle state when it\'s clicked', () => {

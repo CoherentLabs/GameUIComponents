@@ -91,9 +91,7 @@ function setupDropdownTestPage() {
     document.body.appendChild(el);
 
     return new Promise(resolve => {
-        setTimeout(() => {
-            resolve();
-        }, 1000);
+        waitForStyles(resolve);
     });
 }
 
@@ -101,15 +99,6 @@ const firstValue = 'Cat';
 const secondValue = 'Dog';
 const changedValue = 'Giraffe';
 const lastValue = 'Last Parrot';
-
-function createDropdownAsyncSpec(callback, time = 1000) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            callback();
-            resolve();
-        }, time);
-    });
-}
 
 const KEY_CODES = {
     'ARROW_UP': 38,
@@ -154,35 +143,24 @@ describe('Dropdown Tests', () => {
             const dropdown = document.querySelector('gameface-dropdown');
             assert(dropdown.querySelector('.selected').textContent === firstValue, 'Selected value is not the first value.');
         });
-    });
-
-
-    describe('Dropdown Component', () => {
-        beforeEach(function (done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
-        });
 
         it('Should toggle the options list on click', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedElPlaceholder = dropdown.querySelector('.selected');
 
             click(selectedElPlaceholder);
-            await createDropdownAsyncSpec(() => {
+
+            await createAsyncSpec(() => {
                 assert(dropdown.querySelector('.options-container').classList.contains('hidden') === false, 'Dropdown has class hidden.');
             });
 
             click(selectedElPlaceholder);
-            return createDropdownAsyncSpec(() => {
+
+            return createAsyncSpec(() => {
                 assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not have class hidden.');
             });
         });
-    });
 
-
-    describe('Dropdown Component', () => {
-        beforeEach(function(done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
-        });
         it('Should change the selected option on click', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedElPlaceholder = dropdown.querySelector('.selected');
@@ -191,75 +169,56 @@ describe('Dropdown Tests', () => {
 
             const option = dropdown.allOptions[2];
             click(option);
-            return createDropdownAsyncSpec(() => {
+
+            return createAsyncSpec(() => {
                 assert(dropdown.querySelector('.selected').textContent === changedValue, `Changed value is not ${changedValue}`);
             });
-        });
-    });
-
-
-    describe('Dropdown Component', () => {
-        beforeEach(function (done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
         });
 
         it('Should select using keyboard ARROW_DOWN and ARROW_UP keys', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedElPlaceholder = dropdown.querySelector('.selected');
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 click(selectedElPlaceholder);
             });
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 dispatchKeyboardEvent(KEY_CODES.ARROW_DOWN, dropdown);
             });
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 assert(dropdown.value === secondValue, `Dropdown value is not ${secondValue}`);
             });
 
             dispatchKeyboardEvent(KEY_CODES.ARROW_UP, dropdown);
 
-            return createDropdownAsyncSpec(() => {
+            return createAsyncSpec(() => {
                 assert(dropdown.value === firstValue, `Dropdown value is not ${firstValue}`);
             });
-        });
-    });
-
-
-    describe('Dropdown Component', () => {
-        beforeEach(function(done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
         });
 
         it('Should select using keyboard ARROW_RIGHT and ARROW_LEFT keys', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedElPlaceholder = dropdown.querySelector('.selected');
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 click(selectedElPlaceholder);
             });
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 dispatchKeyboardEvent(KEY_CODES.ARROW_RIGHT, dropdown);
             });
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 assert(dropdown.value === secondValue, `Dropdown value is not ${secondValue}`);
             });
 
             dispatchKeyboardEvent(KEY_CODES.ARROW_LEFT, dropdown);
-            return createDropdownAsyncSpec(() => {
+
+            return createAsyncSpec(() => {
                 assert(dropdown.value === firstValue, `Dropdown value is not ${firstValue}`);
             });
-        });
-    });
-
-
-    describe('Dropdown Component', () => {
-        beforeEach(function (done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
         });
 
         it('Should select using keyboard HOME and END keys', async () => {
@@ -281,58 +240,39 @@ describe('Dropdown Tests', () => {
 
             assert(dropdown.value === firstValue, `Dropdown value is not ${firstValue}`);
         });
-    });
-
-    describe('Dropdown Component', () => {
-        beforeEach(function (done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
-        });
 
         it('Should close the options list using keyboard ENTER key', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedElPlaceholder = dropdown.querySelector('.selected');
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 click(selectedElPlaceholder);
             });
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 dispatchKeyboardEvent(KEY_CODES.ENTER, dropdown);
             });
-            return createDropdownAsyncSpec(() => {
+
+            return createAsyncSpec(() => {
                 assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not contain class hidden.');
             });
-        });
-    });
-
-
-    describe('Dropdown Component', () => {
-        beforeEach(function (done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
         });
 
         it('Should close the options list using keyboard ESC key', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedElPlaceholder = dropdown.querySelector('.selected');
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 click(selectedElPlaceholder);
             });
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 dispatchKeyboardEvent(KEY_CODES.ESCAPE, dropdown);
             });
 
-            return createDropdownAsyncSpec(() => {
+            return createAsyncSpec(() => {
                 assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not contain class hidden.');
             });
-        });
-    });
-
-
-    describe('Dropdown Component', () => {
-        beforeEach(function (done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
         });
 
         it('Should close the options list on clicking outside of the dropdown', function (done) {
@@ -340,16 +280,10 @@ describe('Dropdown Tests', () => {
 
             click(document.querySelector('.dropdown-test-wrapper'));
 
-            createDropdownAsyncSpec(() => {
+            createAsyncSpec(() => {
                 assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not have class hidden.');
                 done();
             });
-        });
-    });
-
-    describe('Dropdown Component', () => {
-        beforeEach(function(done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
         });
 
         it('Should select the next enabled option', async () => {
@@ -358,25 +292,20 @@ describe('Dropdown Tests', () => {
 
             click(selectedElPlaceholder);
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 const option = dropdown.allOptions[3];
                 click(option);
-            }, 100);
-            await createDropdownAsyncSpec(() => {
+            });
+
+            await createAsyncSpec(() => {
                 assert(document.querySelector('gameface-dropdown').querySelector('.selected').textContent === 'Lion', 'Dropdown value is not Lion.');
                 click(selectedElPlaceholder);
                 dispatchKeyboardEvent(KEY_CODES.ARROW_RIGHT, dropdown);
-            }, 100);
-            return createDropdownAsyncSpec(() => {
+            });
+
+            return createAsyncSpec(() => {
                 assert(document.querySelector('gameface-dropdown').value === 'Eagle', 'Dropdown value is not Eagle.');
-            }, 100);
-        });
-    });
-
-
-    describe('Dropdown Component', () => {
-        beforeEach(function(done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
+            });
         });
 
         it('Should select the previous enabled option', async () => {
@@ -385,16 +314,18 @@ describe('Dropdown Tests', () => {
 
             click(selectedElPlaceholder);
 
-            await createDropdownAsyncSpec(() => {
+            await createAsyncSpec(() => {
                 const option = dropdown.allOptions[5];
                 click(option);
             });
-            await createDropdownAsyncSpec(() => {
+
+            await createAsyncSpec(() => {
                 assert(document.querySelector('gameface-dropdown').querySelector('.selected').textContent === 'Eagle', 'Dropdown value is not equal to Eagle.');
                 click(selectedElPlaceholder);
                 dispatchKeyboardEvent(KEY_CODES.ARROW_LEFT, dropdown);
             });
-            await createDropdownAsyncSpec(() => {
+
+            return createAsyncSpec(() => {
                 assert(document.querySelector('gameface-dropdown').value === 'Lion', 'Dropdown value is not equal to Lion.');
             });
         });

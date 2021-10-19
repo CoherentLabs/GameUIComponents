@@ -3,16 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-function createAsyncSpec(callback, time = 1000) {
-	return new Promise(resolve => {
-		setTimeout(() => {
-			callback();
-			resolve();
-		}, time);
-	});
-}
-
-function setupRadialMenuTestPage() {
+async function setupRadialMenuTestPage() {
 	const template = `
 	<gameface-radial-menu id="radial-menu-one"
 		data-name="Radial Menu Name Test"
@@ -40,16 +31,15 @@ function setupRadialMenuTestPage() {
 
 	document.body.appendChild(el);
 
-	return new Promise(resolve => {
-		setTimeout(() => {
-			const radialMenuOne = document.getElementById('radial-menu-one');
-			// Provide the items.
-			radialMenuOne.items = itemsModel.items;
-			// the .items setter triggers a DOM change, so we wait a second to make
-			// sure the DOM is ready
-			setTimeout(resolve, 1000);
-		}, 1000);
+	await createAsyncSpec(() => {
+		const radialMenuOne = document.getElementById('radial-menu-one');
+		// Provide the items.
+		radialMenuOne.items = itemsModel.items;
 	});
+
+	// the .items setter triggers a DOM change, so we wait a bit to make
+	// sure the DOM is ready.
+	await createAsyncSpec();
 }
 
 function dispatchKeyboardEventKeyDown(keyCode, element) {
@@ -79,43 +69,19 @@ describe('Radial Menu Tests', () => {
 		it('Should be created', () => {
 			assert(document.querySelector('gameface-radial-menu').id === 'radial-menu-one', 'The id of the radial menu is not radial-menu-one.');
 		});
-	});
-
-	describe('Radial Menu', () => {
-		beforeEach(function (done) {
-			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
-		});
 
 		it('Should set the provided name', () => {
 			assert(document.querySelector('.radial-menu-center-text').textContent === 'Radial Menu Name Test', 'The textContent of the radial menu is not "Radial Menu Name Test".');
 		});
-	});
-
-	describe('Radial Menu', () => {
-		beforeEach(function (done) {
-			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
-		});
 
 		it('Should have items and their count to be 8', () => {
 			assert(document.querySelectorAll('.radial-menu-item').length === 8, 'The length of .radial-menu-item elements is not 8.');
-		});
-	});
-
-	describe('Radial Menu', () => {
-		beforeEach(function (done) {
-			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
 		it('Should have background image url on a populated element', () => {
 			const backgroundImageUrl = document.querySelectorAll('.radial-menu-item-icon')[2].style.backgroundImage;
 
 			assert(backgroundImageUrl.includes('weapon3') === true, `The background image url is not "url("./images/weapon3.png")".`);
-		});
-	});
-
-	describe('Radial Menu', () => {
-		beforeEach(function (done) {
-			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
 		it('Should have transform rotate on a populated element', () => {
@@ -124,29 +90,16 @@ describe('Radial Menu Tests', () => {
 			assert((transformValue === 'rotate(-315deg)' || transformValue === 'rotateZ(-315deg)'),
 				'The transform property of the radial-menu-item-icon is not "rotate(-315deg)" nor "rotateZ(-315deg)".');
 		});
-	});
 
-	describe('Radial Menu', () => {
-		beforeEach(function (done) {
-			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
-		});
-
-		it('Should have opened on keydown', function (done) {
+		it('Should have opened on keydown', async () => {
 			const radialMenu = document.querySelector('gameface-radial-menu');
 
 			dispatchKeyboardEventKeyDown(16, window);
 
 			// The menu is opened 2 frames after the opening function is called.
-			waitForStyles(() => {
+			return createAsyncSpec(() => {
 				assert(radialMenu.classList.contains('radial-menu-open') === true, 'Radial menu did not open.');
-				done();
-			}, 2);
-		});
-	});
-
-	describe('Radial Menu', () => {
-		beforeEach(function (done) {
-			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
+			});
 		});
 
 		it('Should have closed on keyup after opening', async () => {
@@ -165,12 +118,6 @@ describe('Radial Menu Tests', () => {
 			return createAsyncSpec(() => {
 				assert(radialMenu.classList.contains('radial-menu-open') === false, 'Radial menu has not closed.');
 			});
-		});
-	});
-
-	describe('Radial Menu', () => {
-		beforeEach(function (done) {
-			setupRadialMenuTestPage().then(done).catch(err => console.error(err));
 		});
 
 		it('Should successfully attach to and use custom event', async () => {

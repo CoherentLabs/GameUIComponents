@@ -209,15 +209,6 @@ const routeIdToPageMap = {
     'missing': 'not-found-page',
 };
 
-function createAsyncSpec(callback, frames = 2) {
-    return new Promise(resolve => {
-        components.waitForFrames(() => {
-            callback();
-            resolve();
-        }, frames)
-    });
-}
-
 function setupRouterTestPage(history = routerHistories.BROWSER, confirmation = false) {
     const el = document.createElement('div');
     el.innerHTML = template;
@@ -263,8 +254,8 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
         });
 
         beforeEach(function (done) {
-            setupRouterTestPage(routerHistory, confirmation).then(done).catch(err => console.errror(err));
-        }, 3000);
+            setupRouterTestPage(routerHistory, confirmation).then(done).catch(err => console.error(err));
+        });
 
         it('Should be rendered', async () => {
             return assert(document.querySelector('gameface-route') !== null, 'The router component is not rendered.');
@@ -327,7 +318,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
 
             return createAsyncSpec(() => {
                 assert(document.querySelector(routeIdToPageMap['vowel']) !== null, 'Current page is not "vowel".');
-            })
+            });
         });
 
         it('Should show consonant page', async () => {
@@ -335,7 +326,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
 
             return createAsyncSpec(() => {
                 assert(document.querySelector(routeIdToPageMap['consonant']) !== null, 'Current page is not "consonant".');
-            })
+            });
         });
 
         it('Should automatically add active-link class to consonant page route element', async () => {

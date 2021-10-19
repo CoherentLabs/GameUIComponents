@@ -12,7 +12,7 @@ const loadSwitch = ({ type, disabled, checked, checkText, uncheckText }) => {
     document.body.appendChild(wrapper.firstChild);
 
     return new Promise((resolve) => {
-        waitForStyles(resolve, 3);
+        waitForStyles(resolve);
     });
 };
 

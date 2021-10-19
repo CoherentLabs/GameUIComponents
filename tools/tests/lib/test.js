@@ -2,15 +2,6 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-function createAsyncSpec(callback, time = 1000) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            callback();
-            resolve();
-        }, time);
-    });
-}
-
 
 describe('Components Library', () => {
     afterAll(() => {
@@ -220,16 +211,14 @@ describe('Components Library', () => {
 
         document.body.appendChild(testWrapper);
         return createAsyncSpec(() => {
-            waitForStyles(() => {
-                const parentElements = document.querySelectorAll('parent-el');
-                for (let i = 0; i < parentElements.length; i++) {
-                    assert(parentElements[i].timesRendered === 1, `Parent element ${parentElements[i]} was rendered more than once.`);
-                }
-                const childElements = document.querySelectorAll('child-el');
-                for (let i = 0; i < childElements.length; i++) {
-                    assert(childElements[i].timesRendered === 1, `Child element ${childElements[i]} was rendered more than once.`);
-                }
-            });
+            const parentElements = document.querySelectorAll('parent-el');
+            for (let i = 0; i < parentElements.length; i++) {
+                assert(parentElements[i].timesRendered === 1, `Parent element ${parentElements[i]} was rendered more than once.`);
+            }
+            const childElements = document.querySelectorAll('child-el');
+            for (let i = 0; i < childElements.length; i++) {
+                assert(childElements[i].timesRendered === 1, `Child element ${childElements[i]} was rendered more than once.`);
+            }
         });
     });
 });
