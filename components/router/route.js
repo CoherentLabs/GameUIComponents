@@ -33,10 +33,30 @@ class Route {
 class GamefaceRoute extends HTMLElement {
     constructor() {
         super();
-
         this.onClick = this.onClick.bind(this);
+        this.onHistoryChange = this.onHistoryChange.bind(this);
 
-        
+        window.removeEventListener('onHistoryChange', this.onHistoryChange);
+        window.addEventListener('onHistoryChange', this.onHistoryChange);
+    }
+
+    /**
+     * Called when the custom onHistoryChange event is dispatched.
+     * Checks if there is an activeClass and adds/removes it depending on
+     * whether the current route matches the route element's to attribute.
+     *
+     * @param {Event} event
+    */
+    onHistoryChange(event) {
+        const activeClass = this.getAttribute('activeClass');
+        const url = this.getAttribute('to');
+
+        if (!activeClass || !url) return;
+        if (url === event.detail) {
+            this.classList.add(activeClass);
+        } else {
+            this.classList.remove(activeClass);
+        }
     }
 
     /**
@@ -45,6 +65,9 @@ class GamefaceRoute extends HTMLElement {
      * @param {MouseEvent} event - the event object
      */
     onClick(event) {
+        const activeClass = this.getAttribute('activeClass');
+        if (activeClass) this.classList.add(activeClass);
+
         const route = event.currentTarget;
         const url = route.getAttribute('to');
 
