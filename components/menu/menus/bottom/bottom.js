@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import style from './bottom.css';
 import GamefaceMenu from '../menu';
 
 const KEYCODES = components.KEYCODES;

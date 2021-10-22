@@ -5,8 +5,6 @@
 
 import components from 'coherent-gameface-components';
 import template from './template.html';
-import theme from './coherent-gameface-components-theme.css';
-import style from './style.css';
 
 const KEYCODES = components.KEYCODES;
 
