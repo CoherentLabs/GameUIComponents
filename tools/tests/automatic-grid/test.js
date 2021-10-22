@@ -15,7 +15,7 @@ const loadGrid = () => {
     document.body.appendChild(wrapper.children[0]);
 
     return new Promise((resolve) => {
-        setTimeout(() => resolve(), 1000);
+        waitForStyles(resolve);
     });
 };
 

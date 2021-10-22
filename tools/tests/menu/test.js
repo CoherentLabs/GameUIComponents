@@ -36,7 +36,7 @@ function setupMenuTestPage() {
     document.body.appendChild(el);
 
     return new Promise(resolve => {
-        setTimeout(resolve, 1000);
+        waitForStyles(resolve);
     });
 }
 
@@ -48,7 +48,6 @@ describe('Menu Component Tests', () => {
         if (currentElement) {
             currentElement.parentElement.removeChild(currentElement);
         }
-
     });
 
     describe('Menu Component', () => {
@@ -59,39 +58,22 @@ describe('Menu Component Tests', () => {
         it('Should be rendered', function () {
             assert(document.querySelectorAll('menu-item')[0].textContent === 'Start Game', 'The textContent of the menu is not Start Game');
         });
-    });
-
-
-    describe('Menu Component', () => {
-        beforeEach(function (done) {
-            setupMenuTestPage().then(done);
-        });
 
         it('Should open a nested menu', () => {
             click(document.getElementById("settings"), { bubbles: true });
             assert(document.querySelector('gameface-left-menu').style.display === 'flex', 'The display style of the menu is not flex.');
         });
-    });
-
-    describe('Menu Component', () => {
-        beforeEach(function (done) {
-            setupMenuTestPage().then(done);
-        }, 3000);
 
         it('Should select an element', () => {
             click(document.getElementById("game"), { bubbles: true });
             assert(document.getElementById("game").classList.contains('active-menu-item') === true, 'The selected menu element is does not have value = game');
         });
-    });
-
-    describe('Menu Component', () => {
-        beforeEach(function (done) {
-            setupMenuTestPage().then(done);
-        }, 3000);
 
         it('Should not select a disabled element', () => {
-            click(document.getElementById("hero_gallery"), { bubbles: true });
-            assert(document.getElementById("hero_gallery").classList.contains('active-menu-item') === false, 'Selected menu element is hero_gallery, but it should not be it.');
+            const heroGallery = document.getElementById("hero_gallery");
+
+            click(heroGallery, { bubbles: true });
+            assert(heroGallery.classList.contains('active-menu-item') === false, 'Selected menu element is hero_gallery, but it should not be it.');
         });
     });
 });

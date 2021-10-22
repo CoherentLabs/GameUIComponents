@@ -2,14 +2,6 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-function createAsyncSpec(callback, time = 500) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            callback();
-            resolve();
-        }, time);
-    });
-}
 
 describe('Scrollable Container Component', () => {
     afterAll(() => {
@@ -42,7 +34,9 @@ describe('Scrollable Container Component', () => {
 
         document.body.insertBefore(el, document.body.firstElementChild);
 
-        setTimeout(done, 3000);
+        waitForStyles(() => {
+            done();
+        })
     });
 
     it('Should be rendered', () => {
@@ -50,8 +44,11 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should show scrollbar if the content overflows', () => {
-        const style = getComputedStyle(document.querySelector('.slider-component')).display;
-        assert(style === 'block', 'The scrollbr is not visible.');
+        const style = getComputedStyle(document.querySelector('.slider-component'));
+
+        return createAsyncSpec(() => {
+            assert(style.display === 'block', 'The scrollbar is not visible.');
+        });
     });
 
     it('Should scroll using the control buttons', async () => {
@@ -61,11 +58,11 @@ describe('Scrollable Container Component', () => {
         await createAsyncSpec(() => {
             assert(parseInt(getComputedStyle(handle).top) === 0, 'The scrollbar handle is not at the top.');
             downButton.dispatchEvent(new CustomEvent('mousedown', {}));
-        }, 1000);
+        });
 
         await createAsyncSpec(() => {
             downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-        }, 1000);
+        });
 
         return createAsyncSpec(() => {
             assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');

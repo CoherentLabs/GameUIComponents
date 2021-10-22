@@ -32,18 +32,9 @@ function setupMultipleDropdownTestPage(template) {
     document.body.appendChild(el);
 
     return new Promise(resolve => {
-        setTimeout(() => {
-            resolve();
-        }, 1000);
+        waitForStyles(resolve);
     });
 }
-
-function dispatchKeyboardEvent(keyCode, element) {
-    element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: keyCode }));
-}
-
-const expectedValues = ['Cat', 'Parrot', 'Parrot1'];
-const expectedValuesAfterDeselect = ['Cat', 'Parrot'];
 
 
 describe('Multiple Dropdown Test', () => {
@@ -60,9 +51,12 @@ describe('Multiple Dropdown Test', () => {
             setupMultipleDropdownTestPage(multipleDropdownTemplate).then(done).catch(err => console.error(err));
         });
 
-        it('Should have its options list expanded', () => {
-            assert(document.querySelector('.options-container').classList.contains('hidden') === false,
-                'Options container is not hidden.');
+        it('Should have its options list expanded', async () => {
+            // Wait 6 frames because the multiple (and not collapsable) dropdown opens after 6 frames.
+            return createAsyncSpec(() => {
+                assert(document.querySelector('.options-container').classList.contains('hidden') === false,
+                  'Options container is hidden.');
+            }, 6);
         });
 
         it('Should select multiple elements', () => {
@@ -75,12 +69,6 @@ describe('Multiple Dropdown Test', () => {
 
             assert(dropdown.selectedOptions.length === 3,
                 `Expected selected options length to be 3, got ${dropdown.selectedOptions.length}.`);
-        });
-    });
-
-    describe('Multiple Dropdown Component', () => {
-        beforeEach(function (done) {
-            setupMultipleDropdownTestPage(multipleDropdownTemplate).then(done).catch(err => console.error(err));
         });
 
         it('Should deselect multiple elements', () => {
@@ -95,13 +83,7 @@ describe('Multiple Dropdown Test', () => {
             options[2].onClick({ target: options[2], ctrlKey: true });
 
             assert(dropdown.selectedOptions.length === 1,
-                `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
-        });
-    });
-
-    describe('Multiple Dropdown Component', () => {
-        beforeEach(function (done) {
-            setupMultipleDropdownTestPage(multipleDropdownTemplate).then(done).catch(err => console.error(err));
+              `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
         });
 
         it('Should select multiple elements and then select 1', () => {
@@ -115,7 +97,7 @@ describe('Multiple Dropdown Test', () => {
             options[0].onClick({ target: options[0] });
 
             assert(dropdown.selectedOptions.length === 1,
-                `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
+              `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
         });
     });
 

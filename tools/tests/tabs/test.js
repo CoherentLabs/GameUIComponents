@@ -27,9 +27,9 @@ describe('Tabs Components', () => {
         const el = document.createElement('gameface-tabs');
         document.body.appendChild(el);
 
-        setTimeout(() => {
+        waitForStyles(() => {
             done();
-        }, 2000);
+        });
     });
 
     it('Should be rendered', () => {
