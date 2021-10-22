@@ -35,9 +35,10 @@ class GamefaceRoute extends HTMLElement {
         super();
         this.onClick = this.onClick.bind(this);
         this.onHistoryChange = this.onHistoryChange.bind(this);
+    }
 
+    disconnectedCallback() {
         window.removeEventListener('onHistoryChange', this.onHistoryChange);
-        window.addEventListener('onHistoryChange', this.onHistoryChange);
     }
 
     /**
@@ -65,9 +66,6 @@ class GamefaceRoute extends HTMLElement {
      * @param {MouseEvent} event - the event object
      */
     onClick(event) {
-        const activeClass = this.getAttribute('activeClass');
-        if (activeClass) this.classList.add(activeClass);
-
         const route = event.currentTarget;
         const url = route.getAttribute('to');
 
@@ -79,6 +77,7 @@ class GamefaceRoute extends HTMLElement {
 
     connectedCallback() {
         this.addEventListener('click', this.onClick);
+        window.addEventListener('onHistoryChange', this.onHistoryChange);
     }
 }
 
