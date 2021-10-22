@@ -24,6 +24,7 @@ class History {
      * Will call the history change callback if there is one
      */
     _dispatchHistoryChange() {
+        window.dispatchEvent(new CustomEvent('onHistoryChange', {detail: this.currentState}))
         if (!this.onBeforeNavigation) {
             if (this.onHistoryChange) this.onHistoryChange(this.currentState);
             return;

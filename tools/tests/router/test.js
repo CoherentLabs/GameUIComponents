@@ -15,7 +15,7 @@ const template = `<div>
 <gameface-route id="documentation" to="/documentation">Documentation</gameface-route>
 <gameface-route id="numbers" to="/numbers">Numbers</gameface-route>
 <gameface-route id="vowel" to="/letters/vowel">Vowels</gameface-route>
-<gameface-route id="consonant" to="/letters/consonant">Consonant</gameface-route>
+<gameface-route activeClass="active-link" id="consonant" to="/letters/consonant">Consonant</gameface-route>
 <gameface-route id="missing" to="/missing">Missing Page</gameface-route>
 <router-view></router-view>
 <div>`;
@@ -335,6 +335,23 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
 
             return createAsyncSpec(() => {
                 assert(document.querySelector(routeIdToPageMap['consonant']) !== null, 'Current page is not "consonant".');
+            })
+        });
+
+        it('Should automatically add active-link class to consonant page route element', async () => {
+            await navigateTo('consonant', confirmation);
+
+            return createAsyncSpec(() => {
+                assert(document.querySelector('gameface-route[to="/letters/consonant"]').classList.contains('active-link') === true, 'Active class name was not added.');
+            })
+        });
+
+        it('Should automatically remove active-link class to consonant page route element', async () => {
+            await navigateTo('consonant', confirmation);
+            await navigateTo('vowel', confirmation);
+
+            return createAsyncSpec(() => {
+                assert(document.querySelector('gameface-route[to="/letters/consonant"]').classList.contains('active-link') === false, 'Active class name was not removed.');
             })
         });
 

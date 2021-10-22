@@ -98,6 +98,19 @@ The `<gameface-route>` has an attribute called **to**. It specifies the path to 
 <gameface-route to="/start-game">Start Game</gameface-route>
 ~~~~
 
+You can specify a class name that will be added to the `<gameface-route>` element when it is active.
+To do so define your style using css:
+
+~~~~{.css}
+.myActiveStyle {
+    color: blue;
+}
+~~~~
+
+And then add it as an attribute of the `<gameface-route>`:
+
+`<gameface-route activeClass="myActiveStyle">`
+
 ### The RouterView Element
 
 The `<router-view>` element is a placeholder for the components that will be rendered
