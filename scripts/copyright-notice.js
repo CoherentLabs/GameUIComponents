@@ -1,15 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 
-const COPY_RIGHT_NOTICE_JS_CSS = `/*---------------------------------------------------------------------------------------------
+const COPYRIGHT_NOTICE_JS_CSS = `/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/\n\n`;
-const COPY_RIGHT_NOTICE_JS_CSS_CRLF = COPY_RIGHT_NOTICE_JS_CSS.replace(/\n/g, '\r\n');
-const COPY_RIGHT_NOTICE_HTML_MD = `<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->\n`;
-const COPY_RIGHT_NOTICE_HTML_MD_CRLF = COPY_RIGHT_NOTICE_HTML_MD.replace(/\n/g, '\r\n');
-const OLD_COPY_RIGHT_NOTICE_HTML_MD = `<!--Copyright (c) Coherent Labs AD. All rights reserved. -->\n`;
-const OLD_COPY_RIGHT_NOTICE_HTML_MD_CRLF = OLD_COPY_RIGHT_NOTICE_HTML_MD.replace(/\n/g, '\r\n');
+const COPYRIGHT_NOTICE_JS_CSS_CRLF = COPYRIGHT_NOTICE_JS_CSS.replace(/\n/g, '\r\n');
+const COPYRIGHT_NOTICE_HTML_MD = `<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->\n`;
+const COPYRIGHT_NOTICE_HTML_MD_CRLF = COPYRIGHT_NOTICE_HTML_MD.replace(/\n/g, '\r\n');
+const OLD_COPYRIGHT_NOTICE_HTML_MD = `<!--Copyright (c) Coherent Labs AD. All rights reserved. -->\n`;
+const OLD_COPYRIGHT_NOTICE_HTML_MD_CRLF = OLD_COPYRIGHT_NOTICE_HTML_MD.replace(/\n/g, '\r\n');
 const FILE_EXTENSIONS = {
     JS: '.js',
     CSS: '.css',
@@ -20,7 +20,8 @@ const COMPONENTS_FOLDER_PATH = path.join(__dirname, '../components');
 const EXCLUDED_FILES = new Set(['package.json', 'package-lock.json', 'bundle.js']);
 const INCLUDED_EXTENSIONS = new Set([FILE_EXTENSIONS.JS, FILE_EXTENSIONS.CSS, FILE_EXTENSIONS.HTML, FILE_EXTENSIONS.MD]);
 const EXCLUDED_FOLDERS = new Set(['node_modules', 'umd', 'cjs', 'dist']);
-let addCopyrights = false, allCheckedFilesHaveCopyrightNotice = true;
+let addCopyrights = false;
+let allCheckedFilesHaveCopyrightNotice = true;
 
 /**
  * Checks if the file is valid for checking/adding a copyright notice
@@ -28,8 +29,8 @@ let addCopyrights = false, allCheckedFilesHaveCopyrightNotice = true;
  * @returns {boolean}
  */
 function shouldCheckFileForCopyrights(filePath) {
-    const fileName = path.basename(filePath),
-        fileExtension = path.extname(fileName);
+    const fileName = path.basename(filePath);
+    const fileExtension = path.extname(fileName);
 
     if (EXCLUDED_FOLDERS.has(fileName) ||
         EXCLUDED_FILES.has(fileName)) return false;
@@ -40,24 +41,24 @@ function shouldCheckFileForCopyrights(filePath) {
 
 /**
  * Checks whether the file has the copyright notice or not.
- * @param {string} fileBuffer
+ * @param {string} fileContent
  * @param {string} fileExtension
  * @returns {boolean}
  */
-function fileHasCopyrightsIncluded(fileBuffer, fileExtension) {
+function fileHasCopyrightsIncluded(fileContent, fileExtension) {
     switch (fileExtension) {
         case FILE_EXTENSIONS.JS:
         case FILE_EXTENSIONS.CSS:
-            return fileBuffer.indexOf(COPY_RIGHT_NOTICE_JS_CSS) !== -1 || fileBuffer.indexOf(COPY_RIGHT_NOTICE_JS_CSS_CRLF) !== -1;
+            return fileContent.indexOf(COPYRIGHT_NOTICE_JS_CSS) !== -1 || fileContent.indexOf(COPYRIGHT_NOTICE_JS_CSS_CRLF) !== -1;
         case FILE_EXTENSIONS.HTML:
         case FILE_EXTENSIONS.MD:
-            return fileBuffer.indexOf(COPY_RIGHT_NOTICE_HTML_MD) !== -1 || fileBuffer.indexOf(COPY_RIGHT_NOTICE_HTML_MD_CRLF) !== -1;
+            return fileContent.indexOf(COPYRIGHT_NOTICE_HTML_MD) !== -1 || fileContent.indexOf(COPYRIGHT_NOTICE_HTML_MD_CRLF) !== -1;
         default: return false;
     }
 }
 
 /**
- * Will add the copyright notice at the begining of the file
+ * Will add the copyright notice at the beginning of the file
  * @param {string} fileContent
  * @param {string} fileExtension
  * @param {string} filePath
@@ -68,19 +69,19 @@ function addCopyrightsToFile(fileContent, fileExtension, filePath) {
     switch (fileExtension) {
         case FILE_EXTENSIONS.JS:
         case FILE_EXTENSIONS.CSS:
-            buffer = COPY_RIGHT_NOTICE_JS_CSS_CRLF + fileContent;
+            buffer = COPYRIGHT_NOTICE_JS_CSS_CRLF + fileContent;
             break;
         case FILE_EXTENSIONS.HTML:
         case FILE_EXTENSIONS.MD:
-            const hasOldLicence = fileContent.indexOf(OLD_COPY_RIGHT_NOTICE_HTML_MD) !== -1;
-            const hasOldCRLFLicence = fileContent.indexOf(OLD_COPY_RIGHT_NOTICE_HTML_MD_CRLF) !== -1;
+            const hasOldLicence = fileContent.indexOf(OLD_COPYRIGHT_NOTICE_HTML_MD) !== -1;
+            const hasOldCRLFLicence = fileContent.indexOf(OLD_COPYRIGHT_NOTICE_HTML_MD_CRLF) !== -1;
 
             if (hasOldLicence) {
-                buffer = fileContent.replace(OLD_COPY_RIGHT_NOTICE_HTML_MD, COPY_RIGHT_NOTICE_HTML_MD_CRLF);
+                buffer = fileContent.replace(OLD_COPYRIGHT_NOTICE_HTML_MD, COPYRIGHT_NOTICE_HTML_MD_CRLF);
             } else if (hasOldCRLFLicence) {
-                buffer = fileContent.replace(OLD_COPY_RIGHT_NOTICE_HTML_MD_CRLF, COPY_RIGHT_NOTICE_HTML_MD_CRLF);
+                buffer = fileContent.replace(OLD_COPYRIGHT_NOTICE_HTML_MD_CRLF, COPYRIGHT_NOTICE_HTML_MD_CRLF);
             } else {
-                buffer = COPY_RIGHT_NOTICE_HTML_MD_CRLF + fileContent;
+                buffer = COPYRIGHT_NOTICE_HTML_MD_CRLF + fileContent;
             }
             break;
         default: break;
@@ -112,7 +113,7 @@ function checkCopyrightNotesAtBeginning(filePath) {
 }
 
 /**
- * Will check/add the copyright notice to a file. If the file is directory then will check it files recursively
+ * Will check/add the copyright notice to a file. If the file is directory then will check for files recursively
  * @param {string} filePath
  */
 function checkCopyrightsInFile(filePath) {
@@ -149,13 +150,14 @@ function main() {
     checkCopyrightsInDirectory(COMPONENTS_FOLDER_PATH);
 
     if (!addCopyrights && !allCheckedFilesHaveCopyrightNotice) {
-        console.log(`There are files that are missing the copyright notice! Run the 'npm run copyrights:add' that will automatically fix the issue!`)
-        process.exit(1);
+        console.log(`There are files that are missing the copyright notice! Run the 'npm run add:copyright' that will automatically fix the issue!`)
+        process.exitCode = 1;
+        return;
     }
 
     if (addCopyrights && !allCheckedFilesHaveCopyrightNotice) {
         console.log('Successfully added copyright notice to all the files that have missed it!');
-        process.exit(0);
+        return;
     }
 
     console.log('All the files have the copyright notice!')

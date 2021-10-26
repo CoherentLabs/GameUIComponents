@@ -1,4 +1,4 @@
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
 Installation
