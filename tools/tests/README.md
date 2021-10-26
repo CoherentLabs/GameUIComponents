@@ -23,14 +23,49 @@ All tests are located in tools/tests. There is a separate folder for each compon
 The name of the folder should be the same as the name of the folder that contains the
 source of the component. For example the test folder for the radial-menu should be radial-menu.
 This is required in order to simplify the setup process that copies the source bundles into
-the test folders. All tests are named **test.js**. The `karma.config.js` file
-contains the list of tests that are going to be executed. If you need to disable a test or
-add a new one - edit the files property in the configuration.
+the test folders. All tests are named **test.js**.
+
+# Configuration
+
+The `karma.config.js` file contains the list of tests that are going to be
+executed. If you need to disable a test or add a new one - edit the files
+property in the configuration.
+
+karma.conf.js:
+~~~~{.js}
+ files: [
+      { pattern: '**/**/*.css', included: true, type: 'css' },
+      { pattern: 'lib/components.development.js', served: true },
+      { pattern: 'actions.js', served: true },
+      '**/scrollable-container/*.js',
+      '**/checkbox/**.js',
+      '**/dropdown/*.js',
+      '**/lib/*.js',
+      '**/menu/*.js',
+      // '**/modal/*.js', comment to disable
+      // '**/radial-menu/*.js', disabled test
+      '**/router/*.js',
+      '**/tabs/*.js',
+      '**/progress-bar/*.js',
+      '**/rangeslider/*.js',
+      '**/automatic-grid/*.js',
+      '**/radio-button/*.js',
+      '**/switch/*js'
+    ],
+~~~~
 
 The actions.js file contains common helper functions that are used in a lot of tests -
 click, nested requestAnimationFrame for the cases where you need to wait a couple of
 frames for the component to be completely rendered before you continue with the test.
 
+Karma is configured to run the tests once and then stop the server. If you need to run
+tests multiple times per one connection set the [singleRun](http://karma-runner.github.io/6.3/config/configuration-file.html#singlerun) to false in karma.conf.js.
+
+Currently if a test fails the whole test runner process will exit with an error code.
+If you would like to ignore failing tests and continue until all tests are executed,
+set the [failOnFailingTestSuite](http://karma-runner.github.io/6.3/config/configuration-file.html#failonfailingtestsuite) to false.
+
+Refer to the [full list of options](http://karma-runner.github.io/6.3/config/configuration-file.html) for more details.
 
 # The structure of a test
 
@@ -93,7 +128,8 @@ function setupDropdownTestPage() {
 }
 ````
 
-All tests are wrapped in `describe`. Use the built in lifecycle hooks to do any setup before the tests or cleanup after it. Use individual describes if the tests require different environment that needs to be setup independently.
+All tests are wrapped in `describe`. Use the built in lifecycle hooks to do any setup before the tests or cleanup after it. Use individual describes if the tests require different environment that needs to be setup independently. For example if two tests define functions that have the same name, wrap them in describe because otherwise one will
+overwrite the other.
 
 Refer to the Jasmine and Karma documentations for more information on their APIs.
 

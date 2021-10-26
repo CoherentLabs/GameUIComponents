@@ -37,4 +37,37 @@ hugo server -D
 
 to start a development server.
 
-**Important:** remember to revert the **config.toml** file when done.
+
+# Adding a page
+
+All components must have an info page that explains what the component is and how to use it and an
+interactive demo page that shows how the component looks and how it works.
+Most of the documentation files are automatically copied from the source.
+Run `node scripts/transfer-doc-files.js` in the root of the repo to copy all documentation files[^1].
+
+1. The documentation pages are located in content/components. These are the markdown files that
+describe the components. They are automatically copied from the source of the component.
+2. The demo pages are located in content/examples/
+All demo pages must have a [front matter](https://gohugo.io/content-management/front-matter/) and the copyright notice comment:
+
+~~~~{.html}
+---
+title: "Component Name"
+date: 2020-10-08T14:00:45Z
+draft: false
+---
+
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+~~~~
+
+3. The static files used for the demos are located in static/components or in static/images.
+The components/ folder contains the JavaScript source of the component as well as its styles.
+The images/folder contains any images used in the demos.
+
+Make sure all required files are present, run `hugo` or `hugo server` to test your changes in a
+static build and a development server respectively.
+
+
+[^1]: The example `.html` page is not automatically copied as most of the times
+it has to be different than the demo in the source - usually simpler or with different styles that better fit
+the documentation site. The images are not copied for the same reason.

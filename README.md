@@ -8,33 +8,37 @@
 [github-action-image]: https://github.com/CoherentLabs/GameUIComponents/workflows/Run%20Tests/badge.svg
 
 
-This is a suite of custom elements designed specifically for Gameface. All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package.
+This is a suite of custom elements designed specifically for [Gameface](https://coherent-labs.com/products/coherent-gameface/). All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package.
+All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them.
+You can also build them from source.
+
+Running the demo
+===================
 
 Navigate to the root directory and run:
 
-    npm install
+    `npm install`
 
-This will install a webpack server. After that run:
+This will install a webpack server as well as all other dependencies. After that run:
 
-    npm run build
+    `npm run build`
 
-This will build all components used in the demo. After that run:
+This will build all components. After that run:
 
-    npm run start:demo
+    `npm run start:demo`
 
 This will serve the files on http://localhost:8080. Load that url in the Gameface player or in Chrome and preview the components.
 You can change the port in the webpack.config.js file.
 
-Custom components examples.
 
-Usage
+Samples
 ===================
 
-Start an http-server in the root of the repository. Set the startup page in Gameface to
-**http://localhost:8080/examples/<example_name>/"** and launch it.
-
-You can use [http-server](https://www.npmjs.com/package/http-server) or any http-server that you like. Make sure you serve all files. The files in **/lib** and **/components** should be accessible.
-
+The samples are more complex examples that show how to create a complete user interface using the
+components. They are located in samples/user_interface. There are three pages - main, settings and shop.
+To run any of them navigate to their folder an run `npm i` to install the dependencies. After that load the
+*.html file in Chrome. Keep in mind that each page has a link to one of the others and if you haven't installed
+the dependencies there, it will look broken. To avoid this make sure you execute `npm i` in all folders.
 
 
 Available Commands
@@ -75,6 +79,27 @@ as otherwise the build will perform `npm install` which will overwrite the links
 After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
 
 
+Building from source
+===================
+
+To build the components from this repository use the `npm run build:dev` command. This will create
+symlinks for all components and then it will build them and their demos. NPM will use the links
+to install the dependencies, not the public npm packages. This means that if a components depends on 
+another, the dependency will be installed from the source, making it easy to test local changes.
+For example the dropdown uses the scrollable container, you can make changes to the scrollable-container,
+run `npm run build:dev` and the you'll be able to observe changes that you did to the scrollable-container in
+the dropdown component's demo.
+
+`npm run build:dev` will build all components. If you are not changing all of them you don't need to
+rebuild them every time. You can build individual components using the coherent game UI components CLI.
+This is a command line tool that enables you create, build and watch for changes, making the development
+iterations faster and easier. You can read more about it in the [documentation](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started).
+
+After you install it, navigate to a component, for example components/dropdown and run:
+`coherent-guic-cli build`
+**Make sure you've installed the dependencies before that using either npm run build:dev, npm i or npm run link**
+**Refer to the [commands](https://github.com/CoherentLabs/GameUIComponents#available-commands) table for more info on each command.**
+
 Creating new Components
 ===================
 
@@ -84,7 +109,6 @@ component an npm module. However if at some point you decide that you want to ma
 your component an npm module - follow the steps below to see how to do it.
 
 ## Structure of a Component
-All components in the GameUIComponents suite are npm modules.
 
 All Gameface JavaScript components are custom HTML elements. Each component has:
 * a JavaScript source file - the custom element's definition; where all the logic is implemented
@@ -105,9 +129,7 @@ components library as dependency. Initialize an npm project using
 
 and install the components library:
 
-`npm i coherent-gameface-components` for npm version >= 5.0.0
-and
-`npm i --save coherent-gameface-components` for npm version < 5.0.0
+`npm i coherent-gameface-components`
 
 After that create an index.html and index.js files.
 Import the components library and the component's definition file using script tag:
@@ -121,6 +143,7 @@ Add the custom component to the page:
 
 `<labeled-input></labeled-input>`
 
+
 The JavaScript definition is a simple class which extends the HTMLElemnt. The
 template is loaded using XHR. The url property of the component class shows the
 path to the template html file. Use the <link> tags to import style files. Use the `loadResource` method to load
@@ -130,7 +153,6 @@ the template. When the template is loaded you can render the component.
 class LabeledInput extends HTMLElement {
     constructor() {
         super();
-
         this.url = '/template.html';
     }
 
@@ -147,15 +169,16 @@ class LabeledInput extends HTMLElement {
 components.defineCustomElement('labeled-input', LabeledInput);
 ```
 
-To test the component start an http server at the root and open demo.html. If
+To test the component start an http server at the root and open index.html. If
 you use http-server go to /labeled-input and run:
 
 `http-server`
 
 Navigate to localhost:<port> and check your component.
 
+
 Adding component to the components suite
-=========================================
+===================
 
 If you want to contribute to the components library and add a new component you
 need to add the required files in the correct folders. Make sure they can be
@@ -169,7 +192,8 @@ the custom element should be named `gameface-labeled-input`:
 `components.defineCustomElement('gameface-labeled-input', LabeledInput);`
 
 The build command generates a UMD and a CJS bundles of the component. The module
-bundler that is used is Rollup. This means that we can use `import` and `export` statements
+bundler that is used is [Rollup](https://rollupjs.org/guide/en/).
+This means that we can use `import` and `export` statements
 and rollup will automatically resolve all modules. Now we can import all dependencies
 at the top of the script.js file:
 
@@ -218,36 +242,6 @@ components.defineCustomElement('gameface-labeled-input', LabeledInput);
 export { LabeledInput };
 ```
 
-**Important for components compatible with Gameface**:
-
-When using [data-binding](https://coherent-labs.com/Documentation/cpp-gameface/d1/ddb/data_binding.html)
-you must call `engine.synchronizeModels();` within the `connectedCallback` for the component like so:
-
-```js
-connectedCallback() {
-    components.loadResource(this)
-        .then((result) => {
-            this.template = result.template;
-            components.renderOnce(this);
-			
-			engine.synchronizeModels();
-        })
-        .catch(err => console.error(err));
-}
-```
-
-For example if the **template** of the component is:
-
-```html
-<div class="input-label" data-bind-value="{{Inputs.exampleInput.label}}">Input Label Placeholder</div>
-<div class="input"></div>
-```
-
-Not including `engine.synchronizeModels();` will result in not updating the
-`.input-label` Element value and the value will always remain
-"Input Label Placeholder" as it is in the template.
-
-
 Because all components are npm packages you need to add an entry index.js file.
 This is the file that would be loaded when you import your component from node_modules
 like this:
@@ -287,26 +281,10 @@ The demo.html file should import the bundle.js and use the custom element:
 Note that the demo files should have the names demo.js and demo.html for the
 JavaScript and html files respectively.
 
-We have the definition, the demo, the entry file. All that is left in order to
-build the component is to specify which files will be added to the npm package.
-This is done in the package.json file using the files field:
 
-```
-  "files": [
-    "LICENSE",
-    "README.md",
-    "demo.html",
-    "index.js",
-    "script.js",
-    "cjs/",
-    "umd/"
-  ],
-```
-*Skip the files property if you want to include all files.*
+Make sure all files have the LICENSE notice at the top.
 
-Use the LICENSE template.
-
-Now navigate to the components root folder and run:
+To build the component run:
 
 `npm run rebuild`
 
@@ -316,6 +294,140 @@ folders. To test if everything works open the demo.html file.
 If everything works, add a README.md file to the component folder and add
 a documentation page to the docs/ folder.
 
-# Testing
+You can use the [coherent-guic-cli](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started) to build single component.
+
+
+Adding flexibility through slots
+===================
+
+The [<slot>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) HTML element is a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together.
+This component system provides a custom element called <component-slot> which replaces the standard <slot> element, but
+keeps the main idea. Slots are usable in cases where a dynamic content must be placed in a specific place in the HTML.
+In the example of the <labeled-input> where if template is:
+
+~~~~{.html}
+<div>
+    <component-slot data-name="label">Default label</component-slot>
+    <input/ >
+</div>
+~~~~
+
+the label is the dynamic part. If the label is not specified - the default one will be used, this allows the component to be used like this:
+
+`<labeled-input></labeled-input>`
+
+and the `renderOnce` method will replace this with:
+
+~~~~{.html}
+<labeled-input>
+    <div>
+        <component-slot data-name="label">Default label</component-slot>
+        <input/ >
+    </div>
+</labeled-input>
+~~~~
+
+If the label is specified the data-name="label" will be replaced with the element passed to that slot:
+
+~~~~{.html}
+<labeled-input>
+    <component-slot data-name="label">
+        <div class="some-custom-fancy-label-wrapper">
+            <div class="more-wrappers">My custom label</div>
+        </div>
+    </component-slot>
+</labeled-input>
+~~~~
+
+will be replaced with:
+
+~~~~{.html}
+<labeled-input>
+    <div>
+        <component-slot data-name="label">
+            <div class="some-custom-fancy-label-wrapper">
+                <div class="more-wrappers">My custom label</div>
+            </div>
+        </component-slot>
+        <input/ >
+    </div>
+</labeled-input>
+~~~~
+
+Slots can be very powerful when a component has more complicated template, especially if there are nested components. For example the dropdown component
+has a scrollable-container (another component) in its template and all options (list items) of the dropdown, which are passed through slots as they are dynamic go into the scrollable container:
+
+~~~~{.html}
+<div class="dropdown">
+    <div class="dropdown-header">
+        <div class="selected">Select an option</div>
+        <div class="custom-select-arrow"></div>
+    </div>
+    <div class="options-container hidden">
+        <gameface-scrollable-container class="scrollable-container-component">
+            <div slot="scrollable-content" data-name="scrollable-content">
+                <div class="options">
+                    <!--all options go here-->
+                    <component-slot data-name="option"></component-slot>
+                </div>
+            </div>
+        </gameface-scrollable-container>
+    </div>
+</div>
+~~~~
+
+The usage of the component looks a lot simpler:
+
+~~~~{.html}
+<gameface-dropdown class="gameface-dropdown-component">
+    <dropdown-option slot="option">Cat1</dropdown-option>
+    <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+    <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+    <dropdown-option slot="option">Cat3</dropdown-option>
+</gameface-dropdown>
+~~~~
+
+And when the component is rendered and all elements are slotted the final markup will look like this:
+
+~~~~{.html}
+<div class="dropdown">
+    <div class="dropdown-header">
+        <div class="selected">Select an option</div>
+        <div class="custom-select-arrow"></div>
+    </div>
+    <div class="options-container hidden">
+        <gameface-scrollable-container class="scrollable-container-component">
+            <div slot="scrollable-content" data-name="scrollable-content">
+                <div class="options">
+                    <dropdown-option slot="option">Cat1</dropdown-option>
+                    <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+                    <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+                    <dropdown-option slot="option">Cat3</dropdown-option>
+                </div>
+            </div>
+        </gameface-scrollable-container>
+    </div>
+</div>
+~~~~
+
+Testing
+===================
 
 All tests are located in tools/tests. For more information on how to create and run a test refer to the [documentation](https://github.com/CoherentLabs/GameUIComponents/blob/master/tools/tests/README.md).
+
+
+Publishing component to npm
+===================
+
+Before you publish make sure:
+
+1. The component builds - the umd and cjs packages are successfully generated.
+2. All tests pass.
+3. There is a README.md with useful information about how to use the component.
+4. The name of the component is correct (prefixed with coherent-gameface-).
+5. The demo is bundled.
+6. There is a public documentation commited in the docs folder.
+
+Manually update the version of the component in package.json and run
+
+[`npm publish`](https://docs.npmjs.com/cli/v7/commands/npm-publish)
