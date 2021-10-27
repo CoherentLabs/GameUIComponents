@@ -12,8 +12,8 @@ This is a suite of custom elements designed specifically for [Gameface](https://
 All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them.
 You can also build them from source.
 
-Running the demo
-===================
+# Running the demo
+
 
 Navigate to the root directory and run:
 
@@ -31,18 +31,16 @@ This will serve the files on http://localhost:8080. Load that url in the Gamefac
 You can change the port in the webpack.config.js file.
 
 
-Samples
-===================
+# Samples
 
-The samples are more complex examples that show how to create a complete user interface using the
+The samples are more complex examples of how to create a complete user interface using the
 components. They are located in samples/user_interface. There are three pages - main, settings and shop.
 To run any of them navigate to their folder an run `npm i` to install the dependencies. After that load the
 *.html file in Chrome. Keep in mind that each page has a link to one of the others and if you haven't installed
-the dependencies there, it will look broken. To avoid this make sure you execute `npm i` in all folders.
+the dependencies there, it will not work as expected. To avoid this make sure you execute `npm i` in all folders.
 
 
-Available Commands
-===================
+# Available Commands
 
 These are the commands used to build and package the components.
 
@@ -79,29 +77,28 @@ as otherwise the build will perform `npm install` which will overwrite the links
 After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
 
 
-Building from source
-===================
+# Building from source
 
-To build the components from this repository use the `npm run build:dev` command. This will create
-symlinks for all components and then it will build them and their demos. NPM will use the links
-to install the dependencies, not the public npm packages. This means that if a components depends on 
+To build the components from this repository use the `npm run build:dev` command. This will: 
+1. create symlinks for all components
+2. build all components and their demos
+NPM will use the links to install the dependencies, not the public npm packages. This means that if a component depends on 
 another, the dependency will be installed from the source, making it easy to test local changes.
-For example the dropdown uses the scrollable container, you can make changes to the scrollable-container,
-run `npm run build:dev` and the you'll be able to observe changes that you did to the scrollable-container in
-the dropdown component's demo.
+For example - the dropdown component depends on the scrollable container. If you make changes to the scrollable-container and
+run `npm run build:dev` you'll be able to observe the changes that you did to the scrollable-container in
+the demo of dropdown, because it uses the local package created by the build:dev command. If you inspect the scrollable-container package located in the dropdown's node_modules you'll see that it is a symbolic link that references the source of the scrollable container located in the components folder.
 
-`npm run build:dev` will build all components. If you are not changing all of them you don't need to
+The `npm run build:dev` command will build all components. If you are not changing all of them you don't need to
 rebuild them every time. You can build individual components using the coherent game UI components CLI.
-This is a command line tool that enables you create, build and watch for changes, making the development
+This is a command line tool that enables you to create, build and watch for changes, making the development
 iterations faster and easier. You can read more about it in the [documentation](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started).
 
 After you install it, navigate to a component, for example components/dropdown and run:
 `coherent-guic-cli build`
 **Make sure you've installed the dependencies before that using either npm run build:dev, npm i or npm run link**
-**Refer to the [commands](https://github.com/CoherentLabs/GameUIComponents#available-commands) table for more info on each command.**
+**Refer to the [commands](#available-commands) table for more info on each command.**
 
-Creating new Components
-===================
+# Creating new components
 
 All components are npm modules. Your component doesn't have to be an npm module.
 If you need to use it in your project only, you can skip the steps which make a
@@ -177,8 +174,7 @@ you use http-server go to /labeled-input and run:
 Navigate to localhost:<port> and check your component.
 
 
-Adding component to the components suite
-===================
+# Adding component to the components suite
 
 If you want to contribute to the components library and add a new component you
 need to add the required files in the correct folders. Make sure they can be
@@ -297,8 +293,7 @@ a documentation page to the docs/ folder.
 You can use the [coherent-guic-cli](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started) to build single component.
 
 
-Adding flexibility through slots
-===================
+# Adding flexibility through slots
 
 The [<slot>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) HTML element is a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together.
 This component system provides a custom element called <component-slot> which replaces the standard <slot> element, but
@@ -410,14 +405,12 @@ And when the component is rendered and all elements are slotted the final markup
 </div>
 ~~~~
 
-Testing
-===================
+# Testing
 
 All tests are located in tools/tests. For more information on how to create and run a test refer to the [documentation](https://github.com/CoherentLabs/GameUIComponents/blob/master/tools/tests/README.md).
 
 
-Publishing component to npm
-===================
+# Publishing components to npm
 
 Before you publish make sure:
 
