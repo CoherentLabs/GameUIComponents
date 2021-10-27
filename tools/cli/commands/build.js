@@ -10,7 +10,6 @@ const rollup = require('rollup');
 const terser = require('rollup-plugin-terser').terser;
 const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const html = require('rollup-plugin-html');
-const styles = require("rollup-plugin-styles");
 
 // The module formats which will be bundled
 const FORMATS = [
@@ -87,12 +86,6 @@ function build(watch) {
         plugins: [
             nodeResolve(),
             html(),
-            styles({
-                // add this to prevent automatic style injection
-                // this function will be executed instead of the default
-                // inject which adds style tags to the head
-                mode: ["inject", (varname, id) => { }],
-            })
         ],
     };
 
