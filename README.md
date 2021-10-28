@@ -50,6 +50,8 @@ These are the commands used to build and package the components.
 |build:library         |Build only the components library.                                           |N/A|`npm run build:library`|
 |build:dev             |Build the components using only the local packages. Will install dependencies only from source, not the npm registry. |N/A|`npm run build:dev`|
 |build:documentation   |Build the components, the demos and the documentation.                       |N/A|`npm run build:documentation`|
+|check:copyright       |Will check the files inside the *components* folder for copyright notice.    |N/A|`npm run check:copyright`|
+|add:copyright       |Will add copyright notice to files inside the *components* folder that are missing it. |N/A|`npm run add:copyright`|
 |start:demo            |Serve the demo project.                                                      |N/A|`npm run start:demo`|
 |test                  |Start Karma server on localhost:`<port>`/debug.html                             |N/A|`npm run test`|
 |test:Chrome           |Start Karma server and run the tests in Google Chrome.                       |N/A|`npm run test:Chrome`|
