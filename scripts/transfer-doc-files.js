@@ -3,8 +3,9 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 
 const DOC_FILES_DIRECTORY = path.join(__dirname, '../docs/static/components');
-const DOC_FILES_CONTENT_DIRECTORY = path.join(__dirname, '../docs/content/components');
-const EXCLUDED_FILES = new Set(['coherent-gameface-components-theme.css', 'demo.html']);
+const DOC_FILES_CONTENT_DIRECTORY = path.join(__dirname, '../docs/content');
+const DOC_FILES_COMPONENTS_DIRECTORY = path.join(__dirname, '../docs/content/components');
+const EXCLUDED_FILES = new Set(['coherent-gameface-components-theme.css', 'demo.html', 'node_modules']);
 
 const frontMatterTemplate = (componentName) => {
     return `---
@@ -49,27 +50,49 @@ function copyAllStyleFiles(folder, component) {
 }
 
 /**
- * Reads all components folders and copies the bundle.js and README.md files
- * into their respective folders in the documentation; Creates a new folder for
- * the component in the docs directory if it doesn't exit.
+ * If the component argument is omitted reads all components folders and calls the function
+ * that transfers the documentation files. Logs an error if the passed component
+ * does not exist.
+ *
+ * @param {string} component
 */
-function transferBundleAndStyles() {
+function transferBundleAndStyles(component = null) {
     let components = getFolderDirectories('../components');
 
-    for (let component of components) {
-        const componentPath = path.join(__dirname, '../components', component);
-        const componentSourcePath = path.join(componentPath, '/demo/bundle.js');
-        const componentDocsDestPath = path.join(DOC_FILES_DIRECTORY, component);
-
-        if (!fs.existsSync(componentSourcePath)) continue;
-        if(!fs.existsSync(componentDocsDestPath)) fs.mkdirSync(componentDocsDestPath);
-
-        copyAllStyleFiles(componentPath, component);
-
-        copyFile(componentSourcePath, path.join(componentDocsDestPath, 'bundle.js'));
-
-        saveMarkdownWithFrontMatter(component, path.join(componentPath, 'README.md'));
+    if (!component) {
+        saveMarkdownWithFrontMatter('_index', path.join(__dirname, '../README.md'));
+        for (let component of components) {
+            copyDocumentationFiles(component);
+        }
+        return;
     }
+
+    if (components.indexOf(component) > -1) return copyDocumentationFiles(component);
+    process.exitCode = 1;
+    console.error(`Component ${component} does not exist. Please pass an existing name
+        or omit the --component argument to transfer the documentation files of all components.`);
+}
+
+/**
+ * Copies the markdown, css and html files from a component folder to its
+ * respective destination folder in the documentation. Creates a new folder for
+ * the component in the docs directory if it doesn't exit.
+ *
+ * @param {string} component - the name of the component
+*/
+function copyDocumentationFiles(component) {
+    const componentPath = path.join(__dirname, '../components', component);
+    const componentSourcePath = path.join(componentPath, '/demo/bundle.js');
+    const componentDocsDestPath = path.join(DOC_FILES_DIRECTORY, component);
+
+    if (!fs.existsSync(componentSourcePath)) return;
+    if(!fs.existsSync(componentDocsDestPath)) fs.mkdirSync(componentDocsDestPath);
+
+    copyAllStyleFiles(componentPath, component);
+
+    copyFile(componentSourcePath, path.join(componentDocsDestPath, 'bundle.js'));
+
+    saveMarkdownWithFrontMatter(component, path.join(componentPath, 'README.md'));
 }
 
 /**
@@ -83,7 +106,8 @@ function saveMarkdownWithFrontMatter(component, readmeFilePath) {
     const frontMatter = frontMatterTemplate(component);
     const file = fs.readFileSync(readmeFilePath, {encoding: 'utf8'});
 
-    fs.writeFileSync(path.join(DOC_FILES_CONTENT_DIRECTORY, `${component}.md`), `${frontMatter}\n\n${file}`);
+    const targetDir = component !== '_index' ? DOC_FILES_COMPONENTS_DIRECTORY : DOC_FILES_CONTENT_DIRECTORY;
+    fs.writeFileSync(path.join(targetDir, `${component}.md`), `${frontMatter}\n\n${file}`);
 }
 
 /**
@@ -103,6 +127,9 @@ function main() {
     const args = process.argv.slice(2);
 
     if(args.indexOf('--rebuild') > -1) execSync(`npm run rebuild`);
+
+    const componentIdx = args.indexOf('--component');
+    if(componentIdx > -1) return transferBundleAndStyles(args[componentIdx + 1]);
     transferBundleAndStyles();
 }
 
