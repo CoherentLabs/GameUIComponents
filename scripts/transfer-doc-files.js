@@ -54,7 +54,7 @@ function copyAllStyleFiles(folder, component) {
  * that transfers the documentation files. Logs an error if the passed component
  * does not exist.
  *
- * @param {string} component
+ * @param {string} [component=null]
 */
 function transferBundleAndStyles(component = null) {
     let components = getFolderDirectories('../components');
@@ -69,8 +69,7 @@ function transferBundleAndStyles(component = null) {
 
     if (components.indexOf(component) > -1) return copyDocumentationFiles(component);
     process.exitCode = 1;
-    console.error(`Component ${component} does not exist. Please pass an existing name
-        or omit the --component argument to transfer the documentation files of all components.`);
+    console.error(`Component ${component} does not exist. Please pass an existing name or omit the --component argument to transfer the documentation files of all components.`);
 }
 
 /**
