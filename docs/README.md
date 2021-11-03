@@ -27,8 +27,10 @@ hugo server -t hugo-theme-techdoc
 or
 
 ```
-hugo server -D
+hugo server -D -F
 ```
+
+ -F or --buildFuture is to configure Hugo to include content with publishdate in the future. The publish date that we use is the current local date. but Hugo uses some other time zone for reference, so the current local date seems in the future.
 
 to start a development server.
 

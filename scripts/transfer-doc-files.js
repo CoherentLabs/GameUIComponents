@@ -5,12 +5,22 @@ const { execSync } = require('child_process');
 const DOC_FILES_DIRECTORY = path.join(__dirname, '../docs/static/components');
 const DOC_FILES_CONTENT_DIRECTORY = path.join(__dirname, '../docs/content');
 const DOC_FILES_COMPONENTS_DIRECTORY = path.join(__dirname, '../docs/content/components');
+const DOC_FILES_CONTENT_EXAMPLES_DIRECTORY = path.join(__dirname, '../docs/content/examples');
 const EXCLUDED_FILES = new Set(['coherent-gameface-components-theme.css', 'demo.html', 'node_modules']);
 
+function toTwoDigits(value) {
+    return value < 10 ? `0${value}` : value;
+}
+
 const frontMatterTemplate = (componentName) => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const day = toTwoDigits(now.getDate());
+    const date = `${year}-${month}-${day}`;
     return `---
+date: ${date}
 title: "${componentName.charAt(0).toUpperCase() + componentName.slice(1)}"
-date: 2020-10-08T14:00:45Z
 draft: false
 ---`;
 };
@@ -60,7 +70,7 @@ function transferBundleAndStyles(component = null) {
     let components = getFolderDirectories('../components');
 
     if (!component) {
-        saveMarkdownWithFrontMatter('_index', path.join(__dirname, '../README.md'));
+        saveMarkdownWithFrontMatter('_index', path.join(__dirname, '../README.md'), DOC_FILES_CONTENT_DIRECTORY);
         for (let component of components) {
             copyDocumentationFiles(component);
         }
@@ -91,7 +101,8 @@ function copyDocumentationFiles(component) {
 
     copyFile(componentSourcePath, path.join(componentDocsDestPath, 'bundle.js'));
 
-    saveMarkdownWithFrontMatter(component, path.join(componentPath, 'README.md'));
+    saveMarkdownWithFrontMatter(component, path.join(componentPath, 'README.md'), DOC_FILES_COMPONENTS_DIRECTORY);
+    saveMarkdownWithFrontMatter(component, path.join(DOC_FILES_CONTENT_EXAMPLES_DIRECTORY, `${component}.html`), DOC_FILES_CONTENT_EXAMPLES_DIRECTORY, 'html');
 }
 
 /**
@@ -101,12 +112,15 @@ function copyDocumentationFiles(component) {
  * @param {string} component - the name of the current component.
  * @param {string} readmeFilePath - the absolute path to the readme file
 */
-function saveMarkdownWithFrontMatter(component, readmeFilePath) {
+function saveMarkdownWithFrontMatter(component, readmeFilePath, targetDir, extension = 'md') {
     const frontMatter = frontMatterTemplate(component);
-    const file = fs.readFileSync(readmeFilePath, {encoding: 'utf8'});
+    let file = fs.readFileSync(readmeFilePath, {encoding: 'utf8'});
+    const currentFrontMatter = file.match(/(---\n)(.*)(\n---)/s);
 
-    const targetDir = component !== '_index' ? DOC_FILES_COMPONENTS_DIRECTORY : DOC_FILES_CONTENT_DIRECTORY;
-    fs.writeFileSync(path.join(targetDir, `${component}.md`), `${frontMatter}\n\n${file}`);
+    if(currentFrontMatter && currentFrontMatter.length) {
+        file = file.replace(/(---\n)(.*)(\n---)/s, '');
+    }
+    fs.writeFileSync(path.join(targetDir, `${component}.${extension}`), `${frontMatter}\n\n${file}`);
 }
 
 /**
