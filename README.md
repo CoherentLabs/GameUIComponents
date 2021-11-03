@@ -138,7 +138,7 @@ Import the components library and the component's definition file using script t
 
 Add the custom component to the page:
 
-`<labeled-input></labeled-input>`
+`<gameface-checkbox></<gameface-checkbox>`
 
 
 The JavaScript definition is a simple class which extends the HTMLElemnt. The
@@ -147,10 +147,11 @@ path to the template html file. Use the <link> tags to import style files. Use t
 the template. When the template is loaded you can render the component.
 
 ```
-class LabeledInput extends HTMLElement {
+class Checkbox extends HTMLElement {
     constructor() {
         super();
-        this.url = '/template.html';
+
+        this.url = '/components/checkbox/template.html';
     }
 
     connectedCallback() {
@@ -163,11 +164,11 @@ class LabeledInput extends HTMLElement {
     }
 }
 
-components.defineCustomElement('labeled-input', LabeledInput);
+components.defineCustomElement('gameface-checkbox', Checkbox);
 ```
 
 To test the component start an http server at the root and open index.html. If
-you use http-server go to /labeled-input and run:
+you use http-server go to /checkbox and run:
 
 `http-server`
 
@@ -182,10 +183,12 @@ successfully bundled and add documentation.
 
 All components are placed in the /components folder.
 The folders are named using lower case and camel-case for longer names.
-All names should be prefixed with `gameface-`. So now instead of labeled-input
-the custom element should be named `gameface-labeled-input`:
+All names should be prefixed with `gameface-`. So now instead of some-component
+the custom element should be named `gameface-some-component`:
 
-`components.defineCustomElement('gameface-labeled-input', LabeledInput);`
+`components.defineCustomElement('gameface-some-component', SomeComponent);`
+
+**Note that only the name of the custom element and the name of the npm package in package.json must be prefixed.**
 
 The build command generates a UMD and a CJS bundles of the component. The module
 bundler that is used is [Rollup](https://rollupjs.org/guide/en/).
@@ -198,9 +201,9 @@ import components from 'coherent-gameface-components';
 import template from './template.html';
 ```
 
-And we can export the labeled input at the bottom:
+And we can export the checkbox at the bottom:
 
-`export { LabeledInput };`
+`export { Checkbox };`
 
 Because the templates are imported as modules we no longer need to
 load them using XHR.
@@ -216,7 +219,7 @@ This is how the component's definition looks like after the changes:
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
-class LabeledInput extends HTMLElement {
+class Checkbox extends HTMLElement {
     constructor() {
         super();
 
@@ -231,26 +234,25 @@ class LabeledInput extends HTMLElement {
             })
             .catch(err => console.error(err));
     }
+
+    components.defineCustomElement('gameface-checkbox', Checkbox);
+    export { Checkbox };
 }
-
-components.defineCustomElement('gameface-labeled-input', LabeledInput);
-
-export { LabeledInput };
 ```
 
 Because all components are npm packages you need to add an entry index.js file.
 This is the file that would be loaded when you import your component from node_modules
 like this:
 
-`import { LabeledInput } from 'gameface-labeled-input'`
+`import { Checkbox } from 'gameface-checkbox'`
 
 It should export either the development or the production CJS bundle:
 
 ```
 if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/labeled-input.production.min.js');
+    module.exports = require('./cjs/checkbox.production.min.js');
 } else {
-    module.exports = require('./cjs/labeled-input.development.js');
+    module.exports = require('./cjs/checkbox.development.js');
 }
 ```
 
@@ -262,14 +264,14 @@ The demo.js file imports all dependencies so that Rollup can resolve and bundle 
 
 ```
 import components from 'coherent-gameface-components';
-import LabeledInput from './umd/labeled-input.development.js'
+import checkbox from '../umd/checkbox.development.js'
 ```
 
 The demo.html file should import the bundle.js and use the custom element:
 
 ```
 <body>
-    <gameface-labeled-input></gameface-labeled-input>
+    <gameface-checkbox></gameface-checkbox>
     <script src="./bundle.js"></script>
 </body>
 ```
@@ -284,7 +286,7 @@ To build the component run:
 
 `npm run rebuild`
 
-The newly created bundles are located in labeled-input/umd and labeled-input/cjs
+The newly created bundles are located in checkbox/umd and checkbox/cjs
 folders. To test if everything works open the demo.html file.
 
 If everything works, add a README.md file to the component folder and add
@@ -298,56 +300,58 @@ You can use the [coherent-guic-cli](https://github.com/CoherentLabs/GameUICompon
 The [<slot>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) HTML element is a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together.
 This component system provides a custom element called <component-slot> which replaces the standard <slot> element, but
 keeps the main idea. Slots are usable in cases where a dynamic content must be placed in a specific place in the HTML.
-In the example of the <labeled-input> where if template is:
+In the example of the <checkbox> if template is:
 
 ~~~~{.html}
 <div>
-    <component-slot data-name="label">Default label</component-slot>
-    <input/ >
+    <div class="check-mark"></div>
+    <component-slot data-name="label">Click me!</component-slot>
 </div>
 ~~~~
 
 the label is the dynamic part. If the label is not specified - the default one will be used, this allows the component to be used like this:
 
-`<labeled-input></labeled-input>`
+`<gameface-checkbox></gameface-checkbox>`
 
 and the `renderOnce` method will replace this with:
 
 ~~~~{.html}
-<labeled-input>
+<gameface-checkbox>
     <div>
-        <component-slot data-name="label">Default label</component-slot>
-        <input/ >
+        <div class="check-mark"></div>
+        <component-slot data-name="label">Click me!</component-slot>
     </div>
-</labeled-input>
+</gameface-checkbox>
 ~~~~
 
 If the label is specified the data-name="label" will be replaced with the element passed to that slot:
 
 ~~~~{.html}
-<labeled-input>
+<gameface-checkbox>
     <component-slot data-name="label">
         <div class="some-custom-fancy-label-wrapper">
             <div class="more-wrappers">My custom label</div>
         </div>
     </component-slot>
-</labeled-input>
+</gameface-checkbox>
 ~~~~
 
 will be replaced with:
 
 ~~~~{.html}
-<labeled-input>
+<gameface-checkbox>
     <div>
+        <div class="check-mark"></div>
         <component-slot data-name="label">
             <div class="some-custom-fancy-label-wrapper">
                 <div class="more-wrappers">My custom label</div>
             </div>
         </component-slot>
-        <input/ >
     </div>
-</labeled-input>
+</gameface-checkbox>
 ~~~~
+
+**See the full checkbox component [here](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/checkbox).**
 
 Slots can be very powerful when a component has more complicated template, especially if there are nested components. For example the dropdown component
 has a scrollable-container (another component) in its template and all options (list items) of the dropdown, which are passed through slots as they are dynamic go into the scrollable container:
