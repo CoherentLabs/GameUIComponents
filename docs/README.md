@@ -2,11 +2,7 @@ This is the documentation source of the GameUIComponents.
 
 # Getting Started
 
-The documentation is built using [Hugo - a framework for building websites](https://gohugo.io/).
-You need to install it globally in order to be able to use it.
-The installation steps vary depending on the operating system on which it will be used.
-For Windows you can [download](https://github.com/gohugoio/hugo/releases) the non-extended version. Extract the files and add the containing folder to the user PATH variable.
-Refer to the [documentation](https://gohugo.io/getting-started/installing/) for more information.
+The documentation is built using [Hugo - a framework for building websites](https://gohugo.io/). You need to install it globally in order to be able to use it. The installation steps vary depending on the operating system on which it will be used. For Windows you can [download](https://github.com/gohugoio/hugo/releases) the non-extended version. Extract the files and add the containing folder to the user PATH variable. Refer to the [documentation](https://gohugo.io/getting-started/installing/) for more information.
 
 Before you start the hugo server you need to fetch the theme. Run:
 
@@ -16,8 +12,7 @@ git submodule update --init
 
 After hugo is installed navigate to the /docs folder.
 
-In order to test the example pages locally, open **config.toml** and edit the
-first line to:
+In order to test the example pages locally, open **config.toml** and edit the first line to:
 
 ```baseURL = "localhost"```
 
@@ -40,15 +35,10 @@ to start a development server.
 
 # Adding a page
 
-All components must have an info page that explains what the component is and how to use it and an
-interactive demo page that shows how the component looks and how it works.
-Most of the documentation files are automatically copied from the source.
-Run `node scripts/transfer-doc-files.js` in the root of the repo to copy all documentation files[^1].
+All components must have an info page that explains what the component is and how to use it and an interactive demo page that shows how the component looks and how it works. Most of the documentation files are automatically copied from the source. Run `node scripts/transfer-doc-files.js` in the root of the repo to copy all documentation files[^1] or `npm run build:documentation` to build the components and copy the documentation files.
 
-1. The documentation pages are located in content/components. These are the markdown files that
-describe the components. They are automatically copied from the source of the component.
-2. The demo pages are located in content/examples/
-All demo pages must have a [front matter](https://gohugo.io/content-management/front-matter/) and the copyright notice comment:
+1. The documentation pages are located in content/components. These are the markdown files that describe the components. They are automatically copied from the source of the component.
+2. The demo pages are located in content/examples/. All demo pages must have a [front matter](https://gohugo.io/content-management/front-matter/) and the copyright notice comment:
 
 ~~~~{.html}
 ---
@@ -61,8 +51,8 @@ draft: false
 ~~~~
 
 3. The static files used for the demos are located in static/components or in static/images.
-The components/ folder contains the JavaScript source of the component as well as its styles.
-The images/folder contains any images used in the demos.
+The static/components/ folder contains the JavaScript source of the component as well as its styles.
+The static/images/ folder contains any images used in the demos.
 
 Make sure all required files are present, run `hugo` or `hugo server` to test your changes in a
 static build and a development server respectively.
