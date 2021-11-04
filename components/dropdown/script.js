@@ -9,6 +9,22 @@ import template from './template.html';
 
 const KEYCODES = components.KEYCODES;
 
+// some changes for noise
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
 /**
  * Checks if an element is descendant of another.
  * @param {HTMLElement} parent

@@ -85,7 +85,22 @@ class ProgressBar extends HTMLElement {
 		} else if (this.targetValue > 100) {
 			this.targetValue = 100;
 		}
+// some changes for noise
+//
 
+
+
+
+
+
+
+
+
+
+
+
+
+//
 		if (this.animDuration !== 0) {
 			// Cancel the currently running animation if a new one is started with another value.
 			if (this.hasStarted) {
