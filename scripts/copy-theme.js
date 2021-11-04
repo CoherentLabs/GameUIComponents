@@ -9,6 +9,8 @@ const path = require('path');
 const COMPONENTS_FOLDER = path.join(__dirname, '../components');
 const components = fs.readdirSync(COMPONENTS_FOLDER);
 
+// changes not related to a component; don't need  publish
+
 function copyCSSTheme() {
     components.forEach(component => {
         fs.copyFileSync(

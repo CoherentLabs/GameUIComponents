@@ -10,7 +10,9 @@ import { orientationUnitsNames } from './orientationUnitsNames';
 
 
 const customEvent = new MouseEvent ('click', );
-
+// meaningful changes..
+// ...
+// ....
 /**
  * @class Slider.
  * Slider component; can be independently or as a building block of another
