@@ -115,10 +115,11 @@ function copyDocumentationFiles(component) {
 function saveMarkdownWithFrontMatter(component, readmeFilePath, targetDir, extension = 'md') {
     const frontMatter = frontMatterTemplate(component);
     let file = fs.readFileSync(readmeFilePath, {encoding: 'utf8'});
-    const currentFrontMatter = file.match(/(---\n)(.*)(\n---)/s);
+    const frontMatterRegExp = /(---\n)(.*)(\n---)/s;
+    const currentFrontMatter = file.match(frontMatterRegExp);
 
     if(currentFrontMatter && currentFrontMatter.length) {
-        file = file.replace(/(---\n)(.*)(\n---)/s, '');
+        file = file.replace(frontMatterRegExp, '');
     }
     fs.writeFileSync(path.join(targetDir, `${component}.${extension}`), `${frontMatter}\n\n${file}`);
 }
