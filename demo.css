@@ -69,12 +69,8 @@ body {
 /* Router */
 
 /* Tabs */
-.tabs-wrapper {
+.guic-tabs-wrapper {
     position: relative;
-}
-
-.tabs-wrapper tab-panel {
-    top: 44px;
 }
 /* Tabs */
 

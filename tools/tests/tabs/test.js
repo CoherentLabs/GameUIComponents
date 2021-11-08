@@ -33,7 +33,7 @@ describe('Tabs Components', () => {
     });
 
     it('Should be rendered', () => {
-        assert(document.querySelector('.tabs-wrapper') !== null, 'Tabs component was not rendered.');
+        assert(document.querySelector('.guic-tabs-wrapper') !== null, 'Tabs component was not rendered.');
     });
 
     it('Should set tab to active on click', () => {
