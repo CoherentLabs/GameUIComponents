@@ -1,0 +1,32 @@
+const path = require('path');
+const fs = require('fs');
+const { execSync } = require('child_process');
+const { getPackageJSON } = require('./helpers');
+const COMPONENTS_PATH = path.join(__dirname, '../components');
+
+function getPublicVersion(package) {
+    return execSync(`npm view ${package} version`, {encoding: 'utf8'}).replace('\n', '');
+}
+
+function hasAnUpdate(component) {
+    const packageJSON = getPackageJSON(component);
+    if (!packageJSON) return false;
+
+    const localVersion = packageJSON.version;
+    const publicVersion = getPublicVersion(packageJSON.name);
+
+    if(localVersion !== publicVersion) return true;
+    return false;
+}
+
+function main() {
+    const components = fs.readdirSync(COMPONENTS_PATH);
+    for (let component of components) {
+        if(hasAnUpdate(component)) {
+            console.log(`--------Component ${component} has new version - ${localVersion}, current is ${publicVersion}.`);
+            // publish
+        }
+    }
+}
+
+main();
