@@ -41,7 +41,7 @@ class GamefaceMenu extends HTMLElement {
 
         this.keyMapping = KEY_MAPPING;
         this.template = template;
-        this.orientation = this.getAttribute('orientation');
+        this.orientation = '';
 
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -58,6 +58,7 @@ class GamefaceMenu extends HTMLElement {
 
         components.loadResource(this, this.template)
             .then((result) => {
+                this.orientation = this.getAttribute('orientation');
                 this.template = result.template;
                 components.renderOnce(this);
 
@@ -346,7 +347,10 @@ class GamefaceMenu extends HTMLElement {
     */
     setOrientation() {
         this.classList.add('menu-wrapper');
-        this.classList.add(this.orientation);
+
+        if (this.orientation) {
+            this.classList.add(`guic-menu-${this.orientation}`);
+        }
     }
 }
 
@@ -406,9 +410,9 @@ class MenuItem extends HTMLElement {
     set selected(value) {
         if (value) {
             this.setAttribute('selected', value);
-            this.classList.add('active-menu-item');
+            this.classList.add('guic-menu-active-menu-item');
         } else {
-            this.classList.remove('active-menu-item');
+            this.classList.remove('guic-menu-active-menu-item');
             this.removeAttribute('selected');
         }
     }
@@ -421,7 +425,7 @@ class MenuItem extends HTMLElement {
         event.stopPropagation();
         const menuItem = event.target;
 
-        menuItem.classList.add('hover');
+        menuItem.classList.add('guic-menu-hover');
     }
 
     /**
@@ -432,8 +436,8 @@ class MenuItem extends HTMLElement {
         event.stopPropagation();
         const menuItem = event.target;
 
-        if (!menuItem.classList.contains('hover')) return;
-        menuItem.classList.remove('hover');
+        if (!menuItem.classList.contains('guic-menu-hover')) return;
+        menuItem.classList.remove('guic-menu-hover');
     }
 }
 

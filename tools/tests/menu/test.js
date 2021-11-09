@@ -66,7 +66,7 @@ describe('Menu Component Tests', () => {
 
         it('Should select an element', () => {
             click(document.getElementById("game"), { bubbles: true });
-            assert(document.getElementById("game").classList.contains('active-menu-item') === true, 'The selected menu element is does not have value = game');
+            assert(document.getElementById("game").classList.contains('guic-menu-active-menu-item') === true, 'The selected menu element is does not have value = game');
         });
 
         it('Should not select a disabled element', () => {
