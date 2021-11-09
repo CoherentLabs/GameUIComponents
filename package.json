@@ -25,7 +25,8 @@
     "rebuild": "npm i && npm run clean && npm run build:library && npm run pack:library && npm run build && npm run build:demo",
     "test": "node ./scripts/test.js",
     "test:Chrome": "node ./scripts/test.js -- --browsers Chrome",
-    "publish": "node ./scripts/publish.js"
+    "publish": "node ./scripts/publish.js",
+    "unpublish": "node ./scripts/temp_unpublish.js"
   },
   "repository": {
     "type": "git",
