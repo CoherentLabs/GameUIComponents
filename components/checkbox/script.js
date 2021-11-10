@@ -21,6 +21,10 @@ class Checkbox extends HTMLElement {
         this.url = '/components/checkbox/template.html';
     }
 
+    get value() {
+        return this.getAttribute('value') || 'on';
+    }
+
     connectedCallback() {
         components.loadResource(this)
             .then((result) => {
