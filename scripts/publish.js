@@ -8,7 +8,7 @@ function getPublicVersion(package) {
     return execSync(`npm view ${package} version`, {encoding: 'utf8'}).replace('\n', '');
 }
 
-function hasAnUpdate(component) {
+function shouldUpdate(component) {
     const packageJSON = getPackageJSON(component);
     if (!packageJSON) return false;
 
@@ -20,16 +20,24 @@ function hasAnUpdate(component) {
     const localVersion = packageJSON.version;
     const publicVersion = getPublicVersion(name);
 
-    if(localVersion !== publicVersion) return true;
+    if(localVersion !== publicVersion) {
+        console.log(`Component ${component} has new version - ${localVersion}, current is ${publicVersion}.`);
+        return true;
+    }
+
     return false;
 }
 
 function main() {
     const components = fs.readdirSync(COMPONENTS_PATH);
     for (let component of components) {
-        if(hasAnUpdate(component)) {
-            console.log(`Component ${component} has new version - ${localVersion}, current is ${publicVersion}.`);
-            execSync(`npm publish`, {cwd: path.join(COMPONENTS_PATH, component), encoding: 'utf8'});
+        if(shouldUpdate(component)) {
+            try {
+                execSync(`npm publish`, {cwd: path.join(COMPONENTS_PATH, component), encoding: 'utf8'});
+                console.log(`Successfully published ${component}.`);
+            } catch(err) {
+                console.error(err);
+            }
         }
     }
 }
