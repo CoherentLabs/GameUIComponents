@@ -17,8 +17,12 @@
         background-color: #fff;
     }
 
-    .active {
-        color: var(--default-color-blue);
+    .green {
+        color: #6ddda1;
+    }
+
+    .red {
+        color: #f07983;
     }
 
     .healers-menu {
@@ -87,11 +91,11 @@
 </style>
 
 <body>
-    <div class="menu">
-        <gameface-route activeClass="active" to="/">Home</gameface-route>
-        <gameface-route activeClass="active" to="/start-game">Start Game</gameface-route>
-        <gameface-route activeClass="active" to="/heroes">Heroes</gameface-route>
-        <gameface-route activeClass="active" to="/missing">Missing Page</gameface-route>
+    <div class="menu" activeClass="green">
+        <gameface-route to="/">Home</gameface-route>
+        <gameface-route to="/start-game">Start Game</gameface-route>
+        <gameface-route activeClass="red" to="/heroes">Heroes</gameface-route>
+        <gameface-route activeClass="red" to="/missing">Missing Page</gameface-route>
     </div>
 
     <router-view></router-view>
