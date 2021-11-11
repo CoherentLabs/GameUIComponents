@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import FormControl from '../umd/form-control.development.js';
 import { pm } from 'postmessage-polyfill';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';

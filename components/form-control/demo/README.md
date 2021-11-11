@@ -1,3 +1,4 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 # How to start the demo?
 
 1. If you don't have express installed do `npm i express -g` or `npm i express`.
