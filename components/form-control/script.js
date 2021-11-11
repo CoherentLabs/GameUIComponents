@@ -140,7 +140,7 @@ class GamefaceFormControl extends HTMLElement {
         if (!selectedOptions.length) return;
 
         //TODO: Make dropdown component to ignore selected options that are disabled if there is such a case
-        //By standart selected options that are disabled should not be added to the form data even they are selected in a multiple select.
+        //By standard selected options that are disabled should not be added to the form data even they are selected in a multiple select.
         for (let option of selectedOptions) {
             params.append(dataName, option.value);
         }
@@ -213,7 +213,7 @@ class GamefaceFormControl extends HTMLElement {
     onRequestLoadEnd(event) {
         const loadEndEvent = new CustomEvent('loadend', { detail: event });
         this.dispatchEvent(loadEndEvent);
-        if (this.onloadend) this.onloadend(loadEndEvent);
+        if (this.onload) this.onload(loadEndEvent);
     }
 
     /**

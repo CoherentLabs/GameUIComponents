@@ -6,6 +6,7 @@ module.exports = function (config) {
     client: {
       jasmine: {
         timeoutInterval: 30000,
+        random: false
       },
       clearContext: false,
     },
@@ -41,7 +42,8 @@ module.exports = function (config) {
       '**/rangeslider/*.js',
       '**/automatic-grid/*.js',
       '**/radio-button/*.js',
-      '**/switch/*js'
+      '**/switch/*js',
+      '**/form-control/*js'
     ],
     singleRun: true,
     retryLimit: 0,

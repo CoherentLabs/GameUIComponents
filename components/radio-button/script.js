@@ -86,7 +86,8 @@ class GamefaceRadioGroup extends HTMLElement {
 			this.setButtonAttributes(button);
 
 			if (button.hasAttribute('checked')) {
-				button.checked = true;
+				this.uncheckPreviousButton();
+				this.checkButton(button);
 			}
 		}
 	}

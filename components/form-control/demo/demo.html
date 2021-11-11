@@ -69,7 +69,7 @@
 <body>
     <div class="form-wrapper">
         <h2>GET</h2>
-        <gameface-form-control onloadend="onRequestFinished(event);" action="http://localhost:3000/user" method="get">
+        <gameface-form-control onload="onRequestFinished(event);" action="http://localhost:3000/user" method="get">
             <div class="form-element">
                 <span>User name:</span><input name="username" value="name" type="text" />
             </div>
@@ -179,7 +179,7 @@
     </div>
     <div class="form-wrapper">
         <h2>Prevent form from submitting inline</h2>
-        <gameface-form-control id="prevented-form-inline" onloadend="onInlineRequestFinished"
+        <gameface-form-control id="prevented-form-inline" onload="onInlineRequestFinished"
             onsubmit="preventSubmit(event)" action="http://localhost:3000/form-data" method="post">
             <button class="form-element" type="submit">Click me!</button>
         </gameface-form-control>
