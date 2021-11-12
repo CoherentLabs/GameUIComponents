@@ -79,7 +79,7 @@ class Tabs extends HTMLElement {
 
     /**
      * Sets all tabs and panels in an inactive state.
-     * No tab is selected and no panel is visible. 
+     * No tab is selected and no panel is visible.
     */
     reset() {
         const tabs = this.getAllTabs();
@@ -208,7 +208,7 @@ class TabHeading extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         const value = this.hasAttribute('selected');
-        this.setAttribute('tabindex', value ? 0 : -1);
+        this.setAttribute('tabindex', value ? '0' : '-1');
     }
 
     get selected() {
@@ -218,9 +218,9 @@ class TabHeading extends HTMLElement {
     set selected(value) {
         if (value) {
             this.setAttribute('selected', value)
-            this.classList.add('active-tab');
+            this.classList.add('guic-tabs-active-tab');
         } else {
-            this.classList.remove('active-tab');
+            this.classList.remove('guic-tabs-active-tab');
             this.removeAttribute('selected');
         }
     }
@@ -259,9 +259,9 @@ class TabPanel extends HTMLElement {
     set selected(value) {
         if (value) {
             this.setAttribute('selected', value)
-            this.classList.add('active-tab');
+            this.classList.add('guic-tabs-active-panel');
         } else {
-            this.classList.remove('active-tab');
+            this.classList.remove('guic-tabs-active-panel');
             this.removeAttribute('selected');
         }
     }
@@ -283,7 +283,7 @@ class TabPanel extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'selected') {
-            this.style.visibility = (newValue === 'true') ? 'visible' : 'hidden';
+            this.style.display = (newValue === 'true') ? 'block' : 'none';
         }
     }
 
