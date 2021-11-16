@@ -111,7 +111,7 @@ And then add it as an attribute of the `<gameface-route>`:
 
 `<gameface-route activeClass="myActiveStyle">`
 
-You can apply the activeClass to multiple `<gameface-route>` elements by adding it to a container:
+You can apply the `activeClass` to multiple `<gameface-route>` elements by adding it to a container:
 
 ```
 <div activeClass="myActiveStyle">
@@ -121,7 +121,7 @@ You can apply the activeClass to multiple `<gameface-route>` elements by adding 
 </div>
 ```
 
-If you have both activeClass on the wrapper an on some individual elements, those routes that don't have own activeClass will inherit it from the parent element and those that have will use their own:
+If you have both `activeClass` on the wrapper an on some individual elements, those routes that don't have own `activeClass` will inherit it from the parent element and those that have will use their own:
 
 ```
 <div activeClass="green">
@@ -131,7 +131,7 @@ If you have both activeClass on the wrapper an on some individual elements, thos
 </div>
 ```
 
-If you don't add activeClass the router element will use a default light blue color.
+If you don't add `activeClass` to the wrapper div and the route element then the default light blue color will be used.
 
 ### The RouterView Element
 
