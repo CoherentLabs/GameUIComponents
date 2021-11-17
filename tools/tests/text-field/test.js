@@ -1,0 +1,315 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+const CUSTOM_ELEMENT_TAG = 'gameface-text-field';
+
+function getInitializationTest(attributes, expectedValue) {
+    it('Should render the text field', async () => {
+        await renderTextField(attributes);
+        assert(document.querySelector(CUSTOM_ELEMENT_TAG) !== null, 'Text field component was not rendered.');
+        checkElementAttributes(attributes, expectedValue);
+    });
+}
+
+function sendKeysToInput(input, value) {
+    input.dispatchEvent(new Event('focus'));
+    input.value = '';
+
+    const onKeyDown = (event) => {
+        input.value += event.detail;
+        input.dispatchEvent(new Event('input'));
+    }
+
+    input.addEventListener('keydown', onKeyDown);
+
+    for (let i = 0; i < value.length; i++) {
+        input.dispatchEvent(new CustomEvent('keydown', { detail: value[i] }));
+    }
+
+    input.removeEventListener('keydown', onKeyDown);
+}
+
+function getTypingTest(value, expectedValue) {
+    return () => it(`Should type "${value}" to input`, async () => {
+        const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
+        const input = document.querySelector('.guic-text-field');
+
+        if (textField.disabled || textField.readonly) return;
+
+        sendKeysToInput(input, value);
+
+        if (expectedValue === undefined) expectedValue = value;
+        assert(textField.value === expectedValue, `Expected: ${expectedValue}. Real value: ${textField.value}`);
+    });
+}
+
+const textFieldComponentPropertiesCases = {
+    'value': 'random',
+    'type': 'password',
+    'placeholder': 'some placeholder',
+    'label': 'some label',
+    'disabled': true,
+    'readonly': true,
+    'min': 2,
+    'max': 100,
+    'minlength': 12,
+    'maxlength': 203,
+    'inputControlDisabled': true
+};
+
+function changeTextFieldProperty() {
+    return () => it(`Should change the text field component properties programmarly`, async () => {
+        const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
+        for (const prop in textFieldComponentPropertiesCases) {
+            const value = textFieldComponentPropertiesCases[prop];
+            textField[prop] = value;
+
+            assert(textField[prop] === value, `Expected: ${value}. Real value: ${textField.value}`);
+        }
+    });
+}
+
+function getDefaultRenderConfiguraion(type, defaultValue, typingValue) {
+    const label = type.toUpperCase() + ':';
+    const displayType = type.charAt(0).toUpperCase() + type.slice(1);
+
+    return [
+        {
+            caseName: `${displayType} field`,
+            attributes: { type: type },
+            tests: [getTypingTest(typingValue), changeTextFieldProperty()]
+        },
+        {
+            caseName: `${displayType} field with label`,
+            attributes: { type: type, label: label },
+            tests: [getTypingTest(typingValue), changeTextFieldProperty()]
+        },
+        {
+            caseName: `${displayType} field with default value`,
+            attributes: { type: type, value: defaultValue, label: label },
+            tests: [getTypingTest(typingValue), changeTextFieldProperty()]
+        },
+        {
+            caseName: `${displayType} field that is disabled`,
+            attributes: { type: type, value: defaultValue, disabled: '', label: label },
+            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()]
+        },
+        {
+            caseName: `${displayType} field that is readonly`,
+            attributes: { type: type, value: defaultValue, readonly: '', label: label },
+            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()]
+        },
+        {
+            caseName: `${displayType} field that has placeholder`,
+            attributes: { type: type, placeholder: "Type some very very long text here to test overflow and placeholder", label: label },
+            tests: [getTypingTest(typingValue), changeTextFieldProperty()]
+        },
+        {
+            caseName: `${displayType} field that is disabled with placeholder`,
+            attributes: { type: type, disabled: '', placeholder: "This input is disabled", label: label },
+            tests: [getTypingTest(typingValue, ''), changeTextFieldProperty()]
+        },
+        {
+            caseName: `${displayType} field that is readonly with placeholder`,
+            attributes: { type: type, readonly: '', placeholder: "This input is read only", label: label },
+            tests: [getTypingTest(typingValue, ''), changeTextFieldProperty()]
+        },
+        {
+            caseName: `${displayType} field that is disabled with placeholder and has default value`,
+            attributes: { type: type, value: defaultValue, disabled: '', placeholder: "This input is disabled", label: label },
+            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()]
+        }
+    ];
+}
+
+const testCasesRenderConfiguration = [
+    ...getDefaultRenderConfiguraion('text', 'default value', 'different value'),
+    {
+        caseName: `Text field with min/max length and default value`,
+        attributes: { type: "text", minlength: "3", maxlength: "15", value: "min-max-test", label: "TEXT:" },
+    },
+    ...getDefaultRenderConfiguraion('password', 'default password', 'different password'),
+    {
+        caseName: `Password field with min/max length and default value`,
+        attributes: { type: "password", minlength: "3", maxlength: "15", value: "min-max-test", label: "PASSWORD:" },
+    },
+    ...getDefaultRenderConfiguraion('search', 'default search', 'different search'),
+    {
+        caseName: `Search field with min/max length and default value`,
+        attributes: { type: "search", minlength: "3", maxlength: "15", value: "min-max-test", label: "SEARCH:" },
+    },
+    {
+        caseName: `Search field that removes the value`,
+        attributes: { type: "search", value: "search value", label: "SEARCH:" },
+        tests: [() => {
+            it('Should click on the cross icon to remove the value', async () => {
+                const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
+                const crossButton = document.querySelector('.guic-search-remove');
+                const input = document.querySelector('.guic-text-field');
+                input.dispatchEvent(new Event('focus'));
+                crossButton.dispatchEvent(new Event('mousedown'));
+                crossButton.dispatchEvent(new Event('mouseup'));
+                assert(textField.value === '', 'Input value has not been removed.')
+            });
+        }]
+    },
+    {
+        caseName: `Search field that has disabled control`,
+        attributes: { type: "search", 'text-field-control-disabled': '', value: "search control is disabled", label: "SEARCH:" }
+    },
+    ...getDefaultRenderConfiguraion('number', '7', '5'),
+    {
+        caseName: `Number field that has string value`,
+        attributes: { type: "number", value: "string value", label: "NUMBER:" },
+        expectedValue: '',
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+    },
+    {
+        caseName: `Number field that has min/max and correct default value`,
+        attributes: { type: "number", min: "3", max: "15", value: "4", label: "NUMBER:" },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+    },
+    {
+        caseName: `Number field that has min/max, step and correct default value`,
+        attributes: { type: "number", min: "3", max: "15", value: "4.5", step: "0.5", label: "NUMBER:" },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+    },
+    {
+        caseName: `Number field that has min/max value less than the min`,
+        attributes: { type: "number", min: "3", max: "15", value: "0", label: "NUMBER:" },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+    },
+    {
+        caseName: `Number field that has min/max value greater than the max`,
+        attributes: { type: "number", min: "3", max: "15", value: "20", label: "NUMBER:" },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+    },
+    {
+        caseName: `Number field that has disabled control`,
+        attributes: { type: "number", 'text-field-control-disabled': '', value: "7", label: "NUMBER:" },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+    },
+    {
+        caseName: `Number field that increases value with control`,
+        attributes: { type: "number", value: "7", step: '0.5', max: '10', label: "NUMBER:" },
+        tests: [() => {
+            it('Should click on the up arrow to increase the number value to max', async () => {
+                const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
+                const arrow = document.querySelector('.guic-number-increase');
+                const input = document.querySelector('.guic-text-field');
+
+                let currentInputValue = 7;
+
+                for (let i = 0; i < 5; i++) {
+                    currentInputValue = (parseFloat(currentInputValue) + 0.5) + '';
+                    input.dispatchEvent(new Event('focus'));
+                    arrow.dispatchEvent(new Event('mousedown'));
+                    document.dispatchEvent(new Event('mouseup'));
+                    assert(textField.value === currentInputValue, `Unable to increase the input value. Should be ${currentInputValue}. It is ${textField.value}`);
+                }
+
+                arrow.dispatchEvent(new Event('mousedown'));
+                document.dispatchEvent(new Event('mouseup'));
+                assert(textField.value === '10', 'Input value overflowed the maximum value.')
+            });
+        }]
+    },
+    {
+        caseName: `Number field that decreases value with control`,
+        attributes: { type: "number", value: "7", step: '0.5', min: '4', label: "NUMBER:" },
+        tests: [() => {
+            it('Should click on the down arrow to decrease the number value to min', async () => {
+                const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
+                const arrow = document.querySelector('.guic-number-decrease');
+                const input = document.querySelector('.guic-text-field');
+
+                let currentInputValue = 7;
+
+                for (let i = 0; i < 5; i++) {
+                    currentInputValue = (parseFloat(currentInputValue) - 0.5) + '';
+                    input.dispatchEvent(new Event('focus'));
+                    arrow.dispatchEvent(new Event('mousedown'));
+                    document.dispatchEvent(new Event('mouseup'));
+                    assert(textField.value === currentInputValue, `Unable to decrease the input value. Should be ${currentInputValue}. It is ${textField.value}`);
+                }
+
+                arrow.dispatchEvent(new Event('mousedown'));
+                document.dispatchEvent(new Event('mouseup'));
+                assert(textField.value === '4', 'Input value overflowed the minimum value.')
+            });
+        }]
+    },
+];
+
+function removeCurrentTextField() {
+    // Since we don't want to replace the whole content of the body using
+    // innerHtml setter, we query only the current custom element and we replace
+    // it with a new one; this is needed because the specs are executed in a random
+    // order and sometimes the component might be left in a state that is not
+    // ready for testing
+    const currentElement = document.querySelector(CUSTOM_ELEMENT_TAG);
+
+    if (currentElement) {
+        currentElement.parentElement.removeChild(currentElement);
+    }
+}
+
+async function renderTextField(attributes) {
+    const el = document.createElement(CUSTOM_ELEMENT_TAG);
+    for (const attributeName in attributes) {
+        el.setAttribute(attributeName, attributes[attributeName]);
+    }
+
+    document.body.appendChild(el);
+
+    await waitForStyles();
+}
+
+function checkElementAttributes(attributes, expectedValue) {
+    const textFieldElement = document.querySelector(CUSTOM_ELEMENT_TAG);
+
+    for (const attributeName in attributes) {
+        const attributeNameCamelCase = attributeName.replace(/-./g, (match) => match[1].toUpperCase());
+        let attributeValueFromCustomElement = textFieldElement[attributeNameCamelCase];
+        if (!isNaN(attributeValueFromCustomElement)) {
+            attributeValueFromCustomElement = attributeValueFromCustomElement + '';
+        }
+
+        if (attributeName === 'value' && expectedValue !== undefined) {
+            assert(attributeValueFromCustomElement === expectedValue, `${attributeNameCamelCase} had different value from the original set. ${attributeValueFromCustomElement} !== ${expectedValue}`);
+            return;
+        }
+
+        const originalAttributeValue = attributes[attributeName];
+
+        if (originalAttributeValue === '') {
+            assert(attributeValueFromCustomElement === 'true', `${attributeNameCamelCase} had different value from the original set. ${attributeValueFromCustomElement} !== true`);
+        } else {
+            assert(attributeValueFromCustomElement === originalAttributeValue, `${attributeNameCamelCase} had different value from the original set. ${attributeValueFromCustomElement} !== ${originalAttributeValue}`);
+        }
+    }
+}
+
+describe('Text field component', () => {
+    afterAll(() => {
+        removeCurrentTextField();
+    });
+
+    for (const testCase of testCasesRenderConfiguration) {
+        describe(testCase.caseName, () => {
+            afterAll(() => {
+                removeCurrentTextField();
+            })
+
+            getInitializationTest(testCase.attributes, testCase.expectedValue);
+
+            if (!testCase.tests) return;
+
+            for (const test of testCase.tests) {
+                test();
+            }
+        })
+    }
+});

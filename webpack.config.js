@@ -4,7 +4,7 @@ module.exports = {
         minimize: false
     },
     devServer: {
-        contentBase: __dirname,
+        static: __dirname,
         compress: true,
         port: 8080
     }

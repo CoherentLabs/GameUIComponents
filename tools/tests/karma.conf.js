@@ -45,6 +45,7 @@ module.exports = function (config) {
       '**/switch/*.js',
       '**/form-control/*.js',
       '**/tooltip/*js',
+      '**/text-field/*.js',
     ],
     singleRun: true,
     retryLimit: 0,

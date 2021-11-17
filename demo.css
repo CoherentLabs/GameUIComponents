@@ -134,3 +134,19 @@ gameface-menu {
     justify-content: space-between;
 }
 /* Switch */
+
+/* Text field */
+.text-fields-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.text-field-case {
+    margin: 5px;
+}
+
+.guic-text-field {
+    margin-bottom: 5px;
+}
+/* Text field */
