@@ -1,0 +1,40 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="../style.css">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 100px;
+            height: 40px;
+            background-color: aqua;
+            position: relative;
+            top: 500px;
+            left: 500px
+        }
+    </style>
+</head>
+
+<body>
+<div class="container"></div>
+<gameface-tooltip for=".container" on="mouseenter" at="top" off="mouseleave">
+    <div slot="message">Message on top</div>
+</gameface-tooltip>
+<gameface-tooltip for=".container" on="mouseenter" at="left" off="mouseleave">
+    <div slot="message">Message on left</div>
+</gameface-tooltip>
+<gameface-tooltip for=".container" on="mouseenter" at="bottom" off="mouseleave">
+    <div slot="message">Message on bottom</div>
+</gameface-tooltip>
+<gameface-tooltip for=".container" on="mouseenter" at="right" off="mouseleave">
+    <div slot="message">Message on right</div>
+</gameface-tooltip>
+    <script src="./bundle.js"></script>
+</body>
+
+</html>
