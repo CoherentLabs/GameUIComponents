@@ -42,8 +42,8 @@ module.exports = function (config) {
       '**/rangeslider/*.js',
       '**/automatic-grid/*.js',
       '**/radio-button/*.js',
-      '**/switch/*js',
-      '**/form-control/*js'
+      '**/switch/*.js',
+      '**/form-control/*.js'
     ],
     singleRun: true,
     retryLimit: 0,

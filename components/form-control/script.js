@@ -73,7 +73,7 @@ class GamefaceFormControl extends HTMLElement {
         if (!this.currentSubmitButton) return;
 
         const tagName = this.currentSubmitButton.tagName.toLowerCase();
-        if (tagName !== tags.BUTTON || tagName !== tags.INPUT) return;
+        if (VALID_SUBMIT_ELEMENT_TAGS.has(tagName)) return;
 
         if (this.currentSubmitButton.hasAttribute('name') && this.currentSubmitButton.hasAttribute('value')) {
             params.append(this.currentSubmitButton.getAttribute('name'), this.currentSubmitButton.getAttribute('value'));
@@ -144,7 +144,6 @@ class GamefaceFormControl extends HTMLElement {
 
         if (!selectedOptions.length) return;
 
-        //TODO: Make dropdown component to ignore selected options that are disabled if there is such a case
         //By standard selected options that are disabled should not be added to the form data even they are selected in a multiple select.
         for (let option of selectedOptions) {
             params.append(dataName, option.value);
@@ -156,7 +155,7 @@ class GamefaceFormControl extends HTMLElement {
      * @param {HTMLElement} element - The gameface-radiogroup element
      * @param {URLSearchParams} params
      */
-    serializeRadionGroupData(element, params) {
+    serializeRadioGroupData(element, params) {
         const checkedButton = element.previouslyCheckedElement;
         if (!checkedButton || !element.hasAttribute('name')) return;
 
@@ -185,7 +184,7 @@ class GamefaceFormControl extends HTMLElement {
             case tags.GAMEFACE_DROPDOWN:
                 return this.serializeDropDownData(element, params);
             case tags.GAMEFACE_RADIO_GROUP:
-                return this.serializeRadionGroupData(element, params);
+                return this.serializeRadioGroupData(element, params);
             default: break;
         }
     }
@@ -247,7 +246,7 @@ class GamefaceFormControl extends HTMLElement {
         //Dispatch submit event to the form as it is by standard
         const submitEvent = new Event('submit', { cancelable: true });
         if (!this.dispatchEvent(submitEvent)) return;
-        if (this.onsubmit) {
+        if (this.onsubmit && typeof this.onsubmit === 'function') {
             this.onsubmit(submitEvent);
             if (submitEvent.defaultPrevented) return;
         }
