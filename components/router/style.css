@@ -11,3 +11,7 @@ gameface-route {
 gameface-route:hover {
     color: var(--default-color-blue);
 }
+
+.gameface-route-active {
+    color: var(--default-color-blue);
+}

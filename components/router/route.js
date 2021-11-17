@@ -37,6 +37,13 @@ class GamefaceRoute extends HTMLElement {
         this.onHistoryChange = this.onHistoryChange.bind(this);
     }
 
+
+    get activeClass() {
+        return this.getAttribute('activeClass')
+            || this.parentElement.getAttribute('activeClass')
+            || 'gameface-route-active';
+    }
+
     disconnectedCallback() {
         window.removeEventListener('onHistoryChange', this.onHistoryChange);
     }
@@ -49,10 +56,10 @@ class GamefaceRoute extends HTMLElement {
      * @param {Event} event
     */
     onHistoryChange(event) {
-        const activeClass = this.getAttribute('activeClass');
+        const activeClass = this.activeClass;
         const url = this.getAttribute('to');
 
-        if (!activeClass || !url) return;
+        if (!url) return;
         if (url === event.detail) {
             this.classList.add(activeClass);
         } else {

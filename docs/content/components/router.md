@@ -1,10 +1,10 @@
 ---
+date: 2021-11-16
 title: "Router"
-date: 2020-10-08T14:00:45Z
 draft: false
 ---
 
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
 
 Installation
@@ -103,6 +103,41 @@ The `<gameface-route>` has an attribute called **to**. It specifies the path to 
 ~~~~{.js}
 <gameface-route to="/start-game">Start Game</gameface-route>
 ~~~~
+
+You can specify a class name that will be added to the `<gameface-route>` element when it is active.
+To do so define your style using css:
+
+~~~~{.css}
+.myActiveStyle {
+    color: blue;
+}
+~~~~
+
+And then add it as an attribute of the `<gameface-route>`:
+
+`<gameface-route activeClass="myActiveStyle">`
+
+You can apply the `activeClass` to multiple `<gameface-route>` elements by adding it to a container:
+
+```
+<div activeClass="myActiveStyle">
+    <gameface-route to="/">Home</gameface-route>
+    <gameface-route to="/play">Play</gameface-route>
+    <gameface-route to="/settings">Settings</gameface-route>
+</div>
+```
+
+If you have both `activeClass` on the wrapper an on some individual elements, those routes that don't have own `activeClass` will inherit it from the parent element and those that have will use their own:
+
+```
+<div activeClass="green">
+    <gameface-route to="/">Home</gameface-route> // will be green
+    <gameface-route activeClass="red" to="/play">Play</gameface-route> // will be red
+    <gameface-route to="/settings">Settings</gameface-route> // will be green
+</div>
+```
+
+If you don't add `activeClass` to the wrapper div and the route element then the default light blue color will be used.
 
 ### The RouterView Element
 

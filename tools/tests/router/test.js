@@ -10,10 +10,10 @@ const NumbersModel = {
     'rational': [1.5, 1.4, -2.3]
 };
 
-const template = `<div>
+const template = `<div class="router-wrapper">
 <gameface-route id="home" to="/">Home</gameface-route>
 <gameface-route id="documentation" to="/documentation">Documentation</gameface-route>
-<gameface-route id="numbers" to="/numbers">Numbers</gameface-route>
+<gameface-route id="numbers" activeClass="red" to="/numbers">Numbers</gameface-route>
 <gameface-route id="vowel" to="/letters/vowel">Vowels</gameface-route>
 <gameface-route activeClass="active-link" id="consonant" to="/letters/consonant">Consonant</gameface-route>
 <gameface-route id="missing" to="/missing">Missing Page</gameface-route>
@@ -408,6 +408,22 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
 
                 assert(document.querySelector(routeIdToPageMap['home']) !== null, 'Current page is not "home".');
             });
+        });
+
+        it('Should use the activeClass set to the parent element', async () => {
+            await navigateTo('documentation');
+            assert(document.getElementById('documentation').classList.contains('gameface-route-active'), true);
+        });
+
+        it('Should use the activeClass set to the element', async () => {
+            await navigateTo('numbers');
+            assert(document.getElementById('numbers').classList.contains('red'), true);
+        });
+
+        it('Should use the activeClass set to the parent element', async () => {
+            document.querySelector('.router-wrapper').setAttribute('activeClass', 'green');
+            await navigateTo('documentation');
+            assert(document.getElementById('documentation').classList.contains('green'), true);
         });
     });
 }
