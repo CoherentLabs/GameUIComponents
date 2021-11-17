@@ -13,42 +13,46 @@ The gameface-form-control component comes with UMD and CJS builds.
 
 * import the components library:
 
-~~~~{.html}
+```html
 <script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
-~~~~
+```
 
 * import the gameface-form-control component:
 
-~~~~{.html}
-<script src="./node_modules/gameface-form-control/umd/gameface-form-control.production.min.js"></script>
-~~~~
+```html
+<script src="./node_modules/coherent-gameface-form-control/umd/form-control.production.min.js"></script>
+```
 
 This is all! Load the file in Gameface to see the gameface-form-control.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the gameface-form-control from the node_modules folder and import them like this:
+```html
+<gameface-form-control></gameface-form-control>
+```
 
-~~~~{.js}
+If you wish to import the modules using JavaScript you can replace the script tags
+with import statements like this:
+
+```javascript
 import components from 'coherent-gameface-components';
-import gameface-form-control from 'gameface-form-control';
-~~~~
+import GamefaceFormControl from 'coherent-gameface-form-control';
+```
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
 modules from the node_modules folder. Alternatively, you can import them directly from node_modules:
 
-~~~~{.js}
+```javascript
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import gameface-form-control from './node_modules/gameface-form-control/umd/gameface-form-control.production.min.js';
-~~~~
+import GamefaceFormControl from './node_modules/coherent-gameface-form-control/umd/form-control.production.min.js';
+```
 
 ## Usage with CJS modules:
 
 * Import the components library:
 
-~~~~{.js}
+```javascript
 const components = require('coherent-gameface-components');
-const gameface-form-control = require('gameface-form-control');
-~~~~
+const GamefaceFormControl = require('coherent-gameface-form-control');
+```
 
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
 bundler to use them in a browser.
@@ -57,14 +61,14 @@ bundler to use them in a browser.
 
 | Attribute | Required | Values        | Default value | Usage                                                                                                                                                                            |
 | --------- | -------- | ------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `method`  | Yes      | `GET`, `POST` | N/A           | Used to specify the HTTP method that will be used to send data when the form is submitted. **If the attribute is not added or with no valid value the form won't be published.** |
+| `method`  | Yes      | `GET`, `POST` | `GET`           | Used to specify the HTTP method that will be used to send data when the form is submitted. **If the attribute is not added or with no valid value the form won't be published.** |
 | `action`  | No       | Any valid URL | `./`          | Used to specify where the form will send the data. **If the attribute is not added the data will be sent to the current page URL.**                                              |
 
 ### Examples
 
 * `<gameface-form-control method="GET" action="http://localhost:12345/login"></gameface-form-control>` - Submitting this form will create a `GET` request with the form data and send it to the server that is available on `http://localhost:12345/login`.
 * `<gameface-form-control method="POST"></gameface-form-control>` - Submitting this form will create a `POST` request with the form data and send it to the current page location.
-* `<gameface-form-control></gameface-form-control>` - Submitting this form will produce a warning and won't the request will be aborted.
+* `<gameface-form-control></gameface-form-control>` - Submitting this form will produce a warning and the request will be aborted.
 
 # Form control events
 
@@ -81,7 +85,7 @@ Let us have the following functions:
 
 ```javascript
 function onRequestEnd(event) {
-    console.log("Request has been completed! Response from the server: ", event.detail.target.response)
+    console.log("Request response: ", event.detail.target.response)
 }
 
 function preventSubmit(event) {
@@ -89,14 +93,14 @@ function preventSubmit(event) {
 }
 ```
 
-* `<gameface-form-control onload="onRequestEnd(event)" method="GET" action="http://localhost:12345/login"></gameface-form-control>` - Will call the `onRequestEnd` function that will log the response from the request.
-* `<gameface-form-control onsubmit="preventSubmit(event)" method="GET" action="http://localhost:12345/login"></gameface-form-control>` - Will call the `preventSubmit` function that will prevent form from making request to the server when the form is submited.
+* `<gameface-form-control onload="onRequestEnd(event)" method="GET" action="http://localhost:12345/login"></gameface-form-control>` - `onRequestEnd` will log the response from the request.
+* `<gameface-form-control onsubmit="preventSubmit(event)" method="GET" action="http://localhost:12345/login"></gameface-form-control>` - `preventSubmit` will prevent form from making request to the server when the form is submitted.
 
 ## Event handlers
 
 | Event     | Usage                                                                                           |
 | --------- | ----------------------------------------------------------------------------------------------- |
-| `loadend` | Will be triggered when the form request has been completed, whether with success or not.             |
+| `loadend` | Will be triggered when the form request has completed, whether with success or not.             |
 | `submit`  | Will be triggered when the form is submitted and right before the request is made to the server. |
 
 ### Examples
@@ -108,7 +112,7 @@ Let us have the following form - `<gameface-form-control id="form" method="GET" 
 ```javascript
 const form = document.getElementById('form');
 form.addEventListener('loadend', (event)=>{
-    console.log("Request has been completed! Response from the server: ",event.detail.target.response)
+    console.log("Request response: ",event.detail.target.response)
 });
 ```
 
@@ -116,7 +120,7 @@ form.addEventListener('loadend', (event)=>{
 
 ```javascript
 const form = document.getElementById('form');
-form.addEventListener('submit', (event)=>{
+form.addEventListener('submit', (event) => {
     event.preventDefault();
 });
 ```
@@ -135,7 +139,7 @@ The `name` attribute will be used to specify the form-data key and the `value` w
 
 So far Gameface does not support input elements with the type `submit` although they can be defined in the DOM.
 
-The form control will threaten these elements like submit buttons and when they are clicked the form will be submitted.
+The form control will treat these elements like submit buttons and when they are clicked the form will be submitted.
 
 ### Other inputs
 
@@ -154,7 +158,7 @@ Any other input elements with type `range`, `color`, `date`, etc. are not suppor
 </gameface-form-control>
 ```
 
-Clicking onto the input with type `submit` will make a `GET` request to `http://localhost:12345/login?user=name&password=pass&submitButton=It+is+input+not+a+button`.
+Clicking on the input with type `submit` will make a `GET` request to `http://localhost:12345/login?user=name&password=pass&submitButton=It+is+input+not+a+button`.
 
 ### Notes
 
@@ -165,7 +169,7 @@ Clicking onto the input with type `submit` will make a `GET` request to `http://
 
 `<textarea>` element is supported from the gameface form control.
 
-It is **required** the textarea to have a `name` attribute if you want to be included in the form data on submit.
+The `name` attribute is **required** if you want the value to be included in the form data on submit.
 
 The `name` attribute will be used to specify the form-data key and the `value` will be used to specify the form data value of the input.
 
@@ -181,7 +185,7 @@ The `name` attribute will be used to specify the form-data key and the `value` w
 </gameface-form-control>
 ```
 
-Clicking onto the button will make a `POST` request to `http://localhost:12345/register` with the body `{"info":"Default value"}`.
+Clicking on the button will make a `POST` request to `http://localhost:12345/register` with the body `{"info":"Default value"}`.
 `moreInfo` won't be included in the request body if its value is empty.
 
 ## Button
@@ -201,8 +205,8 @@ If a button has `name` and `value` attributes their values will be included in t
 </gameface-form-control>
 ```
 
-* Clicking onto the button with id `button-with-data` will make a `GET` request to `http://localhost:12345/buttons?button=data`.
-* Clicking onto the button with id `button-with-no-data` will make a `GET` request to `http://localhost:12345/buttons`.
+* Clicking on the button with id `button-with-data` will make a `GET` request to `http://localhost:12345/buttons?button=data`.
+* Clicking on the button with id `button-with-no-data` will make a `GET` request to `http://localhost:12345/buttons`.
 
 ## Gameface checkbox
 
@@ -212,7 +216,7 @@ The `name` attribute is required if you want the checkbox to be included in the 
 
 The `value` attribute is not required but if it is empty and the checkbox is checked then the value will be - `on` by default.
 
-If the checkbox is checked then its name and value will be included in the form data on submit and vice versa if not.
+If the checkbox is checked then its `name` and `value` will be included in the form data on submit and vice versa if not.
 
 ### Example
 
@@ -231,7 +235,7 @@ If the checkbox is checked then its name and value will be included in the form 
             <div class="checkbox-background"></div>
         </component-slot>
         <component-slot data-name="label">
-            <span class="label">Music</span>
+            <span class="label">Coding</span>
         </component-slot>
     </gameface-checkbox>
     <gameface-checkbox name="user-interests">
@@ -246,13 +250,13 @@ If the checkbox is checked then its name and value will be included in the form 
 </gameface-form-control>
 ```
 
-Clicking onto the submit button will make a `GET` request to `http://localhost:3000/interests?user-interests=music&user-interests=coding&user-interests=on`.
+Clicking on the submit button will make a `GET` request to `http://localhost:3000/interests?user-interests=music&user-interests=coding&user-interests=on`.
 
 Unchecking the `Nothing` and `Coding` checkboxes and then submitting the form will make a `GET` request to `http://localhost:3000/interests?user-interests=music`.
 
 ## Gameface radio group/button
 
-`<gameface-radion-group>` is a gameface component that represents a group with radio buttons that lets the user choose one from all and it is supported by the gameface form control.
+`<gameface-radio-group>` is a gameface component that represents a group with radio buttons that lets the user choose one from all and it is supported by the gameface form control.
 
 The `name` attribute is required if you want the radio group to be included in the form data when submitted.
 
@@ -278,13 +282,13 @@ The `value` attribute is not required for the radio-button element but if it is 
 </gameface-form-control>
 ```
 
-Clicking onto the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"on"}`.
+Clicking on the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"on"}`.
 
 ## Gameface switch
 
 `<gameface-switch>` is a gameface component that represents a switch toggle button that lets the uses enable/disable the option and it is supported by the gameface form control.
 
-The `name` attribute is required if you want the radio group to be included in the form data when submitted.
+The `name` attribute is required if you want the switch to be included in the form data when submitted.
 
 The `value` attribute is not required for the switch element but if it is empty and the switch is enabled then the value will be - `on` by default.
 
@@ -308,7 +312,7 @@ The `value` attribute is not required for the switch element but if it is empty 
 
 Enable both switch buttons.
 
-Clicking onto the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"on"}`.
+Clicking on the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"on"}`.
 
 ## Gameface dropdown
 
@@ -336,6 +340,4 @@ The `value` attribute is not required for the dropdown option element but if it 
 </gameface-form-control>
 ```
 
-Enable both switch buttons.
-
-Clicking onto the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"One"}`.
+Clicking on the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"One"}`.
