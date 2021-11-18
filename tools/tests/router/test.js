@@ -411,19 +411,25 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
         });
 
         it('Should use the activeClass set to the parent element', async () => {
-            await navigateTo('documentation');
-            assert(document.getElementById('documentation').classList.contains('gameface-route-active'), true);
+            await navigateTo('documentation', confirmation);
+            return createAsyncSpec(() => {
+                assert(document.getElementById('documentation').classList.contains('gameface-route-active'), true);
+            });
         });
 
         it('Should use the activeClass set to the element', async () => {
-            await navigateTo('numbers');
-            assert(document.getElementById('numbers').classList.contains('red'), true);
+            await navigateTo('numbers', confirmation);
+            return createAsyncSpec(() => {
+                assert(document.getElementById('numbers').classList.contains('red'), true);
+            });
         });
 
         it('Should use the activeClass set to the parent element', async () => {
             document.querySelector('.router-wrapper').setAttribute('activeClass', 'green');
-            await navigateTo('documentation');
-            assert(document.getElementById('documentation').classList.contains('green'), true);
+            await navigateTo('documentation', confirmation);
+            return createAsyncSpec(() => {
+                assert(document.getElementById('documentation').classList.contains('green'), true);
+            });
         });
     });
 }
