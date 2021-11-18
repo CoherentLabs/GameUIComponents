@@ -18,7 +18,7 @@ class Tooltip extends HTMLElement {
     }
 
     connectedCallback() {
-        this.position = this.getAttribute('at') || 'top';
+        this.position = this.getAttribute('position') || 'top';
         this.showOn = this.getAttribute('on') || 'click';
         this.hideOn = this.getAttribute('off') || 'click';
         this.elementSelector = this.getAttribute('for');
@@ -29,7 +29,6 @@ class Tooltip extends HTMLElement {
             .then((result) => {
                 this.template = result.template;
                 components.renderOnce(this);
-
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
@@ -37,14 +36,23 @@ class Tooltip extends HTMLElement {
 
     attachEventListeners() {
         // TODO: validate if showOn is a valid onEvent handler
+        if (this.showOn === this.hideOn) {
+            this.triggerElement.addEventListener(this.showOn, (e) => this.toggle(e));
+            return;
+        }
+
         this.triggerElement.addEventListener(this.showOn, (e) => this.show(e));
         this.triggerElement.addEventListener(this.hideOn, (e) => this.hide(e));
     }
 
     toggle() {
+        if (this.state.visible) {
+            this.hide();
+        } else {
+            this.show();
+        }
+
         this.state.visible = !this.state.visible;
-        if (this.state.visible) return this.classList.add('hidden-tooltip')
-        this.classList.remove('hidden-tooltip');
     }
 
     hide () {
@@ -52,6 +60,7 @@ class Tooltip extends HTMLElement {
     }
 
     show() {
+        // use visibility before showing to calculate the size
         this.style.visibility = 'hidden';
         this.style.display = '';
         const elementSize = this.triggerElement.getBoundingClientRect();
@@ -79,7 +88,6 @@ class Tooltip extends HTMLElement {
 
         this.style.top = position.top + 'px';
         this.style.left = position.left + 'px';
-        this.classList.remove('hidden-tooltip');
         this.style.visibility = 'visible';
     }
 }
