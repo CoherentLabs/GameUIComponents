@@ -9,32 +9,67 @@
     <link rel="stylesheet" href="../style.css">
     <title>Document</title>
     <style>
-        .container {
-            width: 100px;
-            height: 40px;
-            background-color: aqua;
+        .target {
+            width: 150px;
+            text-align: center;
+            background-color: #6e6d6d;
+            color: #ffffff;
             position: relative;
             top: 500px;
-            left: 500px
+            left: 500px;
+            padding: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title,
+        .button {
+            height: 40px;
+            background-color: var(--default-color-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button {
+            background-color: var(--default-color-gray);
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-<div class="container"></div>
-<gameface-tooltip for=".container" on="mouseenter" at="top" off="mouseleave">
-    <div slot="message">Message on top</div>
-</gameface-tooltip>
-<gameface-tooltip for=".container" on="mouseenter" at="left" off="mouseleave">
-    <div slot="message">Message on left</div>
-</gameface-tooltip>
-<gameface-tooltip for=".container" on="mouseenter" at="bottom" off="mouseleave">
-    <div slot="message">Message on bottom</div>
-</gameface-tooltip>
-<gameface-tooltip for=".container" on="mouseenter" at="right" off="mouseleave">
-    <div slot="message">Message on right</div>
-</gameface-tooltip>
+    <div class="target">Hover over me</div>
+    <gameface-tooltip id="tutorial" for=".target" on="click" position="top" off="click">
+        <div slot="message">
+            <div class="container">
+                <div class="title">Wellcome!</div>
+                <div class="text">
+                    Hello, this is your first tutorial.
+                    Click the next button to continue.
+                </div>
+                <div class="button">Next</div>
+            </div>
+        </div>
+    </gameface-tooltip>
+    <gameface-tooltip for=".target" on="mouseenter" position="left" off="mouseleave">
+        <div slot="message">Message on left</div>
+    </gameface-tooltip>
+    <gameface-tooltip for=".target" on="mouseenter" position="bottom" off="mouseleave">
+        <div slot="message">Message on bottom</div>
+    </gameface-tooltip>
+    <gameface-tooltip for=".target" on="mouseenter" position="right" off="mouseleave">
+        <div slot="message">Message on right</div>
+    </gameface-tooltip>
     <script src="./bundle.js"></script>
+    <script>
+        document.getElementById('tutorial').addEventListener('click', (e) => {
+            e.currentTarget.hide();
+        });
+    </script>
 </body>
 
 </html>
