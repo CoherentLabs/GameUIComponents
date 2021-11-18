@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync, exec } = require('child_process');
+const { execSync, exec, spawn } = require('child_process');
 
 const COMPONENTS_FOLDER = path.join(__dirname, '../components');
 const TESTS_FOLDER = path.join(__dirname, '../tools/tests');
@@ -14,7 +14,7 @@ const components = fs.readdirSync(COMPONENTS_FOLDER);
 
 function areComponentsPackaged() {
     const notBuildComponents = [];
-    for(let component of components) {
+    for (let component of components) {
         const componentFolder = path.join(COMPONENTS_FOLDER, component, 'umd');
         const componentTestFolder = path.join(TESTS_FOLDER, component);
 
@@ -30,10 +30,20 @@ function areComponentsPackaged() {
     return false;
 }
 
+const FORM_CONTROL_TEST_DEPENDENCIES = ['checkbox', 'dropdown', 'radio-button', 'rangeslider', 'switch'];
+
+function copyTestDependencies(component, dependencies) {
+    for (let dependency of dependencies) {
+        const componentPackageName = `${dependency}.development.js`;
+        fs.copyFileSync(
+            path.join(COMPONENTS_FOLDER, dependency, 'umd', componentPackageName),
+            path.join(TESTS_FOLDER, component, componentPackageName));
+    }
+}
 
 function test(rebuild, browsersArg) {
     if (rebuild) execSync('npm run rebuild', { cwd: path.join(__dirname, '../'), stdio: 'inherit' });
-    if(!areComponentsPackaged()) return;
+    if (!areComponentsPackaged()) return;
 
     fs.copyFileSync(
         path.join(__dirname, '../', 'lib/umd/components.development.js'),
@@ -48,6 +58,19 @@ function test(rebuild, browsersArg) {
         fs.copyFileSync(
             path.join(COMPONENTS_FOLDER, component, 'umd', componentPackageName),
             path.join(TESTS_FOLDER, component, componentPackageName));
+
+        if (component === 'form-control') {
+            copyTestDependencies(component, FORM_CONTROL_TEST_DEPENDENCIES);
+        }
+    });
+
+    const formsServer = spawn('node', ['forms-server.js'], { cwd: __dirname });
+    formsServer.stdout.on('data', function (data) {
+        console.log(data.toString());
+    });
+
+    formsServer.stderr.on('data', function (data) {
+        console.log(data.toString());
     });
 
     const process = exec(`karma start tools/tests/karma.conf.js ${browsersArg}`, { cwd: path.join(__dirname, '../') });
@@ -56,8 +79,15 @@ function test(rebuild, browsersArg) {
         console.log(data.toString());
     });
     process.on('exit', function (code) {
+        formsServer.kill();
         global.process.exit(code);
-   });
+    });
+    process.on('uncaughtException', () => {
+        formsServer.kill();
+    });
+    process.on('SIGTERM', () => {
+        formsServer.kill();
+    });
 }
 
 function main() {

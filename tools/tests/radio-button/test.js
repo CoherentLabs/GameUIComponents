@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 const radioButtonTemplate = `<gameface-radio-group>
-<radio-button>1</radio-button>
+<radio-button value="one">1</radio-button>
 <radio-button>2</radio-button>
 <radio-button>3</radio-button>
 </gameface-radio-group>`;
@@ -67,9 +67,14 @@ describe('Radio Button Tests', () => {
             assert.equal(radioButtons[0].getAttribute('aria-checked'), 'false', 'First radio-button has not been unchecked after checked.');
         });
 
-        it('Radio Button should have a working "value" getter', () => {
+        it('Radio Button should have a working "value" getter. The value should be "one"', () => {
             const radioButton = document.querySelector('radio-button');
-            assert.equal(radioButton.value, '1', 'First radio-button has not been unchecked after checked.');
+            assert.equal(radioButton.value, 'one', 'First radio-button has not been unchecked after checked.');
+        });
+
+        it('Radio Button should have a working "value" getter. The value should be "on"', () => {
+            const radioButton = document.querySelectorAll('radio-button')[1];
+            assert.equal(radioButton.value, 'on', 'First radio-button has not been unchecked after checked.');
         });
 
         it('Radio Button should have a working "value" setter', () => {
@@ -89,7 +94,7 @@ describe('Radio Button Tests', () => {
         it('Radio Button should have been checked by ArrowRight key', () => {
             const radioButtons = document.querySelectorAll('radio-button');
             click(radioButtons[0]);
-            radioButtons[0].dispatchEvent(new KeyboardEvent('keydown', {keyCode: 39})); // ArrowRight
+            radioButtons[0].dispatchEvent(new KeyboardEvent('keydown', { keyCode: 39 })); // ArrowRight
 
             assert.equal(radioButtons[1].checked, 'true', 'radio-button has not been checked by using ArrowRight key.');
         });
@@ -97,7 +102,7 @@ describe('Radio Button Tests', () => {
         it('Radio Button should have been checked by ArrowLeft key', () => {
             const radioButtons = document.querySelectorAll('radio-button');
             click(radioButtons[1]);
-            radioButtons[1].dispatchEvent(new KeyboardEvent('keydown', {keyCode: 37})); // ArrowLeft
+            radioButtons[1].dispatchEvent(new KeyboardEvent('keydown', { keyCode: 37 })); // ArrowLeft
 
             assert.equal(radioButtons[0].checked, 'true', 'radio-button has not been checked by using ArrowLeft key.');
         });

@@ -76,7 +76,7 @@ class GamefaceRadioGroup extends HTMLElement {
 
 	setButtonAttributes(button, checked) {
 		button.setAttribute('tabindex', checked ? '0' : '-1');
-		button.setAttribute('aria-checked',  checked ? 'true' : 'false');
+		button.setAttribute('aria-checked', checked ? 'true' : 'false');
 	}
 
 	setupButtons() {
@@ -86,7 +86,8 @@ class GamefaceRadioGroup extends HTMLElement {
 			this.setButtonAttributes(button);
 
 			if (button.hasAttribute('checked')) {
-				button.checked = true;
+				this.uncheckPreviousButton();
+				this.checkButton(button);
 			}
 		}
 	}
@@ -119,10 +120,18 @@ class RadioButton extends HTMLElement {
 	}
 
 	get value() {
-		return this.textElement.textContent;
+		return this.getAttribute('value') || 'on';
 	}
 
 	set value(value) {
+		this.setAttribute('value', value);
+	}
+
+	get text() {
+		return this.textElement.textContent;
+	}
+
+	set text(value) {
 		this.textElement.textContent = value;
 	}
 

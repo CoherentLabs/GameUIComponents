@@ -86,7 +86,7 @@ class GamefaceDropdown extends HTMLElement {
                 this.allOptions[index].classList.remove('active');
             }
             this.selectedList = [];
-            this._lastSelectedIndex  = 0;
+            this._lastSelectedIndex = 0;
             this.hoveredElIndex = 0;
             return;
         }
@@ -105,15 +105,15 @@ class GamefaceDropdown extends HTMLElement {
 
         if (this.selectedList.indexOf(selectedIndex) > -1) {
             this.selectedList.splice(this.selectedList.indexOf(selectedIndex), 1);
-            this._lastSelectedIndex  = this.selectedList[this.selectedList.length -1] || 0;
+            this._lastSelectedIndex = this.selectedList[this.selectedList.length - 1] || 0;
             option.classList.remove('active');
         } else {
             option.classList.add('active');
             this.selectedList.push(selectedIndex);
-            this._lastSelectedIndex  = selectedIndex;
+            this._lastSelectedIndex = selectedIndex;
         }
 
-        this.hoveredElIndex = this._lastSelectedIndex ;
+        this.hoveredElIndex = this._lastSelectedIndex;
 
         // dispatch a change event
         this.dispatchEvent(new CustomEvent('change', {
@@ -149,7 +149,7 @@ class GamefaceDropdown extends HTMLElement {
         return this.allOptions[this._lastSelectedIndex] || components.cachedComponents.dropdowns[this.id].options[this._lastSelectedIndex];
     }
 
-    get selectedOptions () {
+    get selectedOptions() {
         return this.selectedList.map(selected => this.allOptions[selected]);
     }
 
@@ -263,7 +263,7 @@ class GamefaceDropdown extends HTMLElement {
 
         // If the select is multiple, the keyboard navigation should start from the element that was selected last
         if (this.multiple && this.selectedList.length > 1) {
-            const lastSelectedOptionIndex = this.selectedList[this.selectedList.length-1];
+            const lastSelectedOptionIndex = this.selectedList[this.selectedList.length - 1];
             currentOptionIndex = this.enabledOptions.indexOf(this.allOptions[lastSelectedOptionIndex]);
         }
 
@@ -450,7 +450,7 @@ class GamefaceDropdown extends HTMLElement {
         clearTimeout(this.timeout);
         document.body.classList.add('disable-hover');
 
-        let scrollInPX = this._lastSelectedIndex  * optionSize;
+        let scrollInPX = this._lastSelectedIndex * optionSize;
         scrollbleContainer.scrollTop = scrollInPX;
         scrollbleContainer.dispatchEvent(new CustomEvent('scroll'));
 
@@ -463,6 +463,10 @@ class GamefaceDropdown extends HTMLElement {
 class DropdownOption extends HTMLElement {
     static get observedAttributes() {
         return ['disabled'];
+    }
+
+    get value() {
+        return this.getAttribute('value') || this.textContent;
     }
 
     /**
@@ -484,7 +488,7 @@ class DropdownOption extends HTMLElement {
     }
 
     onClick(event) {
-        event.target.dispatchEvent(new CustomEvent('selected-option', {detail: {ctrlKey: event.ctrlKey}}));
+        event.target.dispatchEvent(new CustomEvent('selected-option', { detail: { ctrlKey: event.ctrlKey } }));
     }
 }
 
