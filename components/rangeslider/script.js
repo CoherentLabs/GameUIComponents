@@ -51,6 +51,14 @@ class Rangeslider extends HTMLElement {
         return this._max;
     }
 
+    get value() {
+        return this._value[0];
+    }
+
+    set value(value) {
+        this._value = value;
+    }
+
     /**
      * Converts a value to percent in a range
      * @param {number} value - the value to be converted
@@ -79,6 +87,14 @@ class Rangeslider extends HTMLElement {
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
+    }
+
+    checkValidity() {
+        if (components.isFormElement(this)) return false;
+        if (this.hasAttribute('two-handles')) {
+            console.warn('gameface-rangeslider component does not support form data when "two-handles" attribute is used!');
+            return false;
+        }
     }
 
     /**

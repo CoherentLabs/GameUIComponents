@@ -19,6 +19,16 @@ class GamefaceRadioGroup extends HTMLElement {
 		return Array.from(this.querySelectorAll('radio-button'));
 	}
 
+	get value() {
+		return this.previouslyCheckedElement.value;
+	}
+
+	checkValidity() {
+		if (components.isFormElement(this)) return false;
+		const checkedButton = element.previouslyCheckedElement;
+		if (!checkedButton || !element.hasAttribute('name')) return false;
+	}
+
 	setCheckedToPreviousItem(button) {
 		const prevSibling = button.previousElementSibling;
 
