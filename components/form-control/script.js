@@ -97,14 +97,8 @@ class GamefaceFormControl extends HTMLElement {
      * @param {URLSearchParams} params
      */
     serializeRangeSliderData(element, params) {
-        if (element.hasAttribute('two-handles')) {
-            console.warn('gameface-rangeslider component does not support form data when "two-handles" attribute is used!');
-            return;
-        }
-
-        //The real rangeslider value is hidden inside _value[0]
-        if (element.hasAttribute('name') && element._value[0] !== undefined) {
-            params.append(element.getAttribute('name'), element._value[0]);
+        if (element.hasAttribute('name') && element.value) {
+            params.append(element.getAttribute('name'), element.value);
         }
     }
 
@@ -114,8 +108,6 @@ class GamefaceFormControl extends HTMLElement {
      * @param {URLSearchParams} params
      */
     serializeCheckboxData(element, params) {
-        if (!element.state.checked || !element.hasAttribute('name')) return;
-
         params.append(element.getAttribute('name'), element.value);
     }
 
@@ -125,9 +117,7 @@ class GamefaceFormControl extends HTMLElement {
      * @param {URLSearchParams} params
      */
     serializeSwitchData(element, params) {
-        if (!element.checked || !element.hasAttribute('name')) return;
-        const value = element.getAttribute('value') || 'on';
-
+        const value = element.value;
         params.append(element.getAttribute('name'), value);
     }
 
@@ -137,17 +127,19 @@ class GamefaceFormControl extends HTMLElement {
      * @param {URLSearchParams} params
      */
     serializeDropDownData(element, params) {
-        if (!element.hasAttribute('name')) return;
-
         const dataName = element.getAttribute('name');
-        const selectedOptions = element.selectedOptions;
+        const value = element.value;
 
-        if (!selectedOptions.length) return;
-
+        // TODO: make more generic; avoid loop maybe?
         //By standard selected options that are disabled should not be added to the form data even they are selected in a multiple select.
-        for (let option of selectedOptions) {
-            params.append(dataName, option.value);
+        if (value instanceof Array && value.length > 0) {
+            for (let option of element.selectedOptions) {
+                params.append(dataName, option.value);
+            }
+            return;
         }
+
+        params.append(dataName, element.value);
     }
 
     /**
@@ -156,10 +148,7 @@ class GamefaceFormControl extends HTMLElement {
      * @param {URLSearchParams} params
      */
     serializeRadioGroupData(element, params) {
-        const checkedButton = element.previouslyCheckedElement;
-        if (!checkedButton || !element.hasAttribute('name')) return;
-
-        params.append(element.getAttribute('name'), checkedButton.value);
+        params.append(element.getAttribute('name'), element.value);
     }
 
     /**

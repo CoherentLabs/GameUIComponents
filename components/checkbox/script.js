@@ -25,6 +25,11 @@ class Checkbox extends HTMLElement {
         return this.getAttribute('value') || 'on';
     }
 
+    checkValidity() {
+        if (components.isFormElement(this)) return false;
+        if (!element.state.checked || !element.hasAttribute('name')) return false;
+    }
+
     connectedCallback() {
         components.loadResource(this)
             .then((result) => {

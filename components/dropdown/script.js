@@ -54,6 +54,9 @@ class GamefaceDropdown extends HTMLElement {
      * @returns {String}
     */
     get value() {
+        if (components.isFormElement(this) && this.multiple) {
+            return this.selectedOptions.map(el => el.value);
+        }
         if (this.selected) return this.selected.textContent;
         return '';
     }
@@ -153,6 +156,12 @@ class GamefaceDropdown extends HTMLElement {
         return this.selectedList.map(selected => this.allOptions[selected]);
     }
 
+    checkValidity() {
+        if (components.isFormElement(this)) return false;
+        if (!this.hasAttribute('name')) return false;
+        if (!this.selectedOptions.length) return false;
+    }
+
     connectedCallback() {
         components.loadResource(this)
             .then((result) => {
@@ -190,7 +199,6 @@ class GamefaceDropdown extends HTMLElement {
     }
 
     disconnectedCallback() {
-
         // Cache the dropdown options for adding them back if the component is re-added to the document.
         if (!components.cachedComponents.dropdowns) components.cachedComponents.dropdowns = {};
         const dropdownInstanceCache = components.cachedComponents.dropdowns[this.id] = {};

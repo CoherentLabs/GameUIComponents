@@ -12,6 +12,12 @@ import textOutside from './templates/text-outside-template.html';
  * Switch component, that allows you to switch between true and false
  */
 class Switch extends HTMLElement {
+    get value() {
+        const value = this.getAttribute('value');
+        if (components.isFormElement(this)) return value || 'on';
+        return value;
+    }
+
     constructor() {
         super();
 
@@ -53,6 +59,11 @@ class Switch extends HTMLElement {
                 this.setup();
             })
             .catch((err) => console.error(err));
+    }
+
+    checkValidity() {
+        if (components.isFormElement(this)) return false;
+        if (!this.checked || !this.hasAttribute('name')) return false;
     }
 
     /**
