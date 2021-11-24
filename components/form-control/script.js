@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
+import { validate, validateElement } from './validator';
 import 'url-search-params-polyfill';
 
 const formMethods = {
@@ -86,69 +87,29 @@ class GamefaceFormControl extends HTMLElement {
      * @param {URLSearchParams} params
      */
     serializeSimpleElementData(element, params) {
-        if (element.hasAttribute('name') && element.value !== undefined) {
-            params.append(element.getAttribute('name'), element.value);
+        const value = element.value;
+
+        if (!element.hasAttribute('name') || value === undefined) return;
+
+        const name = element.getAttribute('name');
+
+        if (!value instanceof Array ) return params.append(name, element.value);
+        for (let option of element.value) {
+            params.append(name, option);
         }
     }
 
-    /**
-     * Will serialize the data from gameface-rangeslider component
-     * @param {HTMLElement} element - The gameface-rangeslider element
-     * @param {URLSearchParams} params
-     */
-    serializeRangeSliderData(element, params) {
-        if (element.hasAttribute('name') && element.value) {
-            params.append(element.getAttribute('name'), element.value);
-        }
-    }
+    validateFormElements() {
+        const nonValidElements = [];
 
-    /**
-     * Will serialize the data from gameface-checkbox component
-     * @param {HTMLElement} element - The gameface-checkbox element
-     * @param {URLSearchParams} params
-     */
-    serializeCheckboxData(element, params) {
-        params.append(element.getAttribute('name'), element.value);
-    }
-
-    /**
-     * Will serialize the data from gameface-switch component
-     * @param {HTMLElement} element - The gameface-switch element
-     * @param {URLSearchParams} params
-     */
-    serializeSwitchData(element, params) {
-        const value = element.value;
-        params.append(element.getAttribute('name'), value);
-    }
-
-    /**
-     * Will serialize the data from gameface-dropdown component
-     * @param {HTMLElement} element - The gameface-dropdown element
-     * @param {URLSearchParams} params
-     */
-    serializeDropDownData(element, params) {
-        const dataName = element.getAttribute('name');
-        const value = element.value;
-
-        // TODO: make more generic; avoid loop maybe?
-        //By standard selected options that are disabled should not be added to the form data even they are selected in a multiple select.
-        if (value instanceof Array && value.length > 0) {
-            for (let option of element.selectedOptions) {
-                params.append(dataName, option.value);
+        this.traverseFormElements(this, (element) => {
+            if(typeof element.checkValidity === 'function') {
+                if(!element.checkValidity()) nonValidElements.push(element);
             }
-            return;
-        }
+        });
 
-        params.append(dataName, element.value);
-    }
-
-    /**
-     * Will serialize the data from gameface-radiogroup component
-     * @param {HTMLElement} element - The gameface-radiogroup element
-     * @param {URLSearchParams} params
-     */
-    serializeRadioGroupData(element, params) {
-        params.append(element.getAttribute('name'), element.value);
+        if (nonValidElements.length) return false;
+        return true;
     }
 
     /**
@@ -160,22 +121,29 @@ class GamefaceFormControl extends HTMLElement {
         if (element.hasAttribute('disabled')) return;
         const tagName = element.tagName.toLowerCase();
 
-        switch (tagName) {
-            case tags.INPUT:
-            case tags.TEXTAREA:
-                return this.serializeSimpleElementData(element, params);
-            case tags.GAMEFACE_SWITCH:
-                return this.serializeSwitchData(element, params);
-            case tags.GAMEFACE_RANGESLIDER:
-                return this.serializeRangeSliderData(element, params);
-            case tags.GAMEFACE_CHECKBOX:
-                return this.serializeCheckboxData(element, params);
-            case tags.GAMEFACE_DROPDOWN:
-                return this.serializeDropDownData(element, params);
-            case tags.GAMEFACE_RADIO_GROUP:
-                return this.serializeRadioGroupData(element, params);
-            default: break;
+        debugger
+        if (validateElement(element)) {
+            return this.serializeSimpleElementData(element, params);
         }
+
+        // else prevent submit?
+
+        // switch (tagName) {
+        //     case tags.INPUT:
+        //     case tags.TEXTAREA:
+        //         return this.serializeSimpleElementData(element, params);
+        //     case tags.GAMEFACE_SWITCH:
+        //         return this.serializeSwitchData(element, params);
+        //     case tags.GAMEFACE_RANGESLIDER:
+        //         return this.serializeRangeSliderData(element, params);
+        //     case tags.GAMEFACE_CHECKBOX:
+        //         return this.serializeCheckboxData(element, params);
+        //     case tags.GAMEFACE_DROPDOWN:
+        //         return this.serializeDropDownData(element, params);
+        //     case tags.GAMEFACE_RADIO_GROUP:
+        //         return this.serializeRadioGroupData(element, params);
+        //     default: break;
+        // }
     }
 
     /**
