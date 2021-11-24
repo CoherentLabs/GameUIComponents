@@ -61,9 +61,9 @@ class Switch extends HTMLElement {
             .catch((err) => console.error(err));
     }
 
-    checkValidity() {
-        if (components.isFormElement(this)) return false;
-        if (!this.checked || !this.hasAttribute('name')) return false;
+    valueMissing() {
+        if (!this.isRequired() && this.checked) return false;
+        return true;
     }
 
     /**

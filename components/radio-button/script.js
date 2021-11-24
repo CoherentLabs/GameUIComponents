@@ -20,13 +20,13 @@ class GamefaceRadioGroup extends HTMLElement {
 	}
 
 	get value() {
-		return this.previouslyCheckedElement.value;
+		return this.previouslyCheckedElement ? this.previouslyCheckedElement.value : '';
 	}
 
-	checkValidity() {
-		if (components.isFormElement(this)) return false;
-		const checkedButton = element.previouslyCheckedElement;
-		if (!checkedButton || !element.hasAttribute('name')) return false;
+	valueMissing() {
+		const checkedButton = this.previouslyCheckedElement;
+		if (!checkedButton) return false;
+		return true;
 	}
 
 	setCheckedToPreviousItem(button) {
