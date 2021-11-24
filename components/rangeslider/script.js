@@ -9,6 +9,7 @@ import verticalTemplateTwoHandles from './templates/verticalTwoHandles.html';
 import horizontalTemplate from './templates/horizontal.html';
 import horizontalTemplateTwoHandles from './templates/horizontalTwoHandles.html';
 import { orientationUnitsNames } from './orientationUnitsNames';
+import { CustomElementValidator } from 'coherent-gameface-components';
 
 const ORIENTATIONS = ['vertical', 'horizontal'];
 const SPACE_BETWEEN_GRID_POLS = 10;
@@ -18,7 +19,7 @@ const SPACE_BETWEEN_GRID_POLS = 10;
  * Rangeslider component, allows you to specify a numeric value by using a slider.
  * It must be no less than a given value, and no more than another given value.
  */
-class Rangeslider extends HTMLElement {
+class Rangeslider extends CustomElementValidator {
     /**
      * Sets the minimum value of the slider
      * @param {number} value
@@ -89,12 +90,13 @@ class Rangeslider extends HTMLElement {
         this.onMouseUp = this.onMouseUp.bind(this);
     }
 
-    checkValidity() {
-        if (components.isFormElement(this)) return false;
+    customError() {
         if (this.hasAttribute('two-handles')) {
             console.warn('gameface-rangeslider component does not support form data when "two-handles" attribute is used!');
-            return false;
+            return true;
         }
+
+        return false;
     }
 
     /**

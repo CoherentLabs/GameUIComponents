@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
+import { CustomElementValidator } from 'coherent-gameface-components';
 import ScrollableContainer from 'coherent-gameface-scrollable-container';
 import template from './template.html';
 
@@ -26,7 +27,7 @@ function isDescendant(parent, child) {
     return false;
 }
 
-class GamefaceDropdown extends HTMLElement {
+class GamefaceDropdown extends CustomElementValidator {
     constructor() {
         super();
         this.multiple = false;
@@ -54,7 +55,7 @@ class GamefaceDropdown extends HTMLElement {
      * @returns {String}
     */
     get value() {
-        if (components.isFormElement(this) && this.multiple) {
+        if (this.isFormElement(this) && this.multiple) {
             return this.selectedOptions.map(el => el.value);
         }
         if (this.selected) return this.selected.textContent;
@@ -156,10 +157,9 @@ class GamefaceDropdown extends HTMLElement {
         return this.selectedList.map(selected => this.allOptions[selected]);
     }
 
-    checkValidity() {
-        if (components.isFormElement(this)) return false;
-        if (!this.hasAttribute('name')) return false;
-        if (!this.selectedOptions.length) return false;
+    valueMissing() {
+        if (!this.selectedOptions.length) return true;
+        return false;
     }
 
     connectedCallback() {
