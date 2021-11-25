@@ -9,15 +9,29 @@
     <link rel="stylesheet" href="../style.css">
     <title>Document</title>
     <style>
-        .target {
+        .rows {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: absolute;
+            top: 200px;
+        }
+
+        .columns {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .auto,
+        .manual {
             width: 150px;
             text-align: center;
             background-color: #6e6d6d;
             color: #ffffff;
-            position: relative;
-            top: 500px;
-            left: 500px;
             padding: 10px;
+            margin-left: 200px;
+            margin-right: 200px;
         }
 
         .container {
@@ -42,8 +56,17 @@
 </head>
 
 <body>
-    <div class="target">Hover over or click me</div>
-    <gameface-tooltip id="tutorial" target=".target" on="click" position="top" off="click">
+    <div class="rows">
+        <div class="columns">
+            <p>Show or hide automatically</p>
+            <div class="auto">Hover over me</div>
+        </div>
+        <div class="columns">
+            <p>Show or hide manually using a callback</p>
+            <div class="manual">Click me</div>
+        </div>
+    </div>
+    <gameface-tooltip id="tutorial" target=".manual" on="click" position="top" off="click">
         <div slot="message">
             <div class="container">
                 <div class="title">Wellcome!</div>
@@ -55,20 +78,20 @@
             </div>
         </div>
     </gameface-tooltip>
-    <gameface-tooltip target=".target" on="mouseenter" position="left" off="mouseleave">
-        <div slot="message">Message on left</div>
+    <gameface-tooltip target=".auto" on="mouseenter" position="left" off="mouseleave">
+        <div slot="message">Message on the left</div>
     </gameface-tooltip>
-    <gameface-tooltip target=".target" on="mouseenter" position="bottom" off="mouseleave">
-        <div slot="message">Message on bottom</div>
+    <gameface-tooltip target=".auto" on="mouseenter" position="bottom" off="mouseleave">
+        <div slot="message">Message on the bottom</div>
     </gameface-tooltip>
-    <gameface-tooltip target=".target" on="mouseenter" position="right" off="mouseleave">
-        <div slot="message">Message on right</div>
+    <gameface-tooltip target=".auto" on="mouseenter" position="right" off="mouseleave">
+        <div slot="message">Message on the right</div>
     </gameface-tooltip>
 
     <script src="./bundle.js"></script>
     <script>
-        document.getElementById('tutorial').addEventListener('click', (e) => {
-            e.currentTarget.hide();
+        document.querySelector('.button').addEventListener('click', (e) => {
+            document.querySelector('#tutorial').hide();
         });
     </script>
 </body>
