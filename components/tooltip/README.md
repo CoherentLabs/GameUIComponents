@@ -27,20 +27,20 @@ The tooltip component comes with UMD and CJS builds.
 * add the tooltip component to your html:
 
 ~~~~{.html}
-<gameface-tooltip for=".container">
+<gameface-tooltip target=".container">
     <div slot="message">Hello!</div>
 </gameface-tooltip>
 ~~~~
 
-Usually a tooltip is displayed as a result of an action performed on another element. For example you need to show a tooltip with more data when you hover over an item in the inventory. To specify the trigger element use the for attribute. Its value is a query string used to get the element. Refer to the table bellow for full list of attributes.
+Usually a tooltip is displayed as a result of an action performed on another element. For example you need to show a tooltip with more data when you hover on an item in the inventory. To specify the trigger element use the `target` attribute. Its value is a query string used to get the element. Refer to the table below for the full list of attributes.
 
 
-| Attribute   | Type   | Default   | Description   |
-|---|---|---|---|
-|for|DOMString|N/A|Specify the element on which the tooltip should be displayed.|
-|on|String|click|Specify the event which will trigger the show method of the tooltip |
-|off|String|click|Specify the event which will trigger the hide method of the tooltip |
-|position|String|top|Specify the position of the tooltip relative to the element specified using the `for` attribute. Possible values are `top`, `bottom`, `left` and `right`|
+| Attribute | Type      | Default | Accepted values                  | Description                                                                                      |
+| --------- | --------- | ------- | -------------------------------- | ------------------------------------------------------------------------------------------------ |
+| target       | DOMString | N/A     | Any                              | Specify the element on which the tooltip should be displayed.                                    |
+| on        | String    | click   | `click`, ...                     | Specify the event which will trigger the show method of the tooltip                              |
+| off       | String    | click   | `click`, ...                     | Specify the event which will trigger the hide method of the tooltip                              |
+| position  | String    | top     | `top`, `bottom`, `left`, `right` | Specify the position of the tooltip relative to the element specified using the `target` attribute. |
 
 
 If you wish to import the modules using JavaScript you can remove the script tags
@@ -78,7 +78,7 @@ Specifying the content
 Use the message slot to specify the message of the tooltip.
 
 ~~~~{.html}
-<gameface-tooltip for=".container" on="mouseenter" off="mouseleave" position="left">
+<gameface-tooltip target=".container" on="mouseenter" off="mouseleave" position="left">
     <div slot="message">Message on left</div>
 </gameface-tooltip>
 ~~~~
@@ -86,7 +86,7 @@ Use the message slot to specify the message of the tooltip.
 You can also put more complex content like interactive controls such as buttons:
 
 ~~~~{.html}
-<gameface-tooltip for=".container" on="mouseenter" position="top" off="click">
+<gameface-tooltip id="tutorial" target=".container" on="mouseenter" position="top" off="click">
     <div slot="message">
         <div class="msg-container">
             <div class="title">Wellcome!</div>
@@ -98,6 +98,14 @@ You can also put more complex content like interactive controls such as buttons:
         </div>
     </div>
 </gameface-tooltip>
+~~~~
+
+You can add more flexibility using JavaScript. In the above example the tooltip will be closed on click anywhere inside it. If you wish to close it only if the customer clicks for the example on the `Next` button you can manually attach a listener and call the `hide` method of the tooltip:
+
+~~~~{.js}
+document.querySelector('.button').addEventListener('click', (e) => {
+    document.querySelector('#tutorial').hide();
+});
 ~~~~
 
 

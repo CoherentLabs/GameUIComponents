@@ -12,18 +12,20 @@ class Tooltip extends HTMLElement {
         super();
         this.template = template;
 
-        this.state = {
-            visible: false
-        };
+        this.visible = false;
     }
 
     connectedCallback() {
         this.position = this.getAttribute('position') || 'top';
         this.showOn = this.getAttribute('on') || 'click';
         this.hideOn = this.getAttribute('off') || 'click';
-        this.elementSelector = this.getAttribute('for');
-        // TODO: check if this.elementSelector is valid and attached to DOM
+        this.elementSelector = this.getAttribute('target');
+
         this.triggerElement = document.querySelector(this.elementSelector);
+        if (!this.triggerElement) {
+            console.error(`An element with selector ${this.elementSelector} does not exit. Please make sure the selector is correct and the element exists.`);
+            return;
+        }
 
         components.loadResource(this)
             .then((result) => {
@@ -35,7 +37,6 @@ class Tooltip extends HTMLElement {
     }
 
     attachEventListeners() {
-        // TODO: validate if showOn is a valid onEvent handler
         if (this.showOn === this.hideOn) {
             this.triggerElement.addEventListener(this.showOn, (e) => this.toggle(e));
             return;
@@ -46,17 +47,18 @@ class Tooltip extends HTMLElement {
     }
 
     toggle() {
-        if (this.state.visible) {
+        if ( this.visible) {
             this.hide();
         } else {
             this.show();
         }
 
-        this.state.visible = !this.state.visible;
+         this.visible = ! this.visible;
     }
 
     hide () {
         this.style.display = 'none';
+        this.visible = false;
     }
 
     show() {
@@ -83,6 +85,11 @@ class Tooltip extends HTMLElement {
                 break;
             case 'right':
                 position.left = elementSize.left + elementSize.width + TOOLTIP_MARGIN;
+                break;
+            default:
+                position.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
+                console.log(`The provided option for position ${this.position} is not valid - using top as a fallback. Possible options are top, bottom, left and right.`);
+                this.position = 'top';
                 break;
         }
 
