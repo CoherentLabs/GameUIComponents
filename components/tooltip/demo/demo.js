@@ -5,7 +5,6 @@
 
 import components from 'coherent-gameface-components';
 import tooltip from '../umd/tooltip.development.js';
-
 import {pm} from 'postmessage-polyfill';
 import {fetch as fetchPolyfill} from 'whatwg-fetch';
 

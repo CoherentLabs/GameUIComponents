@@ -47,13 +47,11 @@ class Tooltip extends HTMLElement {
     }
 
     toggle() {
-        if ( this.visible) {
+        if (this.visible) {
             this.hide();
         } else {
             this.show();
         }
-
-         this.visible = ! this.visible;
     }
 
     hide () {
@@ -96,6 +94,7 @@ class Tooltip extends HTMLElement {
         this.style.top = position.top + 'px';
         this.style.left = position.left + 'px';
         this.style.visibility = 'visible';
+        this.visible = true;
     }
 }
 
