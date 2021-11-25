@@ -42,8 +42,8 @@
 </head>
 
 <body>
-    <div class="target">Hover over me</div>
-    <gameface-tooltip id="tutorial" for=".target" on="click" position="top" off="click">
+    <div class="target">Hover over or click me</div>
+    <gameface-tooltip id="tutorial" target=".target" on="click" position="top" off="click">
         <div slot="message">
             <div class="container">
                 <div class="title">Wellcome!</div>
@@ -55,15 +55,16 @@
             </div>
         </div>
     </gameface-tooltip>
-    <gameface-tooltip for=".target" on="mouseenter" position="left" off="mouseleave">
+    <gameface-tooltip target=".target" on="mouseenter" position="left" off="mouseleave">
         <div slot="message">Message on left</div>
     </gameface-tooltip>
-    <gameface-tooltip for=".target" on="mouseenter" position="bottom" off="mouseleave">
+    <gameface-tooltip target=".target" on="mouseenter" position="bottom" off="mouseleave">
         <div slot="message">Message on bottom</div>
     </gameface-tooltip>
-    <gameface-tooltip for=".target" on="mouseenter" position="right" off="mouseleave">
+    <gameface-tooltip target=".target" on="mouseenter" position="right" off="mouseleave">
         <div slot="message">Message on right</div>
     </gameface-tooltip>
+
     <script src="./bundle.js"></script>
     <script>
         document.getElementById('tutorial').addEventListener('click', (e) => {

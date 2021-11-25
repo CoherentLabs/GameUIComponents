@@ -4,8 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 
 const tooltipTemplate = `
-<gameface-tooltip for=".target" on="click" position="top" off="click">
-<div slot="message">Message on left</div>
+<gameface-tooltip for=".target" on="click" position="bottom" off="click">
+<div slot="message">Message on bottom</div>
+</gameface-tooltip>
+<gameface-tooltip id="default-to-top" for=".target" on="click" position="notexistingposition" off="click">
+<div slot="message">Should be on top</div>
 </gameface-tooltip>
 <div class="target" style="background-color: #6e6d6d;position: absolute; top: 500px; left: 500px;width:100px;height:50px;">Hover over me</div>`;
 
@@ -60,6 +63,16 @@ describe('Tooltip component', () => {
         return createAsyncSpec(() => {
             const tooltip = document.querySelector('gameface-tooltip');
             assert(tooltip.style.visibility !== 'hidden', 'Tooltip was displayed.');
+        }, 5);
+    });
+
+    it('Should be displayed on top as a fallback', async () => {
+        const target = document.querySelector('.target');
+        click(target);
+
+        return createAsyncSpec(() => {
+            const tooltip = document.querySelector('#default-to-top');
+            assert(tooltip.position !== 'top', 'Tooltip was no displayed on top.');
         }, 5);
     });
 });
