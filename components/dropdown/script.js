@@ -55,7 +55,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @returns {String}
     */
     get value() {
-        if (components.isFormElement(this) && this.multiple) {
+        if (this.isFormElement(this) && this.multiple) {
             return this.selectedOptions.map(el => el.value);
         }
         if (this.selected) return this.selected.textContent;
@@ -158,8 +158,8 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 
     valueMissing() {
-        if (!this.selectedOptions.length) return false;
-        return true;
+        if (!this.selectedOptions.length) return true;
+        return false;
     }
 
     connectedCallback() {

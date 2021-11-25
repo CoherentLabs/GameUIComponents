@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import { validate, validateElement } from './validator';
+import { CustomElementValidator, NativeElementValidator} from 'coherent-gameface-components';
 import 'url-search-params-polyfill';
 
 const formMethods = {
@@ -93,23 +93,32 @@ class GamefaceFormControl extends HTMLElement {
 
         const name = element.getAttribute('name');
 
-        if (!value instanceof Array ) return params.append(name, element.value);
+        if (!(value instanceof Array)) return params.append(name, element.value);
         for (let option of element.value) {
             params.append(name, option);
         }
     }
 
-    validateFormElements() {
-        const nonValidElements = [];
+    hasErrors(element) {
+        const errorNames = {
+            notAForm: !element.isFormElement(),
+            tooLong: element.tooLong(),
+            tooShort: element.tooShort(),
+            valueMissing: element.valueMissing(),
+            nameMissing: element.nameMissing(),
+            customError: element.customError()
+        };
 
-        this.traverseFormElements(this, (element) => {
-            if(typeof element.checkValidity === 'function') {
-                if(!element.checkValidity()) nonValidElements.push(element);
-            }
+        const errors = Object.keys(errorNames).filter((name) => {
+            if(errorNames[name]) return name;
         });
 
-        if (nonValidElements.length) return false;
-        return true;
+        return { hasError: errors.length, errors: errors };
+    }
+
+    validateElement(element) {
+        if (!(element instanceof CustomElementValidator)) element = new NativeElementValidator(element);
+        return this.hasErrors(element);
     }
 
     /**
@@ -121,9 +130,12 @@ class GamefaceFormControl extends HTMLElement {
         if (element.hasAttribute('disabled')) return;
         const tagName = element.tagName.toLowerCase();
 
-        debugger
-        if (validateElement(element)) {
+        const validation = this.validateElement(element);
+
+        if (!validation.hasError) {
             return this.serializeSimpleElementData(element, params);
+        } else {
+            console.error(`The following errors ocurred: ${validation.errors.join(',')}, element: ${element.getAttribute('name')}`);
         }
 
         // else prevent submit?

@@ -93,10 +93,10 @@ class Rangeslider extends CustomElementValidator {
     customError() {
         if (this.hasAttribute('two-handles')) {
             console.warn('gameface-rangeslider component does not support form data when "two-handles" attribute is used!');
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

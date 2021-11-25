@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
+import { CustomElementValidator } from 'coherent-gameface-components';
 import textInside from './templates/text-inside-template.html';
 import textOutside from './templates/text-outside-template.html';
 
@@ -11,10 +12,10 @@ import textOutside from './templates/text-outside-template.html';
  * @class Switch
  * Switch component, that allows you to switch between true and false
  */
-class Switch extends HTMLElement {
+class Switch extends CustomElementValidator {
     get value() {
         const value = this.getAttribute('value');
-        if (components.isFormElement(this)) return value || 'on';
+        if (this.isFormElement(this)) return value || 'on';
         return value;
     }
 
@@ -62,8 +63,8 @@ class Switch extends HTMLElement {
     }
 
     valueMissing() {
-        if (!this.isRequired() && this.checked) return false;
-        return true;
+        if (this.isRequired() && !this.checked) return true;
+        return false;
     }
 
     /**
