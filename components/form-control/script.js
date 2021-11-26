@@ -71,6 +71,7 @@ class GamefaceFormControl extends HTMLElement {
         this.traverseFormElements(this, (element) => {
             //We dont need data from invalid elements and elements that are having type "submit"
             if (!this.isValidFromElement(element) || this.isElementUsedToSubmit(element)) return;
+            if (!this.toCustomElement(element).willSerialize()) return;
 
             this.serializeElementData(element, params);
         })
@@ -115,6 +116,8 @@ class GamefaceFormControl extends HTMLElement {
             notAForm: !element.isFormElement(),
             tooLong: element.tooLong(),
             tooShort: element.tooShort(),
+            rangeOverflow: element.rangeOverflow(),
+            rangeUnderflow: element.rangeUnderflow(),
             valueMissing: element.valueMissing(),
             nameMissing: element.nameMissing(),
             customError: element.customError()
@@ -127,9 +130,13 @@ class GamefaceFormControl extends HTMLElement {
         return { hasError: errors.length, errors: errors };
     }
 
-    validateElement(element) {
+    toCustomElement(element) {
         if (!(element instanceof CustomElementValidator)) element = new NativeElementValidator(element);
-        return this.hasErrors(element);
+        return element;
+    }
+
+    validateElement(element) {
+        return this.hasErrors(this.toCustomElement(element));
     }
 
     /**
@@ -139,7 +146,6 @@ class GamefaceFormControl extends HTMLElement {
      */
     serializeElementData(element, params) {
         if (element.hasAttribute('disabled')) return;
-
         return this.serializeSimpleElementData(element, params);
     }
 
@@ -148,7 +154,6 @@ class GamefaceFormControl extends HTMLElement {
         const elementTagName = element.tagName.toLowerCase();
         const id = `${elementTagName}-${elementName}-error-tooltip`;
 
-        debugger
         let tooltip = document.getElementById(id);
         if (tooltip) tooltip.parentElement.removeChild(tooltip);
 
@@ -231,8 +236,8 @@ class GamefaceFormControl extends HTMLElement {
         }
 
         for (let element of this.formElements) {
+            if (!this.toCustomElement(element).willSerialize()) continue;
             const validation = this.validateElement(element);
-
             if (!validation.hasError) continue;
             let err = `The following errors ocurred: ${validation.errors.join(',')}, element: ${element.getAttribute('name')}`;
             this.showError(err, element);
@@ -262,7 +267,6 @@ class GamefaceFormControl extends HTMLElement {
      */
     traverseFormElements(root, elementCallback, args = []) {
         if (!root.children) return;
-        debugger
 
         //Consider iterating the tree with queue if there are stack issues with the recursion
         for (let i = 0, len = root.children.length; i < len; i++) {

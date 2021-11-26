@@ -67,6 +67,11 @@ class Switch extends CustomElementValidator {
         return false;
     }
 
+    willSerialize() {
+        if (!this.checked || this.nameMissing()) return false;
+        return true;
+    }
+
     /**
      * Sets up the switch based on the attributes it has and attaches the event listeners
      */
