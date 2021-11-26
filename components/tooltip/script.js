@@ -5,7 +5,7 @@
 
 import components from 'coherent-gameface-components';
 import template from './template.html';
-const TOOLTIP_MARGIN = 10;
+const TOOLTIP_MARGIN = 5;
 
 class Tooltip extends HTMLElement {
     constructor() {
@@ -17,8 +17,8 @@ class Tooltip extends HTMLElement {
 
     connectedCallback() {
         this.position = this.getAttribute('position') || 'top';
-        this.showOn = this.getAttribute('on') || 'click';
-        this.hideOn = this.getAttribute('off') || 'click';
+        this.showOn = this.getAttribute('on');
+        this.hideOn = this.getAttribute('off');
         this.elementSelector = this.getAttribute('target');
 
         this.triggerElement = document.querySelector(this.elementSelector);

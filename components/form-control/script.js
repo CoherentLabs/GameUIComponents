@@ -5,6 +5,7 @@
 
 import components from 'coherent-gameface-components';
 import { CustomElementValidator, NativeElementValidator} from 'coherent-gameface-components';
+import tooltip from 'coherent-gameface-tooltip';
 import 'url-search-params-polyfill';
 
 const formMethods = {
@@ -45,6 +46,17 @@ class GamefaceFormControl extends HTMLElement {
 
     get action() {
         return this.getAttribute('action') || '';
+    }
+
+    get formElements() {
+        const elements = [];
+
+        this.traverseFormElements(this, (element, elements = []) => {
+            if (!this.isValidFromElement(element) || this.isElementUsedToSubmit(element)) return;
+            elements.push(element);
+        }, [elements]);
+
+        return elements;
     }
 
     /**
@@ -127,25 +139,33 @@ class GamefaceFormControl extends HTMLElement {
      */
     serializeElementData(element, params) {
         if (element.hasAttribute('disabled')) return;
-        const validation = this.validateElement(element);
 
-        if (!validation.hasError) {
-            return this.serializeSimpleElementData(element, params);
-        } else {
-            console.error(`The following errors ocurred: ${validation.errors.join(',')}, element: ${element.getAttribute('name')}`);
-        }
+        return this.serializeSimpleElementData(element, params);
     }
 
     showError(error, element) {
-        const tooltip = document.createElement('gameface-tooltip');
+        const elementName = element.getAttribute('name');
+        const elementTagName = element.tagName.toLowerCase();
+        const id = `${elementTagName}-${elementName}-error-tooltip`;
+
+        debugger
+        let tooltip = document.getElementById(id);
+        if (tooltip) tooltip.parentElement.removeChild(tooltip);
+
+        tooltip = document.createElement('gameface-tooltip');
         tooltip.setAttribute('target', `[name="${element.getAttribute('name')}"]`);
+        tooltip.setAttribute('off', 'click');
+        tooltip.setAttribute('id', id);
         const tooltipContent = document.createElement('div');
         tooltipContent.setAttribute('slot', 'message');
         tooltipContent.textContent = error;
         tooltip.appendChild(tooltipContent);
 
-        document.appendChild(tooltip);
-        tooltip.show();
+        document.body.appendChild(tooltip);
+
+        requestAnimationFrame(() => {
+            document.getElementById(id).show();
+        });
     }
 
     /**
@@ -210,6 +230,16 @@ class GamefaceFormControl extends HTMLElement {
             if (submitEvent.defaultPrevented) return;
         }
 
+        for (let element of this.formElements) {
+            const validation = this.validateElement(element);
+
+            if (!validation.hasError) continue;
+            let err = `The following errors ocurred: ${validation.errors.join(',')}, element: ${element.getAttribute('name')}`;
+            this.showError(err, element);
+            console.error(err);
+            return;
+        }
+
         this.currentSubmitButton = event.currentTarget;
         switch (this.method.toLowerCase()) {
             case formMethods.GET.toLowerCase():
@@ -230,16 +260,17 @@ class GamefaceFormControl extends HTMLElement {
      * @param {HTMLElement} root
      * @param {Function} elementCallback - Callback that will be executed for each child element of the root
      */
-    traverseFormElements(root, elementCallback) {
+    traverseFormElements(root, elementCallback, args = []) {
         if (!root.children) return;
+        debugger
 
         //Consider iterating the tree with queue if there are stack issues with the recursion
         for (let i = 0, len = root.children.length; i < len; i++) {
             const element = root.children[i];
 
-            elementCallback(element);
+            elementCallback(element, ...args);
 
-            this.traverseFormElements(element, elementCallback);
+            this.traverseFormElements(element, elementCallback, args);
         }
     }
 
