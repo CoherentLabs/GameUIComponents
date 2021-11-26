@@ -36,10 +36,14 @@ function waitForStyles(callback = () => {}, count = DEFAULT_FRAMES_TO_WAIT) {
  * @returns {Promise}
  */
 function createAsyncSpec(callback = () => {}, frames = DEFAULT_FRAMES_TO_WAIT) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         waitForStyles(() => {
-            callback();
-            resolve();
+            try {
+                callback();
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
         }, frames);
     });
 }
