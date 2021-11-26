@@ -72,14 +72,14 @@
         <h2>GET</h2>
         <gameface-form-control onload="onRequestFinished(event);" action="http://localhost:3000/user" method="get">
             <div class="form-element">
-                <span>User name:</span><input name="username" value="name" type="text" />
+                <span>User name:</span><input name="username" value="name" type="text" required/>
             </div>
             <div class="form-element">
-                <span>Password:</span><input name="password" value="pass" type="password" />
+                <span>Password:</span><input name="password" value="pass" type="password" required/>
             </div>
             <div class="form-element">
                 <span class="label">Remember user</span>
-                <gameface-switch name="policy-agreement" value="accepted" type="text-inside">
+                <gameface-switch name="policy-agreement" value="accepted" type="text-inside" required>
                     <component-slot data-name="switch-unchecked">No</component-slot>
                     <component-slot data-name="switch-checked">Yes</component-slot>
                 </gameface-switch>
@@ -146,7 +146,7 @@
 
             <div class="form-element">
                 <span>What is your skill level:</span>
-                <gameface-rangeslider name="skill-level" orientation="horizontal" grid thumb value="Beginner"
+                <gameface-rangeslider name="skill-level" orientation="horizontal" grid thumb value="Beginner" required
                     values='["Beginner", "Average", "Skilled", "Specialist", "Expert"]' step="20">
                 </gameface-rangeslider>
             </div>
