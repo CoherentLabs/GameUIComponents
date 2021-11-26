@@ -88,7 +88,6 @@ class GamefaceFormControl extends HTMLElement {
      */
     serializeSimpleElementData(element, params) {
         const value = element.value;
-
         if (!element.hasAttribute('name') || value === undefined) return;
 
         const name = element.getAttribute('name');
@@ -128,8 +127,6 @@ class GamefaceFormControl extends HTMLElement {
      */
     serializeElementData(element, params) {
         if (element.hasAttribute('disabled')) return;
-        const tagName = element.tagName.toLowerCase();
-
         const validation = this.validateElement(element);
 
         if (!validation.hasError) {
@@ -137,25 +134,18 @@ class GamefaceFormControl extends HTMLElement {
         } else {
             console.error(`The following errors ocurred: ${validation.errors.join(',')}, element: ${element.getAttribute('name')}`);
         }
+    }
 
-        // else prevent submit?
+    showError(error, element) {
+        const tooltip = document.createElement('gameface-tooltip');
+        tooltip.setAttribute('target', `[name="${element.getAttribute('name')}"]`);
+        const tooltipContent = document.createElement('div');
+        tooltipContent.setAttribute('slot', 'message');
+        tooltipContent.textContent = error;
+        tooltip.appendChild(tooltipContent);
 
-        // switch (tagName) {
-        //     case tags.INPUT:
-        //     case tags.TEXTAREA:
-        //         return this.serializeSimpleElementData(element, params);
-        //     case tags.GAMEFACE_SWITCH:
-        //         return this.serializeSwitchData(element, params);
-        //     case tags.GAMEFACE_RANGESLIDER:
-        //         return this.serializeRangeSliderData(element, params);
-        //     case tags.GAMEFACE_CHECKBOX:
-        //         return this.serializeCheckboxData(element, params);
-        //     case tags.GAMEFACE_DROPDOWN:
-        //         return this.serializeDropDownData(element, params);
-        //     case tags.GAMEFACE_RADIO_GROUP:
-        //         return this.serializeRadioGroupData(element, params);
-        //     default: break;
-        // }
+        document.appendChild(tooltip);
+        tooltip.show();
     }
 
     /**
