@@ -58,7 +58,7 @@ class GamefaceDropdown extends CustomElementValidator {
         if (this.isFormElement(this) && this.multiple) {
             return this.selectedOptions.map(el => el.value);
         }
-        if (this.selected) return this.selected.textContent;
+        if (this.selected) return this.selected.value || this.selected.textContent;
         return '';
     }
 

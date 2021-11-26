@@ -30,6 +30,11 @@ class Checkbox extends CustomElementValidator {
         return this.hasAttribute('required') && !this.state.checked;
     }
 
+    willSerialize() {
+        if (!this.state.checked || this.nameMissing()) return false;
+        return true;
+    }
+
     connectedCallback() {
         components.loadResource(this)
             .then((result) => {

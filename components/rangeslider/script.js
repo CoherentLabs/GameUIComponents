@@ -99,6 +99,11 @@ class Rangeslider extends CustomElementValidator {
         return false;
     }
 
+    valueMissing() {
+        if (!this._value[0]) return true;
+        return false;
+    }
+
     /**
      * Called when the element was attached to the DOM.
      */

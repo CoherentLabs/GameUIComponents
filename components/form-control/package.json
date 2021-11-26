@@ -21,6 +21,7 @@
     "coherent-gameface-dropdown": "^1.0.6",
     "postmessage-polyfill": "1.0.0",
     "url-search-params-polyfill": "^8.1.1",
+    "coherent-gameface-tooltip": "^1.0.0",
     "whatwg-fetch": "3.4.1"
   },
   "author": "CoherentLabs",

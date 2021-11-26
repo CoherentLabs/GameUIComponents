@@ -73,10 +73,10 @@
         <h2>GET</h2>
         <gameface-form-control onload="onRequestFinished(event);" action="http://localhost:3000/user" method="get">
             <div class="form-element">
-                <span>User name:</span><input name="username" value="name" type="text" />
+                <span>User name:</span><input name="username" value="name" type="text" required />
             </div>
             <div class="form-element">
-                <span>Password:</span><input name="password" value="pass" type="password" />
+                <span>Password:</span><input minimum="5" name="password" value="pass" type="password" required/>
             </div>
             <div class="form-element">
                 <span class="label">Remember user</span>

@@ -20,13 +20,15 @@ class GamefaceRadioGroup extends HTMLElement {
 	}
 
 	get value() {
-		return this.previouslyCheckedElement ? this.previouslyCheckedElement.value : '';
+		if (this.previouslyCheckedElement) {
+			return this.previouslyCheckedElement.value;
+		}
 	}
 
 	valueMissing() {
 		const checkedButton = this.previouslyCheckedElement;
-		if (!checkedButton) return false;
-		return true;
+		if (!checkedButton || !this.hasAttribute('name')) return true;
+		return false;
 	}
 
 	setCheckedToPreviousItem(button) {
