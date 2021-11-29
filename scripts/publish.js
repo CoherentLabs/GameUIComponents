@@ -17,7 +17,7 @@ function shouldUpdate(component, folder = COMPONENTS_PATH) {
     const name = packageJSON.name;
 
     // if a component doesn't exist in the registry then it must be published
-    if (!execSync(`npm search ${name} --json`).length) return true;
+    if (!JSON.parse(execSync(`npm search ${name} --json`, {encoding: 'utf8'})).length) return true;
 
     const localVersion = packageJSON.version;
     const publicVersion = getPublicVersion(name);
