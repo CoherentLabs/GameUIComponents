@@ -6,6 +6,7 @@
 import components from 'coherent-gameface-components';
 import { CustomElementValidator, NativeElementValidator} from 'coherent-gameface-components';
 import tooltip from 'coherent-gameface-tooltip';
+import errorMessages from './errorMessages';
 import 'url-search-params-polyfill';
 
 const formMethods = {
@@ -111,6 +112,11 @@ class GamefaceFormControl extends HTMLElement {
         }
     }
 
+    /**
+     * Checks if an element has validation errors and returns the error types.
+     * @param {HTMLElement} element
+     * @returns {object}
+    */
     hasErrors(element) {
         const errorNames = {
             notAForm: !element.isFormElement(),
@@ -130,13 +136,14 @@ class GamefaceFormControl extends HTMLElement {
         return { hasError: errors.length, errors: errors };
     }
 
+    /**
+     * Creates an instance of a NativeElementValidator to wrap a native HTMLElement
+     * @param {HTMLElement}
+     * @returns {NativeElementValidator}
+    */
     toCustomElement(element) {
         if (!(element instanceof CustomElementValidator)) element = new NativeElementValidator(element);
         return element;
-    }
-
-    validateElement(element) {
-        return this.hasErrors(this.toCustomElement(element));
     }
 
     /**
@@ -149,6 +156,13 @@ class GamefaceFormControl extends HTMLElement {
         return this.serializeSimpleElementData(element, params);
     }
 
+    /**
+     * Creates a <gameface-tooltip> element, sets its message and shows it on top
+     * of given element.
+     *
+     * @param {string} message
+     * @param {HTMLElement} element
+    */
     showError(error, element) {
         const elementName = element.getAttribute('name');
         const elementTagName = element.tagName.toLowerCase();
@@ -237,11 +251,14 @@ class GamefaceFormControl extends HTMLElement {
 
         for (let element of this.formElements) {
             if (!this.toCustomElement(element).willSerialize()) continue;
-            const validation = this.validateElement(element);
+            const validation = this.hasErrors(this.toCustomElement(element));
             if (!validation.hasError) continue;
-            let err = `The following errors ocurred: ${validation.errors.join(',')}, element: ${element.getAttribute('name')}`;
-            this.showError(err, element);
-            console.error(err);
+
+            let errorMessage = '';
+            for (let errorType of validation.errors) {
+                errorMessage += errorMessages.get(errorType)(element);
+            }
+            this.showError(errorMessage, element);
             return;
         }
 

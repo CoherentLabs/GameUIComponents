@@ -30,7 +30,7 @@ function areComponentsPackaged() {
     return false;
 }
 
-const FORM_CONTROL_TEST_DEPENDENCIES = ['checkbox', 'dropdown', 'radio-button', 'rangeslider', 'switch'];
+const FORM_CONTROL_TEST_DEPENDENCIES = ['checkbox', 'dropdown', 'radio-button', 'rangeslider', 'switch', 'tooltip'];
 
 function copyTestDependencies(component, dependencies) {
     for (let dependency of dependencies) {
