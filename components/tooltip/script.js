@@ -38,20 +38,16 @@ class Tooltip extends HTMLElement {
 
     attachEventListeners() {
         if (this.showOn === this.hideOn) {
-            this.triggerElement.addEventListener(this.showOn, (e) => this.toggle(e));
+            this.triggerElement.addEventListener(this.showOn, () => this.toggle());
             return;
         }
 
-        this.triggerElement.addEventListener(this.showOn, (e) => this.show(e));
-        this.triggerElement.addEventListener(this.hideOn, (e) => this.hide(e));
+        this.triggerElement.addEventListener(this.showOn, () => this.show());
+        this.triggerElement.addEventListener(this.hideOn, () => this.hide());
     }
 
     toggle() {
-        if (this.visible) {
-            this.hide();
-        } else {
-            this.show();
-        }
+        this.visible ? this.hide() : this.show();
     }
 
     hide () {
