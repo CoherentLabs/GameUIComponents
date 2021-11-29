@@ -6,6 +6,7 @@
 import components from 'coherent-gameface-components';
 import { CustomElementValidator, NativeElementValidator} from 'coherent-gameface-components';
 import tooltip from 'coherent-gameface-tooltip';
+import errorMessages from './errorMessages';
 import 'url-search-params-polyfill';
 
 const formMethods = {
@@ -239,9 +240,12 @@ class GamefaceFormControl extends HTMLElement {
             if (!this.toCustomElement(element).willSerialize()) continue;
             const validation = this.validateElement(element);
             if (!validation.hasError) continue;
-            let err = `The following errors ocurred: ${validation.errors.join(',')}, element: ${element.getAttribute('name')}`;
-            this.showError(err, element);
-            console.error(err);
+
+            let errorMessage = '';
+            for (let errorType of validation.errors) {
+                errorMessage += errorMessages.get(errorType)(element);
+            }
+            this.showError(errorMessage, element);
             return;
         }
 
