@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-form-control",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
   "repository": {
@@ -13,12 +13,12 @@
     "Form"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.0.1",
-    "coherent-gameface-checkbox": "^1.0.4",
-    "coherent-gameface-radio-button": "^1.0.0",
-    "coherent-gameface-switch": "^1.0.0",
-    "coherent-gameface-rangeslider": "^1.0.3",
-    "coherent-gameface-dropdown": "^1.0.5",
+    "coherent-gameface-components": "^1.0.5",
+    "coherent-gameface-checkbox": "^1.0.5",
+    "coherent-gameface-radio-button": "^1.0.1",
+    "coherent-gameface-switch": "^1.0.1",
+    "coherent-gameface-rangeslider": "^1.0.4",
+    "coherent-gameface-dropdown": "^1.0.6",
     "postmessage-polyfill": "1.0.0",
     "url-search-params-polyfill": "^8.1.1",
     "whatwg-fetch": "3.4.1"

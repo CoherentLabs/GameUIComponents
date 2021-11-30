@@ -12,7 +12,7 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.0.1",
+    "coherent-gameface-components": "^1.0.5",
     "coherent-gameface-grid": "^1.0.1",
     "coherent-gameface-modal": "^1.0.2"
   },
