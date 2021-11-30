@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import { CustomElementValidator, NativeElementValidator} from 'coherent-gameface-components';
 import tooltip from 'coherent-gameface-tooltip';
 import errorMessages from './errorMessages';
 import 'url-search-params-polyfill';
@@ -34,6 +33,9 @@ const VALID_FORM_CONTROL_CUSTOM_ELEMENT_TAGS = new Set([
     tags.GAMEFACE_RANGESLIDER,
     tags.GAMEFACE_SWITCH
 ]);
+
+const NativeElementValidator = components.NativeElementValidator;
+const CustomElementValidator = components.CustomElementValidator;
 
 class GamefaceFormControl extends HTMLElement {
     constructor() {

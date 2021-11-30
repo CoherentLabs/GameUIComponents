@@ -4,10 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import { CustomElementValidator } from 'coherent-gameface-components';
 import textInside from './templates/text-inside-template.html';
 import textOutside from './templates/text-outside-template.html';
-
+const CustomElementValidator = components.CustomElementValidator;
 /**
  * @class Switch
  * Switch component, that allows you to switch between true and false

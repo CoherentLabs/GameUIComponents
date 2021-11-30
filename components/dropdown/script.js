@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import { CustomElementValidator } from 'coherent-gameface-components';
 import ScrollableContainer from 'coherent-gameface-scrollable-container';
 import template from './template.html';
 
@@ -26,6 +25,8 @@ function isDescendant(parent, child) {
     }
     return false;
 }
+
+const CustomElementValidator = components.CustomElementValidator;
 
 class GamefaceDropdown extends CustomElementValidator {
     constructor() {

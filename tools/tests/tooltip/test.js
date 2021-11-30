@@ -41,6 +41,13 @@ describe('Tooltip component', () => {
         }
     });
 
+    afterEach(() => {
+        const tooltips = document.querySelectorAll('gameface-tooltip');
+        for(let i = 0; i < tooltips.length; i++) {
+            tooltips[i].parentElement.removeChild(tooltips[i]);
+        }
+    });
+
     beforeEach(function (done) {
         setupTooltipTestPage().then(done).catch(err => console.error(err));
     });

@@ -4,8 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import { CustomElementValidator } from 'coherent-gameface-components';
 import template from './template.html';
+
+const CustomElementValidator = components.CustomElementValidator;
 
 class Checkbox extends CustomElementValidator {
     constructor() {

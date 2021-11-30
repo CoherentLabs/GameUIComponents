@@ -9,11 +9,10 @@ import verticalTemplateTwoHandles from './templates/verticalTwoHandles.html';
 import horizontalTemplate from './templates/horizontal.html';
 import horizontalTemplateTwoHandles from './templates/horizontalTwoHandles.html';
 import { orientationUnitsNames } from './orientationUnitsNames';
-import { CustomElementValidator } from 'coherent-gameface-components';
 
 const ORIENTATIONS = ['vertical', 'horizontal'];
 const SPACE_BETWEEN_GRID_POLS = 10;
-
+const CustomElementValidator = components.CustomElementValidator;
 /**
  * @class Rangeslider.
  * Rangeslider component, allows you to specify a numeric value by using a slider.
@@ -217,7 +216,7 @@ class Rangeslider extends CustomElementValidator {
             //if the thumb attribute is added, the thumbs are created
             if (this.thumb) {
                 //creates two thumbs
-                this.twoHandles ? this.value.forEach((val) => this.buildThumb(val)) : this.buildThumb(this.value);
+                this.twoHandles ? this._value.forEach((val) => this.buildThumb(val)) : this.buildThumb(this.value);
 
                 this.thumbElement = !this.twoHandles
                     ? [this.querySelector(`.${this.orientation}-rangeslider-thumb`)]

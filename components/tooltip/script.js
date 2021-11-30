@@ -96,4 +96,4 @@ class Tooltip extends HTMLElement {
 
 components.defineCustomElement('gameface-tooltip', Tooltip);
 
-export { Tooltip };
+export default Tooltip;

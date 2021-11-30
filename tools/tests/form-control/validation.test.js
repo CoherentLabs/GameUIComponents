@@ -53,6 +53,11 @@ function setupFormValidationTestPage() {
 
 describe('Form validation', () => {
     afterAll(() => {
+        const tooltips = document.querySelectorAll('gameface-tooltip');
+        for(let i = 0; i < tooltips.length; i++) {
+            tooltips[i].parentElement.removeChild(tooltips[i]);
+        }
+
         let currentElement = document.querySelector('gameface-currentElement');
 
         if (currentElement) {
