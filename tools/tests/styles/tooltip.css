@@ -1,0 +1,19 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+ gameface-tooltip {
+    position: absolute;
+    visibility: hidden;
+    background-color: var(--default-color-blue);
+    width: 150px;
+    padding: 10px;
+    border: 1px solid var(--default-color-blue);
+    border-radius: 10px;
+    overflow-wrap: break-word;
+}
+
+.hidden-tooltip {
+    visibility: hidden;
+}

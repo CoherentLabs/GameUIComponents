@@ -43,7 +43,8 @@ module.exports = function (config) {
       '**/automatic-grid/*.js',
       '**/radio-button/*.js',
       '**/switch/*.js',
-      '**/form-control/*.js'
+      '**/form-control/*.js',
+      '**/tooltip/*js',
     ],
     singleRun: true,
     retryLimit: 0,
