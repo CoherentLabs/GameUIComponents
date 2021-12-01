@@ -26,9 +26,9 @@ module.exports = function (config) {
       }
     },
     files: [
-      { pattern: '**/**/*.css', included: true, type: 'css' },
-      { pattern: 'node_modules/coherent-gameface-components/umd/**.development.js', served: true },
-      { pattern: 'node_modules/*/umd/**.development.js', served: true },
+      { pattern: 'node_modules/coherent-gameface-**/**/*.css', included: true, type: 'css' },
+      { pattern: 'node_modules/coherent-gameface-components/umd/*.development.js', served: true },
+      { pattern: 'node_modules/coherent-gameface-*/umd/*.development.js', served: true },
       { pattern: 'actions.js', served: true },
       'scrollable-container/*.js',
       'checkbox/test.js',
@@ -47,10 +47,11 @@ module.exports = function (config) {
       'form-control/*.js',
       'tooltip/*js',
     ],
-    singleRun: false,
+    singleRun: true,
     retryLimit: 0,
     preprocessors: {
-      '**/router/*.js': ['webpack'],
+      'router/*.js': ['webpack'],
+      'node_modules/coherent-gameface-router/umd/*.development.js': ['webpack'],
     },
     webpack: {
       externals: {

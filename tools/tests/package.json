@@ -4,10 +4,12 @@
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
+      "coherent-gameface-automatic-grid": "^1.0.6",
       "coherent-gameface-components": "^1.0.5",
       "coherent-gameface-checkbox": "^1.0.5",
       "coherent-gameface-dropdown": "^1.0.6",
       "coherent-gameface-form-control": "^1.0.1",
+      "coherent-gameface-grid": "^1.0.2",
       "coherent-gameface-menu": "^1.0.7",
       "coherent-gameface-modal": "^1.0.4",
       "coherent-gameface-progress-bar": "^1.0.4",
