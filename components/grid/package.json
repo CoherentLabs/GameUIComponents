@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-grid",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A responsove CSS grid.",
   "main": "index.js",
   "repository": {
