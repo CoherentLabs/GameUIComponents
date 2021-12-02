@@ -19,11 +19,38 @@ run the tests in Google Chrome.
 
 # Adding new tests
 
-All tests are located in tools/tests. There is a separate folder for each component.
-The name of the folder should be the same as the name of the folder that contains the
-source of the component. For example the test folder for the radial-menu should be radial-menu.
-This is required in order to simplify the setup process that copies the source bundles into
-the test folders. All tests are named **test.js**.
+All tests are located in tools/tests. There is a separate folder for each component. All tests are named **test.js**.
+The dependencies of the test are listed in the package.json file located in tools/tests. If your tests depends on some package - add it there:
+
+tools/tests/package.json
+~~~~{.js}
+{
+    "name": "components-tests",
+    "dependencies": {
+      "coherent-gameface-automatic-grid": "^1.0.6",
+      "coherent-gameface-components": "^1.0.5",
+      "coherent-gameface-checkbox": "^1.0.5",
+      "coherent-gameface-dropdown": "^1.0.6",
+      "coherent-gameface-form-control": "^1.0.1",
+      "coherent-gameface-grid": "^1.0.2",
+      "coherent-gameface-menu": "^1.0.7",
+      "coherent-gameface-modal": "^1.0.4",
+      "coherent-gameface-progress-bar": "^1.0.4",
+      "coherent-gameface-radial-menu": "^1.0.3",
+      "coherent-gameface-radio-button": "^1.0.1",
+      "coherent-gameface-rangeslider": "^1.0.4",
+      "coherent-gameface-router": "^1.0.5",
+      "coherent-gameface-scrollable-container": "^1.0.6",
+      "coherent-gameface-slider": "^1.0.5",
+      "coherent-gameface-switch": "^1.0.1",
+      "coherent-gameface-tabs": "^1.0.6",
+      "coherent-gameface-tooltip": "^1.0.1"
+      // add your dependencies here
+    },
+    "author": "CoherentLabs",
+    "license": "ISC"
+}
+~~~~
 
 # Configuration
 
@@ -33,25 +60,28 @@ property in the configuration.
 
 karma.conf.js:
 ~~~~{.js}
- files: [
-      { pattern: '**/**/*.css', included: true, type: 'css' },
-      { pattern: 'lib/components.development.js', served: true },
-      { pattern: 'actions.js', served: true },
-      '**/scrollable-container/*.js',
-      '**/checkbox/**.js',
-      '**/dropdown/*.js',
-      '**/lib/*.js',
-      '**/menu/*.js',
-      // '**/modal/*.js', comment to disable
-      // '**/radial-menu/*.js', disabled test
-      '**/router/*.js',
-      '**/tabs/*.js',
-      '**/progress-bar/*.js',
-      '**/rangeslider/*.js',
-      '**/automatic-grid/*.js',
-      '**/radio-button/*.js',
-      '**/switch/*js'
-    ],
+files: [
+    { pattern: 'node_modules/coherent-gameface-*/**/*.css', included: true, type: 'css' },
+    { pattern: 'node_modules/coherent-gameface-components/umd/*.development.js', served: true },
+    { pattern: 'node_modules/coherent-gameface-*/umd/*.development.js', served: true },
+    { pattern: 'actions.js', served: true },
+    'scrollable-container/*.js',
+    'checkbox/test.js',
+    'dropdown/*.js',
+    'lib/*.js',
+    'menu/*.js',
+    'modal/*.js',
+    'radial-menu/*.js',
+    'router/*.js',
+    'tabs/*.js',
+    'progress-bar/*.js',
+    'rangeslider/*.js',
+    'automatic-grid/*.js',
+    'radio-button/*.js',
+    'switch/*.js',
+    'form-control/*.js',
+    'tooltip/*js',
+],
 ~~~~
 
 The actions.js file contains common helper functions that are used in a lot of tests -

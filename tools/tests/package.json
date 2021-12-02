@@ -1,8 +1,5 @@
 {
     "name": "components-tests",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
     "dependencies": {
       "coherent-gameface-automatic-grid": "^1.0.6",
       "coherent-gameface-components": "^1.0.5",
