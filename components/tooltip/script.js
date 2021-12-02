@@ -11,8 +11,16 @@ class Tooltip extends HTMLElement {
     constructor() {
         super();
         this.template = template;
-
         this.visible = false;
+        this._targetElement;
+    }
+
+    set targetElement(element) {
+        this._targetElement = element;
+    }
+
+    get targetElement() {
+        return this._targetElement;
     }
 
     connectedCallback() {
@@ -21,7 +29,7 @@ class Tooltip extends HTMLElement {
         this.hideOn = this.getAttribute('off');
         this.elementSelector = this.getAttribute('target');
 
-        this.triggerElement = document.querySelector(this.elementSelector);
+        this.triggerElement = this.targetElement || document.querySelector(this.elementSelector);
         if (!this.triggerElement) {
             console.error(`An element with selector ${this.elementSelector} does not exit. Please make sure the selector is correct and the element exists.`);
             return;

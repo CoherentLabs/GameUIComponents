@@ -20,9 +20,7 @@ class GamefaceRadioGroup extends HTMLElement {
 	}
 
 	get value() {
-		if (this.previouslyCheckedElement) {
-			return this.previouslyCheckedElement.value;
-		}
+		if (this.previouslyCheckedElement) return this.previouslyCheckedElement.value;
 	}
 
 	valueMissing() {

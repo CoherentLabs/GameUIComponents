@@ -99,7 +99,7 @@ class Rangeslider extends CustomElementValidator {
     }
 
     valueMissing() {
-        if (!this._value[0]) return true;
+        if (!this._value && !this._value[0]) return true;
         return false;
     }
 

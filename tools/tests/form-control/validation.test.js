@@ -24,7 +24,7 @@ function setupFormValidationTestPage() {
     <gameface-form-control>
         <input id="role" name="role" value="some name" required />
         <input minlength="3" maxlength="5" name="username" value="Valid" type="text" id="username" />
-        <input min="10" max="30" value="15" name="password" type="text" id="password" />
+        <input min="10" max="30" value="15" name="age" type="text" id="age" />
         <input type="text" value="missing name" id="no-name" />
         <button class="form-element" id="submit" type="submit">Login</button>
     </gameface-form-control>
@@ -58,7 +58,7 @@ describe('Form validation', () => {
             tooltips[i].parentElement.removeChild(tooltips[i]);
         }
 
-        let currentElement = document.querySelector('gameface-currentElement');
+        let currentElement = document.querySelector('form-validation-test-wrapper');
 
         if (currentElement) {
             currentElement.parentElement.removeChild(currentElement);
@@ -80,7 +80,7 @@ describe('Form validation', () => {
             assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
 
             const expected = errorMessages.get('valueMissing');
-            const received = getTextContent(tooltip);;
+            const received = getTextContent(tooltip);
             tooltip.hide();
             assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
         });
@@ -97,7 +97,7 @@ describe('Form validation', () => {
             assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
 
             const expected = errorMessages.get('tooLong');
-            const received = getTextContent(tooltip);;
+            const received = getTextContent(tooltip);
             tooltip.hide();
             assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
         });
@@ -114,54 +114,54 @@ describe('Form validation', () => {
             assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
 
             const expected = errorMessages.get('tooShort');
-            const received = getTextContent(tooltip);;
+            const received = getTextContent(tooltip);
             tooltip.hide();
             assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
         });
     });
 
     it('Should show value too small - range underflow.', async() => {
-        const password = document.querySelector('#password');
-        password.value = '5';
+        const age = document.querySelector('#age');
+        age.value = '5';
 
         click(document.querySelector('#submit'));
 
         return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-password-error-tooltip');
+            const tooltip = document.querySelector('#input-age-error-tooltip');
             assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
 
             const expected = errorMessages.get('rangeUnderflow');
-            const received = getTextContent(tooltip);;
+            const received = getTextContent(tooltip);
             tooltip.hide();
             assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
         });
     });
 
     it('Should show value too big - range overflow.', async() => {
-        const input = document.querySelector('#password');
+        const input = document.querySelector('#age');
         input.value = '40';
 
         click(document.querySelector('#submit'));
 
         return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-password-error-tooltip');
+            const tooltip = document.querySelector('#input-age-error-tooltip');
             assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
 
             const expected = errorMessages.get('rangeOverflow');
-            const received = getTextContent(tooltip);;
+            const received = getTextContent(tooltip);
             tooltip.hide();
             assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
         });
     });
 
     it('Should not validate elements that do not have name.', async() => {
-        const input = document.querySelector('#password');
+        const input = document.querySelector('#no-name');
         input.value = '20';
 
         click(document.querySelector('#submit'));
 
         return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-password-error-tooltip');
+            const tooltip = document.querySelector('#input-no-name-error-tooltip');
             assert(tooltip.style.display === 'none', 'Tooltip was displayed!');
         });
     });

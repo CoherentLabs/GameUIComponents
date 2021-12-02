@@ -118,7 +118,7 @@ class GamefaceFormControl extends HTMLElement {
      * @returns {object}
     */
     hasErrors(element) {
-        const errorNames = {
+        const errorTypes = {
             notAForm: !element.isFormElement(),
             tooLong: element.tooLong(),
             tooShort: element.tooShort(),
@@ -129,11 +129,11 @@ class GamefaceFormControl extends HTMLElement {
             customError: element.customError()
         };
 
-        const errors = Object.keys(errorNames).filter((name) => {
-            if(errorNames[name]) return name;
+        const errors = Object.keys(errorTypes).filter((name) => {
+            if(errorTypes[name]) return name;
         });
 
-        return { hasError: errors.length, errors: errors };
+        return { hasError: !!errors.length, errors: errors };
     }
 
     /**
@@ -164,26 +164,20 @@ class GamefaceFormControl extends HTMLElement {
      * @param {HTMLElement} element
     */
     showError(error, element) {
-        const elementName = element.getAttribute('name');
-        const elementTagName = element.tagName.toLowerCase();
-        const id = `${elementTagName}-${elementName}-error-tooltip`;
+        if (this.tooltip) this.tooltip.parentElement.removeChild(this.tooltip);
 
-        let tooltip = document.getElementById(id);
-        if (tooltip) tooltip.parentElement.removeChild(tooltip);
-
-        tooltip = document.createElement('gameface-tooltip');
-        tooltip.setAttribute('target', `[name="${element.getAttribute('name')}"]`);
-        tooltip.setAttribute('off', 'click');
-        tooltip.setAttribute('id', id);
+        this.tooltip = document.createElement('gameface-tooltip');
+        this.tooltip.targetElement = element;
+        this.tooltip.setAttribute('off', 'click');
         const tooltipContent = document.createElement('div');
         tooltipContent.setAttribute('slot', 'message');
         tooltipContent.textContent = error;
-        tooltip.appendChild(tooltipContent);
+        this.tooltip.appendChild(tooltipContent);
 
-        document.body.appendChild(tooltip);
+        document.body.appendChild(this.tooltip);
 
         requestAnimationFrame(() => {
-            document.getElementById(id).show();
+            this.tooltip.show();
         });
     }
 
@@ -250,7 +244,7 @@ class GamefaceFormControl extends HTMLElement {
         }
 
         const formElementsCache = this.formElements;
-        for (let element of formElementsCache) {
+        for (const element of formElementsCache) {
             if (!this.toCustomElement(element).willSerialize()) continue;
             const validation = this.hasErrors(this.toCustomElement(element));
             if (!validation.hasError) continue;
