@@ -17,6 +17,7 @@ import {
     automaticGridTemplate,
     progressBarTemplate,
     switchTemplate,
+    textFieldsTemplate,
 } from './demoTemplates.js';
 
 // radial menu
@@ -312,12 +313,12 @@ class AutomaticGridPage extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-          .then((result) => {
-              this.template = result.template;
+            .then((result) => {
+                this.template = result.template;
 
-              components.renderOnce(this);
-          })
-          .catch(err => console.error(err));
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
     }
 }
 
@@ -329,14 +330,14 @@ class ProgressBarPage extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-          .then((result) => {
-              this.template = result.template;
+            .then((result) => {
+                this.template = result.template;
 
-              components.renderOnce(this);
+                components.renderOnce(this);
 
-              this.setupProgressBar();
-          })
-          .catch(err => console.error(err));
+                this.setupProgressBar();
+            })
+            .catch(err => console.error(err));
     }
 
     setupProgressBar() {
@@ -359,12 +360,29 @@ class SwitchPage extends HTMLElement {
 
     connectedCallback() {
         components.loadResource(this)
-          .then((result) => {
-              this.template = result.template;
+            .then((result) => {
+                this.template = result.template;
 
-              components.renderOnce(this);
-          })
-          .catch(err => console.error(err));
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
+    }
+}
+
+class TextFieldPage extends HTMLElement {
+    constructor() {
+        super();
+        this.template = textFieldsTemplate;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then((result) => {
+                this.template = result.template;
+
+                components.renderOnce(this);
+            })
+            .catch(err => console.error(err));
     }
 }
 
@@ -382,6 +400,7 @@ components.defineCustomElement('radial-menu-page', RadialMenuPage);
 components.defineCustomElement('automatic-grid-page', AutomaticGridPage);
 components.defineCustomElement('progress-bar-page', ProgressBarPage);
 components.defineCustomElement('switch-page', SwitchPage);
+components.defineCustomElement('text-field-page', TextFieldPage);
 
 const browserHistory = new router.BrowserHistory();
 router.Route.use(browserHistory);
@@ -401,6 +420,7 @@ new router.Router({
     'automatic-grid': 'automatic-grid-page',
     'progress-bar': 'progress-bar-page',
     'switch': 'switch-page',
+    'text-field': 'text-field-page',
     '**': 'home-page'
 }, browserHistory);
 

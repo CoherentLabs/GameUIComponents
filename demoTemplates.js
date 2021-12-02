@@ -535,6 +535,176 @@ const switchTemplate = `
 </div>
 `;
 
+const textFieldsTemplate = `
+<div class="text-fields-container">
+    <div class="text-field-case">
+        <h2>Text</h2>
+        <gameface-text-field type="text"></gameface-text-field>
+
+        <gameface-text-field id="test1" type="text" label="Text:"></gameface-text-field>
+
+        <gameface-text-field type="text" value="default value" label="Text:"></gameface-text-field>
+
+        <gameface-text-field type="text" disabled value="(disabled) default value" label="Text:">
+        </gameface-text-field>
+
+        <gameface-text-field type="text" readonly value="(read only) default value" label="Text:">
+        </gameface-text-field>
+
+        <gameface-text-field type="text"
+            placeholder="Type some very very long text here to test overflow and placeholder" label="Text:">
+        </gameface-text-field>
+
+        <gameface-text-field disabled type="text" placeholder="This input is disabled" label="Text:">
+        </gameface-text-field>
+
+        <gameface-text-field readonly type="text" placeholder="This input is read only" label="Text:">
+        </gameface-text-field>
+
+        <gameface-text-field disabled type="text" value="I am disabled but I have a value"
+            placeholder="This input is disabled" label="Text:">
+        </gameface-text-field>
+
+        <gameface-text-field type="text" value="The value should be visible instead the placeholder"
+            placeholder="Type some very very long text here to test overflow and placeholder" label="Text:">
+        </gameface-text-field>
+
+        <gameface-text-field type="text" minlength="3" maxlength="15" value="min-max-test" label="Text:">
+        </gameface-text-field>
+
+        <gameface-text-field class="custom-input-styles" type="text" label="Text:"></gameface-text-field>
+    </div>
+    <div class="text-field-case">
+        <h2>Password</h2>
+
+        <gameface-text-field type="password"></gameface-text-field>
+
+        <gameface-text-field type="password" label="Password:"></gameface-text-field>
+
+        <gameface-text-field type="password" value="default value" label="Password:"></gameface-text-field>
+
+        <gameface-text-field type="password" disabled value="(disabled) default value" label="Password:">
+        </gameface-text-field>
+
+        <gameface-text-field type="password" readonly value="(read only) default value" label="Password:">
+        </gameface-text-field>
+
+        <gameface-text-field type="password"
+            placeholder="Type some very very long text here to test overflow and placeholder" label="Password:">
+        </gameface-text-field>
+
+        <gameface-text-field disabled type="password" placeholder="This input is disabled" label="Password:">
+        </gameface-text-field>
+
+        <gameface-text-field readonly type="password" placeholder="This input is read only" label="Password:">
+        </gameface-text-field>
+
+        <gameface-text-field disabled type="password" value="I am disabled but I have a value"
+            placeholder="This input is disabled" label="Password:">
+        </gameface-text-field>
+
+        <gameface-text-field type="password" value="The value should be visible instead the placeholder"
+            placeholder="Type some very very long text here to test overflow and placeholder" label="Password:">
+        </gameface-text-field>
+
+        <gameface-text-field type="password" minlength="3" maxlength="15" value="min-max-test" label="Password:">
+        </gameface-text-field>
+
+        <gameface-text-field class="custom-input-styles" type="password" label="Password:"></gameface-text-field>
+    </div>
+    <div class="text-field-case">
+        <h2>Search</h2>
+
+        <gameface-text-field type="search"></gameface-text-field>
+
+        <gameface-text-field type="search" label="Search:"></gameface-text-field>
+
+        <gameface-text-field type="search" value="default value" label="Search:"></gameface-text-field>
+
+        <gameface-text-field type="search" disabled value="(disabled) default value" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field type="search" readonly value="(read only) default value" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field type="search"
+            placeholder="Type some very very long text here to test overflow and placeholder" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field disabled type="search" placeholder="This input is disabled" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field readonly type="search" placeholder="This input is read only" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field disabled type="search" value="I am disabled but I have a value"
+            placeholder="This input is disabled" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field type="search" value="The value should be visible instead the placeholder"
+            placeholder="Type some very very long text here to test overflow and placeholder" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field type="search" minlength="3" maxlength="15" value="min-max-test" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field type="search" text-field-control-disabled value="control is disabled" label="Search:">
+        </gameface-text-field>
+
+        <gameface-text-field class="custom-input-styles" type="search" label="Search:"></gameface-text-field>
+    </div>
+    <div class="text-field-case">
+        <h2>Number</h2>
+
+        <gameface-text-field type="number"></gameface-text-field>
+
+        <gameface-text-field type="number" label="Number:"></gameface-text-field>
+
+        <gameface-text-field type="number" value="7" label="Number:"></gameface-text-field>
+
+        <gameface-text-field type="number" value="wrong default value" label="Number:"></gameface-text-field>
+
+        <gameface-text-field type="number" disabled value="7" label="Number:"></gameface-text-field>
+
+        <gameface-text-field type="number" readonly value="7" label="Number:"></gameface-text-field>
+
+        <gameface-text-field type="number"
+            placeholder="Type some very very long number here to test overflow and placeholder" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field disabled type="number" placeholder="This input is disabled" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field readonly type="number" placeholder="This input is read only" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field disabled type="number" value="7" placeholder="This input is disabled" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field type="number" value="7"
+            placeholder="Type some very very long text here to test overflow and placeholder" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field type="number" min="3" max="15" value="4" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field type="number" min="3" max="15" value="4.5" step="0.5" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field type="number" min="3" max="15" value="0" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field type="number" min="3" max="15" value="20" label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field type="number" text-field-control-disabled label="Number:">
+        </gameface-text-field>
+
+        <gameface-text-field class="custom-input-styles" type="number" label="Number:"></gameface-text-field>
+    </div>
+</div>
+`
+
 export {
     homeTemplate,
     checkBoxTemplate,
@@ -550,4 +720,5 @@ export {
     automaticGridTemplate,
     progressBarTemplate,
     switchTemplate,
+    textFieldsTemplate
 }
