@@ -55,7 +55,7 @@ class GamefaceFormControl extends HTMLElement {
         const elements = [];
 
         this.traverseFormElements(this, (element, elements = []) => {
-            if (!this.isValidFromElement(element) || this.isElementUsedToSubmit(element)) return;
+            if (!this.isValidFormElement(element) || this.isElementUsedToSubmit(element)) return;
             elements.push(element);
         }, [elements]);
 
@@ -66,14 +66,20 @@ class GamefaceFormControl extends HTMLElement {
      * Will serialize the form data by traversing all the form element tree
      * @returns {string}
      */
-    getFormSerializedData() {
+    getFormSerializedData(formElements) {
         const params = new URLSearchParams();
 
         //Serialize the data if there is any set on the submit button
         this.serializeSubmitButtonElementData(params);
+
+        for (const formElement of formElements) {
+            if (!this.toCustomElement(formElement).willSerialize()) continue;
+            this.serializeElementData(formElement, params);
+        }
+
         this.traverseFormElements(this, (element) => {
             //We dont need data from invalid elements and elements that are having type "submit"
-            if (!this.isValidFromElement(element) || this.isElementUsedToSubmit(element)) return;
+            if (!this.isValidFormElement(element) || this.isElementUsedToSubmit(element)) return;
             if (!this.toCustomElement(element).willSerialize()) return;
 
             this.serializeElementData(element, params);
@@ -140,8 +146,8 @@ class GamefaceFormControl extends HTMLElement {
 
     /**
      * Creates an instance of a NativeElementValidator to wrap a native HTMLElement
-     * @param {HTMLElement}
-     * @returns {NativeElementValidator}
+     * @param {HTMLElement} element
+     * @returns {NativeElementValidator | HTMLElement}
     */
     toCustomElement(element) {
         if (!(element instanceof CustomElementValidator)) element = new NativeElementValidator(element);
@@ -194,7 +200,7 @@ class GamefaceFormControl extends HTMLElement {
      * @param {HTMLElement} element
      * @returns {boolean}
      */
-    isValidFromElement(element) {
+     isValidFormElement(element) {
         const tagName = element.tagName.toLowerCase();
 
         return VALID_FORM_CONTROL_ELEMENT_TAGS.has(tagName) || VALID_FORM_CONTROL_CUSTOM_ELEMENT_TAGS.has(tagName);
@@ -251,7 +257,8 @@ class GamefaceFormControl extends HTMLElement {
             if (submitEvent.defaultPrevented) return;
         }
 
-        for (let element of this.formElements) {
+        const formElementsCache = this.formElements;
+        for (let element of formElementsCache) {
             if (!this.toCustomElement(element).willSerialize()) continue;
             const validation = this.hasErrors(this.toCustomElement(element));
             if (!validation.hasError) continue;
@@ -267,10 +274,10 @@ class GamefaceFormControl extends HTMLElement {
         this.currentSubmitButton = event.currentTarget;
         switch (this.method.toLowerCase()) {
             case formMethods.GET.toLowerCase():
-                this.makeRequest(formMethods.GET, null, `${this.action}?${this.getFormSerializedData()}`)
+                this.makeRequest(formMethods.GET, null, `${this.action}?${this.getFormSerializedData(formElementsCache)}`)
                 break;
             case formMethods.POST.toLowerCase():
-                this.makeRequest(formMethods.POST, this.getFormSerializedData(), this.action)
+                this.makeRequest(formMethods.POST, this.getFormSerializedData(formElementsCache), this.action)
                 break;
             default:
                 console.warn('Unable to submit form. The form method is not "GET" or "POST"!');

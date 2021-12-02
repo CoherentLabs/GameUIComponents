@@ -4,13 +4,13 @@
  *--------------------------------------------------------------------------------------------*/
 
 const errorMessages = new Map([
-    ['notAForm', 'This element is not part of a form.'],
+    ['notAFormElement', 'This element is not part of a form.'],
     ['tooLong', 'The value is too long. Maximum length is 5.'],
     ['tooShort', 'The value is too short. Minimal length is 3.'],
     ['rangeOverflow', 'The value is too big. Maximum is 30.'],
     ['rangeUnderflow', 'The value is too small. Minimum is 10.'],
     ['valueMissing', 'The value is required.'],
-    ['nameMissing', 'The elements does not have a name attribute and will not be submitted'],
+    ['nameMissing', 'The elements does not have a name attribute and will not be submitted.'],
 ]);
 
 
@@ -23,7 +23,7 @@ function setupFormValidationTestPage() {
     const template = `
     <gameface-form-control>
         <input id="role" name="role" value="some name" required />
-        <input minimum="3" maximum="5" name="username" value="Valid" type="text" id="username" />
+        <input minlength="3" maxlength="5" name="username" value="Valid" type="text" id="username" />
         <input min="10" max="30" value="15" name="password" type="text" id="password" />
         <input type="text" value="missing name" id="no-name" />
         <button class="form-element" id="submit" type="submit">Login</button>
