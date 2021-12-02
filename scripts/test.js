@@ -37,7 +37,7 @@ function linkDependencies() {
 }
 
 function test(rebuild, browsersArg) {
-    if (rebuild) execSync('npm run rebuild', { cwd: path.join(__dirname, '../'), stdio: 'inherit' });
+    if (rebuild) execSync('npm run build:dev', { cwd: path.join(__dirname, '../'), stdio: 'inherit' });
     if (!areComponentsPackaged()) return;
 
     const formsServer = spawn('node', ['forms-server.js'], { cwd: __dirname });
