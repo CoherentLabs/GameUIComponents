@@ -26,7 +26,7 @@ module.exports = function (config) {
       }
     },
     files: [
-      { pattern: 'node_modules/coherent-gameface-**/**/*.css', included: true, type: 'css' },
+      { pattern: 'node_modules/coherent-gameface-*/**/*.css', included: true, type: 'css' },
       { pattern: 'node_modules/coherent-gameface-components/umd/*.development.js', served: true },
       { pattern: 'node_modules/coherent-gameface-*/umd/*.development.js', served: true },
       { pattern: 'actions.js', served: true },
