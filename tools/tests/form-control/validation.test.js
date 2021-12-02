@@ -18,13 +18,30 @@ function getTextContent(element) {
     return element.textContent.replace(/(\n)+/g, '').trim();
 }
 
+async function badValueTest(elSelector, errorType, value) {
+    const input = document.querySelector(elSelector);
+    input.value = value;
+
+    click(document.querySelector('#submit'));
+
+    return createAsyncSpec(() => {
+        const tooltip = document.querySelector('gameface-form-control').tooltip;
+        assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
+
+        const expected = errorMessages.get(errorType);
+        const received = getTextContent(tooltip);
+        tooltip.hide();
+        assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
+    });
+}
+
 
 function setupFormValidationTestPage() {
     const template = `
     <gameface-form-control>
         <input id="role" name="role" value="some name" required />
         <input minlength="3" maxlength="5" name="username" value="Valid" type="text" id="username" />
-        <input min="10" max="30" value="15" name="age" type="text" id="age" />
+        <input type="number" min="10" max="30" value="15" name="age" type="text" id="age" />
         <input type="text" value="missing name" id="no-name" />
         <button class="form-element" id="submit" type="submit">Login</button>
     </gameface-form-control>
@@ -70,88 +87,23 @@ describe('Form validation', () => {
     });
 
     it('Should show value missing error', async() => {
-        const input = document.querySelector('#role');
-        input.value = '';
-
-        click(document.querySelector('#submit'));
-
-        return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-role-error-tooltip');
-            assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
-
-            const expected = errorMessages.get('valueMissing');
-            const received = getTextContent(tooltip);
-            tooltip.hide();
-            assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
-        });
+        return badValueTest('#role', 'valueMissing', '');
     });
 
     it('Should show value too long error', async() => {
-        const username = document.querySelector('#username');
-        username.value = 'This is too long';
-
-        click(document.querySelector('#submit'));
-
-        return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-username-error-tooltip');
-            assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
-
-            const expected = errorMessages.get('tooLong');
-            const received = getTextContent(tooltip);
-            tooltip.hide();
-            assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
-        });
+        return badValueTest('#username', 'tooLong', 'This is too long');
     });
 
     it('Should show value too short error', async() => {
-        const username = document.querySelector('#username');
-        username.value = 'Th';
-
-        click(document.querySelector('#submit'));
-
-        return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-username-error-tooltip');
-            assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
-
-            const expected = errorMessages.get('tooShort');
-            const received = getTextContent(tooltip);
-            tooltip.hide();
-            assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
-        });
+        return badValueTest('#username', 'tooShort', 'Th');
     });
 
     it('Should show value too small - range underflow.', async() => {
-        const age = document.querySelector('#age');
-        age.value = '5';
-
-        click(document.querySelector('#submit'));
-
-        return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-age-error-tooltip');
-            assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
-
-            const expected = errorMessages.get('rangeUnderflow');
-            const received = getTextContent(tooltip);
-            tooltip.hide();
-            assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
-        });
+        return badValueTest('#age', 'rangeUnderflow', 5);
     });
 
     it('Should show value too big - range overflow.', async() => {
-        const input = document.querySelector('#age');
-        input.value = '40';
-
-        click(document.querySelector('#submit'));
-
-        return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-age-error-tooltip');
-            assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
-
-            const expected = errorMessages.get('rangeOverflow');
-            const received = getTextContent(tooltip);
-            tooltip.hide();
-            assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
-        });
+        return badValueTest('#age', 'rangeOverflow', 40);
     });
 
     it('Should not validate elements that do not have name.', async() => {
@@ -161,9 +113,8 @@ describe('Form validation', () => {
         click(document.querySelector('#submit'));
 
         return createAsyncSpec(() => {
-            const tooltip = document.querySelector('#input-no-name-error-tooltip');
-            assert(tooltip.style.display === 'none', 'Tooltip was displayed!');
+            const tooltip = document.querySelector('gameface-form-control').tooltip;
+            assert(tooltip === undefined, 'Tooltip should be displayed!');
         });
     });
-
 });
