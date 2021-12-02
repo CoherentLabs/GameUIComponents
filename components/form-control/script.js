@@ -77,14 +77,6 @@ class GamefaceFormControl extends HTMLElement {
             this.serializeElementData(formElement, params);
         }
 
-        this.traverseFormElements(this, (element) => {
-            //We dont need data from invalid elements and elements that are having type "submit"
-            if (!this.isValidFormElement(element) || this.isElementUsedToSubmit(element)) return;
-            if (!this.toCustomElement(element).willSerialize()) return;
-
-            this.serializeElementData(element, params);
-        })
-
         return params.toString();
     }
 
