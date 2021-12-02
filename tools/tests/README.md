@@ -52,6 +52,10 @@ tools/tests/package.json
 }
 ~~~~
 
+By default the tests create a symbolic links between the source of the components and the modules installed in tests/node_modules. This is necessary in order to test the local packages. If we don't create links we'll test the published npm modules. The links are not deleted between test runs. If you wish to skip the linking pass --link=false to the test script:
+
+`npm run test -- --link=false`
+
 # Configuration
 
 The `karma.config.js` file contains the list of tests that are going to be

@@ -36,7 +36,7 @@ function linkDependencies() {
     linkSingleComponent('', TESTS_FOLDER);
 }
 
-function test(rebuild, browsersArg) {
+function test(rebuild, browsersArg, link=true) {
     if (rebuild) execSync('npm run build:dev', { cwd: path.join(__dirname, '../'), stdio: 'inherit' });
     if (!areComponentsPackaged()) return;
 
@@ -49,8 +49,7 @@ function test(rebuild, browsersArg) {
         console.log(data.toString());
     });
 
-
-    linkDependencies();
+    if (link) linkDependencies();
     const process = exec(`karma start tools/tests/karma.conf.js ${browsersArg}`, { cwd: path.join(__dirname, '../') });
 
     process.stdout.on('data', function (data) {
@@ -71,12 +70,13 @@ function test(rebuild, browsersArg) {
 function main() {
     const arguments = process.argv.slice(2);
     const rebuild = (arguments.indexOf('--rebuild') > -1);
+    const link = (arguments.indexOf('--link') > -1);
     let browsersArg = '';
 
     const browsersArgIndex = arguments.indexOf('--browsers');
     if (browsersArgIndex > -1) browsersArg = `--browsers ${arguments[browsersArgIndex + 1]}`;
 
-    test(rebuild, browsersArg);
+    test(rebuild, browsersArg, link);
 }
 
 main();
