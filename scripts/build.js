@@ -162,8 +162,12 @@ function createBundle(inputOptions, outputOptions) {
 
 async function main() {
     copyCSSTheme();
+    let componentArgument = '';
     const arguments = process.argv.slice(2);
     if (arguments.indexOf('--no-install') > -1 || arguments.indexOf('-ni') > -1) noInstall = true;
+
+    let componentArgIdx = arguments.indexOf('--component')
+    if (componentArgIdx > -1) componentArgument = `--component ${arguments[componentArgIdx + 1]}`;
 
     if(arguments.indexOf('--library') > -1) {
         buildComponentsLibrary();
@@ -172,7 +176,7 @@ async function main() {
     }
 
     if (arguments.indexOf('--documentation') > -1) {
-        const result = execSync('node scripts/transfer-doc-files.js', { cwd: path.join(__dirname, '../'), encoding: 'utf8' });
+        const result = execSync(`node scripts/transfer-doc-files.js ${componentArgument}`, { cwd: path.join(__dirname, '../'), encoding: 'utf8' });
         console.log(result);
     }
 }
