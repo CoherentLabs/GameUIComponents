@@ -6,7 +6,9 @@
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
-class Checkbox extends HTMLElement {
+const CustomElementValidator = components.CustomElementValidator;
+
+class Checkbox extends CustomElementValidator {
     constructor() {
         super();
 
@@ -23,6 +25,15 @@ class Checkbox extends HTMLElement {
 
     get value() {
         return this.getAttribute('value') || 'on';
+    }
+
+    valueMissing() {
+        return this.hasAttribute('required') && !this.state.checked;
+    }
+
+    willSerialize() {
+        if (!this.state.checked || this.nameMissing()) return false;
+        return true;
     }
 
     connectedCallback() {

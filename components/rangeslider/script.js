@@ -12,13 +12,13 @@ import { orientationUnitsNames } from './orientationUnitsNames';
 
 const ORIENTATIONS = ['vertical', 'horizontal'];
 const SPACE_BETWEEN_GRID_POLS = 10;
-
+const CustomElementValidator = components.CustomElementValidator;
 /**
  * @class Rangeslider.
  * Rangeslider component, allows you to specify a numeric value by using a slider.
  * It must be no less than a given value, and no more than another given value.
  */
-class Rangeslider extends HTMLElement {
+class Rangeslider extends CustomElementValidator {
     /**
      * Sets the minimum value of the slider
      * @param {number} value
@@ -51,6 +51,14 @@ class Rangeslider extends HTMLElement {
         return this._max;
     }
 
+    get value() {
+        return this._value[0];
+    }
+
+    set value(value) {
+        this._value = value;
+    }
+
     /**
      * Converts a value to percent in a range
      * @param {number} value - the value to be converted
@@ -79,6 +87,20 @@ class Rangeslider extends HTMLElement {
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
+    }
+
+    customError() {
+        if (this.hasAttribute('two-handles')) {
+            console.warn('gameface-rangeslider component does not support form data when "two-handles" attribute is used!');
+            return true;
+        }
+
+        return false;
+    }
+
+    valueMissing() {
+        if (!this._value && !this._value[0]) return true;
+        return false;
     }
 
     /**
@@ -194,7 +216,7 @@ class Rangeslider extends HTMLElement {
             //if the thumb attribute is added, the thumbs are created
             if (this.thumb) {
                 //creates two thumbs
-                this.twoHandles ? this.value.forEach((val) => this.buildThumb(val)) : this.buildThumb(this.value);
+                this.twoHandles ? this._value.forEach((val) => this.buildThumb(val)) : this.buildThumb(this.value);
 
                 this.thumbElement = !this.twoHandles
                     ? [this.querySelector(`.${this.orientation}-rangeslider-thumb`)]

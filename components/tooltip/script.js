@@ -5,23 +5,31 @@
 
 import components from 'coherent-gameface-components';
 import template from './template.html';
-const TOOLTIP_MARGIN = 10;
+const TOOLTIP_MARGIN = 5;
 
 class Tooltip extends HTMLElement {
     constructor() {
         super();
         this.template = template;
-
         this.visible = false;
+        this._targetElement;
+    }
+
+    set targetElement(element) {
+        this._targetElement = element;
+    }
+
+    get targetElement() {
+        return this._targetElement;
     }
 
     connectedCallback() {
         this.position = this.getAttribute('position') || 'top';
-        this.showOn = this.getAttribute('on') || 'click';
-        this.hideOn = this.getAttribute('off') || 'click';
+        this.showOn = this.getAttribute('on');
+        this.hideOn = this.getAttribute('off');
         this.elementSelector = this.getAttribute('target');
 
-        this.triggerElement = document.querySelector(this.elementSelector);
+        this.triggerElement = this.targetElement || document.querySelector(this.elementSelector);
         if (!this.triggerElement) {
             console.error(`An element with selector ${this.elementSelector} does not exit. Please make sure the selector is correct and the element exists.`);
             return;
@@ -96,4 +104,4 @@ class Tooltip extends HTMLElement {
 
 components.defineCustomElement('gameface-tooltip', Tooltip);
 
-export { Tooltip };
+export default Tooltip;

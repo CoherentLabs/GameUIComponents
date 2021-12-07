@@ -341,3 +341,17 @@ The `value` attribute is not required for the dropdown option element but if it 
 ```
 
 Clicking on the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"One"}`.
+
+
+# Validation
+
+The form control supports validation. These are the attributes that you can use:
+
+
+|Name|Purpose|Supported Elements|
+|---|---|---|
+| required | Used to indicate that a value is required. Will show an error if the element doesn't have value. | Input, Textarea, Checkbox, Switch, Radio Button | 
+| minlength | Used to indicate the minimum length of a text field. | Input |
+| maxlength | Used to indicate the minimum length of a text field.| Input |
+| min | Used to indicate the minimum value of a number input | Input |
+| max | Used to indicate the maximum value of a number input | Input |
