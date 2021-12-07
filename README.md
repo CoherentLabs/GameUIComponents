@@ -41,7 +41,7 @@ These are the commands used to build and package the components.
 |build:demo            |Build only the demos of all components.                                      |N/A|`npm run build:demo`|
 |build:library         |Build only the components library.                                           |N/A|`npm run build:library`|
 |build:dev             |Build the components using only the local packages. Will install dependencies only from source, not the npm registry. |N/A|`npm run build:dev`|
-|build:documentation   |Build the components, the demos and the documentation.                       |N/A|`npm run build:documentation`|
+|build:documentation   |Build the components, the demos and the documentation.                       |[--component]|`npm run build:documentation -- --component checkbox`|
 |check:copyright       |Will check the files inside the *components* folder for copyright notice.    |N/A|`npm run check:copyright`|
 |add:copyright       |Will add copyright notice to files inside the *components* folder that are missing it. |N/A|`npm run add:copyright`|
 |start:demo            |Serve the demo project.                                                      |N/A|`npm run start:demo`|
@@ -60,6 +60,7 @@ These are the commands used to build and package the components.
 [--library]: ## "builds only the components library"
 [--documentation]: ## "also build the documentation"
 [--rootDir]: ## "the folder in which to perform recursive npm install"
+[--component]: ## "the name of the folder of the component that you want to build the documentation for"
 
 After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
 
