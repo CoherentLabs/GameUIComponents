@@ -68,6 +68,9 @@ function copyAllStyleFiles(folder, component) {
 */
 function transferBundleAndStyles(component = null) {
     let components = getFolderDirectories('../components');
+    if (components.indexOf(component) === -1) {
+        return console.error(`Component ${component} does not exist. Make sure the name you passed is correct.`)
+    }
 
     if (!component) {
         saveMarkdownWithFrontMatter('_index', path.join(__dirname, '../README.md'), DOC_FILES_CONTENT_DIRECTORY);
