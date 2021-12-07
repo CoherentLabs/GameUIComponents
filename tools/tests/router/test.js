@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Router, Route, BrowserHistory, HashHistory } from './router.development.js';
+import { Router, Route, BrowserHistory, HashHistory } from '../node_modules/coherent-gameface-router/umd/router.development.js';
 
 const NumbersModel = {
     'whole': [1, 2, 3, 4, 5, 6, -7],
