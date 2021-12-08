@@ -47,3 +47,10 @@ function createAsyncSpec(callback = () => {}, frames = DEFAULT_FRAMES_TO_WAIT) {
         }, frames);
     });
 }
+
+
+async function waitServerResponse(responseTimeout = 50) {
+	return new Promise((resolve) => {
+		setTimeout(resolve, responseTimeout);
+	})
+}

@@ -403,13 +403,6 @@ async function setupFormControlPage(form) {
 	await createAsyncSpec();
 }
 
-const RESPONSE_TIMEOUT = 50;
-async function waitServerResponse() {
-	return new Promise((resolve, reject) => {
-		setTimeout(resolve, RESPONSE_TIMEOUT);
-	})
-}
-
 function setFormsTestCases() {
 	for (const formData of forms) {
 		describe(formData.testName, () => {
@@ -459,28 +452,4 @@ describe('Form control Tests', () => {
 	});
 
 	setFormsTestCases();
-
-    it('Should have xhr property exposed', () => {
-        const form = document.querySelector('gameface-form-control');
-        const xhr = form.xhr;
-
-        assert.exists(xhr,'The xhr property exists.');
-    });
-
-    it('Should be able to attach listeners to the xhr property', async () => {
-        const form = document.querySelector('gameface-form-control');
-        const xhr = form.xhr;
-        const submitButton = document.querySelector('[type="submit"]');
-        this.load = 0;
-        xhr.addEventListener("load", () => this.load += 1);
-
-        click(submitButton);
-        // click twice to make sure the xhr is correctly reset between requests
-        // we create new xhr after the request has finished, this means that the event handler must be called once
-        click(submitButton);
-        await waitServerResponse();
-        return createAsyncSpec(() => {
-            assert(this.load === 1, `The xhr load event callback was called ${this.load} times, expected: 1.`);
-        });
-    });
 });
