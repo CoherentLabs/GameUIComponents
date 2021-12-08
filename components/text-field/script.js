@@ -29,7 +29,10 @@ const TEXT_FIELD_ATTRIBUTES = [
     { name: 'step', defaultValue: 1, parseMethod: parseFloat, isAttrValueValidMethod: isNaN }
 ];
 
-class TextField extends HTMLElement {
+const TextFieldValidator = components.TextFieldValidator;
+const CustomElementValidator = components.CustomElementValidator;
+
+class TextField extends CustomElementValidator {
     constructor() {
         super();
         this.template = template;
@@ -176,6 +179,50 @@ class TextField extends HTMLElement {
         } else {
             this.removeAttribute('text-field-control-disabled');
         }
+    }
+
+    set pattern(value) {
+        this.setAttribute('pattern', pattern);
+    }
+
+    get pattern() {
+        return this.getAttribute('pattern');
+    }
+
+    isBadURL() {
+        return TextFieldValidator.isBadURL(this);
+    }
+
+    isBadEmail() {
+        return TextFieldValidator.isBadEmail(this);
+    }
+
+    tooLong() {
+        return TextFieldValidator.tooLong(this);
+    }
+
+    tooShort() {
+        return TextFieldValidator.tooShort(this);
+    }
+
+    rangeOverflow() {
+        if (this.type === supportedTextFieldTypes.NUMBER) return TextFieldValidator.rangeOverflow(this);
+        return false;
+    }
+
+    rangeUnderflow() {
+        if (this.type === supportedTextFieldTypes.NUMBER) return TextFieldValidator.rangeUnderflow(this);
+        return false;
+    }
+
+    isBadURL() {
+        if (this.type !== supportedTextFieldTypes.URL) return false;
+        return TextFieldValidator.isBadURL(this);
+    }
+
+    isBadEmail() {
+        if (this.type !== supportedTextFieldTypes.EMAIL) return false;
+        return TextFieldValidator.isBadEmail(this);
     }
 
     /**

@@ -21,7 +21,8 @@ const tags = {
     GAMEFACE_DROPDOWN: 'gameface-dropdown',
     GAMEFACE_RADIO_GROUP: 'gameface-radio-group',
     GAMEFACE_RANGESLIDER: 'gameface-rangeslider',
-    GAMEFACE_SWITCH: 'gameface-switch'
+    GAMEFACE_SWITCH: 'gameface-switch',
+    TEXT_FIELD: 'gameface-text-field',
 }
 
 const VALID_SUBMIT_ELEMENT_TAGS = new Set([tags.BUTTON, tags.INPUT]);
@@ -31,7 +32,8 @@ const VALID_FORM_CONTROL_CUSTOM_ELEMENT_TAGS = new Set([
     tags.GAMEFACE_DROPDOWN,
     tags.GAMEFACE_RADIO_GROUP,
     tags.GAMEFACE_RANGESLIDER,
-    tags.GAMEFACE_SWITCH
+    tags.GAMEFACE_SWITCH,
+    tags.TEXT_FIELD
 ]);
 
 const NativeElementValidator = components.NativeElementValidator;
@@ -127,6 +129,8 @@ class GamefaceFormControl extends HTMLElement {
             rangeUnderflow: element.rangeUnderflow(),
             valueMissing: element.valueMissing(),
             nameMissing: element.nameMissing(),
+            badURL: element.isBadURL(),
+            badEmail: element.isBadEmail(),
             customError: element.customError()
         };
 
@@ -165,7 +169,9 @@ class GamefaceFormControl extends HTMLElement {
      * @param {HTMLElement} element
     */
     showError(error, element) {
-        if (this.tooltip) this.tooltip.parentElement.removeChild(this.tooltip);
+        if (this.tooltip && this.tooltip.parentElement) {
+            this.tooltip.parentElement.removeChild(this.tooltip);
+        }
 
         this.tooltip = document.createElement('gameface-tooltip');
         this.tooltip.targetElement = element;
