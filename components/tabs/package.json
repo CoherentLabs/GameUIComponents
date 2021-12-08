@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-tabs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Tabs component for Coherent Labs' Gameface.",
   "main": "script.js",
   "repository": {

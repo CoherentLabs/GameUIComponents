@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-scrollable-container",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
   "repository": {
