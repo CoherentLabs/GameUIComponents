@@ -1,4 +1,5 @@
 baseURL = "https://CoherentLabs.github.io/GameUIComponents"
+relativeURLs = true
 
 languageCode = "en-us"
 DefaultContentLanguage = "en"
