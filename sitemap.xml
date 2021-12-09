@@ -3,126 +3,196 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/</loc>
+    <lastmod>2021-11-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/text-field/</loc>
+    <lastmod>2021-11-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/text-field/</loc>
+    <lastmod>2021-11-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/router/</loc>
+    <lastmod>2021-11-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/router/</loc>
+    <lastmod>2021-11-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/menu/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/menu/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/tabs/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/tabs/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/radio-button/</loc>
     <lastmod>2021-03-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/menu/</loc>
-    <lastmod>2021-03-08T14:00:45+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/menu/</loc>
-    <lastmod>2021-03-08T14:00:45+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/router/</loc>
-    <lastmod>2021-03-08T14:00:45+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/router/</loc>
-    <lastmod>2021-03-08T14:00:45+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/checkbox/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/checkbox/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/dropdown/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/dropdown/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/checkbox/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/grid/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/grid/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/modal/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/modal/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/grid/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/radial-menu/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/grid/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/radial-menu/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/scrollable-container/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/modal/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/scrollable-container/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/modal/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/slider/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/slider/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/components/tabs/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/examples/tabs/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/categories/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/radio-button/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://coherentlabs.github.io/GameUIComponents/tags/</loc>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/rangeslider/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/slider/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/slider/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/switch/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/switch/</loc>
+    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/tags/</loc>
   </url>
   
 </urlset>

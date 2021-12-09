@@ -3,14 +3,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-.tabs-wrapper {
+.guic-tabs-wrapper {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    height: 800px;
 }
 
-.tabs-header {
+.guic-tabs-header {
     display: flex;
     flex-direction: row;
 }
@@ -22,25 +21,38 @@ tab-heading {
     border-style: solid;
     cursor: pointer;
 	box-sizing: border-box;
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
 }
 
-tab-heading.active-tab {
-    background-color: #ebebeb;
+.guic-tabs-active-tab {
     border-bottom: none;
+    background-color: var(--default-color-gray);
+}
+
+.guic-tabs-active-panel {
+    display: block;
 }
 
 tab-panel {
+    position: relative;
+    top: -3px;
     border-width: 2px;
     border-style: solid;
     padding: 10px;
-    width: 500px;
     height: 500px;
     display: none;
-	box-sizing: border-box;
+    box-sizing: border-box;
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
 }
 
 gameface-tabs {
-    display: block;
-    width: 1000px;
-    height: 200px;
+    display: flex;
 }

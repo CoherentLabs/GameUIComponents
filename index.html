@@ -5,26 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Home - Gameface Game UI Components</title>
 <meta name="description" content="Text about this post">
-<meta name="generator" content="Hugo 0.76.0" />
-<link href="https://coherentlabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
-<link rel="canonical" href="https://coherentlabs.github.io/GameUIComponents/">
-<link rel="stylesheet" href="https://coherentlabs.github.io/GameUIComponents/css/theme.min.css">
+<meta name="generator" content="Hugo 0.76.5" />
+<link href="https://CoherentLabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://CoherentLabs.github.io/GameUIComponents/">
+<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/theme.min.css">
 <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<link rel="stylesheet" href="https://coherentlabs.github.io/GameUIComponents/css/chroma.min.css">
+<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/chroma.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
-<script src="https://coherentlabs.github.io/GameUIComponents/js/bundle.js"></script><style>
+<script src="https://CoherentLabs.github.io/GameUIComponents/js/bundle.js"></script><style>
 :root {}
 </style>
 <meta property="og:title" content="Home" />
 <meta property="og:description" content="Text about this post" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://coherentlabs.github.io/GameUIComponents/" />
-<meta property="og:image" content="https://coherentlabs.github.io/GameUIComponents/images/og-image.png"/>
+<meta property="og:url" content="https://CoherentLabs.github.io/GameUIComponents/" />
+<meta property="og:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
 <meta property="og:updated_time" content="2020-10-08T14:00:45+00:00" /><meta property="og:site_name" content="Hugo Techdoc Theme" />
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://coherentlabs.github.io/GameUIComponents/images/og-image.png"/>
+<meta name="twitter:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
 
 <meta name="twitter:title" content="Home"/>
 <meta name="twitter:description" content="Text about this post"/>
@@ -44,31 +44,223 @@
 </div>
 <div class="content-container">
 <main><!--Copyright (c) Coherent Labs AD. All rights reserved. -->
-<h1 id="components-for-game-user-interface">Components for Game User Interface</h1>
-<p>This is a suite of custom elements designed specifically for Gameface. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package.</p>
+<h1 id="components-for-game-user-interface-ci-statusgithub-action-imagegithub-action-url-npm-versionnpm-imagenpm-url">Components for Game User Interface <a href="https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml?query=workflow%3A%22Run+Tests%22++"><img src="https://github.com/CoherentLabs/GameUIComponents/workflows/Run%20Tests/badge.svg" alt="CI status"></a> <a href="https://www.npmjs.com/package/coherent-gameface-components"><img src="http://img.shields.io/npm/v/coherent-gameface-components.svg?style=flat-square" alt="NPM version"></a></h1>
+<p>This is a suite of custom elements designed specifically for Gameface. All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package.</p>
 <p>Navigate to the root directory and run:</p>
 <pre><code>npm install
 </code></pre>
 <p>This will install a webpack server. After that run:</p>
+<pre><code>npm run build
+</code></pre>
+<p>This will build all components used in the demo. After that run:</p>
 <pre><code>npm run start:demo
 </code></pre>
-<p>This will serve the files on http://localhost:8080. Load that url in the Gameface player and preview the components.
+<p>This will serve the files on http://localhost:8080. Load that url in the Gameface player or in Chrome and preview the components.
 You can change the port in the webpack.config.js file.</p>
 <p>Custom components examples.</p>
 <h1 id="usage">Usage</h1>
 <p>Start an http-server in the root of the repository. Set the startup page in Gameface to
 <strong>http://localhost:8080/examples/&lt;example_name&gt;/&quot;</strong> and launch it.</p>
 <p>You can use <a href="https://www.npmjs.com/package/http-server">http-server</a> or any http-server that you like. Make sure you serve all files. The files in <strong>/lib</strong> and <strong>/components</strong> should be accessible.</p>
-<h1 id="contributing">Contributing</h1>
-<p>To build the components run:</p>
+<h1 id="creating-new-components">Creating new Components</h1>
+<p>All components are npm modules. Your component doesn&rsquo;t have to be an npm module.
+If you need to use it in your project only, you can skip the steps which make a
+component an npm module. However if at some point you decide that you want to make
+your component an npm module - follow the steps below to see how to do it.</p>
+<p>These are the commands used to build and package the components.</p>
+<p>To build all components run:</p>
 <p><code>npm run build</code></p>
-<nav class="pagination"><a class="nav nav-next" href="https://coherentlabs.github.io/GameUIComponents/examples/" title="Examples">Next - Examples <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+<p>This will create bundles with ready to use CJS and UMD modules.</p>
+<p>To build the demo pages only run:</p>
+<p><code>npm run build:demo</code></p>
+<p>To clean all build and installation files run:</p>
+<p><code>npm run clean</code></p>
+<p>To build the components and update the documentation files:</p>
+<p><code>npm run build:documentation</code> or
+<code>npm run build -- --documentation</code></p>
+<p>To create the npm packages run:</p>
+<p><code>npm run pack</code></p>
+<p>To package the components library only run:</p>
+<p><code>npm run pack:library</code></p>
+<p>To build and package everything run:</p>
+<p><code>npm run rebuild</code></p>
+<p>To start the tests run:</p>
+<p><code>npm run test</code></p>
+<p>If you haven&rsquo;t built the components or if you&rsquo;ve made changes:</p>
+<p><code>npm run test -- --rebuild</code></p>
+<p>to create new bundles.</p>
+<p>After you successfully execute <code>npm run tests</code> open the Gameface player or Chrome with &ldquo;&ndash;url=http://localhost:9876/debug.html&rdquo; to see the tests running.</p>
+<h2 id="structure-of-a-component">Structure of a Component</h2>
+<p>All components in the GameUIComponents suite are npm modules.</p>
+<p>All Gameface JavaScript components are custom HTML elements. Each component has:</p>
+<ul>
+<li>a JavaScript source file - the custom element&rsquo;s definition; where all the logic is implemented</li>
+<li>a JavaScript index file - the entry file</li>
+<li>an HTML file - the component&rsquo;s template;</li>
+<li>a CSS file - the component&rsquo;s styles</li>
+<li>a package.json file</li>
+<li>a README markdown file - short documentation explaining what the component does and how it&rsquo;s used</li>
+<li>a demo folder - folder containing an example of the component</li>
+</ul>
+<h2 id="using-without-bundling">Using without bundling</h2>
+<p>If you don&rsquo;t want to add your component to the GameUIComponent suite you can use it
+without building and packaging it as npm module. However, you&rsquo;ll still have to use the
+components library as dependency. Initialize an npm project using</p>
+<p><code>npm init</code></p>
+<p>and install the components library:</p>
+<p><code>npm i coherent-gameface-components</code> for npm version &gt;= 5.0.0
+and
+<code>npm i --save coherent-gameface-components</code> for npm version &lt; 5.0.0</p>
+<p>After that create an index.html and index.js files.
+Import the components library and the component&rsquo;s definition file using script tag:</p>
+<pre><code>&lt;script src=&quot;node_modules/coherent-gameface-components/umd/components.development.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>Add the custom component to the page:</p>
+<p><code>&lt;labeled-input&gt;&lt;/labeled-input&gt;</code></p>
+<p>The JavaScript definition is a simple class which extends the HTMLElemnt. The
+template is loaded using XHR. The url property of the component class shows the
+path to the template html file. Use the <link> tags to import style files. Use the <code>loadResource</code> method to load
+the template. When the template is loaded you can render the component.</p>
+<pre><code>class LabeledInput extends HTMLElement {
+    constructor() {
+        super();
+
+        this.url = '/template.html';
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then((result) =&gt; {
+                this.template = result.template;
+                components.renderOnce(this);
+            })
+            .catch(err =&gt; console.error(err));
+    }
+}
+
+components.defineCustomElement('labeled-input', LabeledInput);
+</code></pre><p>To test the component start an http server at the root and open demo.html. If
+you use http-server go to /labeled-input and run:</p>
+<p><code>http-server</code></p>
+<p>Navigate to localhost:<port> and check your component.</p>
+<h1 id="adding-component-to-the-components-suite">Adding component to the components suite</h1>
+<p>If you want to contribute to the components library and add a new component you
+need to add the required files in the correct folders. Make sure they can be
+successfully bundled and add documentation.</p>
+<p>All components are placed in the /components folder.
+The folders are named using lower case and camel-case for longer names.
+All names should be prefixed with <code>gameface-</code>. So now instead of labeled-input
+the custom element should be named <code>gameface-labeled-input</code>:</p>
+<p><code>components.defineCustomElement('gameface-labeled-input', LabeledInput);</code></p>
+<p>The build command generates a UMD and a CJS bundles of the component. The module
+bundler that is used is Rollup. This means that we can use <code>import</code> and <code>export</code> statements
+and rollup will automatically resolve all modules. Now we can import all dependencies
+at the top of the script.js file:</p>
+<pre><code>import components from 'coherent-gameface-components';
+import template from './template.html';
+</code></pre><p>And we can export the labeled input at the bottom:</p>
+<p><code>export { LabeledInput };</code></p>
+<p>Because the templates are imported as modules we no longer need to
+load them using XHR.
+Set the template as a property of the component:</p>
+<p><code>this.template = template;</code></p>
+<p>The loadResource method can both work with URL and an imported template. The usage
+is the same so that it is more convenient to switch between XHR and imported template.
+This is how the component&rsquo;s definition looks like after the changes:</p>
+<pre><code>import components from 'coherent-gameface-components';
+import template from './template.html';
+
+class LabeledInput extends HTMLElement {
+    constructor() {
+        super();
+
+        this.template = template;
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then((result) =&gt; {
+                this.template = result.template;
+                components.renderOnce(this);
+            })
+            .catch(err =&gt; console.error(err));
+    }
+}
+
+components.defineCustomElement('gameface-labeled-input', LabeledInput);
+
+export { LabeledInput };
+</code></pre><p><strong>Important for components compatible with Gameface</strong>:</p>
+<p>When using <a href="https://coherent-labs.com/Documentation/cpp-gameface/d1/ddb/data_binding.html">data-binding</a>
+you must call <code>engine.synchronizeModels();</code> within the <code>connectedCallback</code> for the component like so:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">connectedCallback</span>() {
+    <span style="color:#a6e22e">components</span>.<span style="color:#a6e22e">loadResource</span>(<span style="color:#66d9ef">this</span>)
+        .<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">template</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">template</span>;
+            <span style="color:#a6e22e">components</span>.<span style="color:#a6e22e">renderOnce</span>(<span style="color:#66d9ef">this</span>);
+			
+			<span style="color:#a6e22e">engine</span>.<span style="color:#a6e22e">synchronizeModels</span>();
+        })
+        .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">err</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">err</span>));
+}
+</code></pre></div><p>For example if the <strong>template</strong> of the component is:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input-label&#34;</span> <span style="color:#a6e22e">data-bind-value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{Inputs.exampleInput.label}}&#34;</span>&gt;Input Label Placeholder&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p>Not including <code>engine.synchronizeModels();</code> will result in not updating the
+<code>.input-label</code> Element value and the value will always remain
+&ldquo;Input Label Placeholder&rdquo; as it is in the template.</p>
+<p>Because all components are npm packages you need to add an entry index.js file.
+This is the file that would be loaded when you import your component from node_modules
+like this:</p>
+<p><code>import { LabeledInput } from 'gameface-labeled-input'</code></p>
+<p>It should export either the development or the production CJS bundle:</p>
+<pre><code>if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./cjs/labeled-input.production.min.js');
+} else {
+    module.exports = require('./cjs/labeled-input.development.js');
+}
+</code></pre><p>Each component has a demo page. It is placed in a /demo folder.
+The JavaScript file of the demo should be bundled so that it can be easily checked with double click
+or drag and drop without the need to manually setup an environment.</p>
+<p>The demo.js file imports all dependencies so that Rollup can resolve and bundle them.</p>
+<pre><code>import components from 'coherent-gameface-components';
+import LabeledInput from './umd/labeled-input.development.js'
+</code></pre><p>The demo.html file should import the bundle.js and use the custom element:</p>
+<pre><code>&lt;body&gt;
+    &lt;gameface-labeled-input&gt;&lt;/gameface-labeled-input&gt;
+    &lt;script src=&quot;./bundle.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><p>Note that the demo files should have the names demo.js and demo.html for the
+JavaScript and html files respectively.</p>
+<p>We have the definition, the demo, the entry file. All that is left in order to
+build the component is to specify which files will be added to the npm package.
+This is done in the package.json file using the files field:</p>
+<pre><code>  &quot;files&quot;: [
+    &quot;LICENSE&quot;,
+    &quot;README.md&quot;,
+    &quot;demo.html&quot;,
+    &quot;index.js&quot;,
+    &quot;script.js&quot;,
+    &quot;cjs/&quot;,
+    &quot;umd/&quot;
+  ],
+</code></pre><p><em>Skip the files property if you want to include all files.</em></p>
+<p>Use the LICENSE template.</p>
+<p>Now navigate to the components root folder and run:</p>
+<p><code>npm run rebuild</code></p>
+<p>The newly created bundles are located in labeled-input/umd and labeled-input/cjs
+folders. To test if everything works open the demo.html file.</p>
+<p>If everything works, add a README.md file to the component folder and add
+a documentation page to the docs/ folder.</p>
+<h1 id="testing">Testing</h1>
+<p>All tests are located in tools/tests. For more information on how to create and run a test refer to the <a href="https://github.com/CoherentLabs/GameUIComponents/blob/master/tools/tests/README.md">documentation</a>.</p>
+<nav class="pagination"><a class="nav nav-next" href="https://CoherentLabs.github.io/GameUIComponents/examples/" title="Examples">Next - Examples <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 </nav><div class="edit-meta">
-Last updated on 8 Oct 2020
+Last updated on Thursday, October 8, 2020
 
 
 <br>
-Published on 8 Oct 2020
+Published on Thursday, October 8, 2020
 <br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/_index.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
 </footer>
 </main>
@@ -76,38 +268,52 @@ Published on 8 Oct 2020
 
 <nav class="open-menu">
 <ul>
-<li class="active"><a href="https://coherentlabs.github.io/GameUIComponents">Home</a></li>
+<li class="active"><a href="https://CoherentLabs.github.io/GameUIComponents">Home</a></li>
 
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/">Examples</a>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/">Examples</a>
   
 <ul class="sub-menu">
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/menu/">Menu</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/router/">Router</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/radial-menu/">Radial Menu</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable Container</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/examples/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/text-field/">Text-field</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/router/">Router</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/menu/">Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radio-button/">Radio Button</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/">Accordion Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/">Automatic Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/">Progress Bar</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/rangeslider/">Rangeslider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/switch/">Switch</a></li>
 </ul>
   
 </li>
 
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/">Components</a>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/">Components</a>
   
 <ul class="sub-menu">
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/menu/">Menu</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/router/">Router</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/checkbox/">Checkbox</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/dropdown/">Dropdown</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/grid/">Grid</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/modal/">Modal</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/radial-menu/">Radial Menu</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/scrollable-container/">Scrollabe Container</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/slider/">Slider</a></li>
-<li class=""><a href="https://coherentlabs.github.io/GameUIComponents/components/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/text-field/">Text-field</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/router/">Router</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/menu/">Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/">Accordion Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/">Automatic Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/checkbox/">Checkbox</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/grid/">Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/modal/">Modal</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/">Progress Bar</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radio-button/">Radio Button</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/">Rangeslider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/slider/">Slider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/switch/">Switch</a></li>
 </ul>
   
 </li>

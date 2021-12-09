@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Automatic Grid - Gameface Game UI Components</title>
+<meta name="description" content="GameUIComponents">
+<meta name="generator" content="Hugo 0.76.5" />
+<link href="https://CoherentLabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/">
+<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="https://CoherentLabs.github.io/GameUIComponents/js/bundle.js"></script><style>
+:root {}
+</style>
+<meta property="og:title" content="Automatic Grid" />
+<meta property="og:description" content="The automatic-grid is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-automatic-grid
+Usage The automatic-grid component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the automatic-grid component:  &lt;script src=&quot;./node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js&quot;&gt;&lt;/script&gt; add the automatic-grid component to your html:  &lt;gameface-automatic-grid&gt;&lt;/gameface-automatic-grid&gt;This is all!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/" />
+<meta property="og:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+<meta property="article:published_time" content="2020-10-08T14:00:45+00:00" />
+<meta property="article:modified_time" content="2020-10-08T14:00:45+00:00" /><meta property="og:site_name" content="Hugo Techdoc Theme" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+<meta name="twitter:title" content="Automatic Grid"/>
+<meta name="twitter:description" content="The automatic-grid is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-automatic-grid
+Usage The automatic-grid component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the automatic-grid component:  &lt;script src=&quot;./node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js&quot;&gt;&lt;/script&gt; add the automatic-grid component to your html:  &lt;gameface-automatic-grid&gt;&lt;/gameface-automatic-grid&gt;This is all!"/>
+<meta itemprop="name" content="Automatic Grid">
+<meta itemprop="description" content="The automatic-grid is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-automatic-grid
+Usage The automatic-grid component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the automatic-grid component:  &lt;script src=&quot;./node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js&quot;&gt;&lt;/script&gt; add the automatic-grid component to your html:  &lt;gameface-automatic-grid&gt;&lt;/gameface-automatic-grid&gt;This is all!">
+<meta itemprop="datePublished" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="dateModified" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="wordCount" content="412">
+<meta itemprop="image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+
+
+<meta itemprop="keywords" content="" />
+</head>
+<body><div class="container"><header>
+<h1>Gameface Game UI Components</h1><span class="version">Version 1.0.0</span><a href="https://github.com/CoherentLabs/GameUIComponents_Public" class="github"><i class="fab fa-github"></i></a>
+<p class="description">GameUIComponents</p>
+
+</header>
+<div class="global-menu">
+<nav>
+<ul>
+<li><a href="/GameUIComponents/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>Automatic Grid</h1>
+<p>The automatic-grid is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.</p>
+<h1 id="installation">Installation</h1>
+<p><code>npm i coherent-gameface-automatic-grid</code></p>
+<h1 id="usage">Usage</h1>
+<p>The automatic-grid component comes with UMD and CJS builds.</p>
+<h2 id="usage-with-umd-modules">Usage with UMD modules:</h2>
+<ul>
+<li>import the components library:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>import the automatic-grid component:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>add the automatic-grid component to your html:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-automatic-grid&gt;&lt;/gameface-automatic-grid&gt;
+</code></pre><p>This is all! Load the file in Gameface to see the automatic-grid.</p>
+<p>If you wish to import the modules using JavaScript you can remove the script tags
+which import the components and the automatic-grid from the node_modules folder and import them like this:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from 'coherent-gameface-components';
+import automatic-grid from 'coherent-gameface-automatic-grid';
+</code></pre><p>Note that this approach requires a module bundler like <a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/guide/en/">Rollup</a> to resolve the
+modules from the node_modules folder. Alternatively you can import them directly from node_modules:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
+import automatic-grid from './node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js';
+</code></pre><h2 id="usage-with-cjs-modules">Usage with CJS modules:</h2>
+<ul>
+<li>Import the components library:</li>
+</ul>
+<pre><code class="language-{.js}" data-lang="{.js}">const components = require('coherent-gameface-components');
+const automatic-grid = require('coherent-gameface-automatic-grid');
+</code></pre><p>The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
+bundler in order to be use them in a browser.</p>
+<h2 id="add-the-styles">Add the styles</h2>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;link rel=&quot;stylesheet&quot; href=&quot;coherent-gameface-components-theme.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;grid.production.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+</code></pre><p>To overwrite the default styles, simply create new rules for the class names that you wish to change and include them after the default styles.</p>
+<p>Load the HTML file in Gameface to see the automatic-grid.</p>
+<h2 id="how-to-use">How to use</h2>
+<p>To use the automatic-grid component add the following element to your html</p>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-automatic-grid class=&quot;automatic-grid-component&quot;&gt;&lt;/gameface-automatic-grid&gt;
+</code></pre><p>To add items to your grid you need to add componet-slot elements to the grid</p>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-automatic-grid class=&quot;automatic-grid-component&quot;&gt;
+    &lt;component-slot data-name=&quot;item&quot;&gt;Automatic Grid&lt;/component-slot&gt;
+&lt;/gameface-automatic-grid&gt;
+</code></pre><p>You can use the following attributes to customize the automatic-grid</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>columns</td>
+<td>Number</td>
+<td>6</td>
+<td>The number of columns the grid has</td>
+<td>The maximum number of columns is 12</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>Number</td>
+<td>5</td>
+<td>The number of rows the grid has</td>
+<td></td>
+</tr>
+<tr>
+<td>draggable</td>
+<td>Boolean</td>
+<td>false</td>
+<td>If you can drag and drop items in the grid</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Apart from that you can add the following attributes to the component-slot</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>col</td>
+<td>Number</td>
+<td>none</td>
+<td>The column the item is on</td>
+<td></td>
+</tr>
+<tr>
+<td>row</td>
+<td>Number</td>
+<td>none</td>
+<td>The row the item is on</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="using-with-data-binding">Using with data-binding</h2>
+<p>If you want to iterate a list of items from a model in the automatic-grid, you can do the following in your JS:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">engine.whenReady.then(() =&gt; {
+    const grid = document.querySelector('gameface-automatic-grid');
+    
+    grid.addItemsToCells();
+});
+</code></pre><p>This will distribute the items from the model in the grid.</p>
+<div class="edit-meta">
+Last updated on Thursday, October 8, 2020
+
+
+<br>
+Published on Thursday, October 8, 2020
+<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/components/automatic-grid.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/" title="Accordion Menu"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Accordion Menu</a>
+<a class="nav nav-next" href="https://CoherentLabs.github.io/GameUIComponents/components/checkbox/" title="Checkbox">Next - Checkbox <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main>
+<div class="sidebar">
+
+<nav class="open-menu">
+<ul>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents">Home</a></li>
+
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/">Examples</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/text-field/">Text-field</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/router/">Router</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/menu/">Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radio-button/">Radio Button</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/">Accordion Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/">Automatic Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/">Progress Bar</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/rangeslider/">Rangeslider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/switch/">Switch</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="https://CoherentLabs.github.io/GameUIComponents/components/">Components</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/text-field/">Text-field</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/router/">Router</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/menu/">Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/">Accordion Menu</a></li>
+<li class="active"><a href="https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/">Automatic Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/checkbox/">Checkbox</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/grid/">Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/modal/">Modal</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/">Progress Bar</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radio-button/">Radio Button</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/">Rangeslider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/slider/">Slider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/switch/">Switch</a></li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+
+<div class="sidebar-footer"></div>
+</div>
+
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

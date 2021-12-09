@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Radio Button - Gameface Game UI Components</title>
+<meta name="description" content="GameUIComponents">
+<meta name="generator" content="Hugo 0.76.5" />
+<link href="https://CoherentLabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://CoherentLabs.github.io/GameUIComponents/components/radio-button/">
+<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="https://CoherentLabs.github.io/GameUIComponents/js/bundle.js"></script><style>
+:root {}
+</style>
+<meta property="og:title" content="Radio Button" />
+<meta property="og:description" content="The radio-button is part of the Gameface custom components suite.
+Usage The radio-button component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the radio-button component:  &lt;script src=&quot;./node_modules/coherent-gameface-radio-button/umd/coherent-gameface-radio-button.production.min.js&quot;&gt;&lt;/script&gt; add the radio-button group and button custom Elements to your html:  &lt;gameface-radio-group&gt;&lt;radio-button slot=&quot;radio-button&quot;&gt;&lt;/radio-button&gt;&lt;radio-button slot=&quot;radio-button&quot;&gt;&lt;/radio-button&gt;&lt;/gameface-radio-group&gt;Configuration and usage is explained further down the document.
+Import using ES modules:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://CoherentLabs.github.io/GameUIComponents/components/radio-button/" />
+<meta property="og:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+<meta property="article:published_time" content="2020-10-08T14:00:45+00:00" />
+<meta property="article:modified_time" content="2020-10-08T14:00:45+00:00" /><meta property="og:site_name" content="Hugo Techdoc Theme" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+<meta name="twitter:title" content="Radio Button"/>
+<meta name="twitter:description" content="The radio-button is part of the Gameface custom components suite.
+Usage The radio-button component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the radio-button component:  &lt;script src=&quot;./node_modules/coherent-gameface-radio-button/umd/coherent-gameface-radio-button.production.min.js&quot;&gt;&lt;/script&gt; add the radio-button group and button custom Elements to your html:  &lt;gameface-radio-group&gt;&lt;radio-button slot=&quot;radio-button&quot;&gt;&lt;/radio-button&gt;&lt;radio-button slot=&quot;radio-button&quot;&gt;&lt;/radio-button&gt;&lt;/gameface-radio-group&gt;Configuration and usage is explained further down the document.
+Import using ES modules:"/>
+<meta itemprop="name" content="Radio Button">
+<meta itemprop="description" content="The radio-button is part of the Gameface custom components suite.
+Usage The radio-button component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the radio-button component:  &lt;script src=&quot;./node_modules/coherent-gameface-radio-button/umd/coherent-gameface-radio-button.production.min.js&quot;&gt;&lt;/script&gt; add the radio-button group and button custom Elements to your html:  &lt;gameface-radio-group&gt;&lt;radio-button slot=&quot;radio-button&quot;&gt;&lt;/radio-button&gt;&lt;radio-button slot=&quot;radio-button&quot;&gt;&lt;/radio-button&gt;&lt;/gameface-radio-group&gt;Configuration and usage is explained further down the document.
+Import using ES modules:">
+<meta itemprop="datePublished" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="dateModified" content="2020-10-08T14:00:45+00:00" />
+<meta itemprop="wordCount" content="294">
+<meta itemprop="image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+
+
+<meta itemprop="keywords" content="" />
+</head>
+<body><div class="container"><header>
+<h1>Gameface Game UI Components</h1><span class="version">Version 1.0.0</span><a href="https://github.com/CoherentLabs/GameUIComponents_Public" class="github"><i class="fab fa-github"></i></a>
+<p class="description">GameUIComponents</p>
+
+</header>
+<div class="global-menu">
+<nav>
+<ul>
+<li><a href="/GameUIComponents/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>Radio Button</h1>
+<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<p>The radio-button is part of the Gameface custom components suite.</p>
+<h1 id="usage">Usage</h1>
+<p>The radio-button component comes with UMD and CJS builds.</p>
+<h2 id="usage-with-umd-modules">Usage with UMD modules:</h2>
+<ul>
+<li>import the components library:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>import the radio-button component:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-radio-button/umd/coherent-gameface-radio-button.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>add the radio-button group and button custom Elements to your html:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-radio-group&gt;
+	&lt;radio-button slot=&quot;radio-button&quot;&gt;&lt;/radio-button&gt;
+	&lt;radio-button slot=&quot;radio-button&quot;&gt;&lt;/radio-button&gt;
+&lt;/gameface-radio-group&gt;
+</code></pre><p>Configuration and usage is explained further down the document.</p>
+<p>Import using ES modules:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from 'coherent-gameface-components';
+import radioButton from 'coherent-gameface-radio-button';
+</code></pre><p>Note that this approach requires a module bundler like
+<a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/guide/en/">Rollup</a>
+to resolve the modules from the node_modules folder.</p>
+<h2 id="usage-with-cjs-modules">Usage with CJS modules:</h2>
+<ul>
+<li>Import the components library:</li>
+</ul>
+<pre><code class="language-{.js}" data-lang="{.js}">const components = require('coherent-gameface-components');
+const radioButton = require('coherent-gameface-radio-button');
+</code></pre><p>The CommonJS(CJS) modules are native for NodeJS environment, be sure to use a
+module bundler in order to be able to import the components in a browser.</p>
+<h1 id="configuration-and-usage">Configuration and Usage</h1>
+<p>The radio-button has <code>value</code> and <code>checked</code> getters and setters.
+Also each radio button has its own radio group element which is convenient.</p>
+<p>Here is an example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">gameface-radio-group</span>&gt;
+	&lt;<span style="color:#f92672">radio-button</span> <span style="color:#a6e22e">slot</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;radio-button&#34;</span>&gt;Tab Targeting&lt;/<span style="color:#f92672">radio-button</span>&gt;
+	&lt;<span style="color:#f92672">radio-button</span> <span style="color:#a6e22e">slot</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;radio-button&#34;</span> <span style="color:#a6e22e">checked</span>&gt;Action Combat&lt;/<span style="color:#f92672">radio-button</span>&gt;
+&lt;/<span style="color:#f92672">gameface-radio-group</span>&gt;
+</code></pre></div><h2 id="add-the-styles">Add the Styles</h2>
+<pre><code class="language-{.css}" data-lang="{.css}">&lt;link rel=&quot;stylesheet&quot; href=&quot;coherent-gameface-components-theme.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+</code></pre><p>To overwrite the default styles, simply create new rules for the class names
+that you wish to change and include them after the default styles.</p>
+<p>Load the HTML file in Gameface to see the radio-button.
+You can also see an example in the demo folder of the component.</p>
+<h2 id="usage-1">Usage</h2>
+<p>On top of using the <code>radioButton.checked</code> and <code>radioButton.checked</code> you can
+get one of the <code>&lt;gameface-radio-group&gt;</code> Elements and call <code>radioGroup.allButtons</code>
+which will return an Array of all <code>&lt;radio-button&gt;</code> Elements.</p>
+<p>When a radio-button as a <code>checked</code> attribute, this will be the initially checked
+button.</p>
+<p>Mouse focusing works as well as keyboard navigation and focusing using the
+arrow keys and Enter or Space keys.</p>
+<div class="edit-meta">
+Last updated on Thursday, October 8, 2020
+
+
+<br>
+Published on Thursday, October 8, 2020
+<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/components/radio-button.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/" title="Radial Menu"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Radial Menu</a>
+<a class="nav nav-next" href="https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/" title="Rangeslider">Next - Rangeslider <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main>
+<div class="sidebar">
+
+<nav class="open-menu">
+<ul>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents">Home</a></li>
+
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/">Examples</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/text-field/">Text-field</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/router/">Router</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/menu/">Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radio-button/">Radio Button</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/">Accordion Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/">Automatic Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/">Progress Bar</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/rangeslider/">Rangeslider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/switch/">Switch</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="https://CoherentLabs.github.io/GameUIComponents/components/">Components</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/text-field/">Text-field</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/router/">Router</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/menu/">Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/">Accordion Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/">Automatic Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/checkbox/">Checkbox</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/grid/">Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/modal/">Modal</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/">Progress Bar</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/">Radial Menu</a></li>
+<li class="active"><a href="https://CoherentLabs.github.io/GameUIComponents/components/radio-button/">Radio Button</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/">Rangeslider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/slider/">Slider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/switch/">Switch</a></li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+
+<div class="sidebar-footer"></div>
+</div>
+
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>
