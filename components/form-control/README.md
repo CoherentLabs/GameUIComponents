@@ -359,7 +359,7 @@ The form control supports validation. These are the attributes that you can use:
 
 # Accessing the XMLHttpRequest
 
-An XMLHttpRequest is created when a form is submitted. It is helpful to access this XHR in case you need to check the status of the request, the response. If you want to do something on success/error. You can access this request through the properties of the form control:
+An XMLHttpRequest is created when a form is submitted. It is helpful to access this XHR in case you need to check the status of the request, the response or if you want to do something on success/error. You can access this request through the properties of the form control:
 
 ```html
 <gameface-form-control id="my-form" action="http://localhost:3000/options" method="POST">
