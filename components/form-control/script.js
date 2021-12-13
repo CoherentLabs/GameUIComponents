@@ -40,6 +40,7 @@ const CustomElementValidator = components.CustomElementValidator;
 class GamefaceFormControl extends HTMLElement {
     constructor() {
         super();
+        this.xhr = new XMLHttpRequest();
         this.currentSubmitButton = null;
     }
 
@@ -210,6 +211,8 @@ class GamefaceFormControl extends HTMLElement {
         const loadEndEvent = new CustomEvent('loadend', { detail: event });
         this.dispatchEvent(loadEndEvent);
         if (this.onload) this.onload(loadEndEvent);
+        // prepare the xhr for a next request
+        this.xhr = new XMLHttpRequest();
     }
 
     /**
@@ -219,14 +222,13 @@ class GamefaceFormControl extends HTMLElement {
      * @param {string} action - The url where that will be requested
      */
     makeRequest(type, body, action) {
-        const xhr = new XMLHttpRequest();
-        xhr.open(type, action);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onloadend = this.onRequestLoadEnd.bind(this);
+        this.xhr.open(type, action);
+        this.xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        this.xhr.onloadend = this.onRequestLoadEnd.bind(this);
         if (body) {
-            xhr.send(body);
+            this.xhr.send(body);
         } else {
-            xhr.send();
+            this.xhr.send();
         }
     }
 

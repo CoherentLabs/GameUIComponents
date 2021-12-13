@@ -403,13 +403,6 @@ async function setupFormControlPage(form) {
 	await createAsyncSpec();
 }
 
-const RESPONSE_TIMEOUT = 50;
-async function waitServerResponse() {
-	return new Promise((resolve, reject) => {
-		setTimeout(resolve, RESPONSE_TIMEOUT);
-	})
-}
-
 function setFormsTestCases() {
 	for (const formData of forms) {
 		describe(formData.testName, () => {
