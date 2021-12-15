@@ -4,7 +4,7 @@
   "description": "A command line interface for creating Game UI Components for Gameface.",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --runInBand"
+    "test": "cross-env NODE_ENV=test jest --verbose=true --runInBand"
   },
   "bin": {
     "coherent-guic-cli": "./index.js"
@@ -26,6 +26,7 @@
     "yargs": "16.1.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "jest": "^27.3.1"
   }
 }

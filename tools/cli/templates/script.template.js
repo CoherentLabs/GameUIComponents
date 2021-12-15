@@ -5,7 +5,6 @@ class ${this.className} extends HTMLElement {
     constructor() {
         super();
         this.template = template;
-        this.url = '/components/${this.componentName}/template.html';
     }
     connectedCallback() {
         components.loadResource(this)
