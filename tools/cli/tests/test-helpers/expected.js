@@ -62,26 +62,15 @@ exports.packagejson = `
       "UI",
       "Component"
     ],
-    "files": [
-      "index.js",
-      "package.json",
-      "README.md",
-      "script.js",
-      "style.css",
-      "template.html",
-      "demo/",
-      "cjs/",
-      "umd/"
-    ],
     "dependencies": {
-      "coherent-gameface-components": "file:coherent-gameface-components-1.0.0.tgz",
+      "coherent-gameface-components": "^1.0.5",
       "postmessage-polyfill": "1.0.0",
       "whatwg-fetch": "3.4.1"
     },
 
-    "author": "",
+    "author": "CoherentLabs",
     "license": "ISC"
-}
+  }
 `;
 
 exports.READMEmd = `
@@ -151,7 +140,6 @@ exports.scriptjs = `
         constructor() {
             super();
             this.template = template;
-            this.url = '/components/test-name/template.html';
         }
         connectedCallback() {
             components.loadResource(this)
@@ -177,4 +165,24 @@ exports.templatehtml = `
         <span>Hello </span>
         <component-slot data-name="name">there!</component-slot>
     </div>
+`;
+
+exports.coherentgamefacecomponentsthemecss = `
+:root {
+   --default-color-white: #fff;
+   --default-color-blue: #25a5d6;
+   --default-color-gray: #e6e6e6;
+}
+
+input, textarea, button {
+   border-top-color: var(--default-color-blue);
+   border-right-color: var(--default-color-blue);
+   border-bottom-color: var(--default-color-blue);
+   border-left-color: var(--default-color-blue);
+   background-color: var(--default-color-white);
+}
+
+button, input[type="button"] {
+   background-color: var(--default-color-gray);
+}
 `;

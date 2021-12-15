@@ -13,7 +13,6 @@ const componentFolder = 'create-component-test-folder';
 const componentName = 'test-name';
 const componentFolderPath = path.resolve(path.join(process.cwd(), componentFolder));
 const componentSourcePath = path.join(componentFolderPath, componentName);
-const componentsPackagePath = path.join(process.cwd(), 'tests', 'test-helpers', 'coherent-gameface-components-1.0.0.tgz');
 
 describe('build component test', () => {
     afterAll(() => {
@@ -23,11 +22,6 @@ describe('build component test', () => {
     test("Builds a component CJS and UMD modules from source", () => {
         // create a component
         execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
-
-        // move the components library package to the components folder
-        // this is needed only until we publish the components library to the
-        // npm registry
-        fs.copyFileSync(componentsPackagePath, path.join(componentSourcePath, 'coherent-gameface-components-1.0.0.tgz'));
 
         // install the component's dependencies
         execSync(`cd ${componentSourcePath} && npm i`, { encoding: 'utf8' });

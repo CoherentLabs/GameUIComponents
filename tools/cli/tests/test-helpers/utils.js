@@ -59,7 +59,7 @@ exports.folderContainsFiles = (folderPath, files) => {
 exports.filesHaveCorrectContent = (folderPath, filesToCheck) => {
     
     for(let file of filesToCheck) {
-        const expectedFileContent = expectedFiles[file.replace('.', '')].replace(/\r?\n|\r|\s/g, '');
+        const expectedFileContent = expectedFiles[file.replace(/(\.|-)/g, '')].replace(/\r?\n|\r|\s/g, '');
         const fileContent = fs.readFileSync(path.join(folderPath, file), 'utf8').replace(/\r?\n|\r|\s/g, '');
 
         if(expectedFileContent !== fileContent) return false;
