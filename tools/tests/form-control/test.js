@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 const SERVER_PORT = 12345;
+const RESPONSE_CONTAINER_ID = 'form-response';
+
 const formsIds = {
 	LOGIN_FORM: 'login-form',
 	REGISTER_FORM: 'register-form',
@@ -12,15 +14,19 @@ const formsIds = {
 	SWITCH_FORM: 'switch-form',
 	DROPDOWN_FORM: 'dropdown-form',
 }
-const RESPONSE_CONTAINER_ID = 'form-response';
-const forms = [
-	{
-		testName: 'Login form',
-		id: formsIds.LOGIN_FORM,
-		shouldAddRequestFinishCallback: true,
-		submitData: '{"username":"name","password":"pass","poll":"cats"}',
-		template:
-			`<div class="form-wrapper">
+
+const formsTestNames = {
+	LOGIN_FORM: 'Login form',
+	REGISTER_FORM: 'Register form',
+	PREVENT_SUBMIT_FORM: 'Prevent form from submiting',
+	CHECKBOXES_FORM: 'Checkbox cases form',
+	RADIO_FORM: 'Radio cases form',
+	SWITCH_FORM: 'Switch cases form',
+	DROPDOWN_FORM: 'Dropdown cases form',
+}
+
+const formsTemplates = {
+	LOGIN: `<div class="form-wrapper">
 				<h2>GET</h2>
 				<gameface-form-control id="${formsIds.LOGIN_FORM}" action="http://localhost:${SERVER_PORT}/user" method="get">
 					<div class="form-element">
@@ -51,15 +57,8 @@ const forms = [
 				</gameface-form-control>
 				<h3>Response data:</h3>
 				<span class="response" id="${RESPONSE_CONTAINER_ID}"></span>
-			</div>`
-	},
-	{
-		testName: 'Register form',
-		id: formsIds.REGISTER_FORM,
-		shouldAddRequestFinishCallback: true,
-		submitData: '{"username":"name","password":"password","info":"user info","gender":"male","user-interests":["music","coding"],"skill-level":"Beginner"}',
-		template:
-			`<div class="form-wrapper">
+			</div>`,
+	REGISTER: `<div class="form-wrapper">
 				<h2>POST</h2>
 				<gameface-form-control id="${formsIds.REGISTER_FORM}" action="http://localhost:${SERVER_PORT}/form-data" method="post">
 					<div class="form-element">
@@ -108,30 +107,16 @@ const forms = [
 				</gameface-form-control>
 				<h3>Response data:</h3>
 				<span class="response" id="${RESPONSE_CONTAINER_ID}"></span>
-			</div>`
-	},
-	{
-		testName: 'Prevent form from submiting',
-		id: formsIds.PREVENT_SUBMIT_FORM,
-		shouldPreventSubmit: true,
-		submitData: 'Prevented default',
-		template:
-			`<div class="form-wrapper">
+			</div>`,
+	PREVENT_SUBMIT: `<div class="form-wrapper">
 				<h2>Prevent form from submitting</h2>
 				<gameface-form-control id="${formsIds.PREVENT_SUBMIT_FORM}" action="http://localhost:${SERVER_PORT}/form-data" method="post">
 					<button class="form-element" type="submit">Click me!</button>
 				</gameface-form-control>
 				<h3>Response data:</h3>
 				<span class="response" id="${RESPONSE_CONTAINER_ID}"></span>
-			</div>`
-	},
-	{
-		testName: 'Checkbox cases form',
-		id: formsIds.CHECKBOXES_FORM,
-		shouldAddRequestFinishCallback: true,
-		submitData: '{"user-interests":["music","on"]}',
-		template:
-			`<div class="form-wrapper">
+			</div>`,
+	CHECKBOXES: `<div class="form-wrapper">
 				<h2>Checkbox cases</h2>
 				<gameface-form-control id="${formsIds.CHECKBOXES_FORM}" action="http://localhost:${SERVER_PORT}/user" method="get">
 					<gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
@@ -151,7 +136,7 @@ const forms = [
 							<span class="label">Disabled</span>
 						</component-slot>
 					</gameface-checkbox>
-					<!-- Should send "no" as value if it is checked -->
+					<!-- Should send "on" as value if it is checked -->
 					<gameface-checkbox name="user-interests" class="checkbox-component form-element">
 						<component-slot data-name="checkbox-background">
 							<div class="checkbox-background"></div>
@@ -164,15 +149,8 @@ const forms = [
 				</gameface-form-control>
 				<h3>Response data:</h3>
 				<span class="response" id="${RESPONSE_CONTAINER_ID}"></span>
-			</div>`
-	},
-	{
-		testName: 'Radio cases form',
-		id: formsIds.RADIO_FORM,
-		shouldAddRequestFinishCallback: true,
-		submitData: '{"option1":"1","option3":"on"}',
-		template:
-			`<div class="form-wrapper">
+			</div>`,
+	RADIO: `<div class="form-wrapper">
 				<h2>Radio group cases</h2>
 				<gameface-form-control id="${formsIds.RADIO_FORM}" action="http://localhost:${SERVER_PORT}/user" method="get">
 					<div class="form-element">
@@ -192,7 +170,7 @@ const forms = [
 							<radio-button value="3">3</radio-button>
 						</gameface-radio-group>
 					</div>
-					<!-- Should send "no" as value if it is checked -->
+					<!-- Should send "on" as value if it is checked -->
 					<div class="form-element">
 						<span>No value:</span>
 						<gameface-radio-group name="option3" class="form-element">
@@ -214,19 +192,13 @@ const forms = [
 				</gameface-form-control>
 				<h3>Response data:</h3>
 				<span class="response" id="${RESPONSE_CONTAINER_ID}"></span>
-			</div>`
-	},
-	{
-		testName: 'Switch cases form',
-		id: formsIds.SWITCH_FORM,
-		shouldAddRequestFinishCallback: true,
-		submitData: '{}',
-		template:
-			`<div class="form-wrapper">
+			</div>`,
+	SWITCH: `<div class="form-wrapper">
 				<h2>Switch cases</h2>
 				<gameface-form-control id="${formsIds.SWITCH_FORM}" action="http://localhost:${SERVER_PORT}/user" method="get">
 					<div class="form-element">
 						<span class="label">Normal</span>
+						<!-- Should send the value from the value attribute when checked -->
 						<gameface-switch name="option1" value="option1-checked" type="text-inside">
 							<component-slot data-name="switch-unchecked">No</component-slot>
 							<component-slot data-name="switch-checked">Yes</component-slot>
@@ -240,7 +212,7 @@ const forms = [
 							<component-slot data-name="switch-checked">Yes</component-slot>
 						</gameface-switch>
 					</div>
-					<!-- Should send "no" as value if it is checked -->
+					<!-- Should send "on" as value if it is checked -->
 					<div class="form-element">
 						<span class="label">No value</span>
 						<gameface-switch name="option3" type="text-inside">
@@ -252,15 +224,8 @@ const forms = [
 				</gameface-form-control>
 				<h3>Response data:</h3>
 				<span class="response" id="${RESPONSE_CONTAINER_ID}"></span>
-			</div>`
-	},
-	{
-		testName: 'Dropdown cases form',
-		id: formsIds.DROPDOWN_FORM,
-		shouldAddRequestFinishCallback: true,
-		submitData: '{"option1":"1","option2":"One","option4":"One","option5":"1"}',
-		template:
-			`<div class="form-wrapper">
+			</div>`,
+	DROPDOWN: `<div class="form-wrapper">
 				<h2>Drop down cases</h2>
 				<gameface-form-control id="${formsIds.DROPDOWN_FORM}" action="http://localhost:${SERVER_PORT}/user" method="get">
 					<div class="form-element">
@@ -293,6 +258,7 @@ const forms = [
 					</div>
 					<div class="form-element">
 						<span class="label">Multiple select</span>
+						<!-- The second option has no value so "Two" is expected. -->
 						<gameface-dropdown name="option5" class="gameface-dropdown-component" id="dropdown-default" multiple
 							collapsable>
 							<dropdown-option value="1" slot="option" selected>One</dropdown-option>
@@ -304,7 +270,58 @@ const forms = [
 				</gameface-form-control>
 				<h3>Response data:</h3>
 				<span class="response" id="${RESPONSE_CONTAINER_ID}"></span>
-			</div>`
+			</div>`,
+};
+
+const forms = [
+	{
+		testName: formsTestNames.LOGIN_FORM,
+		id: formsIds.LOGIN_FORM,
+		submitData: '{"username":"name","password":"pass","poll":"cats"}',
+		submitDataInteraction: '{"username":"name","password":"pass","poll":"dogs"}',
+		template: formsTemplates.LOGIN,
+	},
+	{
+		testName: formsTestNames.REGISTER_FORM,
+		id: formsIds.REGISTER_FORM,
+		submitData: '{"username":"name","password":"password","info":"user info","gender":"male","user-interests":["music","coding"],"skill-level":"Beginner"}',
+		submitDataInteraction: '{"username":"name","password":"password","info":"user info","gender":"female","user-interests":"coding","skill-level":"Expert"}',
+		template: formsTemplates.REGISTER,
+	},
+	{
+		testName: formsTestNames.PREVENT_SUBMIT_FORM,
+		id: formsIds.PREVENT_SUBMIT_FORM,
+		shouldPreventSubmit: true,
+		submitData: 'Prevented default',
+		template: formsTemplates.PREVENT_SUBMIT,
+	},
+	{
+		testName: formsTestNames.CHECKBOXES_FORM,
+		id: formsIds.CHECKBOXES_FORM,
+		submitData: '{"user-interests":["music","on"]}',
+		submitDataInteraction: '{}',
+		template: formsTemplates.CHECKBOXES,
+	},
+	{
+		testName: formsTestNames.RADIO_FORM,
+		id: formsIds.RADIO_FORM,
+		submitData: '{"option1":"1","option3":"on"}',
+		submitDataInteraction: '{"option1":"2","option3":"on"}',
+		template: formsTemplates.RADIO,
+	},
+	{
+		testName: formsTestNames.SWITCH_FORM,
+		id: formsIds.SWITCH_FORM,
+		submitData: '{}',
+		submitDataInteraction: '{"option1":"option1-checked","option3":"on"}',
+		template: formsTemplates.SWITCH,
+	},
+	{
+		testName: formsTestNames.DROPDOWN_FORM,
+		id: formsIds.DROPDOWN_FORM,
+		submitData: '{"option1":"1","option2":"One","option4":"One","option5":"1"}',
+		submitDataInteraction: '{"option1":"2","option2":"Two","option4":"One","option5":["1","Two"]}',
+		template:formsTemplates.DROPDOWN,
 	},
 ];
 
@@ -382,11 +399,9 @@ async function setupFormControlPage(form) {
 
 	document.body.appendChild(el);
 
-	if (form.shouldAddRequestFinishCallback) {
-		document.getElementById(form.id).addEventListener('loadend', (event) => {
-			document.getElementById(RESPONSE_CONTAINER_ID).textContent = event.detail.target.response;
-		})
-	}
+	document.getElementById(form.id).addEventListener('loadend', (event) => {
+		document.getElementById(RESPONSE_CONTAINER_ID).textContent = event.detail.target.response;
+	})
 
 	if (form.shouldPreventSubmit) {
 		const formElement = document.getElementById(form.id);
@@ -411,10 +426,10 @@ function setFormsTestCases() {
 			});
 
 			it('Should be created', () => {
-				assert(document.querySelector('gameface-form-control').id === formData.id, 'The id of the form is not gameface-form-control.');
+				assert(document.querySelector('gameface-form-control').id === formData.id, `The id of the form is not ${formData.id}.`);
 			});
 
-			it('Should be submited', async () => {
+			it('Should be submitted', async () => {
 				const submitButton = document.querySelector('[type="submit"]');
 				click(submitButton);
 				await waitServerResponse();
@@ -427,21 +442,82 @@ function setFormsTestCases() {
 	}
 }
 
+function setFormTestCasesWithInteraction() {
+	for (const formData of forms) {
+		if (!formData.submitDataInteraction) continue; // Skipping PREVENT_SUBMIT_FORM
+
+		const formTestName = formData.testName;
+
+		describe(formTestName, () => {
+			beforeAll(function (done) {
+				setupFormControlPage(formData).then(done).catch(err => console.error(err));
+			});
+
+			it('Should be created', () => {
+				assert(document.querySelector('gameface-form-control').id === formData.id, `The id of the form is not ${formData.id}.`);
+			});
+
+			it('Should be interacted, submitted and form data should be as expected.', async () => {
+				// Interact with elements
+				const formElement = document.querySelector('gameface-form-control');
+
+				switch (formTestName) {
+					case formsTestNames.LOGIN_FORM:
+						click(document.querySelectorAll('dropdown-option')[1]);
+						break;
+					case formsTestNames.REGISTER_FORM:
+						click(document.querySelectorAll('radio-button')[1]);
+						click(document.querySelector('gameface-checkbox'));
+						const rangeslider = document.querySelector('gameface-rangeslider');
+						const { x, width } = document.querySelector('.horizontal-rangeslider').getBoundingClientRect();
+						rangeslider.onMouseDown({ clientX: x + width });
+						break;
+					case formsTestNames.CHECKBOXES_FORM:
+						const checkboxes = Array.from(document.querySelectorAll('gameface-checkbox'));
+						checkboxes.forEach((checkbox) => click(checkbox));
+						break;
+					case formsTestNames.RADIO_FORM:
+						click(document.querySelectorAll('radio-button')[1]);
+						break;
+					case formsTestNames.SWITCH_FORM:
+						const switches = Array.from(document.querySelectorAll('gameface-switch'));
+						switches.forEach((switchElement) => switchElement.onClick());
+						break;
+					case formsTestNames.DROPDOWN_FORM:
+						const dropdowns = document.querySelectorAll('gameface-dropdown');
+						const multipleSelectOptionTwo = dropdowns[4].querySelectorAll('dropdown-option')[1];
+
+						// Skips the last multiple selection dropdown which is tested after the for loop.
+						for (let i = 0; i < dropdowns.length - 1; i++) {
+							click(dropdowns[i].querySelectorAll('dropdown-option')[1]);
+						}
+
+						multipleSelectOptionTwo.onClick({ target: multipleSelectOptionTwo, ctrlKey: true });
+						break;
+				}
+
+				// Submit
+				const submitButton = document.querySelector('[type="submit"]');
+				click(submitButton);
+				await waitServerResponse();
+				// Check data
+				await createAsyncSpec(() => {
+					const data = document.querySelector('.response').textContent;
+					assert(data === formData.submitDataInteraction, `The form data is not the same as the expected one. Expected: ${formData.submitDataInteraction}. Received: ${data}`);
+				});
+			});
+		});
+	}
+}
+
 describe('Form control Tests', () => {
 	beforeAll(() => {
 		const head = document.head || document.getElementsByTagName('head')[0],
 			style = document.createElement('style');
 
 		head.appendChild(style);
-
-		style.type = 'text/css';
-		if (style.styleSheet) {
-			// This is required for IE8 and below.
-			style.styleSheet.cssText = css;
-		} else {
-			style.appendChild(document.createTextNode(pageStyles));
-		}
-	})
+		style.appendChild(document.createTextNode(pageStyles));
+	});
 
 	afterAll(() => {
 		const currentEl = document.querySelector('.test-wrapper');
@@ -452,4 +528,5 @@ describe('Form control Tests', () => {
 	});
 
 	setFormsTestCases();
+	setFormTestCasesWithInteraction();
 });
