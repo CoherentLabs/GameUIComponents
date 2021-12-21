@@ -343,6 +343,30 @@ The `value` attribute is not required for the dropdown option element but if it 
 Clicking on the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"One"}`.
 
 
+
+## Text Field
+
+`<gameface-text-field>` is a component that allows you to use a text input of different type - text, email, password, number etc..
+It supports validation. For example, if you create a text field with the type:
+* email - the built-in validation will check if the value has a `@` symbol and it will show an error if does not.
+* url - the built-in validation will check a **pattern** as an attribute to the text field and its value should match this pattern. For example if the **url** should match certain domain name - `<gameface-text-field type="url" pattern="mydomain.*">`.
+* password - the built-in validation will check **length** through the `minlength` and `maxlength` attributes.
+* number - the built-in validation will check `min` and `max` attributes.
+* text, password, search - the built-in validation will check **length** through the `minlength` and `maxlength` attributes.
+
+### Example
+
+```
+<gameface-form-control style="position: absolute;top: 200px;">
+    <gameface-text-field id="text" name="text" label="User name:" type="text" value="thisisvalid" minlength="5" maxlength="20"></gameface-text-field>
+    <gameface-text-field id="url" name="url" pattern="https://.*" label="Website:" value="https://localhost:9090" type="url"></gameface-text-field>
+    <gameface-text-field id="email" name="email" label="Email:" type="email" value="text-field@test.com"></gameface-text-field>
+    <gameface-text-field id="number" name="number" label="Age:" type="number" min="15" max="200" step="10" value="30"></gameface-text-field>
+    <button class="form-element" id="submit" type="submit">Login</button>
+</gameface-form-control>
+```
+
+
 # Validation
 
 The form control supports validation. These are the attributes that you can use:
@@ -355,6 +379,8 @@ The form control supports validation. These are the attributes that you can use:
 | maxlength | Used to indicate the minimum length of a text field.| Input |
 | min | Used to indicate the minimum value of a number input | Input |
 | max | Used to indicate the maximum value of a number input | Input |
+| pattern | Used to specify a url pattern. | TextField[type="url"] |
+| required | Used to specify that the element must have value. | All form supported elements |
 
 
 # Accessing the XMLHttpRequest

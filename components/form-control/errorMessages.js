@@ -6,5 +6,7 @@ export default new Map([
     ['rangeUnderflow', (element) => `The value is too small. Minimum is ${element.getAttribute('min')}.`],
     ['valueMissing', () => 'The value is required.'],
     ['nameMissing', () => 'The elements does not have a name attribute and will not be submitted'],
-    ['customError', (error) => `The following error has ocurred: ${error}.`]
+    ['badURL', (element) => `Please enter a valid URL. It should match the following pattern: /${element.pattern}/.`],
+    ['badEmail', () => `Please enter a valid email. It should contain a @ symbol.`],
+    ['customError', (error) => `The following error has ocurred: ${error}.`],
 ]);
