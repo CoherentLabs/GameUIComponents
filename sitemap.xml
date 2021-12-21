@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</loc>
+    <lastmod>2021-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://CoherentLabs.github.io/GameUIComponents/examples/</loc>
     <lastmod>2021-11-25T00:00:00+00:00</lastmod>
   </url>
@@ -84,11 +89,6 @@
   
   <url>
     <loc>https://CoherentLabs.github.io/GameUIComponents/components/</loc>
-    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
   

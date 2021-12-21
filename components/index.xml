@@ -8,6 +8,18 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 08 Oct 2020 14:00:45 +0000</lastBuildDate><atom:link href="https://CoherentLabs.github.io/GameUIComponents/components/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Dropdown</title>
+      <link>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</link>
+      <pubDate>Wed, 15 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</guid>
+      <description>The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-dropdown
+Usage The gameface-dropdown component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  import the gameface-dropdown component:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-dropdown/umd/dropdown.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  add the gameface-dropdown component to your html:  &amp;lt;gameface-dropdown&amp;gt;&amp;lt;/gameface-dropdown&amp;gt; To add options to the dropdown use the option slot:</description>
+    </item>
+    
+    <item>
       <title>Text-field</title>
       <link>https://CoherentLabs.github.io/GameUIComponents/components/text-field/</link>
       <pubDate>Thu, 25 Nov 2021 00:00:00 +0000</pubDate>
@@ -89,18 +101,6 @@ Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp
 Installation npm i coherent-gameface-checkbox
 Usage The checkbox component comes with UMD and CJS builds.
 Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the checkbox component:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-checkbox/umd/checkbox.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the checkbox component to your html:  &amp;lt;gameface-checkbox class=&amp;quot;checkbox-component&amp;quot;&amp;gt;&amp;lt;/gameface-checkbox&amp;gt;This is all!</description>
-    </item>
-    
-    <item>
-      <title>Dropdown</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</link>
-      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
-      
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/dropdown/</guid>
-      <description>The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
-Installation npm i coherent-gameface-dropdown
-Usage The gameface-dropdown component comes with UMD and CJS builds.
-Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the gameface-dropdown component:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-dropdown/umd/dropdown.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the gameface-dropdown component to your html:  &amp;lt;gameface-dropdown&amp;gt;&amp;lt;/gameface-dropdown&amp;gt;To add options to the dropdown use the option slot:</description>
     </item>
     
     <item>
