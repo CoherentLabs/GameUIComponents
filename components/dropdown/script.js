@@ -38,8 +38,10 @@ class GamefaceDropdown extends CustomElementValidator {
         this.isOpened = false;
         // the index of the currently selected option element
         this._lastSelectedIndex = 0;
+        // the selectedList is intended to hold the indexes as they are from the allOptions getter.
         this.selectedList = [];
         this._hovered = 0;
+        this._pivotIndex = null;
         this.template = template;
 
         // bound handlers
@@ -100,32 +102,26 @@ class GamefaceDropdown extends CustomElementValidator {
         if (this.allOptions[this._lastSelectedIndex] && !this.multiple) {
             this.allOptions[this._lastSelectedIndex].classList.remove('active');
         }
-
         // get the index of the current option
         const selectedIndex = this.allOptions.indexOf(option);
 
         if (!this.multiple) {
             components.transferContent(option.cloneNode(true), this.querySelector('.selected'));
+            this.selectedList = [];
         }
 
         if (this.selectedList.indexOf(selectedIndex) > -1) {
             this.selectedList.splice(this.selectedList.indexOf(selectedIndex), 1);
             this._lastSelectedIndex = this.selectedList[this.selectedList.length - 1] || 0;
             option.classList.remove('active');
-        } else {
+        } else if (option) {
             option.classList.add('active');
             this.selectedList.push(selectedIndex);
             this._lastSelectedIndex = selectedIndex;
+
+            this.hoveredElIndex = this._pivotIndex = this._lastSelectedIndex;
+            this.dispatchChangeEvent(option);
         }
-
-        this.hoveredElIndex = this._lastSelectedIndex;
-
-        // dispatch a change event
-        this.dispatchEvent(new CustomEvent('change', {
-            detail: {
-                target: option
-            }
-        }));
     }
 
     /**
@@ -205,6 +201,14 @@ class GamefaceDropdown extends CustomElementValidator {
         dropdownInstanceCache.options = Array.from(this.querySelectorAll('dropdown-option'));
     }
 
+    dispatchChangeEvent(option) {
+        this.dispatchEvent(new CustomEvent('change', {
+            detail: {
+                target: option
+            }
+        }));
+    }
+
     /**
      * Called on document click.
      * Closes the options panel if it's opened.
@@ -226,40 +230,103 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {number} newIndex - the index of the enabled option.
     */
     focusEnabledOption(newIndex) {
-        const nextOptionIdx = this.allOptions.indexOf(this.enabledOptions[newIndex]);
-        this.focusOption(nextOptionIdx);
+        if (newIndex === -1 || newIndex > this.enabledOptions.length - 1) return;
+
+        // only one option can be selected via keyboard!
+        this.selected = null;
+
+        const nextOptionIndex = this.allOptions.indexOf(this.enabledOptions[newIndex]);
+        this.focusOption(nextOptionIndex);
     }
 
     /**
      * Focuses an option by index. Updates the index of the hovered element.
-     * @param {number} nextOptionIdx - the index of the option that has to be focused.
+     * @param {number} nextOptionIndex - the index of the option that has to be focused.
     */
-    focusOption(nextOptionIdx) {
-        this.allOptions[this.hoveredElIndex].classList.remove('active');
+    focusOption(nextOptionIndex) {
+        // this.allOptions[this.hoveredElIndex].classList.remove('active');
 
-        this.selected = this.allOptions[nextOptionIdx];
-        this.hoveredElIndex = nextOptionIdx;
+        this.selected = this.allOptions[nextOptionIndex];
+        this.hoveredElIndex = nextOptionIndex;
+    }
+
+    selectSiblingOption(nextOptionIndex, option, isPrevSelection) {
+        if (!option) return;
+
+        const existsInSelectedList = this.selectedList.indexOf(nextOptionIndex);
+
+        if (existsInSelectedList === -1) {
+            option.classList.add('active');
+            this.selectedList.push(nextOptionIndex);
+        } else if (existsInSelectedList > -1) {
+            const optionIndexForSplice = (isPrevSelection) ? nextOptionIndex + 1 : nextOptionIndex - 1;
+            this.allOptions[this.selectedList[this.selectedList.length - 1]].classList.remove('active');
+            this.selectedList.splice(this.selectedList.indexOf(this.allOptions.indexOf(optionIndexForSplice)), 2);
+        }
+
+        this._lastSelectedIndex = nextOptionIndex;
+        this.dispatchChangeEvent(option);
+    }
+
+    selectOptionSiblingMode(newIndex, isPrevSelection = false) {
+        const nextOptionIndex = this.allOptions.indexOf(this.enabledOptions[newIndex]);
+        this.selectSiblingOption(nextOptionIndex, this.allOptions[nextOptionIndex], isPrevSelection);
+    }
+
+    selectOptionBoundaryMode(isLastEntryDirection = false) {
+        this.selectedList = [];
+
+        const targetOptionIndex = (isLastEntryDirection) ? this.enabledOptions[this.enabledOptions.length - 1] : 0;
+
+        let currentSelectionIndex = this.enabledOptions.indexOf(this.allOptions[this._pivotIndex]);
+
+        this.enabledOptions.forEach((el) => el.classList.remove('active'));
+
+        for (let i = 0; i < this.enabledOptions.length; i++) {
+            if (currentSelectionIndex > this.enabledOptions.length - 1 || currentSelectionIndex < 0) break;
+
+            const currentOption = this.enabledOptions[currentSelectionIndex];
+            currentOption.classList.add('active');
+            this.selectedList.push(this.allOptions.indexOf(currentOption));
+
+            (isLastEntryDirection) ? currentSelectionIndex++ : currentSelectionIndex--;
+        }
+
+        // In both directions, the last element is going the correct index of the
+        // element from allOptions because of the order they get pushed in this.selectedList.
+        this._lastSelectedIndex = this.selectedList[this.selectedList.length - 1];
+
+        this.dispatchChangeEvent(this.enabledOptions[targetOptionIndex]);
     }
 
     /**
      * Returns the index of the next option element.
-     * Wraps around if it reaches the end of the list.
-     * @param {Number} currentOptionIndx - the index of the currently active option
+     * @param {Number} currentOptionIndex - the index of the currently active option
      * @returns {Number} - the index of the next enabled option
     */
-    getNextOptionIndex(currentOptionIndx) {
-        return (currentOptionIndx + 1) % this.enabledOptions.length;
+    getNextOptionIndex(currentOptionIndex) {
+        return currentOptionIndex + 1;
     }
 
     /**
      * Returns the index of the previous option element.
-     * Wraps around if it reaches the start of the list.
-     * @param {Number} currentOptionIndx - the index of the currently active option
+     * @param {Number} currentOptionIndex - the index of the currently active option
      * @returns {Number} - the index of the previous enabled option
     */
-    getPreviousOptionIndex(currentOptionIndx) {
-        const enabledOptionLength = this.enabledOptions.length;
-        return ((currentOptionIndx - 1) + enabledOptionLength) % enabledOptionLength;
+    getPreviousOptionIndex(currentOptionIndex) {
+        return currentOptionIndex - 1;
+    }
+
+    selectAll() {
+        this.selectedList = [];
+
+        for (const option of this.enabledOptions) {
+            const index = this.allOptions.indexOf(option);
+            this.allOptions[index].classList.add('active');
+            this.selectedList.push(index);
+        }
+
+        this._lastSelectedIndex = this.selectedList[this.selectedList.length - 1];
     }
 
     /**
@@ -267,7 +334,10 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {KeyboardEvent} event - the current event object
     */
     onKeydown(event) {
-        let currentOptionIndex = this.enabledOptions.indexOf(this.allOptions[this.hoveredElIndex]);
+        const keyCode = event.keyCode;
+        const shiftKey = event.shiftKey;
+
+        let currentOptionIndex = this.enabledOptions.indexOf(this.allOptions[this._lastSelectedIndex]);
 
         // If the select is multiple, the keyboard navigation should start from the element that was selected last
         if (this.multiple && this.selectedList.length > 1) {
@@ -275,47 +345,69 @@ class GamefaceDropdown extends CustomElementValidator {
             currentOptionIndex = this.enabledOptions.indexOf(this.allOptions[lastSelectedOptionIndex]);
         }
 
-        switch (event.keyCode) {
-            case KEYCODES.ENTER:
-                if (this.multiple) return;
-                this.focusOption(this.hoveredElIndex);
-                this.closeOptionsPanel();
-                return;
-            case KEYCODES.TAB:
-            case KEYCODES.ESCAPE:
-                if (this.multiple) return;
-                this.closeOptionsPanel();
-                return;
-            case KEYCODES.HOME:
-            case KEYCODES.PAGE_UP:
-                // only one option can be selected via keyboard!
-                this.selected = null;
-                // focus first
-                this.focusEnabledOption(0);
-                this.scrollToSelectedElement();
-                break;
-            case KEYCODES.END:
-            case KEYCODES.PAGE_DOWN:
-                // only one option can be selected via keyboard!
-                this.selected = null;
-                // focus last
-                this.focusEnabledOption(this.enabledOptions.length - 1);
-                this.scrollToSelectedElement();
-                break;
-            case KEYCODES.UP:
-            case KEYCODES.LEFT:
-                // only one option can be selected via keyboard!
-                this.selected = null;
-                this.focusEnabledOption(this.getPreviousOptionIndex(currentOptionIndex));
-                this.scrollToSelectedElement();
-                break;
-            case KEYCODES.DOWN:
-            case KEYCODES.RIGHT:
-                // only one option can be selected via keyboard!
-                this.selected = null;
-                this.focusEnabledOption(this.getNextOptionIndex(currentOptionIndex));
-                this.scrollToSelectedElement();
-                break;
+        if (shiftKey && this.multiple) {
+            if (this._pivotIndex === null) this._pivotIndex = this.selectedList[this.selectedList.length - 1];
+
+            switch (keyCode) {
+                case KEYCODES.DOWN:
+                case KEYCODES.RIGHT:
+                    this.selectOptionSiblingMode(this.getNextOptionIndex(currentOptionIndex), false);
+                    this.scrollToSelectedElement();
+                    break;
+                case KEYCODES.UP:
+                case KEYCODES.LEFT:
+                    this.selectOptionSiblingMode(this.getPreviousOptionIndex(currentOptionIndex), true);
+                    this.scrollToSelectedElement();
+                    break;
+                case KEYCODES.HOME:
+                  this.selectOptionBoundaryMode(false);
+                    break;
+                case KEYCODES.END:
+                    this.selectOptionBoundaryMode(true);
+                    break;
+            }
+        }
+
+        if (event.ctrlKey && keyCode === 65 && this.multiple) {
+            event.preventDefault();
+            this.selectAll();
+        }
+
+        if (!event.ctrlKey && !shiftKey && !event.altKey) {
+            switch (event.keyCode) {
+                case KEYCODES.ENTER:
+                    if (this.multiple) return;
+                    this.focusOption(this.hoveredElIndex);
+                    this.closeOptionsPanel();
+                    return;
+                case KEYCODES.TAB:
+                case KEYCODES.ESCAPE:
+                    if (this.multiple) return;
+                    this.closeOptionsPanel();
+                    return;
+                case KEYCODES.HOME:
+                case KEYCODES.PAGE_UP:
+                    // focus first
+                    this.focusEnabledOption(0);
+                    this.scrollToSelectedElement();
+                    break;
+                case KEYCODES.END:
+                case KEYCODES.PAGE_DOWN:
+                    // focus last
+                    this.focusEnabledOption(this.enabledOptions.length - 1);
+                    this.scrollToSelectedElement();
+                    break;
+                case KEYCODES.UP:
+                case KEYCODES.LEFT:
+                    this.focusEnabledOption(this.getPreviousOptionIndex(currentOptionIndex));
+                    this.scrollToSelectedElement();
+                    break;
+                case KEYCODES.DOWN:
+                case KEYCODES.RIGHT:
+                    this.focusEnabledOption(this.getNextOptionIndex(currentOptionIndex));
+                    this.scrollToSelectedElement();
+                    break;
+            }
         }
     }
 
@@ -405,6 +497,7 @@ class GamefaceDropdown extends CustomElementValidator {
             // reset the selectedList if only one option is selected
             if (!event.detail.ctrlKey) this.selected = null;
             this.selected = event.target;
+            this.focus();
             return;
         }
 

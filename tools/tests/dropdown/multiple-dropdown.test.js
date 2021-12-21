@@ -46,9 +46,117 @@ describe('Multiple Dropdown Test', () => {
         }
     });
 
+    function dispatchKeyboardEvent(element, optionsObject) {
+        element.dispatchEvent(new KeyboardEvent('keydown', optionsObject));
+    }
+
     describe('Multiple Dropdown Component', () => {
         beforeEach(function (done) {
             setupMultipleDropdownTestPage(multipleDropdownTemplate).then(done).catch(err => console.error(err));
+        });
+
+        it('Should select multiple elements with HOME button', async () => {
+            const dropdownWrapper = document.querySelector('.multiple-dropdown-test-wrapper');
+            const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
+            const optionsCount = options.length;
+
+            click(options[optionsCount - 2]);
+
+            await createAsyncSpec(() => {
+                dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.HOME, shiftKey: true });
+            });
+
+            const targetSelectedCount = optionsCount - 1;
+            const actualSelectedCount = dropdown.selectedOptions.length;
+
+            assert.equal(actualSelectedCount, targetSelectedCount,
+              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+        });
+
+        it('Should select multiple elements with END button', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
+            const optionsCount = options.length;
+
+            click(options[1]);
+
+            await createAsyncSpec(() => {
+                dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.END, shiftKey: true });
+            });
+
+            const targetSelectedCount = optionsCount - 1;
+            const actualSelectedCount = dropdown.selectedOptions.length;
+
+            assert.equal(actualSelectedCount, targetSelectedCount,
+              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+        });
+
+        it('Should select multiple elements with Shift + Up Arrow', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
+
+            click(options[1]);
+
+            await createAsyncSpec(() => {
+                dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.ARROW_UP, shiftKey: true });
+            });
+
+            const targetSelectedCount = 2;
+            const actualSelectedCount = dropdown.selectedOptions.length;
+
+            assert.equal(actualSelectedCount, targetSelectedCount,
+              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+        });
+
+        it('Should select multiple elements with Shift + Down Arrow', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+
+            await createAsyncSpec(() => {
+                dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.ARROW_DOWN, shiftKey: true });
+            });
+
+            const targetSelectedCount = 2;
+            const actualSelectedCount = dropdown.selectedOptions.length;
+
+            assert.equal(actualSelectedCount, targetSelectedCount,
+              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+        });
+
+        it('Should select all elements with Ctrl + A', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
+            const optionsCount = options.length;
+
+            await createAsyncSpec(() => {
+                dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.KeyA, ctrlKey: true });
+            });
+
+            const actualSelectedCount = dropdown.selectedOptions.length;
+
+            assert.equal(actualSelectedCount, optionsCount,
+              `Expected selected options length to be ${optionsCount}, got ${actualSelectedCount}.`);
+        });
+
+        it('Should reset selected elements after using Ctrl + End then Ctrl + Home', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
+
+            click(options[1]);
+
+            await createAsyncSpec(() => {
+                dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.END, shiftKey: true });
+            });
+
+            await createAsyncSpec(() => {
+                dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.HOME, shiftKey: true });
+            });
+
+            const targetSelectedCount = 2;
+            const actualSelectedCount = dropdown.selectedOptions.length;
+
+            assert.equal(actualSelectedCount, targetSelectedCount,
+              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
         });
 
         it('Should have its options list expanded', async () => {

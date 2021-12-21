@@ -108,7 +108,8 @@ const KEY_CODES = {
     'END': 35,
     'HOME': 36,
     'ENTER': 13,
-    'ESCAPE': 27
+    'ESCAPE': 27,
+    'KeyA': 65,
 };
 
 function dispatchKeyboardEvent(keyCode, element) {
@@ -327,6 +328,39 @@ describe('Dropdown Tests', () => {
 
             return createAsyncSpec(() => {
                 assert(document.querySelector('gameface-dropdown').value === 'Lion', 'Dropdown value is not equal to Lion.');
+            });
+        });
+
+        it('Should have only 1 option selected.', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const selectedElPlaceholder = dropdown.querySelector('.selected');
+
+            click(selectedElPlaceholder);
+            await createAsyncSpec(() => {
+                click(dropdown.allOptions[5]);
+            });
+
+            click(selectedElPlaceholder);
+            await createAsyncSpec(() => {
+                click(dropdown.allOptions[0]);
+            });
+
+            click(selectedElPlaceholder);
+            await createAsyncSpec(() => {
+                click(dropdown.allOptions[3]);
+            });
+
+            const expectedSelectedCount = 1;
+            const selectedOptionsCount = dropdown.selectedOptions.length;
+            const selectedListCount = dropdown.selectedList.length;
+            console.log(selectedOptionsCount);
+            console.log(selectedListCount);
+
+            return createAsyncSpec(() => {
+                assert.equal(selectedOptionsCount, expectedSelectedCount,
+                      `Expected selected options length to be ${expectedSelectedCount}, got ${selectedOptionsCount}.`);
+                assert.equal(selectedListCount, expectedSelectedCount,
+                  `Expected selected options length to be ${expectedSelectedCount}, got ${selectedListCount}.`);
             });
         });
     });

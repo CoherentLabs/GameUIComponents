@@ -108,10 +108,11 @@ supports multiple selected elements - add the `collapsable` attribute along with
 
 This is not a standard HTML select multiple. It is a custom HTML element that enables you to define a list of options.
 The `multiple` attribute makes it possible to select more than one option using the **Control** key and the mouse.
+All options can be selected with **Ctrl + A** combination.
 
-These are some of the differences to the standard select that are not yet supported:
+These are some of the differences to the standard select that are partially or not yet supported:
 
-- *Selecting multiple elements via keyboard*.
+- *Selecting multiple options via keyboard* - this is possible with Shift + Arrow Up/Left/Down/Right and Shift + Home/End.
 - *Selecting a range of elements*.
 
 ## Add the Styles
