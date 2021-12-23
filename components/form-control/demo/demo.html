@@ -88,7 +88,8 @@
                 </gameface-text-field>
             </div>
             <div class="form-element">
-                <gameface-text-field name="number" label="Age:" type="number" min="15" max="200" step="10"></gameface-text-field>
+                <gameface-text-field name="number" label="Age:" type="number" min="15" max="200" step="10">
+                </gameface-text-field>
             </div>
             <button class="form-element" type="submit">Register</button>
         </gameface-form-control>
@@ -100,11 +101,11 @@
                 <span>User name:</span><input name="username" value="name" type="text" required />
             </div>
             <div class="form-element">
-                <span>Password:</span><input name="password" value="pass" type="password" required/>
+                <span>Password:</span><input name="password" value="pass" type="password" required />
             </div>
             <div class="form-element">
                 <span class="label">Remember user</span>
-                <gameface-switch name="policy-agreement" value="accepted" type="text-inside" >
+                <gameface-switch name="policy-agreement" value="accepted" type="text-inside">
                     <component-slot data-name="switch-unchecked">No</component-slot>
                     <component-slot data-name="switch-checked">Yes</component-slot>
                 </gameface-switch>
@@ -273,14 +274,14 @@
             </div>
             <!-- Should be skipped when form is submitted because it is disabled -->
             <div class="form-element">
-                <span>Disabled:</span>
+                <span>Disabled group:</span>
                 <gameface-radio-group disabled name="option2" class="form-element">
                     <radio-button checked value="1">1</radio-button>
                     <radio-button disabled value="2">2</radio-button>
                     <radio-button value="3">3</radio-button>
                 </gameface-radio-group>
             </div>
-            <!-- Should send "no" as value if it is checked -->
+            <!-- Should send "on" as value if it is checked -->
             <div class="form-element">
                 <span>No value:</span>
                 <gameface-radio-group name="option3" class="form-element">
@@ -295,6 +296,24 @@
                 <gameface-radio-group name="option4" class="form-element">
                     <radio-button value="1">1</radio-button>
                     <radio-button value="2">2</radio-button>
+                    <radio-button value="3">3</radio-button>
+                </gameface-radio-group>
+            </div>
+            <!-- Should send 3 because it will not check the disabled button with value 2 -->
+            <div class="form-element">
+                <span>Disabled button:</span>
+                <gameface-radio-group name="option5" class="form-element">
+                    <radio-button value="1">1</radio-button>
+                    <radio-button checked disabled value="2">2</radio-button>
+                    <radio-button checked value="3">3</radio-button>
+                </gameface-radio-group>
+            </div>
+            <!-- Should send nothing because there are no checked elements -->
+            <div class="form-element">
+                <span>Disabled button with value:</span>
+                <gameface-radio-group name="option6" class="form-element">
+                    <radio-button value="1">1</radio-button>
+                    <radio-button checked disabled value="2">2</radio-button>
                     <radio-button value="3">3</radio-button>
                 </gameface-radio-group>
             </div>

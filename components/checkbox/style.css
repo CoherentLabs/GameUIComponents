@@ -41,3 +41,9 @@
     padding-left: 10px;
     line-height: 30px;
 }
+
+.checkbox-disabled {
+    filter: grayscale(0.2);
+    opacity: 0.5;
+    pointer-events: none;
+}

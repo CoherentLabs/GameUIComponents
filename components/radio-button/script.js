@@ -20,7 +20,23 @@ class GamefaceRadioGroup extends HTMLElement {
 	}
 
 	get value() {
+		if (this.disabled) return;
+		if (this.previouslyCheckedElement && this.previouslyCheckedElement.disabled) return;
 		if (this.previouslyCheckedElement) return this.previouslyCheckedElement.value;
+	}
+
+	get disabled() {
+		return this.hasAttribute('disabled');
+	}
+
+	set disabled(value) {
+		if (value) {
+			this.classList.add('radio-button-disabled');
+			this.setAttribute('disabled', '');
+		} else {
+			this.classList.remove('radio-button-disabled');
+			this.removeAttribute('disabled');
+		}
 	}
 
 	valueMissing() {
@@ -30,32 +46,44 @@ class GamefaceRadioGroup extends HTMLElement {
 	}
 
 	setCheckedToPreviousItem(button) {
+		if (this.disabled) return;
+
 		const prevSibling = button.previousElementSibling;
 
-		if (!prevSibling) return
-		button.previousElementSibling.checked = true;
-		button.previousElementSibling.focus();
+		if (!prevSibling) return;
+
+		if (prevSibling.disabled) return this.setCheckedToPreviousItem(prevSibling);
+		prevSibling.checked = true;
+		prevSibling.focus();
 	}
 
 	setCheckedToNextItem(button) {
+		if (this.disabled) return;
+
 		const nextSibling = button.nextElementSibling;
 
 		if (!nextSibling) return;
-		button.nextElementSibling.checked = true;
-		button.nextElementSibling.focus();
-	}
 
-	uncheckPreviousButton() {
-		if (this.previouslyCheckedElement) this.setButtonAttributes(this.previouslyCheckedElement, false);
-		this.previouslyCheckedElement = null;
+		if (nextSibling.disabled) return this.setCheckedToPreviousItem(nextSibling);
+		nextSibling.checked = true;
+		nextSibling.focus();
 	}
 
 	checkButton(button) {
+		if (this.disabled) return;
+		if (button.disabled) return;
+
+		if (this.previouslyCheckedElement) this.setButtonAttributes(this.previouslyCheckedElement, false);
+		this.previouslyCheckedElement = null;
+
 		this.setButtonAttributes(button, true);
 		this.previouslyCheckedElement = button;
 	}
 
 	handleClick() {
+		if (this.disabled) return;
+		if (this.radioGroup && this.radioGroup.disabled) return;
+
 		this.checked = true;
 		this.focus();
 	}
@@ -96,7 +124,6 @@ class GamefaceRadioGroup extends HTMLElement {
 			this.setButtonAttributes(button);
 
 			if (button.hasAttribute('checked')) {
-				this.uncheckPreviousButton();
 				this.checkButton(button);
 			}
 		}
@@ -107,7 +134,7 @@ class GamefaceRadioGroup extends HTMLElement {
 		// do it and possibly forget it.
 		this.setAttribute('role', 'radiogroup');
 		this.setupButtons();
-
+		if (this.disabled) this.classList.add('radio-button-disabled');
 		this.previouslyCheckedElement = this.querySelector('[aria-checked="true"]');
 	}
 }
@@ -125,7 +152,6 @@ class RadioButton extends HTMLElement {
 	}
 
 	set checked(value) {
-		this.radioGroup.uncheckPreviousButton();
 		this.radioGroup.checkButton(this);
 	}
 
@@ -145,6 +171,20 @@ class RadioButton extends HTMLElement {
 		this.textElement.textContent = value;
 	}
 
+	get disabled() {
+		return this.hasAttribute('disabled');
+	}
+
+	set disabled(value) {
+		if (value) {
+			this.firstChild.classList.add('radio-button-disabled');
+			this.setAttribute('disabled', '');
+		} else {
+			this.firstChild.classList.remove('radio-button-disabled');
+			this.removeAttribute('disabled');
+		}
+	}
+
 	connectedCallback() {
 		// Get the text set from the user before applying the template.
 		this.radioGroup = this.parentElement;
@@ -158,6 +198,7 @@ class RadioButton extends HTMLElement {
 				this.textElement = this.querySelector('.radio-button-text');
 				// Apply the user set text.
 				this.textElement.textContent = radioButtonText;
+				if (this.disabled) this.firstChild.classList.add('radio-button-disabled');
 			})
 			.catch(err => console.error(err));
 	}
