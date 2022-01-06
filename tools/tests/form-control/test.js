@@ -163,7 +163,7 @@ const formsTemplates = {
 					</div>
 					<!-- Should be skipped when form is submitted because it is disabled -->
 					<div class="form-element">
-						<span>Disabled:</span>
+						<span>Disabled group:</span>
 						<gameface-radio-group disabled name="option2" class="form-element">
 							<radio-button checked value="1">1</radio-button>
 							<radio-button disabled value="2">2</radio-button>
@@ -185,6 +185,24 @@ const formsTemplates = {
 						<gameface-radio-group name="option4" class="form-element">
 							<radio-button value="1">1</radio-button>
 							<radio-button value="2">2</radio-button>
+							<radio-button value="3">3</radio-button>
+						</gameface-radio-group>
+					</div>
+					<!-- Should send 3 because it will not check the disabled button with value 2 -->
+					<div class="form-element">
+						<span>Disabled button:</span>
+						<gameface-radio-group name="option5" class="form-element">
+							<radio-button value="1">1</radio-button>
+							<radio-button checked disabled value="2">2</radio-button>
+							<radio-button checked value="3">3</radio-button>
+						</gameface-radio-group>
+					</div>
+					<!-- Should send nothing because there are no checked elements -->
+					<div class="form-element">
+						<span>Disabled button with value:</span>
+						<gameface-radio-group name="option6" class="form-element">
+							<radio-button value="1">1</radio-button>
+							<radio-button checked disabled value="2">2</radio-button>
 							<radio-button value="3">3</radio-button>
 						</gameface-radio-group>
 					</div>
@@ -305,8 +323,8 @@ const forms = [
 	{
 		testName: formsTestNames.RADIO_FORM,
 		id: formsIds.RADIO_FORM,
-		submitData: '{"option1":"1","option3":"on"}',
-		submitDataInteraction: '{"option1":"2","option3":"on"}',
+		submitData: '{"option1":"1","option3":"on","option5":"3"}',
+		submitDataInteraction: '{"option1":"2","option3":"on","option5":"3"}',
 		template: formsTemplates.RADIO,
 	},
 	{
@@ -321,7 +339,7 @@ const forms = [
 		id: formsIds.DROPDOWN_FORM,
 		submitData: '{"option1":"1","option2":"One","option4":"One","option5":"1"}',
 		submitDataInteraction: '{"option1":"2","option2":"Two","option4":"One","option5":["1","Two"]}',
-		template:formsTemplates.DROPDOWN,
+		template: formsTemplates.DROPDOWN,
 	},
 ];
 

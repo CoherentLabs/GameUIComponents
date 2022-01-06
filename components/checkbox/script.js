@@ -27,6 +27,20 @@ class Checkbox extends CustomElementValidator {
         return this.getAttribute('value') || 'on';
     }
 
+    get disabled() {
+        return this.hasAttribute('disabled');
+    }
+
+    set disabled(value) {
+        if (value) {
+            this.firstChild.classList.add('checkbox-disabled');
+            this.setAttribute('disabled', '');
+        } else {
+            this.firstChild.classList.remove('checkbox-disabled');
+            this.removeAttribute('disabled');
+        }
+    }
+
     valueMissing() {
         return this.hasAttribute('required') && !this.state.checked;
     }
@@ -42,6 +56,7 @@ class Checkbox extends CustomElementValidator {
                 this.template = result.template;
                 components.renderOnce(this);
                 this.addEventListener('click', this.toggleChecked);
+                if (this.disabled) this.firstChild.classList.add('checkbox-disabled');
             })
             .catch(err => console.error(err));
     }
@@ -51,6 +66,8 @@ class Checkbox extends CustomElementValidator {
      * Updated the state and the visibility of the check mark.
     */
     toggleChecked() {
+        if (this.disabled) return;
+
         this.state.checked = !this.state.checked;
         this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? 'block' : 'none';
     }
