@@ -4,18 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 describe('Tabs Components', () => {
-    afterAll(() => {
-        // Since we don't want to replace the whole content of the body using
-        // innerHtml setter, we query only the current custom element and we replace
-        // it with a new one; this is needed because the specs are executed in a random
-        // order and sometimes the component might be left in a state that is not
-        // ready for testing
-        const currentElement = document.querySelector('gameface-tabs');
-
-        if(currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-    });
+    afterAll(() => cleanTestPage('gameface-tabs'));
 
     beforeEach(function(done) {
         const currentElement = document.querySelector('gameface-tabs');

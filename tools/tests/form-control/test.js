@@ -537,13 +537,7 @@ describe('Form control Tests', () => {
 		style.appendChild(document.createTextNode(pageStyles));
 	});
 
-	afterAll(() => {
-		const currentEl = document.querySelector('.test-wrapper');
-
-		if (currentEl) {
-			currentEl.parentElement.removeChild(currentEl);
-		}
-	});
+	afterAll(() => cleanTestPage('.test-wrapper'));
 
 	setFormsTestCases();
 	setFormTestCasesWithInteraction();

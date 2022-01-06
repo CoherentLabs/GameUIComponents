@@ -38,13 +38,7 @@ function setupMultipleDropdownTestPage(template) {
 
 
 describe('Multiple Dropdown Test', () => {
-    afterAll(() => {
-        const currentElement = document.querySelector('.multiple-dropdown-test-wrapper');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-    });
+    afterAll(() => cleanTestPage('.multiple-dropdown-test-wrapper'));
 
     function dispatchKeyboardEvent(element, optionsObject) {
         element.dispatchEvent(new KeyboardEvent('keydown', optionsObject));

@@ -4,10 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 describe('Components Library', () => {
-    afterAll(() => {
-        let testWrapper = document.querySelector('.components-library-test');
-        if(testWrapper) testWrapper.parentElement.removeChild(testWrapper);
-    });
+    afterAll(() => cleanTestPage('.components-library-test'));
 
     it('Should be exposed to the global namespace', () => {
       assert(window.components !== null, 'The components global was not defined.');

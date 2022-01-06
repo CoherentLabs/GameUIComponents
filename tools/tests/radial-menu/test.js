@@ -51,15 +51,7 @@ function dispatchKeyboardEventKeyUp(keyCode, element) {
 }
 
 describe('Radial Menu Tests', () => {
-	afterAll(() => {
-
-		let currentElement = document.querySelector('.radial-menu-test-wrapper');
-
-		if (currentElement) {
-			currentElement.parentElement.removeChild(currentElement);
-		}
-
-	});
+	afterAll(() => cleanTestPage('.radial-menu-test-wrapper'));
 
 	describe('Radial Menu', () => {
 		beforeEach(function (done) {

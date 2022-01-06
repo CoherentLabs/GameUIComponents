@@ -4,18 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 describe('Checkbox component', () => {
-    afterAll(() => {
-        // Since we don't want to replace the whole content of the body using
-        // innerHtml setter, we query only the current custom element and we replace
-        // it with a new one; this is needed because the specs are executed in a random
-        // order and sometimes the component might be left in a state that is not
-        // ready for testing
-        let checkbox = document.querySelector('gameface-checkbox');
-
-        if (checkbox) {
-            checkbox.parentElement.removeChild(checkbox);
-        }
-    });
+    afterAll(() => cleanTestPage('gameface-checkbox'));
 
     beforeEach(function (done) {
         let checkbox = document.querySelector('gameface-checkbox');

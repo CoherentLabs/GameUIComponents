@@ -243,19 +243,6 @@ const testCasesRenderConfiguration = [
     },
 ];
 
-function removeCurrentTextField() {
-    // Since we don't want to replace the whole content of the body using
-    // innerHtml setter, we query only the current custom element and we replace
-    // it with a new one; this is needed because the specs are executed in a random
-    // order and sometimes the component might be left in a state that is not
-    // ready for testing
-    const currentElement = document.querySelector(CUSTOM_ELEMENT_TAG);
-
-    if (currentElement) {
-        currentElement.parentElement.removeChild(currentElement);
-    }
-}
-
 async function renderTextField(attributes) {
     const el = document.createElement(CUSTOM_ELEMENT_TAG);
     for (const attributeName in attributes) {
@@ -293,15 +280,11 @@ function checkElementAttributes(attributes, expectedValue) {
 }
 
 describe('Text field component', () => {
-    afterAll(() => {
-        removeCurrentTextField();
-    });
+    afterAll(() => cleanTestPage(CUSTOM_ELEMENT_TAG));
 
     for (const testCase of testCasesRenderConfiguration) {
         describe(testCase.caseName, () => {
-            afterAll(() => {
-                removeCurrentTextField();
-            })
+            afterAll(() => cleanTestPage(CUSTOM_ELEMENT_TAG))
 
             getInitializationTest(testCase.attributes, testCase.expectedValue);
 

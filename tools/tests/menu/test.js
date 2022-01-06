@@ -41,14 +41,7 @@ function setupMenuTestPage() {
 }
 
 describe('Menu Component Tests', () => {
-    afterAll(() => {
-
-        let currentElement = document.querySelector('.menu-test-wrapper');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-    });
+    afterAll(() => cleanTestPage('.menu-test-wrapper'));
 
     describe('Menu Component', () => {
         beforeEach(function (done) {

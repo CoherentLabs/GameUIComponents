@@ -33,13 +33,7 @@ function setupTooltipTestPage() {
 
 
 describe('Tooltip component', () => {
-    afterAll(() => {
-        const currentElement = document.querySelector('.tooltip-test-wrapper');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-    });
+    afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
 
     afterEach(() => {
         const tooltips = document.querySelectorAll('gameface-tooltip');

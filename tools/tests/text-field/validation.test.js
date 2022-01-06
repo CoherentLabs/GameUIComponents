@@ -61,11 +61,7 @@ describe('Text field validation', () => {
             tooltips[i].parentElement.removeChild(tooltips[i]);
         }
 
-        let currentElement = document.querySelector('.text-field-validation-test-wrapper');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
+        cleanTestPage('.text-field-validation-test-wrapper');
     });
 
     beforeEach(async function () {

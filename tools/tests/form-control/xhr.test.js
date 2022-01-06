@@ -20,13 +20,7 @@ describe('Form control XHR property tests', () => {
         document.body.appendChild(el);
     });
 
-    afterAll(() => {
-        const currentEl = document.querySelector('.test-wrapper');
-
-        if (currentEl) {
-            currentEl.parentElement.removeChild(currentEl);
-        }
-    });
+    afterAll(() => cleanTestPage('.test-wrapper'));
 
     it('Should have xhr property exposed', () => {
         const form = document.querySelector('gameface-form-control');

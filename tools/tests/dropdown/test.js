@@ -118,13 +118,7 @@ function dispatchKeyboardEvent(keyCode, element) {
 
 
 describe('Dropdown Tests', () => {
-    afterAll(() => {
-        const currentElement = document.querySelector('.dropdown-test-wrapper');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-    });
+    afterAll(() => cleanTestPage('.dropdown-test-wrapper'));
 
     describe('Dropdown Component', () => {
         beforeEach(function (done) {

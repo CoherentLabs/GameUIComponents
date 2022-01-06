@@ -24,13 +24,7 @@ describe('Modal Component', () => {
         });
     });
 
-    afterAll(() => {
-        const currentElement = document.querySelector('gameface-modal');
-
-        if(currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-    });
+    afterAll(() => cleanTestPage('gameface-modal'));
 
     it('Should be rendered', () => {
         assert(document.querySelector('.modal-wrapper') !== null, 'The modal was not rendered.');

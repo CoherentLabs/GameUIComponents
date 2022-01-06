@@ -75,11 +75,7 @@ describe('Form validation', () => {
             tooltips[i].parentElement.removeChild(tooltips[i]);
         }
 
-        let currentElement = document.querySelector('.form-validation-test-wrapper');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
+        cleanTestPage('.form-validation-test-wrapper');
     });
 
     beforeEach(function (done) {

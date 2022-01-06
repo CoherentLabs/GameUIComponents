@@ -34,13 +34,7 @@ function setupProgressBar(template) {
 }
 
 describe('Progress Bar Tests', () => {
-  afterAll(() => {
-    const currentElement = document.querySelector('.progress-bar-wrapper');
-
-    if (currentElement) {
-      currentElement.parentElement.removeChild(currentElement);
-    }
-  });
+  afterAll(() => cleanTestPage('.progress-bar-wrapper'));
 
   describe('Progress Bar Component', () => {
     beforeEach(function (done) {
