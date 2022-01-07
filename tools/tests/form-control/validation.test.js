@@ -13,40 +13,169 @@ const errorMessages = new Map([
     ['nameMissing', 'The elements does not have a name attribute and will not be submitted.'],
 ]);
 
+const FORM_VALIDATION_TEMPLATE = `
+<div class="form-wrapper">
+    <gameface-form-control>
+        <div class="form-element">
+            <input id="role" name="role" value="some name" required />
+        </div>
+        <div class="form-element">
+            <input minlength="3" maxlength="5" name="username" value="Valid" type="text" id="username" />
+        </div>
+        <div class="form-element">
+            <input type="number" min="10" max="30" value="15" name="age" type="text" id="age" />
+        </div>
+        <div class="form-element">
+            <input type="text" value="missing name" id="no-name" />
+        </div>
+        <button class="form-element" id="submit" type="submit">Login</button>
+    </gameface-form-control>
+</div>
+`;
+
+const CUSTOM_FORM_VALIDATION_TEMPLATE = `
+<div class="form-wrapper">
+    <h2>Custom validation</h2>
+    <gameface-form-control id="custom-validation-form" action="http://localhost:12345/user" method="get">
+        <div class="form-element">
+            <span>Username (native input):</span>
+            <input id="username" name="username" type="text" minlength="5" maxlength="20"></input>
+            <span id="username-error"></span>
+        </div>
+        <div class="form-element">
+            <gameface-text-field id="url" name="url" label="Website:" type="url"></gameface-text-field>
+        </div>
+        <div class="form-element">
+            <gameface-text-field id="email" name="email" label="Email:" type="email"></gameface-text-field>
+        </div>
+        <button id="submit" class="form-element" type="submit">Register</button>
+    </gameface-form-control>
+    <h3>Response data:</h3>
+    <span class="response" id="form-response"></span>
+</div>
+`;
 
 function getTextContent(element) {
     return element.textContent.replace(/(\n)+/g, '').trim();
 }
 
-async function badValueTest(elSelector, errorType, value) {
+function setValue(elSelector, value) {
     const input = document.querySelector(elSelector);
     input.value = value;
+}
 
+function getTooltipMessage() {
+    const tooltip = document.querySelector('gameface-form-control').tooltip;
+    assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
+
+    const received = getTextContent(tooltip);
+    tooltip.hide();
+    return received;
+}
+
+async function badValueTest(elSelector, errorType, value) {
+    setValue(elSelector, value);
     click(document.querySelector('#submit'));
 
     return createAsyncSpec(() => {
-        const tooltip = document.querySelector('gameface-form-control').tooltip;
-        assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
-
+        const received = getTooltipMessage();
         const expected = errorMessages.get(errorType);
-        const received = getTextContent(tooltip);
-        tooltip.hide();
         assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
     });
 }
 
+async function badValueTestCustomValidation(elSelector, errorMessage, value, errorDisplayElement) {
+    setValue(elSelector, value);
+    click(document.querySelector('#submit'));
 
-function setupFormValidationTestPage() {
-    const template = `
-    <gameface-form-control>
-        <input id="role" name="role" value="some name" required />
-        <input minlength="3" maxlength="5" name="username" value="Valid" type="text" id="username" />
-        <input type="number" min="10" max="30" value="15" name="age" type="text" id="age" />
-        <input type="text" value="missing name" id="no-name" />
-        <button class="form-element" id="submit" type="submit">Login</button>
-    </gameface-form-control>
-    `;
+    await waitServerResponse();
 
+    return createAsyncSpec(() => {
+        let received = null;
+
+        if (!errorDisplayElement) {
+            received = getTooltipMessage();
+        } else {
+            received = getTextContent(document.querySelector(errorDisplayElement));
+        }
+
+        assert(received === errorMessage, `The error message is not correct. Expected: ${errorMessage}. Received: ${received}.`);
+    });
+}
+
+function setCustomValidators() {
+    const form = document.getElementById('custom-validation-form');
+
+    form.addEventListener('loadend', (event) => {
+        document.getElementById('form-response').textContent = event.detail.target.response;
+    });
+
+    let serverError = false, serverNotReachable = false;
+    //Will set custom validators for the form element with name attribute that has value - "username"
+    form.setCustomValidators('username', {
+        //There is no required attribute to the form element so we can add validation about it here
+        valueMissing: {
+            method: (element) => !element.value,
+            errorMessage: () => 'The username is required! '
+        },
+        //We can change the default message on the 'tooShort' preset validator
+        tooShort: {
+            errorMessage: (element) => `The username should have more than ${element.getAttribute('minlength')} symbols typed! `,
+        },
+        //Async validator that checks if the user is already added to the database by making a request to the server
+        nameExists: {
+            method: async (element) => {
+                if (!element.value) return false;
+
+                serverError = false;
+                serverNotReachable = false;
+                return new Promise((resolve) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', `http://localhost:12345/user-exists?username=${element.value}`);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onload = (event) => resolve(event.target.response === 'true');
+                    xhr.onerror = () => {
+                        serverError = true;
+                        return resolve(true)
+                    }
+                    xhr.timeout = 1000;
+                    xhr.ontimeout = () => {
+                        serverNotReachable = true;
+                        return resolve(true)
+                    }
+                    xhr.send();
+                })
+            },
+            errorMessage: (element) => {
+                if (serverNotReachable) return 'Unable to reach the server! ';
+                if (serverError) return 'Unable to reach the server due an error! ';
+
+                return `"${element.value}" already used! Please use another one! `;
+            }
+        }
+    });
+    //We can change where the error message can be displayed for the user name
+    //By default the error will be visible in a tooltip displayed next to the form element
+    form.setCustomDisplayErrorElement('username', '#username-error');
+
+    //We can set a custom validation of the form element with a custom method and a message
+    form.setCustomValidators('url', {
+        notStartingWithHttpProtocol: {
+            method: (element) => !element.value.startsWith('http://') && !element.value.startsWith('https://'),
+            errorMessage: () => 'The url should start with "http://" or "https://"!'
+        }
+    });
+
+    form.setCustomValidators('email', {
+        //We can remove the preset error message if the preset validator for email fails
+        //That will also remove the tooltip because no error messages should be visible even if the check fails
+        badEmail: {
+            errorMessage: () => ''
+        }
+    });
+}
+
+function setupFormValidationTestPage(template) {
     const el = document.createElement('div');
     el.innerHTML = template;
     el.className = 'form-validation-test-wrapper';
@@ -63,11 +192,17 @@ function setupFormValidationTestPage() {
     });
 }
 
+async function checkResponse(expected) {
+    await createAsyncSpec(() => {
+        const data = document.querySelector('.response').textContent;
+        assert(data === expected, `The form data is not the same as the expected one. Expected: ${expected}. Received: ${data}`);
+    });
+}
 
 describe('Form validation', () => {
     afterAll(() => {
         const tooltips = document.querySelectorAll('gameface-tooltip');
-        for(let i = 0; i < tooltips.length; i++) {
+        for (let i = 0; i < tooltips.length; i++) {
             tooltips[i].parentElement.removeChild(tooltips[i]);
         }
 
@@ -75,30 +210,30 @@ describe('Form validation', () => {
     });
 
     beforeEach(function (done) {
-        setupFormValidationTestPage().then(done);
+        setupFormValidationTestPage(FORM_VALIDATION_TEMPLATE).then(done);
     });
 
-    it('Should show value missing error', async() => {
+    it('Should show value missing error', async () => {
         return badValueTest('#role', 'valueMissing', '');
     });
 
-    it('Should show value too long error', async() => {
+    it('Should show value too long error', async () => {
         return badValueTest('#username', 'tooLong', 'This is too long');
     });
 
-    it('Should show value too short error', async() => {
+    it('Should show value too short error', async () => {
         return badValueTest('#username', 'tooShort', 'Th');
     });
 
-    it('Should show value too small - range underflow.', async() => {
+    it('Should show value too small - range underflow.', async () => {
         return badValueTest('#age', 'rangeUnderflow', 5);
     });
 
-    it('Should show value too big - range overflow.', async() => {
+    it('Should show value too big - range overflow.', async () => {
         return badValueTest('#age', 'rangeOverflow', 40);
     });
 
-    it('Should not validate elements that do not have name.', async() => {
+    it('Should not validate elements that do not have name.', async () => {
         const input = document.querySelector('#no-name');
         input.value = '20';
 
@@ -108,5 +243,98 @@ describe('Form validation', () => {
             const tooltip = document.querySelector('gameface-form-control').tooltip;
             assert(tooltip === undefined, 'Tooltip should be displayed!');
         });
+    });
+});
+
+describe('Form custom validation', () => {
+    afterAll(() => {
+        const tooltips = document.querySelectorAll('gameface-tooltip');
+        for (let i = 0; i < tooltips.length; i++) {
+            tooltips[i].parentElement.removeChild(tooltips[i]);
+        }
+
+        cleanTestPage('.form-validation-test-wrapper');
+    });
+
+    beforeAll(function (done) {
+        setupFormValidationTestPage(CUSTOM_FORM_VALIDATION_TEMPLATE).then(() => {
+            setCustomValidators();
+            done();
+        });
+    });
+
+    it('Should test with empty username', async () => {
+        return badValueTestCustomValidation(
+            '#username',
+            'The username should have more than 5 symbols typed! The username is required!',
+            '',
+            '#username-error'
+        );
+    });
+
+    it('Should test with short username', async () => {
+        return badValueTestCustomValidation(
+            '#username',
+            'The username should have more than 5 symbols typed!',
+            'abc',
+            '#username-error'
+        );
+    });
+
+    it('Should test with already added username', async () => {
+        return badValueTestCustomValidation(
+            '#username',
+            '"username1" already used! Please use another one!',
+            'username1',
+            '#username-error'
+        );
+    });
+
+    it('Should test with another already added username', async () => {
+        return badValueTestCustomValidation(
+            '#username',
+            '"username2" already used! Please use another one!',
+            'username2',
+            '#username-error'
+        );
+    });
+
+    it('Should set correct value for username', async () => {
+        setValue('#username', 'username');
+        assert(document.getElementById('username').value === 'username', 'The value of the username is not "username"');
+    });
+
+    it('Should test custom message of the url shown in a tooltip', async () => {
+        return badValueTestCustomValidation(
+            '#url',
+            'The url should start with "http://" or "https://"!',
+            'non valid site url'
+        );
+    });
+
+    it('Should set correct value for the url', async () => {
+        setValue('#url', 'https://site.com');
+        assert(document.getElementById('url').value === 'https://site.com', 'The value of the url is not "https://site.com"');
+    });
+
+    it('Should set invalid email and receive no display error. The submit should be prevented.', async () => {
+        setValue('#email', 'invalid');
+        assert(document.getElementById('email').value === 'invalid', 'The value of the email is not "invalid"');
+        click(document.querySelector('#submit'));
+
+        await waitServerResponse();
+        await checkResponse('');
+    });
+
+    it('Should set correct value for the email', async () => {
+        setValue('#email', 'email@domain.com');
+        assert(document.getElementById('email').value === 'email@domain.com', 'The value of the email is not "email@domain.com"');
+    });
+
+    it('Should submit the form and have valid response', async () => {
+        click(document.querySelector('#submit'));
+
+        await waitServerResponse();
+        await checkResponse('{"username":"username","url":"https://site.com","email":"email@domain.com"}');
     });
 });

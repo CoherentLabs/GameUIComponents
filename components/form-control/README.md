@@ -61,7 +61,7 @@ bundler to use them in a browser.
 
 | Attribute | Required | Values        | Default value | Usage                                                                                                                                                                            |
 | --------- | -------- | ------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `method`  | Yes      | `GET`, `POST` | `GET`           | Used to specify the HTTP method that will be used to send data when the form is submitted. **If the attribute is not added or with no valid value the form won't be published.** |
+| `method`  | Yes      | `GET`, `POST` | `GET`         | Used to specify the HTTP method that will be used to send data when the form is submitted. **If the attribute is not added or with no valid value the form won't be published.** |
 | `action`  | No       | Any valid URL | `./`          | Used to specify where the form will send the data. **If the attribute is not added the data will be sent to the current page URL.**                                              |
 
 ### Examples
@@ -74,9 +74,9 @@ bundler to use them in a browser.
 
 ## Inline event handlers
 
-| Event      | Value    | Usage                                                                                                                                         |
-| ---------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onload`   | Function | Will call the function that is added from the attribute's value when the form request has been completed, whether with success or not.             |
+| Event      | Value    | Usage                                                                                                                                          |
+| ---------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onload`   | Function | Will call the function that is added from the attribute's value when the form request has been completed, whether with success or not.         |
 | `onsubmit` | Function | Will call the function that is added from the attribute's value when the form is submitted and right before the request is made to the server. |
 
 ### Examples
@@ -98,9 +98,9 @@ function preventSubmit(event) {
 
 ## Event handlers
 
-| Event     | Usage                                                                                           |
-| --------- | ----------------------------------------------------------------------------------------------- |
-| `loadend` | Will be triggered when the form request has completed, whether with success or not.             |
+| Event     | Usage                                                                                            |
+| --------- | ------------------------------------------------------------------------------------------------ |
+| `loadend` | Will be triggered when the form request has been completed, whether with success or not.         |
 | `submit`  | Will be triggered when the form is submitted and right before the request is made to the server. |
 
 ### Examples
@@ -342,11 +342,9 @@ The `value` attribute is not required for the dropdown option element but if it 
 
 Clicking on the submit button will make a `POST` request to `http://localhost:3000/options` with body `{"option1":1,"option2":"One"}`.
 
-
-
 ## Text Field
 
-`<gameface-text-field>` is a component that allows you to use a text input of different type - text, email, password, number etc..
+`<gameface-text-field>` is a component that allows you to use a text input of different types - text, email, password, number, etc.
 It supports validation. For example, if you create a text field with the type:
 * email - the built-in validation will check if the value has a `@` symbol and it will show an error if does not.
 * url - the built-in validation will check a **pattern** as an attribute to the text field and its value should match this pattern. For example if the **url** should match certain domain name - `<gameface-text-field type="url" pattern="mydomain.*">`.
@@ -356,7 +354,7 @@ It supports validation. For example, if you create a text field with the type:
 
 ### Example
 
-```
+```html
 <gameface-form-control style="position: absolute;top: 200px;">
     <gameface-text-field id="text" name="text" label="User name:" type="text" value="thisisvalid" minlength="5" maxlength="20"></gameface-text-field>
     <gameface-text-field id="url" name="url" pattern="https://.*" label="Website:" value="https://localhost:9090" type="url"></gameface-text-field>
@@ -366,26 +364,173 @@ It supports validation. For example, if you create a text field with the type:
 </gameface-form-control>
 ```
 
-
 # Validation
 
 The form control supports validation. These are the attributes that you can use:
 
+| Name      | Purpose                                                                                          | Supported Elements                              |
+| --------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
+| required  | Used to indicate that a value is required. Will show an error if the element doesn't have value. | Input, Textarea, Checkbox, Switch, Radio Button |
+| minlength | Used to indicate the minimum length of a text field.                                             | Input                                           |
+| maxlength | Used to indicate the minimum length of a text field.                                             | Input                                           |
+| min       | Used to indicate the minimum value of a number input                                             | Input                                           |
+| max       | Used to indicate the maximum value of a number input                                             | Input                                           |
+| pattern   | Used to specify a url pattern.                                                                   | TextField[type="url"]                           |
+| required  | Used to specify that the element must have value.                                                | All form supported elements                     |
 
-|Name|Purpose|Supported Elements|
-|---|---|---|
-| required | Used to indicate that a value is required. Will show an error if the element doesn't have value. | Input, Textarea, Checkbox, Switch, Radio Button | 
-| minlength | Used to indicate the minimum length of a text field. | Input |
-| maxlength | Used to indicate the minimum length of a text field.| Input |
-| min | Used to indicate the minimum value of a number input | Input |
-| max | Used to indicate the maximum value of a number input | Input |
-| pattern | Used to specify a url pattern. | TextField[type="url"] |
-| required | Used to specify that the element must have value. | All form supported elements |
+# Custom validation
 
+The form control component supports custom validation as well. Its purpose is to customize the default methods for validation, error messages, or where to show them. The default methods for validating form are stored in a map where each method has a default message defined for it. These methods are checking if a form element meets the requirements to be valid that are defined by the attributes above. Here is a table describing each method name, its error, and its relevant form element attribute.
+
+| Default validator method name | Error message                                                                            | Corresponding attribute | Additional info                                                                              |
+| ---------------------- | ---------------------------------------------------------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------- |
+| `notAForm`             | `This element is not part of a form.`                                                    | N/A                     | This validator validates if the element is part of the form control.                         |
+| `nameMissing`          | `The element does not have a name attribute and will not be submitted`                  | N/A                     | This validator validates if a form element has valid name attribute set.                     |
+| `tooLong`              | `The value is too long. Maximum length is ${element.getAttribute('maxlength')}.`         | `maxlength`             |
+| `tooShort`             | `The value is too short. Minimal length is ${element.getAttribute('minlength')}.`        | `minlength`             |
+| `rangeOverflow`        | `The value is too big. Maximum is ${element.getAttribute('max')}.`                       | `max`                   |
+| `rangeUnderflow`       | `The value is too small. Minimum is ${element.getAttribute('min')}.`                     | `min`                   |
+| `valueMissing`         | `The value is required.`                                                                 | `required`              |
+| `badURL`               | `Please enter a valid URL. It should match the following pattern: /${element.pattern}/.` | N/A                     | This validator validates `<gameface-text-field>` component's value when its type is `url`.   |
+| `badEmail`             | `Please enter a valid email. It should contain a @ symbol.`                              | N/A                     | This validator validates `<gameface-text-field>` component's value when its type is `email`. |
+
+As you can see some validators have error messages that include some properties from the validated element. That is because each validator dynamically constructs the error messages using the currently validated form element.
+## Custom form validation methods
+
+`<gameface-form-control>` component has some methods for making custom validation possible.
+
+| Method                             | Arguments                                      | Description                                                                                                                                                                                                             |
+| ---------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `setCustomValidators`              | `(name: string, validators: ValidatorsConfig)` | Will set custom defined validators related to the form elements with the corresponding `name` attribute.                                                                                                                |
+| `removeCustomValidator`            | `(name: string)`                               | Will remove any custom validators related to the form element with the corresponding `name` attribute.                                                                                                                  |
+| `removeCustomValidators`           | `(names: string[])`                            | Same as the `removeCustomValidator` but works with multiple `names`.                                                                                                                                                    |
+| `setCustomDisplayErrorElement`     | `(name: string, selector: string)`             | Will change the default behavior of showing error messages. The `name` argument specifies the form element that will be modified. The `selector` specifies the element in which the error will be displayed. |
+| `removeCustomDisplayErrorElement`  | `(name: string)`                               | Remove the custom error message element previously added using `setCustomDisplayErrorElement`. The `name` argument specifies the form element. The default tooltip will be used instead for displaying errors.              |
+| `removeCustomDisplayErrorElements` | `(names: string[])`                            | Same as the `removeCustomDisplayErrorElement` method but works with multiple `names`.                                                                                                                                   |
+
+## ValidatorsConfig
+
+It is an object that has the following type:
+
+```typescript
+interface ValidatorsConfig {
+    [ValidatorName: string]: {
+        method?: (element: HTMLElement) => boolean | Promise<boolean>
+        errorMessage?: (element: HTMLElement) => string
+    }
+}
+```
+
+With the `ValidatorName` key you define your custom validator name or you can use some of the default validator names to overwrite their behavior.
+
+`method` is the function that is used to tell the form component if the currently validated element is valid. It receives that element and should return a boolean with the result about the validity of the element. You can use the **async** function to define the `method` property. To overwrite the default validators use `ValidatorName` that has the same name as the one you wish to change:
+
+```javascript
+form.setCustomValidators('username', {
+    valueMissing: { // will use this one, no the default
+        method: (element) => !element.value,
+        errorMessage: () => 'The username is required! '
+    }
+})
+```
+
+`errorMessage` is the function that constructs the message if the validation of the form element fails. It receives that element so you can extract its attributes and return a more specific error message. The function should return a string. If this property is added to `ValidatorName` that is some of the default ones will overwrite the default validation message.
+
+```javascript
+form.setCustomValidators('username', {
+    valueMissing: { 
+        errorMessage: () => 'The username is required! ' // will use this error message, not the default that is "The value is required."
+    }
+})
+```
+
+## Example
+
+Let us have the following form defined
+```html
+<gameface-form-control id="custom-validation-form">
+    <gameface-text-field name="username" label="User name:" type="text" minlength="5" maxlength="20"></gameface-text-field>
+    <span id="username-error"></span>
+    <gameface-text-field name="url" label="Website:" type="url"></gameface-text-field>
+    <gameface-text-field name="email" label="Email:" type="email"></gameface-text-field>
+    <button class="form-element" type="submit">Register</button>
+</gameface-form-control>
+```
+
+As you can see some attributes are used to validate the user name. The url and email will be validated by default.
+We can add our custom validators using the methods exposed in the `gameface-form-control` component. **Note: Custom validation should be added after the form control bundle is added to the page.**
+
+```javascript
+// Custom validators should be set after the components library is added!
+
+const form = document.getElementById('custom-validation-form');
+
+let serverError = false, serverNotReachable = false;
+//Will set custom validators for the form element with name attribute that has value - "username"
+form.setCustomValidators('username', {
+    //There is no required attribute to the form element so we can add validation about it here
+    valueMissing: {
+        method: (element) => !element.value,
+        errorMessage: () => 'The username is required! '
+    },
+    //We can change the default message on the 'tooShort' preset validator
+    tooShort: { errorMessage: (element) => `The username should have more than ${element.getAttribute('minlength')} symbols typed! `},
+    //Async validator that checks if the user is already added to the database by making a request to the server
+    usernameExists: {
+        method: async (element) => {
+            if (!element.value) return false;
+
+            serverError = false;
+            serverNotReachable = false;
+            return new Promise((resolve) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `http://localhost:3000/user-exists?username=${element.value}`);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = (event) => resolve(event.target.response === 'true');
+                xhr.onerror = () => {
+                    serverError = true;
+                    return resolve(true)
+                }
+                xhr.timeout = 1000;
+                xhr.ontimeout = () => {
+                    serverNotReachable = true;
+                    return resolve(true)
+                }
+                xhr.send();
+            })
+        },
+        errorMessage: (element) => {
+            if (serverNotReachable) return 'Unable to reach the server! ';
+            if (serverError) return 'Unable to reach the server due an error! ';
+
+            return `"${element.value}" already used! Please use another one! `;
+        }
+    }
+});
+//By default the error will be visible in a tooltip displayed next to the form element
+//We can change that behavior for the user name by selecting another element for this purpose
+form.setCustomDisplayErrorElement('username', '#username-error');
+
+//We can set a custom validation of the form element with a custom method and a message
+form.setCustomValidators('url', {
+    notStartingWithHttpProtocol: {
+        method: (element) => !element.value.startsWith('http://') && !element.value.startsWith('https://'),
+        errorMessage: () => 'The url should start with "http://" or "https://"!'
+    }
+});
+
+form.setCustomValidators('email', {
+    //We can remove the preset error message if the preset validator for email fails
+    //That will also remove the tooltip because no error messages should be visible even if the check fails
+    badEmail: {
+        errorMessage: () => ''
+    }
+});
+```
 
 # Accessing the XMLHttpRequest
 
-An XMLHttpRequest is created when a form is submitted. It is helpful to access this XHR in case you need to check the status of the request, the response or if you want to do something on success/error. You can access this request through the properties of the form control:
+An XMLHttpRequest is created when a form is submitted. It is helpful to access this XHR in case you need to check the status of the request, the response, or if you want to do something on success/error. You can access this request through the properties of the form control:
 
 ```html
 <gameface-form-control id="my-form" action="http://localhost:3000/options" method="POST">

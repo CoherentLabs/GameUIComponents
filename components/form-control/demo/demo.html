@@ -71,8 +71,35 @@
 
 <body>
     <div class="form-wrapper">
+        <h2>Custom validation</h2>
+        <gameface-form-control id="custom-validation-form" action="http://localhost:3000/user" method="get">
+            <div class="form-element">
+                <span>Username (native input):</span>
+                <input name="username" label="User name:" type="text" minlength="5" maxlength="20"></input>
+                <span id="username-error"></span>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="url" label="Website:" type="url"></gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="email" label="Email:" type="email"></gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="password" label="Password:" type="password" minlength="3" maxlength="10">
+                </gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="number" label="Age:" type="number" min="15" max="200" step="10">
+                </gameface-text-field>
+            </div>
+            <button class="form-element" type="submit">Register</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-custom-validation"></span>
+    </div>
+    <div class="form-wrapper">
         <h2>Text Field</h2>
-        <gameface-form-control action="http://localhost:3000/user" method="get">
+        <gameface-form-control id="form-text-field" action="http://localhost:3000/user" method="get">
             <div class="form-element">
                 <gameface-text-field name="text" label="User name:" type="text" minlength="5" maxlength="20">
                 </gameface-text-field>
@@ -93,6 +120,13 @@
             </div>
             <button class="form-element" type="submit">Register</button>
         </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-text-field-response"></span>
+        <script>
+            document.getElementById('form-text-field').addEventListener('loadend', (event) => {
+                document.getElementById('form-text-field-response').textContent = event.detail.target.response;
+            });
+        </script>
     </div>
     <div class="form-wrapper">
         <h2>GET</h2>
@@ -421,6 +455,80 @@
     <script src="../node_modules/coherent-gameface-dropdown/umd/dropdown.development.js"></script>
     <script src="../node_modules/coherent-gameface-text-field/umd/text-field.development.js"></script>
     <script src="../umd/form-control.development.js"></script>
+    <script>
+        // Custom validators should be set after the components library is added!
+
+        const form = document.getElementById('custom-validation-form');
+
+        form.addEventListener('loadend', (event) => {
+            document.getElementById('form-custom-validation').textContent = event.detail.target.response;
+        });
+
+
+        let serverError = false, serverNotReachable = false;
+        //Will set custom validators for the form element with name attribute that has value - "username"
+        form.setCustomValidators('username', {
+            //There is no required attribute to the form element so we can add validation about it here
+            valueMissing: {
+                method: (element) => !element.value,
+                errorMessage: () => 'The username is required! '
+            },
+            //We can change the default message on the 'tooShort' preset validator
+            tooShort: {
+                errorMessage: (element) => `The username should have more than ${element.getAttribute('minlength')} symbols typed! `,
+            },
+            //Async validator that checks if the user is already added to the database by making a request to the server
+            nameExists: {
+                method: async (element) => {
+                    if (!element.value) return false;
+
+                    serverError = false;
+                    serverNotReachable = false;
+                    return new Promise((resolve) => {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', `http://localhost:3000/user-exists?username=${element.value}`);
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.onload = (event) => resolve(event.target.response === 'true');
+                        xhr.onerror = () => {
+                            serverError = true;
+                            return resolve(true)
+                        }
+                        xhr.timeout = 1000;
+                        xhr.ontimeout = () => {
+                            serverNotReachable = true;
+                            return resolve(true)
+                        }
+                        xhr.send();
+                    })
+                },
+                errorMessage: (element) => {
+                    if (serverNotReachable) return 'Unable to reach the server! ';
+                    if (serverError) return 'Unable to reach the server due an error! ';
+
+                    return `"${element.value}" already used! Please use another one! `;
+                }
+            }
+        });
+        //We can change where the error message can be displayed for the user name
+        //By default the error will be visible in a tooltip displayed next to the form element
+        form.setCustomDisplayErrorElement('username', '#username-error');
+
+        //We can set a custom validation of the form element with a custom method and a message
+        form.setCustomValidators('url', {
+            notStartingWithHttpProtocol: {
+                method: (element) => !element.value.startsWith('http://') && !element.value.startsWith('https://'),
+                errorMessage: () => 'The url should start with "http://" or "https://"!'
+            }
+        });
+
+        form.setCustomValidators('email', {
+            //We can remove the preset error message if the preset validator for email fails
+            //That will also remove the tooltip because no error messages should be visible even if the check fails
+            badEmail: {
+                errorMessage: () => ''
+            }
+        });
+    </script>
 </body>
 
 </html>
