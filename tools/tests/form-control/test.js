@@ -404,16 +404,7 @@ async function setupFormControlPage(form) {
 
 	el.innerHTML = form.template;
 
-	const currentEl = document.querySelector('.test-wrapper');
-
-	// Since we don't want to replace the whole content of the body using
-	// innerHtml setter, we query only the current custom element and we replace
-	// it with a new one; this is needed because the specs are executed in a random
-	// order and sometimes the component might be left in a state that is not
-	// ready for testing
-	if (currentEl) {
-		currentEl.parentElement.removeChild(currentEl);
-	}
+	cleanTestPage('.test-wrapper');
 
 	document.body.appendChild(el);
 

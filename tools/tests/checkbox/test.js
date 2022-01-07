@@ -7,11 +7,7 @@ describe('Checkbox component', () => {
     afterAll(() => cleanTestPage('gameface-checkbox'));
 
     beforeEach(function (done) {
-        let checkbox = document.querySelector('gameface-checkbox');
-
-        if (checkbox) {
-            checkbox.parentElement.removeChild(checkbox);
-        }
+        cleanTestPage('gameface-checkbox');
 
         const el = document.createElement('gameface-checkbox');
         document.body.appendChild(el);

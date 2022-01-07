@@ -59,11 +59,6 @@ async function waitServerResponse(responseTimeout = 50) {
 	})
 }
 
-
-function setupTestPage() {
-
-}
-
 function cleanTestPage(selector) {
     // Since we don't want to replace the whole content of the body using
     // innerHtml setter, we query only the current custom element and we replace

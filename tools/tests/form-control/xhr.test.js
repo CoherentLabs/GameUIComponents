@@ -12,10 +12,7 @@ describe('Form control XHR property tests', () => {
         el.className = 'test-wrapper';
         el.innerHTML = template;
 
-        const currentEl = document.querySelector('.test-wrapper');
-        if (currentEl) {
-            currentEl.parentElement.removeChild(currentEl);
-        }
+        cleanTestPage('.test-wrapper');
 
         document.body.appendChild(el);
     });

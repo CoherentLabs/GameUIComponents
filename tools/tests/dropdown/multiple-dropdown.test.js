@@ -24,10 +24,7 @@ function setupMultipleDropdownTestPage(template) {
     el.className = 'multiple-dropdown-test-wrapper';
     el.innerHTML = template;
 
-    const currentElement = document.body.querySelector('.multiple-dropdown-test-wrapper');
-    if (currentElement) {
-        currentElement.parentElement.removeChild(currentElement);
-    }
+    cleanTestPage('.multiple-dropdown-test-wrapper');
 
     document.body.appendChild(el);
 
