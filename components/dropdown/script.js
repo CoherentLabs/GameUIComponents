@@ -53,6 +53,22 @@ class GamefaceDropdown extends CustomElementValidator {
         this.onMouseLeave = this.onMouseLeave.bind(this);
     }
 
+    get disabled() {
+        return this.hasAttribute('disabled');
+    }
+
+    set disabled(value) {
+        if (value) {
+            this.classList.add('gameface-dropdown-disabled');
+            this.setAttribute('disabled', '');
+            this.setAttribute('tabindex', '-1');
+        } else {
+            this.classList.remove('gameface-dropdown-disabled');
+            this.removeAttribute('disabled');
+            this.setAttribute('tabindex', '1');
+        }
+    }
+
     /**
      * Returns the text content of the selected dropdown-option.
      * @returns {String}
@@ -190,6 +206,9 @@ class GamefaceDropdown extends CustomElementValidator {
                 // select the default element
                 if (this._lastSelectedIndex > -1 && this.enabledOptions.length > 0) this.selected = this.enabledOptions[this._lastSelectedIndex];
                 this.attachEventListeners();
+
+                if (this.disabled) this.disabled = true;
+                this.setInitialSelection();
             })
             .catch(err => console.error(err));
     }
@@ -329,6 +348,13 @@ class GamefaceDropdown extends CustomElementValidator {
         this._lastSelectedIndex = this.selectedList[this.selectedList.length - 1];
     }
 
+    setInitialSelection() {
+        for (const option of this.allOptions) {
+            if (!option.hasAttribute('selected')) continue;
+            this.selected = option;
+        }
+    }
+
     /**
      * Called on keydown. Used to handle option selection via the keyboard.
      * @param {KeyboardEvent} event - the current event object
@@ -424,6 +450,8 @@ class GamefaceDropdown extends CustomElementValidator {
      * the selected option element.
     */
     onClick() {
+        if (this.disabled) return;
+
         const scrollableContainer = this.querySelector('gameface-scrollable-container');
 
         if (this.isOpened) {

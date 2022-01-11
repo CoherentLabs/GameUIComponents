@@ -7,6 +7,12 @@ dropdown-option {
     background-color: var(--default-color-white);
 }
 
+.gameface-dropdown-disabled {
+    filter: grayscale(0.2);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 .options {
     display: flex;
     flex-direction: column;
