@@ -88,7 +88,7 @@ files: [
 ],
 ~~~~
 
-The actions.js file contains common helper functions that are used in a lot of tests - click, nested requestAnimationFrame for the cases where you need to wait a couple of frames for the component to be completely rendered before you continue with the test. It also contains a function called `cleanTestPage` which removed the HTML elements added for the test.
+The actions.js file contains common helper functions that are used in a lot of tests - click, nested requestAnimationFrame for the cases where you need to wait a couple of frames for the component to be completely rendered before you continue with the test. It also contains a function called `cleanTestPage` which removes the HTML elements added for the test.
 
 Karma is configured to run the tests once and then stop the server. If you need to run
 tests multiple times per one connection set the [singleRun](http://karma-runner.github.io/6.3/config/configuration-file.html#singlerun) to false in karma.conf.js.
@@ -124,11 +124,10 @@ el.innerHTML = template;
 document.body.appendChild(el);
 ````
 
-If you do this multiple times within a test, it is good practice to clean the DOM before attaching a new element to avoid duplications. Call the ``
-`cleanTestPage` functions available in actions.js and pass the query selector of the test element that you've previouslly added.
+If you do this multiple times within a test, it is good practice to clean the DOM before attaching a new element to avoid duplications. Call the `cleanTestPage` functions available in actions.js and pass the query selector of the test element that you've previously added.
 
 ````
-cleanTestPage('dropdown-test-wrapper);
+cleanTestPage('dropdown-test-wrapper');
 ````
 
 If you need to do an asynchronous setup of the page simply return
@@ -140,7 +139,7 @@ function setupDropdownTestPage() {
     el.className = 'dropdown-test-wrapper';
     el.innerHTML = template;
 
-    cleanTestPage('dropdown-test-wrapper);
+    cleanTestPage('dropdown-test-wrapper');
 
     document.body.appendChild(el);
 

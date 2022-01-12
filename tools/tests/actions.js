@@ -65,7 +65,7 @@ function cleanTestPage(selector) {
     // it with a new one; this is needed because the specs are executed in a random
     // order and sometimes the component might be left in a state that is not
     // ready for testing
-    let testWrapper = document.querySelector(selector);
+    const testWrapper = document.querySelector(selector);
 
     if (testWrapper) {
         testWrapper.parentElement.removeChild(testWrapper);
