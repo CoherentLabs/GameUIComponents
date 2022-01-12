@@ -15,16 +15,7 @@ function setupProgressBar(template) {
   el.className = 'progress-bar-wrapper';
   el.innerHTML = template;
 
-  // Since we don't want to replace the whole content of the body using
-  // innerHtml setter, we query only the current custom element and we replace
-  // it with a new one; this is needed because the specs are executed in a random
-  // order and sometimes the component might be left in a state that is not
-  // ready for testing
-  const currentElement = document.querySelector('.progress-bar-wrapper');
-
-  if (currentElement) {
-    currentElement.parentElement.removeChild(currentElement);
-  }
+  cleanTestPage('.progress-bar-wrapper');
 
   document.body.appendChild(el);
 
@@ -34,13 +25,7 @@ function setupProgressBar(template) {
 }
 
 describe('Progress Bar Tests', () => {
-  afterAll(() => {
-    const currentElement = document.querySelector('.progress-bar-wrapper');
-
-    if (currentElement) {
-      currentElement.parentElement.removeChild(currentElement);
-    }
-  });
+  afterAll(() => cleanTestPage('.progress-bar-wrapper'));
 
   describe('Progress Bar Component', () => {
     beforeEach(function (done) {

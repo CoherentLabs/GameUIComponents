@@ -9,25 +9,12 @@ const radioButtonTemplate = `<gameface-radio-group>
 <radio-button>3</radio-button>
 </gameface-radio-group>`;
 
-// Since we don't want to replace the whole content of the body using
-// innerHtml setter, we query only the current custom element and we replace
-// it with a new one; this is needed because the specs are executed in a random
-// order and sometimes the component might be left in a state that is not
-// ready for testing
-function removeTestWrapper() {
-    const currentElement = document.querySelector('.radio-button-test-wrapper');
-
-    if (currentElement) {
-        currentElement.parentElement.removeChild(currentElement);
-    }
-}
-
 function setupRadioButtonTestPage() {
     const el = document.createElement('div');
     el.className = 'radio-button-test-wrapper';
     el.innerHTML = radioButtonTemplate;
 
-    removeTestWrapper();
+    cleanTestPage('.radio-button-test-wrapper');
 
     document.body.appendChild(el);
 
@@ -37,7 +24,7 @@ function setupRadioButtonTestPage() {
 }
 
 describe('Radio Button Tests', () => {
-    afterAll(() => { removeTestWrapper() });
+    afterAll(() => cleanTestPage('.radio-button-test-wrapper'));
 
     describe('Radio Button Component', () => {
         beforeEach(function (done) {

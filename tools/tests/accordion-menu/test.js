@@ -33,18 +33,7 @@ const waitForTransitionEnd = () => {
 };
 
 describe('Accordion Menu component', () => {
-    afterEach(() => {
-        // Since we don't want to replace the whole content of the body using
-        // innerHtml setter, we query only the current custom element and we replace
-        // it with a new one; this is needed because the specs are executed in a random
-        // order and sometimes the component might be left in a state that is not
-        // ready for testing
-        let accordionMenu = document.querySelector('gameface-accordion-menu');
-
-        if (accordionMenu) {
-            accordionMenu.parentElement.removeChild(accordionMenu);
-        }
-    });
+    afterEach(() => cleanTestPage('gameface-accordion-menu'));
 
     it('Should render', async () => {
         await loadAccordionMenu({});
