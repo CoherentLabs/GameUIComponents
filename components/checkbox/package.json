@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-checkbox",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A checkbox component for Coherent Labs' Gameface.",
   "main": "script.js",
   "scripts": {

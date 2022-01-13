@@ -71,11 +71,22 @@ const template = `<gameface-dropdown class="gameface-dropdown-component">
 <dropdown-option slot="option" disabled="disabled">Disabled Parrot</dropdown-option>
 </gameface-dropdown>`;
 
+const templateDisabled = `<gameface-dropdown disabled class="gameface-dropdown-component">
+<dropdown-option slot="option">Cat</dropdown-option>
+</gameface-dropdown>`;
 
-function setupDropdownTestPage() {
+
+const templatePreselectedOptions = `<gameface-dropdown class="gameface-dropdown-component">
+<dropdown-option slot="option">Cat</dropdown-option>
+<dropdown-option slot="option" selected>Dog</dropdown-option>
+<dropdown-option slot="option" selected>Parrot</dropdown-option>
+<dropdown-option slot="option" selected>Last Parrot</dropdown-option>
+</gameface-dropdown>`;
+
+function setupDropdownTestPage(templateString) {
     const el = document.createElement('div');
     el.className = 'dropdown-test-wrapper';
-    el.innerHTML = template;
+    el.innerHTML = templateString;
 
     cleanTestPage('.dropdown-test-wrapper');
 
@@ -109,11 +120,15 @@ function dispatchKeyboardEvent(keyCode, element) {
 
 
 describe('Dropdown Tests', () => {
-    afterAll(() => cleanTestPage('.dropdown-test-wrapper'));
+    afterAll(() => {
+        // Reset .options to avoid mixing the options re-added by the caching feature which messes up the tests.
+        document.querySelector('.dropdown-test-wrapper').querySelector('.options').innerHTML = '';
+        cleanTestPage('.dropdown-test-wrapper');
+    });
 
     describe('Dropdown Component', () => {
         beforeEach(function (done) {
-            setupDropdownTestPage().then(done).catch(err => console.error(err));
+            setupDropdownTestPage(template).then(done).catch(err => console.error(err));
         });
 
         it('Should be rendered', () => {
@@ -338,14 +353,52 @@ describe('Dropdown Tests', () => {
             const expectedSelectedCount = 1;
             const selectedOptionsCount = dropdown.selectedOptions.length;
             const selectedListCount = dropdown.selectedList.length;
-            console.log(selectedOptionsCount);
-            console.log(selectedListCount);
 
             return createAsyncSpec(() => {
                 assert.equal(selectedOptionsCount, expectedSelectedCount,
                       `Expected selected options length to be ${expectedSelectedCount}, got ${selectedOptionsCount}.`);
                 assert.equal(selectedListCount, expectedSelectedCount,
                   `Expected selected options length to be ${expectedSelectedCount}, got ${selectedListCount}.`);
+            });
+        });
+    });
+
+    describe('Dropdown Component (Disabled)', () => {
+        beforeEach(function (done) {
+            setupDropdownTestPage(templateDisabled).then(done).catch(err => console.error(err));
+        });
+
+        it('Should be disabled and not clickable.', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const selectedElPlaceholder = dropdown.querySelector('.selected');
+
+            click(selectedElPlaceholder);
+
+            return createAsyncSpec(() => {
+                assert.isNotTrue(dropdown.isOpened,
+                  `Dropdown should not have opened.`);
+            });
+        });
+    });
+
+    describe('Dropdown Component (Pre-selected Options)', () => {
+        beforeEach(function (done) {
+            setupDropdownTestPage(templatePreselectedOptions).then(done).catch(err => console.error(err));
+        });
+
+        it('Last option should be (pre)selected.', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const selectedOptions = dropdown.selectedOptions;
+            const allPreselectedOptions = dropdown.querySelectorAll('[selected]');
+            const lastSelectedValue = allPreselectedOptions[allPreselectedOptions.length - 1].textContent;
+
+            await createAsyncSpec(() => {
+                assert.equal(selectedOptions.length, 1, 'There should not be multiple (pre)selected options.');
+            });
+
+            return createAsyncSpec(() => {
+                assert.equal(selectedOptions[0].textContent, lastSelectedValue,
+                  `The last option value has not been selected.`);
             });
         });
     });

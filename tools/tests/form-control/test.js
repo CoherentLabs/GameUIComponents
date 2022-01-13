@@ -277,9 +277,9 @@ const formsTemplates = {
 					<div class="form-element">
 						<span class="label">Multiple select</span>
 						<!-- The second option has no value so "Two" is expected. -->
-						<gameface-dropdown name="option5" class="gameface-dropdown-component" id="dropdown-default" multiple
+						<gameface-dropdown name="option5" class="gameface-dropdown-component" id="dropdown-multiple" multiple
 							collapsable>
-							<dropdown-option value="1" slot="option" selected>One</dropdown-option>
+							<dropdown-option value="1" slot="option">One</dropdown-option>
 							<dropdown-option slot="option" selected>Two</dropdown-option>
 							<dropdown-option value="3" slot="option" disabled selected>Three</dropdown-option>
 						</gameface-dropdown>
@@ -337,9 +337,10 @@ const forms = [
 	{
 		testName: formsTestNames.DROPDOWN_FORM,
 		id: formsIds.DROPDOWN_FORM,
-		submitData: '{"option1":"1","option2":"One","option4":"One","option5":"1"}',
-		submitDataInteraction: '{"option1":"2","option2":"Two","option4":"One","option5":["1","Two"]}',
-		template: formsTemplates.DROPDOWN,
+		submitData: '{"option1":"1","option2":"Two","option4":"Two","option5":["1","Two","3"]}',
+		// Expected options will change when the caching feature is reworked or removed.
+		submitDataInteraction: '{"option1":"2","option2":"Two","option4":"Two","option5":["1","3","Two","3"]}',
+		template:formsTemplates.DROPDOWN,
 	},
 ];
 

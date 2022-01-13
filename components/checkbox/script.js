@@ -35,9 +35,11 @@ class Checkbox extends CustomElementValidator {
         if (value) {
             this.firstChild.classList.add('checkbox-disabled');
             this.setAttribute('disabled', '');
+            this.setAttribute('tabindex', '-1');
         } else {
             this.firstChild.classList.remove('checkbox-disabled');
             this.removeAttribute('disabled');
+            this.setAttribute('tabindex', '0');
         }
     }
 
@@ -56,7 +58,7 @@ class Checkbox extends CustomElementValidator {
                 this.template = result.template;
                 components.renderOnce(this);
                 this.addEventListener('click', this.toggleChecked);
-                if (this.disabled) this.firstChild.classList.add('checkbox-disabled');
+                this.disabled = (this.disabled) ? true : false;
             })
             .catch(err => console.error(err));
     }

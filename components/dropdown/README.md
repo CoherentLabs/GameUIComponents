@@ -104,11 +104,14 @@ supports multiple selected elements - add the `collapsable` attribute along with
 </gameface-dropdown>
 ~~~~
 
-### Limitations
+### Features and Limitations
 
 This is not a standard HTML select multiple. It is a custom HTML element that enables you to define a list of options.
-The `multiple` attribute makes it possible to select more than one option using the **Control** key and the mouse.
-All options can be selected with **Ctrl + A** combination.
+
+- The `multiple` attribute makes it possible to select more than one option using the **Ctrl** key and the mouse.
+	- All options can be selected with **Ctrl + A** combination.
+- Set the `disabled` attribute to gameface-dropdown or a dropdown-option to disable it.
+- Set the `selected` attribute to any dropdown-option to pre-select it.
 
 These are some of the differences to the standard select that are partially or not yet supported:
 

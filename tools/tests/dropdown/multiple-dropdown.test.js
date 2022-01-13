@@ -18,6 +18,12 @@ const multipleDropdownCollapsableTemplate = `<gameface-dropdown multiple collaps
 <dropdown-option slot="option">Parrot</dropdown-option>
 </gameface-dropdown>`;
 
+const multipleDropdownPreselectedOptionsTemplate = `<gameface-dropdown multiple class="gameface-dropdown-component">
+<dropdown-option slot="option">Cat</dropdown-option>
+<dropdown-option slot="option">Parrot</dropdown-option>
+<dropdown-option slot="option" selected>Parrot1</dropdown-option>
+<dropdown-option slot="option" selected>Parrot</dropdown-option>
+</gameface-dropdown>`;
 
 function setupMultipleDropdownTestPage(template) {
     const el = document.createElement('div');
@@ -35,7 +41,11 @@ function setupMultipleDropdownTestPage(template) {
 
 
 describe('Multiple Dropdown Test', () => {
-    afterAll(() => cleanTestPage('.multiple-dropdown-test-wrapper'));
+    afterAll(() => {
+        // Reset .options to avoid mixing the options re-added by the caching feature which messes up the tests.
+        document.querySelector('.multiple-dropdown-test-wrapper').querySelector('.options').innerHTML = '';
+        cleanTestPage('.multiple-dropdown-test-wrapper');
+    });
 
     function dispatchKeyboardEvent(element, optionsObject) {
         element.dispatchEvent(new KeyboardEvent('keydown', optionsObject));
@@ -215,6 +225,21 @@ describe('Multiple Dropdown Test', () => {
             click(document.body);
             assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true,
                 `Options container is not hidden.`);
+        });
+    });
+
+    describe('Multiple Dropdown Component (Pre-selected Options)', () => {
+        beforeEach(function (done) {
+            setupMultipleDropdownTestPage(multipleDropdownPreselectedOptionsTemplate).then(done).catch(err => console.error(err));
+        });
+
+        it('Three options should be (pre)selected.', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const selectedOptions = dropdown.selectedOptions;
+
+            await createAsyncSpec(() => {
+                assert.equal(selectedOptions.length, 3, 'The (pre)selected options are not 3.');
+            });
         });
     });
 });
