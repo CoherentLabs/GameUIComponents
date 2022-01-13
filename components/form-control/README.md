@@ -100,7 +100,7 @@ function preventSubmit(event) {
 
 | Event     | Usage                                                                                            |
 | --------- | ------------------------------------------------------------------------------------------------ |
-| `loadend` | Will be triggered when the form request has been completed, whether with success or not.         |
+| `loadend` | Will be triggered when the form request has completed, whether with success or not.              |
 | `submit`  | Will be triggered when the form is submitted and right before the request is made to the server. |
 
 ### Examples
@@ -164,6 +164,27 @@ Clicking on the input with type `submit` will make a `GET` request to `http://lo
 
 * The data from `<input type="submit"/>` will be included in the request if this input is clicked.
 * The **name** attribute is required if you want your input to be included in the form data on submitting!
+
+## Select
+
+Native `<select>` element is not supported by Gameface. However, there is a polyfill that transforms `<select>` into a working dropdown inside the Gameface. That dropdown element - `<custom-select>` is supported by the form control component.
+
+The polyfill could be found inside the Gameface package - `Samples/uiresources/Dropdown`.
+
+### Example
+
+```html
+<gameface-form-control method="GET" action="http://localhost:12345/">
+    <span>Select city</span>
+    <select name="city">
+        <option id="Chongqing" name="Chongqing" value="Chongqing">Chongqing</option>
+        <option id="Shanghai" name="Shanghai" value="Shanghai">Shanghai</option>
+        <option id="Beijing" name="Beijing" value="Beijing">Beijing</option>
+        <option id="Lagos" name="Lagos" value="Lagos">Lagos</option>
+    </select>
+</gameface-form-control>
+<script src="Samples/uiresources/Dropdown/custom-select.js">
+```
 
 ## Textarea
 
@@ -363,7 +384,6 @@ It supports validation. For example, if you create a text field with the type:
     <button class="form-element" id="submit" type="submit">Login</button>
 </gameface-form-control>
 ```
-
 # Validation
 
 The form control supports validation. These are the attributes that you can use:
