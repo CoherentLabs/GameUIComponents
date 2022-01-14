@@ -48,17 +48,6 @@ function createAsyncSpec(callback = () => {}, frames = DEFAULT_FRAMES_TO_WAIT) {
     });
 }
 
-/**
- * Async function for waiting a certain amount of milliseconds. Default 50ms.
- * @param {number} responseTimeout
- * @returns {Promise}
- */
-async function waitServerResponse(responseTimeout = 50) {
-	return new Promise((resolve) => {
-		setTimeout(resolve, responseTimeout);
-	})
-}
-
 function cleanTestPage(selector) {
     // Since we don't want to replace the whole content of the body using
     // innerHtml setter, we query only the current custom element and we replace
