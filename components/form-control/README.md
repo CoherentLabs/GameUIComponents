@@ -167,9 +167,9 @@ Clicking on the input with type `submit` will make a `GET` request to `http://lo
 
 ## Select
 
-Native `<select>` element is not supported by Gameface. However, there is a polyfill that transforms `<select>` into a working dropdown inside the Gameface. That dropdown element - `<custom-select>` is supported by the form control component.
+Native `<select>` element is not supported by Gameface. However, there is a polyfill that transforms `<select>` into a working dropdown in the Gameface. That dropdown element - `<custom-select>` is supported by the form control component.
 
-The polyfill could be found inside the Gameface package - `Samples/uiresources/Dropdown`.
+The polyfill is located inside the Gameface package - `Samples/uiresources/Dropdown`.
 
 ### Example
 
