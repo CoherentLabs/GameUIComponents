@@ -75,6 +75,9 @@ class Tooltip extends HTMLElement {
             left: elementSize.left + (elementSize.width / 2) - tooltipSize.width / 2
         }
 
+        const scrollOffsetX = window.scrollX;
+        const scrollOffsetY = window.scrollY;
+
         switch (this.position) {
             case 'top':
                 position.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
@@ -95,10 +98,41 @@ class Tooltip extends HTMLElement {
                 break;
         }
 
-        this.style.top = position.top + 'px';
-        this.style.left = position.left + 'px';
+        this.style.top = scrollOffsetY + position.top + 'px';
+        this.style.left = scrollOffsetX + position.left + 'px';
         this.style.visibility = 'visible';
         this.visible = true;
+    }
+
+    overflows() {
+        var rect = this.getBoundingClientRect();
+
+        const overflows = {};
+
+        if (rect.top < 0) overflows.top = true;
+        if (rect.left < 0)  overflows.left = true;
+        if (rect.right > (window.innerWidth || document.documentElement.clientWidth)) overflows.right = true;
+        if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) overflows.bottom = true;
+
+        return overflows;
+    }
+
+    getPosition() {
+        const opposingSites = {
+            top: 'bottom',
+            bottom: 'top',
+            left: 'right',
+            right: 'left'
+
+        }
+        const overflows = this.overflows();
+        const overflowingSides = object.keys(overflows);
+
+        let position;
+
+        if (overflowingSides.length === 1) position = opposingSites[overflowingSides[0]];
+
+        return position;
     }
 }
 
