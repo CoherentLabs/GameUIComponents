@@ -39,11 +39,47 @@ const VALID_FORM_CONTROL_CUSTOM_ELEMENT_TAGS = new Set([
 const NativeElementValidator = components.NativeElementValidator;
 const CustomElementValidator = components.CustomElementValidator;
 
+/**
+* @callback ValidationMethod
+* @param {HTMLElement} [element]
+* @return {boolean}
+*/
+
+/**
+ * @callback ErrorMessageMethod
+ * @param {HTMLElement} [element]
+ * @return {string}
+ */
+
+/**
+ * @typedef {Object} Validator
+ * @property {ValidationMethod} [method]
+ * @property {ErrorMessageMethod} [errorMessage]
+ */
+
+/**
+ * @typedef {Object<string,Validator>} Validators
+ */
+
 class GamefaceFormControl extends HTMLElement {
     constructor() {
         super();
+        /**
+         * @type {XMLHttpRequest}
+         */
         this.xhr = new XMLHttpRequest();
+        /**
+         * @type {HTMLElement}
+         */
         this.currentSubmitButton = null;
+        /**
+         * @type {Object<string,Validators>}
+         */
+        this.customValidators = {};
+        /**
+         * @type {Object<string,HTMLElement>}
+         */
+        this.errorDisplayElements = {};
     }
 
     get method() {
@@ -63,6 +99,113 @@ class GamefaceFormControl extends HTMLElement {
         }, [elements]);
 
         return elements;
+    }
+
+    /**
+     * Checks if an some function argument is valid. It will check if there is an argument value passed and if the argument type
+     * is the same as the expected passed with argType
+     * @param {string} argName - The name of the argument
+     * @param {string} argValue - The value of the argument
+     * @param {string} [argType] - The expected type of the argument
+     * @returns {boolean}
+     */
+    isArgumentValid(argName, argValue, argType = '') {
+        if (!argValue) {
+            console.warn(`The value of "${argName}" is "${argValue}". You must pass a valid "${argName}" that is of type "${argType}"`);
+            return false;
+        }
+
+        //if there is not argType passed we will skip the type check
+        if (argType && typeof argValue !== argType) {
+            console.warn(`The type of "${argName}" argument is not valid. Please make sure it is of type "${argType}".`);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Will add an element where the errors about the form element with the passed name will be displayed
+     * @param {string} name - The name attribute value of a form element
+     * @param {string} selector - The selector of the element where the errors will be displayed
+     */
+    setCustomDisplayErrorElement(name, selector) {
+        if (!this.isArgumentValid('name', name, 'string') ||
+            !this.isArgumentValid('selector', selector, 'string')) return;
+
+        const element = document.querySelector(selector);
+        if (!element) {
+            console.log(`Unable to find element with "${selector}" selector! Please pass a valid element selector!`);
+            return;
+        }
+
+        this.errorDisplayElements[name] = element;
+    }
+
+    /**
+     * Method for removing element where the errors related to the form element with the passed name should be displayed
+     * @param {string} name - The name attribute value of a form element
+     */
+    removeCustomDisplayErrorElement(name) {
+        if (!this.isArgumentValid('name', name, 'string')) return;
+
+        delete this.errorDisplayElements[name];
+    }
+
+    /**
+     * Method for removing elements where the errors related to the form elements with the passed names should be displayed
+     * @param {Array<string>} names - Array with names related to the form elements
+     */
+    removeCustomDisplayErrorElements(names) {
+        if (!this.isArgumentValid('names', names) || !(names instanceof Array)) return;
+
+        for (const name of names) {
+            if (typeof name !== 'string') {
+                console.warn(`Found a "${name}" insthe array with "names" that is not a string. Will ignore it!`)
+                continue;
+            }
+
+            delete this.errorDisplayElements[name];
+        }
+    }
+
+    /**
+     * Will set user defined custom validators about form element with the passed name
+     * @param {string} name - The name attribute value of a form element 
+     * @param {Validators} validators - Custom validators configuration
+     */
+    setCustomValidators(name, validators) {
+        if (!this.isArgumentValid('name', name, 'string') ||
+            !this.isArgumentValid('validators', validators, 'object')) return;
+
+        this.customValidators[name] = validators;
+    }
+
+    /**
+     * Method for removing custom validator
+     * @param {string} name - The name attribute value of a form element
+     */
+    removeCustomValidator(name) {
+        if (!this.isArgumentValid('name', name, 'string')) return;
+
+        delete this.customValidators[name];
+    }
+
+    /**
+     * Method for removing multiple custom validators
+     * @param {string} name - The name attribute value of a form element
+     */
+    removeCustomValidators(names) {
+        if (!this.isArgumentValid('names', names) || !(names instanceof Array)) return;
+
+        for (const name of names) {
+            if (typeof name !== 'string') {
+                console.warn(`Found a "${name}" insthe array with "names" that is not a string. Will ignore it!`)
+                continue;
+            }
+
+            delete this.customValidators[name];
+        }
     }
 
     /**
@@ -116,11 +259,39 @@ class GamefaceFormControl extends HTMLElement {
     }
 
     /**
+     * Will construct an object that has the same structure as the one on the hasErrors method
+     * including the custom validators
+     * @param {string} name - The name attribute value of a form element
+     * @param {HTMLElement|NativeElementValidator} element - The form element that will be passed as an argument to the custom validator method.
+     * @returns {Object<string,boolean>}
+     */
+    async getCustomErrorTypes(name, element) {
+        const customElementValidators = this.customValidators[name];
+        if (!customElementValidators || typeof customElementValidators !== 'object') return {};
+
+        const customErrorTypes = {};
+        for (const type in customElementValidators) {
+            if (!this.hasValidMethodProperty(customElementValidators[type])) continue;
+
+            if (element instanceof NativeElementValidator) {
+                customErrorTypes[type] = await customElementValidators[type].method(element.element);
+            } else {
+                customErrorTypes[type] = await customElementValidators[type].method(element);
+            }
+        }
+
+        return customErrorTypes;
+    }
+
+    /**
      * Checks if an element has validation errors and returns the error types.
      * @param {HTMLElement} element
+     * @param {string} name
      * @returns {object}
     */
-    hasErrors(element) {
+    async hasErrors(element, name) {
+        const customErrorTypes = await this.getCustomErrorTypes(name, element);
+
         const errorTypes = {
             notAForm: !element.isFormElement(),
             tooLong: element.tooLong(),
@@ -131,11 +302,12 @@ class GamefaceFormControl extends HTMLElement {
             nameMissing: element.nameMissing(),
             badURL: element.isBadURL(),
             badEmail: element.isBadEmail(),
-            customError: element.customError()
+            customError: element.customError(),
+            ...customErrorTypes
         };
 
         const errors = Object.keys(errorTypes).filter((name) => {
-            if(errorTypes[name]) return name;
+            if (errorTypes[name]) return name;
         });
 
         return { hasError: !!errors.length, errors: errors };
@@ -162,15 +334,28 @@ class GamefaceFormControl extends HTMLElement {
     }
 
     /**
+     * Method for hiding the error tooltip
+     */
+    hideTooltip() {
+        if (this.tooltip && this.tooltip.parentElement) {
+            this.tooltip.parentElement.removeChild(this.tooltip);
+        }
+    }
+
+    /**
      * Creates a <gameface-tooltip> element, sets its message and shows it on top
      * of given element.
      *
-     * @param {string} message
+     * @param {string} errorMessage
      * @param {HTMLElement} element
+     * @param {HTMLElement} errorDisplayElement
     */
-    showError(error, element) {
-        if (this.tooltip && this.tooltip.parentElement) {
-            this.tooltip.parentElement.removeChild(this.tooltip);
+    showError(errorMessage, element, errorDisplayElement) {
+        if (!errorMessage) return;
+
+        if (errorDisplayElement) {
+            errorDisplayElement.textContent = errorMessage;
+            return;
         }
 
         this.tooltip = document.createElement('gameface-tooltip');
@@ -178,7 +363,7 @@ class GamefaceFormControl extends HTMLElement {
         this.tooltip.setAttribute('off', 'click');
         const tooltipContent = document.createElement('div');
         tooltipContent.setAttribute('slot', 'message');
-        tooltipContent.textContent = error;
+        tooltipContent.textContent = errorMessage;
         this.tooltip.appendChild(tooltipContent);
 
         document.body.appendChild(this.tooltip);
@@ -193,7 +378,7 @@ class GamefaceFormControl extends HTMLElement {
      * @param {HTMLElement} element
      * @returns {boolean}
      */
-     isValidFormElement(element) {
+    isValidFormElement(element) {
         const tagName = element.tagName.toLowerCase();
 
         return VALID_FORM_CONTROL_ELEMENT_TAGS.has(tagName) || VALID_FORM_CONTROL_CUSTOM_ELEMENT_TAGS.has(tagName);
@@ -239,10 +424,107 @@ class GamefaceFormControl extends HTMLElement {
     }
 
     /**
+     * Checks the validator method
+     * @param {Validator} validator
+     * @returns {boolean}
+     */
+    hasValidMethodProperty(validator) {
+        return validator !== undefined && validator.method && typeof validator.method === 'function';
+    }
+
+    /**
+     * Checks the validator error message
+     * @param {Validator} validator
+     * @returns {boolean}
+     */
+    hasValidMessageProperty(validator) {
+        return validator !== undefined && validator.errorMessage && typeof validator.errorMessage === 'function';
+    }
+
+    /**
+     * Will return the validator object by the error type
+     * @param {Validators} elementCustomValidators 
+     * @param {string} errorType
+     * @returns {Validator}
+     */
+    getCustomValidatorObject(elementCustomValidators, errorType) {
+        if (!elementCustomValidators ||
+            !elementCustomValidators[errorType] ||
+            typeof elementCustomValidators[errorType] !== 'object') return;
+
+        return elementCustomValidators[errorType];
+    }
+
+    /**
+     * Will get the error message related to the validator
+     * @param {string} errorType
+     * @param {HTMLElement|NativeElementValidator} element
+     * @param {Validators} customValidators 
+     * @returns {string}
+     */
+    getErrorMessage(errorType, element, customValidators) {
+        const customValidator = this.getCustomValidatorObject(customValidators, errorType);
+        const getErrorMessageCallback = this.hasValidMessageProperty(customValidator) ?
+            customValidator.errorMessage :
+            errorMessages.get(errorType);
+
+        if (typeof getErrorMessageCallback !== 'function') return '';
+
+        if (element instanceof NativeElementValidator) {
+            return getErrorMessageCallback(element.element);
+        }
+
+        return getErrorMessageCallback(element);
+    }
+
+    /**
+     * Will hide the tooltip and reset the elements set for displaying errors
+     */
+    resetErrors() {
+        this.hideTooltip();
+
+        for (const name in this.errorDisplayElements) {
+            const element = this.errorDisplayElements[name];
+            if (!element) continue;
+
+            element.textContent = '';
+        }
+    }
+
+    /**
+     * Will check if all the elements are valid
+     * @param {Array[HTMLElement]} formElements - All the elements of the form component
+     * @returns {boolean}
+     */
+    async isFormValid(formElements) {
+        for (const element of formElements) {
+            if (!this.toCustomElement(element).willSerialize()) continue;
+
+            const name = element.name || element.getAttribute('name');
+            const validation = await this.hasErrors(this.toCustomElement(element), name);
+            if (!validation.hasError) continue;
+
+            let errorMessage = '';
+            const customElementValidators = this.customValidators[name];
+
+            for (let errorType of validation.errors) {
+                errorMessage += this.getErrorMessage(errorType, element, customElementValidators);
+            }
+
+            this.showError(errorMessage, element, this.errorDisplayElements[name]);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Will handle submit of the form control
      * @param {MouseEvent} event
      */
-    submit(event) {
+    async submit(event) {
+        this.resetErrors();
+
         //Dispatch submit event to the form as it is by standard
         const submitEvent = new Event('submit', { cancelable: true });
         if (!this.dispatchEvent(submitEvent)) return;
@@ -252,30 +534,17 @@ class GamefaceFormControl extends HTMLElement {
         }
 
         const formElementsCache = this.formElements;
-        for (const element of formElementsCache) {
-            if (!this.toCustomElement(element).willSerialize()) continue;
-            const validation = this.hasErrors(this.toCustomElement(element));
-            if (!validation.hasError) continue;
 
-            let errorMessage = '';
-            for (let errorType of validation.errors) {
-                errorMessage += errorMessages.get(errorType)(element);
-            }
-            this.showError(errorMessage, element);
-            return;
-        }
+        if (!await this.isFormValid(formElementsCache)) return;
 
         this.currentSubmitButton = event.currentTarget;
         switch (this.method.toLowerCase()) {
             case formMethods.GET.toLowerCase():
-                this.makeRequest(formMethods.GET, null, `${this.action}?${this.getFormSerializedData(formElementsCache)}`)
-                break;
+                return this.makeRequest(formMethods.GET, null, `${this.action}?${this.getFormSerializedData(formElementsCache)}`)
             case formMethods.POST.toLowerCase():
-                this.makeRequest(formMethods.POST, this.getFormSerializedData(formElementsCache), this.action)
-                break;
+                return this.makeRequest(formMethods.POST, this.getFormSerializedData(formElementsCache), this.action)
             default:
                 console.warn('Unable to submit form. The form method is not "GET" or "POST"!');
-                break;
         }
     }
 

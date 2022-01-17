@@ -19,6 +19,12 @@ app.get('/user', (req, res) => {
     res.send(req.query);
 })
 
+app.get('/user-exists', (req, res) => {
+    const username = req.query.username;
+    const allUsers = ['username1', 'username2', 'username3'];
+    res.json(allUsers.indexOf(username) !== -1);
+})
+
 const server = app.listen(port, () => {
     console.log(`Forms server spawned and listening at http://localhost:${port}`)
 })
