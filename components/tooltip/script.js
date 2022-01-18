@@ -13,6 +13,8 @@ class Tooltip extends HTMLElement {
         this.template = template;
         this.visible = false;
         this._targetElement;
+
+        this.fixedSides = [];
     }
 
     set targetElement(element) {
@@ -61,12 +63,24 @@ class Tooltip extends HTMLElement {
     hide () {
         this.style.display = 'none';
         this.visible = false;
+        // reset the current positioning as the page might get
+        // resized untill the next time the tooltip is displayed
+        this.fixedSides = [];
+        this.position = this.getAttribute('position') || 'top';
     }
 
     show() {
         // use visibility before showing to calculate the size
         this.style.visibility = 'hidden';
         this.style.display = '';
+
+        this.setPosition();
+
+        this.style.visibility = 'visible';
+        this.visible = true;
+    }
+
+    setPosition(orientation = this.position) {
         const elementSize = this.triggerElement.getBoundingClientRect();
         const tooltipSize = this.getBoundingClientRect();
 
@@ -78,7 +92,7 @@ class Tooltip extends HTMLElement {
         const scrollOffsetX = window.scrollX;
         const scrollOffsetY = window.scrollY;
 
-        switch (this.position) {
+        switch (orientation) {
             case 'top':
                 position.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
                 break;
@@ -93,20 +107,23 @@ class Tooltip extends HTMLElement {
                 break;
             default:
                 position.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
-                console.log(`The provided option for position ${this.position} is not valid - using top as a fallback. Possible options are top, bottom, left and right.`);
-                this.position = 'top';
+                console.log(`The provided option for position ${orientation} is not valid - using top as a fallback. Possible options are top, bottom, left and right.`);
+                orientation = 'top';
                 break;
         }
 
         this.style.top = scrollOffsetY + position.top + 'px';
         this.style.left = scrollOffsetX + position.left + 'px';
-        this.style.visibility = 'visible';
-        this.visible = true;
+
+        // check if the tooltip still overflows and re-position it again
+        const overflows  = this.overflows();
+        if(Object.keys(overflows).length && this.fixedSides.length !== 4) {
+            this.setPosition(this.getVisiblePosition(overflows));
+        }
     }
 
     overflows() {
         var rect = this.getBoundingClientRect();
-
         const overflows = {};
 
         if (rect.top < 0) overflows.top = true;
@@ -117,22 +134,20 @@ class Tooltip extends HTMLElement {
         return overflows;
     }
 
-    getPosition() {
-        const opposingSites = {
-            top: 'bottom',
-            bottom: 'top',
-            left: 'right',
-            right: 'left'
+    getVisiblePosition(overflows) {
+        const allSides = ['top', 'bottom', 'left', 'right'];
 
-        }
-        const overflows = this.overflows();
-        const overflowingSides = object.keys(overflows);
+        overflows = overflows || this.overflows();
+        let overflowingSides = Object.keys(overflows);
 
-        let position;
+        overflowingSides = overflowingSides.filter(side => this.fixedSides.indexOf(side) == -1);
 
-        if (overflowingSides.length === 1) position = opposingSites[overflowingSides[0]];
+        let nextIndex = allSides.indexOf(this.position) + 1;
+        nextIndex = [(nextIndex + allSides.length) % allSides.length];
+        this.position = allSides[nextIndex];
+        this.fixedSides.push(this.position);
 
-        return position;
+        return this.position;
     }
 }
 
