@@ -112,6 +112,8 @@ class Tooltip extends HTMLElement {
                 break;
         }
 
+        this.position = orientation;
+
         this.style.top = scrollOffsetY + position.top + 'px';
         this.style.left = scrollOffsetX + position.left + 'px';
 

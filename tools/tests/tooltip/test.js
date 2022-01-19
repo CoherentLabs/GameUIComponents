@@ -10,7 +10,13 @@ const tooltipTemplate = `
 <gameface-tooltip id="default-to-top" target=".target" on="click" position="notexistingposition" off="click">
 <div slot="message">Should be on top</div>
 </gameface-tooltip>
-<div class="target" style="background-color: #6e6d6d;position: absolute; top: 500px; left: 500px;width:100px;height:50px;">Hover over me</div>`;
+
+<gameface-tooltip id="smart-position" target=".smart-position-target" on="click" position="top" off="click">
+<div slot="message">Should be on top</div>
+</gameface-tooltip>
+<div class="target" style="background-color: #6e6d6d;position: absolute; top: 500px; left: 500px;width:100px;height:50px;">Hover over me</div>;
+<div class="smart-position-target" style="background-color: #6e6d6d;position: absolute; top: 20px; left: 30px;width:100px;height:50px;">click me</div>`;
+
 
 
 function setupTooltipTestPage() {
@@ -74,6 +80,16 @@ describe('Tooltip component', () => {
         return createAsyncSpec(() => {
             const tooltip = document.querySelector('#default-to-top');
             assert(tooltip.position === 'top', 'Tooltip was no displayed on top.');
+        }, 5);
+    });
+
+    it('Should not be displayed on top as there is not enought space for the tooltip to be visible', async () => {
+        const target = document.querySelector('.smart-position-target');
+        click(target);
+
+        return createAsyncSpec(() => {
+            const tooltip = document.querySelector('#smart-position');
+            assert(tooltip.position !== 'top', 'Tooltip was displayed on top.');
         }, 5);
     });
 });
