@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { VALIDATION_TEMPLATE, CUSTOM_FORM_VALIDATION_TEMPLATE } from '../utils/templates'
-import { ERROR_MESSAGES } from "../utils/constants";
+import { ERROR_MESSAGES, SERVER_TIMEOUT } from "../utils/constants";
 import { submitForm } from '../utils/actions';
 
 function getTextContent(element) {
@@ -37,10 +37,15 @@ async function badValueTest(elSelector, errorType, value) {
     });
 }
 
-async function badValueTestCustomValidation(elSelector, errorMessage, value, errorDisplayElement, waitServerResponse = false) {
+async function badValueTestCustomValidation(elSelector, errorMessage, value, errorDisplayElement) {
     setValue(elSelector, value);
     const formElement = document.querySelector('gameface-form-control');
-    await submitForm(formElement, waitServerResponse);
+    await submitForm(formElement, false);
+
+    //Used to test server side validation of the username
+    if (waitServerResponse) {
+        await new Promise((resolve) => setTimeout(resolve, SERVER_TIMEOUT));
+    }
 
     return createAsyncSpec(() => {
         let received = null;
@@ -239,8 +244,7 @@ describe('Form custom validation', () => {
             '#username',
             '"username1" already used! Please use another one!',
             'username1',
-            '#username-error',
-            true
+            '#username-error'
         );
     });
 
@@ -249,8 +253,7 @@ describe('Form custom validation', () => {
             '#username',
             '"username2" already used! Please use another one!',
             'username2',
-            '#username-error',
-            true
+            '#username-error'
         );
     });
 
@@ -275,9 +278,8 @@ describe('Form custom validation', () => {
     it('Should set invalid email and receive no display error. The submit should be prevented.', async () => {
         setValue('#email', 'invalid');
         assert(document.getElementById('email').value === 'invalid', 'The value of the email is not "invalid"');
-        click(document.querySelector('#submit'));
-
-        await waitServerResponse();
+        const formElement = document.querySelector('gameface-form-control');
+        await submitForm(formElement, false);
         await checkResponse('');
     });
 
@@ -287,9 +289,8 @@ describe('Form custom validation', () => {
     });
 
     it('Should submit the form and have valid response', async () => {
-        click(document.querySelector('#submit'));
-
-        await waitServerResponse();
+        const formElement = document.querySelector('gameface-form-control');
+        await submitForm(formElement, false);
         await checkResponse('{"username":"username","url":"https://site.com","email":"email@domain.com"}');
     });
 });

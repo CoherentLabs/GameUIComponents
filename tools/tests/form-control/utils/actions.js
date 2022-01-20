@@ -22,7 +22,7 @@ export async function submitForm(formElement, shouldWaitForServerResponse = true
         xhr.onabort = () => reject('Submitting form failed because request has been aborted!');
 
         click(submitButton);
-        setTimeout(() => reject('Unkown error occured during submitting the form!'), SERVER_TIMEOUT * 2);
+        setTimeout(() => reject('Unknown error occured during submitting the form!'), SERVER_TIMEOUT * 2);
     })
 }
 
