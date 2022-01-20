@@ -73,30 +73,27 @@ const forms = [
 async function setupFormControlPage(form) {
 	const el = document.createElement('div');
 	el.className = 'test-wrapper';
-
 	el.innerHTML = form.template;
 
 	cleanTestPage('.test-wrapper');
-
 	document.body.appendChild(el);
 
-	document.getElementById(form.id).addEventListener('loadend', (event) => {
+	// the .items setter triggers a DOM change, so we wait a bit to make
+	// sure the DOM is ready.
+	await createAsyncSpec();
+
+	const formElement = document.getElementById(form.id);
+
+	formElement.addEventListener('loadend', (event) => {
 		document.getElementById(RESPONSE_CONTAINER_ID).textContent = event.detail.target.response;
 	})
 
 	if (form.shouldPreventSubmit) {
-		const formElement = document.getElementById(form.id);
 		formElement.addEventListener('submit', (event) => {
 			event.preventDefault();
 			document.getElementById(RESPONSE_CONTAINER_ID).textContent = 'Prevented default';
 		});
-		formElement.addEventListener('loadend', (event) => {
-			document.getElementById(RESPONSE_CONTAINER_ID).textContent = event.detail.target.response;
-		})
 	}
-	// the .items setter triggers a DOM change, so we wait a bit to make
-	// sure the DOM is ready.
-	await createAsyncSpec();
 }
 
 
