@@ -37,7 +37,7 @@ async function badValueTest(elSelector, errorType, value) {
     });
 }
 
-async function badValueTestCustomValidation(elSelector, errorMessage, value, errorDisplayElement) {
+async function badValueTestCustomValidation(elSelector, errorMessage, value, errorDisplayElement, waitServerResponse = false) {
     setValue(elSelector, value);
     const formElement = document.querySelector('gameface-form-control');
     await submitForm(formElement, false);
@@ -244,7 +244,8 @@ describe('Form custom validation', () => {
             '#username',
             '"username1" already used! Please use another one!',
             'username1',
-            '#username-error'
+            '#username-error',
+            true
         );
     });
 
@@ -253,7 +254,8 @@ describe('Form custom validation', () => {
             '#username',
             '"username2" already used! Please use another one!',
             'username2',
-            '#username-error'
+            '#username-error',
+            true
         );
     });
 
