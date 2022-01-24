@@ -23,10 +23,12 @@ const tags = {
     GAMEFACE_RANGESLIDER: 'gameface-rangeslider',
     GAMEFACE_SWITCH: 'gameface-switch',
     TEXT_FIELD: 'gameface-text-field',
+    //polyfill elements
+    SELECT: 'custom-select',
 }
 
 const VALID_SUBMIT_ELEMENT_TAGS = new Set([tags.BUTTON, tags.INPUT]);
-const VALID_FORM_CONTROL_ELEMENT_TAGS = new Set([tags.BUTTON, tags.INPUT, tags.TEXTAREA]);
+const VALID_FORM_CONTROL_ELEMENT_TAGS = new Set([tags.BUTTON, tags.INPUT, tags.TEXTAREA, tags.SELECT]);
 const VALID_FORM_CONTROL_CUSTOM_ELEMENT_TAGS = new Set([
     tags.GAMEFACE_CHECKBOX,
     tags.GAMEFACE_DROPDOWN,
