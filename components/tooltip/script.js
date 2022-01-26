@@ -6,6 +6,7 @@
 import components from 'coherent-gameface-components';
 import template from './template.html';
 const TOOLTIP_MARGIN = 5;
+const TOOLTIP_POSITIONS = ['top', 'bottom', 'left', 'right'];
 
 class Tooltip extends HTMLElement {
     constructor() {
@@ -14,7 +15,7 @@ class Tooltip extends HTMLElement {
         this.visible = false;
         this._targetElement;
 
-        this.fixedSides = [];
+        this.uncheckedOrientations = TOOLTIP_POSITIONS;
     }
 
     set targetElement(element) {
@@ -23,6 +24,18 @@ class Tooltip extends HTMLElement {
 
     get targetElement() {
         return this._targetElement;
+    }
+
+    get overflows() {
+        var rect = this.getBoundingClientRect();
+        const overflows = {};
+
+        if (rect.top < 0) overflows.top = true;
+        if (rect.left < 0)  overflows.left = true;
+        if (rect.right > (window.innerWidth || document.documentElement.clientWidth)) overflows.right = true;
+        if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) overflows.bottom = true;
+
+        return overflows;
     }
 
     connectedCallback() {
@@ -65,91 +78,112 @@ class Tooltip extends HTMLElement {
         this.visible = false;
         // reset the current positioning as the page might get
         // resized untill the next time the tooltip is displayed
-        this.fixedSides = [];
+        this.uncheckedOrientations = TOOLTIP_POSITIONS;
         this.position = this.getAttribute('position') || 'top';
     }
 
-    show() {
+    async show() {
         // use visibility before showing to calculate the size
         this.style.visibility = 'hidden';
         this.style.display = '';
 
-        this.setPosition();
+        await this.setPosition(window.scrollX, window.scrollY);
 
         this.style.visibility = 'visible';
         this.visible = true;
+        this.classList.add('tooltip-show-animation');
     }
 
-    setPosition(orientation = this.position) {
-        const elementSize = this.triggerElement.getBoundingClientRect();
+    /**
+     * Calculates the new position of the tooltip based on the given orientation.
+     * @param {string} orientation - top, left, right or bottom.
+     * @param {object} elementSize - the bounding rect of the element that triggered the tooltip show.
+     * @returns {Array<string|object>} - the orientation as a string and the position as an object in an array so that we can
+     * easily deconstruct the value like this: let [orientation, position] = getPositionCoords(...).
+    */
+    getPositionCoords(orientation, elementSize) {
         const tooltipSize = this.getBoundingClientRect();
 
-        let position = {
+        let elementPosition = {
             top: (elementSize.top + elementSize.height / 2) - tooltipSize.height / 2,
             left: elementSize.left + (elementSize.width / 2) - tooltipSize.width / 2
         }
 
-        const scrollOffsetX = window.scrollX;
-        const scrollOffsetY = window.scrollY;
-
         switch (orientation) {
             case 'top':
-                position.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
+                elementPosition.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
                 break;
             case 'bottom':
-                position.top = elementSize.top + elementSize.height + TOOLTIP_MARGIN;
+                elementPosition.top = elementSize.top + elementSize.height + TOOLTIP_MARGIN;
                 break;
             case 'left':
-                position.left = elementSize.left - tooltipSize.width - TOOLTIP_MARGIN;
+                elementPosition.left = elementSize.left - tooltipSize.width - TOOLTIP_MARGIN;
                 break;
             case 'right':
-                position.left = elementSize.left + elementSize.width + TOOLTIP_MARGIN;
+                elementPosition.left = elementSize.left + elementSize.width + TOOLTIP_MARGIN;
                 break;
             default:
-                position.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
+                elementPosition.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
                 console.log(`The provided option for position ${orientation} is not valid - using top as a fallback. Possible options are top, bottom, left and right.`);
                 orientation = 'top';
                 break;
         }
 
-        this.position = orientation;
+        return [orientation, elementPosition];
+    }
 
-        this.style.top = scrollOffsetY + position.top + 'px';
-        this.style.left = scrollOffsetX + position.left + 'px';
+    /**
+     * Sets the new position of the tooltip. Waits 2 frames for the tooltip to be fully rendered
+     * and checks if the tooltip is visible on the new position. If it is not - calls setPosition
+     * recursively until a suitable position is found or we've ran out of possibilities.
+     * @param {number} scrollOffsetX - the offset of the scroll on the X axis.
+     * @param {number} scrollOffsetY - the offset of the scroll on the Y axis.
+     * @param {string} orientation - the current position of the tooltip - top, left, right or bottom.
+     * @returns {promise}
+    */
+    async setPosition(scrollOffsetX, scrollOffsetY, orientation = this.position) {
+        const elementSize = this.triggerElement.getBoundingClientRect();
 
-        // check if the tooltip still overflows and re-position it again
-        const overflows  = this.overflows();
-        if(Object.keys(overflows).length && this.fixedSides.length !== 4) {
-            this.setPosition(this.getVisiblePosition(overflows));
+        let [updatedOrientation, elementPosition] = this.getPositionCoords(orientation, elementSize);
+
+        this.position = updatedOrientation;
+        this.style.top = scrollOffsetY + elementPosition.top + 'px';
+        this.style.left = scrollOffsetX + elementPosition.left + 'px';
+
+        await this.waitForFrames(2);
+        let overflowingSides = Object.keys(this.overflows);
+        if (overflowingSides.length && this.uncheckedOrientations.length !== 0) {
+            return await this.setPosition(scrollOffsetX, scrollOffsetY, this.getVisiblePosition(overflowingSides));
         }
     }
 
-    overflows() {
-        var rect = this.getBoundingClientRect();
-        const overflows = {};
-
-        if (rect.top < 0) overflows.top = true;
-        if (rect.left < 0)  overflows.left = true;
-        if (rect.right > (window.innerWidth || document.documentElement.clientWidth)) overflows.right = true;
-        if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) overflows.bottom = true;
-
-        return overflows;
+    /**
+     * An asynchronous method that waits for given amount of frames before it resolves;
+     * useful in cases where we need to wait for styles to be computed.
+     * @param {number} count - the number of frames it should wait for before resolving.
+     * @returns {promise}
+     */
+    async waitForFrames(count) {
+        while(count--) {
+            await new Promise((resolve) => requestAnimationFrame(resolve));
+        }
     }
 
-    getVisiblePosition(overflows) {
-        const allSides = ['top', 'bottom', 'left', 'right'];
 
-        overflows = overflows || this.overflows();
-        let overflowingSides = Object.keys(overflows);
 
-        overflowingSides = overflowingSides.filter(side => this.fixedSides.indexOf(side) == -1);
-
-        let nextIndex = allSides.indexOf(this.position) + 1;
-        nextIndex = [(nextIndex + allSides.length) % allSides.length];
-        this.position = allSides[nextIndex];
-        this.fixedSides.push(this.position);
-
-        return this.position;
+    /**
+     * Gets the next value of a list of possible positions for the tooltip.
+     * The possible positions is the difference between the overflowing positions and the
+     * positions that haven't been tried yet.
+     * @param {Array<string>} overflowingSides - an array of the sides of which the tooltip is hidden.
+     * @returns {string} position - the new position.
+     */
+    getVisiblePosition(overflowingSides) {
+        this.uncheckedOrientations = this.uncheckedOrientations.filter(side => !overflowingSides.includes(side));
+        // the new position is the first element if the uncheckedOrientations array
+        // return the first element and remove it from the array because it is now
+        // part of the "checked" positions
+        return this.uncheckedOrientations.shift();
     }
 }
 
