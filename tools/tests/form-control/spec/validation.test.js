@@ -3,57 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-const errorMessages = new Map([
-    ['notAFormElement', 'This element is not part of a form.'],
-    ['tooLong', 'The value is too long. Maximum length is 5.'],
-    ['tooShort', 'The value is too short. Minimal length is 3.'],
-    ['rangeOverflow', 'The value is too big. Maximum is 30.'],
-    ['rangeUnderflow', 'The value is too small. Minimum is 10.'],
-    ['valueMissing', 'The value is required.'],
-    ['nameMissing', 'The elements does not have a name attribute and will not be submitted.'],
-]);
-
-const FORM_VALIDATION_TEMPLATE = `
-<div class="form-wrapper">
-    <gameface-form-control>
-        <div class="form-element">
-            <input id="role" name="role" value="some name" required />
-        </div>
-        <div class="form-element">
-            <input minlength="3" maxlength="5" name="username" value="Valid" type="text" id="username" />
-        </div>
-        <div class="form-element">
-            <input type="number" min="10" max="30" value="15" name="age" type="text" id="age" />
-        </div>
-        <div class="form-element">
-            <input type="text" value="missing name" id="no-name" />
-        </div>
-        <button class="form-element" id="submit" type="submit">Login</button>
-    </gameface-form-control>
-</div>
-`;
-
-const CUSTOM_FORM_VALIDATION_TEMPLATE = `
-<div class="form-wrapper">
-    <h2>Custom validation</h2>
-    <gameface-form-control id="custom-validation-form" action="http://localhost:12345/user" method="get">
-        <div class="form-element">
-            <span>Username (native input):</span>
-            <input id="username" name="username" type="text" minlength="5" maxlength="20"></input>
-            <span id="username-error"></span>
-        </div>
-        <div class="form-element">
-            <gameface-text-field id="url" name="url" label="Website:" type="url"></gameface-text-field>
-        </div>
-        <div class="form-element">
-            <gameface-text-field id="email" name="email" label="Email:" type="email"></gameface-text-field>
-        </div>
-        <button id="submit" class="form-element" type="submit">Register</button>
-    </gameface-form-control>
-    <h3>Response data:</h3>
-    <span class="response" id="form-response"></span>
-</div>
-`;
+import { VALIDATION_TEMPLATE, CUSTOM_FORM_VALIDATION_TEMPLATE } from '../utils/templates'
+import { ERROR_MESSAGES, SERVER_TIMEOUT } from "../utils/constants";
+import { submitForm } from '../utils/actions';
 
 function getTextContent(element) {
     return element.textContent.replace(/(\n)+/g, '').trim();
@@ -75,20 +27,25 @@ function getTooltipMessage() {
 
 async function badValueTest(elSelector, errorType, value) {
     setValue(elSelector, value);
-    click(document.querySelector('#submit'));
+    const formElement = document.querySelector('gameface-form-control');
+    await submitForm(formElement, false);
 
     return createAsyncSpec(() => {
         const received = getTooltipMessage();
-        const expected = errorMessages.get(errorType);
+        const expected = ERROR_MESSAGES.get(errorType);
         assert(received === expected, `The error message is not correct. Expected: ${expected}. Received: ${received}.`);
     });
 }
 
-async function badValueTestCustomValidation(elSelector, errorMessage, value, errorDisplayElement) {
+async function badValueTestCustomValidation(elSelector, errorMessage, value, errorDisplayElement, waitServerResponse = false) {
     setValue(elSelector, value);
-    click(document.querySelector('#submit'));
+    const formElement = document.querySelector('gameface-form-control');
+    await submitForm(formElement, false);
 
-    await waitServerResponse();
+    //Used to test server side validation of the username
+    if (waitServerResponse) {
+        await new Promise((resolve) => setTimeout(resolve, SERVER_TIMEOUT));
+    }
 
     return createAsyncSpec(() => {
         let received = null;
@@ -210,7 +167,7 @@ describe('Form validation', () => {
     });
 
     beforeEach(function (done) {
-        setupFormValidationTestPage(FORM_VALIDATION_TEMPLATE).then(done);
+        setupFormValidationTestPage(VALIDATION_TEMPLATE).then(done);
     });
 
     it('Should show value missing error', async () => {
@@ -237,10 +194,11 @@ describe('Form validation', () => {
         const input = document.querySelector('#no-name');
         input.value = '20';
 
-        click(document.querySelector('#submit'));
+        const formElement = document.querySelector('gameface-form-control');
+        await submitForm(formElement, false);
 
         return createAsyncSpec(() => {
-            const tooltip = document.querySelector('gameface-form-control').tooltip;
+            const tooltip = formElement.tooltip;
             assert(tooltip === undefined, 'Tooltip should be displayed!');
         });
     });
@@ -286,7 +244,8 @@ describe('Form custom validation', () => {
             '#username',
             '"username1" already used! Please use another one!',
             'username1',
-            '#username-error'
+            '#username-error',
+            true
         );
     });
 
@@ -295,7 +254,8 @@ describe('Form custom validation', () => {
             '#username',
             '"username2" already used! Please use another one!',
             'username2',
-            '#username-error'
+            '#username-error',
+            true
         );
     });
 
@@ -320,9 +280,8 @@ describe('Form custom validation', () => {
     it('Should set invalid email and receive no display error. The submit should be prevented.', async () => {
         setValue('#email', 'invalid');
         assert(document.getElementById('email').value === 'invalid', 'The value of the email is not "invalid"');
-        click(document.querySelector('#submit'));
-
-        await waitServerResponse();
+        const formElement = document.querySelector('gameface-form-control');
+        await submitForm(formElement, false);
         await checkResponse('');
     });
 
@@ -332,9 +291,8 @@ describe('Form custom validation', () => {
     });
 
     it('Should submit the form and have valid response', async () => {
-        click(document.querySelector('#submit'));
-
-        await waitServerResponse();
+        const formElement = document.querySelector('gameface-form-control');
+        await submitForm(formElement, false);
         await checkResponse('{"username":"username","url":"https://site.com","email":"email@domain.com"}');
     });
 });

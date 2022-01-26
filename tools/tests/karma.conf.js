@@ -44,7 +44,7 @@ module.exports = function (config) {
       'automatic-grid/*.js',
       'radio-button/*.js',
       'switch/*.js',
-      'form-control/*.js',
+      'form-control/spec/*.js',
       'tooltip/*js',
       'text-field/*.js',
       'accordion-menu/*.js',
@@ -53,6 +53,7 @@ module.exports = function (config) {
     retryLimit: 0,
     preprocessors: {
       'router/*.js': ['webpack'],
+      'form-control/spec/*.js': ['webpack'],
       'node_modules/coherent-gameface-router/umd/*.development.js': ['webpack'],
     },
     webpack: {

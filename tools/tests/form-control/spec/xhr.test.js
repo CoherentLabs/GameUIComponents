@@ -1,16 +1,15 @@
-describe('Form control XHR property tests', () => {
-    const template = `<div class="form-wrapper">
-<gameface-form-control id="xhr-form" action="http://localhost:${SERVER_PORT}/user" method="get">
-<input name="username" value="name" type="text" />
-<input name="password" value="pass" type="password" />
-<button class="form-element" type="submit">Submit</button>
-</gameface-form-control>
-</div>`;
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
+import { XHR_TEMPLATE } from '../utils/templates'
+
+describe('Form control XHR property tests', () => {
     beforeAll(() => {
         const el = document.createElement('div');
         el.className = 'test-wrapper';
-        el.innerHTML = template;
+        el.innerHTML = XHR_TEMPLATE;
 
         cleanTestPage('.test-wrapper');
 
@@ -40,6 +39,7 @@ describe('Form control XHR property tests', () => {
             }
             click(submitButton);
         }
+
         click(submitButton);
     });
 });
