@@ -14,11 +14,11 @@ const { start } = require('repl');
 */
 
 
-function buildDemo() {
+function buildDemo(dev = false) {
     const pathToDemo = path.resolve(path.join(process.cwd(), 'demo'));
 
     Webpack({
-        mode: 'production',
+        mode: dev ? 'development': 'production',
         entry: path.join(pathToDemo, 'demo.js'),
         devtool: false,
         resolve: {
@@ -38,6 +38,13 @@ function buildDemo() {
     });
 }
 
-exports.command = 'build:demo';
+exports.command = 'build:demo [--dev]';
 exports.desc = 'Create a production bundle of the demo.';
-exports.handler = buildDemo;
+exports.builder = {
+    '--dev': {
+        desc: 'Create a development non minified bundle.',
+    }
+};
+exports.handler = function (argv) {
+    buildDemo(argv.dev);
+}
