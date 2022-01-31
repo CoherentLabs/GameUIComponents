@@ -33,10 +33,34 @@ class ScrollableContainer extends HTMLElement {
                 // render the component
                 components.renderOnce(this);
                 // do the initial setup - add event listeners, assign members
+
                 this.setup();
                 this.shouldShowScrollbar();
+
+                setTimeout(() => {
+                    this.initMutationObserver();
+                }, 10)
             })
             .catch(err => console.error(err));
+    }
+
+    initMutationObserver() {
+        const slottedScrollableContent = this.querySelector(".scrollable-container").firstElementChild;
+        if (!slottedScrollableContent) return;
+
+        const observer = new MutationObserver(() => {
+            console.log('mutation observer callback');
+            this.shouldShowScrollbar();
+        });
+
+        const options = {
+            attributes: true,
+            subtree: true,
+            childList: true,
+            attributesFilter: ['style', 'class']
+        }
+
+        observer.observe(slottedScrollableContent, options);
     }
 
     /**
@@ -118,8 +142,8 @@ class ScrollableContainer extends HTMLElement {
     */
     shouldShowScrollbar() {
         const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
-
         components.waitForFrames(() => {
+            debugger
             const scrollableContentRect = scrollableContent.getBoundingClientRect();
             const boundingRect = this.getBoundingClientRect();
 
