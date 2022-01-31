@@ -14,21 +14,29 @@ const tooltipTemplate = `
 <gameface-tooltip id="smart-position" target=".smart-position-target" on="click" position="top" off="click">
 <div slot="message">Should be on top</div>
 </gameface-tooltip>
-<div class="target" style="background-color: #6e6d6d;position: absolute; top: 500px; left: 500px;width:100px;height:50px;">Hover over me</div>;
+<div class="target" style="background-color: #6e6d6d;position: absolute; top: 500px; left: 500px;width:100px;height:50px;">Hover over me</div>
 <div class="smart-position-target" style="background-color: #6e6d6d;position: absolute; top: 20px; left: 30px;width:100px;height:50px;">click me</div>`;
 
+const tooltipTemplateAsync = `
+<gameface-tooltip target=".target" on="click" position="bottom" off="click" async>
+<div slot="message">Loading...</div>
+</gameface-tooltip>
 
+<div class="target" style="background-color: #6e6d6d;position: absolute; top: 500px; left: 500px;width:100px;height:50px;">Hover over me</div>`;
 
-function setupTooltipTestPage() {
+function removeTooltips() {
+    const tooltips = document.querySelectorAll('gameface-tooltip');
+    for(let i = 0; i < tooltips.length; i++) {
+        tooltips[i].parentElement.removeChild(tooltips[i]);
+    }
+}
+
+async function setupTooltipTestPage(template) {
     const el = document.createElement('div');
     el.className = 'tooltip-test-wrapper';
-    el.innerHTML = tooltipTemplate;
+    el.innerHTML = template;
 
-    const currentElement = document.querySelector('.tooltip-test-wrapper');
-
-    if (currentElement) {
-        currentElement.parentElement.removeChild(currentElement);
-    }
+    cleanTestPage('.tooltip-test-wrapper');
 
     document.body.appendChild(el);
 
@@ -40,16 +48,10 @@ function setupTooltipTestPage() {
 
 describe('Tooltip component', () => {
     afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
-
-    afterEach(() => {
-        const tooltips = document.querySelectorAll('gameface-tooltip');
-        for(let i = 0; i < tooltips.length; i++) {
-            tooltips[i].parentElement.removeChild(tooltips[i]);
-        }
-    });
+    afterEach(() => removeTooltips());
 
     beforeEach(function (done) {
-        setupTooltipTestPage().then(done).catch(err => console.error(err));
+        setupTooltipTestPage(tooltipTemplate).then(done).catch(err => console.error(err));
     });
 
     it('Should be displayed on click', async () => {
@@ -69,8 +71,23 @@ describe('Tooltip component', () => {
 
         return createAsyncSpec(() => {
             const tooltip = document.querySelector('gameface-tooltip');
-            assert(tooltip.style.visibility !== 'hidden', 'Tooltip was displayed.');
+            assert(tooltip.style.visibility !== 'hidden', 'Tooltip was not hidden.');
         }, 5);
+    });
+
+    it('Should be hidden on clicking outside of the tooltip', async () => {
+        const target = document.querySelector('.target');
+        click(target);
+
+        const tooltip = document.querySelector('gameface-tooltip');
+
+        await createAsyncSpec(() => {
+            assert(tooltip.style.display !== 'none', 'Tooltip was not displayed.');
+        }, 5);
+
+        click(document.body, {bubbles: true});
+
+        assert(tooltip.style.display === 'none', 'Tooltip was not closed on clicking outside of the tooltip.');
     });
 
     it('Should be displayed on top as a fallback', async () => {
@@ -91,5 +108,49 @@ describe('Tooltip component', () => {
             const tooltip = document.querySelector('#smart-position');
             assert(tooltip.position !== 'top', 'Tooltip was displayed on top.');
         }, 5);
+    });
+
+    it('Should change a tooltip message (string).', () => {
+        const newValue = 'Value Changed!';
+        const gamefaceTooltip = document.querySelector('gameface-tooltip');
+
+        gamefaceTooltip.setMessage(newValue);
+
+        assert(gamefaceTooltip.message === newValue, 'Tooltip message failed to change.');
+    });
+
+    it('Should change a tooltip message (function returning number).', () => {
+        const expectedNumber = 1337;
+        const gamefaceTooltip = document.querySelector('gameface-tooltip');
+
+        gamefaceTooltip.setMessage(() => expectedNumber);
+
+        assert(gamefaceTooltip.message === expectedNumber.toString(), 'Tooltip message failed to change.');
+    });
+});
+
+describe('Tooltip component (async mode)', () => {
+    afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
+    afterEach(() => removeTooltips());
+
+    beforeEach(function (done) {
+        setupTooltipTestPage(tooltipTemplateAsync).then(done).catch(err => console.error(err));
+    });
+
+    it('Should change a tooltip message (function returning a Promise).', async () => {
+        const newValue = 'Value Changed! (Promise)';
+        const gamefaceTooltip = document.querySelector('gameface-tooltip');
+
+        function mockContentAsync() {
+            return new Promise(resolve => {
+                requestAnimationFrame(() => {
+                    resolve(newValue);
+                });
+            });
+        }
+
+        await gamefaceTooltip.setMessage(mockContentAsync);
+
+        assert(gamefaceTooltip.message === newValue, 'Tooltip message failed to change.');
     });
 });
