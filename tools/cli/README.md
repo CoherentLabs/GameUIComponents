@@ -76,6 +76,6 @@ bundles are created in a cjs/ and umd/ folders next to the component source.
 * coherent-guic-cli build --watch - Pass --watch to watch for changes to the source
 and rebuild.
 * coherent-guic-cli build:demo - Create a production build of the demo that bundles
-the game ui components library, the component and the demo.
+* coherent-guic-cli build:demo --dev - Pass the --dev option to create a development non-minified build
 * coherent-guic-cli start:demo - Start a development server which hosts the demo
 and listens for changes and automatically rebuilds the demo.
