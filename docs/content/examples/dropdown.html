@@ -15,6 +15,43 @@ draft: false
     <link rel="stylesheet" href="/components/slider/vertical.css">
     <link rel="stylesheet" href="/components/dropdown/style.css">
     <style>
+        body {
+            background-color: transparent;
+        }
+
+        .page-wrapper {
+            height: 45vh;
+        }
+
+        .page-wrapper .selected {
+            background-color: rgba(100, 100, 100, 0.1);
+        }
+
+        [data-dark-mode] .page-wrapper .selected {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #dee2e6;
+        }
+
+        [data-dark-mode] dropdown-option:not([disabled]) {
+            color: #dee2e6;
+        }
+
+        [data-dark-mode] dropdown-option {
+            color: rgb(87, 87, 87);
+        }
+
+        .page-wrapper .dropdown-header {
+            padding: 0;
+        }
+
+        .page-wrapper .active {
+            background-color: var(--default-color-blue);
+        }
+
+        .active {
+            background-color: transparent;
+        }
+
         scrollable-content,
         .wrapper {
             width: 100%;
@@ -25,12 +62,13 @@ draft: false
             height: 200px;
         }
 
-        .page-wrapper {
-            height: 45vh;
-        }
-
         gameface-dropdown {
             line-height: 100%;
+        }
+
+        [data-dark-mode] dropdown-option,
+        [data-dark-mode] .options {
+            background-color: rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>

@@ -9,6 +9,7 @@
     background-color: var(--default-color-blue);
     width: 150px;
     padding: 10px;
+    border: 1px solid var(--default-color-blue);
     border-radius: 10px;
     overflow-wrap: break-word;
 }

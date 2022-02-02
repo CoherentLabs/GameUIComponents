@@ -1,0 +1,23 @@
+{{ define "main" }}
+<div class="row flex-xl-nowrap">
+    <div class="col-lg-5 col-xl-4 docs-sidebar d-none d-lg-block">
+        <nav class="docs-links" aria-label="Main navigation">
+            {{ partial "sidebar/docs-menu.html" . }}
+        </nav>
+    </div>
+    <main class="docs-content col-lg-11 col-xl-11 mx-xl-auto">
+        <p class="lead">{{ .Params.lead | safeHTML }}</p>
+        <nav class="doks-subnavbar py-2 sticky-lg-top{{ if eq .Site.Params.options.flexSearch false }} d-lg-none{{ end }}"
+            aria-label="Secondary navigation">
+            <div class="container-xxl d-flex align-items-md-center">
+                <form id="form" style="width: 100%; max-width: none;" class="doks-search position-relative flex-grow-1 me-auto">
+                    <input style="width: 100%;" id="search" class="form-control is-search" type="search" autocomplete="off">
+                </form>
+                <button id="start-search-btn" style="background: none; border:none;">Search</button>
+            </div>
+        </nav>
+        <div id="suggestions" style="position:relative; z-index: 999;" class="d-none"></div>
+        <div id="pagination"></div>
+    </main>
+</div>
+{{ end }}

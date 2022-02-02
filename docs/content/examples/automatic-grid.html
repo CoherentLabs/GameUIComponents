@@ -37,6 +37,11 @@ draft: false
         justify-content: center;
     }
 
+    [data-dark-mode] .guic-automatic-grid-container,
+    [data-dark-mode] .automatic-grid-cell {
+        border-color: #dee2e6;
+    }
+
     .box {
         width: 50px;
         height: 50px;
@@ -63,7 +68,7 @@ draft: false
             <component-slot data-name="item" class="box">5</component-slot>
             <component-slot data-name="item" class="box">6</component-slot>
         </gameface-automatic-grid>
-	</div>
+    </div>
 
     <script src="/components/automatic-grid/bundle.js"></script>
 </body>

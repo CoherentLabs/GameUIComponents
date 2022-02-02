@@ -20,11 +20,15 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.76.5'
+          hugo-version: '0.92.0'
           extended: false
 
+      - name: Install modules
+        run: npm install
+        working-directory: ./docs/
+
       - name: Build with Hugo
-        run: hugo -D -F
+        run: npm run build
         working-directory: ./docs/
 
       - name: Deploy to target branch # Takes the content from publish_dir: which is going to gh-pages branch automatically.

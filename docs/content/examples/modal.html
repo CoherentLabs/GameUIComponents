@@ -12,6 +12,10 @@ draft: false
     <link rel="stylesheet" href="/components/coherent-gameface-components-theme.css">
     <link rel="stylesheet" href="/components/modal/style.css">
     <style>
+        .backdrop {
+            z-index: 11111;
+        }
+
         .page-wrapper {
             height: 45vh;
         }
@@ -33,6 +37,15 @@ draft: false
             background-color: #eeeeee;
             color: #7b7878;
             pointer-events: none;
+        }
+
+        .modal {
+            top: auto;
+            left: auto;
+            display: block;
+            z-index: 11112;
+            overflow: hidden;
+            color: var(--bs-body-color);
         }
 
         .modal-button {
