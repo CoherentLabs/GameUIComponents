@@ -149,6 +149,11 @@ class GamefaceDropdown extends CustomElementValidator {
         return this.selectedList.map(selected => this.allOptions[selected]);
     }
 
+    isSelected(index) {
+        if (typeof index !== 'number') return false;
+        return this.selectedList.indexOf(index) > -1
+    }
+
     updatePivotIndex(value) {
         this._pivotIndex = value;
     }
@@ -170,26 +175,24 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 
     selectSingle(option) {
-        if (this.selected) this.selected.classList.remove('active');
+        if (this.selected) this.removeActive(this.selected);
         components.transferContent(option.cloneNode(true), this.querySelector('.selected'));
         this.selectedList = [];
     }
 
     selectMultiple(option) {
         const currentOptionIndex = this.allOptions.indexOf(option);
-        const indexInSelectedList = this.selectedList.indexOf(currentOptionIndex);
-
-        if (indexInSelectedList > -1) return this.deselect(indexInSelectedList, option);
-        if (option) this.select(currentOptionIndex, option);
+        if (option && !this.isSelected(currentOptionIndex)) this.select(currentOptionIndex, option);
     }
 
     select(index, option) {
-        option.classList.add('active');
+        this.addActive(option);
         this.selectedList.push(index);
     }
 
-    deselect(index, option) {
-        option.classList.remove('active');
+    deselect(index) {
+        const option = this.allOptions[this.selectedList[index]];
+        this.removeActive(option);
         this.selectedList.splice(index, 1);
     }
 
@@ -270,56 +273,31 @@ class GamefaceDropdown extends CustomElementValidator {
         this.hoveredElIndex = nextOptionIndex;
     }
 
-    // for multiple selection using shift
-    selectSiblingOption(nextOptionIndex, option, isPrevSelection) {
-        if (!option) return;
-        // try number for direction
-        const existsInSelectedList = this.selectedList.indexOf(nextOptionIndex);
-
-        if (existsInSelectedList === -1) {
-            option.classList.add('active');
-            this.selectedList.push(nextOptionIndex);
-        } else if (existsInSelectedList > -1) {
-            const optionIndexForSplice = (isPrevSelection) ? nextOptionIndex + 1 : nextOptionIndex - 1;
-            // use enabled options?
-            this.allOptions[this.selectedList[this.selectedLength - 1]].classList.remove('active');
-            this.selectedList.splice(this.selectedList.indexOf(this.allOptions.indexOf(optionIndexForSplice)), 2);
-        }
-
-        this.dispatchChangeEvent(option);
+    deselectNextElement(nextOptionIndex) {
+        const indexToBeRemoved = this.enabledOptions[nextOptionIndex];
+        this.deselect(this.selectedList.indexOf(indexToBeRemoved));
     }
 
-    selectOptionSiblingMode(newIndex, isPrevSelection = false) {
-        const nextOptionIndex = this.enabledOptions[newIndex];
-        const nextOption = this.allOptions[nextOptionIndex];
-
-        if (!nextOption) return;
-        this.selectSiblingOption(nextOptionIndex, nextOption, isPrevSelection);
-    }
-
-    isOutOfEnabledRange(index) {
-        if (index > this.enabledOptions.length - 1 || index < 0) return true;
-        return false;
+    isOutOfRange(current, to, direction) {
+        return direction === 1 ? current > to : current < to;
     }
 
     resetOptions(options) {
         options.forEach((el) => el.classList.remove('active'));
     }
 
-    selectOptionBoundaryMode(direction = 1) {
-        this.selected = null;
+    selectFromTo(start, end, direction = 1, reset = true) {
         const enabledOptions = this.enabledOptions;
         const allOptions = this.allOptions;
-        let currentIndex = enabledOptions.indexOf(this._pivotIndex);
 
-        this.resetOptions(this.querySelectorAll('dropdown-option.active'));
+        if (reset) this.resetSelection();
 
+        // loop all enabled indexes and select the corresponding
+        // options from the full list
         do {
-            this.selected = allOptions[enabledOptions.indexInFullList(currentIndex)];
-            currentIndex += direction;
-        } while (!this.isOutOfEnabledRange(currentIndex));
-
-        this.dispatchChangeEvent(allOptions[currentIndex]);
+            this.selected = allOptions[enabledOptions[start]];
+            start += direction;
+        } while (!this.isOutOfRange(start, end, direction));
     }
 
     selectAll() {
@@ -329,87 +307,105 @@ class GamefaceDropdown extends CustomElementValidator {
         this.enabledOptions.forEach(index => this.selected = allOptions[index]);
     }
 
+    toggleSelection(currentOptionIndex, direction) {
+        const nextOptionIndex = currentOptionIndex + direction; //next enabled index
+        const nextFullListIndex = this.enabledOptions[nextOptionIndex];
+
+        if (this.isSelected(nextFullListIndex)) {
+            this.deselectNextElement(currentOptionIndex);
+        } else {
+            this.selectFromTo(currentOptionIndex, nextOptionIndex, direction, 0);
+        }
+
+        this.scrollToSelectedElement();
+    }
+
+    handleKeyboardFocus(keyCode) {
+        switch (keyCode) {
+            case KEYCODES.ENTER:
+                if (this.multiple) return;
+                this.focusOption(this.hoveredElIndex);
+                this.closeOptionsPanel();
+                return;
+            case KEYCODES.TAB:
+            case KEYCODES.ESCAPE:
+                if (this.multiple) return;
+                this.closeOptionsPanel();
+                return;
+        }
+    }
+
+    handleMultipleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex) {
+        switch (keyCode) {
+            case KEYCODES.DOWN:
+            case KEYCODES.RIGHT:
+                this.toggleSelection(currentOptionIndex, 1);
+                break;
+            case KEYCODES.UP:
+            case KEYCODES.LEFT:
+                this.toggleSelection(currentOptionIndex, -1);
+                break;
+            case KEYCODES.HOME:
+              this.selectFromTo(enabledOptions.indexOf(this._pivotIndex), 0, -1);
+                break;
+            case KEYCODES.END:
+                this.selectFromTo(enabledOptions.indexOf(this._pivotIndex), this.allOptions.length -1, 1);
+                break;
+        }
+    }
+
+    handleSingleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex) {
+        switch (keyCode) {
+            case KEYCODES.HOME:
+            case KEYCODES.PAGE_UP:
+                // focus first
+                this.focusEnabledOption(0);
+                this.scrollToSelectedElement();
+                break;
+            case KEYCODES.END:
+            case KEYCODES.PAGE_DOWN:
+                // focus last
+                this.focusEnabledOption(enabledOptions.length - 1);
+                this.scrollToSelectedElement();
+                break;
+            case KEYCODES.UP:
+            case KEYCODES.LEFT:
+                this.focusEnabledOption(currentOptionIndex - 1);
+                this.scrollToSelectedElement();
+                break;
+            case KEYCODES.DOWN:
+            case KEYCODES.RIGHT:
+                this.focusEnabledOption(currentOptionIndex + 1);
+                this.scrollToSelectedElement();
+                break;
+        }
+    }
+
     /**
      * Called on keydown. Used to handle option selection via the keyboard.
      * @param {KeyboardEvent} event - the current event object
     */
     onKeydown(event) {
         const keyCode = event.keyCode;
+        const ctrlKey = event.ctrlKey;
         const shiftKey = event.shiftKey;
         const enabledOptions = this.enabledOptions;
-
         let currentOptionIndex = enabledOptions.indexOf(this.lastSelectedIndex);
-
-        // If the select is multiple, the keyboard navigation should start from the element that was selected last
-        if (this.multiple && this.selectedLength > 1) {
-            const lastSelectedOptionIndex = this.selectedList[this.selectedLength - 1];
-            currentOptionIndex = enabledOptions.indexOf(lastSelectedOptionIndex);
-        }
 
         if (shiftKey && this.multiple) {
             // pivotIndex is the LAST selected - last clicked or selected via key
             if (this._pivotIndex === null) this._pivotIndex = this.selectedList[this.selectedLength - 1];
-
-            switch (keyCode) {
-                case KEYCODES.DOWN:
-                case KEYCODES.RIGHT:
-                    this.selectOptionSiblingMode(currentOptionIndex + 1, false);
-                    this.scrollToSelectedElement();
-                    break;
-                case KEYCODES.UP:
-                case KEYCODES.LEFT:
-                    this.selectOptionSiblingMode(currentOptionIndex -1, true);
-                    this.scrollToSelectedElement();
-                    break;
-                case KEYCODES.HOME:
-                  this.selectOptionBoundaryMode(-1);
-                    break;
-                case KEYCODES.END:
-                    this.selectOptionBoundaryMode(1);
-                    break;
-            }
+            this.handleMultipleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex);
         }
 
-        if (event.ctrlKey && keyCode === 65 && this.multiple) {
+        if (ctrlKey && keyCode === 65 && this.multiple) {
             event.preventDefault();
             this.selectAll();
         }
 
-        if (!event.ctrlKey && !shiftKey && !event.altKey) {
-            switch (event.keyCode) {
-                case KEYCODES.ENTER:
-                    if (this.multiple) return;
-                    this.focusOption(this.hoveredElIndex);
-                    this.closeOptionsPanel();
-                    return;
-                case KEYCODES.TAB:
-                case KEYCODES.ESCAPE:
-                    if (this.multiple) return;
-                    this.closeOptionsPanel();
-                    return;
-                case KEYCODES.HOME:
-                case KEYCODES.PAGE_UP:
-                    // focus first
-                    this.focusEnabledOption(0);
-                    this.scrollToSelectedElement();
-                    break;
-                case KEYCODES.END:
-                case KEYCODES.PAGE_DOWN:
-                    // focus last
-                    this.focusEnabledOption(enabledOptions.length - 1);
-                    this.scrollToSelectedElement();
-                    break;
-                case KEYCODES.UP:
-                case KEYCODES.LEFT:
-                    this.focusEnabledOption(currentOptionIndex - 1);
-                    this.scrollToSelectedElement();
-                    break;
-                case KEYCODES.DOWN:
-                case KEYCODES.RIGHT:
-                    this.focusEnabledOption(currentOptionIndex + 1);
-                    this.scrollToSelectedElement();
-                    break;
-            }
+        if (!ctrlKey && !shiftKey && !event.altKey) {
+            this.handleKeyboardFocus(keyCode);
+            this.handleSingleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex);
         }
     }
 
@@ -428,8 +424,6 @@ class GamefaceDropdown extends CustomElementValidator {
     onClick() {
         if (this.disabled) return;
         if (this.isOpened) return this.closeOptionsPanel();
-
-        if (this.lastSelectedIndex > -1) this.addActive(this.selected);
 
         this.initScrollbar();
         this.openOptionsPanel();
@@ -468,7 +462,7 @@ class GamefaceDropdown extends CustomElementValidator {
     onMouseLeave(event) {
         const index = this.allOptions.indexOf(event.target);
         if (this.multiple && this.selectedList.indexOf(index) > -1) return;
-        event.target.classList.remove('active');
+        this.removeActive(event.target);
     }
 
     addActive(element) {
@@ -495,6 +489,12 @@ class GamefaceDropdown extends CustomElementValidator {
     onClickMultipleOptions(event) {
         // reset the selectedList if only one option is selected
         if (!event.detail.ctrlKey) this.selected = null;
+
+        const currentOptionIndex = this.allOptions.indexOf(event.target);
+        const indexInSelectedList = this.selectedList.indexOf(currentOptionIndex);
+
+        if (indexInSelectedList > -1) return this.deselect(indexInSelectedList);
+
         this.setSelected(event.target);
         this.focus();
     }
