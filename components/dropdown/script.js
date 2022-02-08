@@ -11,12 +11,6 @@ const KEYCODES = components.KEYCODES;
 
 const CustomElementValidator = components.CustomElementValidator;
 
-class EnabledOptions extends Array {
-    indexInFullList(currentIndex) {
-        return this[currentIndex];
-    }
-}
-
 class GamefaceDropdown extends CustomElementValidator {
     constructor() {
         super();
@@ -41,27 +35,11 @@ class GamefaceDropdown extends CustomElementValidator {
         this.onMouseLeave = this.onMouseLeave.bind(this);
     }
 
-    get disabled() {
-        return this.hasAttribute('disabled');
-    }
-
-    set disabled(value) {
-        if (value) {
-            this.classList.add('gameface-dropdown-disabled');
-            this.setAttribute('disabled', '');
-            this.setAttribute('tabindex', '-1');
-        } else {
-            this.classList.remove('gameface-dropdown-disabled');
-            this.removeAttribute('disabled');
-            this.setAttribute('tabindex', '1');
-        }
-    }
-
     /**
      * Returns the text content of the selected dropdown-option.
      * @returns {String}
     */
-    get value() {
+     get value() {
         if (this.isFormElement() && this.multiple) return this.selectedOptions.map(el => el.value);
         if (this.selected) return this.selected.value || this.selected.textContent;
 
@@ -77,27 +55,74 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 
     /**
-     * Returns all dropdown-option elements that don't have attribute disabled.
-     * @returns {Array<HTMLElement>}
+     * Returns all dropdown-option elements' indexes that don't have attribute disabled.
+     * @returns {Array<number>}
     */
     get enabledOptions() {
-        const enabled = new EnabledOptions();
-        const allOptions = this.allOptions;
+        const enabled = [];
 
-        for(let i = 0; i < allOptions.length; i++) {
-            if (allOptions[i].hasAttribute('disabled')) continue;
-            enabled.push(i);
-        }
+        this.allOptions.forEach((option, index) => {
+            if (!option.hasAttribute('disabled')) enabled.push(index);
+        });
 
         return enabled;
     }
 
+    /**
+     * Returns only the selected options from the allOptions array.
+     * @returns {Array<HTMLElement>}
+    */
+    get selectedOptions() {
+        return this.selectedList.map(selected => this.allOptions[selected]);
+    }
+
+    /**
+     * Returns the length of the selected options.
+     * @returns {number}
+    */
     get selectedLength() {
         return this.selectedList.length;
     }
 
+    /**
+     * Returns the index of the last selected option
+     * @returns {number}
+    */
     get lastSelectedIndex () {
         return this.selectedLength ? this.selectedList[this.selectedLength -1] : 0;
+    }
+
+    /**
+     * Returns the element from which a selection sequence has began.
+     * @returns {HTMLElement}
+    */
+    get pivotElement() {
+        return this.allOptions[this._pivotIndex] || this.allOptions[0];
+    }
+
+    /**
+     * Returns a boolean value that indicates if the dropdown is disabled.
+     * @returns {boolean}
+    */
+    get disabled() {
+        return this.hasAttribute('disabled');
+    }
+
+    /**
+     * Sets the disabled attribute of the dropdown.
+     * Also adds/removes the tabindex attribute to include/exclude the element from the focusable elements.
+     * @param {boolean} value - make disabled if true, make enabled if false.
+    */
+    set disabled(value) {
+        if (value) {
+            this.classList.add('gameface-dropdown-disabled');
+            this.setAttribute('disabled', '');
+            this.setAttribute('tabindex', '-1');
+        } else {
+            this.classList.remove('gameface-dropdown-disabled');
+            this.removeAttribute('disabled');
+            this.setAttribute('tabindex', '1');
+        }
     }
 
     /**
@@ -111,23 +136,26 @@ class GamefaceDropdown extends CustomElementValidator {
 
     /**
      * Sets the currently selected option.
-     * Updates the class names of the current and the previously active options.
+     * Updates the select header if the select is single.
      * Dispatches a change event to notify that the active option has been changed.
     */
     set selected(option) {
         // reset
         if (option === null) return this.resetSelection();
 
-        if (!this.multiple) this.selectSingle(option)
-        this.selectMultiple(option);
+        if (!this.multiple) {
+            this.resetSelection();
+            this.updateSelectHeader(option);
+        }
 
+        this.select(option);
         this.dispatchChangeEvent(option);
     }
 
     /**
     * Returns the currently hovered element's index.
     * @returns {Number}
-   */
+    */
     get hoveredElIndex() {
         return this._hovered;
     }
@@ -141,68 +169,99 @@ class GamefaceDropdown extends CustomElementValidator {
         return this._hovered = value;
     }
 
-    get pivotElement() {
-        return this.allOptions[this._pivotIndex] || this.allOptions[0];
+    /**
+     * Checks if an element is selected by index or by the element.
+     * @param {number|HTMLElement} indexOrOption - the index of the element or the element.
+     * if indexOrOption is number - checks the selectedList as it hold indexes.
+     * if indexOrOption is an HTMLElement- checks the selected attribute of the option.
+     * @returns {boolean}
+    */
+    isSelected(indexOrOption) {
+        if (typeof indexOrOption === 'number') return this.selectedList.indexOf(indexOrOption) > -1;
+        if (indexOrOption instanceof HTMLElement) return indexOrOption.hasAttribute('selected');
+
+        return false;
     }
 
-    get selectedOptions() {
-        return this.selectedList.map(selected => this.allOptions[selected]);
-    }
-
-    isSelected(index) {
-        if (typeof index !== 'number') return false;
-        return this.selectedList.indexOf(index) > -1
-    }
-
-    updatePivotIndex(value) {
-        this._pivotIndex = value;
-    }
-
-    updateHoveredElementIndex(value) {
-        this.hoveredElIndex = value;
-    }
-
+    /**
+     * Validation method. Checks if there is a selected element by
+     *  checking the length of the selectedOptions.
+     * @returns {boolean} - true if the array is empty and false if not.
+    */
     valueMissing() {
         return !this.selectedOptions.length;
     }
 
+    /**
+     * Get all options of the selected list and:
+     * 1.remove their active class
+     * 2.remove their selected attribute
+     * Reset the values of the selectedList and the hoveredElIndex.
+    */
     resetSelection() {
         for (let index of this.selectedList) {
-            this.allOptions[index].classList.remove('active');
+            const option = this.allOptions[index];
+            this.removeActive(option);
+            option.removeAttribute('selected');
         }
         this.selectedList = [];
         this.hoveredElIndex = 0;
     }
 
-    selectSingle(option) {
-        if (this.selected) this.removeActive(this.selected);
+    /**
+     * Update the header of the select. Clone the content of the selected option
+     * to the content of the header. If the option is falsy - do nothing.
+    */
+    updateSelectHeader(option) {
+        if (!option || !option.cloneNode) return;
         components.transferContent(option.cloneNode(true), this.querySelector('.selected'));
-        this.selectedList = [];
     }
 
-    selectMultiple(option) {
-        const currentOptionIndex = this.allOptions.indexOf(option);
-        if (option && !this.isSelected(currentOptionIndex)) this.select(currentOptionIndex, option);
-    }
+    /**
+     * Select an option.
+     * Add the active class and the selected attribute.
+     * Add the option's index to the selectedList array.
+     * @param {HTMLElement} option - the option that has to be selected.
+     */
+    select(option) {
+        const index = this.allOptions.indexOf(option);
+        if (!option || this.isSelected(index)) return;
 
-    select(index, option) {
         this.addActive(option);
+        option.setAttribute('selected', true);
         this.selectedList.push(index);
     }
 
-    deselect(index) {
-        const option = this.allOptions[this.selectedList[index]];
+    /**
+     * Deselect an option.
+     * @param {HTMLElement} option - the option that has to be deselected.
+     * Remove the active class and the selected attribute.
+     * Remove the option's index from the selectedList array.
+    */
+    deselect(option) {
+        const index = this.allOptions.indexOf(option);
         this.removeActive(option);
-        this.selectedList.splice(index, 1);
+        option.removeAttribute('selected');
+        this.selectedList.splice(this.selectedList.indexOf(index), 1);
     }
 
-    selectDefault() {
+    /**
+     * Select the options that have the selected attribute.
+     * This is executed when the dropdown is connected to the DOM.
+    */
+    setInitialSelection() {
         for (const option of this.allOptions) {
             if (!option.hasAttribute('selected')) continue;
             this.setSelected(option);
         }
     }
 
+    /**
+     * Setup the multiple dropdown.
+     * Hide the header element.
+     * Expand the options list by calling the click callback after 6 frames
+     * because of the cohtml style resolver and the scrollable container initialization.
+    */
     setupMultiple () {
         this.querySelector('.dropdown-header').style.display = 'none';
         components.waitForFrames(() => this.onClick(), 6);
@@ -223,17 +282,19 @@ class GamefaceDropdown extends CustomElementValidator {
                 if (this.multiple && !this.collapsable) this.setupMultiple();
                 if (this.disabled) this.disabled = true;
 
-                this.selectDefault();
+                this.setInitialSelection();
                 this.attachEventListeners();
             })
-            // .catch(err => console.error(err));
+            .catch(err => console.error(err));
     }
 
+    /**
+     * Dispatch a custom event to notify listeners for selection change.
+     * @param {HTMLElement} option - the newly selected option.
+    */
     dispatchChangeEvent(option) {
         this.dispatchEvent(new CustomEvent('change', {
-            detail: {
-                target: option
-            }
+            detail: { target: option }
         }));
     }
 
@@ -249,22 +310,6 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 
     /**
-     * Focuses an option from the enabledOptions list.
-     * Uses the index of the enabled option to find the index of the same option
-     * in the full list.
-     * @param {number} newIndex - the index of the enabled option.
-    */
-    focusEnabledOption(newIndex) {
-        if (newIndex === -1 || newIndex > this.enabledOptions.length - 1) return;
-
-        // only one option can be selected via keyboard!
-        this.selected = null;
-
-        const nextOptionIndex = this.enabledOptions[newIndex];
-        this.focusOption(nextOptionIndex);
-    }
-
-    /**
      * Focuses an option by index. Updates the index of the hovered element.
      * @param {number} nextOptionIndex - the index of the option that has to be focused.
     */
@@ -273,19 +318,25 @@ class GamefaceDropdown extends CustomElementValidator {
         this.hoveredElIndex = nextOptionIndex;
     }
 
-    deselectNextElement(nextOptionIndex) {
-        const indexToBeRemoved = this.enabledOptions[nextOptionIndex];
-        this.deselect(this.selectedList.indexOf(indexToBeRemoved));
+    /**
+     * Check if a number is out of a given range.
+     * @param {number} current - the current value of the number.
+     * @param {number} limit - the limit that current must not exceed.
+     * @param {number} direction - the direction specifies on which side of the limit the current must be.
+     * @returns {boolean} - true if it is in range, false if it is not.
+     */
+    isOutOfRange(current, limit, direction) {
+        return direction === 1 ? current > limit : current < limit;
     }
 
-    isOutOfRange(current, to, direction) {
-        return direction === 1 ? current > to : current < to;
-    }
-
-    resetOptions(options) {
-        options.forEach((el) => el.classList.remove('active'));
-    }
-
+    /**
+     * Select all enabled options from a given range defined by start and end indexes.
+     * @param {number} start - the low limit of the range.
+     * @param {number} end - the higher limit of the range.
+     * @param {number} direction - the direction of the selection.
+     * @param {boolean} reset - whether to reset the current selection or not:
+     * In a single selection we must reset the selected list, but in multiple we must not.
+     */
     selectFromTo(start, end, direction = 1, reset = true) {
         const enabledOptions = this.enabledOptions;
         const allOptions = this.allOptions;
@@ -300,6 +351,10 @@ class GamefaceDropdown extends CustomElementValidator {
         } while (!this.isOutOfRange(start, end, direction));
     }
 
+    /**
+     * Select all options.
+     * Used for keyboard selection when holding Ctrl + A.
+     */
     selectAll() {
         this.selected = null;
         const allOptions = this.allOptions;
@@ -307,12 +362,19 @@ class GamefaceDropdown extends CustomElementValidator {
         this.enabledOptions.forEach(index => this.selected = allOptions[index]);
     }
 
-    toggleSelection(currentOptionIndex, direction) {
+    /**
+     * Toggles the selection of an element by given index.
+     * If the element is selected - deselect it.
+     * @param {number} currentOptionIndex - the index of the currently selected option.
+     * @param {number} direction - the direction in which the selection is going.
+     */
+    toggleSelection(currentOptionIndex, direction, enabledOptions) {
         const nextOptionIndex = currentOptionIndex + direction; //next enabled index
-        const nextFullListIndex = this.enabledOptions[nextOptionIndex];
+        const nextFullListIndex = enabledOptions[nextOptionIndex]; // corresponding index in the allOptions list
 
         if (this.isSelected(nextFullListIndex)) {
-            this.deselectNextElement(currentOptionIndex);
+            const indexToBeRemoved = enabledOptions[currentOptionIndex];
+            this.deselect(this.allOptions[indexToBeRemoved]);
         } else {
             this.selectFromTo(currentOptionIndex, nextOptionIndex, direction, 0);
         }
@@ -320,6 +382,11 @@ class GamefaceDropdown extends CustomElementValidator {
         this.scrollToSelectedElement();
     }
 
+    /**
+     * Handles the focus of the dropdown options
+     * when the keyboard is used to navigate through the options.
+     * @param {number} keyCode - the code of the current key that is being pressed.
+    */
     handleKeyboardFocus(keyCode) {
         switch (keyCode) {
             case KEYCODES.ENTER:
@@ -335,15 +402,21 @@ class GamefaceDropdown extends CustomElementValidator {
         }
     }
 
+    /**
+     * Handles the multiple selection of the dropdown options when the keyboard is used.
+     * @param {number} keyCode - the code of the current key that is being pressed.
+     * @param {Array<number>} - the list of the indexes of the enabled options.
+     * @param {number} currentOptionIndex - the index of the currently selected option.
+    */
     handleMultipleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex) {
         switch (keyCode) {
             case KEYCODES.DOWN:
             case KEYCODES.RIGHT:
-                this.toggleSelection(currentOptionIndex, 1);
+                this.toggleSelection(currentOptionIndex, 1, enabledOptions);
                 break;
             case KEYCODES.UP:
             case KEYCODES.LEFT:
-                this.toggleSelection(currentOptionIndex, -1);
+                this.toggleSelection(currentOptionIndex, -1, enabledOptions);
                 break;
             case KEYCODES.HOME:
               this.selectFromTo(enabledOptions.indexOf(this._pivotIndex), 0, -1);
@@ -354,28 +427,41 @@ class GamefaceDropdown extends CustomElementValidator {
         }
     }
 
+    /**
+     * Handles the single selection of the dropdown options when the keyboard is used.
+     * @param {number} keyCode - the code of the current key that is being pressed.
+     * @param {Array<number>} - the list of the indexes of the enabled options.
+     * @param {number} currentOptionIndex - the index of the currently selected option.
+    */
     handleSingleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex) {
+        let nextElement = currentOptionIndex;
+
         switch (keyCode) {
             case KEYCODES.HOME:
             case KEYCODES.PAGE_UP:
                 // focus first
-                this.focusEnabledOption(0);
+                this.selectFromTo(0, 0);
                 this.scrollToSelectedElement();
                 break;
             case KEYCODES.END:
             case KEYCODES.PAGE_DOWN:
                 // focus last
-                this.focusEnabledOption(enabledOptions.length - 1);
+                nextElement = enabledOptions.length - 1;
+                this.selectFromTo(nextElement, nextElement);
                 this.scrollToSelectedElement();
                 break;
             case KEYCODES.UP:
             case KEYCODES.LEFT:
-                this.focusEnabledOption(currentOptionIndex - 1);
+                nextElement = currentOptionIndex - 1;
+                if (this.isOutOfRange(nextElement, 0, -1)) return;
+                this.selectFromTo(nextElement, nextElement);
                 this.scrollToSelectedElement();
                 break;
             case KEYCODES.DOWN:
             case KEYCODES.RIGHT:
-                this.focusEnabledOption(currentOptionIndex + 1);
+                nextElement = currentOptionIndex + 1;
+                if (this.isOutOfRange(nextElement, enabledOptions.length-1, 1)) return;
+                this.selectFromTo(nextElement, nextElement);
                 this.scrollToSelectedElement();
                 break;
         }
@@ -445,10 +531,13 @@ class GamefaceDropdown extends CustomElementValidator {
         this.addEventListener('keydown', this.onKeydown);
         // handle click on the selected element placeholder
         this.querySelector('.selected').addEventListener('click', this.onClick);
-        this.attachOptionsListeners();
+        this.addOptionsListeners();
     }
 
-    attachOptionsListeners() {
+    /**
+     * Loop all options and add event listeners.
+    */
+    addOptionsListeners() {
         const options = this.querySelectorAll('dropdown-option');
 
         for (let i = 0; i < options.length; i++) {
@@ -456,6 +545,20 @@ class GamefaceDropdown extends CustomElementValidator {
             option.addEventListener('selected-option', this.onClickOption);
             option.addEventListener('mouseenter', this.onMouseOverOption);
             option.addEventListener('mouseleave', this.onMouseLeave);
+        }
+    }
+
+    /**
+     * Loop all options and remove event listeners.
+    */
+    removeOptionsListeners() {
+        const options = this.querySelectorAll('dropdown-option');
+
+        for (let i = 0; i < options.length; i++) {
+            const option = options[i];
+            option.removeEventListener('selected-option', this.onClickOption);
+            option.removeEventListener('mouseenter', this.onMouseOverOption);
+            option.removeEventListener('mouseleave', this.onMouseLeave);
         }
     }
 
@@ -481,24 +584,29 @@ class GamefaceDropdown extends CustomElementValidator {
         const options = this.allOptions;
         const target = event.target;
 
-        if (!this.multiple) this.removeActive(target);
+        if (!this.multiple) this.removeActive(this.selected);
         this.addActive(target);
         this.hoveredElIndex = options.indexOf(event.target);
     }
 
+    /**
+     * Called when the option of a multiple select is clicked.
+     * Selects the target if it is unselected and deselects it id it is selected.
+     * @param {Event} event - the event object.
+    */
     onClickMultipleOptions(event) {
         // reset the selectedList if only one option is selected
         if (!event.detail.ctrlKey) this.selected = null;
-
-        const currentOptionIndex = this.allOptions.indexOf(event.target);
-        const indexInSelectedList = this.selectedList.indexOf(currentOptionIndex);
-
-        if (indexInSelectedList > -1) return this.deselect(indexInSelectedList);
+        if (event.target.hasAttribute('selected')) return this.deselect(event.target);
 
         this.setSelected(event.target);
         this.focus();
     }
 
+    /**
+     * Called on click of an option of a single select.
+     * Selects the target and closes the options list.
+    */
     onClickSingleOption(event) {
         this.setSelected(event.target);
         this.closeOptionsPanel();
@@ -523,6 +631,7 @@ class GamefaceDropdown extends CustomElementValidator {
         this.isOpened = false;
         optionsPanel.classList.add('hidden');
         document.removeEventListener('click', this.onDocumentClick);
+        this.removeOptionsListeners();
     }
 
     /**
@@ -535,6 +644,7 @@ class GamefaceDropdown extends CustomElementValidator {
         this.isOpened = true;
         optionsPanel.classList.remove('hidden');
         this.focus();
+        this.addOptionsListeners();
         document.addEventListener('click', this.onDocumentClick);
     }
 
@@ -544,10 +654,9 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     setSelected(element, scroll = false) {
         this.selected = element;
-        this.updatePivotIndex(this.lastSelectedIndex);
-        this.updateHoveredElementIndex( this.lastSelectedIndex);
+        this._pivotIndex = this.lastSelectedIndex;
+        this.hoveredElIndex = this.lastSelectedIndex;
 
-        // TODO: fix, maybe call separately?
         if (scroll) this.scrollToSelectedElement();
     }
 
