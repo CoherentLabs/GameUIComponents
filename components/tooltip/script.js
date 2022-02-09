@@ -7,15 +7,19 @@ import components from 'coherent-gameface-components';
 import template from './template.html';
 const TOOLTIP_MARGIN = 5;
 const TOOLTIP_POSITIONS = ['top', 'bottom', 'left', 'right'];
+const NOT_A_PROMISE_ERROR = 'The value in async mode must be a function that returns a promise.';
 
 class Tooltip extends HTMLElement {
     constructor() {
         super();
         this.template = template;
         this.visible = false;
-        this._targetElement;
 
         this.uncheckedOrientations = TOOLTIP_POSITIONS;
+    }
+
+    get message() {
+        return this._messageSlot.textContent;
     }
 
     set targetElement(element) {
@@ -38,6 +42,72 @@ class Tooltip extends HTMLElement {
         return overflows;
     }
 
+    get async() {
+        return this.hasAttribute('async');
+    }
+
+    /**
+     * Sets the textContent of the message slot HTMLElement
+     * @param {string | number} content
+    */
+    setTooltipContent(content) {
+        return this._messageSlot.textContent = content;
+    }
+
+    /**
+     * Checks the validity of a synchronous message.
+     * Allowed types are - string | number | Function<string | number>.
+     * @param {any} value
+     * @returns {boolean} - true if it is valid and false if not.
+    */
+    isSyncMessageValid(value) {
+        const allowedSyncTypes = ['string', 'number', 'function'];
+        const type = typeof value;
+
+        if (!allowedSyncTypes.includes(type)) return false;
+        if (type === 'function' && (value() instanceof Promise)) return console.error('Using Promise in sync mode is forbidden. Add "async" attribute to the gameface-tooltip element.');
+        return true;
+    }
+
+    /**
+     * Synchronously sets the value of the tooltip.
+     * @param {string | number} value
+    */
+    setSyncMessage(value) {
+        if (!this.isSyncMessageValid(value)) return;
+
+        value = (typeof value === 'function') ? value() : value;
+        this.setTooltipContent(value);
+    }
+
+    /**
+     * Asynchronously sets the value of the tooltip.
+     * @param {Function<Promise>} value
+     * @returns {Promise} - a promise that will resolve with the value that was set.
+    */
+    setAsyncMessage(value) {
+        if (typeof value !== 'function') return console.error(NOT_A_PROMISE_ERROR);
+        const valueResult = value();
+        if (!(valueResult instanceof Promise)) return console.error(NOT_A_PROMISE_ERROR)
+
+        this.setTooltipContent('Loading...');
+
+        return new Promise((resolve, reject) => {
+            valueResult.then((response) => resolve(this.setTooltipContent(response))).catch(reject);
+        });
+    }
+
+    /**
+     * Sets the value of the tooltip. Calls the sync/async methods depending on the current mode.
+     * Calls the validation methods before setting to make sure the values are correct.
+     * @param {any} value
+     * @returns {Promise | undefined}
+    */
+    setMessage(value) {
+        if (this.async) return this.setAsyncMessage(value);
+        this.setSyncMessage(value);
+    }
+
     connectedCallback() {
         this.position = this.getAttribute('position') || 'top';
         this.showOn = this.getAttribute('on');
@@ -50,11 +120,14 @@ class Tooltip extends HTMLElement {
             return;
         }
 
+        this.handleDocumentClick = this.handleDocumentClick.bind(this);
+
         components.loadResource(this)
             .then((result) => {
                 this.template = result.template;
                 components.renderOnce(this);
                 this.attachEventListeners();
+                this._messageSlot = this.querySelector('.tooltip').firstElementChild;
             })
             .catch(err => console.error(err));
     }
@@ -69,15 +142,25 @@ class Tooltip extends HTMLElement {
         this.triggerElement.addEventListener(this.hideOn, () => this.hide());
     }
 
+    /**
+     * If the target doesn't contain the gameface-tooltip element
+     * then it means the click is on some of its children.
+     * @param {Event} event
+     */
+    handleDocumentClick(event) {
+        if (event.target.contains(this)) this.hide();
+    }
+
     toggle() {
         this.visible ? this.hide() : this.show();
     }
 
     hide () {
         this.style.display = 'none';
+        document.removeEventListener('click', this.handleDocumentClick);
         this.visible = false;
         // reset the current positioning as the page might get
-        // resized untill the next time the tooltip is displayed
+        // resized until the next time the tooltip is displayed
         this.uncheckedOrientations = TOOLTIP_POSITIONS;
         this.position = this.getAttribute('position') || 'top';
     }
@@ -88,6 +171,8 @@ class Tooltip extends HTMLElement {
         this.style.display = '';
 
         await this.setPosition(window.scrollX, window.scrollY);
+
+        document.addEventListener('click', this.handleDocumentClick);
 
         this.style.visibility = 'visible';
         this.visible = true;
@@ -168,8 +253,6 @@ class Tooltip extends HTMLElement {
             await new Promise((resolve) => requestAnimationFrame(resolve));
         }
     }
-
-
 
     /**
      * Gets the next value of a list of possible positions for the tooltip.

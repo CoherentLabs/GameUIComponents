@@ -1,3 +1,9 @@
+---
+date: 2022-2-08
+title: "Tooltip"
+draft: false
+---
+
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The tooltip is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
