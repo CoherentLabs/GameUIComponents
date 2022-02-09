@@ -63,9 +63,9 @@ const forms = [
 	{
 		testName: formsTestNames.DROPDOWN_FORM,
 		id: formsIds.DROPDOWN_FORM,
-		submitData: '{"option1":"1","option2":"Two","option4":"Two","option5":["1","Two","3"]}',
+		submitData: '{"option1":"1","option2":"Two","option4":"Two","option5":["Two","3"]}',
 		// Expected options will change when the caching feature is reworked or removed.
-		submitDataInteraction: '{"option1":"2","option2":"Two","option4":"Two","option5":["1","3","Two","3"]}',
+		submitDataInteraction: '{"option1":"2","option2":"Two","option4":"Two","option5":"3"}',
 		template: DROPDOWN_TEMPLATE,
 	},
 ];
@@ -164,7 +164,6 @@ function setFormTestCasesWithInteraction() {
 						for (let i = 0; i < dropdowns.length - 1; i++) {
 							click(dropdowns[i].querySelectorAll('dropdown-option')[1]);
 						}
-
 						multipleSelectOptionTwo.onClick({ target: multipleSelectOptionTwo, ctrlKey: true });
 						break;
 				}

@@ -176,8 +176,8 @@ describe('Multiple Dropdown Test', () => {
             options[1].onClick({ target: options[1], ctrlKey: true });
             options[2].onClick({ target: options[2], ctrlKey: true });
 
-            assert(dropdown.selectedOptions.length === 3,
-                `Expected selected options length to be 3, got ${dropdown.selectedOptions.length}.`);
+            assert(dropdown.selectedOptions.length === 2,
+                `Expected selected options length to be 2, got ${dropdown.selectedOptions.length}.`);
         });
 
         it('Should deselect multiple elements', () => {
@@ -191,7 +191,7 @@ describe('Multiple Dropdown Test', () => {
             options[1].onClick({ target: options[1], ctrlKey: true });
             options[2].onClick({ target: options[2], ctrlKey: true });
 
-            assert(dropdown.selectedOptions.length === 1,
+            assert(dropdown.selectedOptions.length === 0,
               `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
         });
 
@@ -210,7 +210,7 @@ describe('Multiple Dropdown Test', () => {
         });
     });
 
-    describe('Multiple Dropdown Component', () => {
+    describe('Multiple Dropdown Component Collapsable', () => {
         beforeEach(function (done) {
             setupMultipleDropdownTestPage(multipleDropdownCollapsableTemplate).then(done).catch(err => console.error(err));
         });
@@ -233,12 +233,12 @@ describe('Multiple Dropdown Test', () => {
             setupMultipleDropdownTestPage(multipleDropdownPreselectedOptionsTemplate).then(done).catch(err => console.error(err));
         });
 
-        it('Three options should be (pre)selected.', async () => {
+        it('Two options should be (pre)selected.', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedOptions = dropdown.selectedOptions;
 
             await createAsyncSpec(() => {
-                assert.equal(selectedOptions.length, 3, 'The (pre)selected options are not 3.');
+                assert.equal(selectedOptions.length, 2, 'The (pre)selected options are not 2.');
             });
         });
     });
