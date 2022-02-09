@@ -250,10 +250,30 @@ class GamefaceDropdown extends CustomElementValidator {
      * This is executed when the dropdown is connected to the DOM.
     */
     setInitialSelection() {
+        if (this.multiple) return this.setInitialMultipleSelection();
+        this.setInitialSingleSelection();
+    }
+
+    /**
+     * Select all options that have the selected attribute
+    */
+    setInitialMultipleSelection() {
         for (const option of this.allOptions) {
             if (!option.hasAttribute('selected')) continue;
             this.setSelected(option);
         }
+    }
+
+    /**
+     * Select the last found option that has the selected attribute.
+     * If none is found - selects the first element from the options list
+    */
+    setInitialSingleSelection() {
+        const allSelected = this.querySelectorAll('[selected]');
+        const selectedLength = allSelected.length;
+        // use the last option that has the selected attribute or the first element in the options list
+        const selectedDefault = selectedLength ? allSelected[selectedLength -1] : this.selected;
+        this.setSelected(selectedDefault);
     }
 
     /**
@@ -349,6 +369,8 @@ class GamefaceDropdown extends CustomElementValidator {
             this.selected = allOptions[enabledOptions[start]];
             start += direction;
         } while (!this.isOutOfRange(start, end, direction));
+
+        this.scrollToSelectedElement();
     }
 
     /**
@@ -440,31 +462,27 @@ class GamefaceDropdown extends CustomElementValidator {
             case KEYCODES.HOME:
             case KEYCODES.PAGE_UP:
                 // focus first
-                this.selectFromTo(0, 0);
-                this.scrollToSelectedElement();
+                nextElement = 0;
                 break;
             case KEYCODES.END:
             case KEYCODES.PAGE_DOWN:
                 // focus last
                 nextElement = enabledOptions.length - 1;
-                this.selectFromTo(nextElement, nextElement);
-                this.scrollToSelectedElement();
                 break;
             case KEYCODES.UP:
             case KEYCODES.LEFT:
                 nextElement = currentOptionIndex - 1;
                 if (this.isOutOfRange(nextElement, 0, -1)) return;
-                this.selectFromTo(nextElement, nextElement);
-                this.scrollToSelectedElement();
                 break;
             case KEYCODES.DOWN:
             case KEYCODES.RIGHT:
                 nextElement = currentOptionIndex + 1;
                 if (this.isOutOfRange(nextElement, enabledOptions.length-1, 1)) return;
-                this.selectFromTo(nextElement, nextElement);
-                this.scrollToSelectedElement();
                 break;
         }
+
+        this.resetSelection();
+        this.setSelected(this.allOptions[enabledOptions[nextElement]], true);
     }
 
     /**
