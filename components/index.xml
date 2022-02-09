@@ -215,5 +215,17 @@ Installation npm i coherent-gameface-switch
 Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  import the gameface-switch component:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-switch/umd/switch.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  add the gameface-switch component to your html:  &amp;lt;gameface-switch&amp;gt;&amp;lt;/gameface-switch&amp;gt; This is all!</description>
     </item>
     
+    <item>
+      <title>Tooltip</title>
+      <link>https://CoherentLabs.github.io/GameUIComponents/components/tooltip/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://CoherentLabs.github.io/GameUIComponents/components/tooltip/</guid>
+      <description>The tooltip is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-tooltip
+Usage The tooltip component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the tooltip component:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the tooltip component to your html:  &amp;lt;gameface-tooltip target=&amp;quot;.container&amp;quot;&amp;gt;&amp;lt;div slot=&amp;quot;message&amp;quot;&amp;gt;Hello!</description>
+    </item>
+    
   </channel>
 </rss>

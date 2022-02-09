@@ -3,11 +3,11 @@
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Dropdown - Gameface Game UI Components</title>
+<title>Tooltip - Gameface Game UI Components</title>
 <meta name="description" content="GameUIComponents">
 <meta name="generator" content="Hugo 0.76.5" />
 <link href="https://CoherentLabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
-<link rel="canonical" href="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">
+<link rel="canonical" href="https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/">
 <link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/theme.min.css">
 <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/chroma.min.css">
@@ -17,23 +17,21 @@
 <script src="https://CoherentLabs.github.io/GameUIComponents/js/bundle.js"></script><style>
 :root {}
 </style>
-<meta property="og:title" content="Dropdown" />
-<meta property="og:description" content="   scrollable-content, .wrapper { width: 100%; height: 200px; } .vertical-slider-wrapper { height: 200px; } .page-wrapper { height: 45vh; } gameface-dropdown { line-height: 100%; }    Cat1 Cat1 Cat1 Cat3 Cat4 Dog Giraffe Lion Pig Eagle Parrot Last Parrot Last Parrota Last Parrot     " />
+<meta property="og:title" content="Tooltip" />
+<meta property="og:description" content="Document  body { margin: 0; } .rows { display: flex; flex-direction: row; align-items: center; position: absolute; top: 200px; width: 100%; } .column { display: flex; flex-direction: column; align-items: center; flex: 1; padding: 10px; } .min-width-column { min-width: 550px; } .auto, .manual, .async { width: 150px; text-align: center; background-color: #6e6d6d; color: #ffffff; padding: 10px; } .container { display: flex; flex-direction: column; } .title, .button { height: 40px; background-color: var(--default-color-gray); display: flex; justify-content: center; align-items: center; } ." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/" />
+<meta property="og:url" content="https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/" />
 <meta property="og:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
-<meta property="article:published_time" content="2020-10-08T14:00:45+00:00" />
-<meta property="article:modified_time" content="2020-10-08T14:00:45+00:00" /><meta property="og:site_name" content="Hugo Techdoc Theme" />
+<meta property="og:site_name" content="Hugo Techdoc Theme" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
 
-<meta name="twitter:title" content="Dropdown"/>
-<meta name="twitter:description" content="   scrollable-content, .wrapper { width: 100%; height: 200px; } .vertical-slider-wrapper { height: 200px; } .page-wrapper { height: 45vh; } gameface-dropdown { line-height: 100%; }    Cat1 Cat1 Cat1 Cat3 Cat4 Dog Giraffe Lion Pig Eagle Parrot Last Parrot Last Parrota Last Parrot     "/>
-<meta itemprop="name" content="Dropdown">
-<meta itemprop="description" content="   scrollable-content, .wrapper { width: 100%; height: 200px; } .vertical-slider-wrapper { height: 200px; } .page-wrapper { height: 45vh; } gameface-dropdown { line-height: 100%; }    Cat1 Cat1 Cat1 Cat3 Cat4 Dog Giraffe Lion Pig Eagle Parrot Last Parrot Last Parrota Last Parrot     ">
-<meta itemprop="datePublished" content="2020-10-08T14:00:45+00:00" />
-<meta itemprop="dateModified" content="2020-10-08T14:00:45+00:00" />
-<meta itemprop="wordCount" content="40">
+<meta name="twitter:title" content="Tooltip"/>
+<meta name="twitter:description" content="Document  body { margin: 0; } .rows { display: flex; flex-direction: row; align-items: center; position: absolute; top: 200px; width: 100%; } .column { display: flex; flex-direction: column; align-items: center; flex: 1; padding: 10px; } .min-width-column { min-width: 550px; } .auto, .manual, .async { width: 150px; text-align: center; background-color: #6e6d6d; color: #ffffff; padding: 10px; } .container { display: flex; flex-direction: column; } .title, .button { height: 40px; background-color: var(--default-color-gray); display: flex; justify-content: center; align-items: center; } ."/>
+<meta itemprop="name" content="Tooltip">
+<meta itemprop="description" content="Document  body { margin: 0; } .rows { display: flex; flex-direction: row; align-items: center; position: absolute; top: 200px; width: 100%; } .column { display: flex; flex-direction: column; align-items: center; flex: 1; padding: 10px; } .min-width-column { min-width: 550px; } .auto, .manual, .async { width: 150px; text-align: center; background-color: #6e6d6d; color: #ffffff; padding: 10px; } .container { display: flex; flex-direction: column; } .title, .button { height: 40px; background-color: var(--default-color-gray); display: flex; justify-content: center; align-items: center; } .">
+
+<meta itemprop="wordCount" content="198">
 <meta itemprop="image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
 
 
@@ -52,71 +50,157 @@
 </nav>
 </div>
 <div class="content-container">
-<main><h1>Dropdown</h1>
+<main><h1>Tooltip</h1>
 
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+
+
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../components/coherent-gameface-components-theme.css">
-    <link rel="stylesheet" href="../../components/scrollable-container/style.css">
-    <link rel="stylesheet" href="../../components/slider/horizontal.css">
-    <link rel="stylesheet" href="../../components/slider/vertical.css">
-    <link rel="stylesheet" href="../../components/dropdown/style.css">
+    <link rel="stylesheet" href="../../components/tooltip/style.css">
+    <title>Document</title>
     <style>
-        scrollable-content,
-        .wrapper {
+        body {
+            margin: 0;
+        }
+
+        .rows {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: absolute;
+            top: 200px;
             width: 100%;
-            height: 200px;
         }
 
-        .vertical-slider-wrapper {
-            height: 200px;
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            padding: 10px;
         }
 
-        .page-wrapper {
-            height: 45vh;
+        .min-width-column {
+            min-width: 550px;
         }
 
-        gameface-dropdown {
-            line-height: 100%;
+        .auto,
+        .manual,
+        .async {
+            width: 150px;
+            text-align: center;
+            background-color: #6e6d6d;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title,
+        .button {
+            height: 40px;
+            background-color: var(--default-color-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button {
+            background-color: var(--default-color-gray);
+            cursor: pointer;
+        }
+
+        /* Hugo example modifications */
+        .rows {
+            flex-direction: column;
+            position: relative;
+            top: auto;
         }
     </style>
 </head>
 
 <body>
-    <div class="page-wrapper">
-        <gameface-dropdown class="gameface-dropdown-component">
-            <dropdown-option slot="option">Cat1</dropdown-option>
-            <dropdown-option slot="option" disabled>Cat1</dropdown-option>
-            <dropdown-option slot="option" disabled>Cat1</dropdown-option>
-            <dropdown-option slot="option">Cat3</dropdown-option>
-            <dropdown-option slot="option">Cat4</dropdown-option>
-            <dropdown-option slot="option">Dog</dropdown-option>
-            <dropdown-option slot="option">Giraffe</dropdown-option>
-            <dropdown-option slot="option">Lion</dropdown-option>
-            <dropdown-option slot="option" disabled>Pig</dropdown-option>
-            <dropdown-option slot="option">Eagle</dropdown-option>
-            <dropdown-option slot="option">Parrot</dropdown-option>
-            <dropdown-option slot="option" disabled>Last Parrot</dropdown-option>
-            <dropdown-option slot="option" disabled>Last Parrota</dropdown-option>
-            <dropdown-option slot="option">Last Parrot</dropdown-option>
-        </gameface-dropdown>
+<div class="rows">
+    <div class="column min-width-column">
+        <p>Show or hide automatically</p>
+        <div class="auto">Hover over me</div>
     </div>
+    <div class="column">
+        <p>Show or hide manually using a callback</p>
+        <div class="manual">Click me</div>
+    </div>
+    <div class="column">
+        <p>Replace with dynamic content when available</p>
+        <div id="async" class="async">Hover over me</div>
+    </div>
+</div>
+<gameface-tooltip id="tutorial" target=".manual" on="click" position="bottom" off="click">
+    <div slot="message">
+        <div class="container">
+            <div class="title">Welcome!</div>
+            <div class="text">
+                Hello, this is your first tutorial.
+                Click the next button to continue.
+            </div>
+            <div class="button">Next</div>
+        </div>
+    </div>
+</gameface-tooltip>
+<gameface-tooltip target=".auto" on="mouseenter" position="left" off="mouseleave">
+    <div slot="message">Message on the left</div>
+</gameface-tooltip>
+<gameface-tooltip target=".auto" on="mouseenter" position="bottom" off="mouseleave">
+    <div slot="message">Message on the bottom</div>
+</gameface-tooltip>
+<gameface-tooltip target=".auto" on="mouseenter" position="right" off="mouseleave">
+    <div slot="message">Message on the right</div>
+</gameface-tooltip>
+<gameface-tooltip id="async-tooltip" target="#async" on="mouseenter" position="bottom" off="mouseleave" async>
+    <div slot="message"></div>
+</gameface-tooltip>
 
-    <script src="../../components/dropdown/bundle.js"></script>
+<script src="../../components/tooltip/bundle.js"></script>
+<script>
+    document.querySelector('.button').addEventListener('click', (e) => {
+        document.querySelector('#tutorial').hide();
+    });
 
+    let timeout;
+    // Mock dynamic content
+    function mockContentAsync() {
+        return new Promise(resolve => {
+            if(timeout) clearTimeout(timeout);
+
+            timeout = setTimeout(() => {
+                resolve('Delayed message received!');
+            }, 2000);
+        });
+    }
+
+    async function show() {
+        const delayedContent = mockContentAsync;
+        const tooltipAsync = document.getElementById('async-tooltip');
+        await tooltipAsync.setMessage(delayedContent);
+    }
+
+    document.querySelector('#async').addEventListener('mouseenter', show);
+</script>
 </body>
 
-</html><div class="edit-meta">
-Last updated on Thursday, October 8, 2020
+</html>
+<div class="edit-meta">
 
-
-<br>
-Published on Thursday, October 8, 2020
-<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/examples/dropdown.html" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/" title="Checkbox"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Checkbox</a>
-<a class="nav nav-next" href="https://CoherentLabs.github.io/GameUIComponents/examples/grid/" title="Grid">Next - Grid <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/examples/tooltip.html" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="https://CoherentLabs.github.io/GameUIComponents/examples/switch/" title="Switch"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Switch</a>
+<a class="nav nav-next" href="https://CoherentLabs.github.io/GameUIComponents/components/" title="Components">Next - Components <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 </nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
 </footer>
 </main>
@@ -137,7 +221,7 @@ Published on Thursday, October 8, 2020
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/">Accordion Menu</a></li>
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/">Automatic Grid</a></li>
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
-<li class="active"><a href="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/">Progress Bar</a></li>
@@ -146,7 +230,7 @@ Published on Thursday, October 8, 2020
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable Container</a></li>
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
 <li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/switch/">Switch</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/">Tooltip</a></li>
+<li class="active"><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/">Tooltip</a></li>
 </ul>
   
 </li>

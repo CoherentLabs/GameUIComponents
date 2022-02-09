@@ -195,4 +195,12 @@
     <loc>https://CoherentLabs.github.io/GameUIComponents/tags/</loc>
   </url>
   
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/tooltip/</loc>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/</loc>
+  </url>
+  
 </urlset>

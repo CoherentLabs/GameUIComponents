@@ -161,5 +161,14 @@
       <description>  .row { display: flex; } .cell { width: 25%; display: flex; align-items: center; justify-content: center; height: 50px; }    type=&#34;default&#34; type=&#34;inset&#34; type=&#34;text-inside&#34;  Unchecked  Off On   Off On   Off On    Checked Off On   Off On   Off On    Unchecked disabled Off On   Off On   Off On    Checked disabled Off On   Off On   Off On       </description>
     </item>
     
+    <item>
+      <title>Tooltip</title>
+      <link>https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/</guid>
+      <description>Document  body { margin: 0; } .rows { display: flex; flex-direction: row; align-items: center; position: absolute; top: 200px; width: 100%; } .column { display: flex; flex-direction: column; align-items: center; flex: 1; padding: 10px; } .min-width-column { min-width: 550px; } .auto, .manual, .async { width: 150px; text-align: center; background-color: #6e6d6d; color: #ffffff; padding: 10px; } .container { display: flex; flex-direction: column; } .title, .button { height: 40px; background-color: var(--default-color-gray); display: flex; justify-content: center; align-items: center; } .</description>
+    </item>
+    
   </channel>
 </rss>

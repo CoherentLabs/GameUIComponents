@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Tooltip - Gameface Game UI Components</title>
+<meta name="description" content="GameUIComponents">
+<meta name="generator" content="Hugo 0.76.5" />
+<link href="https://CoherentLabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://CoherentLabs.github.io/GameUIComponents/components/tooltip/">
+<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="https://CoherentLabs.github.io/GameUIComponents/js/bundle.js"></script><style>
+:root {}
+</style>
+<meta property="og:title" content="Tooltip" />
+<meta property="og:description" content="The tooltip is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-tooltip
+Usage The tooltip component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the tooltip component:  &lt;script src=&quot;./node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js&quot;&gt;&lt;/script&gt; add the tooltip component to your html:  &lt;gameface-tooltip target=&quot;.container&quot;&gt;&lt;div slot=&quot;message&quot;&gt;Hello!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://CoherentLabs.github.io/GameUIComponents/components/tooltip/" />
+<meta property="og:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+<meta property="og:site_name" content="Hugo Techdoc Theme" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+<meta name="twitter:title" content="Tooltip"/>
+<meta name="twitter:description" content="The tooltip is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-tooltip
+Usage The tooltip component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the tooltip component:  &lt;script src=&quot;./node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js&quot;&gt;&lt;/script&gt; add the tooltip component to your html:  &lt;gameface-tooltip target=&quot;.container&quot;&gt;&lt;div slot=&quot;message&quot;&gt;Hello!"/>
+<meta itemprop="name" content="Tooltip">
+<meta itemprop="description" content="The tooltip is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-tooltip
+Usage The tooltip component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt; import the tooltip component:  &lt;script src=&quot;./node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js&quot;&gt;&lt;/script&gt; add the tooltip component to your html:  &lt;gameface-tooltip target=&quot;.container&quot;&gt;&lt;div slot=&quot;message&quot;&gt;Hello!">
+
+<meta itemprop="wordCount" content="619">
+<meta itemprop="image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
+
+
+
+<meta itemprop="keywords" content="" />
+</head>
+<body><div class="container"><header>
+<h1>Gameface Game UI Components</h1><span class="version">Version 1.0.0</span><a href="https://github.com/CoherentLabs/GameUIComponents_Public" class="github"><i class="fab fa-github"></i></a>
+<p class="description">GameUIComponents</p>
+
+</header>
+<div class="global-menu">
+<nav>
+<ul>
+<li><a href="../../GameUIComponents/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>Tooltip</h1>
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<p>The tooltip is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.</p>
+<h1 id="installation">Installation</h1>
+<p><code>npm i coherent-gameface-tooltip</code></p>
+<h1 id="usage">Usage</h1>
+<p>The tooltip component comes with UMD and CJS builds.</p>
+<h2 id="usage-with-umd-modules">Usage with UMD modules:</h2>
+<ul>
+<li>import the components library:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>import the tooltip component:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>add the tooltip component to your html:</li>
+</ul>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-tooltip target=&quot;.container&quot;&gt;
+    &lt;div slot=&quot;message&quot;&gt;Hello!&lt;/div&gt;
+&lt;/gameface-tooltip&gt;
+</code></pre><p>If you wish to import the modules using JavaScript you can remove the script tags
+which import the components and the tooltip from the node_modules folder and import them like this:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from 'coherent-gameface-components';
+import Tooltip from 'coherent-gameface-tooltip';
+</code></pre><p>Note that this approach requires a module bundler like <a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/guide/en/">Rollup</a> to resolve the
+modules from the node_modules folder. Alternatively you can import them directly from node_modules:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
+import Tooltip from './node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js';
+</code></pre><h2 id="usage-with-cjs-modules">Usage with CJS modules:</h2>
+<ul>
+<li>Import the components library:</li>
+</ul>
+<pre><code class="language-{.js}" data-lang="{.js}">const components = require('coherent-gameface-components');
+const Tooltip = require('coherent-gameface-tooltip');
+</code></pre><p>The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
+bundler in order to be use them in a browser.</p>
+<h1 id="specifying-the-content">Specifying the content</h1>
+<p>Use the message slot to specify the message of the tooltip.</p>
+<p>Full list of the available attributes can be found <a href="###Attributes">here</a>.</p>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-tooltip target=&quot;.container&quot; on=&quot;mouseenter&quot; off=&quot;mouseleave&quot; position=&quot;left&quot;&gt;
+    &lt;div slot=&quot;message&quot;&gt;Message on left&lt;/div&gt;
+&lt;/gameface-tooltip&gt;
+</code></pre><p>You can also put more complex content like interactive controls such as buttons:</p>
+<pre><code class="language-{.html}" data-lang="{.html}">&lt;gameface-tooltip id=&quot;tutorial&quot; target=&quot;.container&quot; on=&quot;mouseenter&quot; position=&quot;top&quot; off=&quot;click&quot;&gt;
+    &lt;div slot=&quot;message&quot;&gt;
+        &lt;div class=&quot;msg-container&quot;&gt;
+            &lt;div class=&quot;title&quot;&gt;Wellcome!&lt;/div&gt;
+            &lt;div class=&quot;text&quot;&gt;
+                Hello, this is your first tutorial.
+                Click the next button to continue.
+            &lt;/div&gt;
+            &lt;div class=&quot;button&quot;&gt;Next&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/gameface-tooltip&gt;
+</code></pre><p>You can add more flexibility using JavaScript. In the above example the tooltip will be closed on click anywhere inside it. If you wish to close it only if the customer clicks for the example on the <code>Next</code> button you can manually attach a listener and call the <code>hide</code> method of the tooltip:</p>
+<pre><code class="language-{.js}" data-lang="{.js}">document.querySelector('.button').addEventListener('click', (e) =&gt; {
+    document.querySelector('#tutorial').hide();
+});
+</code></pre><h2 id="add-the-styles">Add the Styles</h2>
+<pre><code class="language-{.css}" data-lang="{.css}">&lt;link rel=&quot;stylesheet&quot; href=&quot;coherent-gameface-components-theme.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+</code></pre><p>To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.</p>
+<p><strong>You can put any custom styles inline or use class names and add an external file.</strong></p>
+<h2 id="how-to-use">How to use</h2>
+<p>Usually a tooltip is displayed as a result of an action performed on another element. For example, you need to show a tooltip with more data when you hover on an item in the inventory. To specify the trigger element use the <code>target</code> attribute. Its value is a query string used to get the element. Refer to the table below for the full list of attributes.</p>
+<h3 id="setting-a-message">Setting a message</h3>
+<p>To set or change the tooltip message, use the <code>setMessage</code> method.</p>
+<p>When the <code>async</code> attribute is present in <code>&lt;gameface-tooltip&gt;</code>, a callback that returns a Promise must be provided to the <code>setMessage</code> method.
+Async mode use case is shown in the demo page.</p>
+<h3 id="attributes">Attributes</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Default</th>
+<th>Accepted values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>target</td>
+<td>DOMString</td>
+<td>N/A</td>
+<td>Any</td>
+<td>Specify the element on which the tooltip should be displayed.</td>
+</tr>
+<tr>
+<td>on</td>
+<td>String</td>
+<td>click</td>
+<td><code>click</code>, <code>mouseover</code>, etc.</td>
+<td>Specify the event which will trigger the show method of the tooltip</td>
+</tr>
+<tr>
+<td>off</td>
+<td>String</td>
+<td>click</td>
+<td><code>click</code>,  <code>mouseover</code>, etc.</td>
+<td>Specify the event which will trigger the hide method of the tooltip</td>
+</tr>
+<tr>
+<td>position</td>
+<td>String</td>
+<td>top</td>
+<td><code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code></td>
+<td>Specify the position of the tooltip relative to the element specified using the <code>target</code> attribute.</td>
+</tr>
+<tr>
+<td>async</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Enable to use an asynchronous function to set the tooltip message with the <code>setMessage</code> method.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td>getter</td>
+<td>Returns the <code>textContent</code> of the message slot.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods">Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Accepted values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>setMessage</td>
+<td>A string, number or functions returning a value or a Promise.</td>
+<td>Sets or changes the tooltip message.</td>
+</tr>
+</tbody>
+</table>
+<div class="edit-meta">
+
+<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/components/tooltip.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="https://CoherentLabs.github.io/GameUIComponents/components/switch/" title="Switch"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Switch</a>
+<a class="nav nav-next" href="https://CoherentLabs.github.io/GameUIComponents/components/dropdown/" title="Dropdown">Next - Dropdown <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main>
+<div class="sidebar">
+
+<nav class="open-menu">
+<ul>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents">Home</a></li>
+
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/">Examples</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/text-field/">Text-field</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/router/">Router</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/menu/">Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radio-button/">Radio Button</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/">Accordion Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/">Automatic Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/">Progress Bar</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/rangeslider/">Rangeslider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/switch/">Switch</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/">Tooltip</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="https://CoherentLabs.github.io/GameUIComponents/components/">Components</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/dropdown/">Dropdown</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/text-field/">Text-field</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/router/">Router</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/menu/">Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/tabs/">Tabs</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/">Accordion Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/">Automatic Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/checkbox/">Checkbox</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/grid/">Grid</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/modal/">Modal</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/">Progress Bar</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/">Radial Menu</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radio-button/">Radio Button</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/">Rangeslider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/">Scrollable Container</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/slider/">Slider</a></li>
+<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/switch/">Switch</a></li>
+<li class="active"><a href="https://CoherentLabs.github.io/GameUIComponents/components/tooltip/">Tooltip</a></li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+
+<div class="sidebar-footer"></div>
+</div>
+
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>
