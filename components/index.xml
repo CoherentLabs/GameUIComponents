@@ -180,18 +180,6 @@ Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp
     </item>
     
     <item>
-      <title>Scrollable Container</title>
-      <link>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</link>
-      <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
-      
-      <guid>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</guid>
-      <description>The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
-Installation npm i coherent-gameface-scrollable-container
-Usage The gameface-scrollable-container component comes with UMD and CJS builds.
-Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; import the gameface-scrollable-container component:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the gameface-scrollable-container component to your html:  &amp;lt;gameface-scrollable-container class=&amp;quot;gameface-scrollable-container-component&amp;quot;&amp;gt;&amp;lt;/gameface-scrollable-container&amp;gt;This is all!</description>
-    </item>
-    
-    <item>
       <title>Slider</title>
       <link>https://CoherentLabs.github.io/GameUIComponents/components/slider/</link>
       <pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate>
@@ -213,6 +201,18 @@ Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp
 Usage The gameface-switch component comes with UMD and CJS builds.
 Installation npm i coherent-gameface-switch
 Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  import the gameface-switch component:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-switch/umd/switch.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  add the gameface-switch component to your html:  &amp;lt;gameface-switch&amp;gt;&amp;lt;/gameface-switch&amp;gt; This is all!</description>
+    </item>
+    
+    <item>
+      <title>Scrollable-container</title>
+      <link>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</guid>
+      <description>The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+Installation npm i coherent-gameface-scrollable-container
+Usage The gameface-scrollable-container component comes with UMD and CJS builds.
+Usage with UMD modules:  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  import the gameface-scrollable-container component:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  add the gameface-scrollable-container component to your html:  &amp;lt;gameface-scrollable-container class=&amp;quot;gameface-scrollable-container-component&amp;quot;&amp;gt;&amp;lt;/gameface-scrollable-container&amp;gt; This is all!</description>
     </item>
     
     <item>

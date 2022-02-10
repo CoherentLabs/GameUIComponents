@@ -158,16 +158,6 @@
   </url>
   
   <url>
-    <loc>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</loc>
-    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/</loc>
-    <lastmod>2020-10-08T14:00:45+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://CoherentLabs.github.io/GameUIComponents/components/slider/</loc>
     <lastmod>2020-10-08T14:00:45+00:00</lastmod>
   </url>
@@ -189,6 +179,14 @@
   
   <url>
     <loc>https://CoherentLabs.github.io/GameUIComponents/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/</loc>
+  </url>
+  
+  <url>
+    <loc>https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/</loc>
   </url>
   
   <url>
