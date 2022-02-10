@@ -31,6 +31,21 @@ function removeTooltips() {
     }
 }
 
+async function checkResizeHandler(shouldHideTooltip = false, expected = true) {
+    const sandbox = sinon.createSandbox();
+    const tooltip = document.querySelector('#smart-position');
+    sandbox.spy(tooltip, "resizeDebounced");
+
+    await tooltip.show();
+    if (shouldHideTooltip) tooltip.hide();
+
+    window.dispatchEvent(new CustomEvent('resize'));
+
+    return createAsyncSpec(() => {
+        assert(tooltip.resizeDebounced.called === expected, 'The tooltip was not repositioned on window resize.')
+    });
+}
+
 async function setupTooltipTestPage(template) {
     const el = document.createElement('div');
     el.className = 'tooltip-test-wrapper';
@@ -44,7 +59,6 @@ async function setupTooltipTestPage(template) {
         waitForStyles(resolve);
     });
 }
-
 
 describe('Tooltip component', () => {
     afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
@@ -100,7 +114,7 @@ describe('Tooltip component', () => {
         }, 5);
     });
 
-    it('Should not be displayed on top as there is not enought space for the tooltip to be visible', async () => {
+    it('Should not be displayed on top as there is not enough space for the tooltip to be visible', async () => {
         const target = document.querySelector('.smart-position-target');
         click(target);
 
@@ -126,6 +140,14 @@ describe('Tooltip component', () => {
         gamefaceTooltip.setMessage(() => expectedNumber);
 
         assert(gamefaceTooltip.message === expectedNumber.toString(), 'Tooltip message failed to change.');
+    });
+
+    it('Should reposition itself on window resize', async () => {
+        return checkResizeHandler();
+    });
+
+    it('Should not reposition itself on window resize if it is hidden', async () => {
+        return checkResizeHandler(true, false)
     });
 });
 
