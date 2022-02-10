@@ -12,6 +12,25 @@ import template from './template.html';
  * Scrollable container. If it's content overflows a scrollbar will appear.
 */
 class ScrollableContainer extends HTMLElement {
+    static get observedAttributes() {
+        return ['automatic'];
+    }
+
+    get automatic() {
+        return this.hasAttribute('automatic');
+    }
+
+    set automatic(value) {
+        this._automatic = value;
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        // boolean attributes' initial value is an empty string, so
+        // we need to check if the old value was null
+        if (oldValue !== null && !newValue) this.removeMutationObserver();
+        if (oldValue === null && newValue) this.initMutationObserver();
+    }
+
     constructor() {
         super();
         this.template = template;
@@ -33,10 +52,31 @@ class ScrollableContainer extends HTMLElement {
                 // render the component
                 components.renderOnce(this);
                 // do the initial setup - add event listeners, assign members
+
                 this.setup();
                 this.shouldShowScrollbar();
+                if (this.automatic) this.initMutationObserver();
             })
             .catch(err => console.error(err));
+    }
+
+    initMutationObserver() {
+        if (this.observer) this.removeMutationObserver();
+        this.observer = new MutationObserver(() => this.shouldShowScrollbar());
+
+        const options = {
+            attributes: true,
+            subtree: true,
+            childList: true,
+            attributesFilter: ['style', 'class']
+        }
+
+        this.observer.observe(this, options);
+    }
+
+    removeMutationObserver() {
+        this.observer.disconnect();
+        this.observer = null;
     }
 
     /**
@@ -118,12 +158,12 @@ class ScrollableContainer extends HTMLElement {
     */
     shouldShowScrollbar() {
         const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
-
         components.waitForFrames(() => {
             const scrollableContentRect = scrollableContent.getBoundingClientRect();
             const boundingRect = this.getBoundingClientRect();
-
-            if (scrollableContentRect.height <= boundingRect.height) return;
+            if (scrollableContentRect.height <= boundingRect.height) {
+                return this.hideScrollBar(this.scrollbar);
+            }
             this.showScrollBar(this.scrollbar);
             this.scrollbar.resize(this.scrollableContainer);
         });

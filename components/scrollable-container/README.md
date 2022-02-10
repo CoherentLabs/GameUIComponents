@@ -94,6 +94,12 @@ const scrollableContainer = document.querySelector('.scrollable-container');
 scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 ~~~~
 
+## Automatically showing and resizing the scrollbar
+
+To automatically show, hide and resize the scrollbar set the `automatic` attribute to the `<gameface-scrollable-container>` element. This will initiate an observer that will monitor the `scrollable-container` for changes so that it can automatically re-adjust itself if it has to. *Keep in mind that a [mutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) can affect the performance of your UI. Consider manually re-adjusting the scrollbar if its content will change multiple tiles in a frame.*
+
+`<gameface-scrollable-container class="scrollable-container-component fixed-width" automatic>`
+
 ## Add the Styles
 
 ~~~~{.css}

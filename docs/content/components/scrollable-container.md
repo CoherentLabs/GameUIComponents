@@ -1,10 +1,10 @@
 ---
-title: "Scrollable Container"
-date: 2020-10-08T14:00:45Z
+date: 2022-2-09
+title: "Scrollable-container"
 draft: false
 ---
 
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The gameface-scrollable-container is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
 Installation
@@ -99,6 +99,12 @@ If you need to hide the scrollbar - use the **hideScrollBar method** and pass it
 const scrollableContainer = document.querySelector('.scrollable-container');
 scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 ~~~~
+
+## Automatically showing and resizing the scrollbar
+
+To automatically show, hide and resize the scrollbar set the `automatic` attribute to the `<gameface-scrollable-container>` element. This will initiate an observer that will monitor the `scrollable-container` for changes so that it can automatically re-adjust itself if it has to. *Keep in mind that a [mutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) can affect the performance of your UI. Consider manually re-adjusting the scrollbar if its content will change multiple tiles in a frame.*
+
+`<gameface-scrollable-container class="scrollable-container-component fixed-width" automatic>`
 
 ## Add the Styles
 

@@ -3,7 +3,80 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-const longContent = `<div>
+function showDynamicScrollbarContent(scrollableContainer) {
+    scrollableContainer.querySelector('.dynamic-content').style.display = 'block';
+}
+
+function hideDynamicScrollbarContent(scrollableContainer) {
+    scrollableContainer.querySelector('.dynamic-content').style.display = 'none';
+}
+
+describe('Scrollable Container Component', () => {
+    afterAll(() => cleanTestPage('.scrollable-container-test-wrapper'));
+
+    beforeEach(function (done) {
+        const template = `<gameface-scrollable-container class="scrollable-container" automatic>
+        <component-slot data-name="scrollable-content">
+        Some short content.
+        <div class="dynamic-content" style="display:none;">${dynamicContent}</div>
+        </component-slot>
+        </gameface-scrollable-container>`;
+
+        const el = document.createElement('div');
+        el.innerHTML = template;
+        el.className = 'scrollable-container-test-wrapper';
+
+        cleanTestPage('.scrollable-container-test-wrapper');
+
+        document.body.insertBefore(el, document.body.firstElementChild);
+
+        waitForStyles(() => {
+            done();
+        })
+    });
+
+    it('Should be rendered', () => {
+        assert(document.querySelector('.scrollable-container') !== null, 'Scrollable container is not rendered.');
+    });
+
+    it('Should not show scrollbar as the content does not overflow', async () => {
+        const style = getComputedStyle(document.querySelector('.slider-component'));
+
+        return createAsyncSpec(() => {
+            assert(style.display === 'none', 'The scrollbar is visible.');
+        });
+    });
+
+    it('Should show scrollbar if the content is changed and overflows', async () => {
+        const scrollableContainer = document.querySelector('.scrollable-container');
+        showDynamicScrollbarContent(scrollableContainer);
+
+        return createAsyncSpec(() => {
+            const sliderStyle = getComputedStyle(scrollableContainer.querySelector('.slider-component'));
+            assert(sliderStyle.display === 'block', 'The scrollbar is not visible.');
+        });
+    });
+
+    it('Should hide scrollbar if the content is changed and does not overflow', async () => {
+        const scrollableContainer = document.querySelector('.scrollable-container');
+        showDynamicScrollbarContent(scrollableContainer);
+
+        await createAsyncSpec(() => {
+            const sliderStyle = getComputedStyle(scrollableContainer.querySelector('.slider-component'));
+            assert(sliderStyle.display === 'block', 'The scrollbar is not visible.');
+        },3);
+
+        hideDynamicScrollbarContent(scrollableContainer);
+
+        return createAsyncSpec(() => {
+            const sliderStyle = getComputedStyle(scrollableContainer.querySelector('.slider-component'));
+            assert(sliderStyle.display === 'none', 'The scrollbar is visible.');
+        },3);
+    });
+})
+
+
+const dynamicContent = `<div>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu urna tempus, ultricies lacus fermentum, posuere arcu. Ut eget elit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse feugiat auctor finibus. Ut in euismod magna. Fusce eget dapibus arcu. Curabitur laoreet elit id lobortis tristique. Sed vel finibus turpis. Nulla sed lectus ante. Sed rutrum libero odio, non congue erat hendrerit non. Nunc in vulputate dolor, et dapibus neque. Sed accumsan sapien fermentum facilisis pharetra. Pellentesque fermentum, ligula faucibus suscipit elementum, erat ante ullamcorper tortor, id cursus mi eros ut lorem.
 
 Mauris condimentum leo vitae leo vehicula tincidunt. Quisque vehicula erat elit. Donec commodo bibendum ipsum vel commodo. Curabitur egestas massa sed purus dapibus commodo. Nam auctor tempus lacus, quis eleifend ipsum faucibus id. Nunc ullamcorper velit in lorem ultrices, eu auctor ante euismod. Donec in congue lacus. Quisque erat nibh, viverra sit amet ultrices eu, imperdiet ut lectus.
@@ -44,59 +117,3 @@ Ut pretium mi in purus interdum, ut mattis tortor vulputate. Nunc eu blandit mag
 
 Nam at justo enim. Nam dictum facilisis mattis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce eget blandit ex, nec elementum erat. Vivamus purus purus, bibendum quis hendrerit sed, vehicula vitae arcu. Nam enim ligula, rutrum vitae imperdiet vitae, tristique id urna. Aenean rutrum sed nunc vel ultricies. Suspendisse iaculis, dolor vel blandit blandit, lacus tellus sodales nulla, id aliquam est nisl eu ligula. Nulla fermentum neque quis metus tristique scelerisque. Nulla aliquam vel libero sit amet mollis. Nulla ut consequat nisl. Proin eu dignissim nisi.
 </div>`;
-
-const dynamicScrollbarTemplate = `<gameface-scrollable-container class="scrollable-container">
-<component-slot data-name="scrollable-content">${longContent}</component-slot>
-</gameface-scrollable-container>`;
-
-describe('Scrollable Container Component', () => {
-    afterAll(() => cleanTestPage('.scrollable-container-test-wrapper'));
-
-    beforeEach(function (done) {
-        const el = document.createElement('div');
-        el.innerHTML = dynamicScrollbarTemplate;
-        el.className = 'scrollable-container-test-wrapper';
-
-        let currentElement = document.querySelector('.scrollable-container-test-wrapper');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-
-        document.body.insertBefore(el, document.body.firstElementChild);
-
-        waitForStyles(() => {
-            done();
-        })
-    });
-
-    it('Should be rendered', () => {
-        assert(document.querySelector('.scrollable-container') !== null, 'Scrollable container is not rendered.');
-    });
-
-    it('Should show scrollbar if the content overflows', () => {
-        const style = getComputedStyle(document.querySelector('.slider-component'));
-
-        return createAsyncSpec(() => {
-            assert(style.display === 'block', 'The scrollbar is not visible.');
-        });
-    });
-
-    it('Should scroll using the control buttons', async () => {
-        const handle = document.querySelector('.handle');
-        const downButton = document.querySelector('.down');
-
-        await createAsyncSpec(() => {
-            assert(parseInt(getComputedStyle(handle).top) === 0, 'The scrollbar handle is not at the top.');
-            downButton.dispatchEvent(new CustomEvent('mousedown', {}));
-        });
-
-        await createAsyncSpec(() => {
-            downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-        });
-
-        return createAsyncSpec(() => {
-            assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');
-        });
-    });
-});
