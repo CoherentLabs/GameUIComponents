@@ -242,6 +242,16 @@ The newly created bundles are located in checkbox/umd and checkbox/cjs folders. 
 
 If everything works, add a README.md file to the component folder and add a documentation page to the docs/ folder.
 
+# Adding styles
+
+The styles of a component are located in the same location as its source in a `style.css` file. You can use different file name and folder structure if it makes sense. For example [the styles of the slider component](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/slider/styles) are located in a separate folder and they have names corresponding to the type of slider they style.
+**Make sure to prefix all selectors with `guic-` to avoid overwriting global selectors with common names**. The prefix is an abbreviation of Game UI Components.
+Import the styles using a `link` tag in the file where you use the custom component:
+
+```
+<link rel="stylesheet" href="style.css">
+```
+
 # Adding flexibility through slots
 
 The [<slot>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) HTML element is a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together. This component system provides a custom element called <component-slot> which replaces the standard <slot> element, but keeps the main idea. Slots are usable in cases where a dynamic content must be placed in a specific place in the HTML. In the example of the <checkbox> if template is:
