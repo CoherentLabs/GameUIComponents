@@ -26,6 +26,10 @@ class GamefaceDropdown extends CustomElementValidator {
         this._pivotIndex = null;
         this.template = template;
 
+        // save the built in array method so that we can use it for HTMLCollections
+        // without creating a new array each time
+        this.builtInIndexOf = [].indexOf;
+
         // bound handlers
         this.onDocumentClick = this.onDocumentClick.bind(this);
         this.onClickOption = this.onClickOption.bind(this);
@@ -47,23 +51,17 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 
     /**
-     * Returns all dropdown-option elements.
-     * @returns {Array<HTMLElement>}
-    */
-    get allOptions() {
-        return Array.from(this.querySelectorAll('dropdown-option'));
-    }
-
-    /**
      * Returns all dropdown-option elements' indexes that don't have attribute disabled.
      * @returns {Array<number>}
     */
     get enabledOptions() {
         const enabled = [];
+        const allOptions = this.allOptions;
 
-        this.allOptions.forEach((option, index) => {
-            if (!option.hasAttribute('disabled')) enabled.push(index);
-        });
+        for (let i = 0; i < this.allOptions.length; i++) {
+            const option = allOptions[i];
+            if (!option.hasAttribute('disabled')) enabled.push(i);
+        }
 
         return enabled;
     }
@@ -89,7 +87,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @returns {number}
     */
     get lastSelectedIndex () {
-        return this.selectedLength ? this.selectedList[this.selectedLength -1] : 0;
+        return this.selectedLength ? this.selectedList[this.selectedLength - 1] : 0;
     }
 
     /**
@@ -130,8 +128,8 @@ class GamefaceDropdown extends CustomElementValidator {
      * @returns {HTMLElement}
     */
     get selected() {
-        // Fallback to a cached option if options are not available yet.
-        return this.allOptions[this.lastSelectedIndex] || this.allOptions[0];
+        const allOptions = this.allOptions;
+        return allOptions[this.lastSelectedIndex] || allOptions[0];
     }
 
     /**
@@ -170,16 +168,24 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 
     /**
-     * Checks if an element is selected by index or by the element.
-     * @param {number|HTMLElement} indexOrOption - the index of the element or the element.
-     * if indexOrOption is number - checks the selectedList as it hold indexes.
-     * if indexOrOption is an HTMLElement- checks the selected attribute of the option.
+     * Call the built in Array.prototype.indexOf method.
+     * This function allows the user to use the indexOf
+     * function without needing to use .call.
+     *
+     * @argument {any} args
+    */
+    indexOf(...args) {
+        return this.builtInIndexOf.call(...args);
+    }
+
+    /**
+     * Checks if an element is selected by index.
+     * @param {number} index - the index of the element.
      * @returns {boolean}
     */
-    isSelected(indexOrOption) {
-        if (typeof indexOrOption === 'number') return this.selectedList.indexOf(indexOrOption) > -1;
-        if (indexOrOption instanceof HTMLElement) return indexOrOption.hasAttribute('selected');
-
+    isSelected(index) {
+        if (typeof index === 'number') return this.selectedList.indexOf(index) > -1;
+        console.warn(`Using Dropdwon.isSelected with an unsupported argument type - make sure you passed an index of type number.`);
         return false;
     }
 
@@ -194,14 +200,14 @@ class GamefaceDropdown extends CustomElementValidator {
 
     /**
      * Get all options of the selected list and:
-     * 1.remove their active class
-     * 2.remove their selected attribute
-     * Reset the values of the selectedList and the hoveredElIndex.
+     * 1. remove their active class
+     * 2. remove their selected attribute
+     * 3. reset the values of the selectedList and the hoveredElIndex.
     */
     resetSelection() {
         for (let index of this.selectedList) {
             const option = this.allOptions[index];
-            this.removeActive(option);
+            this.removeActiveClass(option);
             option.removeAttribute('selected');
         }
         this.selectedList = [];
@@ -213,6 +219,8 @@ class GamefaceDropdown extends CustomElementValidator {
      * to the content of the header. If the option is falsy - do nothing.
     */
     updateSelectHeader(option) {
+        // check if cloneNode exists in case the user has set the selected
+        // to something that is not an HTMLElement instance
         if (!option || !option.cloneNode) return;
         components.transferContent(option.cloneNode(true), this.querySelector('.selected'));
     }
@@ -224,10 +232,10 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {HTMLElement} option - the option that has to be selected.
      */
     select(option) {
-        const index = this.allOptions.indexOf(option);
+        const index = this.indexOf(this.allOptions, option);
         if (!option || this.isSelected(index)) return;
 
-        this.addActive(option);
+        this.addActiveClass(option);
         option.setAttribute('selected', true);
         this.selectedList.push(index);
     }
@@ -239,8 +247,8 @@ class GamefaceDropdown extends CustomElementValidator {
      * Remove the option's index from the selectedList array.
     */
     deselect(option) {
-        const index = this.allOptions.indexOf(option);
-        this.removeActive(option);
+        const index = this.indexOf(this.allOptions, option);
+        this.removeActiveClass(option);
         option.removeAttribute('selected');
         this.selectedList.splice(this.selectedList.indexOf(index), 1);
     }
@@ -249,7 +257,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Select the options that have the selected attribute.
      * This is executed when the dropdown is connected to the DOM.
     */
-    setInitialSelection() {
+    preselectOptions() {
         if (this.multiple) return this.setInitialMultipleSelection();
         this.setInitialSingleSelection();
     }
@@ -272,7 +280,7 @@ class GamefaceDropdown extends CustomElementValidator {
         const allSelected = this.querySelectorAll('[selected]');
         const selectedLength = allSelected.length;
         // use the last option that has the selected attribute or the first element in the options list
-        const selectedDefault = selectedLength ? allSelected[selectedLength -1] : this.selected;
+        const selectedDefault = selectedLength ? allSelected[selectedLength - 1] : this.selected;
         this.setSelected(selectedDefault);
     }
 
@@ -282,7 +290,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Expand the options list by calling the click callback after 6 frames
      * because of the cohtml style resolver and the scrollable container initialization.
     */
-    setupMultiple () {
+    setupMultiple() {
         this.querySelector('.dropdown-header').style.display = 'none';
         components.waitForFrames(() => this.onClick(), 6);
     }
@@ -302,7 +310,9 @@ class GamefaceDropdown extends CustomElementValidator {
                 if (this.multiple && !this.collapsable) this.setupMultiple();
                 if (this.disabled) this.disabled = true;
 
-                this.setInitialSelection();
+                this.allOptions = this.querySelector('.options').children;
+
+                this.preselectOptions();
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
@@ -326,7 +336,7 @@ class GamefaceDropdown extends CustomElementValidator {
     onDocumentClick(event) {
         if (this.contains(event.target)) return;
         if (this.multiple && !this.collapsable) return;
-        if (this.isOpened) this.closeOptionsPanel();
+        this.closeOptionsPanel();
     }
 
     /**
@@ -361,6 +371,7 @@ class GamefaceDropdown extends CustomElementValidator {
         const enabledOptions = this.enabledOptions;
         const allOptions = this.allOptions;
 
+        if (!enabledOptions.length) return;
         if (reset) this.resetSelection();
 
         // loop all enabled indexes and select the corresponding
@@ -410,15 +421,15 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {number} keyCode - the code of the current key that is being pressed.
     */
     handleKeyboardFocus(keyCode) {
+        if (this.multiple) return;
+
         switch (keyCode) {
             case KEYCODES.ENTER:
-                if (this.multiple) return;
                 this.focusOption(this.hoveredElIndex);
                 this.closeOptionsPanel();
                 return;
             case KEYCODES.TAB:
             case KEYCODES.ESCAPE:
-                if (this.multiple) return;
                 this.closeOptionsPanel();
                 return;
         }
@@ -477,7 +488,7 @@ class GamefaceDropdown extends CustomElementValidator {
             case KEYCODES.DOWN:
             case KEYCODES.RIGHT:
                 nextElement = currentOptionIndex + 1;
-                if (this.isOutOfRange(nextElement, enabledOptions.length-1, 1)) return;
+                if (this.isOutOfRange(nextElement, enabledOptions.length - 1, 1)) return;
                 break;
         }
 
@@ -502,7 +513,7 @@ class GamefaceDropdown extends CustomElementValidator {
             this.handleMultipleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex);
         }
 
-        if (ctrlKey && keyCode === 65 && this.multiple) {
+        if (ctrlKey && keyCode === KEYCODES.LETTER_A && this.multiple) {
             event.preventDefault();
             this.selectAll();
         }
@@ -549,48 +560,36 @@ class GamefaceDropdown extends CustomElementValidator {
         this.addEventListener('keydown', this.onKeydown);
         // handle click on the selected element placeholder
         this.querySelector('.selected').addEventListener('click', this.onClick);
-        this.addOptionsListeners();
+        this.toggleOptionsListeners('addEventListener');
     }
 
     /**
-     * Loop all options and add event listeners.
+     * Loop all options and add or remove event listeners.
+     * @param {string} methodName - the name of the method that should be
+     * executed on the option - addEventListener or removeEventListener.
     */
-    addOptionsListeners() {
+    toggleOptionsListeners(methodName) {
         const options = this.querySelectorAll('dropdown-option');
 
         for (let i = 0; i < options.length; i++) {
             const option = options[i];
-            option.addEventListener('selected-option', this.onClickOption);
-            option.addEventListener('mouseenter', this.onMouseOverOption);
-            option.addEventListener('mouseleave', this.onMouseLeave);
-        }
-    }
-
-    /**
-     * Loop all options and remove event listeners.
-    */
-    removeOptionsListeners() {
-        const options = this.querySelectorAll('dropdown-option');
-
-        for (let i = 0; i < options.length; i++) {
-            const option = options[i];
-            option.removeEventListener('selected-option', this.onClickOption);
-            option.removeEventListener('mouseenter', this.onMouseOverOption);
-            option.removeEventListener('mouseleave', this.onMouseLeave);
+            option[methodName]('selected-option', this.onClickOption);
+            option[methodName]('mouseenter', this.onMouseOverOption);
+            option[methodName]('mouseleave', this.onMouseLeave);
         }
     }
 
     onMouseLeave(event) {
-        const index = this.allOptions.indexOf(event.target);
+        const index = this.indexOf(this.allOptions, event.target);
         if (this.multiple && this.selectedList.indexOf(index) > -1) return;
-        this.removeActive(event.target);
+        this.removeActiveClass(event.target);
     }
 
-    addActive(element) {
+    addActiveClass(element) {
         element.classList.add('active');
     }
 
-    removeActive(element) {
+    removeActiveClass(element) {
         element.classList.remove('active');
     }
 
@@ -602,14 +601,14 @@ class GamefaceDropdown extends CustomElementValidator {
         const options = this.allOptions;
         const target = event.target;
 
-        if (!this.multiple) this.removeActive(this.selected);
-        this.addActive(target);
-        this.hoveredElIndex = options.indexOf(event.target);
+        if (!this.multiple) this.removeActiveClass(this.selected);
+        this.addActiveClass(target);
+        this.hoveredElIndex = this.indexOf(options, event.target);
     }
 
     /**
      * Called when the option of a multiple select is clicked.
-     * Selects the target if it is unselected and deselects it id it is selected.
+     * Selects the target if it is unselected and deselects it if it is selected.
      * @param {Event} event - the event object.
     */
     onClickMultipleOptions(event) {
@@ -649,7 +648,7 @@ class GamefaceDropdown extends CustomElementValidator {
         this.isOpened = false;
         optionsPanel.classList.add('hidden');
         document.removeEventListener('click', this.onDocumentClick);
-        this.removeOptionsListeners();
+        this.toggleOptionsListeners('removeEventListener');
     }
 
     /**
@@ -662,7 +661,7 @@ class GamefaceDropdown extends CustomElementValidator {
         this.isOpened = true;
         optionsPanel.classList.remove('hidden');
         this.focus();
-        this.addOptionsListeners();
+        this.toggleOptionsListeners('addEventListener');
         document.addEventListener('click', this.onDocumentClick);
     }
 
