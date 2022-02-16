@@ -148,7 +148,7 @@ To edit the full search layout page you need to navigate to `layouts/search/sing
 ```html
 <script src="{{ $newFile.RelPermalink }}" defer></script>
 ```
-* Add a production build after the else contidion of the `{{ if eq (hugo.Environment) "development" -}}`
+* Add a production build after the else condition of the `{{ if eq (hugo.Environment) "development" -}}`
 ```html
 {{ else -}}
   {{ $newFile := $newFile | minify | fingerprint "sha512" -}}
