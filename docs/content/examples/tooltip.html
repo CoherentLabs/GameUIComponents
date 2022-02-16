@@ -55,6 +55,7 @@ draft: false
         .container {
             display: flex;
             flex-direction: column;
+            padding: 0;
         }
 
         .title,
@@ -71,6 +72,16 @@ draft: false
             cursor: pointer;
         }
 
+        [data-dark-mode] .button,
+        [data-dark-mode] .title {
+            background-color: #6e6d6d;
+        }
+
+        .tooltip {
+            position: relative;
+            opacity: 1;
+        }
+
         /* Hugo example modifications */
         .rows {
             flex-direction: column;
@@ -81,71 +92,71 @@ draft: false
 </head>
 
 <body>
-<div class="rows">
-    <div class="column min-width-column">
-        <p>Show or hide automatically</p>
-        <div class="auto">Hover over me</div>
-    </div>
-    <div class="column">
-        <p>Show or hide manually using a callback</p>
-        <div class="manual">Click me</div>
-    </div>
-    <div class="column">
-        <p>Replace with dynamic content when available</p>
-        <div id="async" class="async">Hover over me</div>
-    </div>
-</div>
-<gameface-tooltip id="tutorial" target=".manual" on="click" position="bottom" off="click">
-    <div slot="message">
-        <div class="container">
-            <div class="title">Welcome!</div>
-            <div class="text">
-                Hello, this is your first tutorial.
-                Click the next button to continue.
-            </div>
-            <div class="button">Next</div>
+    <div class="rows">
+        <div class="column min-width-column">
+            <p>Show or hide automatically</p>
+            <div class="auto">Hover over me</div>
+        </div>
+        <div class="column">
+            <p>Show or hide manually using a callback</p>
+            <div class="manual">Click me</div>
+        </div>
+        <div class="column">
+            <p>Replace with dynamic content when available</p>
+            <div id="async" class="async">Hover over me</div>
         </div>
     </div>
-</gameface-tooltip>
-<gameface-tooltip target=".auto" on="mouseenter" position="left" off="mouseleave">
-    <div slot="message">Message on the left</div>
-</gameface-tooltip>
-<gameface-tooltip target=".auto" on="mouseenter" position="bottom" off="mouseleave">
-    <div slot="message">Message on the bottom</div>
-</gameface-tooltip>
-<gameface-tooltip target=".auto" on="mouseenter" position="right" off="mouseleave">
-    <div slot="message">Message on the right</div>
-</gameface-tooltip>
-<gameface-tooltip id="async-tooltip" target="#async" on="mouseenter" position="bottom" off="mouseleave" async>
-    <div slot="message"></div>
-</gameface-tooltip>
+    <gameface-tooltip id="tutorial" target=".manual" on="click" position="bottom" off="click">
+        <div slot="message">
+            <div class="container">
+                <div class="title">Welcome!</div>
+                <div class="text">
+                    Hello, this is your first tutorial.
+                    Click the next button to continue.
+                </div>
+                <div class="button">Next</div>
+            </div>
+        </div>
+    </gameface-tooltip>
+    <gameface-tooltip target=".auto" on="mouseenter" position="left" off="mouseleave">
+        <div slot="message">Message on the left</div>
+    </gameface-tooltip>
+    <gameface-tooltip target=".auto" on="mouseenter" position="bottom" off="mouseleave">
+        <div slot="message">Message on the bottom</div>
+    </gameface-tooltip>
+    <gameface-tooltip target=".auto" on="mouseenter" position="right" off="mouseleave">
+        <div slot="message">Message on the right</div>
+    </gameface-tooltip>
+    <gameface-tooltip id="async-tooltip" target="#async" on="mouseenter" position="bottom" off="mouseleave" async>
+        <div slot="message"></div>
+    </gameface-tooltip>
 
-<script src="/components/tooltip/bundle.js"></script>
-<script>
-    document.querySelector('.button').addEventListener('click', (e) => {
-        document.querySelector('#tutorial').hide();
-    });
-
-    let timeout;
-    // Mock dynamic content
-    function mockContentAsync() {
-        return new Promise(resolve => {
-            if(timeout) clearTimeout(timeout);
-
-            timeout = setTimeout(() => {
-                resolve('Delayed message received!');
-            }, 2000);
+    <script src="/components/tooltip/bundle.js"></script>
+    <script>
+        document.querySelector('.button').addEventListener('click', (e) => {
+            document.querySelector('#tutorial').hide();
         });
-    }
 
-    async function show() {
-        const delayedContent = mockContentAsync;
-        const tooltipAsync = document.getElementById('async-tooltip');
-        await tooltipAsync.setMessage(delayedContent);
-    }
+        let timeout;
+        // Mock dynamic content
+        function mockContentAsync() {
+            return new Promise(resolve => {
+                if (timeout) clearTimeout(timeout);
 
-    document.querySelector('#async').addEventListener('mouseenter', show);
-</script>
+                timeout = setTimeout(() => {
+                    resolve('Delayed message received!');
+                }, 2000);
+            });
+        }
+
+        async function show() {
+            const delayedContent = mockContentAsync;
+            const tooltipAsync = document.getElementById('async-tooltip');
+            await tooltipAsync.setMessage(delayedContent);
+        }
+
+        document.querySelector('#async').addEventListener('mouseenter', show);
+    </script>
 </body>
 
 </html>

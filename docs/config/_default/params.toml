@@ -1,0 +1,50 @@
+# Meta Data for SEO
+
+## Homepage
+title = "Gameface Game UI Components"
+titleSeparator = "-"
+titleAddition = "Components designed specifically for Gameface"
+description = "Game UI Components designed specifically for Gameface"
+
+## Documentation
+# docsVersion = "0.3"
+
+## Open Graph
+images = []
+domainTLD = ""
+titleHome = "Gameface Game UI Components"
+
+## Sitelinks Search Box
+siteLinksSearchBox = false
+
+## Chrome Browser
+themeColor = "#ccc"
+
+# Images
+quality = 85
+bgColor = "#fff"
+landscapePhotoWidths = [900, 800, 700, 600, 500]
+portraitPhotoWidths = [800, 700, 600, 500]
+lqipWidth = "20x"
+smallLimit = "300"
+
+# Footer
+footer = ""
+
+[options]
+  lazySizes = true
+  clipBoard = true
+  instantPage = true
+  flexSearch = true
+  darkMode = true
+  bootStrapJs = true
+  breadCrumb = true
+  highLight = true
+  kaTex = false
+  multilingualMode = false
+  docsVersioning = false
+
+[menu]
+  [menu.section]
+    auto = true
+    collapsibleSidebar = true
