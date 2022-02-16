@@ -1,85 +1,21 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Router - Gameface Game UI Components</title>
-<meta name="description" content="GameUIComponents">
-<meta name="generator" content="Hugo 0.76.5" />
-<link href="https://CoherentLabs.github.io/GameUIComponents/index.xml" rel="alternate" type="application/rss+xml">
-<link rel="canonical" href="https://CoherentLabs.github.io/GameUIComponents/components/router/">
-<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/theme.min.css">
-<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-<link rel="stylesheet" href="https://CoherentLabs.github.io/GameUIComponents/css/chroma.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
-<script src="https://CoherentLabs.github.io/GameUIComponents/js/bundle.js"></script><style>
-:root {}
-</style>
-<meta property="og:title" content="Router" />
-<meta property="og:description" content="The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
-Installation npm i coherent-gameface-router
-Importing the Router The router component comes with UMD and CJS builds.
-With UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;  import the gameface-router component:  &lt;script src=&quot;./node_modules/coherent-gameface-router/umd/router.production.min.js&quot;&gt;&lt;/script&gt; If you import the router using a script tag - a global variable router will be available." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://CoherentLabs.github.io/GameUIComponents/components/router/" />
-<meta property="og:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
-<meta property="article:published_time" content="2021-11-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-11-16T00:00:00+00:00" /><meta property="og:site_name" content="Hugo Techdoc Theme" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
-
-<meta name="twitter:title" content="Router"/>
-<meta name="twitter:description" content="The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
-Installation npm i coherent-gameface-router
-Importing the Router The router component comes with UMD and CJS builds.
-With UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;  import the gameface-router component:  &lt;script src=&quot;./node_modules/coherent-gameface-router/umd/router.production.min.js&quot;&gt;&lt;/script&gt; If you import the router using a script tag - a global variable router will be available."/>
-<meta itemprop="name" content="Router">
-<meta itemprop="description" content="The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
-Installation npm i coherent-gameface-router
-Importing the Router The router component comes with UMD and CJS builds.
-With UMD modules:  import the components library:  &lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;  import the gameface-router component:  &lt;script src=&quot;./node_modules/coherent-gameface-router/umd/router.production.min.js&quot;&gt;&lt;/script&gt; If you import the router using a script tag - a global variable router will be available.">
-<meta itemprop="datePublished" content="2021-11-16T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-11-16T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1465">
-<meta itemprop="image" content="https://CoherentLabs.github.io/GameUIComponents/images/og-image.png"/>
-
-
-
-<meta itemprop="keywords" content="" />
-</head>
-<body><div class="container"><header>
-<h1>Gameface Game UI Components</h1><span class="version">Version 1.0.0</span><a href="https://github.com/CoherentLabs/GameUIComponents_Public" class="github"><i class="fab fa-github"></i></a>
-<p class="description">GameUIComponents</p>
-
-</header>
-<div class="global-menu">
-<nav>
-<ul>
-<li><a href="../../GameUIComponents/">Home</a></li></ul>
-</nav>
-</div>
-<div class="content-container">
-<main><h1>Router</h1>
-<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
-<p>The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.</p>
-<h1 id="installation">Installation</h1>
-<p><code>npm i coherent-gameface-router</code></p>
-<h1 id="importing-the-router">Importing the Router</h1>
-<p>The router component comes with UMD and CJS builds.</p>
-<h2 id="with-umd-modules">With UMD modules:</h2>
-<ul>
-<li>import the components library:</li>
-</ul>
-<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;
-</code></pre><ul>
-<li>import the gameface-router component:</li>
-</ul>
-<pre><code class="language-{.html}" data-lang="{.html}">&lt;script src=&quot;./node_modules/coherent-gameface-router/umd/router.production.min.js&quot;&gt;&lt;/script&gt;
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><link rel=preload as=font href=https://CoherentLabs.github.io/GameUIComponents/fonts/vendor/jost/jost-v4-latin-regular.woff2 type=font/woff2 crossorigin><link rel=preload as=font href=https://CoherentLabs.github.io/GameUIComponents/fonts/vendor/jost/jost-v4-latin-700.woff2 type=font/woff2 crossorigin><script>(()=>{var b=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,a=localStorage.getItem("theme");b&&a===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),b&&a==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),a==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script><link rel=stylesheet href=https://CoherentLabs.github.io/GameUIComponents/main.feb8d97984cbb3de1e89ac02ee34e65fcd9906b0d1539229868c4c6ddd0a8ed1712f54dff771c63ec1bb2f5795f9fb4fa93c72faa555429a0da39539dc7edd76.css integrity="sha512-/rjZeYTLs94eiawC7jTmX82ZBrDRU5IphoxMbd0KjtFxL1Tf93HGPsG7L1eV+ftPqTxy+qVVQpoNo5U53H7ddg==" crossorigin=anonymous><noscript><style>img.lazyload{display:none}</style></noscript><meta name=robots content="index, follow"><meta name=googlebot content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"><meta name=bingbot content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"><title>Router - Gameface Game UI Components</title><meta name=description content="The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
+Installation # npm i coherent-gameface-router
+Importing the Router # The router component comes with UMD and CJS builds.
+With UMD modules: #  import the components library:  &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;   import the gameface-router component:  &amp;lt;script src=&amp;quot;."><link rel=canonical href=https://CoherentLabs.github.io/GameUIComponents/components/router/><meta property="og:locale" content="en_US"><meta property="og:type" content="article"><meta property="og:title" content="Router"><meta property="og:description" content="The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
+Installation # npm i coherent-gameface-router
+Importing the Router # The router component comes with UMD and CJS builds.
+With UMD modules: #  import the components library:  <script src=&#34;./node_modules/coherent-gameface-components/umd/components.production.min.js&#34;></script>   import the gameface-router component:  <script src=&#34;."><meta property="og:url" content="https://CoherentLabs.github.io/GameUIComponents/components/router/"><meta property="og:site_name" content="Gameface Game UI Components"><meta property="article:published_time" content="2021-11-16T00:00:00+00:00"><meta property="article:modified_time" content="2021-11-16T00:00:00+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:site content="@getdoks"><meta name=twitter:creator content="@henkverlinde"><meta name=twitter:title content="Router"><meta name=twitter:description content><meta name=twitter:card content="summary"><meta name=twitter:image:alt content="Router"><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://CoherentLabs.github.io/#/schema/organization/1","name":"Doks","url":"https://CoherentLabs.github.io/","sameAs":["https://twitter.com/getdoks","https://github.com/h-enk/doks"],"logo":{"@type":"ImageObject","@id":"https://CoherentLabs.github.io/#/schema/image/1","url":"https://CoherentLabs.github.io/logo-doks.png","width":512,"height":512,"caption":"Doks"},"image":{"@id":"https://CoherentLabs.github.io/#/schema/image/1"}},{"@type":"WebSite","@id":"https://CoherentLabs.github.io/#/schema/website/1","url":"https://CoherentLabs.github.io/","name":"Gameface Game UI Components","description":"Game UI Components designed specifically for Gameface","publisher":{"@id":"https://CoherentLabs.github.io/#/schema/organization/1"}},{"@type":"WebPage","@id":"https://CoherentLabs.github.io/GameUIComponents/components/router/","url":"https://CoherentLabs.github.io/GameUIComponents/components/router/","name":"Router","description":"","isPartOf":{"@id":"https://CoherentLabs.github.io/#/schema/website/1"},"about":{"@id":"https://CoherentLabs.github.io/#/schema/organization/1"},"datePublished":"2021-11-16T00:00:00CET","dateModified":"2021-11-16T00:00:00CET","breadcrumb":{"@id":"https://CoherentLabs.github.io/GameUIComponents/components/router/#/schema/breadcrumb/1"},"primaryImageOfPage":{"@id":"https://CoherentLabs.github.io/GameUIComponents/components/router/#/schema/image/2"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://CoherentLabs.github.io/GameUIComponents/components/router/"]}]},{"@type":"BreadcrumbList","@id":"https://CoherentLabs.github.io/GameUIComponents/components/router/#/schema/breadcrumb/1","name":"Breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://CoherentLabs.github.io/GameUIComponents/","url":"https://CoherentLabs.github.io/GameUIComponents/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://CoherentLabs.github.io/GameUIComponents/components/","url":"https://CoherentLabs.github.io/GameUIComponents/components/","name":"Components"}},{"@type":"ListItem","position":3,"item":{"@id":"https://CoherentLabs.github.io/GameUIComponents/components/router/"}}]},{"@context":"https://schema.org","@graph":[{"@type":"ImageObject","@id":"https://CoherentLabs.github.io/GameUIComponents/components/router/#/schema/image/2","url":null,"contentUrl":null,"caption":"Router"}]}]}</script><meta name=theme-color content="#ccc"><link rel=apple-touch-icon sizes=180x180 href=https://CoherentLabs.github.io/GameUIComponents/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://CoherentLabs.github.io/GameUIComponents/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://CoherentLabs.github.io/GameUIComponents/favicon-16x16.png></head><body class="components single"><header class="navbar navbar-expand-md navbar-light doks-navbar"><nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation"><a class="navbar-brand p-0 me-auto" href=../../GameUIComponents/ aria-label="Gameface Game UI Components">Gameface Game UI Components</a>
+<button class="btn btn-menu d-block d-md-none order-5" type=button data-bs-toggle=offcanvas data-bs-target=#offcanvasDoks aria-controls=offcanvasDoks aria-label="Open main menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="offcanvas offcanvas-start border-0 py-md-1" tabindex=-1 id=offcanvasDoks data-bs-backdrop=true aria-labelledby=offcanvasDoksLabel><div class="offcanvas-header d-md-none"><h2 class="h5 offcanvas-title ps-2" id=offcanvasDoksLabel><a class=text-dark href=../../GameUIComponents/>Gameface Game UI Components</a></h2><button type=button class="btn-close text-reset me-2" data-bs-dismiss=offcanvas aria-label="Close main menu"></button></div><div class="offcanvas-body px-4"><ul class="nav flex-column flex-md-row ms-md-auto me-md-n5 pe-md-2"><li class=nav-item><a class="nav-link ps-0 py-1" href=https://www.npmjs.com/package/coherent-gameface-components><img src="http://img.shields.io/npm/v/coherent-gameface-components.svg?style=flat-square"><small class="ms-2 d-md-none">npm</small></a></li><li class=nav-item><a class="nav-link ps-0 py-1" href="https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml?query=workflow%3A%22Run+Tests%22++"><img src=https://github.com/CoherentLabs/GameUIComponents/workflows/Run%20Tests/badge.svg><small class="ms-2 d-md-none">Tests</small></a></li><li class=nav-item><a class="nav-link ps-0 py-1" href=https://github.com/CoherentLabs/GameUIComponents><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg><small class="ms-2 d-md-none">GitHub</small></a></li></ul></div></div><button id=mode class="btn btn-link order-md-1" type=button aria-label="Toggle user interface mode">
+<span class=toggle-dark><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span><span class=toggle-light><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></button></nav></header><nav class="doks-subnavbar py-2 sticky-lg-top" aria-label="Secondary navigation"><div class="container-xxl d-flex align-items-md-center"><form id=form-search class="doks-search position-relative flex-grow-1 me-auto"><input id=search class="form-control is-search" type=search placeholder=Search... aria-label=Search... autocomplete=off></form><button class="btn doks-sidebar-toggle d-lg-none ms-3 order-3 collapsed" type=button data-bs-toggle=collapse data-bs-target=#doks-docs-nav aria-controls=doks-docs-nav aria-expanded=false aria-label="Toggle documentation navigation"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="doks doks-expand" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Expand</title><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="doks doks-collapse" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Collapse</title><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg></button><div id=suggestions class="shadow rounded d-none"></div></div></nav><div class=container-xxl><aside class=doks-sidebar><nav id=doks-docs-nav class="collapse d-lg-none" aria-label="Tertiary navigation"><ul class="list-unstyled collapsible-sidebar"><li class=mb-1><button class="btn btn-toggle align-items-centers">
+<a class="docs-link rounded" href=../../GameUIComponents/>Home</a></li></button></li><li class=mb-1><button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle=collapse data-bs-target=#section-05bbb43b3d923283e0b6ffafd088f41f aria-expanded=true>
+Components</button><div class="collapse show" id=section-05bbb43b3d923283e0b6ffafd088f41f><ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/dropdown/>Dropdown</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/text-field/>Text-field</a></li><li><a class="docs-link rounded active" href=https://CoherentLabs.github.io/GameUIComponents/components/router/>Router</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/menu/>Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/tabs/>Tabs</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/>Accordion Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/>Automatic Grid</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/checkbox/>Checkbox</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/grid/>Grid</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/modal/>Modal</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/>Progress Bar</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/>Radial Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/radio-button/>Radio Button</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/>Rangeslider</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/slider/>Slider</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/switch/>Switch</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/form-control/>Form-control</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/>Scrollable-container</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/tooltip/>Tooltip</a></li></ul></div></li><li class=mb-1><button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle=collapse data-bs-target=#section-ff7c0fcd6a31e735a61c001f75426961 aria-expanded=false>
+Examples</button><div class=collapse id=section-ff7c0fcd6a31e735a61c001f75426961><ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/text-field/>Text-field</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/router/>Router</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/menu/>Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/tabs/>Tabs</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/radio-button/>Radio Button</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/>Accordion Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/>Automatic Grid</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/>Checkbox</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/>Dropdown</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/grid/>Grid</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/modal/>Modal</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/>Progress Bar</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/>Radial Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/rangeslider/>Rangeslider</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/slider/>Slider</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/switch/>Switch</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/>Scrollable-container</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/>Tooltip</a></li></ul></div></li></ul></nav></aside></div><div class="wrap container-xxl" role=document><div class=content><div class="row flex-xl-nowrap"><div class="col-lg-5 col-xl-4 docs-sidebar d-none d-lg-block"><nav class=docs-links aria-label="Main navigation"><ul class="list-unstyled collapsible-sidebar"><li class=mb-1><button class="btn btn-toggle align-items-centers">
+<a class="docs-link rounded" href=../../GameUIComponents/>Home</a></li></button></li><li class=mb-1><button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle=collapse data-bs-target=#section-05bbb43b3d923283e0b6ffafd088f41f aria-expanded=true>
+Components</button><div class="collapse show" id=section-05bbb43b3d923283e0b6ffafd088f41f><ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/dropdown/>Dropdown</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/text-field/>Text-field</a></li><li><a class="docs-link rounded active" href=https://CoherentLabs.github.io/GameUIComponents/components/router/>Router</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/menu/>Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/tabs/>Tabs</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/>Accordion Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/>Automatic Grid</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/checkbox/>Checkbox</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/grid/>Grid</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/modal/>Modal</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/>Progress Bar</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/>Radial Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/radio-button/>Radio Button</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/>Rangeslider</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/slider/>Slider</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/switch/>Switch</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/form-control/>Form-control</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/>Scrollable-container</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/components/tooltip/>Tooltip</a></li></ul></div></li><li class=mb-1><button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle=collapse data-bs-target=#section-ff7c0fcd6a31e735a61c001f75426961 aria-expanded=false>
+Examples</button><div class=collapse id=section-ff7c0fcd6a31e735a61c001f75426961><ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/text-field/>Text-field</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/router/>Router</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/menu/>Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/tabs/>Tabs</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/radio-button/>Radio Button</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/>Accordion Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/>Automatic Grid</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/>Checkbox</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/>Dropdown</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/grid/>Grid</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/modal/>Modal</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/>Progress Bar</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/>Radial Menu</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/rangeslider/>Rangeslider</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/slider/>Slider</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/switch/>Switch</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/>Scrollable-container</a></li><li><a class="docs-link rounded" href=https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/>Tooltip</a></li></ul></div></li></ul></nav></div><nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation"><div class=page-links><h3>On this page</h3><nav id=TableOfContents><ul><li><a href=#installation>Installation</a></li><li><a href=#importing-the-router>Importing the Router</a><ul><li><a href=#with-umd-modules>With UMD modules:</a></li><li><a href=#with-cjs-modules>With CJS modules:</a></li></ul></li><li><a href=#available-modules>Available Modules</a><ul><li></li></ul></li><li><a href=#usage>Usage</a><ul><li><a href=#route-params--wildcard-navigation>Route Params & Wildcard Navigation</a></li><li><a href=#nesting-routers>Nesting Routers</a></li><li><a href=#intercepting-navigation>Intercepting Navigation</a></li><li><a href=#manually-updating-the-history>Manually updating the History</a></li><li><a href=#add-the-styles>Add the Styles</a></li></ul></li></ul></nav></div></nav><main class="docs-content col-lg-11 col-xl-9 mx-xl-auto"><nav aria-label=breadcrumb><ol class=breadcrumb><li class=breadcrumb-item><a href=../../GameUIComponents/>Home</a></li><li class=breadcrumb-item><a href=../../GameUIComponents/components/>Components</a></li><li class="breadcrumb-item active" aria-current=page>Router</li></ol></nav><h1>Router</h1><p class=lead></p><nav class=d-xl-none aria-label="Quaternary navigation"><div class=page-links><h3>On this page</h3><nav id=TableOfContents><ul><li><a href=#installation>Installation</a></li><li><a href=#importing-the-router>Importing the Router</a><ul><li><a href=#with-umd-modules>With UMD modules:</a></li><li><a href=#with-cjs-modules>With CJS modules:</a></li></ul></li><li><a href=#available-modules>Available Modules</a><ul><li></li></ul></li><li><a href=#usage>Usage</a><ul><li><a href=#route-params--wildcard-navigation>Route Params & Wildcard Navigation</a></li><li><a href=#nesting-routers>Nesting Routers</a></li><li><a href=#intercepting-navigation>Intercepting Navigation</a></li><li><a href=#manually-updating-the-history>Manually updating the History</a></li><li><a href=#add-the-styles>Add the Styles</a></li></ul></li></ul></nav></div></nav><p>The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.</p><h1 id=installation>Installation <a href=#installation class=anchor aria-hidden=true>#</a></h1><p><code>npm i coherent-gameface-router</code></p><h1 id=importing-the-router>Importing the Router <a href=#importing-the-router class=anchor aria-hidden=true>#</a></h1><p>The router component comes with UMD and CJS builds.</p><h2 id=with-umd-modules>With UMD modules: <a href=#with-umd-modules class=anchor aria-hidden=true>#</a></h2><ul><li>import the components library:</li></ul><pre><code class=language-{.html}>&lt;script src=&quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><ul><li>import the gameface-router component:</li></ul><pre><code class=language-{.html}>&lt;script src=&quot;./node_modules/coherent-gameface-router/umd/router.production.min.js&quot;&gt;&lt;/script&gt;
 </code></pre><p>If you import the router using a script tag - a global variable <em>router</em> will be available.
-You can access the Router, Route, BrowserHistory, HashHistory from it:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const browserHistory = new router.BrowserHistory();
+You can access the Router, Route, BrowserHistory, HashHistory from it:</p><pre><code class=language-{.js}>const browserHistory = new router.BrowserHistory();
 router.Route.use(browserHistory);
 
 new router.Router({
@@ -89,77 +25,42 @@ new router.Router({
     '**': '&lt;div&gt;404&lt;/div&gt;'
 }, browserHistory);
 </code></pre><p>If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the gameface-router from the node_modules folder and import them like this:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">import components from 'coherent-gameface-components';
+which import the components and the gameface-router from the node_modules folder and import them like this:</p><pre><code class=language-{.js}>import components from 'coherent-gameface-components';
 import { Router } from 'coherent-gameface-router';
-</code></pre><p>Note that this approach requires a module bundler like <a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/guide/en/">Rollup</a> to resolve the
-modules from the node_modules folder. Alternatively, you can import them directly from node_modules:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
+</code></pre><p>Note that this approach requires a module bundler like <a href=https://webpack.js.org/>Webpack</a> or <a href=https://rollupjs.org/guide/en/>Rollup</a> to resolve the
+modules from the node_modules folder. Alternatively, you can import them directly from node_modules:</p><pre><code class=language-{.js}>import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
 import { Router } from './node_modules/coherent-gameface-router/umd/router.production.min.js';
-</code></pre><h2 id="with-cjs-modules">With CJS modules:</h2>
-<ul>
-<li>Import the components library:</li>
-</ul>
-<pre><code class="language-{.js}" data-lang="{.js}">const components = require('coherent-gameface-components');
+</code></pre><h2 id=with-cjs-modules>With CJS modules: <a href=#with-cjs-modules class=anchor aria-hidden=true>#</a></h2><ul><li>Import the components library:</li></ul><pre><code class=language-{.js}>const components = require('coherent-gameface-components');
 const gameface-router = require('coherent-gameface-router');
 </code></pre><p>The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to use them in a browser.</p>
-<h1 id="available-modules">Available Modules</h1>
-<p>Along with the router comes the BrowserHistory and HashHistory package, a custom element called <code>&lt;gameface-route&gt;</code> and another custom element called <code>&lt;router-view&gt;</code>.</p>
-<h3 id="the-browser-and-hash-history">The Browser and Hash History</h3>
-<p>Both histories are a thin wrapper around the HTML5 history object. It provides methods that
-help the router keep better track of the state of history. The main difference between them is that the BrowserHistory will use the history object to control the current path and the HashHistory will use the history object in collaboration with the <code>window.location.hash</code>. When the router path has changed:</p>
-<ul>
-<li>BrowserHistory will change the path directly in the page URL (for example - from &lsquo;C:/Test/&rsquo; to &lsquo;C:/Test/start&rsquo;)</li>
-<li>HashHistory will append the hash symbol <code>#</code> to the current URL and then append the current router path (for example - from &lsquo;C:/Test/index.html&rsquo; to &lsquo;C:/Test/index.html#/start&rsquo;)</li>
-</ul>
-<h4 id="when-to-use-the-browser-or-hash-history">When to use the browser or hash history?</h4>
-<p>If you have a component that is linked with a route path and inside this component, you are referring assets relative to the main directory then it is a good idea to use the HashHistory instead the BrowserHistory because it will preserve the current working directory (that is the directory of the index page) and the assets will be linked correctly to the component.</p>
-<p>In any other scenario, the BrowserHistory can be used.</p>
-<h3 id="the-route-element">The Route Element</h3>
-<p>The <code>&lt;gameface-route&gt;</code> custom element is a special link element that
+bundler in order to use them in a browser.</p><h1 id=available-modules>Available Modules <a href=#available-modules class=anchor aria-hidden=true>#</a></h1><p>Along with the router comes the BrowserHistory and HashHistory package, a custom element called <code>&lt;gameface-route></code> and another custom element called <code>&lt;router-view></code>.</p><h3 id=the-browser-and-hash-history>The Browser and Hash History <a href=#the-browser-and-hash-history class=anchor aria-hidden=true>#</a></h3><p>Both histories are a thin wrapper around the HTML5 history object. It provides methods that
+help the router keep better track of the state of history. The main difference between them is that the BrowserHistory will use the history object to control the current path and the HashHistory will use the history object in collaboration with the <code>window.location.hash</code>. When the router path has changed:</p><ul><li>BrowserHistory will change the path directly in the page URL (for example - from &lsquo;C:/Test/&rsquo; to &lsquo;C:/Test/start&rsquo;)</li><li>HashHistory will append the hash symbol <code>#</code> to the current URL and then append the current router path (for example - from &lsquo;C:/Test/index.html&rsquo; to &lsquo;C:/Test/index.html#/start&rsquo;)</li></ul><h4 id=when-to-use-the-browser-or-hash-history>When to use the browser or hash history? <a href=#when-to-use-the-browser-or-hash-history class=anchor aria-hidden=true>#</a></h4><p>If you have a component that is linked with a route path and inside this component, you are referring assets relative to the main directory then it is a good idea to use the HashHistory instead the BrowserHistory because it will preserve the current working directory (that is the directory of the index page) and the assets will be linked correctly to the component.</p><p>In any other scenario, the BrowserHistory can be used.</p><h3 id=the-route-element>The Route Element <a href=#the-route-element class=anchor aria-hidden=true>#</a></h3><p>The <code>&lt;gameface-route></code> custom element is a special link element that
 navigates to a specified page. It updates the BrowserHistory or HashHistory and as a result of this,
-the router updates the page.</p>
-<p>The <code>&lt;gameface-route&gt;</code> has an attribute called <strong>to</strong>. It specifies the path to the page it is supposed to navigate to.</p>
-<pre><code class="language-{.js}" data-lang="{.js}">&lt;gameface-route to=&quot;/start-game&quot;&gt;Start Game&lt;/gameface-route&gt;
-</code></pre><p>You can specify a class name that will be added to the <code>&lt;gameface-route&gt;</code> element when it is active.
-To do so define your style using css:</p>
-<pre><code class="language-{.css}" data-lang="{.css}">.myActiveStyle {
+the router updates the page.</p><p>The <code>&lt;gameface-route></code> has an attribute called <strong>to</strong>. It specifies the path to the page it is supposed to navigate to.</p><pre><code class=language-{.js}>&lt;gameface-route to=&quot;/start-game&quot;&gt;Start Game&lt;/gameface-route&gt;
+</code></pre><p>You can specify a class name that will be added to the <code>&lt;gameface-route></code> element when it is active.
+To do so define your style using css:</p><pre><code class=language-{.css}>.myActiveStyle {
     color: blue;
 }
-</code></pre><p>And then add it as an attribute of the <code>&lt;gameface-route&gt;</code>:</p>
-<p><code>&lt;gameface-route activeClass=&quot;myActiveStyle&quot;&gt;</code></p>
-<p>You can apply the <code>activeClass</code> to multiple <code>&lt;gameface-route&gt;</code> elements by adding it to a container:</p>
-<pre><code>&lt;div activeClass=&quot;myActiveStyle&quot;&gt;
+</code></pre><p>And then add it as an attribute of the <code>&lt;gameface-route></code>:</p><p><code>&lt;gameface-route activeClass="myActiveStyle"></code></p><p>You can apply the <code>activeClass</code> to multiple <code>&lt;gameface-route></code> elements by adding it to a container:</p><pre><code>&lt;div activeClass=&quot;myActiveStyle&quot;&gt;
     &lt;gameface-route to=&quot;/&quot;&gt;Home&lt;/gameface-route&gt;
     &lt;gameface-route to=&quot;/play&quot;&gt;Play&lt;/gameface-route&gt;
     &lt;gameface-route to=&quot;/settings&quot;&gt;Settings&lt;/gameface-route&gt;
 &lt;/div&gt;
-</code></pre><p>If you have both <code>activeClass</code> on the wrapper an on some individual elements, those routes that don&rsquo;t have own <code>activeClass</code> will inherit it from the parent element and those that have will use their own:</p>
-<pre><code>&lt;div activeClass=&quot;green&quot;&gt;
+</code></pre><p>If you have both <code>activeClass</code> on the wrapper an on some individual elements, those routes that don&rsquo;t have own <code>activeClass</code> will inherit it from the parent element and those that have will use their own:</p><pre><code>&lt;div activeClass=&quot;green&quot;&gt;
     &lt;gameface-route to=&quot;/&quot;&gt;Home&lt;/gameface-route&gt; // will be green
     &lt;gameface-route activeClass=&quot;red&quot; to=&quot;/play&quot;&gt;Play&lt;/gameface-route&gt; // will be red
     &lt;gameface-route to=&quot;/settings&quot;&gt;Settings&lt;/gameface-route&gt; // will be green
 &lt;/div&gt;
-</code></pre><p>If you don&rsquo;t add <code>activeClass</code> to the wrapper div and the route element then the default light blue color will be used.</p>
-<h3 id="the-routerview-element">The RouterView Element</h3>
-<p>The <code>&lt;router-view&gt;</code> element is a placeholder for the components that will be rendered
-upon navigation. Put the <code>&lt;router-view&gt;</code> somewhere in the document:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">&lt;gameface-route to=&quot;/start-game&quot;&gt;Start Game&lt;/gameface-route&gt;
+</code></pre><p>If you don&rsquo;t add <code>activeClass</code> to the wrapper div and the route element then the default light blue color will be used.</p><h3 id=the-routerview-element>The RouterView Element <a href=#the-routerview-element class=anchor aria-hidden=true>#</a></h3><p>The <code>&lt;router-view></code> element is a placeholder for the components that will be rendered
+upon navigation. Put the <code>&lt;router-view></code> somewhere in the document:</p><pre><code class=language-{.js}>&lt;gameface-route to=&quot;/start-game&quot;&gt;Start Game&lt;/gameface-route&gt;
 &lt;router-view&gt;&lt;/router-view&gt;
-</code></pre><h1 id="usage">Usage</h1>
-<p>You can import the Router, Route, BrowserHistory, and the HashHistory like this:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">import { Router, Route, BrowserHistory, HashHistory } from 'coherent-gameface-router';
-</code></pre><p>Route is a helper class that sets up the <code>&lt;gameface-route&gt;</code> element.</p>
-<p>The router <strong>can not</strong> work without history, it is mandatory, so the first thing
-you need to do is to instantiate the history:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const myHistory = new BrowserHistory();
+</code></pre><h1 id=usage>Usage <a href=#usage class=anchor aria-hidden=true>#</a></h1><p>You can import the Router, Route, BrowserHistory, and the HashHistory like this:</p><pre><code class=language-{.js}>import { Router, Route, BrowserHistory, HashHistory } from 'coherent-gameface-router';
+</code></pre><p>Route is a helper class that sets up the <code>&lt;gameface-route></code> element.</p><p>The router <strong>can not</strong> work without history, it is mandatory, so the first thing
+you need to do is to instantiate the history:</p><pre><code class=language-{.js}>const myHistory = new BrowserHistory();
 or
 const myHistory = new HashHistory();
-</code></pre><p>The <code>&lt;gameface-route&gt;</code> also depends on the history. To initialize it do:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">Route.use(myHistory);
-</code></pre><p>The router is configured using an object of { &lsquo;route&rsquo;: &lsquo;component-name | HTML&rsquo; } pairs:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const config = {
+</code></pre><p>The <code>&lt;gameface-route></code> also depends on the history. To initialize it do:</p><pre><code class=language-{.js}>Route.use(myHistory);
+</code></pre><p>The router is configured using an object of { &lsquo;route&rsquo;: &lsquo;component-name | HTML&rsquo; } pairs:</p><pre><code class=language-{.js}>const config = {
     '/': 'home-page',
     '/start-game': 'start-game-page',
     '/heroes': 'heroes-page',
@@ -175,11 +76,7 @@ const config = {
 const router = new Router(config, myHistory);
 </code></pre><p>And the second parameter is the history. The components in the configuration are
 the names of the custom element. When the router navigates to &lsquo;/start-game&rsquo; it will
-show the <code>&lt;start-game-page&gt;</code> element.</p>
-<h2 id="route-params--wildcard-navigation">Route Params &amp; Wildcard Navigation</h2>
-<h3 id="route-params">Route Params</h3>
-<p>You can specify dynamic route parameters by using colon(:) in the path:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const config = {
+show the <code>&lt;start-game-page></code> element.</p><h2 id=route-params--wildcard-navigation>Route Params & Wildcard Navigation <a href=#route-params--wildcard-navigation class=anchor aria-hidden=true>#</a></h2><h3 id=route-params>Route Params <a href=#route-params class=anchor aria-hidden=true>#</a></h3><p>You can specify dynamic route parameters by using colon(:) in the path:</p><pre><code class=language-{.js}>const config = {
     '/': 'home-page',
     '/start-game': 'start-game-page',
     '/heroes': 'heroes-page',
@@ -189,18 +86,12 @@ show the <code>&lt;start-game-page&gt;</code> element.</p>
 const router = new Router(config, myHistory);
 </code></pre><p>Now, if the router navigates to a route &lsquo;/heroes/support&rsquo;, the hero-component will
 receive an object with the route parameter and its current value:
-<code>element.params = { id: 'support' }</code>. The key used to save the route parameters is called <code>params</code> and the key for the parameter itself is the value after the <strong>:</strong>.</p>
-<p>A route configuration:
+<code>element.params = { id: 'support' }</code>. The key used to save the route parameters is called <code>params</code> and the key for the parameter itself is the value after the <strong>:</strong>.</p><p>A route configuration:
 &lsquo;/start-game/:mode&rsquo;
 and a route:
-&lsquo;/start-game/ranked&rsquo;</p>
-<p>will pass a <code>params</code> object - { mode: &lsquo;ranked&rsquo; }.</p>
-<h3 id="configuring-a-wildcard-route">Configuring a Wildcard Route</h3>
-<p>The wildcard route is used to specify which component to be displayed if the
+&lsquo;/start-game/ranked&rsquo;</p><p>will pass a <code>params</code> object - { mode: &lsquo;ranked&rsquo; }.</p><h3 id=configuring-a-wildcard-route>Configuring a Wildcard Route <a href=#configuring-a-wildcard-route class=anchor aria-hidden=true>#</a></h3><p>The wildcard route is used to specify which component to be displayed if the
 router doesn&rsquo;t match any of the configured routes. It&rsquo;s the missing 404 page
-displayed in websites when the server returns a &ldquo;not found&rdquo; response code - 404.</p>
-<p>To configure the wildcard route use two asterisks(**) in the route:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const config = {
+displayed in websites when the server returns a &ldquo;not found&rdquo; response code - 404.</p><p>To configure the wildcard route use two asterisks(**) in the route:</p><pre><code class=language-{.js}>const config = {
     '/': 'home-page',
     '/start-game': 'start-game-page',
     '/heroes': 'heroes-page',
@@ -209,10 +100,8 @@ displayed in websites when the server returns a &ldquo;not found&rdquo; response
 };
 
 const router = new Router(config, myHistory);
-</code></pre><h2 id="nesting-routers">Nesting Routers</h2>
-<p>Sometimes if your UI has a lot of nesting levels, the routes can get long and it
-can become hard to read and understand them, especially if you have a long list of routes:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const config = {
+</code></pre><h2 id=nesting-routers>Nesting Routers <a href=#nesting-routers class=anchor aria-hidden=true>#</a></h2><p>Sometimes if your UI has a lot of nesting levels, the routes can get long and it
+can become hard to read and understand them, especially if you have a long list of routes:</p><pre><code class=language-{.js}>const config = {
     '/':                       'home-page',
     '/start-game':             'start-game-page',
     '/heroes':                 'heroes-page',
@@ -224,135 +113,37 @@ can become hard to read and understand them, especially if you have a long list 
 </code></pre><p>To avoid this, you can nest routers. Instead of specifying all of your routes in a
 single object, you can pass another router to a path and define the routes in the
 nested router relative to its parent. For the example above, we can create a heroesRouter
-which will handle all sub-routes of the heroes page:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const heroesRouter = new Router({
+which will handle all sub-routes of the heroes page:</p><pre><code class=language-{.js}>const heroesRouter = new Router({
     '/support':       'support-page',
     '/tanks':         'tanks-page',
     '/id:/name':      'hero-name-page'
     '/id:/abilities': 'hero-abilities-page'
 });
-</code></pre><p>And we pass the heroesRouter to the main router:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const config = {
+</code></pre><p>And we pass the heroesRouter to the main router:</p><pre><code class=language-{.js}>const config = {
     '/':            'home-page',
     '/start-game':  'start-game-page',
     '/heroes':      'heroes-page',
     '/heroes/:id':   heroesRouter,
     '**':           'not-found-page'
 };
-</code></pre><p><strong>Note, that only the top router requires the history instance, you don&rsquo;t have to pass it to the nested router, they will receive it from the parent</strong></p>
-<h2 id="intercepting-navigation">Intercepting Navigation</h2>
-<p>If you would like to prevent the navigation at some point, you can pass a onBeforeNavigation function
+</code></pre><p><strong>Note, that only the top router requires the history instance, you don&rsquo;t have to pass it to the nested router, they will receive it from the parent</strong></p><h2 id=intercepting-navigation>Intercepting Navigation <a href=#intercepting-navigation class=anchor aria-hidden=true>#</a></h2><p>If you would like to prevent the navigation at some point, you can pass a onBeforeNavigation function
 that will be executed as the name suggests - before navigation. The onBeforeNavigation receives a callback
 as a first parameter. This is the navigation callback that was intercepted. To continue the navigation you
-must call the callback. The second parameter are the callback params:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">function preventNavigation (callback, params) =&gt; {
+must call the callback. The second parameter are the callback params:</p><pre><code class=language-{.js}>function preventNavigation (callback, params) =&gt; {
  // do nothing - will not navigate
  // callback.apply(null, params); - will navigate
 }
-</code></pre><p>And pass this callback to the router:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const router = new Router({}, myHistory, preventNavigation);
-</code></pre><p><strong>Just like the history, only the main router can receive a preventNavigation callback.</strong></p>
-<h2 id="manually-updating-the-history">Manually updating the History</h2>
-<p>You can manually set new entries to the history stack. For example to setup the
-initial page:</p>
-<pre><code class="language-{.js}" data-lang="{.js}">const state = { current: '/', id: myHistory.currentRouteId };
+</code></pre><p>And pass this callback to the router:</p><pre><code class=language-{.js}>const router = new Router({}, myHistory, preventNavigation);
+</code></pre><p><strong>Just like the history, only the main router can receive a preventNavigation callback.</strong></p><h2 id=manually-updating-the-history>Manually updating the History <a href=#manually-updating-the-history class=anchor aria-hidden=true>#</a></h2><p>You can manually set new entries to the history stack. For example to setup the
+initial page:</p><pre><code class=language-{.js}>const state = { current: '/', id: myHistory.currentRouteId };
 const title = 'home';
 myHistory.pushState(state, title, '/');
-</code></pre><p><code>BrowserHistory.pushState</code> and <code>HashHistory.pushState</code> accepts the same parameter the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/History/pushState">history.pushState</a> accepts.</p>
-<p><strong>Directly updating the global history object will not trigger the router, if you want to navigate manually, use the BrowserHistory instance.</strong></p>
-<p>You can also use the history methods for manually updating the history like <code>history.go</code>, <code>history.back</code>, <code>history.forward</code> - <strong>This will work just in Chrome and not in GameFace!</strong></p>
-<p>This is all the information you need to setup the router. For more detailed examples check
-the demo located the /demo folder.</p>
-<h2 id="add-the-styles">Add the Styles</h2>
-<pre><code class="language-{.css}" data-lang="{.css}">&lt;link rel=&quot;stylesheet&quot; href=&quot;coherent-gameface-components-theme.css&quot;&gt;
+</code></pre><p><code>BrowserHistory.pushState</code> and <code>HashHistory.pushState</code> accepts the same parameter the standard <a href=https://developer.mozilla.org/en-US/docs/Web/API/History/pushState>history.pushState</a> accepts.</p><p><strong>Directly updating the global history object will not trigger the router, if you want to navigate manually, use the BrowserHistory instance.</strong></p><p>You can also use the history methods for manually updating the history like <code>history.go</code>, <code>history.back</code>, <code>history.forward</code> - <strong>This will work just in Chrome and not in GameFace!</strong></p><p>This is all the information you need to setup the router. For more detailed examples check
+the demo located the /demo folder.</p><h2 id=add-the-styles>Add the Styles <a href=#add-the-styles class=anchor aria-hidden=true>#</a></h2><pre><code class=language-{.css}>&lt;link rel=&quot;stylesheet&quot; href=&quot;coherent-gameface-components-theme.css&quot;&gt;
 &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
 </code></pre><p>To overwrite the default styles, simply create new rules for the class names that
-you wish to change and include them after the default styles.</p>
-<div class="edit-meta">
-Last updated on Tuesday, November 16, 2021
-
-
-<br>
-Published on Tuesday, November 16, 2021
-<br><a href="https://github.com/CoherentLabs/GameUIComponents_Public/edit/master/content/components/router.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="https://CoherentLabs.github.io/GameUIComponents/components/text-field/" title="Text-field"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Text-field</a>
-<a class="nav nav-next" href="https://CoherentLabs.github.io/GameUIComponents/components/menu/" title="Menu">Next - Menu <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
-</footer>
-</main>
-<div class="sidebar">
-
-<nav class="open-menu">
-<ul>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents">Home</a></li>
-
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/">Examples</a>
-  
-<ul class="sub-menu">
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/text-field/">Text-field</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/router/">Router</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/menu/">Menu</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tabs/">Tabs</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radio-button/">Radio Button</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/accordion-menu/">Accordion Menu</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/automatic-grid/">Automatic Grid</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/checkbox/">Checkbox</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/dropdown/">Dropdown</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/grid/">Grid</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/modal/">Modal</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/progress-bar/">Progress Bar</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/radial-menu/">Radial Menu</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/rangeslider/">Rangeslider</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/slider/">Slider</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/switch/">Switch</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/scrollable-container/">Scrollable-container</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/examples/tooltip/">Tooltip</a></li>
-</ul>
-  
-</li>
-
-<li class="parent"><a href="https://CoherentLabs.github.io/GameUIComponents/components/">Components</a>
-  
-<ul class="sub-menu">
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/dropdown/">Dropdown</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/text-field/">Text-field</a></li>
-<li class="active"><a href="https://CoherentLabs.github.io/GameUIComponents/components/router/">Router</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/menu/">Menu</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/tabs/">Tabs</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/accordion-menu/">Accordion Menu</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/automatic-grid/">Automatic Grid</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/checkbox/">Checkbox</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/grid/">Grid</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/modal/">Modal</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/">Progress Bar</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/">Radial Menu</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/radio-button/">Radio Button</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/rangeslider/">Rangeslider</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/slider/">Slider</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/switch/">Switch</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/scrollable-container/">Scrollable-container</a></li>
-<li class=""><a href="https://CoherentLabs.github.io/GameUIComponents/components/tooltip/">Tooltip</a></li>
-</ul>
-  
-</li>
-</ul>
-</nav>
-
-
-
-<div class="sidebar-footer"></div>
-</div>
-
-</div><a href="#" id="backtothetop-fixed" class="backtothetop"
- data-backtothetop-duration="600"
- data-backtothetop-easing="easeOutQuart"
- data-backtothetop-fixed-fadeIn="1000"
- data-backtothetop-fixed-fadeOut="1000"
- data-backtothetop-fixed-bottom="10"
- data-backtothetop-fixed-right="20">
-<span class="fa-layers fa-fw">
-<i class="fas fa-circle"></i>
-<i class="fas fa-arrow-circle-up"></i>
-</span></a>
-</div>
-</body>
-</html>
+you wish to change and include them after the default styles.</p><div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between"></div><div class="docs-navigation d-flex justify-content-between"><a href=../../GameUIComponents/components/text-field/><div class="card my-1"><div class="card-body py-2">&larr; Text-field</div></div></a><a class=ms-auto href=../../GameUIComponents/components/menu/><div class="card my-1"><div class="card-body py-2">Menu &rarr;</div></div></a></div></main></div></div></div><footer class="footer text-muted"><div class=container-xxl><div class=row><div class="col-lg-8 order-last order-lg-first"><ul class=list-inline><li class=list-inline-item></li></ul></div><div class="col-lg-8 order-first order-lg-last text-lg-end"><ul class=list-inline></ul></div></div></div></footer><script src=../../GameUIComponents/js/bootstrap.min.fdbe9b9ba88a036135318f3c721784d684ac9e3280fe282cc80d7d49f7f9c82780cd54228c1608685a230c09984300d7946fc471734d566fcebc148b65bd16db.js integrity="sha512-/b6bm6iKA2E1MY88cheE1oSsnjKA/igsyA19Sff5yCeAzVQijBYIaFojDAmYQwDXlG/EcXNNVm/OvBSLZb0W2w==" crossorigin=anonymous defer></script>
+<script src=../../GameUIComponents/js/highlight.min.2bffd851168ecbbf28174aa9c2250a9f4f720f8e3b4d83c7d3fead6b626f041aca6675601c165b6f05db01e49a8bb5e5dee21006f8ef0dd710831f3210620c1a.js integrity="sha512-K//YURaOy78oF0qpwiUKn09yD447TYPH0/6ta2JvBBrKZnVgHBZbbwXbAeSai7Xl3uIQBvjvDdcQgx8yEGIMGg==" crossorigin=anonymous defer></script>
+<script src=../../GameUIComponents/main.min.d834d2fe3dba99f2c7ca28567989f3b0242845bbab6f8a413e0ca3951c6ce02305e9c9487ac3c661264c91530f5124927a7f2ff4cfd43b9c5f84099b08267681.js integrity="sha512-2DTS/j26mfLHyihWeYnzsCQoRburb4pBPgyjlRxs4CMF6clIesPGYSZMkVMPUSSSen8v9M/UO5xfhAmbCCZ2gQ==" crossorigin=anonymous defer></script>
+<script src=https://CoherentLabs.github.io/GameUIComponents/search-utilities.min.fd9490507c181969c99dd71f1dad1280fbb09b41a09c27766b2490481365556d489adf788744259bb36f71939bf499ff10df486ab1d2585cf223a85ac0addd7f.js integrity="sha512-/ZSQUHwYGWnJndcfHa0SgPuwm0GgnCd2aySQSBNlVW1Imt94h0Qlm7NvcZOb9Jn/EN9IarHSWFzyI6hawK3dfw==" crossorigin=anonymous defer></script>
+<script src=https://CoherentLabs.github.io/GameUIComponents/index.js integrity crossorigin=anonymous defer></script></body></html>
