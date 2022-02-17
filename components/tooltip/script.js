@@ -46,6 +46,13 @@ class Tooltip extends HTMLElement {
         return this.hasAttribute('async');
     }
 
+    debounce(callback, timeout = 10) {
+        return (...args) => {
+          clearTimeout(this.debounceTimer);
+          this.debounceTimer = setTimeout(() => { callback.apply(this, args); }, timeout);
+        };
+      }
+
     /**
      * Sets the textContent of the message slot HTMLElement
      * @param {string | number} content
@@ -121,6 +128,7 @@ class Tooltip extends HTMLElement {
         }
 
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
+        this.resizeDebounced = this.debounce(this.onWindowResize);
 
         components.loadResource(this)
             .then((result) => {
@@ -132,6 +140,11 @@ class Tooltip extends HTMLElement {
             .catch(err => console.error(err));
     }
 
+    onWindowResize() {
+        this.setPosition(window.scrollX, window.scrollY);
+        this.uncheckedOrientations = [...TOOLTIP_POSITIONS];
+    }
+
     attachEventListeners() {
         if (this.showOn === this.hideOn) {
             this.triggerElement.addEventListener(this.showOn, () => this.toggle());
@@ -140,6 +153,16 @@ class Tooltip extends HTMLElement {
 
         this.triggerElement.addEventListener(this.showOn, () => this.show());
         this.triggerElement.addEventListener(this.hideOn, () => this.hide());
+    }
+
+    attachGlobalEventListeners() {
+        window.addEventListener('resize', this.resizeDebounced);
+        document.addEventListener('click', this.handleDocumentClick);
+    }
+
+    removeGlobalEventListeners() {
+        window.removeEventListener('resize', this.resizeDebounced);
+        document.removeEventListener('click', this.handleDocumentClick);
     }
 
     /**
@@ -157,7 +180,7 @@ class Tooltip extends HTMLElement {
 
     hide () {
         this.style.display = 'none';
-        document.removeEventListener('click', this.handleDocumentClick);
+        this.removeGlobalEventListeners();
         this.visible = false;
         // reset the current positioning as the page might get
         // resized until the next time the tooltip is displayed
@@ -171,8 +194,7 @@ class Tooltip extends HTMLElement {
         this.style.display = '';
 
         await this.setPosition(window.scrollX, window.scrollY);
-
-        document.addEventListener('click', this.handleDocumentClick);
+        this.attachGlobalEventListeners();
 
         this.style.visibility = 'visible';
         this.visible = true;

@@ -2,7 +2,7 @@
 module.exports = function (config) {
   config.set({
     failOnFailingTestSuite: true,
-    frameworks: ['jasmine', 'chai'],
+    frameworks: ['jasmine', 'chai', 'sinon'],
     client: {
       jasmine: {
         timeoutInterval: 30000,
