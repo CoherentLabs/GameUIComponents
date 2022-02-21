@@ -1,8 +1,8 @@
 <!-- Auto collapsible section menu -->
 <ul class="list-unstyled collapsible-sidebar">
   <li class="mb-1">
-    <button class="btn btn-toggle align-items-centers">
-      <a class="docs-link rounded {{ if .IsHome }}active{{ end }}" href="{{.Site.Home.RelPermalink }}">Home</a></li>
+    <button data-link="home" class="btn btn-toggle align-items-centers">
+      <a class="docs-link rounded {{ if .IsHome }}active{{ end }}" href="{{ .Site.Home.Permalink }}">Home</a></li>
     </button>
   </li>
   {{ $currentPage := . -}}

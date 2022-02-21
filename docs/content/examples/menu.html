@@ -22,8 +22,23 @@ draft: false
             padding: 0px;
         }
 
-        [data-dark-mode] menu-item {
-            color: black;
+
+        [data-dark-mode] menu-item:not(.guic-menu-active):not(.guic-menu-hover):not(.guic-menu-active-menu-item):not([disabled]) {
+            color: #ccc;
+            background-color: var(--bs-body-color);
+        }
+
+        gameface-menu {
+            border: 2px solid #ccc;
+        }
+
+        gameface-left-menu {
+            border: 2px solid #ccc;
+        }
+
+        [data-dark-mode] menu-item[disabled] {
+            background-color: var(--bs-body-color);
+            color: rgb(95, 95, 95);
         }
 
         .left-menu,
