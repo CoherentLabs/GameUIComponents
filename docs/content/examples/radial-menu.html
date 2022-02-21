@@ -31,8 +31,45 @@ draft: false
 			top: 15vh;
 		}
 
+		.radial-menu {
+			border: 2px solid #000;
+			border-radius: 50%;
+		}
+
+		[data-dark-mode] .radial-menu {
+			border: 2px solid #ccc;
+		}
+
 		.radial-menu-items {
-			background-color: rgba(102, 102, 102, 0.5);
+			background-color: rgba(102, 102, 102, 0.7);
+		}
+
+		[data-dark-mode] .radial-menu-items {
+			background-color: rgba(102, 102, 102, 0.2);
+		}
+
+		.radial-menu-center-bullseye {
+			background-color: #000;
+		}
+
+		[data-dark-mode] .radial-menu-center-bullseye {
+			background-color: #ccc;
+		}
+
+		.radial-menu-center-text{
+			color: white;
+		}
+
+		[data-dark-mode] .radial-menu-center-text{
+			color: #000;
+		}
+
+		.radial-menu-center-bullseye-outer {
+			border-color: #000;
+		}
+
+		[data-dark-mode] .radial-menu-center-bullseye-outer {
+			border-color: #ccc;
 		}
 
 		.page-wrapper {

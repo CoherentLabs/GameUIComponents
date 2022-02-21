@@ -443,3 +443,7 @@ button#doks-versions {
 .dropdown-item:active {
   color: inherit;
 }
+
+button[data-link="home"]::before {
+  display: none;
+}
