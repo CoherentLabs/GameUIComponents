@@ -1,16 +1,18 @@
+/* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
+// eslint-disable-next-line no-unused-vars
 import tooltip from 'coherent-gameface-tooltip';
 import errorMessages from './errorMessages';
 import 'url-search-params-polyfill';
 
 const formMethods = {
     GET: 'GET',
-    POST: 'POST'
+    POST: 'POST',
 };
 
 const tags = {
@@ -23,9 +25,9 @@ const tags = {
     GAMEFACE_RANGESLIDER: 'gameface-rangeslider',
     GAMEFACE_SWITCH: 'gameface-switch',
     TEXT_FIELD: 'gameface-text-field',
-    //polyfill elements
+    // polyfill elements
     SELECT: 'custom-select',
-}
+};
 
 const VALID_SUBMIT_ELEMENT_TAGS = new Set([tags.BUTTON, tags.INPUT]);
 const VALID_FORM_CONTROL_ELEMENT_TAGS = new Set([tags.BUTTON, tags.INPUT, tags.TEXTAREA, tags.SELECT]);
@@ -63,7 +65,11 @@ const CustomElementValidator = components.CustomElementValidator;
  * @typedef {Object<string,Validator>} Validators
  */
 
+/**
+ * Class definition of the gameface form control custom element
+ */
 class GamefaceFormControl extends HTMLElement {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         /**
@@ -84,14 +90,19 @@ class GamefaceFormControl extends HTMLElement {
         this.errorDisplayElements = {};
     }
 
+    // eslint-disable-next-line require-jsdoc
     get method() {
         return this.getAttribute('method') || formMethods.GET;
     }
 
+    // eslint-disable-next-line require-jsdoc
     get action() {
         return this.getAttribute('action') || '';
     }
 
+    /**
+     * Get all the valid form elements that are inside the gameface-form-control element
+     */
     get formElements() {
         const elements = [];
 
@@ -117,7 +128,7 @@ class GamefaceFormControl extends HTMLElement {
             return false;
         }
 
-        //if there is not argType passed we will skip the type check
+        // if there is not argType passed we will skip the type check
         if (argType && typeof argValue !== argType) {
             console.warn(`The type of "${argName}" argument is not valid. Please make sure it is of type "${argType}".`);
             return false;
@@ -163,7 +174,7 @@ class GamefaceFormControl extends HTMLElement {
 
         for (const name of names) {
             if (typeof name !== 'string') {
-                console.warn(`Found a "${name}" insthe array with "names" that is not a string. Will ignore it!`)
+                console.warn(`Found a "${name}" insthe array with "names" that is not a string. Will ignore it!`);
                 continue;
             }
 
@@ -173,7 +184,7 @@ class GamefaceFormControl extends HTMLElement {
 
     /**
      * Will set user defined custom validators about form element with the passed name
-     * @param {string} name - The name attribute value of a form element 
+     * @param {string} name - The name attribute value of a form element
      * @param {Validators} validators - Custom validators configuration
      */
     setCustomValidators(name, validators) {
@@ -195,14 +206,14 @@ class GamefaceFormControl extends HTMLElement {
 
     /**
      * Method for removing multiple custom validators
-     * @param {string} name - The name attribute value of a form element
+     * @param {string} names - The name attribute value of a form element
      */
     removeCustomValidators(names) {
         if (!this.isArgumentValid('names', names) || !(names instanceof Array)) return;
 
         for (const name of names) {
             if (typeof name !== 'string') {
-                console.warn(`Found a "${name}" insthe array with "names" that is not a string. Will ignore it!`)
+                console.warn(`Found a "${name}" insthe array with "names" that is not a string. Will ignore it!`);
                 continue;
             }
 
@@ -212,12 +223,13 @@ class GamefaceFormControl extends HTMLElement {
 
     /**
      * Will serialize the form data by traversing all the form element tree
+     * @param {HTMLElement[]} formElements
      * @returns {string}
      */
     getFormSerializedData(formElements) {
         const params = new URLSearchParams();
 
-        //Serialize the data if there is any set on the submit button
+        // Serialize the data if there is any set on the submit button
         this.serializeSubmitButtonElementData(params);
 
         for (const formElement of formElements) {
@@ -247,6 +259,7 @@ class GamefaceFormControl extends HTMLElement {
      * Will serialize data from a simple form element like input or textarea
      * @param {HTMLElement} element
      * @param {URLSearchParams} params
+     * @return {void}
      */
     serializeSimpleElementData(element, params) {
         const value = element.value;
@@ -255,7 +268,7 @@ class GamefaceFormControl extends HTMLElement {
         const name = element.getAttribute('name');
 
         if (!(value instanceof Array)) return params.append(name, element.value);
-        for (let option of element.value) {
+        for (const option of element.value) {
             params.append(name, option);
         }
     }
@@ -305,7 +318,7 @@ class GamefaceFormControl extends HTMLElement {
             badURL: element.isBadURL(),
             badEmail: element.isBadEmail(),
             customError: element.customError(),
-            ...customErrorTypes
+            ...customErrorTypes,
         };
 
         const errors = Object.keys(errorTypes).filter((name) => {
@@ -329,6 +342,7 @@ class GamefaceFormControl extends HTMLElement {
      * Will serialize the data from form element
      * @param {HTMLElement} element
      * @param {URLSearchParams} params
+     * @returns {void}
      */
     serializeElementData(element, params) {
         if (element.hasAttribute('disabled')) return;
@@ -445,7 +459,7 @@ class GamefaceFormControl extends HTMLElement {
 
     /**
      * Will return the validator object by the error type
-     * @param {Validators} elementCustomValidators 
+     * @param {Validators} elementCustomValidators
      * @param {string} errorType
      * @returns {Validator}
      */
@@ -461,7 +475,7 @@ class GamefaceFormControl extends HTMLElement {
      * Will get the error message related to the validator
      * @param {string} errorType
      * @param {HTMLElement|NativeElementValidator} element
-     * @param {Validators} customValidators 
+     * @param {Validators} customValidators
      * @returns {string}
      */
     getErrorMessage(errorType, element, customValidators) {
@@ -495,7 +509,7 @@ class GamefaceFormControl extends HTMLElement {
 
     /**
      * Will check if all the elements are valid
-     * @param {Array[HTMLElement]} formElements - All the elements of the form component
+     * @param {HTMLElement[]} formElements - All the elements of the form component
      * @returns {boolean}
      */
     async isFormValid(formElements) {
@@ -509,7 +523,7 @@ class GamefaceFormControl extends HTMLElement {
             let errorMessage = '';
             const customElementValidators = this.customValidators[name];
 
-            for (let errorType of validation.errors) {
+            for (const errorType of validation.errors) {
                 errorMessage += this.getErrorMessage(errorType, element, customElementValidators);
             }
 
@@ -527,7 +541,7 @@ class GamefaceFormControl extends HTMLElement {
     async submit(event) {
         this.resetErrors();
 
-        //Dispatch submit event to the form as it is by standard
+        // Dispatch submit event to the form as it is by standard
         const submitEvent = new Event('submit', { cancelable: true });
         if (!this.dispatchEvent(submitEvent)) return;
         if (this.onsubmit && typeof this.onsubmit === 'function') {
@@ -542,9 +556,9 @@ class GamefaceFormControl extends HTMLElement {
         this.currentSubmitButton = event.currentTarget;
         switch (this.method.toLowerCase()) {
             case formMethods.GET.toLowerCase():
-                return this.makeRequest(formMethods.GET, null, `${this.action}?${this.getFormSerializedData(formElementsCache)}`)
+                return this.makeRequest(formMethods.GET, null, `${this.action}?${this.getFormSerializedData(formElementsCache)}`);
             case formMethods.POST.toLowerCase():
-                return this.makeRequest(formMethods.POST, this.getFormSerializedData(formElementsCache), this.action)
+                return this.makeRequest(formMethods.POST, this.getFormSerializedData(formElementsCache), this.action);
             default:
                 console.warn('Unable to submit form. The form method is not "GET" or "POST"!');
         }
@@ -555,11 +569,12 @@ class GamefaceFormControl extends HTMLElement {
      * This method is used to prevent performance issues when used querySelector multiple times.
      * @param {HTMLElement} root
      * @param {Function} elementCallback - Callback that will be executed for each child element of the root
+     * @param {any[]} [args = []] - Additional arguments for the elementCallback
      */
     traverseFormElements(root, elementCallback, args = []) {
         if (!root.children) return;
 
-        //Consider iterating the tree with queue if there are stack issues with the recursion
+        // Consider iterating the tree with queue if there are stack issues with the recursion
         for (let i = 0, len = root.children.length; i < len; i++) {
             const element = root.children[i];
 
@@ -588,6 +603,7 @@ class GamefaceFormControl extends HTMLElement {
         });
     }
 
+    // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         this.initSubmitElements();
     }

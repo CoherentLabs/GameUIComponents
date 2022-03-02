@@ -5,7 +5,6 @@
 
 const execSync = require('child_process').execSync;
 const path = require('path');
-const fs = require('fs');
 const { folderContainsFiles } = require('./test-helpers/utils');
 const rimraf = require('rimraf');
 
@@ -19,7 +18,7 @@ describe('build component test', () => {
         rimraf.sync(componentFolderPath);
     });
 
-    test("Builds a component CJS and UMD modules from source", () => {
+    test('Builds a component CJS and UMD modules from source', () => {
         // create a component
         execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
 

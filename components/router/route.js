@@ -11,16 +11,21 @@ import { BrowserHistory, HashHistory } from './history';
  * We pass the history here, so that we can attach the event listeners with the
  * correct history.
 */
-
 class Route {
+    // eslint-disable-next-line require-jsdoc
     static set history(value) {
         this._history = value;
     }
 
+    // eslint-disable-next-line require-jsdoc
     static get history() {
         return this._history;
     }
 
+    /**
+     * Will set the passed history as preffered one for the router
+     * @param {HashHistory|BrowserHistory} history
+     */
     static use(history) {
         if (!(history instanceof BrowserHistory) && !(history instanceof HashHistory)) {
             console.error(`Type error: ${history} is not an instance of BrowserHistory or HashHistory.
@@ -30,7 +35,11 @@ class Route {
     }
 }
 
+/**
+ * Class definition of the gameface route custom element
+ */
 class GamefaceRoute extends HTMLElement {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         this.onClick = this.onClick.bind(this);
@@ -38,12 +47,14 @@ class GamefaceRoute extends HTMLElement {
     }
 
 
+    // eslint-disable-next-line require-jsdoc
     get activeClass() {
-        return this.getAttribute('activeClass')
-            || this.parentElement.getAttribute('activeClass')
-            || 'gameface-route-active';
+        return this.getAttribute('activeClass') ||
+            this.parentElement.getAttribute('activeClass') ||
+            'gameface-route-active';
     }
 
+    // eslint-disable-next-line require-jsdoc
     disconnectedCallback() {
         window.removeEventListener('onHistoryChange', this.onHistoryChange);
     }
@@ -82,6 +93,7 @@ class GamefaceRoute extends HTMLElement {
         Route.history.pushState(state, title, url);
     }
 
+    // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         this.addEventListener('click', this.onClick);
         window.addEventListener('onHistoryChange', this.onHistoryChange);

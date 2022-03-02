@@ -3,11 +3,12 @@ const fs = require('fs');
 const {
     getPackageJSON,
     linkSingleComponent,
-    safelyCreateLink
+    safelyCreateLink,
 } = require('./helpers');
 
 const COMPONENTS_PATH = path.join(__dirname, '../components');
 
+/** */
 function main() {
     // link the components library
     safelyCreateLink(path.join(__dirname, '../lib'), 'coherent-gameface-components');
@@ -19,7 +20,7 @@ function main() {
     // otherwise we would have to recursively go through all dependencies, which is slow
     // and error prone. NPM works like this, but we have an advantage in knowing the list
     // of all dependencies beforehand - everything in the /components folder and the /lib folder.
-    for (let component of components) {
+    for (const component of components) {
         const packageJSON = getPackageJSON(component);
         if (!packageJSON) continue;
         safelyCreateLink(path.join(COMPONENTS_PATH, component), component);
@@ -27,7 +28,7 @@ function main() {
 
     // loop all components to link their local dependencies to the global
     // dependencies that we linked in the previous loop.
-    for (let component of components) {
+    for (const component of components) {
         linkSingleComponent(component);
     }
 }

@@ -32,6 +32,7 @@ const waitForTransitionEnd = () => {
     });
 };
 
+// eslint-disable-next-line max-lines-per-function
 describe('Accordion Menu component', () => {
     afterEach(() => cleanTestPage('gameface-accordion-menu'));
 
@@ -91,7 +92,7 @@ describe('Accordion Menu component', () => {
         assert.isAbove(height, 0);
     });
 
-    it("Clicking on a disabled panel shouldn't expand it", async () => {
+    it('Clicking on a disabled panel shouldn\'t expand it', async () => {
         await loadAccordionMenu({ disabled: true });
         const header = document.querySelector('gameface-accordion-header');
         click(header, { bubbles: true });

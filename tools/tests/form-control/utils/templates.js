@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { formsIds, SERVER_PORT, RESPONSE_CONTAINER_ID } from "./constants";
+import { formsIds, SERVER_PORT, RESPONSE_CONTAINER_ID } from './constants';
 
 export const LOGIN_TEMPLATE = `
 <div class="form-wrapper">
@@ -292,7 +292,7 @@ export const VALIDATION_TEMPLATE = `
 </gameface-form-control>
 `;
 
-export const XHR_TEMPLATE =  `
+export const XHR_TEMPLATE = `
 <div class="form-wrapper">
     <gameface-form-control id="xhr-form" action="http://localhost:${SERVER_PORT}/user" method="get">
     <input name="username" value="name" type="text" />

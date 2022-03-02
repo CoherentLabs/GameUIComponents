@@ -8,200 +8,262 @@ import template from './template.html';
 
 const KEYCODES = components.KEYCODES;
 
+/**
+ * Class definition of the gameface radio group custom element
+ */
 class GamefaceRadioGroup extends HTMLElement {
-	constructor() {
-		super();
+    // eslint-disable-next-line require-jsdoc
+    constructor() {
+        super();
 
-		this.previouslyCheckedElement = null;
-	}
+        this.previouslyCheckedElement = null;
+    }
 
-	get allButtons() {
-		return Array.from(this.querySelectorAll('radio-button'));
-	}
+    // eslint-disable-next-line require-jsdoc
+    get allButtons() {
+        return Array.from(this.querySelectorAll('radio-button'));
+    }
 
-	get value() {
-		if (this.disabled) return;
-		if (this.previouslyCheckedElement && this.previouslyCheckedElement.disabled) return;
-		if (this.previouslyCheckedElement) return this.previouslyCheckedElement.value;
-	}
+    // eslint-disable-next-line require-jsdoc
+    get value() {
+        if (this.disabled) return;
+        if (this.previouslyCheckedElement && this.previouslyCheckedElement.disabled) return;
+        if (this.previouslyCheckedElement) return this.previouslyCheckedElement.value;
+    }
 
-	get disabled() {
-		return this.hasAttribute('disabled');
-	}
+    // eslint-disable-next-line require-jsdoc
+    get disabled() {
+        return this.hasAttribute('disabled');
+    }
 
-	set disabled(value) {
-		if (value) {
-			this.classList.add('radio-button-disabled');
-			this.setAttribute('disabled', '');
-		} else {
-			this.classList.remove('radio-button-disabled');
-			this.removeAttribute('disabled');
-		}
-	}
+    // eslint-disable-next-line require-jsdoc
+    set disabled(value) {
+        if (value) {
+            this.classList.add('radio-button-disabled');
+            this.setAttribute('disabled', '');
+        } else {
+            this.classList.remove('radio-button-disabled');
+            this.removeAttribute('disabled');
+        }
+    }
 
-	valueMissing() {
-		const checkedButton = this.previouslyCheckedElement;
-		if (!checkedButton || !this.hasAttribute('name')) return true;
-		return false;
-	}
+    /**
+     * Gets if the value is missing when radio group is used inside a gameface-form-control
+     * @returns {boolean}
+     */
+    valueMissing() {
+        const checkedButton = this.previouslyCheckedElement;
+        if (!checkedButton || !this.hasAttribute('name')) return true;
+        return false;
+    }
 
-	setCheckedToPreviousItem(button) {
-		if (this.disabled) return;
+    /**
+     * Sets the currently checked button to the previous one if it exists
+     * @param {HTMLElement} button
+     * @returns {void}
+     */
+    setCheckedToPreviousItem(button) {
+        if (this.disabled) return;
 
-		const prevSibling = button.previousElementSibling;
+        const prevSibling = button.previousElementSibling;
 
-		if (!prevSibling) return;
+        if (!prevSibling) return;
 
-		if (prevSibling.disabled) return this.setCheckedToPreviousItem(prevSibling);
-		prevSibling.checked = true;
-		prevSibling.focus();
-	}
+        if (prevSibling.disabled) return this.setCheckedToPreviousItem(prevSibling);
+        prevSibling.checked = true;
+        prevSibling.focus();
+    }
 
-	setCheckedToNextItem(button) {
-		if (this.disabled) return;
+    /**
+     * Sets the currently checked button to the next one if it exists
+     * @param {HTMLElement} button
+     * @returns {void}
+     */
+    setCheckedToNextItem(button) {
+        if (this.disabled) return;
 
-		const nextSibling = button.nextElementSibling;
+        const nextSibling = button.nextElementSibling;
 
-		if (!nextSibling) return;
+        if (!nextSibling) return;
 
-		if (nextSibling.disabled) return this.setCheckedToPreviousItem(nextSibling);
-		nextSibling.checked = true;
-		nextSibling.focus();
-	}
+        if (nextSibling.disabled) return this.setCheckedToPreviousItem(nextSibling);
+        nextSibling.checked = true;
+        nextSibling.focus();
+    }
 
-	checkButton(button) {
-		if (this.disabled) return;
-		if (button.disabled) return;
+    /**
+     * Will check the passed button inside the radio group
+     * @param {HTMLElement} button
+     * @returns {void}
+     */
+    checkButton(button) {
+        if (this.disabled) return;
+        if (button.disabled) return;
 
-		if (this.previouslyCheckedElement) this.setButtonAttributes(this.previouslyCheckedElement, false);
-		this.previouslyCheckedElement = null;
+        if (this.previouslyCheckedElement) this.setButtonAttributes(this.previouslyCheckedElement, false);
+        this.previouslyCheckedElement = null;
 
-		this.setButtonAttributes(button, true);
-		this.previouslyCheckedElement = button;
-	}
+        this.setButtonAttributes(button, true);
+        this.previouslyCheckedElement = button;
+    }
 
-	handleClick() {
-		if (this.disabled) return;
-		if (this.radioGroup && this.radioGroup.disabled) return;
+    /**
+     * Will focus the group when it is clicked
+     * @returns {void}
+     */
+    handleClick() {
+        if (this.disabled) return;
+        if (this.radioGroup && this.radioGroup.disabled) return;
 
-		this.checked = true;
-		this.focus();
-	}
+        this.checked = true;
+        this.focus();
+    }
 
-	handleKeydown(event) {
-		switch (event.keyCode) {
-			case KEYCODES.UP:
-			case KEYCODES.LEFT:
-				this.radioGroup.setCheckedToPreviousItem(this);
-				break;
-			case KEYCODES.DOWN:
-			case KEYCODES.RIGHT:
-				this.radioGroup.setCheckedToNextItem(this);
-				break;
-			default:
-				break;
-		}
-	};
+    /**
+     * Handler for key down event
+     * @param {HTMLEvent} event
+     */
+    handleKeydown(event) {
+        switch (event.keyCode) {
+            case KEYCODES.UP:
+            case KEYCODES.LEFT:
+                this.radioGroup.setCheckedToPreviousItem(this);
+                break;
+            case KEYCODES.DOWN:
+            case KEYCODES.RIGHT:
+                this.radioGroup.setCheckedToNextItem(this);
+                break;
+            default:
+                break;
+        }
+    };
 
-	setButtonRoleAttribute(button) {
-		button.setAttribute('role', 'radio')
-	}
+    /**
+     * @param {HTMLElement} button
+     */
+    setButtonRoleAttribute(button) {
+        button.setAttribute('role', 'radio');
+    }
 
-	attachButtonEventListeners(button) {
-		button.addEventListener('click', this.handleClick.bind(button));
-		button.addEventListener('keydown', this.handleKeydown.bind(button));
-	}
+    /**
+     * @param {HTMLElement} button
+     */
+    attachButtonEventListeners(button) {
+        button.addEventListener('click', this.handleClick.bind(button));
+        button.addEventListener('keydown', this.handleKeydown.bind(button));
+    }
 
-	setButtonAttributes(button, checked) {
-		button.setAttribute('tabindex', checked ? '0' : '-1');
-		button.setAttribute('aria-checked', checked ? 'true' : 'false');
-	}
+    /**
+     * @param {HTMLElement} button
+     * @param {boolean} checked
+     */
+    setButtonAttributes(button, checked) {
+        button.setAttribute('tabindex', checked ? '0' : '-1');
+        button.setAttribute('aria-checked', checked ? 'true' : 'false');
+    }
 
-	setupButtons() {
-		for (const button of this.allButtons) {
-			this.setButtonRoleAttribute(button);
-			this.attachButtonEventListeners(button);
-			this.setButtonAttributes(button);
+    /**
+     * Initialize the buttons
+     */
+    setupButtons() {
+        for (const button of this.allButtons) {
+            this.setButtonRoleAttribute(button);
+            this.attachButtonEventListeners(button);
+            this.setButtonAttributes(button);
 
-			if (button.hasAttribute('checked')) {
-				this.checkButton(button);
-			}
-		}
-	}
+            if (button.hasAttribute('checked')) {
+                this.checkButton(button);
+            }
+        }
+    }
 
-	connectedCallback() {
-		// Handle some configuration here so the user doesn't have to manually
-		// do it and possibly forget it.
-		this.setAttribute('role', 'radiogroup');
-		this.setupButtons();
-		if (this.disabled) this.classList.add('radio-button-disabled');
-		this.previouslyCheckedElement = this.querySelector('[aria-checked="true"]');
-	}
+    // eslint-disable-next-line require-jsdoc
+    connectedCallback() {
+        // Handle some configuration here so the user doesn't have to manually
+        // do it and possibly forget it.
+        this.setAttribute('role', 'radiogroup');
+        this.setupButtons();
+        if (this.disabled) this.classList.add('radio-button-disabled');
+        this.previouslyCheckedElement = this.querySelector('[aria-checked="true"]');
+    }
 }
 
+/**
+ * Class definition of the gameface radio button custom element
+ */
 class RadioButton extends HTMLElement {
-	constructor() {
-		super();
+    // eslint-disable-next-line require-jsdoc
+    constructor() {
+        super();
 
-		this.template = template;
-		this.textElement = null;
-	}
+        this.template = template;
+        this.textElement = null;
+    }
 
-	get checked() {
-		return this.getAttribute('aria-checked');
-	}
+    // eslint-disable-next-line require-jsdoc
+    get checked() {
+        return this.getAttribute('aria-checked');
+    }
 
-	set checked(value) {
-		this.radioGroup.checkButton(this);
-	}
+    // eslint-disable-next-line require-jsdoc
+    set checked(value) {
+        this.radioGroup.checkButton(this);
+    }
 
-	get value() {
-		return this.getAttribute('value') || 'on';
-	}
+    // eslint-disable-next-line require-jsdoc
+    get value() {
+        return this.getAttribute('value') || 'on';
+    }
 
-	set value(value) {
-		this.setAttribute('value', value);
-	}
+    // eslint-disable-next-line require-jsdoc
+    set value(value) {
+        this.setAttribute('value', value);
+    }
 
-	get text() {
-		return this.textElement.textContent;
-	}
+    // eslint-disable-next-line require-jsdoc
+    get text() {
+        return this.textElement.textContent;
+    }
 
-	set text(value) {
-		this.textElement.textContent = value;
-	}
+    // eslint-disable-next-line require-jsdoc
+    set text(value) {
+        this.textElement.textContent = value;
+    }
 
-	get disabled() {
-		return this.hasAttribute('disabled');
-	}
+    // eslint-disable-next-line require-jsdoc
+    get disabled() {
+        return this.hasAttribute('disabled');
+    }
 
-	set disabled(value) {
-		if (value) {
-			this.firstChild.classList.add('radio-button-disabled');
-			this.setAttribute('disabled', '');
-		} else {
-			this.firstChild.classList.remove('radio-button-disabled');
-			this.removeAttribute('disabled');
-		}
-	}
+    // eslint-disable-next-line require-jsdoc
+    set disabled(value) {
+        if (value) {
+            this.firstChild.classList.add('radio-button-disabled');
+            this.setAttribute('disabled', '');
+        } else {
+            this.firstChild.classList.remove('radio-button-disabled');
+            this.removeAttribute('disabled');
+        }
+    }
 
-	connectedCallback() {
-		// Get the text set from the user before applying the template.
-		this.radioGroup = this.parentElement;
-		const radioButtonText = this.textContent;
+    // eslint-disable-next-line require-jsdoc
+    connectedCallback() {
+        // Get the text set from the user before applying the template.
+        this.radioGroup = this.parentElement;
+        const radioButtonText = this.textContent;
 
-		components.loadResource(this)
-			.then((result) => {
-				this.template = result.template;
-				components.renderOnce(this);
+        components.loadResource(this)
+            .then((result) => {
+                this.template = result.template;
+                components.renderOnce(this);
 
-				this.textElement = this.querySelector('.radio-button-text');
-				// Apply the user set text.
-				this.textElement.textContent = radioButtonText;
-				if (this.disabled) this.firstChild.classList.add('radio-button-disabled');
-			})
-			.catch(err => console.error(err));
-	}
+                this.textElement = this.querySelector('.radio-button-text');
+                // Apply the user set text.
+                this.textElement.textContent = radioButtonText;
+                if (this.disabled) this.firstChild.classList.add('radio-button-disabled');
+            })
+            .catch(err => console.error(err));
+    }
 }
 
 components.defineCustomElement('radio-button', RadioButton);

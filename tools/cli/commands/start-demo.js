@@ -3,25 +3,25 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-const yargs = require('yargs/yargs');
 const path = require('path');
-const fs = require('fs');
-const Webpack = require('webpack');
+const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const { start } = require('repl');
 
 const PORT = 3000;
 
+/**
+ * Will start the demo
+ */
 function startDemo() {
     const pathToDemo = path.resolve(path.join(process.cwd(), 'demo'));
 
-    const compiler = Webpack({
+    const compiler = webpack({
         mode: 'development',
         devtool: false,
         entry: path.join(pathToDemo, 'demo.js'),
         output: {
             path: pathToDemo,
-            filename: "bundle.js"
+            filename: 'bundle.js',
         },
     });
 
@@ -33,8 +33,8 @@ function startDemo() {
         hot: true,
         disableHostCheck: true,
         watchOptions: {
-            poll: 500
-        }
+            poll: 500,
+        },
     });
 
 

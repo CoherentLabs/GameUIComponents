@@ -13,9 +13,13 @@ const COMPONENTS_FOLDER = path.join(__dirname, '../components');
 
 const components = fs.readdirSync(COMPONENTS_FOLDER);
 
+/**
+ * Checks if all the components are having packages and are not missing
+ * @returns {boolean}
+ */
 function areComponentsPackaged() {
     const notBuildComponents = [];
-    for (let component of components) {
+    for (const component of components) {
         const componentFolder = path.join(COMPONENTS_FOLDER, component, 'umd');
         const componentTestFolder = path.join(TESTS_FOLDER, component);
 
@@ -31,15 +35,25 @@ function areComponentsPackaged() {
     return false;
 }
 
+/**
+ * Will link all the components so thei will be tested with the local changes
+ */
 function linkDependencies() {
     linkSingleComponent('', TESTS_FOLDER);
 }
 
-function test(rebuild, browsersArg, noLink=false) {
-    if (rebuild) execSync('npm run build:dev', { cwd:ROOT_FOLDER, stdio: 'inherit' });
+/**
+ * Will build components and test them
+ * @param {boolean} rebuild
+ * @param {string} browsersArg
+ * @param {boolean} [noLink=false]
+ * @returns {void}
+ */
+function test(rebuild, browsersArg, noLink = false) {
+    if (rebuild) execSync('npm run build:dev', { cwd: ROOT_FOLDER, stdio: 'inherit' });
     if (!areComponentsPackaged()) return;
 
-    execSync('npm i', {cwd: ROOT_FOLDER, stdio: 'inherit'});
+    execSync('npm i', { cwd: ROOT_FOLDER, stdio: 'inherit' });
 
     const formsServer = spawn('node', ['forms-server.js'], { cwd: __dirname });
     formsServer.stdout.on('data', function (data) {
@@ -68,14 +82,15 @@ function test(rebuild, browsersArg, noLink=false) {
     });
 }
 
+/** */
 function main() {
-    const arguments = process.argv.slice(2);
-    const rebuild = (arguments.indexOf('--rebuild') > -1);
-    const noLink = arguments.indexOf('--no-link') > -1 || false;
+    const args = process.argv.slice(2);
+    const rebuild = (args.indexOf('--rebuild') > -1);
+    const noLink = args.indexOf('--no-link') > -1 || false;
     let browsersArg = '';
 
-    const browsersArgIndex = arguments.indexOf('--browsers');
-    if (browsersArgIndex > -1) browsersArg = `--browsers ${arguments[browsersArgIndex + 1]}`;
+    const browsersArgIndex = args.indexOf('--browsers');
+    if (browsersArgIndex > -1) browsersArg = `--browsers ${args[browsersArgIndex + 1]}`;
 
     test(rebuild, browsersArg, noLink);
 }

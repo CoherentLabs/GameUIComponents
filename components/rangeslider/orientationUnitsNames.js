@@ -18,4 +18,4 @@ const orientationUnitsNames = new Map([
     }]
 ]);
 
-export { orientationUnitsNames }
+export { orientationUnitsNames };

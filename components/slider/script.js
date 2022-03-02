@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -9,10 +10,7 @@ import horizontalTemplate from './templates/horizontal.html';
 import { orientationUnitsNames } from './orientationUnitsNames';
 
 
-const customEvent = new MouseEvent ('click', );
-
 /**
- * @class Slider.
  * Slider component; can be independently or as a building block of another
  * component - for example a scrollbar. This is a custom slider control, do not
  * confuse with the standard input type slider HTML element.
@@ -22,7 +20,7 @@ class Slider extends HTMLElement {
      * Set the position of the slider's handler.
      * @param {number} value - the new value in percents.
     */
-    set handlePosition (value) {
+    set handlePosition(value) {
         this._handlePosition = value;
         // The names of the units vary depending on the orientation
         // of the slider - width for horizontal, height for vertical etc.
@@ -33,7 +31,7 @@ class Slider extends HTMLElement {
      * Get the current position of the slider's handle in percents.
      * @returns {number} - the value of the position.
     */
-    get handlePosition () {
+    get handlePosition() {
         return this._handlePosition;
     }
 
@@ -43,9 +41,10 @@ class Slider extends HTMLElement {
     */
     get handlePositionPx() {
         const sliderSize = this.slider.getBoundingClientRect()[this.units.size];
-        return this.handlePosition/100 * sliderSize;
+        return this.handlePosition / 100 * sliderSize;
     }
 
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         // the amount of units that the slider will be updated
@@ -64,8 +63,8 @@ class Slider extends HTMLElement {
         */
         this.units = orientationUnitsNames.get(this.orientation);
 
-        this.onSlideUp = (e) => { this.onSlideWithArrorws(-1); }
-        this.onSlideDown = (e) => { this.onSlideWithArrorws(1); }
+        this.onSlideUp = (e) => { this.onSlideWithArrorws(-1); };
+        this.onSlideDown = (e) => { this.onSlideWithArrorws(1); };
         this.onClick = this.onClick.bind(this);
         this.onWheel = this.onWheel.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
@@ -99,12 +98,14 @@ class Slider extends HTMLElement {
         this.attachEventListeners();
     }
 
+    // eslint-disable-next-line require-jsdoc
     disconnectedCallback() {
         this.removeEventListeners();
     }
     /**
      * Gets the size of an element in px.
      * Uses the computed styles which return the size in pixels as a string.
+     * @param {HTMLElement} element
      * @returns {number} - the size in pixels.
     */
     _getPxSizeWithoutUnits(element) {
@@ -117,6 +118,7 @@ class Slider extends HTMLElement {
 
     /**
      * Update the size of the slider thumb.
+     * @param {HTMLElement} scrollableContainer
     */
     resize(scrollableContainer) {
         components.waitForFrames(() => {
@@ -144,7 +146,6 @@ class Slider extends HTMLElement {
      * Remove event listeners.
      */
     removeEventListeners() {
-
         // document listeners
         document.removeEventListener('mousemove', this.onMouseMove);
         document.removeEventListener('mouseup', this.onMouseUp);
@@ -198,7 +199,7 @@ class Slider extends HTMLElement {
         this.mousedown = false;
         this.dragging = false;
 
-        if(this.slidingWithArrows) {
+        if (this.slidingWithArrows) {
             this.slidingWithArrows = false;
             clearInterval(this.interval);
         }
@@ -210,7 +211,7 @@ class Slider extends HTMLElement {
      * @param {MouseEvent} event
     */
     onMouseMove(event) {
-        if(!this.mousedown) return
+        if (!this.mousedown) return;
         this.dragging = true;
         const sliderRect = this.slider.getBoundingClientRect();
         // get the mouse position within the slider coordinates
@@ -232,7 +233,7 @@ class Slider extends HTMLElement {
      * Scrolls the a given position.
      * @param {number} position
     */
-    scrollTo(position){
+    scrollTo(position) {
         const handleRect = this.handle.getBoundingClientRect();
         const sliderRect = this.slider.getBoundingClientRect();
 
@@ -247,7 +248,7 @@ class Slider extends HTMLElement {
         if (newPosPercents + handleSizePercent > 100) newPosPercents = 100 - handleSizePercent;
         this.handlePosition = newPosPercents;
 
-        //dispatch an event in case something needs to be done on scroll
+        // dispatch an event in case something needs to be done on scroll
         this.dispatchEvent(new CustomEvent('slider-scroll', { detail: { handlePosition: newPosPercents } }));
     }
 

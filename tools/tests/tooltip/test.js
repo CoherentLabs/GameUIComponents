@@ -24,17 +24,23 @@ const tooltipTemplateAsync = `
 
 <div class="target" style="background-color: #6e6d6d;position: absolute; top: 500px; left: 500px;width:100px;height:50px;">Hover over me</div>`;
 
+/** */
 function removeTooltips() {
     const tooltips = document.querySelectorAll('gameface-tooltip');
-    for(let i = 0; i < tooltips.length; i++) {
+    for (let i = 0; i < tooltips.length; i++) {
         tooltips[i].parentElement.removeChild(tooltips[i]);
     }
 }
 
+/**
+ * @param {boolean} shouldHideTooltip
+ * @param {boolean} expected
+ * @returns {Promise<void>}
+ */
 async function checkResizeHandler(shouldHideTooltip = false, expected = true) {
     const sandbox = sinon.createSandbox();
     const tooltip = document.querySelector('#smart-position');
-    sandbox.spy(tooltip, "resizeDebounced");
+    sandbox.spy(tooltip, 'resizeDebounced');
 
     await tooltip.show();
     if (shouldHideTooltip) tooltip.hide();
@@ -42,10 +48,14 @@ async function checkResizeHandler(shouldHideTooltip = false, expected = true) {
     window.dispatchEvent(new CustomEvent('resize'));
 
     return createAsyncSpec(() => {
-        assert(tooltip.resizeDebounced.called === expected, 'The tooltip was not repositioned on window resize.')
+        assert(tooltip.resizeDebounced.called === expected, 'The tooltip was not repositioned on window resize.');
     });
 }
 
+/**
+ * @param {string} template
+ * @returns {Promise<void>}
+ */
 async function setupTooltipTestPage(template) {
     const el = document.createElement('div');
     el.className = 'tooltip-test-wrapper';
@@ -55,11 +65,12 @@ async function setupTooltipTestPage(template) {
 
     document.body.appendChild(el);
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         waitForStyles(resolve);
     });
 }
 
+// eslint-disable-next-line max-lines-per-function
 describe('Tooltip component', () => {
     afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
     afterEach(() => removeTooltips());
@@ -99,7 +110,7 @@ describe('Tooltip component', () => {
             assert(tooltip.style.display !== 'none', 'Tooltip was not displayed.');
         }, 5);
 
-        click(document.body, {bubbles: true});
+        click(document.body, { bubbles: true });
 
         assert(tooltip.style.display === 'none', 'Tooltip was not closed on clicking outside of the tooltip.');
     });
@@ -147,7 +158,7 @@ describe('Tooltip component', () => {
     });
 
     it('Should not reposition itself on window resize if it is hidden', async () => {
-        return checkResizeHandler(true, false)
+        return checkResizeHandler(true, false);
     });
 });
 
@@ -163,8 +174,9 @@ describe('Tooltip component (async mode)', () => {
         const newValue = 'Value Changed! (Promise)';
         const gamefaceTooltip = document.querySelector('gameface-tooltip');
 
+        // eslint-disable-next-line require-jsdoc
         function mockContentAsync() {
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 requestAnimationFrame(() => {
                     resolve(newValue);
                 });

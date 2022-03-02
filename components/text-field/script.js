@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +13,7 @@ const supportedTextFieldTypes = {
     EMAIL: 'email',
     NUMBER: 'number',
     SEARCH: 'search',
-    URL: 'url'
+    URL: 'url',
 };
 
 const DEFAULT_PLACEHOLDER_VALUE = '';
@@ -32,7 +33,11 @@ const TEXT_FIELD_ATTRIBUTES = [
 const TextFieldValidator = components.TextFieldValidator;
 const CustomElementValidator = components.CustomElementValidator;
 
+/**
+ * Class definition of gameface text field custom element
+ */
 class TextField extends CustomElementValidator {
+    /* eslint-disable require-jsdoc */
     constructor() {
         super();
         this.template = template;
@@ -98,7 +103,7 @@ class TextField extends CustomElementValidator {
             default: this.inputElement.type = supportedTextFieldTypes.TEXT;
         }
 
-        //Save the real text field type
+        // Save the real text field type
         this.inputType = value;
     }
 
@@ -132,7 +137,7 @@ class TextField extends CustomElementValidator {
     }
 
     set readonly(value) {
-        //Normalize the value to boolean value because the user can pass string for example that is not empty and the value will be true.
+        // Normalize the value to boolean value because the user can pass string for example that is not empty and the value will be true.
         const newValue = !!value;
 
         if (this.readonly === newValue) return;
@@ -143,7 +148,7 @@ class TextField extends CustomElementValidator {
             this.inputElement.addEventListener('keypress', this.disableInputBound);
         }
 
-        //Set the value to the input property. Do not use this.readonly = newValue because it will end up in infinite recursion.
+        // Set the value to the input property. Do not use this.readonly = newValue because it will end up in infinite recursion.
         this.inputElement.readOnly = newValue;
     }
 
@@ -225,6 +230,19 @@ class TextField extends CustomElementValidator {
         return TextFieldValidator.isBadEmail(this);
     }
 
+    connectedCallback() {
+        components.loadResource(this)
+            .then((result) => {
+                this.template = result.template;
+                components.renderOnce(this);
+
+                this.initTextField();
+            })
+            .catch(err => console.error(err));
+    }
+
+    /* eslint-enable require-jsdoc */
+
     /**
      * Prevent any keypress events when the input is read only
      * @param {Event} event
@@ -297,6 +315,10 @@ class TextField extends CustomElementValidator {
         this.inputElement.addEventListener('blur', this.hideSearchRemoveIconBound);
     }
 
+    /**
+     * Will set the default number value
+     * @returns {void}
+     */
     setDefaultInputNumberValue() {
         if (this.value === '') return;
 
@@ -321,7 +343,7 @@ class TextField extends CustomElementValidator {
     onNumberInputChanged(event) {
         const value = event.target.value;
         const isNegative = value.length && value[0] === '-';
-        let newValue = event.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+        const newValue = event.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
         event.target.value = isNegative ? '-' + newValue : newValue;
     }
 
@@ -369,7 +391,7 @@ class TextField extends CustomElementValidator {
                 if (!this.mousedownInterval) {
                     this.mousedownInterval = setInterval(stepCallback.bind(this), 50);
                 }
-            }, 200)
+            }, 200);
         }
     }
 
@@ -447,7 +469,10 @@ class TextField extends CustomElementValidator {
             return;
         }
 
-        const attrValue = parseValueMethod ? parseValueMethod(this.getAttribute(attrName)) : this.getAttribute(attrName);
+        const attrValue = parseValueMethod ?
+            parseValueMethod(this.getAttribute(attrName)) :
+            this.getAttribute(attrName);
+
         if (isAttrValueValid) {
             this[attrName] = !isAttrValueValid(attrValue) ? attrValue : defaultValue;
         } else {
@@ -459,7 +484,7 @@ class TextField extends CustomElementValidator {
      * Will init the text field attributes and migrate their values to the this context
      */
     initTextFieldAttributes() {
-        //we need to set default readOnly to the input element because the readonly getter here is working with it
+        // we need to set default readOnly to the input element because the readonly getter here is working with it
         this.inputElement.readOnly = false;
         this.readonly = this.hasAttribute('readonly');
         this.disabled = this.hasAttribute('disabled');
@@ -523,7 +548,7 @@ class TextField extends CustomElementValidator {
      * Initialize the text field component
      */
     initTextField() {
-        //this should be always first because we cache the textfield inner elements in this method!
+        // this should be always first because we cache the textfield inner elements in this method!
         this.initTextFieldElements();
         this.addTextFieldListeners();
         this.initTextFieldAttributes();
@@ -531,17 +556,6 @@ class TextField extends CustomElementValidator {
         if (!this.value) {
             this.togglePlaceholder(true);
         }
-    }
-
-    connectedCallback() {
-        components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-
-                this.initTextField();
-            })
-            .catch(err => console.error(err));
     }
 }
 components.defineCustomElement('gameface-text-field', TextField);

@@ -25,6 +25,11 @@ const multipleDropdownPreselectedOptionsTemplate = `<gameface-dropdown multiple 
 <dropdown-option slot="option" selected>Parrot</dropdown-option>
 </gameface-dropdown>`;
 
+/**
+ * Method initializing multiple dropdown test page
+ * @param {string} template
+ * @returns {Promise<void>}
+ */
 function setupMultipleDropdownTestPage(template) {
     const el = document.createElement('div');
     el.className = 'multiple-dropdown-test-wrapper';
@@ -34,12 +39,13 @@ function setupMultipleDropdownTestPage(template) {
 
     document.body.appendChild(el);
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         waitForStyles(resolve);
     });
 }
 
 
+// eslint-disable-next-line max-lines-per-function
 describe('Multiple Dropdown Test', () => {
     afterAll(() => {
         // Reset .options to avoid mixing the options re-added by the caching feature which messes up the tests.
@@ -47,10 +53,16 @@ describe('Multiple Dropdown Test', () => {
         cleanTestPage('.multiple-dropdown-test-wrapper');
     });
 
+    /**
+     * Will dispatch keydown event
+     * @param {HTMLElement} element
+     * @param {Object} optionsObject
+     */
     function dispatchKeyboardEvent(element, optionsObject) {
         element.dispatchEvent(new KeyboardEvent('keydown', optionsObject));
     }
 
+    // eslint-disable-next-line max-lines-per-function
     describe('Multiple Dropdown Component', () => {
         beforeEach(function (done) {
             setupMultipleDropdownTestPage(multipleDropdownTemplate).then(done).catch(err => console.error(err));
@@ -72,7 +84,7 @@ describe('Multiple Dropdown Test', () => {
             const actualSelectedCount = dropdown.selectedOptions.length;
 
             assert.equal(actualSelectedCount, targetSelectedCount,
-              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+                `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
         });
 
         it('Should select multiple elements with END button', async () => {
@@ -90,7 +102,7 @@ describe('Multiple Dropdown Test', () => {
             const actualSelectedCount = dropdown.selectedOptions.length;
 
             assert.equal(actualSelectedCount, targetSelectedCount,
-              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+                `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
         });
 
         it('Should select multiple elements with Shift + Up Arrow', async () => {
@@ -107,7 +119,7 @@ describe('Multiple Dropdown Test', () => {
             const actualSelectedCount = dropdown.selectedOptions.length;
 
             assert.equal(actualSelectedCount, targetSelectedCount,
-              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+                `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
         });
 
         it('Should select multiple elements with Shift + Down Arrow', async () => {
@@ -121,7 +133,7 @@ describe('Multiple Dropdown Test', () => {
             const actualSelectedCount = dropdown.selectedOptions.length;
 
             assert.equal(actualSelectedCount, targetSelectedCount,
-              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+                `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
         });
 
         it('Should select all elements with Ctrl + A', async () => {
@@ -136,7 +148,7 @@ describe('Multiple Dropdown Test', () => {
             const actualSelectedCount = dropdown.selectedOptions.length;
 
             assert.equal(actualSelectedCount, optionsCount,
-              `Expected selected options length to be ${optionsCount}, got ${actualSelectedCount}.`);
+                `Expected selected options length to be ${optionsCount}, got ${actualSelectedCount}.`);
         });
 
         it('Should reset selected elements after using Ctrl + End then Ctrl + Home', async () => {
@@ -157,14 +169,14 @@ describe('Multiple Dropdown Test', () => {
             const actualSelectedCount = dropdown.selectedOptions.length;
 
             assert.equal(actualSelectedCount, targetSelectedCount,
-              `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
+                `Expected selected options length to be ${targetSelectedCount}, got ${actualSelectedCount}.`);
         });
 
         it('Should have its options list expanded', async () => {
             // Wait 6 frames because the multiple (and not collapsable) dropdown opens after 6 frames.
             return createAsyncSpec(() => {
                 assert(document.querySelector('.options-container').classList.contains('hidden') === false,
-                  'Options container is hidden.');
+                    'Options container is hidden.');
             }, 6);
         });
 
@@ -192,7 +204,7 @@ describe('Multiple Dropdown Test', () => {
             options[2].onClick({ target: options[2], ctrlKey: true });
 
             assert(dropdown.selectedOptions.length === 0,
-              `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
+                `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
         });
 
         it('Should select multiple elements and then select 1', () => {
@@ -206,13 +218,15 @@ describe('Multiple Dropdown Test', () => {
             options[0].onClick({ target: options[0] });
 
             assert(dropdown.selectedOptions.length === 1,
-              `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
+                `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
         });
     });
 
     describe('Multiple Dropdown Component Collapsable', () => {
         beforeEach(function (done) {
-            setupMultipleDropdownTestPage(multipleDropdownCollapsableTemplate).then(done).catch(err => console.error(err));
+            setupMultipleDropdownTestPage(multipleDropdownCollapsableTemplate)
+                .then(done)
+                .catch(err => console.error(err));
         });
 
         it('Should hide the options list if it is collapsable', function () {
@@ -230,7 +244,9 @@ describe('Multiple Dropdown Test', () => {
 
     describe('Multiple Dropdown Component (Pre-selected Options)', () => {
         beforeEach(function (done) {
-            setupMultipleDropdownTestPage(multipleDropdownPreselectedOptionsTemplate).then(done).catch(err => console.error(err));
+            setupMultipleDropdownTestPage(multipleDropdownPreselectedOptionsTemplate)
+                .then(done)
+                .catch(err => console.error(err));
         });
 
         it('Two options should be (pre)selected.', async () => {

@@ -1,9 +1,11 @@
+/* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
+// eslint-disable-next-line no-unused-vars
 import ScrollableContainer from 'coherent-gameface-scrollable-container';
 import template from './template.html';
 
@@ -11,7 +13,11 @@ const KEYCODES = components.KEYCODES;
 
 const CustomElementValidator = components.CustomElementValidator;
 
+/**
+ * Class definition of the gameface dropdown custom element
+ */
 class GamefaceDropdown extends CustomElementValidator {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         this.multiple = false;
@@ -43,7 +49,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Returns the text content of the selected dropdown-option.
      * @returns {String}
     */
-     get value() {
+    get value() {
         if (this.isFormElement() && this.multiple) return this.selectedOptions.map(el => el.value);
         if (this.selected) return this.selected.value || this.selected.textContent;
 
@@ -86,7 +92,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Returns the index of the last selected option
      * @returns {number}
     */
-    get lastSelectedIndex () {
+    get lastSelectedIndex() {
         return this.selectedLength ? this.selectedList[this.selectedLength - 1] : 0;
     }
 
@@ -136,6 +142,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Sets the currently selected option.
      * Updates the select header if the select is single.
      * Dispatches a change event to notify that the active option has been changed.
+     * @param {HTMLElement} option
     */
     set selected(option) {
         // reset
@@ -173,6 +180,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * function without needing to use .call.
      *
      * @argument {any} args
+     * @returns {number}
     */
     indexOf(...args) {
         return this.builtInIndexOf.call(...args);
@@ -205,7 +213,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * 3. reset the values of the selectedList and the hoveredElIndex.
     */
     resetSelection() {
-        for (let index of this.selectedList) {
+        for (const index of this.selectedList) {
             const option = this.allOptions[index];
             this.removeActiveClass(option);
             option.removeAttribute('selected');
@@ -217,6 +225,7 @@ class GamefaceDropdown extends CustomElementValidator {
     /**
      * Update the header of the select. Clone the content of the selected option
      * to the content of the header. If the option is falsy - do nothing.
+     * @param {HTMLElement} option
     */
     updateSelectHeader(option) {
         // check if cloneNode exists in case the user has set the selected
@@ -256,6 +265,7 @@ class GamefaceDropdown extends CustomElementValidator {
     /**
      * Select the options that have the selected attribute.
      * This is executed when the dropdown is connected to the DOM.
+     * @returns {void}
     */
     preselectOptions() {
         if (this.multiple) return this.setInitialMultipleSelection();
@@ -295,6 +305,7 @@ class GamefaceDropdown extends CustomElementValidator {
         components.waitForFrames(() => this.onClick(), 6);
     }
 
+    // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         components.loadResource(this)
             .then((result) => {
@@ -324,7 +335,7 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     dispatchChangeEvent(option) {
         this.dispatchEvent(new CustomEvent('change', {
-            detail: { target: option }
+            detail: { target: option },
         }));
     }
 
@@ -400,9 +411,10 @@ class GamefaceDropdown extends CustomElementValidator {
      * If the element is selected - deselect it.
      * @param {number} currentOptionIndex - the index of the currently selected option.
      * @param {number} direction - the direction in which the selection is going.
+     * @param {number[]} enabledOptions
      */
     toggleSelection(currentOptionIndex, direction, enabledOptions) {
-        const nextOptionIndex = currentOptionIndex + direction; //next enabled index
+        const nextOptionIndex = currentOptionIndex + direction; // next enabled index
         const nextFullListIndex = enabledOptions[nextOptionIndex]; // corresponding index in the allOptions list
 
         if (this.isSelected(nextFullListIndex)) {
@@ -438,7 +450,7 @@ class GamefaceDropdown extends CustomElementValidator {
     /**
      * Handles the multiple selection of the dropdown options when the keyboard is used.
      * @param {number} keyCode - the code of the current key that is being pressed.
-     * @param {Array<number>} - the list of the indexes of the enabled options.
+     * @param {Array<number>} enabledOptions - the list of the indexes of the enabled options.
      * @param {number} currentOptionIndex - the index of the currently selected option.
     */
     handleMultipleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex) {
@@ -452,10 +464,10 @@ class GamefaceDropdown extends CustomElementValidator {
                 this.toggleSelection(currentOptionIndex, -1, enabledOptions);
                 break;
             case KEYCODES.HOME:
-              this.selectFromTo(enabledOptions.indexOf(this._pivotIndex), 0, -1);
+                this.selectFromTo(enabledOptions.indexOf(this._pivotIndex), 0, -1);
                 break;
             case KEYCODES.END:
-                this.selectFromTo(enabledOptions.indexOf(this._pivotIndex), this.allOptions.length -1, 1);
+                this.selectFromTo(enabledOptions.indexOf(this._pivotIndex), this.allOptions.length - 1, 1);
                 break;
         }
     }
@@ -463,7 +475,7 @@ class GamefaceDropdown extends CustomElementValidator {
     /**
      * Handles the single selection of the dropdown options when the keyboard is used.
      * @param {number} keyCode - the code of the current key that is being pressed.
-     * @param {Array<number>} - the list of the indexes of the enabled options.
+     * @param {Array<number>} enabledOptions - the list of the indexes of the enabled options.
      * @param {number} currentOptionIndex - the index of the currently selected option.
     */
     handleSingleKeyboardSelection(keyCode, enabledOptions, currentOptionIndex) {
@@ -505,7 +517,7 @@ class GamefaceDropdown extends CustomElementValidator {
         const ctrlKey = event.ctrlKey;
         const shiftKey = event.shiftKey;
         const enabledOptions = this.enabledOptions;
-        let currentOptionIndex = enabledOptions.indexOf(this.lastSelectedIndex);
+        const currentOptionIndex = enabledOptions.indexOf(this.lastSelectedIndex);
 
         if (shiftKey && this.multiple) {
             // pivotIndex is the LAST selected - last clicked or selected via key
@@ -526,6 +538,7 @@ class GamefaceDropdown extends CustomElementValidator {
 
     /**
      * Checks if the current user agent is Cohtml
+     * @returns {boolean}
     */
     isGameface() {
         return navigator.userAgent.match('Cohtml');
@@ -535,6 +548,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Called on click on the select element.
      * Toggles the options panel, shows the scrollbar and scrolls to
      * the selected option element.
+     * @returns {void}
     */
     onClick() {
         if (this.disabled) return;
@@ -545,6 +559,10 @@ class GamefaceDropdown extends CustomElementValidator {
         this.scrollToSelectedElement();
     }
 
+    /**
+     * Method for initializing the scrollbar
+     * @returns {void}
+     */
     initScrollbar() {
         const scrollableContainer = this.querySelector('gameface-scrollable-container');
 
@@ -579,16 +597,29 @@ class GamefaceDropdown extends CustomElementValidator {
         }
     }
 
+    /**
+     * Handler for mouse leave
+     * @param {HTMLEvent} event
+     * @returns {void}
+     */
     onMouseLeave(event) {
         const index = this.indexOf(this.allOptions, event.target);
         if (this.multiple && this.selectedList.indexOf(index) > -1) return;
         this.removeActiveClass(event.target);
     }
 
+    /**
+     * Adding active class
+     * @param {HTMLElement} element
+     */
     addActiveClass(element) {
         element.classList.add('active');
     }
 
+    /**
+     * Removing active class
+     * @param {HTMLElement} element
+     */
     removeActiveClass(element) {
         element.classList.remove('active');
     }
@@ -610,6 +641,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Called when the option of a multiple select is clicked.
      * Selects the target if it is unselected and deselects it if it is selected.
      * @param {Event} event - the event object.
+     * @returns {void}
     */
     onClickMultipleOptions(event) {
         // reset the selectedList if only one option is selected
@@ -623,6 +655,7 @@ class GamefaceDropdown extends CustomElementValidator {
     /**
      * Called on click of an option of a single select.
      * Selects the target and closes the options list.
+     * @param {HTMLEvent} event
     */
     onClickSingleOption(event) {
         this.setSelected(event.target);
@@ -633,6 +666,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Called when an option element is clicked.
      * Updates the selected member and closes the options panel.
      * @param {MouseEvent} event - the current event object.
+     * @returns {void}
     */
     onClickOption(event) {
         // handle multiple
@@ -667,7 +701,8 @@ class GamefaceDropdown extends CustomElementValidator {
 
     /**
      * Sets the selected element of the dropdown and scrolls to it.
-     * @param {DropdownOption} - the option element.
+     * @param {DropdownOption} element - the option element.
+     * @param {boolean} [scroll=false]
     */
     setSelected(element, scroll = false) {
         this.selected = element;
@@ -690,7 +725,7 @@ class GamefaceDropdown extends CustomElementValidator {
         clearTimeout(this.timeout);
         document.body.classList.add('disable-hover');
 
-        let scrollInPX = this.lastSelectedIndex * optionSize;
+        const scrollInPX = this.lastSelectedIndex * optionSize;
         scrollbleContainer.scrollTop = scrollInPX;
         scrollbleContainer.dispatchEvent(new CustomEvent('scroll'));
 
@@ -700,11 +735,16 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 }
 
+/**
+ * Class definition of the gameface dropdown option custom element
+ */
 class DropdownOption extends HTMLElement {
+    // eslint-disable-next-line require-jsdoc
     static get observedAttributes() {
         return ['disabled'];
     }
 
+    // eslint-disable-next-line require-jsdoc
     get value() {
         return this.getAttribute('value') || this.textContent;
     }
@@ -722,11 +762,16 @@ class DropdownOption extends HTMLElement {
         }
     }
 
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         this.attributeChangedCallback();
     }
 
+    /**
+     * Click event handler
+     * @param {HTMLEvent} event
+     */
     onClick(event) {
         event.target.dispatchEvent(new CustomEvent('selected-option', { detail: { ctrlKey: event.ctrlKey } }));
     }

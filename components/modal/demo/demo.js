@@ -1,12 +1,17 @@
+/* eslint-disable no-unused-vars */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import modal from '../umd/modal.development.js'
+import modal from '../umd/modal.development.js';
 
+/**
+ * Class definition of the demo
+ */
 class Demo {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         this.saveButton = document.querySelector('.save');
         this.confirmButton = document.querySelector('#confirm');
@@ -15,11 +20,16 @@ class Demo {
         this.attachEventListeners();
     }
 
+    /**
+     * Handler when the save button is clicked
+     */
     onSaveName() {
         document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';
     };
 
-
+    /**
+     * Attach listeners to all the modal buttons
+     */
     attachEventListeners() {
         this.confirmButton.addEventListener('click', this.onConfirm);
 
@@ -34,7 +44,11 @@ class Demo {
         });
     }
 
-    onConfirm(e) {
+    /**
+     * Handler when the confirm button is clicked
+     * @returns {void}
+     */
+    onConfirm() {
         const modal = document.getElementsByTagName('gameface-modal')[0];
         const nameText = document.querySelector('.name-text');
         const nameField = document.querySelector('input[for="name"]');

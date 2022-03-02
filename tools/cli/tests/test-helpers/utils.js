@@ -19,18 +19,19 @@ exports.folderToTree = (folderPath, tree = {}) => {
     tree[root] = tree[root] || [];
     const filesInFolder = fs.readdirSync(folderPath);
 
-    for (let file of filesInFolder) {
+    for (const file of filesInFolder) {
         const filePath = path.join(folderPath, file);
 
-        if(!fs.lstatSync(filePath).isDirectory()) {
+        if (!fs.lstatSync(filePath).isDirectory()) {
             tree[root].push(file);
             continue;
         }
+        // eslint-disable-next-line no-invalid-this
         this.folderToTree(filePath, tree);
     }
 
     return tree;
-}
+};
 
 /**
  * Checks if a given folder contains certain files.
@@ -42,8 +43,8 @@ exports.folderToTree = (folderPath, tree = {}) => {
 exports.folderContainsFiles = (folderPath, files) => {
     const filesInFolder = fs.readdirSync(folderPath);
 
-    return files.every((file) => filesInFolder.indexOf(file) !== -1);
-}
+    return files.every(file => filesInFolder.indexOf(file) !== -1);
+};
 
 /**
  * Checks if given files have a valid content.
@@ -57,13 +58,12 @@ exports.folderContainsFiles = (folderPath, files) => {
  * @returns {boolean}
 */
 exports.filesHaveCorrectContent = (folderPath, filesToCheck) => {
-    
-    for(let file of filesToCheck) {
+    for (const file of filesToCheck) {
         const expectedFileContent = expectedFiles[file.replace(/(\.|-)/g, '')].replace(/\r?\n|\r|\s/g, '');
         const fileContent = fs.readFileSync(path.join(folderPath, file), 'utf8').replace(/\r?\n|\r|\s/g, '');
 
-        if(expectedFileContent !== fileContent) return false;
+        if (expectedFileContent !== fileContent) return false;
     }
 
     return true;
-}
+};

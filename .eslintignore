@@ -1,0 +1,7 @@
+bundle.js
+*.production.min.js
+*.development.js
+docs
+karma.conf.js
+demo.template.js
+script.template.js

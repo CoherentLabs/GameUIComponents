@@ -3,6 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * @returns {string}
+ */
 function setupMenuTestPage() {
     const template = `
     <gameface-menu orientation="horizontal">
@@ -26,7 +29,7 @@ function setupMenuTestPage() {
 
     document.body.appendChild(el);
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         waitForStyles(resolve);
     });
 }
@@ -44,17 +47,17 @@ describe('Menu Component Tests', () => {
         });
 
         it('Should open a nested menu', () => {
-            click(document.getElementById("settings"), { bubbles: true });
+            click(document.getElementById('settings'), { bubbles: true });
             assert(document.querySelector('gameface-left-menu').style.display === 'flex', 'The display style of the menu is not flex.');
         });
 
         it('Should select an element', () => {
-            click(document.getElementById("game"), { bubbles: true });
-            assert(document.getElementById("game").classList.contains('guic-menu-active-menu-item') === true, 'The selected menu element is does not have value = game');
+            click(document.getElementById('game'), { bubbles: true });
+            assert(document.getElementById('game').classList.contains('guic-menu-active-menu-item') === true, 'The selected menu element is does not have value = game');
         });
 
         it('Should not select a disabled element', () => {
-            const heroGallery = document.getElementById("hero_gallery");
+            const heroGallery = document.getElementById('hero_gallery');
 
             click(heroGallery, { bubbles: true });
             assert(heroGallery.classList.contains('active-menu-item') === false, 'Selected menu element is hero_gallery, but it should not be it.');

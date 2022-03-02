@@ -1,11 +1,11 @@
 module.exports = {
     entry: __dirname,
     optimization: {
-        minimize: false
+        minimize: false,
     },
     devServer: {
         static: __dirname,
         compress: true,
-        port: 8080
-    }
+        port: 8080,
+    },
 };

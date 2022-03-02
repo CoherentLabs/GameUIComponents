@@ -22,7 +22,7 @@ function getComponentDirectories() {
 function buildAllDemos() {
     const components = getComponentDirectories();
 
-    for (let component of components) {
+    for (const component of components) {
         const pathToDemo = path.resolve(path.join(__dirname, '../components', component, 'demo'));
 
         if (!fs.existsSync(pathToDemo)) continue;
@@ -31,11 +31,11 @@ function buildAllDemos() {
             entry: path.join(pathToDemo, 'demo.js'),
             output: {
                 path: pathToDemo,
-                filename: "bundle.js"
-            }
+                filename: 'bundle.js',
+            },
         }, (err, stats) => { // Stats Object
             if (err || stats.hasErrors()) {
-               console.error(err);
+                console.error(err);
             }
         });
     }

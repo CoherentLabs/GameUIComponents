@@ -366,7 +366,6 @@ And when the component is rendered and all elements are slotted the final markup
 
 All tests are located in tools/tests. For more information on how to create and run a test refer to the [documentation](https://github.com/CoherentLabs/GameUIComponents/blob/master/tools/tests/README.md).
 
-
 # Publishing components to npm
 
 Before you publish make sure:
@@ -382,3 +381,13 @@ Before you publish make sure:
 Manually update the version of the component in package.json and run
 
 [`npm publish`](https://docs.npmjs.com/cli/v7/commands/npm-publish)
+
+# Components style guide
+
+To prevent errors, improve the code quality and readability, to make maintainable and consistent code we decided to add a style guide to the repository. We defined all the rules by setting an [eslinter](https://eslint.org/) that will force all the developers to respect the style guide when developing JavaScript features. To make sure that "clean" code is committed we added additional actions:
+
+* We added a pre-commit hook that is set up by the `husky` and `load-staged` modules. When committing changes the hook will run the linter on the staged files to make sure everything is fine. If the lint check fails the commit will be discarded so the errors be fixed first. When the errors are fixed you can try again to make a commit.
+* To fix all the errors from the lint check you can run `npm run lint:fix`. Make sure that they are correctly fixed!
+* If you want to check anytime if you have some linter errors you can run `npm run lint:errors`. If you want to check for warnings as well you can run `npm run lint:all`. We advise you to use `lint:all` command!
+* You can install a [VSCode extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) that will run the linter in the background while you are coding. This will save you time fixing the errors at the end.
+* We added a GitHub action that will be triggered when you make a pull request. It will run the linter each time you make a change to the pull request to make sure everything is fine with the code.

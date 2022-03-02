@@ -12,10 +12,10 @@ const startDemo = require('./commands/start-demo');
 const buildDemo = require('./commands/build-demo');
 
 yargs(process.argv.slice(2))
-    .scriptName("coherent-guic-cli")
+    .scriptName('coherent-guic-cli')
     .command(create)
     .command(build)
     .command(startDemo)
     .command(buildDemo)
     .help()
-    .argv
+    .argv;

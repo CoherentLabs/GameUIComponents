@@ -18,7 +18,7 @@ let noInstall = false;
 // The module formats which will be bundled
 const FORMATS = [
     'cjs',
-    'umd',
+    'umd'
 ];
 
 // The target environments
@@ -43,7 +43,7 @@ function getComponentDirectories() {
  * @param {boolean} isProd - if true, the code will be minified.
  * @returns {object} - OutputParams object.
 */
-function generateOutputOptions(directory, format = 'umd', moduleName, isProd = false,) {
+function generateOutputOptions(directory, format = 'umd', moduleName, isProd = false) {
     const suffix = isProd ? '.production.min' : '.development';
 
     const outputOptions = {
@@ -51,9 +51,9 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
         dir: path.join(directory, format),
         entryFileNames: `${moduleName}${suffix}.js`,
         globals: {
-            'coherent-gameface-components': 'components'
+            'coherent-gameface-components': 'components',
         },
-        exports: 'auto'
+        exports: 'auto',
     };
 
     // When bundling for umd we need to specify a name for
@@ -71,11 +71,11 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
  * @param {object} inputOptions - rollup input options.
  * @param {Array<string>} formats - the module types for which to bundle(UMD, CJS).
  * @param {Array<string>} environments - the environments for which to bundle(prod, dev).
- * @param {string} path - the path to either the library or a component.
+ * @param {string} libPath - the path to either the library or a component.
 */
 async function buildAndPackage(moduleName, inputOptions, formats, environments, libPath) {
-    for (let format of formats) {
-        for (let environment of environments) {
+    for (const format of formats) {
+        for (const environment of environments) {
             await createBundle(inputOptions, generateOutputOptions(
                 path.dirname(inputOptions.input),
                 format,
@@ -90,11 +90,15 @@ async function buildAndPackage(moduleName, inputOptions, formats, environments, 
     execSync('npm pack', { cwd: libPath });
 }
 
+/**
+ * Will install the npm modules
+ * @param {string} componentPath
+ */
 function installDependencies(componentPath) {
     try {
-      execSync('npm i', { cwd: componentPath });
+        execSync('npm i', { cwd: componentPath });
     } catch (err) {
-        console.error(err)
+        console.error(err);
     }
 }
 
@@ -112,12 +116,12 @@ async function buildEverything() {
     // add the ['scrollable-container', 'dropdown'] in the order they should be build
     components = [...components, ...ordered];
 
-    for (let component of components) {
+    for (const component of components) {
         const componentPath = path.join(__dirname, '../components', component);
 
         if (!fs.existsSync(componentPath)) continue;
 
-        if(!noInstall) installDependencies(componentPath);
+        if (!noInstall) installDependencies(componentPath);
 
         if (!fs.existsSync(path.join(componentPath, 'script.js'))) {
             buildCssComponents(componentPath);
@@ -129,7 +133,7 @@ async function buildEverything() {
             external: ['coherent-gameface-components'],
             plugins: [
                 nodeResolve(),
-                html(),
+                html()
             ],
         };
 
@@ -137,12 +141,12 @@ async function buildEverything() {
     }
 }
 
-
+/** */
 function buildComponentsLibrary() {
     const libPath = path.join(__dirname, '../lib');
 
     const inputOptions = {
-        input: path.join(libPath, 'components.js')
+        input: path.join(libPath, 'components.js'),
     };
 
     buildAndPackage('components', inputOptions, FORMATS, ENVIRONMENTS, libPath);
@@ -151,31 +155,35 @@ function buildComponentsLibrary() {
 /**
  * Invokes the rollup JS API to create and write a bundle.
  * See https://rollupjs.org/guide/en/#rolluprollup.
+ * @param {rollup.RollupOptions} inputOptions
+ * @param {rollup.OutputOptions} outputOptions
+ * @returns {Promise<rollup.RollupBuild>}
 */
 function createBundle(inputOptions, outputOptions) {
     // create a bundle
-    return rollup.rollup(inputOptions).then(bundle => {
+    return rollup.rollup(inputOptions).then((bundle) => {
         // and write the bundle to disk
         return bundle.write(outputOptions);
     }).catch(err => console.error(err));
 }
 
+/** */
 async function main() {
     copyCSSTheme();
     let componentArgument = '';
-    const arguments = process.argv.slice(2);
-    if (arguments.indexOf('--no-install') > -1 || arguments.indexOf('-ni') > -1) noInstall = true;
+    const args = process.argv.slice(2);
+    if (args.indexOf('--no-install') > -1 || args.indexOf('-ni') > -1) noInstall = true;
 
-    let componentArgIdx = arguments.indexOf('--component')
-    if (componentArgIdx > -1) componentArgument = `--component ${arguments[componentArgIdx + 1]}`;
+    const componentArgIdx = args.indexOf('--component');
+    if (componentArgIdx > -1) componentArgument = `--component ${args[componentArgIdx + 1]}`;
 
-    if(arguments.indexOf('--library') > -1) {
+    if (args.indexOf('--library') > -1) {
         buildComponentsLibrary();
     } else {
         await buildEverything();
     }
 
-    if (arguments.indexOf('--documentation') > -1) {
+    if (args.indexOf('--documentation') > -1) {
         const result = execSync(`node scripts/transfer-doc-files.js ${componentArgument}`, { cwd: path.join(__dirname, '../'), encoding: 'utf8' });
         console.log(result);
     }

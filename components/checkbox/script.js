@@ -8,14 +8,18 @@ import template from './template.html';
 
 const CustomElementValidator = components.CustomElementValidator;
 
+/**
+ * Class definition of the gameface checkbox custom element
+ */
 class Checkbox extends CustomElementValidator {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
 
         this.template = template;
 
         this.state = {
-            checked: true
+            checked: true,
         };
 
         this.toggleChecked = this.toggleChecked.bind(this);
@@ -23,14 +27,17 @@ class Checkbox extends CustomElementValidator {
         this.url = '/components/checkbox/template.html';
     }
 
+    // eslint-disable-next-line require-jsdoc
     get value() {
         return this.getAttribute('value') || 'on';
     }
 
+    // eslint-disable-next-line require-jsdoc
     get disabled() {
         return this.hasAttribute('disabled');
     }
 
+    // eslint-disable-next-line require-jsdoc
     set disabled(value) {
         if (value) {
             this.firstChild.classList.add('checkbox-disabled');
@@ -43,15 +50,24 @@ class Checkbox extends CustomElementValidator {
         }
     }
 
+    /**
+     * Retrieves if the value is missing
+     * @returns {boolean}
+     */
     valueMissing() {
         return this.hasAttribute('required') && !this.state.checked;
     }
 
+    /**
+     * Method that checks if the data from the checkbox should be serialized
+     * @returns {boolean}
+     */
     willSerialize() {
         if (!this.state.checked || this.nameMissing()) return false;
         return true;
     }
 
+    // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         components.loadResource(this)
             .then((result) => {

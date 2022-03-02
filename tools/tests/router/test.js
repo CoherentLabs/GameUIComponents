@@ -6,8 +6,8 @@
 import { Router, Route, BrowserHistory, HashHistory } from '../node_modules/coherent-gameface-router/umd/router.development.js';
 
 const NumbersModel = {
-    'whole': [1, 2, 3, 4, 5, 6, -7],
-    'rational': [1.5, 1.4, -2.3]
+    whole: [1, 2, 3, 4, 5, 6, -7],
+    rational: [1.5, 1.4, -2.3],
 };
 
 const template = `<div class="router-wrapper">
@@ -32,7 +32,13 @@ const numberTemplate = `<div id="numbers"></div>`;
 const vowelsTemplate = `<div>A vowel is a syllabic speech sound pronounced without any stricture in the vocal tract.[1] Vowels are one of the two principal classes of speech sounds, the other being the consonant.</div>`;
 const consonantTemplate = `<div>In articulatory phonetics, a consonant is a speech sound that is articulated with complete or partial closure of the vocal tract. Examples are [p], pronounced with the lips; [t], pronounced with the front of the tongue;</div>`;
 
-function beforeUnload(callback, params) {
+/**
+ * Test for callback before page unloads
+ * @param {Function} callback
+ * @param {any[]} params
+ * @returns {boolean}
+ */
+function beforeUnload(callback, ...params) {
     const confirmationDialog = document.createElement('div');
     const confirmButton = document.createElement('button');
     confirmButton.classList.add('confirmButton');
@@ -43,8 +49,8 @@ function beforeUnload(callback, params) {
         confirmationDialog.removeChild(confirmButton);
         confirmationDialog.parentElement.removeChild(confirmationDialog);
         confirmButton.style.display = 'none';
-        callback.apply(null, params);
-    }
+        callback(...params);
+    };
 
     confirmationDialog.appendChild(confirmButton);
     document.body.appendChild(confirmationDialog);
@@ -52,6 +58,8 @@ function beforeUnload(callback, params) {
     return false;
 }
 
+/* eslint-disable require-jsdoc */
+// eslint-disable-next-line max-lines-per-function
 function setupPage() {
     class Numbers extends HTMLElement {
         constructor() {
@@ -161,13 +169,20 @@ function setupPage() {
     components.defineCustomElement('vowel-page', Vowels);
 }
 
+/* eslint-enable require-jsdoc */
+
 const routerHistories = {
     BROWSER: new BrowserHistory(),
-    HASH: new HashHistory()
-}
+    HASH: new HashHistory(),
+};
 
-let lettersRouter = null, router = null, currentHistory = null;
+let lettersRouter = null;
+let router = null;
+let currentHistory = null;
 
+/**
+ * Will clear the previous router
+ */
 function clearPreviousRouter() {
     if (lettersRouter && router && currentHistory) {
         lettersRouter.clear();
@@ -178,6 +193,11 @@ function clearPreviousRouter() {
     }
 }
 
+/**
+ * Will setup the routes
+ * @param {HashHistory|BrowserHistory} history
+ * @param {boolean} [confirmation=false]
+ */
 function setupRouter(history = routerHistories.BROWSER, confirmation = false) {
     clearPreviousRouter();
 
@@ -195,26 +215,32 @@ function setupRouter(history = routerHistories.BROWSER, confirmation = false) {
         '/documentation': '<div class="documentation">Documentation<div>',
         '/numbers/:type': 'number-page',
         '/letters/:type': lettersRouter,
-        '**': 'not-found-page'
+        '**': 'not-found-page',
     }, currentHistory, confirmation ? beforeUnload : null);
 }
 
 const routeIdToPageMap = {
-    'home': 'home-page',
-    'numbers': 'numbers-page',
-    'whole': 'number-page',
-    'rational': 'number-page',
-    'vowel': 'vowel-page',
-    'consonant': 'consonant-page',
-    'missing': 'not-found-page',
+    home: 'home-page',
+    numbers: 'numbers-page',
+    whole: 'number-page',
+    rational: 'number-page',
+    vowel: 'vowel-page',
+    consonant: 'consonant-page',
+    missing: 'not-found-page',
 };
 
+/**
+ * Will setup the router page
+ * @param {HashHistory|BrowserHistory} history
+ * @param {boolean} [confirmation=false]
+ * @returns {Promise<void>}
+ */
 function setupRouterTestPage(history = routerHistories.BROWSER, confirmation = false) {
     const el = document.createElement('div');
     el.innerHTML = template;
     el.className = 'router-test-wrapper';
 
-    let currentElement = document.querySelector('.router-test-wrapper');
+    const currentElement = document.querySelector('.router-test-wrapper');
 
     if (currentElement) {
         currentElement.parentElement.removeChild(currentElement);
@@ -224,13 +250,18 @@ function setupRouterTestPage(history = routerHistories.BROWSER, confirmation = f
 
     setupPage();
     setupRouter(history, confirmation);
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         components.waitForFrames(() => {
             resolve();
-        }, 2)
+        }, 2);
     });
 }
 
+/**
+ * @param {string} pageName
+ * @param {boolean} confirm
+ * @returns {Promise<void>}
+ */
 async function navigateTo(pageName, confirm) {
     return await createAsyncSpec(() => {
         click(document.getElementById(pageName));
@@ -238,6 +269,12 @@ async function navigateTo(pageName, confirm) {
     });
 }
 
+/* eslint-disable max-lines-per-function */
+/**
+ * @param {string} title
+ * @param {HashHistory|BrowserHistory} routerHistory
+ * @param {boolean} [confirmation=false]
+ */
 function testSuite(title = 'Router Component', routerHistory = routerHistories.BROWSER, confirmation = false) {
     describe(title, () => {
         afterAll(() => cleanTestPage('.router-test-wrapper'));
@@ -323,7 +360,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
 
             return createAsyncSpec(() => {
                 assert(document.querySelector('gameface-route[to="/letters/consonant"]').classList.contains('active-link') === true, 'Active class name was not added.');
-            })
+            });
         });
 
         it('Should automatically remove active-link class to consonant page route element', async () => {
@@ -332,7 +369,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
 
             return createAsyncSpec(() => {
                 assert(document.querySelector('gameface-route[to="/letters/consonant"]').classList.contains('active-link') === false, 'Active class name was not removed.');
-            })
+            });
         });
 
         xit('Should show warning on back', async () => {
@@ -372,7 +409,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
 
             await createAsyncSpec(() => {
                 if (confirmation) click(document.querySelector('.confirmButton'));
-            })
+            });
 
             await createAsyncSpec(() => {
                 history.forward();
@@ -380,7 +417,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
 
             await createAsyncSpec(() => {
                 if (confirmation) click(document.querySelector('.confirmButton'));
-            })
+            });
 
             return createAsyncSpec(() => {
                 assert(document.querySelector(routeIdToPageMap['vowel']) !== null, 'Current page is not "vowel".');
@@ -423,7 +460,9 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
     });
 }
 
-for (let key of Object.keys(routerHistories)) {
+/* eslint-enable max-lines-per-function */
+
+for (const key of Object.keys(routerHistories)) {
     testSuite(`Router Component - ${key.toLowerCase()}`, routerHistories[key]);
     testSuite(`Router Component - ${key.toLowerCase()} with confirmation button`, routerHistories[key], true);
 }
