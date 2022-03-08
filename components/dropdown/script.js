@@ -119,11 +119,11 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     set disabled(value) {
         if (value) {
-            this.classList.add('gameface-dropdown-disabled');
+            this.classList.add('guic-dropdown-disabled');
             this.setAttribute('disabled', '');
             this.setAttribute('tabindex', '-1');
         } else {
-            this.classList.remove('gameface-dropdown-disabled');
+            this.classList.remove('guic-dropdown-disabled');
             this.removeAttribute('disabled');
             this.setAttribute('tabindex', '1');
         }
@@ -231,7 +231,7 @@ class GamefaceDropdown extends CustomElementValidator {
         // check if cloneNode exists in case the user has set the selected
         // to something that is not an HTMLElement instance
         if (!option || !option.cloneNode) return;
-        components.transferContent(option.cloneNode(true), this.querySelector('.selected'));
+        components.transferContent(option.cloneNode(true), this.querySelector('.guic-dropdown-selected-option'));
     }
 
     /**
@@ -301,7 +301,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * because of the cohtml style resolver and the scrollable container initialization.
     */
     setupMultiple() {
-        this.querySelector('.dropdown-header').style.display = 'none';
+        this.querySelector('.guic-dropdown-header').style.display = 'none';
         components.waitForFrames(() => this.onClick(), 6);
     }
 
@@ -321,7 +321,7 @@ class GamefaceDropdown extends CustomElementValidator {
                 if (this.multiple && !this.collapsable) this.setupMultiple();
                 if (this.disabled) this.disabled = true;
 
-                this.allOptions = this.querySelector('.options').children;
+                this.allOptions = this.querySelector('.guic-dropdown-options').children;
 
                 this.preselectOptions();
                 this.attachEventListeners();
@@ -566,7 +566,7 @@ class GamefaceDropdown extends CustomElementValidator {
     initScrollbar() {
         const scrollableContainer = this.querySelector('gameface-scrollable-container');
 
-        if (!this.isGameface()) return scrollableContainer.querySelector('.scrollable-container').classList.add('full-width');
+        if (!this.isGameface()) return scrollableContainer.querySelector('.guic-scrollable-container').classList.add('full-width');
         scrollableContainer.shouldShowScrollbar();
     }
 
@@ -577,7 +577,7 @@ class GamefaceDropdown extends CustomElementValidator {
         // handle keyboard
         this.addEventListener('keydown', this.onKeydown);
         // handle click on the selected element placeholder
-        this.querySelector('.selected').addEventListener('click', this.onClick);
+        this.querySelector('.guic-dropdown-selected-option').addEventListener('click', this.onClick);
         this.toggleOptionsListeners('addEventListener');
     }
 
@@ -613,7 +613,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {HTMLElement} element
      */
     addActiveClass(element) {
-        element.classList.add('active');
+        element.classList.add('guic-dropdown-option-active');
     }
 
     /**
@@ -621,7 +621,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {HTMLElement} element
      */
     removeActiveClass(element) {
-        element.classList.remove('active');
+        element.classList.remove('guic-dropdown-option-active');
     }
 
     /**
@@ -678,9 +678,9 @@ class GamefaceDropdown extends CustomElementValidator {
      * Hides the options panel.
     */
     closeOptionsPanel() {
-        const optionsPanel = this.querySelector('.options-container');
+        const optionsPanel = this.querySelector('.guic-dropdown-options-container');
         this.isOpened = false;
-        optionsPanel.classList.add('hidden');
+        optionsPanel.classList.add('guic-dropdown-hidden');
         document.removeEventListener('click', this.onDocumentClick);
         this.toggleOptionsListeners('removeEventListener');
     }
@@ -691,9 +691,9 @@ class GamefaceDropdown extends CustomElementValidator {
      * Focuses the dropdown element.
     */
     openOptionsPanel() {
-        const optionsPanel = this.querySelector('.options-container');
+        const optionsPanel = this.querySelector('.guic-dropdown-options-container');
         this.isOpened = true;
-        optionsPanel.classList.remove('hidden');
+        optionsPanel.classList.remove('guic-dropdown-hidden');
         this.focus();
         this.toggleOptionsListeners('addEventListener');
         document.addEventListener('click', this.onDocumentClick);
@@ -716,21 +716,21 @@ class GamefaceDropdown extends CustomElementValidator {
      * Scrolls to the selected option element.
     */
     scrollToSelectedElement() {
-        const scrollbleContainer = this.querySelector('.scrollable-container');
+        const scrollbleContainer = this.querySelector('.guic-scrollable-container');
         const option = this.querySelector('dropdown-option');
         const optionSize = option.getBoundingClientRect().height;
 
         // the scroll position in pixels is equal to the height of the selected
         // option multiplied by its index
         clearTimeout(this.timeout);
-        document.body.classList.add('disable-hover');
+        document.body.classList.add('guic-dropdown-disable-hover');
 
         const scrollInPX = this.lastSelectedIndex * optionSize;
         scrollbleContainer.scrollTop = scrollInPX;
         scrollbleContainer.dispatchEvent(new CustomEvent('scroll'));
 
         this.timeout = setTimeout(() => {
-            document.body.classList.remove('disable-hover');
+            document.body.classList.remove('guic-dropdown-disable-hover');
         }, 500);
     }
 }
@@ -754,10 +754,10 @@ class DropdownOption extends HTMLElement {
     */
     attributeChangedCallback() {
         if (this.hasAttribute('disabled')) {
-            this.classList.add('disabled');
+            this.classList.add('guic-dropdown-option-disabled');
             this.removeEventListener('click', this.onClick);
         } else {
-            this.classList.remove('disabled');
+            this.classList.remove('guic-dropdown-option-disabled');
             this.addEventListener('click', this.onClick);
         }
     }

@@ -25,7 +25,7 @@ class AccordionMenu extends HTMLElement {
         this._multiple = this.hasAttribute('multiple');
 
         // Remove the border from the last panel
-        this.lastElementChild.classList.add('accordion-last-panel');
+        this.lastElementChild.classList.add('guic-accordion-last-panel');
 
         this.addEventListener('click', this.panelClick);
     }
@@ -88,7 +88,7 @@ class AccordionPanel extends HTMLElement {
         this._content = this.querySelector('gameface-accordion-content');
         this._header = this.querySelector('gameface-accordion-header');
 
-        if (this._isDisabled) this.classList.add('accordion-panel-disabled');
+        if (this._isDisabled) this.classList.add('guic-accordion-panel-disabled');
 
         // If a panel is expanded on load we wait 3 frames so that we have the correct content height and expand it
         if (this._isExpanded) {
@@ -134,7 +134,7 @@ class AccordionHeader extends HTMLElement {
      */
     connectedCallback() {
         this._caret = document.createElement('div');
-        this._caret.classList.add('accordion-header-caret');
+        this._caret.classList.add('guic-accordion-header-caret');
 
         // Clear any carets on rerender
         this.textContent = this.textContent;

@@ -48,8 +48,8 @@ function setupMultipleDropdownTestPage(template) {
 // eslint-disable-next-line max-lines-per-function
 describe('Multiple Dropdown Test', () => {
     afterAll(() => {
-        // Reset .options to avoid mixing the options re-added by the caching feature which messes up the tests.
-        document.querySelector('.multiple-dropdown-test-wrapper').querySelector('.options').innerHTML = '';
+        // Reset .guic-dropdown-options to avoid mixing the options re-added by the caching feature which messes up the tests.
+        document.querySelector('.multiple-dropdown-test-wrapper').querySelector('.guic-dropdown-options').innerHTML = '';
         cleanTestPage('.multiple-dropdown-test-wrapper');
     });
 
@@ -175,7 +175,7 @@ describe('Multiple Dropdown Test', () => {
         it('Should have its options list expanded', async () => {
             // Wait 6 frames because the multiple (and not collapsable) dropdown opens after 6 frames.
             return createAsyncSpec(() => {
-                assert(document.querySelector('.options-container').classList.contains('hidden') === false,
+                assert(document.querySelector('.guic-dropdown-options-container').classList.contains('guic-dropdown-hidden') === false,
                     'Options container is hidden.');
             }, 6);
         });
@@ -237,7 +237,7 @@ describe('Multiple Dropdown Test', () => {
             options[1].onClick({ target: options[1], ctrlKey: true });
 
             click(document.body);
-            assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true,
+            assert(dropdown.querySelector('.guic-dropdown-options-container').classList.contains('guic-dropdown-hidden') === true,
                 `Options container is not hidden.`);
         });
     });

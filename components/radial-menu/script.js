@@ -91,7 +91,7 @@ class RadialMenu extends HTMLElement {
      * Add the menu items
      */
     populateItems() {
-        const itemsElement = this.getElementsByClassName('radial-menu-items')[0];
+        const itemsElement = this.getElementsByClassName('guic-radial-menu-items')[0];
         this.segmentDegrees = 360 / this.itemsCount;
 
         for (let i = 0; i < this.itemsCount; i++) {
@@ -100,11 +100,11 @@ class RadialMenu extends HTMLElement {
 
             const itemEl = document.createElement('div');
             this.rotateElement(itemEl, segmentOffset);
-            itemEl.className = 'radial-menu-item';
+            itemEl.className = 'guic-radial-menu-item';
 
             const itemImage = document.createElement('div');
             this.rotateElement(itemImage, (this.segmentDegrees * -1) * i);
-            itemImage.className = 'radial-menu-item-icon';
+            itemImage.className = 'guic-radial-menu-item-icon';
             itemImage.style.backgroundImage = `url('${itemArrayImagePath}')`;
 
             itemEl.appendChild(itemImage);
@@ -190,7 +190,7 @@ class RadialMenu extends HTMLElement {
      * Will close the radial menu and dispatch custom event for selecting a menu item
      */
     selectAndClose() {
-        this.classList.remove('radial-menu-open');
+        this.classList.remove('guic-radial-menu-open');
         this.closeAndRemoveEventListeners();
         this.dispatchEvent(this.selectItemEvent);
     }
@@ -227,7 +227,7 @@ class RadialMenu extends HTMLElement {
                 window.addEventListener('resize', this.updateRadialMenuCenterXY);
                 window.addEventListener('keyup', this.selectAndClose);
 
-                this.classList.add('radial-menu-open');
+                this.classList.add('guic-radial-menu-open');
             });
         });
     }
@@ -290,10 +290,10 @@ class RadialMenu extends HTMLElement {
         this.selectAndClose = this.selectAndClose.bind(this);
         this.updateRadialMenuCenterXY = this.updateRadialMenuCenterXY.bind(this);
 
-        this.radialMenuTemplateWrapper = this.querySelector('.radial-menu');
-        this.itemSelector = this.querySelector('.radial-menu-selector');
+        this.radialMenuTemplateWrapper = this.querySelector('.guic-radial-menu');
+        this.itemSelector = this.querySelector('.guic-radial-menu-selector');
 
-        this.querySelector('.radial-menu-center-text').textContent = this.dataset.name;
+        this.querySelector('.guic-radial-menu-center-text').textContent = this.dataset.name;
 
         this.populateItems();
         this.setSelectorSize();

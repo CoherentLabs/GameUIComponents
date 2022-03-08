@@ -36,22 +36,22 @@
             margin-bottom: 5px;
         }
 
-        .horizontal-rangeslider-wrapper {
+        .guic-horizontal-rangeslider-wrapper {
             width: 80%;
             margin-left: 31px;
         }
 
-        .selected {
+        .guic-dropdown-selected-option {
             width: 100%;
         }
 
-        .options-container {
+        .guic-dropdown-options-container {
             width: auto;
             height: auto;
         }
 
-        .options,
-        .dropdown {
+        .guic-dropdown-options,
+        .guic-dropdown {
             width: 100%;
         }
 
@@ -188,18 +188,18 @@
                 <span>What are your interests?</span>
                 <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
                     <component-slot data-name="checkbox-background">
-                        <div class="checkbox-background"></div>
+                        <div class="guic-checkbox-background"></div>
                     </component-slot>
-                    <component-slot data-name="label">
-                        <span class="label">Music</span>
+                    <component-slot data-name="checkbox-label">
+                        <span class="guic-checkbox-label">Music</span>
                     </component-slot>
                 </gameface-checkbox>
                 <gameface-checkbox name="user-interests" value="coding" class="checkbox-component form-element">
                     <component-slot data-name="checkbox-background">
-                        <div class="checkbox-background"></div>
+                        <div class="guic-checkbox-background"></div>
                     </component-slot>
-                    <component-slot data-name="label">
-                        <span class="label">Coding</span>
+                    <component-slot data-name="checkbox-label">
+                        <span class="guic-checkbox-label">Coding</span>
                     </component-slot>
                 </gameface-checkbox>
             </div>
@@ -261,28 +261,28 @@
         <gameface-form-control id="checkbox-test" action="http://localhost:3000/user" method="get">
             <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
                 <component-slot data-name="checkbox-background">
-                    <div class="checkbox-background"></div>
+                    <div class="guic-checkbox-background"></div>
                 </component-slot>
-                <component-slot data-name="label">
-                    <span class="label">1</span>
+                <component-slot data-name="checkbox-label">
+                    <span class="guic-checkbox-label">1</span>
                 </component-slot>
             </gameface-checkbox>
             <!-- Should be skipped when form is submitted because it is disabled -->
             <gameface-checkbox disabled name="user-interests" value="coding" class="checkbox-component form-element">
                 <component-slot data-name="checkbox-background">
-                    <div class="checkbox-background"></div>
+                    <div class="guic-checkbox-background"></div>
                 </component-slot>
-                <component-slot data-name="label">
-                    <span class="label">Disabled</span>
+                <component-slot data-name="checkbox-label">
+                    <span class="guic-checkbox-label">Disabled</span>
                 </component-slot>
             </gameface-checkbox>
             <!-- Should send "no" as value if it is checked -->
             <gameface-checkbox name="user-interests" class="checkbox-component form-element">
                 <component-slot data-name="checkbox-background">
-                    <div class="checkbox-background"></div>
+                    <div class="guic-checkbox-background"></div>
                 </component-slot>
-                <component-slot data-name="label">
-                    <span class="label">No value</span>
+                <component-slot data-name="checkbox-label">
+                    <span class="guic-checkbox-label">No value</span>
                 </component-slot>
             </gameface-checkbox>
             <button class="form-element" type="submit">Submit</button>

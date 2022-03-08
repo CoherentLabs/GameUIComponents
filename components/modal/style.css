@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-.backdrop {
+.guic-modal-backdrop {
     width: 100vw;
     height: 100vh;
     background-color: #000000;
@@ -15,7 +15,7 @@
     left: 0px;
 }
 
-.close-x {
+.guic-modal-close-x {
     width: 30px;
     height: 30px;
     position: absolute;
@@ -29,12 +29,12 @@
     color: var(--default-color-gray);
 }
 
-.close-x:hover {
+.guic-modal-close-x:hover {
     background-color: var(--default-color-gray);
     color: var(--default-color-blue);
 }
 
-.modal {
+.guic-modal {
     width: 500px;
     height: 500px;
     z-index: 2;
@@ -49,7 +49,7 @@
     background-color: var(--default-color-white);
 }
 
-.modal-wrapper {
+.guic-modal-wrapper {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -60,7 +60,7 @@
     height: 100vh;
 }
 
-.header {
+.guic-modal-header {
     position: relative;
     top: 0px;
     height: 50px;
@@ -73,19 +73,19 @@
 	box-sizing: border-box;
 }
 
-.body, .footer {
+.guic-modal-body, .guic-modal-footer {
     position: absolute;
     justify-content: center;
     display: flex;
     align-items: center;
 }
 
-.body {
+.guic-modal-body {
     position: relative;
     height: 100px;
 }
 
-.footer {
+.guic-modal-footer {
     height: 100px;
     width: 500px;
     position: absolute;

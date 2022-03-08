@@ -217,8 +217,8 @@ class Rangeslider extends CustomElementValidator {
             this.twoHandles ? this._value.forEach(val => this.buildThumb(val)) : this.buildThumb(this.value);
 
             this.thumbElement = !this.twoHandles ?
-                [this.querySelector(`.${this.orientation}-rangeslider-thumb`)] :
-                this.querySelectorAll(`.${this.orientation}-rangeslider-thumb`);
+                [this.querySelector(`.guic-${this.orientation}-rangeslider-thumb`)] :
+                this.querySelectorAll(`.guic-${this.orientation}-rangeslider-thumb`);
         }
     }
 
@@ -249,12 +249,12 @@ class Rangeslider extends CustomElementValidator {
             // saves the size of the rangeslider so we don't have to request it on every action
             this.sizes = this.getRangeSliderSize();
 
-            this.rangeslider = this.querySelector(`.${this.orientation}-rangeslider`);
+            this.rangeslider = this.querySelector(`.guic-${this.orientation}-rangeslider`);
             this.handle = !this.twoHandles ?
-                [this.querySelector(`.${this.orientation}-rangeslider-handle`)] :
-                this.querySelectorAll(`.${this.orientation}-rangeslider-handle`);
+                [this.querySelector(`.guic-${this.orientation}-rangeslider-handle`)] :
+                this.querySelectorAll(`.guic-${this.orientation}-rangeslider-handle`);
 
-            this.bar = this.querySelector(`.${this.orientation}-rangeslider-bar`);
+            this.bar = this.querySelector(`.guic-${this.orientation}-rangeslider-bar`);
 
             this.setMinAndMax();
             this.setHandleValues();
@@ -291,7 +291,7 @@ class Rangeslider extends CustomElementValidator {
         // calculates the number of pols the grid will have based on the size of the slider
         const numberOfPols = Math.round(this.sizes[this.units.size] / SPACE_BETWEEN_GRID_POLS / 4) * 4; // here we round to a number that is divisible by 4 and to make sure, the last pol has a number
         const grid = document.createElement('div');
-        grid.classList.add(`${this.orientation}-rangeslider-grid`);
+        grid.classList.add(`guic-${this.orientation}-rangeslider-grid`);
         for (let i = 0; i <= numberOfPols; i++) {
             // each forth poll will be larger with a value added
             if (i % (numberOfPols / 4) === 0) {
@@ -313,7 +313,7 @@ class Rangeslider extends CustomElementValidator {
      */
     buildArrayGrid() {
         const grid = document.createElement('div');
-        grid.classList.add(`${this.orientation}-rangeslider-grid`);
+        grid.classList.add(`guic-${this.orientation}-rangeslider-grid`);
         // builds only pols for the values of the array
         for (let i = 0; i < this._values.length; i++) {
             const entry = this._values[i];
@@ -330,17 +330,17 @@ class Rangeslider extends CustomElementValidator {
      */
     createGridPol(value) {
         const polContainer = document.createElement('div');
-        polContainer.classList.add(`${this.orientation}-grid-pol-container`);
+        polContainer.classList.add(`guic-rangeslider-${this.orientation}-grid-pol-container`);
 
         polContainer.innerHTML = `
-            <div class="${this.orientation}-grid-pol ${this.orientation}-pol-without-text"></div>
+            <div class="guic-rangeslider-${this.orientation}-grid-pol guic-rangeslider-${this.orientation}-pol-without-text"></div>
         `;
 
         // checks if the passed value is a string or number and then makes a pol with value
         if (typeof value === 'number' || typeof value === 'string') {
             polContainer.innerHTML = `
-                <div class="${this.orientation}-grid-pol"></div>
-                <div class="${this.orientation}-grid-text">${value}</div>
+                <div class="guic-rangeslider-${this.orientation}-grid-pol"></div>
+                <div class="guic-rangeslider-${this.orientation}-grid-text">${value}</div>
             `;
         }
 
@@ -353,7 +353,7 @@ class Rangeslider extends CustomElementValidator {
      */
     buildThumb(value) {
         const thumb = document.createElement('div');
-        thumb.classList.add(`${this.orientation}-rangeslider-thumb`);
+        thumb.classList.add(`guic-${this.orientation}-rangeslider-thumb`);
         thumb.textContent = value;
         this.rangeslider.appendChild(thumb);
     }
@@ -363,7 +363,7 @@ class Rangeslider extends CustomElementValidator {
      * @returns {DOMRect}
      */
     getRangeSliderSize() {
-        return this.querySelector(`.${this.orientation}-rangeslider-wrapper`).getBoundingClientRect();
+        return this.querySelector(`.guic-${this.orientation}-rangeslider-wrapper`).getBoundingClientRect();
     }
 
     /**
@@ -409,7 +409,7 @@ class Rangeslider extends CustomElementValidator {
      * Attaches the event listener
      */
     attachEventListener() {
-        this.querySelector(`.${this.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
+        this.querySelector(`.guic-${this.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
     }
 
     /**

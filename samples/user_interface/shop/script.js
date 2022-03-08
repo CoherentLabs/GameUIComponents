@@ -47,7 +47,7 @@ const selectDown = function () {
 // Ultimately when using the modal in a real project, these functions should be
 // added as methods by directly extending the Modal Component.
 const modal = document.querySelector('gameface-modal');
-const modalHeader = modal.querySelector('.header').firstElementChild;
+const modalHeader = modal.querySelector('.guic-modal-header').firstElementChild;
 
 const openModal = function () {
     modalHeader.textContent = shopItems[activeItemSlot].querySelector('.item-name').textContent;

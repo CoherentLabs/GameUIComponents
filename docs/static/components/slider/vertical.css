@@ -7,14 +7,14 @@ body {
     background-color: #ebebeb;
 }
 
-.vertical-slider-wrapper {
+.guic-vertical-slider-wrapper {
     height: 90vh;
     display: flex;
     flex-direction: column;
     max-width: 15px;
 }
 
-.vertical-arrow {
+.guic-slider-vertical-arrow {
     height: 15px;
     width: 15px;
     display: flex;
@@ -23,11 +23,11 @@ body {
     background-color: #f1f1f1;
 }
 
-.vertical-arrow:hover {
+.guic-slider-vertical-arrow:hover {
     background-color: #c1c1c1;
 }
 
-.arrow-up {
+.guic-slider-arrow-up {
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
@@ -36,7 +36,7 @@ body {
     border-bottom: 5px solid #505050;
 }
 
-.arrow-down {
+.guic-slider-arrow-down {
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
@@ -45,12 +45,12 @@ body {
     border-top: 5px solid #505050;
 }
 
-.vertical-slider {
+.guic-slider-vertical-slider {
     background-color: #f1f1f1;
     flex: 1;
 }
 
-.vertical-handle {
+.guic-slider-vertical-handle {
     position: relative;
     top: 0px;
     left: 0px;
@@ -60,6 +60,6 @@ body {
     cursor: pointer;
 }
 
-.vertical-handle:hover {
+.guic-slider-vertical-handle:hover {
     background-color: #787878;
 }

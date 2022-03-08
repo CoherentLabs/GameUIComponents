@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-.progress-bar {
+.guic-progress-bar {
 	border: 2px solid;
 	border-top-color: var(--default-color-gray);
 	border-right-color: var(--default-color-gray);
@@ -13,7 +13,7 @@
 	width: 100%;
 }
 
-.progress-bar-filler {
+.guic-progress-bar-filler {
 	height: 100%;
 	background-color: var(--default-color-blue);
 }

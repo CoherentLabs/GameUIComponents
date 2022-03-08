@@ -1,6 +1,6 @@
 ---
+date: 2022-3-08
 title: "Modal"
-date: 2020-10-08T14:00:45Z
 draft: false
 ---
 
@@ -12,10 +12,6 @@ draft: false
     <link rel="stylesheet" href="../../components/coherent-gameface-components-theme.css">
     <link rel="stylesheet" href="../../components/modal/style.css">
     <style>
-        .backdrop {
-            z-index: 11111;
-        }
-
         .page-wrapper {
             height: 45vh;
         }
@@ -39,7 +35,7 @@ draft: false
             pointer-events: none;
         }
 
-        .modal {
+        .guic-modal {
             top: auto;
             left: auto;
             display: block;
@@ -48,14 +44,14 @@ draft: false
             color: var(--bs-body-color);
         }
 
-        .modal-button {
+        .guic-modal-button {
             width: 100px;
             height: 30px;
             border: none;
             background-color: #adacac;
         }
 
-        .modal-button:hover {
+        .guic-modal-button:hover {
             background-color: rgb(121, 123, 131);
         }
 
@@ -80,7 +76,7 @@ draft: false
         <p>Chose a name for your character.</p>
         <div class="character-customization">
             <input for="name" type="text" />
-            <button type="button" class="modal-button save disabled">Save</button>
+            <button type="button" class="guic-modal-button save disabled">Save</button>
         </div>
         <p class="name-text hidden">
             <span>The name you chose is: </span>
@@ -96,8 +92,8 @@ draft: false
             </div>
             <div slot="footer">
                 <div class="actions">
-                    <button id="confirm" class="close modal-button confirm controls">Yes</button>
-                    <button class="close modal-button discard controls">No</button>
+                    <button id="confirm" class="close guic-modal-button confirm controls">Yes</button>
+                    <button class="close guic-modal-button discard controls">No</button>
                 </div>
             </div>
         </gameface-modal>

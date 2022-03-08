@@ -25,14 +25,14 @@
             pointer-events: none;
         }
 
-        .modal-button {
+        .guic-modal-button {
             width: 100px;
             height: 30px;
             border: none;
             background-color: #adacac;
         }
 
-        .modal-button:hover {
+        .guic-modal-button:hover {
             background-color: rgb(121, 123, 131);
         }
 
@@ -56,7 +56,7 @@
     <p>Chose a name for your character.</p>
     <div class="character-customization">
         <input for="name" type="text" />
-        <button type="button" class="modal-button save disabled">Save</button>
+        <button type="button" class="guic-modal-button save disabled">Save</button>
     </div>
     <p class="name-text hidden">
         <span>The name you chose is: </span>
@@ -72,8 +72,8 @@
         </div>
         <div slot="footer">
             <div class="actions">
-                <button id="confirm" class="close modal-button confirm controls">Yes</button>
-                <button class="close modal-button discard controls">No</button>
+                <button id="confirm" class="close guic-modal-button confirm controls">Yes</button>
+                <button class="close guic-modal-button discard controls">No</button>
             </div>
         </div>
     </gameface-modal>

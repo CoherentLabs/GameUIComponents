@@ -11,30 +11,30 @@ gameface-switch {
     display: flex;
 }
 
-.switch-toggle-container {
+.guic-switch-toggle-container {
     display: flex;
     align-items: center;
 }
 
-.switch-toggle-disabled {
+.guic-switch-toggle-disabled {
     filter: grayscale(0.2);
     opacity: 0.5;
     pointer-events: none;
 }
 
-.switch-toggle-false {
+.guic-switch-toggle-false {
     margin-right: 10px;
     opacity: 1;
     transition: opacity 0.2s;
 }
 
-.switch-toggle-true {
+.guic-switch-toggle-true {
     margin-left: 10px;
     opacity: 1;
     transition: opacity 0.2s;
 }
 
-.switch-toggle {
+.guic-switch-toggle {
     width: 30px;
     height: 16px;
     position: relative;
@@ -47,21 +47,21 @@ gameface-switch {
     box-sizing: border-box;
 }
 
-.switch-toggle-inset {
+.guic-switch-toggle-inset {
     height: 20px;
     width: 35px;
     border-radius: 15px;
     border-right: 3px solid transparent;
 }
 
-.switch-toggle-text-inside {
+.guic-switch-toggle-text-inside {
     height: 22px;
     border-radius: 10px;
     width: auto;
     border-right: 3px solid transparent;
 }
 
-.switch-toggle-handle {
+.guic-switch-toggle-handle {
     width: 16px;
     height: 16px;
     border-radius: 50%;
@@ -72,22 +72,22 @@ gameface-switch {
     transition-duration: 0.2s;
 }
 
-.switch-toggle-handle-default {
+.guic-switch-toggle-handle-default {
     left: 0%;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
 }
 
-.switch-toggle-checked {
+.guic-switch-toggle-checked {
     background-color: rgba(36, 163, 214, 0.5);
 }
 
 
-.switch-toggle-handle-checked {
+.guic-switch-toggle-handle-checked {
     background-color: rgb(36, 163, 214);
     left: 100%;
     transform: translateX(-100%);
 }
 
-.switch-text-hidden {
+.guic-switch-text-hidden {
     opacity: 0;
 }

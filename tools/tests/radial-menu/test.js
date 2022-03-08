@@ -77,22 +77,22 @@ describe('Radial Menu Tests', () => {
         });
 
         it('Should set the provided name', () => {
-            assert(document.querySelector('.radial-menu-center-text').textContent === 'Radial Menu Name Test', 'The textContent of the radial menu is not "Radial Menu Name Test".');
+            assert(document.querySelector('.guic-radial-menu-center-text').textContent === 'Radial Menu Name Test', 'The textContent of the radial menu is not "Radial Menu Name Test".');
         });
 
         it('Should have items and their count to be 8', () => {
-            assert(document.querySelectorAll('.radial-menu-item').length === 8, 'The length of .radial-menu-item elements is not 8.');
+            assert(document.querySelectorAll('.guic-radial-menu-item').length === 8, 'The length of .radial-menu-item elements is not 8.');
         });
 
         it('Should have background image url on a populated element', () => {
-            const backgroundImageUrl = document.querySelectorAll('.radial-menu-item-icon')[2].style.backgroundImage;
+            const backgroundImageUrl = document.querySelectorAll('.guic-radial-menu-item-icon')[2].style.backgroundImage;
 
             assert(backgroundImageUrl.includes('weapon3') === true, `The background image url is not "url("./images/weapon3.png")".`);
         });
 
         it('Should have transform rotate on a populated element', () => {
             // remove all numbers after the decimal point (if any)
-            const transformValue = document.querySelectorAll('.radial-menu-item-icon')[7].style.transform.replace(/\.\d+/, '');
+            const transformValue = document.querySelectorAll('.guic-radial-menu-item-icon')[7].style.transform.replace(/\.\d+/, '');
             assert((transformValue === 'rotate(-315deg)' || transformValue === 'rotateZ(-315deg)'),
                 'The transform property of the radial-menu-item-icon is not "rotate(-315deg)" nor "rotateZ(-315deg)".');
         });
@@ -104,7 +104,7 @@ describe('Radial Menu Tests', () => {
 
             // The menu is opened 2 frames after the opening function is called.
             return createAsyncSpec(() => {
-                assert(radialMenu.classList.contains('radial-menu-open') === true, 'Radial menu did not open.');
+                assert(radialMenu.classList.contains('guic-radial-menu-open') === true, 'Radial menu did not open.');
             });
         });
 
@@ -114,7 +114,7 @@ describe('Radial Menu Tests', () => {
             dispatchKeyboardEventKeyDown(16, window);
 
             await createAsyncSpec(() => {
-                assert(radialMenu.classList.contains('radial-menu-open') === true, 'Radial menu did not open prior to finishing the test.');
+                assert(radialMenu.classList.contains('guic-radial-menu-open') === true, 'Radial menu did not open prior to finishing the test.');
             });
 
             await createAsyncSpec(() => {
@@ -122,7 +122,7 @@ describe('Radial Menu Tests', () => {
             });
 
             return createAsyncSpec(() => {
-                assert(radialMenu.classList.contains('radial-menu-open') === false, 'Radial menu has not closed.');
+                assert(radialMenu.classList.contains('guic-radial-menu-open') === false, 'Radial menu has not closed.');
             });
         });
 

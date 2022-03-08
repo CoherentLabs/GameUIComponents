@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
- gameface-tooltip {
+gameface-tooltip {
     position: absolute;
     visibility: hidden;
     background-color: var(--default-color-blue);
@@ -13,15 +13,16 @@
     overflow-wrap: break-word;
 }
 
-.tooltip-show-animation {
-    animation: fadein 1s;
+.guic-tooltip-show-animation {
+    animation: guic-tooltip-fadein 1s;
     animation-fill-mode: forwards;
 }
-@keyframes fadein {
-   from {
-       opacity:0;
-   }
-   to {
-       opacity:1;
-   }
+
+@keyframes guic-tooltip-fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

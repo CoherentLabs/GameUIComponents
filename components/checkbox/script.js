@@ -40,11 +40,11 @@ class Checkbox extends CustomElementValidator {
     // eslint-disable-next-line require-jsdoc
     set disabled(value) {
         if (value) {
-            this.firstChild.classList.add('checkbox-disabled');
+            this.firstChild.classList.add('guic-checkbox-disabled');
             this.setAttribute('disabled', '');
             this.setAttribute('tabindex', '-1');
         } else {
-            this.firstChild.classList.remove('checkbox-disabled');
+            this.firstChild.classList.remove('guic-checkbox-disabled');
             this.removeAttribute('disabled');
             this.setAttribute('tabindex', '0');
         }

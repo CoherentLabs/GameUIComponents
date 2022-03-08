@@ -439,7 +439,7 @@ function testSuite(title = 'Router Component', routerHistory = routerHistories.B
         it('Should use the activeClass set to the parent element', async () => {
             await navigateTo('documentation', confirmation);
             return createAsyncSpec(() => {
-                assert(document.getElementById('documentation').classList.contains('gameface-route-active'), true);
+                assert(document.getElementById('documentation').classList.contains('guic-route-active'), true);
             });
         });
 

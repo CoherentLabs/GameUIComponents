@@ -71,14 +71,14 @@ describe('Automatic grid component', () => {
 
     it('Should position items in correct cell', async () => {
         await loadGrid();
-        const cell = document.querySelectorAll('.automatic-grid-cell')[9];
+        const cell = document.querySelectorAll('.guic-automatic-grid-cell')[9];
 
         assert.notEqual(cell.childElementCount, 0);
     });
 
     it('Should move items when dragged to another cell', (done) => {
         loadGrid().then(() => {
-            const cells = document.querySelectorAll('.automatic-grid-cell');
+            const cells = document.querySelectorAll('.guic-automatic-grid-cell');
 
             const cell1 = cells[1];
             const cell2 = cells[cells.length - 1];

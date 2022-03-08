@@ -47,7 +47,7 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should not show scrollbar as the content does not overflow', async () => {
-        const style = getComputedStyle(document.querySelector('.slider-component'));
+        const style = getComputedStyle(document.querySelector('.guic-slider-component'));
 
         return createAsyncSpec(() => {
             assert(style.display === 'none', 'The scrollbar is visible.');
@@ -55,30 +55,43 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should show scrollbar if the content is changed and overflows', async () => {
-        const scrollableContainer = document.querySelector('.scrollable-container');
+        const scrollableContainer = document.querySelector('.guic-scrollable-container-wrapper');
+        let sliderStyle = {};
+
         showDynamicScrollbarContent(scrollableContainer);
 
+        await createAsyncSpec(() => {
+            sliderStyle = getComputedStyle(scrollableContainer.querySelector('.guic-slider-component'));
+        });
+
         return createAsyncSpec(() => {
-            const sliderStyle = getComputedStyle(scrollableContainer.querySelector('.slider-component'));
             assert(sliderStyle.display === 'block', 'The scrollbar is not visible.');
         });
     });
 
     it('Should hide scrollbar if the content is changed and does not overflow', async () => {
-        const scrollableContainer = document.querySelector('.scrollable-container');
+        const scrollableContainer = document.querySelector('.guic-scrollable-container-wrapper');
+        let sliderStyle = {};
+
         showDynamicScrollbarContent(scrollableContainer);
 
         await createAsyncSpec(() => {
-            const sliderStyle = getComputedStyle(scrollableContainer.querySelector('.slider-component'));
+            sliderStyle = getComputedStyle(scrollableContainer.querySelector('.guic-slider-component'));
+        });
+
+        await createAsyncSpec(() => {
             assert(sliderStyle.display === 'block', 'The scrollbar is not visible.');
-        }, 3);
+        });
 
         hideDynamicScrollbarContent(scrollableContainer);
 
+        await createAsyncSpec(() => {
+            sliderStyle = getComputedStyle(scrollableContainer.querySelector('.guic-slider-component'));
+        });
+
         return createAsyncSpec(() => {
-            const sliderStyle = getComputedStyle(scrollableContainer.querySelector('.slider-component'));
             assert(sliderStyle.display === 'none', 'The scrollbar is visible.');
-        }, 3);
+        });
     });
 });
 

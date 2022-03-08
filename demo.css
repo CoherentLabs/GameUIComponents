@@ -95,7 +95,7 @@ gameface-menu {
     border-bottom: 3px solid black;
 }
 
-.automatic-grid-cell {
+.guic-automatic-grid-cell {
     border-top: 3px solid black;
     border-left: 3px solid black;
     display: flex;
@@ -103,7 +103,7 @@ gameface-menu {
     justify-content: center;
 }
 
-.automatic-grid-cell .box {
+.guic-automatic-grid-cell .box {
     width: 50px;
     height: 50px;
     display: flex;

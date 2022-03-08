@@ -45,7 +45,7 @@ describe('Accordion Menu component', () => {
     it('Panel should be disabled when the disabled attribute is present', async () => {
         await loadAccordionMenu({ disabled: true });
         const firstPanel = document.querySelector('gameface-accordion-panel');
-        assert.isTrue(firstPanel.classList.contains('accordion-panel-disabled'));
+        assert.isTrue(firstPanel.classList.contains('guic-accordion-panel-disabled'));
     });
 
     it('Panel should be expanded when the expanded attribute is present', async () => {

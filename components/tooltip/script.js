@@ -77,7 +77,7 @@ class Tooltip extends HTMLElement {
                 this.template = result.template;
                 components.renderOnce(this);
                 this.attachEventListeners();
-                this._messageSlot = this.querySelector('.tooltip').firstElementChild;
+                this._messageSlot = this.querySelector('.guic-tooltip').firstElementChild;
             })
             .catch(err => console.error(err));
     }
@@ -214,7 +214,7 @@ class Tooltip extends HTMLElement {
 
         this.style.visibility = 'visible';
         this.visible = true;
-        this.classList.add('tooltip-show-animation');
+        this.classList.add('guic-tooltip-show-animation');
     }
 
     /**

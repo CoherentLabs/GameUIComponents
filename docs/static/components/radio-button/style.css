@@ -16,7 +16,6 @@
 }
 
 [role="radio"] {
-	display: inline-block;
 	position: relative;
 	padding-left: 20px;
 	cursor: pointer;
@@ -75,3 +74,8 @@
 	box-shadow: inset 0 0 0 1px #3a80e9;
 }
 
+.guic-radio-button-disabled {
+    filter: grayscale(0.2);
+    opacity: 0.5;
+    pointer-events: none;
+}

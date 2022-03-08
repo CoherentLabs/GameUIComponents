@@ -8,14 +8,14 @@ body {
     background-color: #ebebeb;
 }
 
-.horizontal-slider-wrapper {
+.guic-horizontal-slider-wrapper {
     width: 90vh;
     display: flex;
     flex-direction: row;
     max-height: 15px;
 }
 
-.horizontal-arrow {
+.guic-slider-horizontal-arrow {
     height: 15px;
     width: 15px;
     display: flex;
@@ -24,7 +24,7 @@ body {
     background-color: #f1f1f1;
 }
 
-.arrow-right {
+.guic-slider-arrow-right {
     width: 0;
     height: 0;
     border-top: 5px solid transparent;
@@ -33,7 +33,7 @@ body {
     border-left: 5px solid #505050;
 }
 
-.arrow-left {
+.guic-slider-arrow-left {
     width: 0;
     height: 0;
     border-top: 5px solid transparent;
@@ -42,16 +42,16 @@ body {
     border-right: 5px solid #505050;
 }
 
-.horizontal-arrow:hover {
+.guic-slider-horizontal-arrow:hover {
     background-color: #c1c1c1;
 }
 
-.horizontal-slider {
+.guic-slider-horizontal-slider {
     width: 90%;
     background-color: #f1f1f1;
 }
 
-.horizontal-handle {
+.guic-slider-horizontal-handle {
     position: relative;
     top: 0px;
     left: 0px;
@@ -61,6 +61,6 @@ body {
     cursor: pointer;
 }
 
-.horizontal-handle:hover {
+.guic-slider-horizontal-handle:hover {
     background-color: #787878;
 }

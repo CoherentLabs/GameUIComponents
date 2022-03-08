@@ -18,7 +18,7 @@ describe('Modal Component', () => {
     afterAll(() => cleanTestPage('gameface-modal'));
 
     it('Should be rendered', () => {
-        assert(document.querySelector('.modal-wrapper') !== null, 'The modal was not rendered.');
+        assert(document.querySelector('.guic-modal-wrapper') !== null, 'The modal was not rendered.');
     });
 
     it('Should close when the close button is clicked', () => {

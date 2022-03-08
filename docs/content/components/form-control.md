@@ -1,5 +1,5 @@
 ---
-date: 2022-2-11
+date: 2022-3-08
 title: "Form-control"
 draft: false
 ---
@@ -251,26 +251,26 @@ If the checkbox is checked then its `name` and `value` will be included in the f
 <gameface-form-control action="http://localhost:3000/interests" method="GET">
     <gameface-checkbox name="user-interests" value="music">
         <component-slot data-name="checkbox-background">
-            <div class="checkbox-background"></div>
+            <div class="guic-checkbox-background"></div>
         </component-slot>
-        <component-slot data-name="label">
-            <span class="label">Music</span>
+        <component-slot data-name="checkbox-label">
+            <span class="guic-checkbox-label">Music</span>
         </component-slot>
     </gameface-checkbox>
     <gameface-checkbox name="user-interests" value="coding">
         <component-slot data-name="checkbox-background">
-            <div class="checkbox-background"></div>
+            <div class="guic-checkbox-background"></div>
         </component-slot>
-        <component-slot data-name="label">
-            <span class="label">Coding</span>
+        <component-slot data-name="checkbox-label">
+            <span class="guic-checkbox-label">Coding</span>
         </component-slot>
     </gameface-checkbox>
     <gameface-checkbox name="user-interests">
         <component-slot data-name="checkbox-background">
-            <div class="checkbox-background"></div>
+            <div class="guic-checkbox-background"></div>
         </component-slot>
-        <component-slot data-name="label">
-            <span class="label">Nothing</span>
+        <component-slot data-name="checkbox-label">
+            <span class="guic-checkbox-label">Nothing</span>
         </component-slot>
     </gameface-checkbox>
     <button type="submit">Submit</button>
@@ -323,7 +323,7 @@ The `value` attribute is not required for the switch element but if it is empty 
 
 ```html
 <gameface-form-control action="http://localhost:3000/options" method="POST">
-    <span class="label">Normal</span>
+    <span class="guic-checkbox-label">Normal</span>
     <gameface-switch name="option1" value="checked" type="text-inside">
         <component-slot data-name="switch-unchecked">No</component-slot>
         <component-slot data-name="switch-checked">Yes</component-slot>
@@ -353,12 +353,12 @@ The `value` attribute is not required for the dropdown option element but if it 
 
 ```html
 <gameface-form-control action="http://localhost:3000/options" method="POST">
-    <span class="label">Normal</span>
+    <span class="guic-checkbox-label">Normal</span>
     <gameface-dropdown name="option1" class="gameface-dropdown-component" id="dropdown-default">
         <dropdown-option value="1" slot="option">One</dropdown-option>
         <dropdown-option value="2" slot="option">Two</dropdown-option>
     </gameface-dropdown>
-    <span class="label">No values</span>
+    <span class="guic-checkbox-label">No values</span>
     <gameface-dropdown name="option2" class="gameface-dropdown-component" id="dropdown-default">
         <dropdown-option slot="option">One</dropdown-option>
         <dropdown-option slot="option">Two</dropdown-option>
