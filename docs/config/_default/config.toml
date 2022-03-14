@@ -1,4 +1,4 @@
-baseurl = "https://CoherentLabs.github.io/"
+baseurl = "https://CoherentLabs.github.io/GameUIComponents/"
 canonifyURLs = false
 relativeURLs = false
 disableAliases = true
