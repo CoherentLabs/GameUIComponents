@@ -1,5 +1,6 @@
 baseurl = "https://CoherentLabs.github.io/GameUIComponents/"
 canonifyURLs = false
+relativeURLs = false
 disableAliases = true
 disableHugoGeneratorInject = true
 enableEmoji = true
@@ -9,7 +10,6 @@ languageCode = "en-US"
 paginate = 7
 rssLimit = 10
 theme = "doks"
-relativeURLs = true
 
 # Multilingual
 defaultContentLanguage = "en"
