@@ -16,12 +16,6 @@ After hugo is installed navigate to the /docs folder.
 
 Perform an `npm install` to install the npm modules.
 
-In order to test the example pages locally, open **config/_default/config.toml** and edit the first line to:
-
-```baseURL = "localhost"```
-
-This will use the proper paths to the required files in the examples.
-
 Now run:
 
 ```
@@ -38,6 +32,7 @@ hugo server -D -F
 
 to start a development server.
 
+Open `localhost:1313/GameUIComponents/` to see the documentation.
 
 # Adding a page
 
