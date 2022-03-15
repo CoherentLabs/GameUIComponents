@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -6,6 +7,9 @@
 const tabsContainer = document.querySelector('gameface-tabs');
 tabsContainer.selectTab(tabsContainer.querySelector('tab-heading'));
 
+/**
+ * Will initialize the scrollbars
+ */
 function setupScrollbars() {
     const scrollableContainers = document.querySelectorAll('gameface-scrollable-container');
 
@@ -13,7 +17,7 @@ function setupScrollbars() {
         const scrollableContainer = scrollableContainers[i];
 
         scrollableContainer.showScrollBar(scrollableContainer.scrollbar);
-        const scrollableContent = scrollableContainer.querySelector('[data-name="scrollable-content"]')
+        const scrollableContent = scrollableContainer.querySelector('[data-name="scrollable-content"]');
         scrollableContainer.scrollbar.resize(scrollableContent);
         scrollableContainer.shouldShowScrollbar();
         scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);

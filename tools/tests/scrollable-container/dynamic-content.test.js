@@ -3,14 +3,21 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * @param {HTMLElement} scrollableContainer
+ */
 function showDynamicScrollbarContent(scrollableContainer) {
     scrollableContainer.querySelector('.dynamic-content').style.display = 'block';
 }
 
+/**
+ * @param {HTMLElement} scrollableContainer
+ */
 function hideDynamicScrollbarContent(scrollableContainer) {
     scrollableContainer.querySelector('.dynamic-content').style.display = 'none';
 }
 
+// eslint-disable-next-line max-lines-per-function
 describe('Scrollable Container Component', () => {
     afterAll(() => cleanTestPage('.scrollable-container-test-wrapper'));
 
@@ -32,7 +39,7 @@ describe('Scrollable Container Component', () => {
 
         waitForStyles(() => {
             done();
-        })
+        });
     });
 
     it('Should be rendered', () => {
@@ -64,17 +71,16 @@ describe('Scrollable Container Component', () => {
         await createAsyncSpec(() => {
             const sliderStyle = getComputedStyle(scrollableContainer.querySelector('.slider-component'));
             assert(sliderStyle.display === 'block', 'The scrollbar is not visible.');
-        },3);
+        }, 3);
 
         hideDynamicScrollbarContent(scrollableContainer);
 
         return createAsyncSpec(() => {
             const sliderStyle = getComputedStyle(scrollableContainer.querySelector('.slider-component'));
             assert(sliderStyle.display === 'none', 'The scrollbar is visible.');
-        },3);
+        }, 3);
     });
-})
-
+});
 
 const dynamicContent = `<div>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu urna tempus, ultricies lacus fermentum, posuere arcu. Ut eget elit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse feugiat auctor finibus. Ut in euismod magna. Fusce eget dapibus arcu. Curabitur laoreet elit id lobortis tristique. Sed vel finibus turpis. Nulla sed lectus ante. Sed rutrum libero odio, non congue erat hendrerit non. Nunc in vulputate dolor, et dapibus neque. Sed accumsan sapien fermentum facilisis pharetra. Pellentesque fermentum, ligula faucibus suscipit elementum, erat ante ullamcorper tortor, id cursus mi eros ut lorem.

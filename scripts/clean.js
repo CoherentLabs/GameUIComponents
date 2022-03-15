@@ -16,7 +16,7 @@ const FOLDERS_TO_CLEAN = ['umd', 'cjs', 'dist', 'node_modules', 'package-lock.js
 function cleanBundles(dir) {
     const files = fs.readdirSync(dir);
 
-    for (let file of files) {
+    for (const file of files) {
         const filePath = path.join(dir, file);
 
         // ignore node_modules and .git

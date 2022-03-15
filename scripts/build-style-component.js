@@ -9,10 +9,10 @@ const uglifycss = require('uglifycss');
 const { execSync } = require('child_process');
 
 if (require.main === module) {
-    const arguments = process.argv.slice(2);
-    const componentPathIdx = arguments.indexOf('--component');
-    if (componentPathIdx === -1) return;
-    const componentPath = arguments[componentPathIdx + 1];
+    const args = process.argv.slice(2);
+    const componentPathIdx = args.indexOf('--component');
+    if (componentPathIdx === -1) process.exit();
+    const componentPath = args[componentPathIdx + 1];
 
     // check if the component path exists and contains a style.css file
     const isPathValid = fs.lstatSync(componentPath).isDirectory() && fs.lstatSync(path.join(componentPath, 'style.css')).isFile();
@@ -20,13 +20,18 @@ if (require.main === module) {
     if (componentPath && isPathValid) build(componentPath);
 }
 
-
+/**
+ * @param {string} componentPath
+ */
 function createDist(componentPath) {
     const outputFolder = path.join(componentPath, 'dist');
     if (!fs.existsSync(outputFolder)) fs.mkdirSync(outputFolder);
 }
 
 
+/**
+ * @param {string} componentPath
+ */
 function build(componentPath) {
     const uglified = uglifycss.processFiles(
         [path.join(componentPath, 'style.css')],

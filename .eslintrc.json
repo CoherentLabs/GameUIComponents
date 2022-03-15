@@ -1,0 +1,136 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "google"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 13,
+        "sourceType": "module"
+    },
+    "rules": {
+        "guard-for-in": "off",
+        "brace-style": [
+            "error",
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
+        "one-var": [
+            "error",
+            {
+                "initialized": "never"
+            }
+        ],
+        "max-len": [
+            "error",
+            {
+                "code": 120,
+                "ignoreComments": true,
+                "ignoreTrailingComments": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true,
+                "ignoreRegExpLiterals": true
+            }
+        ],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "no-unused-vars": "error",
+        "spaced-comment": [
+            "error",
+            "always",
+            {
+                "exceptions": [
+                    "-"
+                ]
+            }
+        ],
+        "space-before-function-paren": [
+            "error",
+            {
+                "asyncArrow": "always",
+                "anonymous": "always",
+                "named": "never"
+            }
+        ],
+        "quote-props": [
+            "error",
+            "as-needed"
+        ],
+        "no-multi-spaces": [
+            "error",
+            {
+                "ignoreEOLComments": true
+            }
+        ],
+        "prefer-promise-reject-errors": "off",
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "block-spacing": [
+            "error",
+            "always"
+        ],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "never",
+                "objects": "always-multiline",
+                "imports": "always-multiline",
+                "exports": "always-multiline",
+                "functions": "never"
+            }
+        ],
+        "require-jsdoc": [
+            "error",
+            {
+                "require": {
+                    "FunctionDeclaration": true,
+                    "MethodDefinition": true,
+                    "ClassDeclaration": true,
+                    "ArrowFunctionExpression": false,
+                    "FunctionExpression": true
+                }
+            }
+        ],
+        "max-lines-per-function": [
+            "error",
+            {
+                "max": 30,
+                "skipBlankLines": true,
+                "skipComments": true
+            }
+        ],
+        "arrow-parens": [
+            "error",
+            "as-needed",
+            {
+                "requireForBlockBody": true
+            }
+        ],
+        "valid-jsdoc": [
+            "error",
+            {
+                "prefer": {
+                    "returns": "returns"
+                },
+                "requireParamDescription": false,
+                "requireReturnDescription": false,
+                "requireReturn": false
+            }
+        ]
+    }
+}

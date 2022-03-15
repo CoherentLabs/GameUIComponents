@@ -83,6 +83,11 @@ const templatePreselectedOptions = `<gameface-dropdown class="gameface-dropdown-
 <dropdown-option slot="option" selected>Last Parrot</dropdown-option>
 </gameface-dropdown>`;
 
+/**
+ * Method initializing dropdown test page
+ * @param {string} templateString
+ * @returns {Promise<void>}
+ */
 function setupDropdownTestPage(templateString) {
     const el = document.createElement('div');
     el.className = 'dropdown-test-wrapper';
@@ -92,7 +97,7 @@ function setupDropdownTestPage(templateString) {
 
     document.body.appendChild(el);
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         waitForStyles(resolve);
     });
 }
@@ -103,22 +108,27 @@ const changedValue = 'Giraffe';
 const lastValue = 'Last Parrot';
 
 const KEY_CODES = {
-    'ARROW_UP': 38,
-    'ARROW_DOWN': 40,
-    'ARROW_RIGHT': 39,
-    'ARROW_LEFT': 37,
-    'END': 35,
-    'HOME': 36,
-    'ENTER': 13,
-    'ESCAPE': 27,
-    'KeyA': 65,
+    ARROW_UP: 38,
+    ARROW_DOWN: 40,
+    ARROW_RIGHT: 39,
+    ARROW_LEFT: 37,
+    END: 35,
+    HOME: 36,
+    ENTER: 13,
+    ESCAPE: 27,
+    KeyA: 65,
 };
 
+/**
+ * Will dispatch a keydown event
+ * @param {number} keyCode
+ * @param {HTMLElement} element
+ */
 function dispatchKeyboardEvent(keyCode, element) {
     element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: keyCode }));
 }
 
-
+// eslint-disable-next-line max-lines-per-function
 describe('Dropdown Tests', () => {
     afterAll(() => {
         // Reset .options to avoid mixing the options re-added by the caching feature which messes up the tests.
@@ -126,6 +136,7 @@ describe('Dropdown Tests', () => {
         cleanTestPage('.dropdown-test-wrapper');
     });
 
+    // eslint-disable-next-line max-lines-per-function
     describe('Dropdown Component', () => {
         beforeEach(function (done) {
             setupDropdownTestPage(template).then(done).catch(err => console.error(err));
@@ -356,9 +367,9 @@ describe('Dropdown Tests', () => {
 
             return createAsyncSpec(() => {
                 assert.equal(selectedOptionsCount, expectedSelectedCount,
-                      `Expected selected options length to be ${expectedSelectedCount}, got ${selectedOptionsCount}.`);
+                    `Expected selected options length to be ${expectedSelectedCount}, got ${selectedOptionsCount}.`);
                 assert.equal(selectedListCount, expectedSelectedCount,
-                  `Expected selected options length to be ${expectedSelectedCount}, got ${selectedListCount}.`);
+                    `Expected selected options length to be ${expectedSelectedCount}, got ${selectedListCount}.`);
             });
         });
     });
@@ -376,7 +387,7 @@ describe('Dropdown Tests', () => {
 
             return createAsyncSpec(() => {
                 assert.isNotTrue(dropdown.isOpened,
-                  `Dropdown should not have opened.`);
+                    `Dropdown should not have opened.`);
             });
         });
     });
@@ -398,7 +409,7 @@ describe('Dropdown Tests', () => {
 
             return createAsyncSpec(() => {
                 assert.equal(selectedOptions[0].textContent, lastSelectedValue,
-                  `The last option value has not been selected.`);
+                    `The last option value has not been selected.`);
             });
         });
     });

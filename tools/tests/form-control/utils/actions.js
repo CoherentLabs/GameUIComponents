@@ -3,8 +3,14 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { SERVER_TIMEOUT } from "./constants";
+import { SERVER_TIMEOUT } from './constants';
 
+/**
+ * Will submit the form and wait for server response
+ * @param {HTMLElement} formElement
+ * @param {boolean} [shouldWaitForServerResponse=true]
+ * @returns {boolean}
+ */
 export async function submitForm(formElement, shouldWaitForServerResponse = true) {
     const submitButton = formElement.querySelector('[type="submit"]');
 
@@ -15,7 +21,7 @@ export async function submitForm(formElement, shouldWaitForServerResponse = true
 
     return new Promise((resolve, reject) => {
         const xhr = formElement.xhr;
-        xhr.onload = (event) => resolve(event.target.response);
+        xhr.onload = event => resolve(event.target.response);
         xhr.onerror = () => reject('Submitting form failed because of server error!');
         xhr.ontimeout = () => reject('Submitting form failed because of server timeout!');
         xhr.timeout = SERVER_TIMEOUT;
@@ -23,12 +29,16 @@ export async function submitForm(formElement, shouldWaitForServerResponse = true
 
         click(submitButton);
         setTimeout(() => reject('Unknown error occured during submitting the form!'), SERVER_TIMEOUT * 2);
-    })
+    });
 }
 
+/**
+ * Will check the response data from the server
+ * @param {string} expectedData
+ */
 export async function checkResponseData(expectedData) {
     await createAsyncSpec(() => {
         const data = document.querySelector('.response').textContent;
         assert(data === expectedData, `The form data is not the same as the expected one. Expected: ${expectedData}. Received: ${data}`);
     });
-}
+};

@@ -5,13 +5,14 @@ const { getPackageJSON } = require('./helpers');
 
 const COMPONENTS_PATH = path.join(__dirname, '../components');
 
+/** */
 function main() {
-    console.log('Removing links...')
+    console.log('Removing links...');
     execSync('npm unlink -g', { cwd: path.join(__dirname, '../lib'), encoding: 'utf8' });
     const components = fs.readdirSync(COMPONENTS_PATH);
 
     const removedPackages = [];
-    for (let component of components) {
+    for (const component of components) {
         const packageJSON = getPackageJSON(component);
 
         if (!packageJSON) continue;

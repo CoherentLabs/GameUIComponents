@@ -1,3 +1,4 @@
+/* eslint-disable no-invalid-this */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -17,7 +18,7 @@
         this.current = targetId;
         document.querySelector(`.avatar${this.current}`).classList.add('selected');
         document.querySelector(`#avatar${this.current}-classes`).style.display = 'flex';
-    }
+    };
 
 
     this.deselectAllClasses = () => {
@@ -25,13 +26,13 @@
         for (let i = 0; i < classes.length; i++) {
             classes[i].classList.remove('active');
         }
-    }
+    };
 
     this.selectClass = (e) => {
         this.deselectAllClasses();
         const target = e.currentTarget;
         target.classList.add('active');
-    }
+    };
 
     const avatars = document.getElementsByClassName('avatar');
     for (let i = 0; i < avatars.length; i++) {

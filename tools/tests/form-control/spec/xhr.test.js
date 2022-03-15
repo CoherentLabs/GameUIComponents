@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { XHR_TEMPLATE } from '../utils/templates'
+import { XHR_TEMPLATE } from '../utils/templates';
 
 describe('Form control XHR property tests', () => {
     beforeAll(() => {
@@ -36,9 +36,9 @@ describe('Form control XHR property tests', () => {
             xhr.onload = () => {
                 assert(load === 1, `The xhr load event callback was called ${load} times, expected: 1.`);
                 done();
-            }
+            };
             click(submitButton);
-        }
+        };
 
         click(submitButton);
     });

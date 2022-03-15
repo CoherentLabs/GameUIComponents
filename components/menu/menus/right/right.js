@@ -16,7 +16,11 @@ const KEY_MAPPING = {
     SELECT: KEYCODES.ENTER,
 };
 
+/**
+ * Class definition of the gameface right menu custom element
+ */
 class GamefaceRightMenu extends GamefaceMenu {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
 

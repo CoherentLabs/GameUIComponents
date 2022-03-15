@@ -63,7 +63,7 @@ const itemsModel = {
             name: 'Laser Blagger',
             imagePath: './images/weapon4.png',
         }
-    ]
+    ],
 };
 
 const routes = document.querySelectorAll('gameface-route');
@@ -80,6 +80,8 @@ for (let i = 0; i < routes.length; i++) {
         activeRoute = currentRoute;
     });
 }
+
+/* eslint-disable require-jsdoc */
 
 class HomePage extends HTMLElement {
     constructor() {
@@ -148,8 +150,8 @@ class DropdownPage extends HTMLElement {
 
             if (document.querySelector(`[data-name="${componentName}"]`)) return;
 
-            let style = document.createElement('style');
-            style.setAttribute('data-name', componentName)
+            const style = document.createElement('style');
+            style.setAttribute('data-name', componentName);
             style.textContent = css;
             document.head.appendChild(style);
         }, 500);
@@ -294,7 +296,7 @@ class RadialMenuPage extends HTMLElement {
     }
 
     disconnectedCallback() {
-        this.firstElementChild.style.backgroundColor = 'rgba(255,255,255,1)'
+        this.firstElementChild.style.backgroundColor = 'rgba(255,255,255,1)';
     }
 
     setupItems() {
@@ -401,6 +403,7 @@ components.defineCustomElement('automatic-grid-page', AutomaticGridPage);
 components.defineCustomElement('progress-bar-page', ProgressBarPage);
 components.defineCustomElement('switch-page', SwitchPage);
 components.defineCustomElement('text-field-page', TextFieldPage);
+/* eslint-enable require-jsdoc */
 
 const browserHistory = new router.BrowserHistory();
 router.Route.use(browserHistory);
@@ -412,16 +415,16 @@ new router.Router({
     '/responsive-grid': 'responsive-grid-page',
     '/menu': 'menu-page',
     '/scrollable-container': 'scrollable-container-page',
-    'slider': 'slider-page',
+    slider: 'slider-page',
     'range-slider': 'range-slider-page',
-    'modal': 'modal-page',
-    'tabs': 'tabs-page',
+    modal: 'modal-page',
+    tabs: 'tabs-page',
     'radial-menu': 'radial-menu-page',
     'automatic-grid': 'automatic-grid-page',
     'progress-bar': 'progress-bar-page',
-    'switch': 'switch-page',
+    switch: 'switch-page',
     'text-field': 'text-field-page',
-    '**': 'home-page'
+    '**': 'home-page',
 }, browserHistory);
 
 const state = { current: '/', id: browserHistory.currentRouteId };

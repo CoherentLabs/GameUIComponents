@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,6 +11,9 @@ import { Route } from './route';
 const WILDCARD = '**';
 const HOME = '/';
 
+/**
+ * Class definition of the gameface router custom element
+ */
 class Router {
     /**
      * @typedef {Object<string, string|Router>} Routes
@@ -28,7 +32,7 @@ class Router {
             if (onBeforeNavigation) this.history.onBeforeNavigation = onBeforeNavigation;
 
             this.history.addPopStateListener();
-            this.history.onHistoryChange = (curentPath) => this.navigateTo(curentPath);
+            this.history.onHistoryChange = curentPath => this.navigateTo(curentPath);
         }
     }
 
@@ -53,22 +57,22 @@ class Router {
      * for url '/heroes/tanks/first' - { hostname: '/heroes', pathname: '/tanks/first' }
      */
     parseURL(url) {
-        const parse_url_exp = new RegExp([
-            '(.+?(?=\/))'                     // host
-            , '(/[^?#]*|)'                    // pathname
+        const parseUrlExp = new RegExp([
+            '(.+?(?=\/))',                     // host
+            '(/[^?#]*|)'                       // pathname
         ].join(''));
 
-        const parses_url_map = {
+        const parseUrlMap = {
             host: 1,
-            pathname: 2
-        }
+            pathname: 2,
+        };
 
-        let match = url.match(parse_url_exp);
+        const match = url.match(parseUrlExp);
 
         if (!match || !match.length) return console.error(`The provided url - ${url} is not valid!`);
 
         // create a new object from the map
-        const parsedURL = { ...{}, ...parses_url_map };
+        const parsedURL = { ...{}, ...parseUrlMap };
         const parsedURLKeys = Object.keys(parsedURL);
 
         // assign the values of the parsed url to the map keys
@@ -120,6 +124,32 @@ class Router {
     }
 
     /**
+     * Used to extract the route parameters from url
+     * @param {string} url - The url that should be matched with the current url
+     * @param {string} currentURL
+     * @returns {[Object<string,string>,string[]]}
+     */
+    getRouteParamsAndConfiguration(url, currentURL) {
+        // all value of the url preceded by : will be added here
+        const routeParams = {};
+        const configuration = url.split('/') // split url into segments by '/'
+            .filter(value => value)      // remove the empty strings - '/path'.split('/') will return ['', 'path']
+            .map((segment, index) => {     // loop all segments and generate regular expressions for them
+                // if the current segment doesn't contain a param, return the segment
+                if (segment.substr(0, 1) !== ':') return segment;
+
+                // assign the param name to its value
+                // the name is the value after the : - for path '/:id' it's id
+                // the value is the part of the url at the same position
+                routeParams[segment.substr(1)] = currentURL.split('/')[index + 1]; // + 1 to compensate for the empty string result from the split
+                // match all letters and numbers one or more times
+                return '([a-z0-9]+)';
+            });
+
+        return [routeParams, configuration];
+    }
+
+    /**
      * Matches the current url to the router configuration.
      * If no match is found fallbacks to the wildcard route or to home if
      * wildcard is not configured.
@@ -131,8 +161,7 @@ class Router {
      */
     matches(currentURL, routes) {
         // if the current route is home, return the home config
-        let isHome = currentURL === HOME;
-        if (isHome) return { matchedConfig: currentURL, params: {} };
+        if (currentURL === HOME) return { matchedConfig: currentURL, params: {} };
 
         let isExact = true;
 
@@ -153,27 +182,10 @@ class Router {
             const isNested = this.routes[url] instanceof Router;
             isExact = !isNested;
 
-            // all value of the url preceded by : will be added here
-            let routeParams = {};
-
-            let configuration = url.split('/') // split url into segments by '/'
-                .filter((value) => value)      // remove the empty strings - '/path'.split('/') will return ['', 'path']
-                .map((segment, index) => {     // loop all segments and generate regular expressions for them
-
-                    // if the current segment doesn't contain a param, return the segment
-                    if (segment.substr(0, 1) !== ':') return segment;
-
-                    // assign the param name to its value
-                    // the name is the value after the : - for path '/:id' it's id
-                    // the value is the part of the url at the same position
-                    routeParams[segment.substr(1)] = currentURL.split('/')[index + 1]; // + 1 to compensate for the empty string result from the split
-                    // match all letters and numbers one or more times
-                    return '([a-z0-9]+)';
-                });
-
+            const [routeParams, configuration] = this.getRouteParamsAndConfiguration(url, currentURL);
             const finalRegex = configuration.join('/');
             // match from the beginning ^ of the url to the end $ if the match is exact
-            let urlRegex = new RegExp(`^(\/${finalRegex})${isExact ? '$' : ''}`);
+            const urlRegex = new RegExp(`^(\/${finalRegex})${isExact ? '$' : ''}`);
             const result = currentURL.match(urlRegex);
 
             if (result) {
@@ -184,7 +196,7 @@ class Router {
 
         if (matchedConfiguration === null) {
             // 404 or home
-            let fallbackRoute = this.routes[WILDCARD] ? WILDCARD : HOME;
+            const fallbackRoute = this.routes[WILDCARD] ? WILDCARD : HOME;
             matchedConfiguration = { matchedConfig: fallbackRoute };
         }
 

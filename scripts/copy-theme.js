@@ -9,8 +9,11 @@ const path = require('path');
 const COMPONENTS_FOLDER = path.join(__dirname, '../components');
 const components = fs.readdirSync(COMPONENTS_FOLDER);
 
+/**
+ * Will copy the components theme into some component folder
+ */
 function copyCSSTheme() {
-    components.forEach(component => {
+    components.forEach((component) => {
         fs.copyFileSync(
             path.join(__dirname, '../', 'theme/coherent-gameface-components-theme.css'),
             path.join(COMPONENTS_FOLDER, component, 'coherent-gameface-components-theme.css')

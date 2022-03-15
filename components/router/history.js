@@ -3,7 +3,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * Base class definition of the router history holding common functionality for BrowserHistory and HashHistory
+ */
 class History {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         this.currentRouteId = -1;
         this.onHistoryChange = null;
@@ -11,11 +15,13 @@ class History {
         this._onPopStateBound = this._onPopState.bind(this);
     }
 
+    // eslint-disable-next-line require-jsdoc
     get currentState() {
         if (!window.history || !window.history.state || !window.history.state.current) return '';
         return window.history.state.current;
     }
 
+    // eslint-disable-next-line require-jsdoc
     get nextRouteId() {
         return this.currentRouteId + 1;
     }
@@ -24,7 +30,8 @@ class History {
      * Will call the history change callback if there is one
      */
     _dispatchHistoryChange() {
-        window.dispatchEvent(new CustomEvent('onHistoryChange', {detail: this.currentState}))
+        window.dispatchEvent(new CustomEvent('onHistoryChange', { detail: this.currentState }));
+
         if (!this.onBeforeNavigation) {
             if (this.onHistoryChange) this.onHistoryChange(this.currentState);
             return;
@@ -35,6 +42,11 @@ class History {
         });
     }
 
+    /**
+     * Handler when the history state is popped out
+     * @param {Event} event
+     * @returns {void}
+     */
     _onPopState(event) {
         if (this.skipPopStateEvent) {
             this.skipPopStateEvent = false;
@@ -79,6 +91,9 @@ class History {
     }
 }
 
+/**
+ * Class definition of the browser history
+ */
 class BrowserHistory extends History {
     /**
      * Calls history.pushState. Calls dispatch to notify listeners that the
@@ -95,6 +110,9 @@ class BrowserHistory extends History {
     }
 }
 
+/**
+ * Class definition of the hash history
+ */
 class HashHistory extends History {
     /**
      * Calls history.replaceState. Calls dispatch to notify listeners that the
@@ -104,12 +122,12 @@ class HashHistory extends History {
      * @param {string} url - the url of the the state.
      */
     pushState(state, title, url) {
-        //we need to skip the pop state here because changing the window.location.hash will trigger popstate event.
+        // we need to skip the pop state here because changing the window.location.hash will trigger popstate event.
         this.skipPopStateEvent = true;
 
-        //set url as hash. This will change the current history state as well and will prefix the url with #.
+        // set url as hash. This will change the current history state as well and will prefix the url with #.
         window.location.hash = url;
-        //we need to replace the state in order to save the state to the history. The state.id will be used when onPopState is executed
+        // we need to replace the state in order to save the state to the history. The state.id will be used when onPopState is executed
         history.replaceState(state, title, window.location.href);
         this.currentRouteId++;
         this._dispatchHistoryChange();

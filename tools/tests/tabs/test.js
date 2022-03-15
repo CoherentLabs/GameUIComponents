@@ -6,10 +6,10 @@
 describe('Tabs Components', () => {
     afterAll(() => cleanTestPage('gameface-tabs'));
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
         const currentElement = document.querySelector('gameface-tabs');
 
-        if(currentElement) {
+        if (currentElement) {
             currentElement.parentElement.removeChild(currentElement);
         }
 

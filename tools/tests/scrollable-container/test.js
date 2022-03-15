@@ -49,6 +49,7 @@ const dynamicScrollbarTemplate = `<gameface-scrollable-container class="scrollab
 <component-slot data-name="scrollable-content">${longContent}</component-slot>
 </gameface-scrollable-container>`;
 
+// eslint-disable-next-line max-lines-per-function
 describe('Scrollable Container Component', () => {
     afterAll(() => cleanTestPage('.scrollable-container-test-wrapper'));
 
@@ -57,7 +58,7 @@ describe('Scrollable Container Component', () => {
         el.innerHTML = dynamicScrollbarTemplate;
         el.className = 'scrollable-container-test-wrapper';
 
-        let currentElement = document.querySelector('.scrollable-container-test-wrapper');
+        const currentElement = document.querySelector('.scrollable-container-test-wrapper');
 
         if (currentElement) {
             currentElement.parentElement.removeChild(currentElement);
@@ -67,7 +68,7 @@ describe('Scrollable Container Component', () => {
 
         waitForStyles(() => {
             done();
-        })
+        });
     });
 
     it('Should be rendered', () => {

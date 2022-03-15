@@ -3,11 +3,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+// eslint-disable-next-line max-lines-per-function
 describe('Components Library', () => {
     afterAll(() => cleanTestPage('.components-library-test'));
 
     it('Should be exposed to the global namespace', () => {
-      assert(window.components !== null, 'The components global was not defined.');
+        assert(window.components !== null, 'The components global was not defined.');
     });
 
     it('Should import script tag', () => {
@@ -20,7 +21,7 @@ describe('Components Library', () => {
         components.defineCustomElement('test-element', class TestElement extends HTMLElement { });
         return components.whenDefined('test-element').then((component) => {
             assert(component.name === 'TestElement',
-                 `The whenDefined promise was not resolved with the correct name; expected TestElement, received ${component.name}.`);
+                `The whenDefined promise was not resolved with the correct name; expected TestElement, received ${component.name}.`);
         });
     });
 
@@ -31,7 +32,7 @@ describe('Components Library', () => {
 
     it('Should load html from a component with template', async () => {
         const component = {
-            template: '<div>This is a dummy template.</div>'
+            template: '<div>This is a dummy template.</div>',
         };
 
         const loadedResource = await components.loadResource(component);
@@ -57,6 +58,7 @@ describe('Components Library', () => {
         assert(slots['health'] !== undefined, 'Slot "health" was not found.');
     });
 
+    // eslint-disable-next-line max-lines-per-function
     it('Should transfer slot content from the element to the template', () => {
         const target = document.createElement('div');
         target.innerHTML = `
@@ -76,18 +78,18 @@ describe('Components Library', () => {
             `;
 
         const templateSlots = {
-            'name': [target.querySelector('[data-name="name"]')],
-            'health': [target.querySelector('[data-name="health"]')],
+            name: [target.querySelector('[data-name="name"]')],
+            health: [target.querySelector('[data-name="health"]')],
         };
         const userSlots = {
-            'name': [source.querySelector('[data-name="name"]')],
-            'health': [source.querySelector('[data-name="health"]')],
+            name: [source.querySelector('[data-name="name"]')],
+            health: [source.querySelector('[data-name="health"]')],
         };
 
         // use for...of instead of for...in for better performance
         const userSlotsKeys = Object.keys(userSlots);
 
-        for (let userSlot of userSlotsKeys) {
+        for (const userSlot of userSlotsKeys) {
             components.replaceSlots(userSlots[userSlot], templateSlots[userSlot]);
         }
 
@@ -118,10 +120,11 @@ describe('Components Library', () => {
         assert(target.querySelector('#name').textContent === 'Name', 'The content of the slotted element is not correct.');
     });
 
+    // eslint-disable-next-line max-lines-per-function
     it('Should not render connected elements multiple time', async () => {
-        const parentTemplate = '<div><component-slot data-name="content"></component-slot></div>'
-        const childTemplate = '<div>Hello, <component-slot data-name="name"></component-slot></div>'
-
+        const parentTemplate = '<div><component-slot data-name="content"></component-slot></div>';
+        const childTemplate = '<div>Hello, <component-slot data-name="name"></component-slot></div>';
+        /* eslint-disable require-jsdoc */
         class ParentEl extends HTMLElement {
             constructor() {
                 super();
@@ -157,12 +160,12 @@ describe('Components Library', () => {
                     .catch(err => console.error(err));
             }
         }
+        /* eslint-enable require-jsdoc */
 
         components.defineCustomElement('child-el', ChildEl);
         components.defineCustomElement('parent-el', ParentEl);
 
-
-        let testWrapper = document.createElement('div');
+        const testWrapper = document.createElement('div');
         testWrapper.className = 'components-library-test';
 
         testWrapper.innerHTML = `
@@ -204,7 +207,7 @@ describe('Components Library', () => {
                 </div>
             </child-el>
         </div>
-        </parent-el>`
+        </parent-el>`;
 
         document.body.appendChild(testWrapper);
         return createAsyncSpec(() => {

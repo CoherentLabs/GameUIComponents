@@ -703,7 +703,7 @@ const textFieldsTemplate = `
         <gameface-text-field class="custom-input-styles" type="number" label="Number:"></gameface-text-field>
     </div>
 </div>
-`
+`;
 
 export {
     homeTemplate,
@@ -720,5 +720,5 @@ export {
     automaticGridTemplate,
     progressBarTemplate,
     switchTemplate,
-    textFieldsTemplate
-}
+    textFieldsTemplate,
+};

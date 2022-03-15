@@ -9,6 +9,9 @@ const radioButtonTemplate = `<gameface-radio-group>
 <radio-button>3</radio-button>
 </gameface-radio-group>`;
 
+/**
+ * @returns {Promise<void>}
+ */
 function setupRadioButtonTestPage() {
     const el = document.createElement('div');
     el.className = 'radio-button-test-wrapper';
@@ -18,14 +21,16 @@ function setupRadioButtonTestPage() {
 
     document.body.appendChild(el);
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         waitForStyles(resolve);
     });
 }
 
+// eslint-disable-next-line max-lines-per-function
 describe('Radio Button Tests', () => {
     afterAll(() => cleanTestPage('.radio-button-test-wrapper'));
 
+    // eslint-disable-next-line max-lines-per-function
     describe('Radio Button Component', () => {
         beforeEach(function (done) {
             setupRadioButtonTestPage().then(done).catch(err => console.error(err));

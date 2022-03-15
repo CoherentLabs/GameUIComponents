@@ -4,7 +4,7 @@ const textFieldErrorMessages = new Map([
     ['rangeOverflow', 'The value is too big. Maximum is 200.'],
     ['rangeUnderflow', 'The value is too small. Minimum is 15.'],
     ['badURL', 'Please enter a valid URL. It should match the following pattern: /https://.*/.'],
-    ['badEmail', 'Please enter a valid email. It should contain a @ symbol.'],
+    ['badEmail', 'Please enter a valid email. It should contain a @ symbol.']
 ]);
 
 const textFieldValidationTestTemplate = `<gameface-form-control style="position: absolute;top: 200px;">
@@ -13,13 +13,23 @@ const textFieldValidationTestTemplate = `<gameface-form-control style="position:
     <gameface-text-field id="email" name="email" label="Email:" type="email" value="text-field@test.com"></gameface-text-field>
     <gameface-text-field id="number" name="number" label="Age:" type="number" min="15" max="200" step="10" value="30"></gameface-text-field>
     <button class="form-element" id="submit" type="submit">Login</button>
-</gameface-form-control>`
+</gameface-form-control>`;
 
 
+/**
+ * @param {HTMLElement} element
+ * @returns {string}
+ */
 function getTextContent(element) {
     return element.textContent.replace(/(\n)+/g, '').trim();
 }
 
+/**
+ * @param {string} elSelector
+ * @param {string} errorType
+ * @param {string} value
+ * @returns {Promise<void>}
+ */
 async function badTextFieldValueTest(elSelector, errorType, value) {
     const input = document.querySelector(elSelector);
     input.value = value;
@@ -36,12 +46,15 @@ async function badTextFieldValueTest(elSelector, errorType, value) {
     });
 }
 
+/**
+ * @returns {Promise<void>}
+ */
 function setupTextValidationTestPage() {
     const el = document.createElement('div');
     el.innerHTML = textFieldValidationTestTemplate;
     el.className = 'text-field-validation-test-wrapper';
 
-    let currentElement = document.querySelector('.text-field-validation-test-wrapper');
+    const currentElement = document.querySelector('.text-field-validation-test-wrapper');
 
     if (currentElement) {
         currentElement.parentElement.removeChild(currentElement);
@@ -49,7 +62,7 @@ function setupTextValidationTestPage() {
 
     document.body.appendChild(el);
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         waitForStyles(resolve);
     });
 }
@@ -57,7 +70,7 @@ function setupTextValidationTestPage() {
 describe('Text field validation', () => {
     afterAll(() => {
         const tooltips = document.querySelectorAll('gameface-tooltip');
-        for(let i = 0; i < tooltips.length; i++) {
+        for (let i = 0; i < tooltips.length; i++) {
             tooltips[i].parentElement.removeChild(tooltips[i]);
         }
 
@@ -68,27 +81,27 @@ describe('Text field validation', () => {
         return setupTextValidationTestPage();
     });
 
-    it('Should show value too short error', async() => {
+    it('Should show value too short error', async () => {
         return badTextFieldValueTest('#text', 'tooShort', 'Nam');
     });
 
-    it('Should show value too long error', async() => {
+    it('Should show value too long error', async () => {
         return badTextFieldValueTest('#text', 'tooLong', 'Name is too long, can not be more');
     });
 
-    it('Should show invalid URL error', async() => {
+    it('Should show invalid URL error', async () => {
         return badTextFieldValueTest('#url', 'badURL', 'invalid');
     });
 
-    it('Should show bad email error', async() => {
+    it('Should show bad email error', async () => {
         return badTextFieldValueTest('#email', 'badEmail', 'invalidemail');
     });
 
-    it('Should number too small error', async() => {
+    it('Should number too small error', async () => {
         return badTextFieldValueTest('#number', 'rangeUnderflow', '3');
     });
 
-    it('Should number too big error', async() => {
+    it('Should number too big error', async () => {
         return badTextFieldValueTest('#number', 'rangeOverflow', '300');
     });
 });

@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable require-jsdoc */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -6,6 +8,7 @@
 import components from 'coherent-gameface-components';
 import { Router, Route, BrowserHistory, HashHistory } from '../umd/router.development.js';
 import { pm } from 'postmessage-polyfill';
+// eslint-disable-next-line no-unused-vars
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
 import {
     tanksTemplate,
@@ -27,7 +30,7 @@ window.postMessage = function (message) {
     pm({
         origin: 'http://127.0.0.1/:3000',
         target: window,
-        data: message
+        data: message,
     });
 };
 
@@ -123,7 +126,7 @@ class TankOne extends HTMLElement {
     }
 
     connectedCallback() {
-        //dynamically set params from the current path
+        // dynamically set params from the current path
         this.template = tankOneTemplate(this.params);
 
         components.loadResource(this)
@@ -172,19 +175,19 @@ class Healer extends HTMLElement {
         super();
 
         this.healers = {
-            'priest': {
+            priest: {
                 mana: 200,
-                strength: 100
+                strength: 100,
             },
-            'paladin': {
+            paladin: {
                 mana: 100,
-                strength: 90
+                strength: 90,
             },
-            'monk': {
+            monk: {
                 mana: 300,
-                strength: 110
+                strength: 110,
             },
-        }
+        };
 
         this.template = healerTemplate;
     }
@@ -234,25 +237,26 @@ components.defineCustomElement('tank-three-page', TankThree);
 components.defineCustomElement('not-found-page', NotFound);
 
 
-let tanksRouter = new Router({
+const tanksRouter = new Router({
     '/one/:health/:mana': 'tank-one-page',
     '/two': 'tank-two-page',
     '/three': 'tank-three-page',
 });
 
-let heroesRouter = new Router({
+const heroesRouter = new Router({
     '/healers': 'healers-page',
     '/healers/:id': 'healer-page',
     '/tanks': 'tanks-page',
     '/tanks/:id': tanksRouter,
 });
 
-let router = new Router({
+// eslint-disable-next-line no-unused-vars
+const router = new Router({
     '/': 'home-page',
     '/start-game': 'start-game-page',
     '/heroes': 'heroes-page',
     '/heroes/:id': heroesRouter,
-    '**': 'not-found-page'
+    '**': 'not-found-page',
 }, history);
 
 const state = { current: '/', id: history.currentRouteId };

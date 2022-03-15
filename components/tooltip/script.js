@@ -9,7 +9,11 @@ const TOOLTIP_MARGIN = 5;
 const TOOLTIP_POSITIONS = ['top', 'bottom', 'left', 'right'];
 const NOT_A_PROMISE_ERROR = 'The value in async mode must be a function that returns a promise.';
 
+/**
+ * Class definition of the gameface tooltip custom element
+ */
 class Tooltip extends HTMLElement {
+    /* eslint-disable require-jsdoc */
     constructor() {
         super();
         this.template = template;
@@ -31,11 +35,11 @@ class Tooltip extends HTMLElement {
     }
 
     get overflows() {
-        var rect = this.getBoundingClientRect();
+        const rect = this.getBoundingClientRect();
         const overflows = {};
 
         if (rect.top < 0) overflows.top = true;
-        if (rect.left < 0)  overflows.left = true;
+        if (rect.left < 0) overflows.left = true;
         if (rect.right > (window.innerWidth || document.documentElement.clientWidth)) overflows.right = true;
         if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) overflows.bottom = true;
 
@@ -48,71 +52,9 @@ class Tooltip extends HTMLElement {
 
     debounce(callback, timeout = 10) {
         return (...args) => {
-          clearTimeout(this.debounceTimer);
-          this.debounceTimer = setTimeout(() => { callback.apply(this, args); }, timeout);
+            clearTimeout(this.debounceTimer);
+            this.debounceTimer = setTimeout(() => { callback.apply(this, args); }, timeout);
         };
-      }
-
-    /**
-     * Sets the textContent of the message slot HTMLElement
-     * @param {string | number} content
-    */
-    setTooltipContent(content) {
-        return this._messageSlot.textContent = content;
-    }
-
-    /**
-     * Checks the validity of a synchronous message.
-     * Allowed types are - string | number | Function<string | number>.
-     * @param {any} value
-     * @returns {boolean} - true if it is valid and false if not.
-    */
-    isSyncMessageValid(value) {
-        const allowedSyncTypes = ['string', 'number', 'function'];
-        const type = typeof value;
-
-        if (!allowedSyncTypes.includes(type)) return false;
-        if (type === 'function' && (value() instanceof Promise)) return console.error('Using Promise in sync mode is forbidden. Add "async" attribute to the gameface-tooltip element.');
-        return true;
-    }
-
-    /**
-     * Synchronously sets the value of the tooltip.
-     * @param {string | number} value
-    */
-    setSyncMessage(value) {
-        if (!this.isSyncMessageValid(value)) return;
-
-        value = (typeof value === 'function') ? value() : value;
-        this.setTooltipContent(value);
-    }
-
-    /**
-     * Asynchronously sets the value of the tooltip.
-     * @param {Function<Promise>} value
-     * @returns {Promise} - a promise that will resolve with the value that was set.
-    */
-    setAsyncMessage(value) {
-        if (typeof value !== 'function') return console.error(NOT_A_PROMISE_ERROR);
-        const valueResult = value();
-        if (!(valueResult instanceof Promise)) return console.error(NOT_A_PROMISE_ERROR)
-
-        this.setTooltipContent('Loading...');
-
-        return new Promise((resolve, reject) => {
-            valueResult.then((response) => resolve(this.setTooltipContent(response))).catch(reject);
-        });
-    }
-
-    /**
-     * Sets the value of the tooltip. Calls the sync/async methods depending on the current mode.
-     * Calls the validation methods before setting to make sure the values are correct.
-     * @param {any} value
-     * @returns {Promise | undefined}
-    */
-    setMessage(value) {
-        if (this.async) return this.setAsyncMessage(value);
-        this.setSyncMessage(value);
     }
 
     connectedCallback() {
@@ -165,6 +107,71 @@ class Tooltip extends HTMLElement {
         document.removeEventListener('click', this.handleDocumentClick);
     }
 
+    /* eslint-enable require-jsdoc */
+
+    /**
+     * Sets the textContent of the message slot HTMLElement
+     * @param {string | number} content
+     * @returns {string}
+    */
+    setTooltipContent(content) {
+        return this._messageSlot.textContent = content;
+    }
+
+    /**
+     * Checks the validity of a synchronous message.
+     * Allowed types are - string | number | Function<string | number>.
+     * @param {any} value
+     * @returns {boolean} - true if it is valid and false if not.
+    */
+    isSyncMessageValid(value) {
+        const allowedSyncTypes = ['string', 'number', 'function'];
+        const type = typeof value;
+
+        if (!allowedSyncTypes.includes(type)) return false;
+        if (type === 'function' && (value() instanceof Promise)) return console.error('Using Promise in sync mode is forbidden. Add "async" attribute to the gameface-tooltip element.');
+        return true;
+    }
+
+    /**
+     * Synchronously sets the value of the tooltip.
+     * @param {string | number} value
+    */
+    setSyncMessage(value) {
+        if (!this.isSyncMessageValid(value)) return;
+
+        value = (typeof value === 'function') ? value() : value;
+        this.setTooltipContent(value);
+    }
+
+    /**
+     * Asynchronously sets the value of the tooltip.
+     * @param {Function<Promise>} value
+     * @returns {Promise} - a promise that will resolve with the value that was set.
+    */
+    setAsyncMessage(value) {
+        if (typeof value !== 'function') return console.error(NOT_A_PROMISE_ERROR);
+        const valueResult = value();
+        if (!(valueResult instanceof Promise)) return console.error(NOT_A_PROMISE_ERROR);
+
+        this.setTooltipContent('Loading...');
+
+        return new Promise((resolve, reject) => {
+            valueResult.then(response => resolve(this.setTooltipContent(response))).catch(reject);
+        });
+    }
+
+    /**
+     * Sets the value of the tooltip. Calls the sync/async methods depending on the current mode.
+     * Calls the validation methods before setting to make sure the values are correct.
+     * @param {any} value
+     * @returns {Promise | undefined}
+    */
+    setMessage(value) {
+        if (this.async) return this.setAsyncMessage(value);
+        this.setSyncMessage(value);
+    }
+
     /**
      * If the target doesn't contain the gameface-tooltip element
      * then it means the click is on some of its children.
@@ -174,11 +181,17 @@ class Tooltip extends HTMLElement {
         if (event.target.contains(this)) this.hide();
     }
 
+    /**
+     * Displays/Hides the tooltip
+     */
     toggle() {
         this.visible ? this.hide() : this.show();
     }
 
-    hide () {
+    /**
+     * Hides the tooltip
+     */
+    hide() {
         this.style.display = 'none';
         this.removeGlobalEventListeners();
         this.visible = false;
@@ -188,6 +201,9 @@ class Tooltip extends HTMLElement {
         this.position = this.getAttribute('position') || 'top';
     }
 
+    /**
+     * Displays the tooltip
+     */
     async show() {
         // use visibility before showing to calculate the size
         this.style.visibility = 'hidden';
@@ -211,10 +227,10 @@ class Tooltip extends HTMLElement {
     getPositionCoords(orientation, elementSize) {
         const tooltipSize = this.getBoundingClientRect();
 
-        let elementPosition = {
+        const elementPosition = {
             top: (elementSize.top + elementSize.height / 2) - tooltipSize.height / 2,
-            left: elementSize.left + (elementSize.width / 2) - tooltipSize.width / 2
-        }
+            left: elementSize.left + (elementSize.width / 2) - tooltipSize.width / 2,
+        };
 
         switch (orientation) {
             case 'top':
@@ -251,14 +267,14 @@ class Tooltip extends HTMLElement {
     async setPosition(scrollOffsetX, scrollOffsetY, orientation = this.position) {
         const elementSize = this.triggerElement.getBoundingClientRect();
 
-        let [updatedOrientation, elementPosition] = this.getPositionCoords(orientation, elementSize);
+        const [updatedOrientation, elementPosition] = this.getPositionCoords(orientation, elementSize);
 
         this.position = updatedOrientation;
         this.style.top = scrollOffsetY + elementPosition.top + 'px';
         this.style.left = scrollOffsetX + elementPosition.left + 'px';
 
         await this.waitForFrames(2);
-        let overflowingSides = Object.keys(this.overflows);
+        const overflowingSides = Object.keys(this.overflows);
         if (overflowingSides.length && this.uncheckedOrientations.length !== 0) {
             return await this.setPosition(scrollOffsetX, scrollOffsetY, this.getVisiblePosition(overflowingSides));
         }
@@ -271,8 +287,8 @@ class Tooltip extends HTMLElement {
      * @returns {promise}
      */
     async waitForFrames(count) {
-        while(count--) {
-            await new Promise((resolve) => requestAnimationFrame(resolve));
+        while (count--) {
+            await new Promise(resolve => requestAnimationFrame(resolve));
         }
     }
 

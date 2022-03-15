@@ -3,19 +3,32 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { VALIDATION_TEMPLATE, CUSTOM_FORM_VALIDATION_TEMPLATE } from '../utils/templates'
-import { ERROR_MESSAGES, SERVER_TIMEOUT } from "../utils/constants";
+import { VALIDATION_TEMPLATE, CUSTOM_FORM_VALIDATION_TEMPLATE } from '../utils/templates';
+import { ERROR_MESSAGES, SERVER_TIMEOUT } from '../utils/constants';
 import { submitForm } from '../utils/actions';
 
+/**
+ * @param {HTMLElement} element
+ * @returns {string}
+ */
 function getTextContent(element) {
     return element.textContent.replace(/(\n)+/g, '').trim();
 }
 
+/**
+ * Will set new input value
+ * @param {string} elSelector
+ * @param {string} value
+ */
 function setValue(elSelector, value) {
     const input = document.querySelector(elSelector);
     input.value = value;
 }
 
+/**
+ * Will get the tooltip message
+ * @returns {string}
+ */
 function getTooltipMessage() {
     const tooltip = document.querySelector('gameface-form-control').tooltip;
     assert(tooltip.style.display !== 'none', 'Tooltip was not displayed!');
@@ -25,6 +38,13 @@ function getTooltipMessage() {
     return received;
 }
 
+/**
+ * Will test if the tooltip will be visible when a bad value exist in the gameface form
+ * @param {string} elSelector
+ * @param {string} errorType
+ * @param {string} value
+ * @returns {Promise<void>}
+ */
 async function badValueTest(elSelector, errorType, value) {
     setValue(elSelector, value);
     const formElement = document.querySelector('gameface-form-control');
@@ -37,14 +57,29 @@ async function badValueTest(elSelector, errorType, value) {
     });
 }
 
-async function badValueTestCustomValidation(elSelector, errorMessage, value, errorDisplayElement, waitServerResponse = false) {
+/**
+ * Will test if the custom validation when a bad value exist in the gameface form
+ * @param {string} elSelector
+ * @param {string} errorMessage
+ * @param {string} value
+ * @param {string} errorDisplayElement
+ * @param {string} [waitServerResponse = false]
+ * @returns {Promise<void>}
+ */
+async function badValueTestCustomValidation(
+    elSelector,
+    errorMessage,
+    value,
+    errorDisplayElement,
+    waitServerResponse = false
+) {
     setValue(elSelector, value);
     const formElement = document.querySelector('gameface-form-control');
     await submitForm(formElement, false);
 
-    //Used to test server side validation of the username
+    // Used to test server side validation of the username
     if (waitServerResponse) {
-        await new Promise((resolve) => setTimeout(resolve, SERVER_TIMEOUT));
+        await new Promise(resolve => setTimeout(resolve, SERVER_TIMEOUT));
     }
 
     return createAsyncSpec(() => {
@@ -60,6 +95,75 @@ async function badValueTestCustomValidation(elSelector, errorMessage, value, err
     });
 }
 
+let serverError, serverNotReachable;
+
+/**
+ * Will tests for user name existense on the server side
+ * @param {HTMLElement} element
+ * @returns {boolean}
+ */
+async function nameExistsValidationMethod(element) {
+    if (!element.value) return false;
+
+    serverError = false;
+    serverNotReachable = false;
+    return new Promise((resolve) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `http://localhost:12345/user-exists?username=${element.value}`);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = event => resolve(event.target.response === 'true');
+        xhr.onerror = () => {
+            serverError = true;
+            return resolve(true);
+        };
+        xhr.timeout = 1000;
+        xhr.ontimeout = () => {
+            serverNotReachable = true;
+            return resolve(true);
+        };
+        xhr.send();
+    });
+}
+
+/**
+ * Method for testing custom error messages on the custom validation of the form
+ * @param {HTMLElement} element
+ * @returns {string}
+ */
+function getCustomErrorMessage(element) {
+    if (serverNotReachable) return 'Unable to reach the server! ';
+    if (serverError) return 'Unable to reach the server due an error! ';
+
+    return `"${element.value}" already used! Please use another one! `;
+}
+
+/**
+ * Will set the custom form validators for the test
+ * @param {HTMLElement} form
+ */
+function setCustomFormValidators(form) {
+    // Will set custom validators for the form element with name attribute that has value - "username"
+    form.setCustomValidators('username', {
+        // There is no required attribute to the form element so we can add validation about it here
+        valueMissing: {
+            method: element => !element.value,
+            errorMessage: () => 'The username is required! ',
+        },
+        // We can change the default message on the 'tooShort' preset validator
+        tooShort: {
+            errorMessage: element => `The username should have more than ${element.getAttribute('minlength')} symbols typed! `,
+        },
+        // Async validator that checks if the user is already added to the database by making a request to the server
+        nameExists: {
+            method: nameExistsValidationMethod,
+            errorMessage: getCustomErrorMessage,
+        },
+    });
+}
+
+/**
+ * Method for initializing the test for custom validation of the form
+ */
 function setCustomValidators() {
     const form = document.getElementById('custom-validation-form');
 
@@ -67,71 +171,36 @@ function setCustomValidators() {
         document.getElementById('form-response').textContent = event.detail.target.response;
     });
 
-    let serverError = false, serverNotReachable = false;
-    //Will set custom validators for the form element with name attribute that has value - "username"
-    form.setCustomValidators('username', {
-        //There is no required attribute to the form element so we can add validation about it here
-        valueMissing: {
-            method: (element) => !element.value,
-            errorMessage: () => 'The username is required! '
-        },
-        //We can change the default message on the 'tooShort' preset validator
-        tooShort: {
-            errorMessage: (element) => `The username should have more than ${element.getAttribute('minlength')} symbols typed! `,
-        },
-        //Async validator that checks if the user is already added to the database by making a request to the server
-        nameExists: {
-            method: async (element) => {
-                if (!element.value) return false;
+    serverError = false;
+    serverNotReachable = false;
 
-                serverError = false;
-                serverNotReachable = false;
-                return new Promise((resolve) => {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('GET', `http://localhost:12345/user-exists?username=${element.value}`);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.onload = (event) => resolve(event.target.response === 'true');
-                    xhr.onerror = () => {
-                        serverError = true;
-                        return resolve(true)
-                    }
-                    xhr.timeout = 1000;
-                    xhr.ontimeout = () => {
-                        serverNotReachable = true;
-                        return resolve(true)
-                    }
-                    xhr.send();
-                })
-            },
-            errorMessage: (element) => {
-                if (serverNotReachable) return 'Unable to reach the server! ';
-                if (serverError) return 'Unable to reach the server due an error! ';
-
-                return `"${element.value}" already used! Please use another one! `;
-            }
-        }
-    });
-    //We can change where the error message can be displayed for the user name
-    //By default the error will be visible in a tooltip displayed next to the form element
+    setCustomFormValidators(form);
+    // We can change where the error message can be displayed for the user name
+    // By default the error will be visible in a tooltip displayed next to the form element
     form.setCustomDisplayErrorElement('username', '#username-error');
 
-    //We can set a custom validation of the form element with a custom method and a message
+    // We can set a custom validation of the form element with a custom method and a message
     form.setCustomValidators('url', {
         notStartingWithHttpProtocol: {
-            method: (element) => !element.value.startsWith('http://') && !element.value.startsWith('https://'),
-            errorMessage: () => 'The url should start with "http://" or "https://"!'
-        }
+            method: element => !element.value.startsWith('http://') && !element.value.startsWith('https://'),
+            errorMessage: () => 'The url should start with "http://" or "https://"!',
+        },
     });
 
     form.setCustomValidators('email', {
-        //We can remove the preset error message if the preset validator for email fails
-        //That will also remove the tooltip because no error messages should be visible even if the check fails
+        // We can remove the preset error message if the preset validator for email fails
+        // That will also remove the tooltip because no error messages should be visible even if the check fails
         badEmail: {
-            errorMessage: () => ''
-        }
+            errorMessage: () => '',
+        },
     });
 }
 
+/**
+ * Will setup test page for the forms tests
+ * @param {string} template
+ * @returns {Promise<void>}
+ */
 function setupFormValidationTestPage(template) {
     const el = document.createElement('div');
     el.innerHTML = template;
@@ -144,11 +213,15 @@ function setupFormValidationTestPage(template) {
 
     document.body.appendChild(el);
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         waitForStyles(resolve);
     });
 }
 
+/**
+ * Will check the response from the server that will be visible into a HTML element
+ * @param {boolean} expected
+ */
 async function checkResponse(expected) {
     await createAsyncSpec(() => {
         const data = document.querySelector('.response').textContent;
@@ -156,6 +229,7 @@ async function checkResponse(expected) {
     });
 }
 
+// eslint-disable-next-line max-lines-per-function
 describe('Form validation', () => {
     afterAll(() => {
         const tooltips = document.querySelectorAll('gameface-tooltip');
@@ -204,6 +278,7 @@ describe('Form validation', () => {
     });
 });
 
+// eslint-disable-next-line max-lines-per-function
 describe('Form custom validation', () => {
     afterAll(() => {
         const tooltips = document.querySelectorAll('gameface-tooltip');

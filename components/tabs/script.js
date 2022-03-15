@@ -11,7 +11,11 @@ let panelsCounter = 0;
 
 const KEYCODES = components.KEYCODES;
 
+/**
+ * Class definition of the gameface-tabs custom element
+ */
 class Tabs extends HTMLElement {
+    /* eslint-disable require-jsdoc */
     constructor() {
         super();
 
@@ -35,11 +39,13 @@ class Tabs extends HTMLElement {
             })
             .catch(err => console.error(err));
 
-            this.tabSlot = this.querySelector('[data-name="tab"]');
-            this.panelSlot = this.querySelector('[data-name="panel"]');
+        this.tabSlot = this.querySelector('[data-name="tab"]');
+        this.panelSlot = this.querySelector('[data-name="panel"]');
 
-            this.attachEventListeners();
+        this.attachEventListeners();
     }
+
+    /* eslint-enable require-jsdoc */
 
     /**
      * Called when the user clicks on the tab component.
@@ -58,7 +64,7 @@ class Tabs extends HTMLElement {
      * @returns {HTMLElement} - the panel.
     */
     getPanelForTab(tab) {
-        return this.querySelector(`tab-panel[index="${tab.getAttribute('index')}"]`)
+        return this.querySelector(`tab-panel[index="${tab.getAttribute('index')}"]`);
     }
 
     /**
@@ -126,8 +132,7 @@ class Tabs extends HTMLElement {
     getPrevTab() {
         const tabs = this.getAllTabs();
 
-        let newIdx =
-            tabs.findIndex(tab => tab.selected) - 1;
+        const newIdx = tabs.findIndex(tab => tab.selected) - 1;
         // Add `tabs.length` to make sure the index is a positive number
         // and get the modulus to wrap around if necessary.
         return tabs[(newIdx + tabs.length) % tabs.length];
@@ -149,7 +154,7 @@ class Tabs extends HTMLElement {
     */
     getNextTab() {
         const tabs = this.getAllTabs();
-        let newIdx = tabs.findIndex(tab => tab.selected) + 1;
+        const newIdx = tabs.findIndex(tab => tab.selected) + 1;
         return tabs[newIdx % tabs.length];
     }
 
@@ -201,7 +206,11 @@ class Tabs extends HTMLElement {
     }
 }
 
+/**
+ * Class definition of the tab heading custom element
+ */
 class TabHeading extends HTMLElement {
+    /* eslint-disable require-jsdoc */
     static get observedAttributes() {
         return ['selected'];
     }
@@ -217,7 +226,7 @@ class TabHeading extends HTMLElement {
 
     set selected(value) {
         if (value) {
-            this.setAttribute('selected', value)
+            this.setAttribute('selected', value);
             this.classList.add('guic-tabs-active-tab');
         } else {
             this.classList.remove('guic-tabs-active-tab');
@@ -245,9 +254,15 @@ class TabHeading extends HTMLElement {
             this.index = `${tabsCounter++}`;
         }
     }
+    /* eslint-enable require-jsdoc */
 }
 
+/**
+ * Class definition of the tab panel custom element
+ */
 class TabPanel extends HTMLElement {
+    /* eslint-disable require-jsdoc */
+
     static get observedAttributes() {
         return ['selected'];
     }
@@ -258,7 +273,7 @@ class TabPanel extends HTMLElement {
 
     set selected(value) {
         if (value) {
-            this.setAttribute('selected', value)
+            this.setAttribute('selected', value);
             this.classList.add('guic-tabs-active-panel');
         } else {
             this.classList.remove('guic-tabs-active-panel');
@@ -292,6 +307,7 @@ class TabPanel extends HTMLElement {
             this.index = `${panelsCounter++}`;
         }
     }
+    /* eslint-enable require-jsdoc */
 }
 
 components.defineCustomElement('gameface-tabs', Tabs);

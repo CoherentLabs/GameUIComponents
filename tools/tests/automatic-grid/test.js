@@ -51,6 +51,7 @@ const dragItemSim = (cell1, cell2) => {
     });
 };
 
+// eslint-disable-next-line max-lines-per-function
 describe('Automatic grid component', () => {
     afterEach(() => cleanTestPage('gameface-automatic-grid'));
 

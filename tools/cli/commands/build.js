@@ -3,9 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-const yargs = require('yargs/yargs');
 const path = require('path');
-const fs = require('fs');
 const rollup = require('rollup');
 const terser = require('rollup-plugin-terser').terser;
 const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
@@ -14,7 +12,7 @@ const html = require('rollup-plugin-html');
 // The module formats which will be bundled
 const FORMATS = [
     'cjs',
-    'umd',
+    'umd'
 ];
 
 // The target environments
@@ -22,7 +20,6 @@ const ENVIRONMENTS = [
     'prod',
     'dev'
 ];
-
 
 /**
  * Creates an object of output options for rollup.
@@ -32,7 +29,7 @@ const ENVIRONMENTS = [
  * @param {boolean} isProd - if true, the code will be minified.
  * @returns {object} - OutputParams object.
 */
-function generateOutputOptions(directory, format = 'umd', moduleName, isProd = false,) {
+function generateOutputOptions(directory, format = 'umd', moduleName, isProd = false) {
     const suffix = isProd ? '.production.min' : '.development';
 
     const outputOptions = {
@@ -40,9 +37,9 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
         dir: path.join(directory, format),
         entryFileNames: `${moduleName}${suffix}.js`,
         globals: {
-            'coherent-gameface-components': 'components'
+            'coherent-gameface-components': 'components',
         },
-        exports: 'auto'
+        exports: 'auto',
     };
 
     // When bundling for umd we need to specify a name for
@@ -62,8 +59,8 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
  * @param {Array<string>} environments - the environments for which to bundle(prod, dev).
 */
 function buildForTargets(moduleName, inputOptions, formats, environments) {
-    for (let format of formats) {
-        for (let environment of environments) {
+    for (const format of formats) {
+        for (const environment of environments) {
             createBundle(inputOptions, generateOutputOptions(
                 path.dirname(inputOptions.input),
                 format,
@@ -77,6 +74,7 @@ function buildForTargets(moduleName, inputOptions, formats, environments) {
 /**
  * Calls buildForTargets for all components and passes all environments
  * and formats as targets. Builds the components library first.
+ * @param {boolean} watch
 */
 function build(watch) {
     const inputOptions = {
@@ -85,7 +83,7 @@ function build(watch) {
         external: ['coherent-gameface-components'],
         plugins: [
             nodeResolve(),
-            html(),
+            html()
         ],
     };
 
@@ -95,8 +93,8 @@ function build(watch) {
         const watcher = rollup.watch({
             ...inputOptions,
             watch: {
-                buildDelay: 800
-            }
+                buildDelay: 800,
+            },
         });
 
         console.log(`coherent-guic-cli is watching for file changes...`);
@@ -114,11 +112,14 @@ function build(watch) {
 /**
  * Invokes the rollup JS API to create and write a bundle.
  * See https://rollupjs.org/guide/en/#rolluprollup.
+ * @param {rollup.RollupOptions} inputOptions
+ * @param {rollup.OutputOptions} outputOptions
+ * @returns {Promise<rollup.RollupBuild>}
 */
 function createBundle(inputOptions, outputOptions) {
     // create a bundle
-    return rollup.rollup(inputOptions).then(bundle => {
-         // and write the bundle to disk
+    return rollup.rollup(inputOptions).then((bundle) => {
+        // and write the bundle to disk
         return bundle.write(outputOptions);
     }).catch(err => console.error(err));
 }
@@ -128,8 +129,8 @@ exports.desc = 'start the server';
 exports.builder = {
     '--watch': {
         desc: 'Watch for changes in the source files and rebuild.',
-    }
+    },
 };
 exports.handler = function (argv) {
     build(argv.watch);
-}
+};

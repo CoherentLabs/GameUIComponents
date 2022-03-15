@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -21,8 +22,9 @@ function click(element, customEventInit = {}) {
  * @param {Function} callback - the function that will be executed.
  * @param {number} count - the amount of frames that the callback execution
  * should be delayed by.
+ * @returns {Function|void}
 */
-function waitForStyles(callback = () => {}, count = DEFAULT_FRAMES_TO_WAIT) {
+function waitForStyles(callback = () => { }, count = DEFAULT_FRAMES_TO_WAIT) {
     if (count === 0) return callback();
     count--;
     requestAnimationFrame(() => waitForStyles(callback, count));
@@ -35,7 +37,7 @@ function waitForStyles(callback = () => {}, count = DEFAULT_FRAMES_TO_WAIT) {
  * @param {number} frames
  * @returns {Promise}
  */
-function createAsyncSpec(callback = () => {}, frames = DEFAULT_FRAMES_TO_WAIT) {
+function createAsyncSpec(callback = () => { }, frames = DEFAULT_FRAMES_TO_WAIT) {
     return new Promise((resolve, reject) => {
         waitForStyles(() => {
             try {
@@ -48,6 +50,9 @@ function createAsyncSpec(callback = () => {}, frames = DEFAULT_FRAMES_TO_WAIT) {
     });
 }
 
+/**
+ * @param {string} selector
+ */
 function cleanTestPage(selector) {
     // Since we don't want to replace the whole content of the body using
     // innerHtml setter, we query only the current custom element and we replace

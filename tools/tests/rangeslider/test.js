@@ -1,3 +1,6 @@
+/**
+ * @param {string} customHandle
+ */
 function addCustomElementValue(customHandle) {
     const customElementValue = document.createElement('span');
     customElementValue.id = customHandle.replace('#', '');
@@ -5,7 +8,16 @@ function addCustomElementValue(customHandle) {
     document.body.appendChild(customElementValue);
 }
 
-const loadRangeslider = ({ value, min, max, values, grid, thumb, twoHandles, orientation, step, customHandle, customHandleLeft, customHandleRight }) => {
+/**
+ * @param {Object} param0
+ * @returns {Promise<void>}
+ */
+function loadRangeslider({ value, min, max, values, grid, thumb, twoHandles, orientation,
+    step,
+    customHandle,
+    customHandleLeft,
+    customHandleRight,
+}) {
     const attributes = [
         value ? `value="${value}"` : '',
         min ? `min="${min}"` : '',
@@ -18,7 +30,7 @@ const loadRangeslider = ({ value, min, max, values, grid, thumb, twoHandles, ori
         twoHandles ? `two-handles` : '',
         customHandle ? `custom-handle="${customHandle}"` : '',
         customHandleLeft ? `custom-handle-left="${customHandleLeft}"` : '',
-        customHandleRight ? `custom-handle-right="${customHandleRight}"` : '',
+        customHandleRight ? `custom-handle-right="${customHandleRight}"` : ''
     ];
 
     const wrapper = document.createElement('div');
@@ -31,9 +43,9 @@ const loadRangeslider = ({ value, min, max, values, grid, thumb, twoHandles, ori
     document.body.appendChild(wrapper.children[0]);
 
     return new Promise((resolve) => {
-        waitForStyles(resolve, 4)
+        waitForStyles(resolve, 4);
     });
-};
+}
 
 const dragSim = (start, end, element) => {
     return new Promise((resolve) => {
@@ -55,11 +67,14 @@ const dragSim = (start, end, element) => {
 const customHandleSelectors = {
     SINGLE: '#myValue',
     LEFT: '#myValueLeft',
-    RIGHT: '#myValueRight'
-}
+    RIGHT: '#myValueRight',
+};
 
+/**
+ * Will remove the custom handles
+ */
 function removeCustomHandles() {
-    for (let value of Object.values(customHandleSelectors)) {
+    for (const value of Object.values(customHandleSelectors)) {
         const element = document.querySelector(value);
 
         if (element) {
@@ -68,6 +83,7 @@ function removeCustomHandles() {
     }
 }
 
+// eslint-disable-next-line max-lines-per-function
 describe('Rangeslider component', () => {
     afterEach(() => {
         cleanTestPage('gameface-rangeslider');
@@ -180,7 +196,8 @@ describe('Rangeslider component', () => {
         const handles = rangeslider.querySelectorAll('.horizontal-rangeslider-handle');
         const { x, width } = rangesliderElement.getBoundingClientRect();
 
-        rangeslider.onMouseDown({ clientX: x + width * 0.75 }); //0.75 so that I am sure that the click is closer to the second handle
+        // 0.75 so that I am sure that the click is closer to the second handle
+        rangeslider.onMouseDown({ clientX: x + width * 0.75 });
         rangeslider.onMouseUp();
 
         assert.equal(parseFloat(handles[1].style.left), 75);
@@ -196,7 +213,7 @@ describe('Rangeslider component', () => {
 
         rangeslider.onMouseDown({ clientX: x });
 
-        await dragSim(x, x + width / 4, rangeslider)
+        await dragSim(x, x + width / 4, rangeslider);
         rangeslider.onMouseUp();
 
         assert.equal(parseFloat(bar.style.width), 25);
@@ -212,7 +229,7 @@ describe('Rangeslider component', () => {
 
         rangeslider.onMouseDown({ clientX: x });
 
-        await dragSim(x, x + width / 4, rangeslider)
+        await dragSim(x, x + width / 4, rangeslider);
         rangeslider.onMouseUp();
 
         assert.equal(parseFloat(thumb.style.left), 25);
@@ -229,7 +246,7 @@ describe('Rangeslider component', () => {
 
         rangeslider.onMouseDown({ clientX: x });
 
-        await dragSim(x, x + width / 4, rangeslider)
+        await dragSim(x, x + width / 4, rangeslider);
         rangeslider.onMouseUp();
 
         assert.equal(parseFloat(handle.style.left), 40);
@@ -237,7 +254,7 @@ describe('Rangeslider component', () => {
     });
 
     it('Should change handle position and custom element value according to step', async () => {
-        await loadRangeslider({ customHandle: customHandleSelectors.SINGLE, step: 40 })
+        await loadRangeslider({ customHandle: customHandleSelectors.SINGLE, step: 40 });
         const rangeslider = document.querySelector('gameface-rangeslider');
         const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
         const handle = rangeslider.querySelector('.horizontal-rangeslider-handle');
@@ -246,7 +263,7 @@ describe('Rangeslider component', () => {
 
         rangeslider.onMouseDown({ clientX: x });
 
-        await dragSim(x, x + width / 4, rangeslider)
+        await dragSim(x, x + width / 4, rangeslider);
         rangeslider.onMouseUp();
 
         assert.equal(parseFloat(handle.style.left), 40);
@@ -254,13 +271,18 @@ describe('Rangeslider component', () => {
     });
 
     it('Should move closest handle when clicked on and update the custom handle element', async () => {
-        await loadRangeslider({ twoHandles: true, customHandleLeft: customHandleSelectors.LEFT, customHandleRight: customHandleSelectors.RIGHT })
+        await loadRangeslider({
+            twoHandles: true,
+            customHandleLeft: customHandleSelectors.LEFT,
+            customHandleRight: customHandleSelectors.RIGHT,
+        });
         const rangeslider = document.querySelector('gameface-rangeslider');
         const rangesliderElement = rangeslider.querySelector('.horizontal-rangeslider');
         const customHandleRight = document.querySelector(customHandleSelectors.RIGHT);
         const { x, width } = rangesliderElement.getBoundingClientRect();
 
-        rangeslider.onMouseDown({ clientX: x + width * 0.75 }); //0.75 so that I am sure that the click is closer to the second handle
+        // 0.75 so that I am sure that the click is closer to the second handle
+        rangeslider.onMouseDown({ clientX: x + width * 0.75 });
         rangeslider.onMouseUp();
 
         assert.equal(customHandleRight.textContent, 75);

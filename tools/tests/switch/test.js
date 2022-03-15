@@ -16,6 +16,7 @@ const loadSwitch = ({ type, disabled, checked, checkText, uncheckText }) => {
     });
 };
 
+// eslint-disable-next-line max-lines-per-function
 describe('Switch Component', () => {
     afterEach(() => cleanTestPage('gameface-switch'));
 
@@ -61,7 +62,8 @@ describe('Switch Component', () => {
         const switchToggle = document.querySelector('gameface-switch');
         const checkedTextElement = switchToggle.querySelector('.switch-toggle-true');
         const uncheckedTextElement = switchToggle.querySelector('.switch-toggle-false');
-        assert.equal(checkedTextElement.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim(), checkText); //The regex finds and replaces spaces and new lines that the textContent has
+        // The regex finds and replaces spaces and new lines that the textContent has
+        assert.equal(checkedTextElement.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim(), checkText);
         assert.equal(uncheckedTextElement.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim(), uncheckText);
     });
 

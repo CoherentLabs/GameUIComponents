@@ -62,8 +62,7 @@ const heroesTemplate = `<div>
         <gameface-route slot="route" to="/heroes/healers">Healers</gameface-route>
     </div>
     <router-view></router-view>
-</div>`
-
+</div>`;
 
 const startGameTemplate = `<div>Start Game</div>`;
 const homeTemplate = `<div>Home</div>`;
@@ -107,4 +106,4 @@ export {
     tankThreeTemplate,
     healerTemplate,
     notFoundTemplate,
-}
+};

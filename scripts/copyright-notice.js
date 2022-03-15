@@ -14,11 +14,16 @@ const FILE_EXTENSIONS = {
     JS: '.js',
     CSS: '.css',
     HTML: '.html',
-    MD: '.md'
+    MD: '.md',
 };
 const COMPONENTS_FOLDER_PATH = path.join(__dirname, '../components');
 const EXCLUDED_FILES = new Set(['package.json', 'package-lock.json', 'bundle.js']);
-const INCLUDED_EXTENSIONS = new Set([FILE_EXTENSIONS.JS, FILE_EXTENSIONS.CSS, FILE_EXTENSIONS.HTML, FILE_EXTENSIONS.MD]);
+const INCLUDED_EXTENSIONS = new Set([
+    FILE_EXTENSIONS.JS,
+    FILE_EXTENSIONS.CSS,
+    FILE_EXTENSIONS.HTML,
+    FILE_EXTENSIONS.MD
+]);
 const EXCLUDED_FOLDERS = new Set(['node_modules', 'umd', 'cjs', 'dist']);
 let addCopyrights = false;
 let allCheckedFilesHaveCopyrightNotice = true;
@@ -49,10 +54,12 @@ function fileHasCopyrightsIncluded(fileContent, fileExtension) {
     switch (fileExtension) {
         case FILE_EXTENSIONS.JS:
         case FILE_EXTENSIONS.CSS:
-            return fileContent.indexOf(COPYRIGHT_NOTICE_JS_CSS) !== -1 || fileContent.indexOf(COPYRIGHT_NOTICE_JS_CSS_CRLF) !== -1;
+            return fileContent.indexOf(COPYRIGHT_NOTICE_JS_CSS) !== -1 ||
+                fileContent.indexOf(COPYRIGHT_NOTICE_JS_CSS_CRLF) !== -1;
         case FILE_EXTENSIONS.HTML:
         case FILE_EXTENSIONS.MD:
-            return fileContent.indexOf(COPYRIGHT_NOTICE_HTML_MD) !== -1 || fileContent.indexOf(COPYRIGHT_NOTICE_HTML_MD_CRLF) !== -1;
+            return fileContent.indexOf(COPYRIGHT_NOTICE_HTML_MD) !== -1 ||
+                fileContent.indexOf(COPYRIGHT_NOTICE_HTML_MD_CRLF) !== -1;
         default: return false;
     }
 }
@@ -95,7 +102,7 @@ function addCopyrightsToFile(fileContent, fileExtension, filePath) {
 
 /**
  * Checks and adds copyright notice at the beginning of the file if they are not there
- * @param {string} filePath 
+ * @param {string} filePath
  */
 function checkCopyrightNotesAtBeginning(filePath) {
     const fileExtension = path.extname(filePath);
@@ -105,7 +112,7 @@ function checkCopyrightNotesAtBeginning(filePath) {
     allCheckedFilesHaveCopyrightNotice = false;
 
     if (!addCopyrights) {
-        console.log(`File ${filePath} has no copyright notice added or differes from the default one.`)
+        console.log(`File ${filePath} has no copyright notice added or differes from the default one.`);
         return;
     }
 
@@ -134,7 +141,7 @@ function checkCopyrightsInFile(filePath) {
  */
 function checkCopyrightsInDirectory(dirPath) {
     const folderFiles = fs.readdirSync(dirPath);
-    const folderFilesAbsPaths = folderFiles.map((file) => path.join(dirPath, file));
+    const folderFilesAbsPaths = folderFiles.map(file => path.join(dirPath, file));
 
     for (const file of folderFilesAbsPaths) {
         if (!fs.existsSync(file)) continue;
@@ -143,14 +150,15 @@ function checkCopyrightsInDirectory(dirPath) {
     }
 }
 
+/** */
 function main() {
-    const arguments = process.argv.slice(2);
-    if (arguments.indexOf('--add') > -1 || arguments.indexOf('-a') > -1) addCopyrights = true;
+    const args = process.argv.slice(2);
+    if (args.indexOf('--add') > -1 || args.indexOf('-a') > -1) addCopyrights = true;
 
     checkCopyrightsInDirectory(COMPONENTS_FOLDER_PATH);
 
     if (!addCopyrights && !allCheckedFilesHaveCopyrightNotice) {
-        console.log(`There are files that are missing the copyright notice! Run the 'npm run add:copyright' that will automatically fix the issue!`)
+        console.log(`There are files that are missing the copyright notice! Run the 'npm run add:copyright' that will automatically fix the issue!`);
         process.exitCode = 1;
         return;
     }
@@ -160,7 +168,7 @@ function main() {
         return;
     }
 
-    console.log('All the files have the copyright notice!')
+    console.log('All the files have the copyright notice!');
 }
 
 main();

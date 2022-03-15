@@ -5,7 +5,7 @@
 
 import components from 'coherent-gameface-components';
 import template from '../template.html';
-import {TAG_NAMES} from '../constants';
+import { TAG_NAMES } from '../constants';
 
 /**
  * Helper function used to check if an element is a child of another element
@@ -15,7 +15,7 @@ import {TAG_NAMES} from '../constants';
  * @returns {boolean} - true if the child is actually a child of the parent and false if not
 */
 function isDescendant(parent, child) {
-    var node = child.parentNode;
+    let node = child.parentNode;
     while (node != null) {
         if (node == parent) {
             return true;
@@ -35,7 +35,11 @@ const KEY_MAPPING = {
     SELECT: KEYCODES.ENTER,
 };
 
+/**
+ * Class definition of the gameface menu custom element
+ */
 class GamefaceMenu extends HTMLElement {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
 
@@ -50,6 +54,7 @@ class GamefaceMenu extends HTMLElement {
         this.url = '/components/menu/template.html';
     }
 
+    // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         // TODO: fix, this is a hack
         // we'll fix it in a task
@@ -69,20 +74,18 @@ class GamefaceMenu extends HTMLElement {
                 this.setOrientation();
                 this.setAttribute('tabindex', 0);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(err => console.error(err));
     }
 
     /**
      * Attaches click event listeners to all menu-item elements in this menu
     */
-    attachEventListeners () {
+    attachEventListeners() {
         this.addEventListener('keydown', this.onKeyDown);
         this.addEventListener('focusout', this.onFocusOut);
 
         const menuItems = this.querySelectorAll('menu-item');
-        for(let i = 0; i < menuItems.length; i++) {
+        for (let i = 0; i < menuItems.length; i++) {
             menuItems[i].addEventListener('click', this.onClick);
         }
     }
@@ -97,7 +100,7 @@ class GamefaceMenu extends HTMLElement {
     setupMenuItems(hide = false) {
         const menuItems = this.getAllMenuItems();
 
-        for(let i = 0; i < menuItems.length; i++) {
+        for (let i = 0; i < menuItems.length; i++) {
             const nested = menuItems[i].querySelector(TAG_NAMES);
 
             if (!nested) continue;
@@ -129,8 +132,6 @@ class GamefaceMenu extends HTMLElement {
     onFocusOut(event) {
         // get the element which received focus
         const receivedFocus = event.relatedTarget;
-        // get the element which lost focus
-        const lostFocus = event.target;
 
         if (receivedFocus !== null && isDescendant(this, receivedFocus)) {
             return;
@@ -167,7 +168,7 @@ class GamefaceMenu extends HTMLElement {
     getPrevMenuItem() {
         const menuItems = this.getAllMenuItems();
 
-        let newIdx = menuItems.findIndex(menuItem => menuItem.selected) - 1;
+        const newIdx = menuItems.findIndex(menuItem => menuItem.selected) - 1;
         // Add `menuItems.length` to make sure the index is a positive number
         // and get the modulus to wrap around if necessary.
         return menuItems[(newIdx + menuItems.length) % menuItems.length];
@@ -188,7 +189,7 @@ class GamefaceMenu extends HTMLElement {
     */
     getNextMenuItem() {
         const menuItems = this.getAllMenuItems();
-        let newIdx = menuItems.findIndex(menuItems => menuItems.selected) + 1;
+        const newIdx = menuItems.findIndex(menuItems => menuItems.selected) + 1;
         return menuItems[newIdx % menuItems.length];
     }
 
@@ -257,7 +258,7 @@ class GamefaceMenu extends HTMLElement {
     */
     openSubmenu(event) {
         const submenu = this.getSubmenu(event.target);
-        if(!submenu) return false;
+        if (!submenu) return false;
 
         submenu.show();
 
@@ -274,7 +275,7 @@ class GamefaceMenu extends HTMLElement {
     */
     close() {
         const parentMenu = this.getParentMenu();
-        if(!parentMenu) return;
+        if (!parentMenu) return;
         this.hide();
         parentMenu.selectMenuItem(this.parentElement);
     }
@@ -304,7 +305,7 @@ class GamefaceMenu extends HTMLElement {
         }
     }
 
-    /***
+    /**
      * Selects a menu item by an index;
      * @param {number} index
     */
@@ -324,21 +325,21 @@ class GamefaceMenu extends HTMLElement {
 
         if (event.target.tagName.toLowerCase() !== 'menu-item' || event.altKey) return;
         const nextItem = this.getNextMenuItemFromKey(event);
-        if(nextItem) this.selectMenuItem(nextItem);
+        if (nextItem) this.selectMenuItem(nextItem);
     }
 
     /**
      * Sets the display property of this menu to flex
     */
     show() {
-       this.style.display = 'flex';
+        this.style.display = 'flex';
     }
 
-    /*
+    /**
     * Sets the display property of this menu to none
     */
     hide() {
-       this.style.display = 'none';
+        this.style.display = 'none';
     }
 
     /**
@@ -354,7 +355,11 @@ class GamefaceMenu extends HTMLElement {
     }
 }
 
+/**
+ * Class definition of the gameface menu item custom element
+ */
 class MenuItem extends HTMLElement {
+    // eslint-disable-next-line require-jsdoc
     static get observedAttributes() {
         return ['selected', 'disabled'];
     }
@@ -363,9 +368,9 @@ class MenuItem extends HTMLElement {
      * Called when an attribute changes
     */
     attributeChangedCallback() {
-        if(this.hasAttribute('disabled')) {
-             // if the element is disabled, make it no longer selectable
-             // by removing the tabindex
+        if (this.hasAttribute('disabled')) {
+            // if the element is disabled, make it no longer selectable
+            // by removing the tabindex
             this.removeAttribute('tabindex');
             // remove the mouseover and mouseout listeners so that it's
             // not possible to hover the element
@@ -376,12 +381,14 @@ class MenuItem extends HTMLElement {
         }
     }
 
+    // eslint-disable-next-line require-jsdoc
     connectedCallback() {
-        if(!this.hasAttribute('disabled')) {
+        if (!this.hasAttribute('disabled')) {
             this.setAttribute('tabindex', 0);
         }
     }
 
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         this.attachEventListeners();
@@ -421,7 +428,7 @@ class MenuItem extends HTMLElement {
      * Called on mouseover. Adds class hover.
      * @param {MouseEvent} event
     */
-    onMouseOver (event) {
+    onMouseOver(event) {
         event.stopPropagation();
         const menuItem = event.target;
 
@@ -432,7 +439,7 @@ class MenuItem extends HTMLElement {
      * Called on mouseout. Removes class hover.
      * @param {MouseEvent} event
     */
-    onMouseOut (event) {
+    onMouseOut(event) {
         event.stopPropagation();
         const menuItem = event.target;
 

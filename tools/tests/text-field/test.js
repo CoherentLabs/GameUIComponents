@@ -5,6 +5,10 @@
 
 const CUSTOM_ELEMENT_TAG = 'gameface-text-field';
 
+/**
+ * @param {Object} attributes
+ * @param {string} expectedValue
+ */
 function getInitializationTest(attributes, expectedValue) {
     it('Should render the text field', async () => {
         await renderTextField(attributes);
@@ -13,6 +17,10 @@ function getInitializationTest(attributes, expectedValue) {
     });
 }
 
+/**
+ * @param {HTMLElement} input
+ * @param {string} value
+ */
 function sendKeysToInput(input, value) {
     input.dispatchEvent(new Event('focus'));
     input.value = '';
@@ -20,7 +28,7 @@ function sendKeysToInput(input, value) {
     const onKeyDown = (event) => {
         input.value += event.detail;
         input.dispatchEvent(new Event('input'));
-    }
+    };
 
     input.addEventListener('keydown', onKeyDown);
 
@@ -31,8 +39,13 @@ function sendKeysToInput(input, value) {
     input.removeEventListener('keydown', onKeyDown);
 }
 
+/**
+ * @param {string} value
+ * @param {string} expectedValue
+ * @returns {Function}
+ */
 function getTypingTest(value, expectedValue) {
-    return () => it(`Should type "${value}" to input`, async () => {
+    return () => it(`Should type '${value}' to input`, async () => {
         const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
         const input = document.querySelector('.guic-text-field');
 
@@ -46,19 +59,22 @@ function getTypingTest(value, expectedValue) {
 }
 
 const textFieldComponentPropertiesCases = {
-    'value': 'random',
-    'type': 'password',
-    'placeholder': 'some placeholder',
-    'label': 'some label',
-    'disabled': true,
-    'readonly': true,
-    'min': 2,
-    'max': 100,
-    'minlength': 12,
-    'maxlength': 203,
-    'inputControlDisabled': true
+    value: 'random',
+    type: 'password',
+    placeholder: 'some placeholder',
+    label: 'some label',
+    disabled: true,
+    readonly: true,
+    min: 2,
+    max: 100,
+    minlength: 12,
+    maxlength: 203,
+    inputControlDisabled: true,
 };
 
+/**
+ * @returns {Function}
+ */
 function changeTextFieldProperty() {
     return () => it(`Should change the text field component properties programmarly`, async () => {
         const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
@@ -71,6 +87,14 @@ function changeTextFieldProperty() {
     });
 }
 
+/* eslint-disable max-lines-per-function */
+
+/**
+ * @param {string} type
+ * @param {string} defaultValue
+ * @param {string} typingValue
+ * @returns {Object[]}
+ */
 function getDefaultRenderConfiguraion(type, defaultValue, typingValue) {
     const label = type.toUpperCase() + ':';
     const displayType = type.charAt(0).toUpperCase() + type.slice(1);
@@ -79,70 +103,72 @@ function getDefaultRenderConfiguraion(type, defaultValue, typingValue) {
         {
             caseName: `${displayType} field`,
             attributes: { type: type },
-            tests: [getTypingTest(typingValue), changeTextFieldProperty()]
+            tests: [getTypingTest(typingValue), changeTextFieldProperty()],
         },
         {
             caseName: `${displayType} field with label`,
             attributes: { type: type, label: label },
-            tests: [getTypingTest(typingValue), changeTextFieldProperty()]
+            tests: [getTypingTest(typingValue), changeTextFieldProperty()],
         },
         {
             caseName: `${displayType} field with default value`,
             attributes: { type: type, value: defaultValue, label: label },
-            tests: [getTypingTest(typingValue), changeTextFieldProperty()]
+            tests: [getTypingTest(typingValue), changeTextFieldProperty()],
         },
         {
             caseName: `${displayType} field that is disabled`,
             attributes: { type: type, value: defaultValue, disabled: '', label: label },
-            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()]
+            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()],
         },
         {
             caseName: `${displayType} field that is readonly`,
             attributes: { type: type, value: defaultValue, readonly: '', label: label },
-            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()]
+            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()],
         },
         {
             caseName: `${displayType} field that has placeholder`,
-            attributes: { type: type, placeholder: "Type some very very long text here to test overflow and placeholder", label: label },
-            tests: [getTypingTest(typingValue), changeTextFieldProperty()]
+            attributes: { type: type, placeholder: 'Type some very very long text here to test overflow and placeholder', label: label },
+            tests: [getTypingTest(typingValue), changeTextFieldProperty()],
         },
         {
             caseName: `${displayType} field that is disabled with placeholder`,
-            attributes: { type: type, disabled: '', placeholder: "This input is disabled", label: label },
-            tests: [getTypingTest(typingValue, ''), changeTextFieldProperty()]
+            attributes: { type: type, disabled: '', placeholder: 'This input is disabled', label: label },
+            tests: [getTypingTest(typingValue, ''), changeTextFieldProperty()],
         },
         {
             caseName: `${displayType} field that is readonly with placeholder`,
-            attributes: { type: type, readonly: '', placeholder: "This input is read only", label: label },
-            tests: [getTypingTest(typingValue, ''), changeTextFieldProperty()]
+            attributes: { type: type, readonly: '', placeholder: 'This input is read only', label: label },
+            tests: [getTypingTest(typingValue, ''), changeTextFieldProperty()],
         },
         {
             caseName: `${displayType} field that is disabled with placeholder and has default value`,
-            attributes: { type: type, value: defaultValue, disabled: '', placeholder: "This input is disabled", label: label },
-            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()]
+            attributes: { type: type, value: defaultValue, disabled: '', placeholder: 'This input is disabled', label: label },
+            tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()],
         }
     ];
 }
+
+/* eslint-enable max-lines-per-function */
 
 const testCasesRenderConfiguration = [
     ...getDefaultRenderConfiguraion('text', 'default value', 'different value'),
     {
         caseName: `Text field with min/max length and default value`,
-        attributes: { type: "text", minlength: "3", maxlength: "15", value: "min-max-test", label: "TEXT:" },
+        attributes: { type: 'text', minlength: '3', maxlength: '15', value: 'min-max-test', label: 'TEXT:' },
     },
     ...getDefaultRenderConfiguraion('password', 'default password', 'different password'),
     {
         caseName: `Password field with min/max length and default value`,
-        attributes: { type: "password", minlength: "3", maxlength: "15", value: "min-max-test", label: "PASSWORD:" },
+        attributes: { type: 'password', minlength: '3', maxlength: '15', value: 'min-max-test', label: 'PASSWORD:' },
     },
     ...getDefaultRenderConfiguraion('search', 'default search', 'different search'),
     {
         caseName: `Search field with min/max length and default value`,
-        attributes: { type: "search", minlength: "3", maxlength: "15", value: "min-max-test", label: "SEARCH:" },
+        attributes: { type: 'search', minlength: '3', maxlength: '15', value: 'min-max-test', label: 'SEARCH:' },
     },
     {
         caseName: `Search field that removes the value`,
-        attributes: { type: "search", value: "search value", label: "SEARCH:" },
+        attributes: { type: 'search', value: 'search value', label: 'SEARCH:' },
         tests: [() => {
             it('Should click on the cross icon to remove the value', async () => {
                 const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
@@ -151,49 +177,49 @@ const testCasesRenderConfiguration = [
                 input.dispatchEvent(new Event('focus'));
                 crossButton.dispatchEvent(new Event('mousedown'));
                 crossButton.dispatchEvent(new Event('mouseup'));
-                assert(textField.value === '', 'Input value has not been removed.')
+                assert(textField.value === '', 'Input value has not been removed.');
             });
-        }]
+        }],
     },
     {
         caseName: `Search field that has disabled control`,
-        attributes: { type: "search", 'text-field-control-disabled': '', value: "search control is disabled", label: "SEARCH:" }
+        attributes: { type: 'search', 'text-field-control-disabled': '', value: 'search control is disabled', label: 'SEARCH:' },
     },
     ...getDefaultRenderConfiguraion('number', '7', '5'),
     {
         caseName: `Number field that has string value`,
-        attributes: { type: "number", value: "string value", label: "NUMBER:" },
+        attributes: { type: 'number', value: 'string value', label: 'NUMBER:' },
         expectedValue: '',
-        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')],
     },
     {
         caseName: `Number field that has min/max and correct default value`,
-        attributes: { type: "number", min: "3", max: "15", value: "4", label: "NUMBER:" },
-        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+        attributes: { type: 'number', min: '3', max: '15', value: '4', label: 'NUMBER:' },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')],
     },
     {
         caseName: `Number field that has min/max, step and correct default value`,
-        attributes: { type: "number", min: "3", max: "15", value: "4.5", step: "0.5", label: "NUMBER:" },
-        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+        attributes: { type: 'number', min: '3', max: '15', value: '4.5', step: '0.5', label: 'NUMBER:' },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')],
     },
     {
         caseName: `Number field that has min/max value less than the min`,
-        attributes: { type: "number", min: "3", max: "15", value: "0", label: "NUMBER:" },
-        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+        attributes: { type: 'number', min: '3', max: '15', value: '0', label: 'NUMBER:' },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')],
     },
     {
         caseName: `Number field that has min/max value greater than the max`,
-        attributes: { type: "number", min: "3", max: "15", value: "20", label: "NUMBER:" },
-        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+        attributes: { type: 'number', min: '3', max: '15', value: '20', label: 'NUMBER:' },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')],
     },
     {
         caseName: `Number field that has disabled control`,
-        attributes: { type: "number", 'text-field-control-disabled': '', value: "7", label: "NUMBER:" },
-        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')]
+        attributes: { type: 'number', 'text-field-control-disabled': '', value: '7', label: 'NUMBER:' },
+        tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')],
     },
     {
         caseName: `Number field that increases value with control`,
-        attributes: { type: "number", value: "7", step: '0.5', max: '10', label: "NUMBER:" },
+        attributes: { type: 'number', value: '7', step: '0.5', max: '10', label: 'NUMBER:' },
         tests: [() => {
             it('Should click on the up arrow to increase the number value to max', async () => {
                 const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
@@ -212,13 +238,13 @@ const testCasesRenderConfiguration = [
 
                 arrow.dispatchEvent(new Event('mousedown'));
                 document.dispatchEvent(new Event('mouseup'));
-                assert(textField.value === '10', 'Input value overflowed the maximum value.')
+                assert(textField.value === '10', 'Input value overflowed the maximum value.');
             });
-        }]
+        }],
     },
     {
         caseName: `Number field that decreases value with control`,
-        attributes: { type: "number", value: "7", step: '0.5', min: '4', label: "NUMBER:" },
+        attributes: { type: 'number', value: '7', step: '0.5', min: '4', label: 'NUMBER:' },
         tests: [() => {
             it('Should click on the down arrow to decrease the number value to min', async () => {
                 const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
@@ -237,12 +263,15 @@ const testCasesRenderConfiguration = [
 
                 arrow.dispatchEvent(new Event('mousedown'));
                 document.dispatchEvent(new Event('mouseup'));
-                assert(textField.value === '4', 'Input value overflowed the minimum value.')
+                assert(textField.value === '4', 'Input value overflowed the minimum value.');
             });
-        }]
-    },
+        }],
+    }
 ];
 
+/**
+ * @param {Object} attributes
+ */
 async function renderTextField(attributes) {
     const el = document.createElement(CUSTOM_ELEMENT_TAG);
     for (const attributeName in attributes) {
@@ -254,11 +283,16 @@ async function renderTextField(attributes) {
     await waitForStyles();
 }
 
+/**
+ * @param {Object} attributes
+ * @param {string} expectedValue
+ * @returns {void}
+ */
 function checkElementAttributes(attributes, expectedValue) {
     const textFieldElement = document.querySelector(CUSTOM_ELEMENT_TAG);
 
     for (const attributeName in attributes) {
-        const attributeNameCamelCase = attributeName.replace(/-./g, (match) => match[1].toUpperCase());
+        const attributeNameCamelCase = attributeName.replace(/-./g, match => match[1].toUpperCase());
         let attributeValueFromCustomElement = textFieldElement[attributeNameCamelCase];
         if (!isNaN(attributeValueFromCustomElement)) {
             attributeValueFromCustomElement = attributeValueFromCustomElement + '';
@@ -284,7 +318,7 @@ describe('Text field component', () => {
 
     for (const testCase of testCasesRenderConfiguration) {
         describe(testCase.caseName, () => {
-            afterAll(() => cleanTestPage(CUSTOM_ELEMENT_TAG))
+            afterAll(() => cleanTestPage(CUSTOM_ELEMENT_TAG));
 
             getInitializationTest(testCase.attributes, testCase.expectedValue);
 
@@ -293,6 +327,6 @@ describe('Text field component', () => {
             for (const test of testCase.tests) {
                 test();
             }
-        })
+        });
     }
 });

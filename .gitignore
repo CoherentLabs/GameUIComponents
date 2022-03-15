@@ -6,3 +6,4 @@ umd/
 dist/
 **.tgz
 components/**/bundle.js
+.eslintcache
