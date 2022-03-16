@@ -5,5 +5,6 @@
 - [ ] Tested in Gameface
 - [ ] Created or updated the documentation
 - [ ] Transferred or updated the Hugo documentation and example
+- [ ] Added/updated demo in index.html in root ot the repository
 
 Remove any item from the list if not applicable by editing this message.
