@@ -23,5 +23,44 @@
     {{ block "sidebar-footer" . }}{{ end }}
     {{ partial "footer/footer.html" . }}
     {{ partial "footer/script-footer.html" . }}
+
+    <!-- Google Tag Manager -->
+    <script type="text/plain" data-cookiecategory="analytics">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TR443T9');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Send Custom Event to Google Analytics for the live search functionality. -->
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const searchSuggestionsWrapper = document.getElementById('suggestions');
+        if (!searchSuggestionsWrapper) return;
+
+        searchSuggestionsWrapper.addEventListener('click', (event) => {
+          const target = event.target;
+
+          for (const suggestionElement of searchSuggestionsWrapper.children) {
+            if (!suggestionElement.contains(target)) continue;
+
+            // This guards when the event is triggered on the padding area of the "search result" element.
+            // The page from the result will only be loaded when clicked on the <a> or any element inside.
+            if (target === suggestionElement) return;
+
+            const suggestionTitle = suggestionElement.querySelector('.suggestion__title');
+
+            // When there are no results for the search term.
+            if (!suggestionTitle) return;
+            const searchTerm = document.getElementById('search').value;
+
+            window.dataLayer.push({
+              'event': 'liveSearch',
+              'searchTerm': searchTerm
+            });
+          }
+        });
+      });
+    </script>
   </body>
 </html>

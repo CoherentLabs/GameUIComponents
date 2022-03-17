@@ -61,6 +61,12 @@
   {{ $slice = $slice | append $katexConfig -}}
 {{ end -}}
 
+{{ if .Site.Params.options.cookieConsent }}
+  {{ $cookieConsentPlugin := resources.Get "vanilla-cookieconsent/cookieconsent.js" -}}
+  {{ $cookieConsentInit := resources.Get "js/cookieconsent-init.js" | minify | fingerprint "sha512" -}}
+  {{ $slice = $slice | append $cookieConsentPlugin | append $cookieConsentInit -}}
+{{ end -}}
+
 {{ $js := $slice | resources.Concat "main.js" -}}
 {{ if eq (hugo.Environment) "development" -}}
   {{ if .Site.Params.options.bootStrapJs -}}

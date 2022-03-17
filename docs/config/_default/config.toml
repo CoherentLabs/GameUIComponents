@@ -82,3 +82,6 @@ rel  = "sitemap"
   [[module.mounts]]
     source = "node_modules/mermaid"
     target = "assets/js/vendor/mermaid"
+  [[module.mounts]]
+    source = "node_modules/vanilla-cookieconsent/dist"
+    target = "assets/vanilla-cookieconsent"
