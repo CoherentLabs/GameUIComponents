@@ -20,33 +20,153 @@
 </style>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            menus: [
+                {
+                    visible: true,
+                    attributes: {
+                        expanded: '',
+                    },
+                    title: 'Long text',
+                    content: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem
+                        ipsum dolor sit amet consectetur adipisicing elit.
+                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque
+                        molestias, laudantium sapiente, veritatis
+                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing
+                        elit. Hic quisquam, a tenetur eaque asperiores
+                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione.
+                        Debitis totam deleniti quibusdam hic.`
+                },
+                {
+                    visible: true,
+                    attributes: {
+                        disabled: '',
+                    },
+                    title: 'Disabled Closed',
+                    content: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem
+                        ipsum dolor sit amet consectetur adipisicing elit.
+                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque
+                        molestias, laudantium sapiente, veritatis
+                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing
+                        elit. Hic quisquam, a tenetur eaque asperiores
+                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione.
+                        Debitis totam deleniti quibusdam hic.`
+                },
+                {
+                    visible: true,
+                    attributes: {
+                        expanded: '',
+                        disabled: '',
+                    },
+                    title: 'Disabled Open',
+                    content: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.`
+                },
+                {
+                    visible: true,
+                    title: 'Short Text',
+                    content: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.`
+                },
+            ]
+        };
+
+        class Attributes {
+            constructor() {
+                this.state = null;
+            }
+
+            init(element, value) {
+                if (!model.attributes) return;
+                for (const name in model.attributes) {
+                    element.setAttribute(name, '');
+                }
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        setInterval(() => {
+            const index = Math.floor(Math.random() * 4);
+            model.menus[index].visible = !model.menus[index].visible;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }, 1000)
+    </script>
     <div class="flex-box">
+        <div class="container">
+            <h2>Data-binding Single</h2>
+            <gameface-accordion-menu>
+                <gameface-accordion-panel slot="accordion-panel" data-bind-for="iter:{{model.menus}}"
+                    data-bind-attributes="{{iter}}" data-bind-if="{{iter.visible}}">
+                    <gameface-accordion-header data-bind-value="{{iter.title}}">Long Text</gameface-accordion-header>
+                    <gameface-accordion-content data-bind-value="{{iter.content}}">Lorem ipsum, dolor sit amet
+                        consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                    </gameface-accordion-content>
+                </gameface-accordion-panel>
+            </gameface-accordion-menu>
+        </div>
+        <div class="container">
+            <h2>Data-binding Multiple</h2>
+            <gameface-accordion-menu multiple>
+                <gameface-accordion-panel slot="accordion-panel" data-bind-for="iter:{{model.menus}}"
+                    data-bind-attributes="{{iter}}" data-bind-if="{{iter.visible}}">
+                    <gameface-accordion-header data-bind-value="{{iter.title}}">Long Text</gameface-accordion-header>
+                    <gameface-accordion-content data-bind-value="{{iter.content}}">Lorem ipsum, dolor sit amet
+                        consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                    </gameface-accordion-content>
+                </gameface-accordion-panel>
+            </gameface-accordion-menu>
+        </div>
         <div class="container">
             <h2>Single</h2>
             <gameface-accordion-menu>
                 <gameface-accordion-panel slot="accordion-panel" expanded>
                     <gameface-accordion-header>Long Text</gameface-accordion-header>
-                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
-                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque molestias, laudantium sapiente, veritatis
-                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic quisquam, a tenetur eaque asperiores
-                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione. Debitis totam deleniti quibusdam hic.
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem
+                        ipsum dolor sit amet consectetur adipisicing elit.
+                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque
+                        molestias, laudantium sapiente, veritatis
+                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing
+                        elit. Hic quisquam, a tenetur eaque asperiores
+                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione.
+                        Debitis totam deleniti quibusdam hic.
                     </gameface-accordion-content>
                 </gameface-accordion-panel>
                 <gameface-accordion-panel slot="accordion-panel" disabled>
                     <gameface-accordion-header>Disabled Closed</gameface-accordion-header>
-                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
-                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.
+                    </gameface-accordion-content>
                 </gameface-accordion-panel>
                 <gameface-accordion-panel slot="accordion-panel" disabled expanded>
                     <gameface-accordion-header>Disabled Open</gameface-accordion-header>
-                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
-                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.
+                    </gameface-accordion-content>
                 </gameface-accordion-panel>
                 <gameface-accordion-panel slot="accordion-panel">
                     <gameface-accordion-header>Short Text</gameface-accordion-header>
-                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
-                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.
+                    </gameface-accordion-content>
                 </gameface-accordion-panel>
             </gameface-accordion-menu>
         </div>
@@ -55,27 +175,38 @@
             <gameface-accordion-menu multiple>
                 <gameface-accordion-panel slot="accordion-panel" expanded>
                     <gameface-accordion-header>Long Text</gameface-accordion-header>
-                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
-                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque molestias, laudantium sapiente, veritatis
-                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic quisquam, a tenetur eaque asperiores
-                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione. Debitis totam deleniti quibusdam hic.
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem
+                        ipsum dolor sit amet consectetur adipisicing elit.
+                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque
+                        molestias, laudantium sapiente, veritatis
+                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing
+                        elit. Hic quisquam, a tenetur eaque asperiores
+                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione.
+                        Debitis totam deleniti quibusdam hic.
                     </gameface-accordion-content>
                 </gameface-accordion-panel>
                 <gameface-accordion-panel slot="accordion-panel" disabled>
                     <gameface-accordion-header>Disabled Closed</gameface-accordion-header>
-                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
-                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.
+                    </gameface-accordion-content>
                 </gameface-accordion-panel>
                 <gameface-accordion-panel slot="accordion-panel" disabled expanded>
                     <gameface-accordion-header>Disabled Open</gameface-accordion-header>
-                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
-                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.
+                    </gameface-accordion-content>
                 </gameface-accordion-panel>
                 <gameface-accordion-panel slot="accordion-panel" expanded>
                     <gameface-accordion-header>Short Text</gameface-accordion-header>
-                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
-                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At
+                        nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.
+                    </gameface-accordion-content>
                 </gameface-accordion-panel>
             </gameface-accordion-menu>
         </div>

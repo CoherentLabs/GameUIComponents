@@ -22,7 +22,123 @@
 </head>
 
 <body>
-    <gameface-rangeslider orientation="horizontal" min="56" max="255" grid thumb>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            items: [
+                {
+                    attributes: {
+                        orientation: "horizontal", min: "56", max: "255", grid: '', thumb: ''
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "vertical", min: "56", max: "255", grid: '', thumb: ''
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "horizontal", min: "56", max: "255", grid: '', thumb: '', 'custom-handle': '#value'
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "vertical", min: "56", max: "255", grid: '', thumb: '', 'custom-handle': '#value'
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "horizontal", min: "56", max: "255", grid: '', thumb: '', 'two-handles': '', step: "20"
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "vertical", min: "56", max: "255", grid: '', thumb: '', 'two-handles': '', step: "20"
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "horizontal", min: "56", max: "255", grid: '', thumb: '', 'two-handles': '', step: "20", 'custom-handle-left': "#value", 'custom-handle-right': "#value"
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "vertical", min: "56", max: "255", grid: '', thumb: '', 'two-handles': '', step: "20", 'custom-handle-left': "#value", 'custom-handle-right': "#value"
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "horizontal", grid: '', thumb: '', value: "Hard",
+                        values: '["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "vertical", grid: '', thumb: '', value: "Hard",
+                        values: '["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "horizontal", grid: '', thumb: '', value: "Hard", 'custom-handle': "#value",
+                        values: '["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+                    },
+                    visible: true
+                },
+                {
+                    attributes: {
+                        orientation: "vertical", grid: '', thumb: '', value: "Hard", 'custom-handle': "#value",
+                        values: '["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+                    },
+                    visible: true
+                },
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.items.length);
+        //     model.items[index].visible = !model.items[index].visible;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
+    <gameface-rangeslider data-bind-for="item:{{model.items}}" data-bind-attributes="{{item}}"
+        data-bind-if="{{item.visible}}">
+    </gameface-rangeslider>
+    <span>Current value: <span id="value"></span></span>
+
+    <!-- <gameface-rangeslider orientation="horizontal" min="56" max="255" grid thumb>
     </gameface-rangeslider>
 
     <div class="flex-container">
@@ -84,7 +200,7 @@
             <span style="margin-left: 10px;">Current value: <span id="myValue8"></span></span>
         </div>
 
-    </div>
+    </div> -->
 
     <script src="./bundle.js"></script>
 </body>

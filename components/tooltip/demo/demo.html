@@ -62,10 +62,112 @@
             background-color: var(--default-color-gray);
             cursor: pointer;
         }
+
+        gameface-tooltip {
+            width: auto;
+        }
     </style>
 </head>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        function nextTutorial(index) {
+            model.tooltips[index].visible = false;
+            console.log(index)
+            if (index < model.tooltips.length) model.tooltips[index + 1].visible = true;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }
+        function prevTutorial(index) {
+            model.tooltips[index].visible = false;
+            if (index > 0) model.tooltips[index - 1].visible = true;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }
+        function toggleTutorial(index, visible) {
+            model.tooltips[index].visible = visible;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }
+        const model = {
+            tooltips: [
+                {
+                    title: 'Wellcome to Gameface components binding! (1/3)',
+                    message: 'Start tutorial by clicking onto the next button',
+                    attributes: { target: '.manual' },
+                    visible: true
+                },
+                {
+                    title: 'Auto! (2/3)',
+                    message: 'This is the automatic button',
+                    attributes: { target: '.auto' },
+                    visible: false
+                },
+                {
+                    title: 'Async! (3/3)',
+                    message: 'This is the async button.',
+                    attributes: { target: '.async' },
+                    visible: false
+                }
+            ]
+        };
+        function next() {
+            if (tutorial.currentStepIndex < model.tooltips.length) {
+                tutorial.currentStepIndex++;
+                tutorial.currentStep = model.tooltips[tutorial.currentStepIndex];
+            }
+            engine.updateWholeModel(tutorial);
+            engine.synchronizeModels();
+        }
+        function prev() {
+            if (tutorial.currentStepIndex > 0) {
+                tutorial.currentStepIndex--;
+                tutorial.currentStep = model.tooltips[tutorial.currentStepIndex];
+            }
+            engine.updateWholeModel(tutorial);
+            engine.synchronizeModels();
+        }
+        function toggle(visible) {
+            tutorial.visible = visible;
+            engine.updateWholeModel(tutorial);
+            engine.synchronizeModels();
+        }
+        const tutorial = {
+            currentStep: model.tooltips[0],
+            currentStepIndex: 0,
+            visible: true
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.createJSModel("tutorial", tutorial);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.items.length);
+        //     model.items[index].visible = !model.items[index].visible;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
     <div class="rows">
         <div class="column min-width-column">
             <p>Show or hide automatically</p>
@@ -80,7 +182,47 @@
             <div id="async" class="async">Hover over me</div>
         </div>
     </div>
-    <gameface-tooltip id="tutorial" target=".manual" on="click" position="bottom" off="click">
+    <!-- <gameface-tooltip data-bind-for="index,iter:{{model.tooltips}}" data-bind-if="{{iter.visible}}"
+        data-bind-attributes="{{iter}}">
+        <div slot="message">
+            <div class="container">
+                <div class="title" data-bind-value="{{iter.title}}">Welcome!</div>
+                <div class="text" data-bind-value="{{iter.message}}">
+                    Hello, this is your first tutorial.
+                    Click the next button to continue.
+                </div>
+                <div class="button" data-bind-if="{{index}}>0" data-bind-click="prevTutorial({{index}})">Prev</div>
+                <div class="button" data-bind-if="{{index}}<{{model.tooltips}}.length-1"
+                    data-bind-click="nextTutorial({{index}})">Next</div>
+                <div class="button" data-bind-if="{{index}}==={{model.tooltips}}.length-1"
+                    data-bind-click="toggleTutorial({{index}},false)">Finish</div>
+            </div>
+        </div>
+    </gameface-tooltip> -->
+    <gameface-tooltip data-bind-if="{{tutorial.visible}}" position="bottom"
+        data-bind-attributes="{{tutorial.currentStep}}">
+        <div slot="message">
+            <div class="container">
+                <div class="title" data-bind-value="{{tutorial.currentStep.title}}">Welcome!</div>
+                <div class="text" data-bind-value="{{tutorial.currentStep.message}}">
+                    Hello, this is your first tutorial.
+                    Click the next button to continue.
+                </div>
+                <div class="button" data-bind-if="{{tutorial.currentStepIndex}} >0" data-bind-click="prev()">Prev</div>
+                <div class="button" data-bind-if="{{tutorial.currentStepIndex}}<{{model.tooltips}}.length-1"
+                    data-bind-click="next()">Next</div>
+                <div class="button" data-bind-if="{{tutorial.currentStepIndex}}==={{model.tooltips}}.length-1"
+                    data-bind-click="toggle(false)">Finish</div>
+            </div>
+        </div>
+    </gameface-tooltip>
+    <script>
+        setTimeout(() => {
+            document.querySelector('gameface-tooltip').show()
+            engine.synchronizeModels();
+        }, 200)
+    </script>
+    <!-- <gameface-tooltip id="tutorial" target=".manual" on="click" position="bottom" off="click">
         <div slot="message">
             <div class="container">
                 <div class="title">Welcome!</div>
@@ -103,10 +245,10 @@
     </gameface-tooltip>
     <gameface-tooltip id="async-tooltip" target="#async" on="mouseenter" position="bottom" off="mouseleave" async>
         <div slot="message"></div>
-    </gameface-tooltip>
+    </gameface-tooltip> -->
 
     <script src="./bundle.js"></script>
-    <script>
+    <!-- <script>
         document.querySelector('.button').addEventListener('click', (e) => {
             document.querySelector('#tutorial').hide();
         });
@@ -115,7 +257,7 @@
         // Mock dynamic content
         function mockContentAsync() {
             return new Promise(resolve => {
-                if(timeout) clearTimeout(timeout);
+                if (timeout) clearTimeout(timeout);
 
                 timeout = setTimeout(() => {
                     resolve('Delayed message received!');
@@ -130,7 +272,7 @@
         }
 
         document.querySelector('#async').addEventListener('mouseenter', show);
-    </script>
+    </script> -->
 </body>
 
 </html>

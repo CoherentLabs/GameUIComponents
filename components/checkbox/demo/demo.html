@@ -11,6 +11,67 @@
 </head>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            items: [
+                {
+                    label: 'Enable music',
+                    visible: true,
+                    attributes: { disabled: '' }
+                },
+                {
+                    label: 'Enable cookies',
+                    visible: true,
+                    attributes: { checked: false }
+                },
+                {
+                    label: 'Enable bots',
+                    visible: true,
+
+
+                },
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.items.length);
+        //     model.items[index].visible = !model.items[index].visible;
+        //     model.visible = !model.visible;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
+    <gameface-checkbox class="checkbox-component" data-bind-for="iter:{{model.items}}" data-bind-if="{{iter.visible}}"
+        data-bind-attributes="{{iter}}">
+        <component-slot data-name="checkbox-background">
+            <div class="checkbox-background"></div>
+        </component-slot>
+        <component-slot data-name="label">
+            <span class="label" data-bind-value="{{iter.label}}">Enable Music</span>
+        </component-slot>
+    </gameface-checkbox>
     <gameface-checkbox class="checkbox-component">
         <component-slot data-name="checkbox-background">
             <div class="checkbox-background"></div>

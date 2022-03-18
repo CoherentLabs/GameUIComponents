@@ -1,5 +1,5 @@
-<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <html lang="en">
 <link rel="stylesheet" href="../../grid/dist/grid.production.min.css">
 <link rel="stylesheet" href="../coherent-gameface-components-theme.css">
@@ -53,7 +53,92 @@
 </style>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            items: [
+                {
+                    attributes: {
+                        col: '3',
+                        row: '2'
+                    },
+                    value: 1,
+                },
+                {
+                    attributes: {
+                        col: '3',
+                        row: '2'
+                    },
+                    value: 2,
+                },
+                {
+                    attributes: {
+                        col: '8',
+                        row: '8'
+                    },
+                    value: 3,
+                },
+                {
+                    value: 4,
+                },
+                {
+                    value: 5,
+                },
+                {
+                    value: 6,
+                },
+            ]
+        };
+
+        class Attributes {
+            constructor() {
+                this.state = null;
+            }
+
+            init(element, value) {
+                if (!model.attributes) return;
+                for (const name in model.attributes) {
+                    element.setAttribute(name, '');
+                }
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        setInterval(() => {
+            const index = Math.floor(Math.random() * 4);
+            model.items[index].visible = !model.items[index].visible;
+            model.visible = !model.visible;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }, 1000);
+    </script>
     <gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable>
+        <component-slot data-name="item" col="3" row="2" class="box">1</component-slot>
+        <component-slot data-name="item" col="3" row="2" class="box">2</component-slot>
+        <component-slot data-name="item" col="8" row="8" class="box">3</component-slot>
+        <component-slot data-name="item" class="box">4</component-slot>
+        <component-slot data-name="item" class="box">5</component-slot>
+        <component-slot data-name="item" class="box">6</component-slot>
+    </gameface-automatic-grid>
+    <gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable
+        data-bind-for="iter:{{model.items}}" data-bind-if="{{iter.visible}}">
+        <component-slot data-name="item" col="3" row="2" class="box">1</component-slot>
+        <component-slot data-name="item" col="3" row="2" class="box">2</component-slot>
+        <component-slot data-name="item" col="8" row="8" class="box">3</component-slot>
+        <component-slot data-name="item" class="box">4</component-slot>
+        <component-slot data-name="item" class="box">5</component-slot>
+        <component-slot data-name="item" class="box">6</component-slot>
+    </gameface-automatic-grid>
+    <gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable>
+        <component-slot data-name="item" data-bind-for="iter:{{model.items}}" data-bind-attributes="{{iter}}"
+            data-bind-value="{{iter.value}}" class="box">
+        </component-slot>
+    </gameface-automatic-grid>
+    <gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable
+        data-bind-if="{{model.visible}}">
         <component-slot data-name="item" col="3" row="2" class="box">1</component-slot>
         <component-slot data-name="item" col="3" row="2" class="box">2</component-slot>
         <component-slot data-name="item" col="8" row="8" class="box">3</component-slot>

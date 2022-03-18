@@ -70,6 +70,78 @@
 </head>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const template = ` <div class="form-element">
+                <span>Username (native input):</span>
+                <input name="username" label="User name:" type="text" minlength="5" maxlength="20"></input>
+                <span id="username-error"></span>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="url" label="Website:" type="url"></gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="email" label="Email:" type="email"></gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="password" label="Password:" type="password" minlength="3" maxlength="10">
+                </gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="number" label="Age:" type="number" min="15" max="200" step="10">
+                </gameface-text-field>
+            </div>
+            <button class="form-element" type="submit">Register</button>`;
+        const model = {
+            forms: [
+                {
+                    innerHTML: template,
+                    visible: false
+                },
+                {
+                    innerHTML: template,
+                    visible: true,
+                    attributes: { action: 'http://localhost:3000/user', method: 'post' }
+                },
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.menus.length);
+        //     model.menus[index].visible = !model.items[index].menus;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
+    <div class="form-wrapper">
+        <h2>Custom validation</h2>
+        <gameface-form-control data-bind-for="iter:{{model.forms}}" data-bind-if="{{iter.visible}}"
+            id="custom-validation-form-bound" data-bind-attributes="{{iter}}" data-bind-html="{{iter.innerHTML}}">
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-custom-validation"></span>
+    </div>
     <div class="form-wrapper">
         <h2>Custom validation</h2>
         <gameface-form-control id="custom-validation-form" action="http://localhost:3000/user" method="get">

@@ -53,6 +53,88 @@
 </head>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        function nextModal(index) {
+            model.modals[index].visible = false;
+            console.log(index)
+            if (index < model.modals.length) model.modals[index + 1].visible = true;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }
+        function prevModal(index) {
+            model.modals[index].visible = false;
+            if (index > 0) model.modals[index - 1].visible = true;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }
+        function toggleModal(index, visible) {
+            model.modals[index].visible = visible;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }
+        const footerTemplateStartModal = (currentModalIndex) => `<div class="actions">
+                    <button data-bind-click="nextModal(${currentModalIndex})" class=" modal-button discard controls">Next</button>
+                </div>`
+        const footerTemplateEndModal = (currentModalIndex) => `<div class="actions">
+                    <button data-bind-click="prevModal(${currentModalIndex})"  class=" modal-button confirm controls">Prev</button>
+                    <button data-bind-click="toggleModal(${currentModalIndex}, false)"  class=" modal-button confirm controls">Finish</button>
+                </div>`
+        const footerTemplate = (currentModalIndex) => `<div class="actions">
+                    <button data-bind-click="prevModal(${currentModalIndex})"  class=" modal-button confirm controls">Prev</button>
+                    <button data-bind-click="nextModal(${currentModalIndex})" class=" modal-button discard controls">Next</button>
+                </div>`
+        const model = {
+            modals: [
+                {
+                    visible: true,
+                    header: `Tutorial (1/3)`,
+                    body: `This is the tutorial of modal`,
+                    footer: footerTemplateStartModal(0)
+                },
+                {
+                    visible: false,
+                    header: `Tutorial (2/3)`,
+                    body: 'This is the second tutorial.',
+                    footer: footerTemplate(1)
+                },
+                {
+                    visible: false,
+                    header: `Tutorial (3/3)`,
+                    body: 'This is the last tutorial.',
+                    footer: footerTemplateEndModal(2)
+                }
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                console.log('update attributes')
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.menus.length);
+        //     model.menus[index].visible = !model.items[index].menus;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
     <p>Chose a name for your character.</p>
     <div class="character-customization">
         <input for="name" type="text" />
@@ -63,9 +145,23 @@
         <span class="name"></span>
     </p>
 
-    <gameface-modal>
+    <gameface-modal data-bind-for="modal:{{model.modals}}" data-bind-if="{{modal.visible}}">
+        <div slot="header" data-bind-html="{{modal.header}}">
+            Character name selection
+        </div>
+        <div slot="body" data-bind-html="{{modal.body}}">
+            <div class="confirmation-text">Are you sure you want to save this name?</div>
+        </div>
+        <div slot="footer" data-bind-html="{{modal.footer}}">
+            <div class="actions">
+                <button id="confirm" class="close modal-button confirm controls">Yes</button>
+                <button class="close modal-button discard controls">No</button>
+            </div>
+        </div>
+    </gameface-modal>
+    <!-- <gameface-modal>
         <div slot="header">
-                Character name selection
+            Character name selection
         </div>
         <div slot="body">
             <div class="confirmation-text">Are you sure you want to save this name?</div>
@@ -76,7 +172,8 @@
                 <button class="close modal-button discard controls">No</button>
             </div>
         </div>
-    </gameface-modal>
+    </gameface-modal> -->
     <script src="./bundle.js"></script>
 </body>
+
 </html>

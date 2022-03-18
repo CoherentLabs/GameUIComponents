@@ -58,9 +58,73 @@
 </head>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            text: [
+                { attributes: { type: 'text' }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', id: 'test1' }, visible: false, },
+                { attributes: { type: 'text', label: 'Text', value: "default value" }, visible: false, },
+                { attributes: { type: 'text', label: 'Text', value: "(disabled) default value", disabled: '' }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', value: "(read only) default value", readonly: '' }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', placeholder: 'Type some very very long text here to test overflow and placeholder' }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', placeholder: 'This input is disabled', disabled: '' }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', placeholder: 'This input is read only', readonly: '' }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', value: 'I am disabled but I have a value', placeholder: 'This input is disabled', disabled: '' }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', value: 'The value should be visible instead the placeholder', placeholder: 'Type some very very long text here to test overflow and placeholder', disabled: '' }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', minlength: "3", maxlength: "15", value: "min-max-test" }, visible: true, },
+                { attributes: { type: 'text', label: 'Text', class: "custom-text-field-styles" }, visible: false, },
+            ],
+            password: [
+                { attributes: { type: 'password' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', id: 'test1' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', value: "default value" }, visible: true, },
+                { attributes: { type: 'password', label: 'password', value: "(disabled) default value", disabled: '' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', value: "(read only) default value", readonly: '' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', placeholder: 'Type some very very long text here to test overflow and placeholder' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', placeholder: 'This input is disabled', disabled: '' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', placeholder: 'This input is read only', readonly: '' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', value: 'I am disabled but I have a value', placeholder: 'This input is disabled', disabled: '' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', value: 'The value should be visible instead the placeholder', placeholder: 'Type some very very long text here to test overflow and placeholder', disabled: '' }, visible: true, },
+                { attributes: { type: 'password', label: 'password', minlength: "3", maxlength: "15", value: "min-max-test" }, visible: true, },
+                { attributes: { type: 'password', label: 'password', class: "custom-text-field-styles" }, visible: true, },
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.items.length);
+        //     model.items[index].visible = !model.items[index].visible;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
     <div class="container">
         <div class="case">
             <h2>Text</h2>
+            <gameface-text-field data-bind-for="iter:{{model.text}}" data-bind-if="{{iter.visible}}" data-bind-attributes="{{iter}}">
+            </gameface-text-field>
+            <!-- 
             <gameface-text-field type="text"></gameface-text-field>
 
             <gameface-text-field id="test1" type="text" label="Text:"></gameface-text-field>
@@ -94,12 +158,14 @@
             <gameface-text-field type="text" minlength="3" maxlength="15" value="min-max-test" label="Text:">
             </gameface-text-field>
 
-            <gameface-text-field class="custom-text-field-styles" type="text" label="Text:"></gameface-text-field>
+            <gameface-text-field class="custom-text-field-styles" type="text" label="Text:"></gameface-text-field> -->
         </div>
         <div class="case">
             <h2>Password</h2>
 
-            <gameface-text-field type="password"></gameface-text-field>
+            <gameface-text-field data-bind-for="iter:{{model.password}}" data-bind-attributes="{{iter}}">
+            </gameface-text-field>
+            <!-- <gameface-text-field type="password"></gameface-text-field>
 
             <gameface-text-field type="password" label="Password:"></gameface-text-field>
 
@@ -132,7 +198,8 @@
             <gameface-text-field type="password" minlength="3" maxlength="15" value="min-max-test" label="Password:">
             </gameface-text-field>
 
-            <gameface-text-field class="custom-text-field-styles" type="password" label="Password:"></gameface-text-field>
+            <gameface-text-field class="custom-text-field-styles" type="password" label="Password:">
+            </gameface-text-field> -->
         </div>
         <div class="case">
             <h2>Search</h2>
@@ -227,11 +294,11 @@
     </div>
     <script src="./bundle.js"></script>
     <script>
-        document.querySelector('#test1').addEventListener('change', (event) => console.log('change event', event.target.value));
-        document.querySelector('#test1').addEventListener('blur', (event) => console.log('blur event', event.target.value));
-        document.querySelector('#test1').addEventListener('focus', (event) => console.log('focus event', event.target.value));
-        document.querySelector('#test1').addEventListener('input', (event) => console.log('input event', event.target.value));
-        document.querySelector('#test1').addEventListener('click', (event) => console.log('click event', event.currentTarget.value));
+        // document.querySelector('#test1').addEventListener('change', (event) => console.log('change event', event.target.value));
+        // document.querySelector('#test1').addEventListener('blur', (event) => console.log('blur event', event.target.value));
+        // document.querySelector('#test1').addEventListener('focus', (event) => console.log('focus event', event.target.value));
+        // document.querySelector('#test1').addEventListener('input', (event) => console.log('input event', event.target.value));
+        // document.querySelector('#test1').addEventListener('click', (event) => console.log('click event', event.currentTarget.value));
     </script>
 </body>
 

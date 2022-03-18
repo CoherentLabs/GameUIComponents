@@ -1,6 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,62 @@
     <link rel="stylesheet" href="../coherent-gameface-components-theme.css">
     <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            items: [
+                {
+                    headings: [
+                        { heading: 'Chapter One', panel: 'Chapter One Content', visible: true },
+                        { heading: 'Chapter Two', panel: 'Chapter Two Content', visible: false },
+                        { heading: 'Chapter Three', panel: 'Chapter Three Content', visible: true },
+                        { heading: 'Chapter Four', panel: 'Chapter Four Content', visible: true },
+                    ],
+                    visible: true,
+                },
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.items.length);
+        //     model.items[index].visible = !model.items[index].visible;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
+    <gameface-tabs data-bind-for="iter:{{model.items}}">
+        <tab-heading slot="tab" data-bind-for="heading:{{iter.headings}}">
+            <span data-bind-value="{{heading.head}}">Chapter One</span>
+        </tab-heading>
+        <tab-panel slot="panel" data-bind-for="heading:{{iter.headings}}" data-bind-value="{{heading.panel}}"
+            data-bind-if="{{heading.visible}}">Chapter
+            One Content</tab-panel>
+    </gameface-tabs>
     <gameface-tabs>
-        <tab-heading slot="tab">Chapter One</tab-heading>
+        <tab-heading slot="tab" data-bind-if="{{model.items[0].heading[1].visible}}">Chapter One</tab-heading>
         <tab-panel slot="panel">Chapter One Content</tab-panel>
         <tab-heading slot="tab">Chapter Two</tab-heading>
         <tab-panel slot="panel">Chapter Two Content</tab-panel>
@@ -21,4 +75,5 @@
     </gameface-tabs>
     <script src="./bundle.js"></script>
 </body>
+
 </html>

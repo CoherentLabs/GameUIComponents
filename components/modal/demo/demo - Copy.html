@@ -1,0 +1,33 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+</head>
+
+<body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            items: [
+                { value: 1, visible: true },
+                { value: 2, visible: true },
+                { value: 3, visible: true }
+            ]
+        };
+
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        class Custom extends HTMLElement { }
+
+        customElements.define('custom-element', Custom);
+    </script>
+    <custom-element data-bind-for="iter:{{model.items}}" data-bind-value="{{iter.value}}"
+        data-bind-if="{{iter.visible}}">
+        fafe
+    </custom-element>
+</body>
+
+</html>

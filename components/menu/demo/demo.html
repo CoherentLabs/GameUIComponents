@@ -25,7 +25,213 @@
 </head>
 
 <body>
-    <gameface-menu orientation="horizontal">
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            menus: [
+                {
+                    items: [{ content: 'Start Game' }, {
+                        innerHTML: `
+                    <menu-item slot="menu-item">
+            Settings
+            <gameface-left-menu>
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">
+                    Keyboard
+                    <gameface-left-menu>
+                        <menu-item slot="menu-item">Graphics</menu-item>
+                        <menu-item slot="menu-item">Keyboard</menu-item>
+                        <menu-item slot="menu-item">
+                            Mouse
+                            <gameface-left-menu>
+                                <menu-item slot="menu-item">Graphics</menu-item>
+                                <menu-item slot="menu-item">Keyboard</menu-item>
+                                <menu-item slot="menu-item">Mouse</menu-item>
+                            </gameface-left-menu>
+                        </menu-item>
+                    </gameface-left-menu>
+                </menu-item>
+                <menu-item slot="menu-item">
+                    Mouse
+                </menu-item>
+            </gameface-left-menu>
+        </menu-item>
+                    `},
+                    {
+                        content: 'Hero Gallery', attributes: { disabled: '' }
+                    },
+                    { content: 'Credits' }],
+                    visible: true
+                },
+                {
+                    items: [{ content: 'Start Game' }, {
+                        innerHTML: `
+                    <menu-item slot="menu-item">
+            Settings
+            <gameface-left-menu>
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">
+                    Keyboard
+                    <gameface-left-menu>
+                        <menu-item slot="menu-item">Graphics</menu-item>
+                        <menu-item slot="menu-item">Keyboard</menu-item>
+                        <menu-item slot="menu-item">
+                            Mouse
+                            <gameface-left-menu>
+                                <menu-item slot="menu-item">Graphics</menu-item>
+                                <menu-item slot="menu-item">Keyboard</menu-item>
+                                <menu-item slot="menu-item">Mouse</menu-item>
+                            </gameface-left-menu>
+                        </menu-item>
+                    </gameface-left-menu>
+                </menu-item>
+                <menu-item slot="menu-item">
+                    Mouse
+                </menu-item>
+            </gameface-left-menu>
+        </menu-item>
+                    `},
+                    {
+                        content: 'Hero Gallery', attributes: { disabled: '' }
+                    },
+                    { content: 'Credits' }],
+                    visible: false
+                },
+                {
+                    visible: true
+                },
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                console.log('update attributes')
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        setInterval(() => {
+            model.menus[2].visible = !model.menus[2].visible;
+            engine.updateWholeModel(model);
+            engine.synchronizeModels();
+        }, 5000);
+    </script>
+    <!-- <gameface-menu orientation="horizontal" data-bind-for="menu:{{model.menus}}">
+        <menu-item slot="menu-item">Start Game</menu-item>
+        <menu-item slot="menu-item">
+            Settings
+            <gameface-left-menu>
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">
+                    Keyboard
+                    <gameface-left-menu>
+                        <menu-item slot="menu-item">Graphics</menu-item>
+                        <menu-item slot="menu-item">Keyboard</menu-item>
+                        <menu-item slot="menu-item">
+                            Mouse
+                            <gameface-left-menu>
+                                <menu-item slot="menu-item">Graphics</menu-item>
+                                <menu-item slot="menu-item">Keyboard</menu-item>
+                                <menu-item slot="menu-item">Mouse</menu-item>
+                            </gameface-left-menu>
+                        </menu-item>
+                    </gameface-left-menu>
+                </menu-item>
+                <menu-item slot="menu-item">
+                    Mouse
+                </menu-item>
+            </gameface-left-menu>
+        </menu-item>
+        <menu-item slot="menu-item" disabled>Hero Gallery</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+    </gameface-menu> -->
+
+    <!-- <gameface-menu orientation="horizontal" data-bind-for="menu:{{model.menus}}" data-bind-if="{{menu.visible}}">
+        <menu-item slot="menu-item" data-bind-for="iter:{{menu.items}}"
+            data-bind-if="!!{{iter.content}} && !{{iter.innerHTML}}" data-bind-value="{{iter.content}}"
+            data-bind-attributes="{{iter}}">Start
+            Game</menu-item>
+        <menu-item slot="menu-item" data-bind-for="iter:{{menu.items}}"
+            data-bind-if="!!{{iter.innerHTML}} && !{{iter.content}}" data-bind-html="{{iter.innerHTML}}"
+            data-bind-attributes="{{iter}}">Start
+            Game</menu-item>
+    </gameface-menu> -->
+
+    <!-- <gameface-menu orientation="horizontal" data-bind-if="{{model.menus[2].visible}}">
+        <menu-item slot="menu-item">Start Game</menu-item>
+        <menu-item slot="menu-item">
+            Settings
+            <gameface-left-menu>
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">
+                    Keyboard
+                    <gameface-left-menu>
+                        <menu-item slot="menu-item">Graphics</menu-item>
+                        <menu-item slot="menu-item">Keyboard</menu-item>
+                        <menu-item slot="menu-item">
+                            Mouse
+                            <gameface-left-menu>
+                                <menu-item slot="menu-item">Graphics</menu-item>
+                                <menu-item slot="menu-item">Keyboard</menu-item>
+                                <menu-item slot="menu-item">Mouse</menu-item>
+                            </gameface-left-menu>
+                        </menu-item>
+                    </gameface-left-menu>
+                </menu-item>
+                <menu-item slot="menu-item">
+                    Mouse
+                </menu-item>
+            </gameface-left-menu>
+        </menu-item>
+        <menu-item slot="menu-item" data-bind-attributes="{{model.menus[1].items[2]}}">Hero Gallery</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+    </gameface-menu> -->
+    <gameface-menu orientation="horizontal" >
+        <menu-item slot="menu-item">Start Game</menu-item>
+        <menu-item slot="menu-item">
+            Settings
+            <gameface-left-menu>
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">
+                    Keyboard
+                    <gameface-left-menu>
+                        <menu-item slot="menu-item">Graphics</menu-item>
+                        <menu-item slot="menu-item">Keyboard</menu-item>
+                        <menu-item slot="menu-item">
+                            Mouse
+                            <gameface-left-menu>
+                                <menu-item slot="menu-item">Graphics</menu-item>
+                                <menu-item slot="menu-item">Keyboard</menu-item>
+                                <menu-item slot="menu-item">Mouse</menu-item>
+                            </gameface-left-menu>
+                        </menu-item>
+                    </gameface-left-menu>
+                </menu-item>
+                <menu-item slot="menu-item">
+                    Mouse
+                </menu-item>
+            </gameface-left-menu>
+        </menu-item>
+        <menu-item slot="menu-item" data-bind-attributes="{{model.menus[1].items[2]}}">Hero Gallery</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+    </gameface-menu>
+
+    <!-- <gameface-menu orientation="horizontal">
         <menu-item slot="menu-item">Start Game</menu-item>
         <menu-item slot="menu-item">
             Settings
@@ -91,7 +297,7 @@
         <menu-item slot="menu-item">Credits</menu-item>
         <menu-item slot="menu-item">Credits</menu-item>
         <menu-item slot="menu-item">Credits</menu-item>
-    </gameface-right-menu>
+    </gameface-right-menu> -->
 
     <script src="./bundle.js"></script>
 </body>

@@ -19,7 +19,7 @@ class RadialMenu extends HTMLElement {
 		this.openKeyCode = 0;
 		this.itemsCount = 0;
 
-		this.radialMenuCenter = {x: 0, y: 0};
+		this.radialMenuCenter = { x: 0, y: 0 };
 		this.itemSelector = {};
 		this.segmentDegrees = 0;
 		this.currentSegmentId = 0;
@@ -76,6 +76,7 @@ class RadialMenu extends HTMLElement {
 
 	populateItems() {
 		const itemsElement = this.getElementsByClassName('radial-menu-items')[0];
+		const oldItems = this.querySelectorAll('.radial-menu-item'); for(let i=0,len=oldItems.length;i<len;i++){oldItems[i].parentElement.removeChild(oldItems[i])};
 		this.segmentDegrees = 360 / this.itemsCount;
 
 		for (let i = 0; i < this.itemsCount; i++) {
@@ -103,7 +104,7 @@ class RadialMenu extends HTMLElement {
 	 *  @param {number} angleOffset
 	 */
 	getSegment(mousePosition, centerPosition, segmentCount, angleOffset) {
-		const directionVector = {x: 0, y: 0};
+		const directionVector = { x: 0, y: 0 };
 		directionVector.x = mousePosition.x - centerPosition.x;
 		directionVector.y = mousePosition.y - centerPosition.y;
 
@@ -140,7 +141,7 @@ class RadialMenu extends HTMLElement {
 	}
 
 	updateSegmentPosition(event) {
-		const mousePosition = {x: 0, y: 0};
+		const mousePosition = { x: 0, y: 0 };
 		mousePosition.x = event.clientX;
 		mousePosition.y = event.clientY;
 

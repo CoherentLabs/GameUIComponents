@@ -1,6 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<link rel="stylesheet" href="../coherent-gameface-components-theme.css">
 	<link rel="stylesheet" href="../style.css">
@@ -24,50 +25,227 @@
 			right: 5vw;
 			top: 15vh;
 		}
+
+		.radial-menu-component-three {
+			position: absolute;
+			right: 5vw;
+			bottom: 0;
+		}
+
+		.radial-menu-item-icon {
+			background-repeat: no-repeat;
+		}
 	</style>
 </head>
+
 <body>
-<!-- Provide the name of the object that holds the items in data-items attribute. -->
-<!-- Shift key to open. -->
-<gameface-radial-menu id="radial-menu-one"
-			 data-name="Radial Menu"
-			 data-change-event-name="radOneItemChanged"
-			 data-select-event-name="radOneItemSelected"
-			 data-open-key-code="shift"
-			 class="radial-menu-component"></gameface-radial-menu>
-<!-- Space key to open. -->
-<gameface-radial-menu id="radial-menu-two"
-			 data-name="Radial Menu 2"
-			 data-open-key-code="32"
-			 class="radial-menu-component-two"></gameface-radial-menu>
+	<script src="../../../cohtml.js"></script>
+	<script>
+		const model = {
+			items: [
+				{
+					visible: true,
+					items: [
+						{
+							id: '125',
+							name: 'Pistol X0RG',
+							imagePath: './images/weapon1.png',
+						},
+						{
+							id: '421',
+							name: 'Shotgun SBud',
+							imagePath: './images/weapon2.png',
+						},
+						{
+							id: '735',
+							name: 'Assault Brawl D0G',
+							imagePath: './images/weapon3.png',
+						},
+						{
+							id: '234',
+							name: 'Laser Pistol G0RG',
+							imagePath: './images/weapon4.png',
+						},
+						{
+							id: '635',
+							name: 'Big Fancy Gun V04',
+							imagePath: './images/weapon5.png',
+						},
+						{
+							id: '872',
+							name: 'Snippy Flagger',
+							imagePath: './images/weapon6.png',
+						},
+						{
+							id: '446',
+							name: 'Slide-Action DBud',
+							imagePath: './images/weapon2.png',
+						},
+						{
+							id: '247',
+							name: 'Laser Blagger',
+							imagePath: './images/weapon4.png',
+						}
+					],
+					attributes: {
+						'data-name': "Radial Menu",
+						'data-open-key-code': "shift"
+					},
+					class: 'radial-menu-component'
+				},
+				{
+					items: [
+						{
+							id: '125',
+							name: 'Pistol X0RG',
+							imagePath: './images/weapon1.png',
+						},
+						{
+							id: '421',
+							name: 'Shotgun SBud',
+							imagePath: './images/weapon2.png',
+						},
+						{
+							id: '735',
+							name: 'Assault Brawl D0G',
+							imagePath: './images/weapon3.png',
+						},
+						{
+							id: '234',
+							name: 'Laser Pistol G0RG',
+							imagePath: './images/weapon4.png',
+						},
+						{
+							id: '635',
+							name: 'Big Fancy Gun V04',
+							imagePath: './images/weapon5.png',
+						}
+					],
+					attributes: {
+						'data-name': "Radial Menu 2",
+						'data-open-key-code': "32"
+					},
+					visible: true,
+					class: 'radial-menu-component-two'
+				},
+				{
+					items: [
+						{
+							id: '125',
+							name: 'Pistol X0RG',
+							imagePath: './images/weapon1.png',
+						},
+						{
+							id: '421',
+							name: 'Shotgun SBud',
+							imagePath: './images/weapon2.png',
+						},
+						{
+							id: '735',
+							name: 'Assault Brawl D0G',
+							imagePath: './images/weapon3.png',
+						},
+						{
+							id: '234',
+							name: 'Laser Pistol G0RG',
+							imagePath: './images/weapon4.png',
+						},
+						{
+							id: '635',
+							name: 'Big Fancy Gun V04',
+							imagePath: './images/weapon5.png',
+						}
+					],
+					attributes: {
+						'data-name': "Radial Menu 3",
+						'data-open-key-code': "13"
+					},
+					visible: true,
+					class: 'radial-menu-component-three'
+				}
+			]
+		};
 
-<!-- The object that holds the items mentioned above. -->
-<script src="items-mocking.js" type="text/javascript"></script>
+		class Attributes {
+			changeAttributes(element, value) {
+				if (!value.attributes) return;
+				for (const name in value.attributes) {
+					element.setAttribute(name, value.attributes[name]);
+				}
+			}
 
-<script src="./bundle.js"></script>
+			init(element, value) {
+				this.changeAttributes(element, value);
+			}
 
-<script type="text/javascript">
-	const radialMenuOne = document.getElementById('radial-menu-one');
-	// Provide the items.
-	radialMenuOne.items = itemsModel.items;
+			update(element, value) {
+				this.changeAttributes(element, value);
+			}
+		}
 
-	const radialMenuTwo = document.getElementById('radial-menu-two');
-	// Provide the items.
-	radialMenuTwo.items = itemsModel.items;
+		class Items {
+			init(element, value) {
+				element.items = value;
+			}
+
+			update(element, value) {
+				element.items = value;
+			}
+		}
+
+		engine.registerBindingAttribute("attributes", Attributes);
+		engine.registerBindingAttribute("items", Items);
+		engine.createJSModel("model", model);
+		engine.synchronizeModels();
+		// setInterval(() => {
+		// 	const index = Math.floor(Math.random() * model.items.length);
+		// 	model.items[index].visible = !model.items[index].visible;
+		// 	engine.updateWholeModel(model);
+		// 	engine.synchronizeModels();
+		// }, 1000);
+
+	</script>
+	<!-- Provide the name of the object that holds the items in data-items attribute. -->
+	<!-- Shift key to open. -->
+	<gameface-radial-menu data-bind-for="menu:{{model.items}}" data-bind-items="{{menu.items}}"
+		data-bind-attributes="{{menu}}" data-bind-class="{{menu.class}}"
+		data-bind-if="{{menu.visible}}">
+	</gameface-radial-menu>
+	<!-- <gameface-radial-menu id="radial-menu-one" data-name="Radial Menu" data-change-event-name="radOneItemChanged"
+		data-select-event-name="radOneItemSelected" data-open-key-code="shift" class="radial-menu-component">
+	</gameface-radial-menu> -->
+	<!-- Space key to open. -->
+	<!-- <gameface-radial-menu id="radial-menu-two" data-name="Radial Menu 2" data-open-key-code="32"
+		class="radial-menu-component-two"></gameface-radial-menu> -->
+
+	<!-- The object that holds the items mentioned above. -->
+	<script src="items-mocking.js" type="text/javascript"></script>
+
+	<script src="./bundle.js"></script>
+
+	<!-- <script type="text/javascript">
+		const radialMenuOne = document.getElementById('radial-menu-one');
+		// Provide the items.
+		radialMenuOne.items = itemsModel.items;
+		// radialMenuOne.items = itemsModel.items;
+
+		const radialMenuTwo = document.getElementById('radial-menu-two');
+		// Provide the items.
+		radialMenuTwo.items = itemsModel.items;
 
 
-	// Listen to the same event names provided in the related attributes.
-	radialMenuOne.addEventListener('radOneItemChanged', () => {
-		console.log(`Highlighted item has changed.`);
-	});
+		// Listen to the same event names provided in the related attributes.
+		radialMenuOne.addEventListener('radOneItemChanged', () => {
+			console.log(`Highlighted item has changed.`);
+		});
 
-	radialMenuOne.addEventListener('radOneItemSelected', () => {
-		console.log(
-			('Item <' + radialMenuOne.items[radialMenuOne.currentSegmentId].name + '>' +
-			' with id: ' + radialMenuOne.items[radialMenuOne.currentSegmentId].id +
-			' in segment #' + radialMenuOne.currentSegmentId) + ' selected');
-	});
-</script>
+		radialMenuOne.addEventListener('radOneItemSelected', () => {
+			console.log(
+				('Item <' + radialMenuOne.items[radialMenuOne.currentSegmentId].name + '>' +
+					' with id: ' + radialMenuOne.items[radialMenuOne.currentSegmentId].id +
+					' in segment #' + radialMenuOne.currentSegmentId) + ' selected');
+		});
+	</script> -->
 </body>
 
 </html>

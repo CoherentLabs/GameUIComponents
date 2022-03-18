@@ -19,7 +19,101 @@
 </style>
 
 <body>
-    <div class="row">
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            items: [
+                {
+                    attributes: {},
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+                {
+                    attributes: { type: "inset" },
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+                {
+                    attributes: { type: 'text-inside' },
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+                {
+                    attributes: { checked: '' },
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+                {
+                    attributes: { type: "inset", checked: '' },
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+                {
+                    attributes: { type: "text-inside", checked: '' },
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+                {
+                    attributes: { checked: '', disabled: '' },
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+                {
+                    attributes: { type: "inset", checked: '', disabled: '' },
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+                {
+                    attributes: { type: "text-inside", checked: '', disabled: '' },
+                    on: 'custom on',
+                    off: 'custom off',
+                    visible: true,
+                },
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.items.length);
+        //     model.items[index].visible = !model.items[index].visible;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
+    <gameface-switch data-bind-for="iter:{{model.items}}" data-bind-attributes="{{iter}}"
+        data-bind-if="{{iter.visible}}">
+        <component-slot data-name="switch-unchecked"><span data-bind-value="{{iter.off}}">Off</span></component-slot>
+        <component-slot data-name="switch-checked"><span data-bind-value="{{iter.on}}">On</span></component-slot>
+    </gameface-switch>
+    <!-- <div class="row">
         <div class="cell"></div>
         <div class="cell">type="default"</div>
         <div class="cell">type="inset"</div>
@@ -108,7 +202,7 @@
                 <component-slot data-name="switch-checked">On</component-slot>
             </gameface-switch>
         </div>
-    </div>
+    </div> -->
 
     <script src="./bundle.js"></script>
 </body>

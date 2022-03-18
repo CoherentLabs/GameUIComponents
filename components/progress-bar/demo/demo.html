@@ -1,6 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<link rel="stylesheet" href="../coherent-gameface-components-theme.css">
 	<link rel="stylesheet" href="../style.css">
@@ -33,55 +34,116 @@
 		}
 	</style>
 </head>
+
 <body>
+	<script src="../../../cohtml.js"></script>
+	<script>
+		const model = {
+			items: [
+				{
+					visible: true,
+					progress: 0,
+					attributes: { 'data-animation-duration': 2000 }
+				},
+				{
+					progress: 0,
+					visible: true,
+				},
+				{
+					progress: 0,
+					visible: true,
+				}
+			]
+		};
 
-<div class="progress-bar-wrapper-one">
-	<div>0% -> 100% with 2000ms animation duration.</div>
-	<gameface-progress-bar
-		id="progress-bar-one"
-		data-animation-duration="2000">
-	</gameface-progress-bar>
-</div>
-<div class="progress-bar-wrapper-two">
-	<div>0% -> 100% with no animation.</div>
-	<gameface-progress-bar
-		id="progress-bar-two">
-	</gameface-progress-bar>
-</div>
-<div class="progress-bar-wrapper-three">
-	<div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
-	<gameface-progress-bar
-		id="progress-bar-three"
-		data-animation-duration="1000">
-	</gameface-progress-bar>
-</div>
+		class Attributes {
+			changeAttributes(element, value) {
+				if (!value.attributes) return;
+				for (const name in value.attributes) {
+					element.setAttribute(name, value.attributes[name]);
+				}
+			}
 
-<script src="./bundle.js"></script>
+			init(element, value) {
+				this.changeAttributes(element, value);
+			}
 
-<script type="text/javascript">
-	const progressBarOne = document.getElementById('progress-bar-one');
-	progressBarOne.setProgress(100);
+			update(element, value) {
+				this.changeAttributes(element, value);
+			}
+		}
 
-	function getRandomInt(min, max) {
-		min = Math.ceil(min);
-		max = Math.floor(max);
-		return Math.floor(Math.random() * (max - min) + min);
-	}
+		class Progress {
+			init(element, value) {
+				element.setProgress(value);
+			}
 
-	const progressBarTwo = document.getElementById('progress-bar-two');
-	let progressBarTwoValue = 0;
+			update(element, value) {
+				element.setProgress(value);
+			}
+		}
 
-	setInterval(() => {
-		(progressBarTwoValue < 100) ? progressBarTwoValue += 2 : progressBarTwoValue = 0;
-		progressBarTwo.setProgress(progressBarTwoValue);
-	}, 100);
+		engine.registerBindingAttribute("attributes", Attributes);
+		engine.registerBindingAttribute("progress", Progress);
+		engine.createJSModel("model", model);
+		engine.synchronizeModels();
+		setInterval(() => {
+			const index = Math.floor(Math.random() * model.items.length);
+			if (model.items[index].progress >= 100) return;
+			// model.menus[index].visible = !model.items[index].menus;
+			model.items[index].progress += 10;
+			engine.updateWholeModel(model);
+			engine.synchronizeModels();
+		}, 1000);
 
-	const progressBarThree = document.getElementById('progress-bar-three');
+	</script>
+	<div class="progress-bar-wrapper-one">
+		<gameface-progress-bar data-bind-for="bar:{{model.items}}" data-bind-progress="{{bar.progress}}"
+			data-bind-attributes="{{bar}}" data-bind-if="{{bar.visible}}">
+		</gameface-progress-bar>
+	</div>
+	<!-- <div class="progress-bar-wrapper-one">
+		<div>0% -> 100% with 2000ms animation duration.</div>
+		<gameface-progress-bar id="progress-bar-one" data-animation-duration="2000">
+		</gameface-progress-bar>
+	</div>
+	<div class="progress-bar-wrapper-two">
+		<div>0% -> 100% with no animation.</div>
+		<gameface-progress-bar id="progress-bar-two">
+		</gameface-progress-bar>
+	</div>
+	<div class="progress-bar-wrapper-three">
+		<div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
+		<gameface-progress-bar id="progress-bar-three" data-animation-duration="1000">
+		</gameface-progress-bar>
+	</div> -->
 
-	setInterval(() => {
-		progressBarThree.setProgress(getRandomInt(0, 100));
-	}, getRandomInt(250, 750));
-</script>
+	<script src="./bundle.js"></script>
+
+	<!-- <script type="text/javascript">
+		const progressBarOne = document.getElementById('progress-bar-one');
+		progressBarOne.setProgress(100);
+
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min) + min);
+		}
+
+		const progressBarTwo = document.getElementById('progress-bar-two');
+		let progressBarTwoValue = 0;
+
+		setInterval(() => {
+			(progressBarTwoValue < 100) ? progressBarTwoValue += 2 : progressBarTwoValue = 0;
+			progressBarTwo.setProgress(progressBarTwoValue);
+		}, 100);
+
+		const progressBarThree = document.getElementById('progress-bar-three');
+
+		setInterval(() => {
+			progressBarThree.setProgress(getRandomInt(0, 100));
+		}, getRandomInt(250, 750));
+	</script> -->
 </body>
 
 </html>

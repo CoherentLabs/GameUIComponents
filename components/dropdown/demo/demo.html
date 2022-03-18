@@ -1,6 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="../coherent-gameface-components-theme.css">
     <link rel="stylesheet" href="../node_modules/coherent-gameface-scrollable-container/style.css">
@@ -8,36 +9,122 @@
     <link rel="stylesheet" href="../node_modules/coherent-gameface-slider/styles/vertical.css">
     <link rel="stylesheet" href="../style.css">
     <style>
-         scrollable-content,
-            .wrapper {
-                width: 100%;
-                height: 200px;
-            }
+        scrollable-content,
+        .wrapper {
+            width: 100%;
+            height: 200px;
+        }
 
-            .vertical-slider-wrapper {
-                height: 200px;
-            }
+        .vertical-slider-wrapper {
+            height: 200px;
+        }
 
-            .selected {
-                flex-wrap: wrap;
-            }
+        .selected {
+            flex-wrap: wrap;
+        }
 
-            .row {
-                display: flex;
-                flex-direction: row;
-                align-items: flex-start;
-            }
+        .row {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+        }
 
-            .column {
-                width: 33%;
-                min-width: 200px;
-                display: flex;
-                justify-content: center;
-            }
+        .column {
+            width: 33%;
+            min-width: 200px;
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const options = [
+            { value: 'Cat1' },
+            { value: 'Cat1', attributes: { disabled: '' } },
+            { value: 'Cat1', attributes: { disabled: '' } },
+            { value: 'Cat3' },
+            { value: 'Cat4' },
+            { value: 'Dog' },
+            { value: 'Giraffe' },
+            { value: 'Lion' },
+            { value: 'Pig', attributes: { disabled: '' } },
+            { value: 'Eagle' },
+            { value: 'Parrot' },
+            { value: 'Last Parrot', attributes: { disabled: '' } },
+            { value: 'Last Parrota', attributes: { disabled: '' } },
+            { value: 'Last Parrot' },
+        ];
+        const model = {
+            menus: [
+                {
+                    options: options,
+                    visible: true
+                },
+                {
+                    options: options,
+                    visible: true,
+                    attributes: { multiple: '' }
+                },
+                {
+                    options: options,
+                    visible: true,
+                    attributes: { multiple: '', collapsable: '' }
+                },
+            ]
+        };
+
+        class Attributes {
+            constructor() {
+                this.state = null;
+            }
+
+            init(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, '');
+                }
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.menus.length);
+        //     model.menus[index].visible = !model.menus[index].visible;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
+    <!-- <gameface-dropdown class="gameface-dropdown-component" id="dropdown-default" data-bind-for="iter:{{model.menus}}"
+        data-bind-if="{{iter.visible}}" data-bind-attributes="{{iter}}">
+        <dropdown-option slot="option" data-bind-for="opt_iter:{{iter.options}}" data-bind-value="{{opt_iter.value}}"
+            data-bind-attributes="{{opt_iter}}">Cat1</dropdown-option>
+    </gameface-dropdown> -->
+    <gameface-dropdown class="gameface-dropdown-component" data-bind-if="!!{{model.menus[0].visible}}" id="dropdown-default">
+        <dropdown-option slot="option" data-bind-for="opt_iter:{{model.menus[0].options}}" data-bind-value="{{opt_iter.value}}"
+            data-bind-attributes="{{opt_iter}}">Cat1</dropdown-option>
+    </gameface-dropdown>
+    <gameface-dropdown class="gameface-dropdown-component" data-bind-if="!!{{model.menus[0].visible}}" id="dropdown-default">
+        <dropdown-option slot="option">Cat1</dropdown-option>
+        <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+        <dropdown-option slot="option" disabled>Cat1</dropdown-option>
+        <dropdown-option slot="option">Cat3</dropdown-option>
+        <dropdown-option slot="option">Cat4</dropdown-option>
+        <dropdown-option slot="option">Dog</dropdown-option>
+        <dropdown-option slot="option">Giraffe</dropdown-option>
+        <dropdown-option slot="option">Lion</dropdown-option>
+        <dropdown-option slot="option" disabled>Pig</dropdown-option>
+        <dropdown-option slot="option">Eagle</dropdown-option>
+        <dropdown-option slot="option">Parrot</dropdown-option>
+        <dropdown-option slot="option" disabled>Last Parrot</dropdown-option>
+        <dropdown-option slot="option" disabled>Last Parrota</dropdown-option>
+        <dropdown-option slot="option">Last Parrot</dropdown-option>
+    </gameface-dropdown>
     <div class="row">
         <div class="column">
             <span>Single</span>
@@ -87,7 +174,8 @@
             </gameface-dropdown>
         </div>
         <div class="column">
-            <gameface-dropdown class="gameface-dropdown-component" multiple collapsable id="dropdown-multiple-collapsable">
+            <gameface-dropdown class="gameface-dropdown-component" multiple collapsable
+                id="dropdown-multiple-collapsable">
                 <dropdown-option slot="option">Cat1</dropdown-option>
                 <dropdown-option slot="option" disabled>Cat1</dropdown-option>
                 <dropdown-option slot="option" disabled>Cat1</dropdown-option>
@@ -108,4 +196,5 @@
 
     <script src="./bundle.js"></script>
 </body>
+
 </html>

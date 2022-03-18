@@ -1,0 +1,143 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="horizontal.css">
+    <link rel="stylesheet" href="vertical.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dynamic-content {
+            display: none;
+        }
+
+        div.visible {
+            display: block !important;
+        }
+
+        .fixed-width .wrapper {
+            width: 45vw;
+            height: 60vh;
+        }
+
+        .fixed-width .vertical-slider-wrapper {
+            height: 60vh;
+        }
+
+        .grid {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .grid button {
+            margin: 15px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="cohtml.js"></script>
+    <script>
+        const model = {
+            containers: [
+                {
+                    visible: true,
+                    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu urna tempus, ultricies lacus fermentum,
+                posuere arcu. Ut eget elit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                Suspendisse feugiat auctor finibus. Ut in euismod magna. Fusce eget dapibus arcu. Curabitur laoreet elit
+                id lobortis tristique. Sed vel finibus turpis. Nulla sed lectus ante. Sed rutrum libero odio, non congue
+                erat hendrerit non. Nunc in vulputate dolor, et dapibus neque. Sed accumsan sapien fermentum facilisis
+                pharetra. Pellentesque fermentum, ligula faucibus suscipit elementum, erat ante ullamcorper tortor, id
+                cursus mi eros ut lorem.`,
+                    html: `<div class="actions">
+                    <button data-bind-click="console.log('alabala')"  class="close modal-button confirm controls">Click</button>
+                </div>`
+                },
+                {
+                    visible: true,
+                    html: `<div class="actions">
+                    <button data-bind-click="console.log('alabala')"  class="close modal-button confirm controls">Click</button>
+                </div>`,
+                    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu urna tempus, ultricies lacus fermentum,
+                posuere arcu. Ut eget elit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                Suspendisse feugiat auctor finibus. Ut in euismod magna. Fusce eget dapibus arcu. Curabitur laoreet elit
+                id lobortis tristique. Sed vel finibus turpis. Nulla sed lectus ante. Sed rutrum libero odio, non congue
+                erat hendrerit non. Nunc in vulputate dolor, et dapibus neque. Sed accumsan sapien fermentum facilisis
+                pharetra. Pellentesque fermentum, ligula faucibus suscipit elementum, erat ante ullamcorper tortor, id
+                cursus mi eros ut lorem.`
+                },
+                {
+                    visible: true,
+                    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu urna tempus, ultricies lacus fermentum,
+                posuere arcu. Ut eget elit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                Suspendisse feugiat auctor finibus. Ut in euismod magna. Fusce eget dapibus arcu. Curabitur laoreet elit
+                id lobortis tristique. Sed vel finibus turpis. Nulla sed lectus ante. Sed rutrum libero odio, non congue
+                erat hendrerit non. Nunc in vulputate dolor, et dapibus neque. Sed accumsan sapien fermentum facilisis
+                pharetra. Pellentesque fermentum, ligula faucibus suscipit elementum, erat ante ullamcorper tortor, id
+                cursus mi eros ut lorem.`,
+                    html: `<div class="actions">
+                    <button data-bind-click="console.log('alabala')"  class="close modal-button confirm controls">Click</button>
+                </div>`
+                },
+                {
+                    visible: true,
+                    content: `inibus turpis. Nulla sed lectus ante. Sed rutrum libero odio, non congue
+                erat hendrerit non. N`,
+                    items: ['item1', 'item2', 'item3'],
+                    html: `<div class="actions">
+                    <button data-bind-click="console.log('alabala')"  class="close modal-button confirm controls">Click</button>
+                </div>`
+                },
+            ]
+        };
+
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.containers.length);
+        //     console.log(index)
+        //     model.containers[index].visible = !model.containers[index].visible;
+        //     model.containers[index].content += `; Etiam eu gravida lorem. Phasellus accumsan porta lacinia. Nam eu augue non dolor consectetur
+        //         hendrerit vitae non massa. Etiam commodo vel dolor eu vestibulum. Ut euismod tempus urna, et commodo
+        //         nibh varius sit amet. Nam posuere ornare faucibus. In hac habitasse platea dictumst. Integer elit
+        //         tellus, vehicula nec odio ac, efficitur ultricies nunc. Sed laoreet volutpat facilisis. Integer orci
+        //         massa, posuere sed enim ut, vulputa`;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
+    <div class="grid">
+        <!-- <gameface-scrollable-container class="scrollable-container-component fixed-width auto"
+            data-bind-for="iter:{{model.containers}}" data-bind-if="!!{{iter.visible}}" automatic>
+            <component-slot data-name="scrollable-content">
+                <div data-bind-value="{{iter.content}}"></div>
+                <div data-bind-html="{{iter.html}}"></div>
+                <button data-bind-for="item:{{iter.items}}" data-bind-value="{{item}}"></button>
+            </component-slot>
+        </gameface-scrollable-container> -->
+        <!-- <gameface-scrollable-container class="scrollable-container-component fixed-width auto" automatic>
+            <component-slot data-name="scrollable-content">
+                <div data-bind-for="iter:{{model.containers}}" data-bind-if="{{iter.visible}}">
+                    <div data-bind-value="{{iter.content}}"></div>
+                    <div data-bind-html="{{iter.html}}"></div>
+                    <button data-bind-for="item:{{iter.items}}" data-bind-value="{{item}}"></button>
+                </div>
+            </component-slot>
+        </gameface-scrollable-container> -->
+        <gameface-scrollable-container class="scrollable-container-component fixed-width auto" automatic>
+            <component-slot data-name="scrollable-content">
+                <div data-bind-for="iter:{{model.containers}}" data-bind-if="!!{{iter.visible}}">
+                    <div data-bind-value="{{iter.content}}"></div>
+                    <div data-bind-html="{{iter.html}}"></div>
+                    <button data-bind-for="item:{{iter.items}}" data-bind-value="{{item}}"></button>
+                </div>
+            </component-slot>
+        </gameface-scrollable-container>
+    </div>
+    <script src="./bundle.js"></script>
+</body>
+
+</html>

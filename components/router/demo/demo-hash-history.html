@@ -87,11 +87,69 @@
 </style>
 
 <body>
+    <script src="../../../cohtml.js"></script>
+    <script>
+        const model = {
+            items: [
+                {
+                    attributes: { to: '/', class: 'active' },
+                    name: 'Home',
+                    visible: true,
+                },
+                {
+                    attributes: { to: '/start-game' },
+                    name: 'Start Game', visible: true,
+
+                },
+                {
+                    attributes: { to: '/heroes' }, visible: true,
+
+                    name: 'Heroes'
+                },
+                {
+                    attributes: { to: '/missing' }, visible: true,
+
+                    name: 'Missing page'
+                },
+            ]
+        };
+
+        class Attributes {
+            changeAttributes(element, value) {
+                if (!value.attributes) return;
+                for (const name in value.attributes) {
+                    element.setAttribute(name, value.attributes[name]);
+                }
+            }
+
+            init(element, value) {
+                this.changeAttributes(element, value);
+            }
+
+            update(element, value) {
+                this.changeAttributes(element, value);
+            }
+        }
+
+        engine.registerBindingAttribute("attributes", Attributes);
+        engine.createJSModel("model", model);
+        engine.synchronizeModels();
+
+        // setInterval(() => {
+        //     const index = Math.floor(Math.random() * model.items.length);
+        //     model.items[index].visible = !model.items[index].visible;
+        //     engine.updateWholeModel(model);
+        //     engine.synchronizeModels();
+        // }, 1000);
+    </script>
     <div class="menu">
-        <gameface-route activeClass="active" class="active" to="/">Home</gameface-route>
+        <gameface-route data-bind-for="iter:{{model.items}}" data-bind-if="{{iter.visible}}"
+            data-bind-value="{{iter.name}}" activeClass="active" data-bind-attributes="{{iter}}" to="/">Home
+        </gameface-route>
+        <!-- <gameface-route activeClass="active" class="active" to="/">Home</gameface-route>
         <gameface-route activeClass="active" to="/start-game">Start Game</gameface-route>
         <gameface-route activeClass="active" to="/heroes">Heroes</gameface-route>
-        <gameface-route activeClass="active" to="/missing">Missing Page</gameface-route>
+        <gameface-route activeClass="active" to="/missing">Missing Page</gameface-route> -->
     </div>
 
     <router-view></router-view>
