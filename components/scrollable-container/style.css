@@ -7,13 +7,13 @@ body {
     background-color: #ebebeb;
 }
 
-.slider-component,
-.vertical-slider-component {
+.guic-slider-component,
+.guic-vertical-slider-component {
     width: 10%;
     display: none;
 }
 
-.wrapper {
+.guic-scrollable-container-wrapper {
     position: relative;
     width: 80vw;
     height: 90vh;
@@ -21,7 +21,7 @@ body {
     flex-direction: row;
 }
 
-.scrollable-container {
+.guic-scrollable-container {
     width: 90%;
     overflow: scroll;
     background-color: #ebebeb;

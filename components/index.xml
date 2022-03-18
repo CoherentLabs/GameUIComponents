@@ -28,22 +28,23 @@ Usage # The automatic-grid component comes with UMD and CJS builds.
 Usage with UMD modules: # import the components library: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
 import the automatic-grid component: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
 add the automatic-grid component to your html: &amp;lt;gameface-automatic-grid&amp;gt;&amp;lt;/gameface-automatic-grid&amp;gt;
-This is all!</description></item><item><title>Checkbox</title><link>https://CoherentLabs.github.io/GameUIComponents/components/checkbox/</link><pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate><guid>https://CoherentLabs.github.io/GameUIComponents/components/checkbox/</guid><description>The checkbox is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
-Installation # npm i coherent-gameface-checkbox
-Usage # The checkbox component comes with UMD and CJS builds.
-Usage with UMD modules: # import the components library: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
-import the checkbox component: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-checkbox/umd/checkbox.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
-add the checkbox component to your html: &amp;lt;gameface-checkbox class=&amp;quot;checkbox-component&amp;quot;&amp;gt;&amp;lt;/gameface-checkbox&amp;gt;
 This is all!</description></item><item><title>Grid</title><link>https://CoherentLabs.github.io/GameUIComponents/components/grid/</link><pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate><guid>https://CoherentLabs.github.io/GameUIComponents/components/grid/</guid><description>The grid is part of the Gameface components suite. It provides a set of styles which enable the creation of a responsive grid.
 Installation # npm i coherent-gameface-grid
 Usage # First you need to import the grid library:
 &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;&amp;lt;path_to_grid.css&amp;gt;&amp;quot;&amp;gt;
 Or if you use a css-loader:
 import grid from 'coherent-gameface-grid';
-The grid is made up of rows and columns. It is like a table. Each cell has a responsive width.</description></item><item><title>Modal</title><link>https://CoherentLabs.github.io/GameUIComponents/components/modal/</link><pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate><guid>https://CoherentLabs.github.io/GameUIComponents/components/modal/</guid><description>The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
-Installation # npm i coherent-gameface-modal
-Usage # The modal component comes with UMD and CJS builds.
+The grid is made up of rows and columns. It is like a table. Each cell has a responsive width.</description></item><item><title>Progress Bar</title><link>https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/</link><pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate><guid>https://CoherentLabs.github.io/GameUIComponents/components/progress-bar/</guid><description>The progress-bar is part of the Gameface custom components suite.
+Installation # npm i coherent-gameface-progress-bar
+Usage # The progress-bar component comes with UMD and CJS builds.
 Usage with UMD modules: # import the components library: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
-import the modal component: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-modal/umd/modal.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
-add the modal component to your html: &amp;lt;gameface-modal&amp;gt;&amp;lt;/gameface-modal&amp;gt;
-This is all!</description></item></channel></rss>
+import the progress-bar component: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-progress-bar/umd/progress-bar.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+add the progress-bar component to your html: &amp;lt;gameface-progress-bar&amp;gt;&amp;lt;/gameface-progress-bar&amp;gt;
+Configuration and usage is explained further down the document.
+Import using ES modules:</description></item><item><title>Radial Menu</title><link>https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/</link><pubDate>Thu, 08 Oct 2020 14:00:45 +0000</pubDate><guid>https://CoherentLabs.github.io/GameUIComponents/components/radial-menu/</guid><description>The radial-menu is part of the Gameface custom Components suite.
+Installation # npm i coherent-gameface-radial-menu
+Usage # The radial-menu Component comes with UMD and CJS builds.
+Usage with UMD modules: # import the Components library: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-components/umd/components.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+import the radial-menu Component: &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-radial-menu/umd/radial-menu.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+add the radial-menu Component to your html: &amp;lt;gameface-radial-menu&amp;gt;&amp;lt;/gameface-radial-menu&amp;gt;
+This is all! Load the file in Gameface to see the radial-menu.</description></item></channel></rss>
