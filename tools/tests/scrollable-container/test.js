@@ -45,7 +45,7 @@ Ut pretium mi in purus interdum, ut mattis tortor vulputate. Nunc eu blandit mag
 Nam at justo enim. Nam dictum facilisis mattis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce eget blandit ex, nec elementum erat. Vivamus purus purus, bibendum quis hendrerit sed, vehicula vitae arcu. Nam enim ligula, rutrum vitae imperdiet vitae, tristique id urna. Aenean rutrum sed nunc vel ultricies. Suspendisse iaculis, dolor vel blandit blandit, lacus tellus sodales nulla, id aliquam est nisl eu ligula. Nulla fermentum neque quis metus tristique scelerisque. Nulla aliquam vel libero sit amet mollis. Nulla ut consequat nisl. Proin eu dignissim nisi.
 </div>`;
 
-const dynamicScrollbarTemplate = `<gameface-scrollable-container class="scrollable-container">
+const dynamicScrollbarTemplate = `<gameface-scrollable-container class="guic-scrollable-container">
 <component-slot data-name="scrollable-content">${longContent}</component-slot>
 </gameface-scrollable-container>`;
 
@@ -72,11 +72,11 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should be rendered', () => {
-        assert(document.querySelector('.scrollable-container') !== null, 'Scrollable container is not rendered.');
+        assert(document.querySelector('.guic-scrollable-container') !== null, 'Scrollable container is not rendered.');
     });
 
     it('Should show scrollbar if the content overflows', () => {
-        const style = getComputedStyle(document.querySelector('.slider-component'));
+        const style = getComputedStyle(document.querySelector('.guic-slider-component'));
 
         return createAsyncSpec(() => {
             assert(style.display === 'block', 'The scrollbar is not visible.');
@@ -84,12 +84,12 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should scroll using the control buttons', async () => {
-        const handle = document.querySelector('.handle');
-        const downButton = document.querySelector('.down');
+        const handle = document.querySelector('.guic-slider-vertical-handle');
+        const downButton = document.querySelector('.guic-slider-arrow-down');
 
         await createAsyncSpec(() => {
             assert(parseInt(getComputedStyle(handle).top) === 0, 'The scrollbar handle is not at the top.');
-            downButton.dispatchEvent(new CustomEvent('mousedown', {}));
+            downButton.dispatchEvent(new CustomEvent('mousedown', { bubbles: true }));
         });
 
         await createAsyncSpec(() => {

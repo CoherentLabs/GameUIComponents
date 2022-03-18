@@ -83,8 +83,8 @@ Use the slots to put customized background or label.
     </div>
     <div slot="footer">
         <div class="actions">
-            <button id="confirm" class="close modal-button confirm controls">Yes</button>
-            <button class="close modal-button discard controls">No</button>
+            <button id="confirm" class="close guic-modal-button confirm controls">Yes</button>
+            <button class="close guic-modal-button discard controls">No</button>
         </div>
     </div>
 </gameface-modal>

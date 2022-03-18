@@ -51,7 +51,7 @@ class GamefaceRoute extends HTMLElement {
     get activeClass() {
         return this.getAttribute('activeClass') ||
             this.parentElement.getAttribute('activeClass') ||
-            'gameface-route-active';
+            'guic-route-active';
     }
 
     // eslint-disable-next-line require-jsdoc

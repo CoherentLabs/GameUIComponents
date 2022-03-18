@@ -131,8 +131,8 @@ function dispatchKeyboardEvent(keyCode, element) {
 // eslint-disable-next-line max-lines-per-function
 describe('Dropdown Tests', () => {
     afterAll(() => {
-        // Reset .options to avoid mixing the options re-added by the caching feature which messes up the tests.
-        document.querySelector('.dropdown-test-wrapper').querySelector('.options').innerHTML = '';
+        // Reset .guic-dropdown-options to avoid mixing the options re-added by the caching feature which messes up the tests.
+        document.querySelector('.dropdown-test-wrapper').querySelector('.guic-dropdown-options').innerHTML = '';
         cleanTestPage('.dropdown-test-wrapper');
     });
 
@@ -143,7 +143,7 @@ describe('Dropdown Tests', () => {
         });
 
         it('Should be rendered', () => {
-            assert(document.querySelector('.dropdown') !== null, 'Dropdown element is null');
+            assert(document.querySelector('.guic-dropdown') !== null, 'Dropdown element is null');
         });
 
         it('Should have default value', () => {
@@ -153,29 +153,29 @@ describe('Dropdown Tests', () => {
 
         it('Should have the first option selected by default', () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            assert(dropdown.querySelector('.selected').textContent === firstValue, 'Selected value is not the first value.');
+            assert(dropdown.querySelector('.guic-dropdown-selected-option').textContent === firstValue, 'Selected value is not the first value.');
         });
 
         it('Should toggle the options list on click', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             click(selectedElPlaceholder);
 
             await createAsyncSpec(() => {
-                assert(dropdown.querySelector('.options-container').classList.contains('hidden') === false, 'Dropdown has class hidden.');
+                assert(dropdown.querySelector('.guic-dropdown-options-container').classList.contains('guic-dropdown-hidden') === false, 'Dropdown has class hidden.');
             });
 
             click(selectedElPlaceholder);
 
             return createAsyncSpec(() => {
-                assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not have class hidden.');
+                assert(dropdown.querySelector('.guic-dropdown-options-container').classList.contains('guic-dropdown-hidden') === true, 'Dropdown does not have class hidden.');
             });
         });
 
         it('Should change the selected option on click', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             click(selectedElPlaceholder);
 
@@ -183,13 +183,13 @@ describe('Dropdown Tests', () => {
             click(option);
 
             return createAsyncSpec(() => {
-                assert(dropdown.querySelector('.selected').textContent === changedValue, `Changed value is not ${changedValue}`);
+                assert(dropdown.querySelector('.guic-dropdown-selected-option').textContent === changedValue, `Changed value is not ${changedValue}`);
             });
         });
 
         it('Should select using keyboard ARROW_DOWN and ARROW_UP keys', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             await createAsyncSpec(() => {
                 click(selectedElPlaceholder);
@@ -212,7 +212,7 @@ describe('Dropdown Tests', () => {
 
         it('Should select using keyboard ARROW_RIGHT and ARROW_LEFT keys', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             await createAsyncSpec(() => {
                 click(selectedElPlaceholder);
@@ -235,10 +235,10 @@ describe('Dropdown Tests', () => {
 
         it('Should select using keyboard HOME and END keys', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
-            // The reset of the .options is needed because of the caching feature of the dropdown.
-            const options = dropdown.querySelector('.options');
+            // The reset of the .guic-dropdown-options is needed because of the caching feature of the dropdown.
+            const options = dropdown.querySelector('.guic-dropdown-options');
             options.innerHTML = `<dropdown-option slot="option">${firstValue}</dropdown-option>
 <dropdown-option slot="option">${lastValue}</dropdown-option>
 <dropdown-option slot="option" disabled="disabled">Disabled Parrot</dropdown-option>`;
@@ -255,7 +255,7 @@ describe('Dropdown Tests', () => {
 
         it('Should close the options list using keyboard ENTER key', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             await createAsyncSpec(() => {
                 click(selectedElPlaceholder);
@@ -266,13 +266,13 @@ describe('Dropdown Tests', () => {
             });
 
             return createAsyncSpec(() => {
-                assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not contain class hidden.');
+                assert(dropdown.querySelector('.guic-dropdown-options-container').classList.contains('guic-dropdown-hidden') === true, 'Dropdown does not contain class hidden.');
             });
         });
 
         it('Should close the options list using keyboard ESC key', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             await createAsyncSpec(() => {
                 click(selectedElPlaceholder);
@@ -283,7 +283,7 @@ describe('Dropdown Tests', () => {
             });
 
             return createAsyncSpec(() => {
-                assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not contain class hidden.');
+                assert(dropdown.querySelector('.guic-dropdown-options-container').classList.contains('guic-dropdown-hidden') === true, 'Dropdown does not contain class hidden.');
             });
         });
 
@@ -293,14 +293,14 @@ describe('Dropdown Tests', () => {
             click(document.querySelector('.dropdown-test-wrapper'));
 
             createAsyncSpec(() => {
-                assert(dropdown.querySelector('.options-container').classList.contains('hidden') === true, 'Dropdown does not have class hidden.');
+                assert(dropdown.querySelector('.guic-dropdown-options-container').classList.contains('guic-dropdown-hidden') === true, 'Dropdown does not have class hidden.');
                 done();
             });
         });
 
         it('Should select the next enabled option', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             click(selectedElPlaceholder);
 
@@ -310,7 +310,7 @@ describe('Dropdown Tests', () => {
             });
 
             await createAsyncSpec(() => {
-                assert(document.querySelector('gameface-dropdown').querySelector('.selected').textContent === 'Lion', 'Dropdown value is not Lion.');
+                assert(document.querySelector('gameface-dropdown').querySelector('.guic-dropdown-selected-option').textContent === 'Lion', 'Dropdown value is not Lion.');
                 click(selectedElPlaceholder);
                 dispatchKeyboardEvent(KEY_CODES.ARROW_RIGHT, dropdown);
             });
@@ -322,7 +322,7 @@ describe('Dropdown Tests', () => {
 
         it('Should select the previous enabled option', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             click(selectedElPlaceholder);
 
@@ -332,7 +332,7 @@ describe('Dropdown Tests', () => {
             });
 
             await createAsyncSpec(() => {
-                assert(document.querySelector('gameface-dropdown').querySelector('.selected').textContent === 'Eagle', 'Dropdown value is not equal to Eagle.');
+                assert(document.querySelector('gameface-dropdown').querySelector('.guic-dropdown-selected-option').textContent === 'Eagle', 'Dropdown value is not equal to Eagle.');
                 click(selectedElPlaceholder);
                 dispatchKeyboardEvent(KEY_CODES.ARROW_LEFT, dropdown);
             });
@@ -344,7 +344,7 @@ describe('Dropdown Tests', () => {
 
         it('Should have only 1 option selected.', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             click(selectedElPlaceholder);
             await createAsyncSpec(() => {
@@ -381,7 +381,7 @@ describe('Dropdown Tests', () => {
 
         it('Should be disabled and not clickable.', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            const selectedElPlaceholder = dropdown.querySelector('.selected');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
 
             click(selectedElPlaceholder);
 

@@ -92,8 +92,8 @@ class Slider extends HTMLElement {
      * Set the slider and handle members and add event listeners.
     */
     setup() {
-        this.slider = this.getElementsByClassName(`${this.orientation}-slider`)[0];
-        this.handle = this.getElementsByClassName(`${this.orientation}-handle`)[0];
+        this.slider = this.getElementsByClassName(`guic-slider-${this.orientation}-slider`)[0];
+        this.handle = this.getElementsByClassName(`guic-slider-${this.orientation}-handle`)[0];
 
         this.attachEventListeners();
     }
@@ -123,9 +123,9 @@ class Slider extends HTMLElement {
     resize(scrollableContainer) {
         components.waitForFrames(() => {
             // get the size of the whole slider element
-            const sliderWrapperSize = this._getPxSizeWithoutUnits(this.querySelector(`.${this.orientation}-slider-wrapper`));
+            const sliderWrapperSize = this._getPxSizeWithoutUnits(this.querySelector(`.guic-${this.orientation}-slider-wrapper`));
             // get the size of the up or down buttons in px
-            const controlsSize = this._getPxSizeWithoutUnits(this.querySelector(`.${this.orientation}-arrow`));
+            const controlsSize = this._getPxSizeWithoutUnits(this.querySelector(`.guic-slider-${this.orientation}-arrow`));
             // get the combined size of the up and down buttons in % of the sliderWrapperSize
             const controlsSizePercent = controlsSize * 2 / sliderWrapperSize * 100;
 

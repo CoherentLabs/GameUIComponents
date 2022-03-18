@@ -92,7 +92,7 @@ class AutomaticGrid extends HTMLElement {
             }
             const element = document.createElement('div');
 
-            element.classList.add('automatic-grid-cell');
+            element.classList.add('guic-automatic-grid-cell');
             element.classList.add(`guic-col-${AutomaticGrid.formatFloat(maxColumns / this._columns)}`); // We add the grid class to each cell based on the number of columns
 
             element.dataset.col = (i % this._columns) + 1; // We set the cell column so that it's available if we need it later. +1 so that columns don't start from 0
@@ -233,9 +233,9 @@ class AutomaticGrid extends HTMLElement {
      */
     dropItem(target) {
         // Check if the target is a cell
-        const cell = target.classList.contains('automatic-grid-cell') ?
+        const cell = target.classList.contains('guic-automatic-grid-cell') ?
             target :
-            target.closest('.automatic-grid-cell') || null;
+            target.closest('.guic-automatic-grid-cell') || null;
 
         // If it's not, the function will end
         if (!cell) return;

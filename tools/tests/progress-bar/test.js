@@ -17,10 +17,10 @@ const templateAnimation100ms = `<gameface-progress-bar data-animation-duration="
  */
 function setupProgressBar(template) {
     const el = document.createElement('div');
-    el.className = 'progress-bar-wrapper';
+    el.className = 'guic-progress-bar-wrapper';
     el.innerHTML = template;
 
-    cleanTestPage('.progress-bar-wrapper');
+    cleanTestPage('.guic-progress-bar-wrapper');
 
     document.body.appendChild(el);
 
@@ -31,7 +31,7 @@ function setupProgressBar(template) {
 
 // eslint-disable-next-line max-lines-per-function
 describe('Progress Bar Tests', () => {
-    afterAll(() => cleanTestPage('.progress-bar-wrapper'));
+    afterAll(() => cleanTestPage('.guic-progress-bar-wrapper'));
 
     describe('Progress Bar Component', () => {
         beforeEach(function (done) {
@@ -44,17 +44,17 @@ describe('Progress Bar Tests', () => {
 
         it(`Should have been set to ${targetValue}% width.`, () => {
             document.querySelector('gameface-progress-bar').setProgress(targetValue);
-            assert(parseInt(document.querySelector('.progress-bar-filler').style.width) === targetValue, `Progress bar has not been set to ${targetValue}% width.`);
+            assert(parseInt(document.querySelector('.guic-progress-bar-filler').style.width) === targetValue, `Progress bar has not been set to ${targetValue}% width.`);
         });
 
         it(`Should have been set to 0% width when a value lower than 0 is passed.`, () => {
             document.querySelector('gameface-progress-bar').setProgress(-50);
-            assert(parseInt(document.querySelector('.progress-bar-filler').style.width) === 0, `Progress bar has not been set to 0% width.`);
+            assert(parseInt(document.querySelector('.guic-progress-bar-filler').style.width) === 0, `Progress bar has not been set to 0% width.`);
         });
 
         it(`Should have been set to 100% width when a value higher than the maximum is passed.`, () => {
             document.querySelector('gameface-progress-bar').setProgress(200);
-            assert(parseInt(document.querySelector('.progress-bar-filler').style.width) === 100, `Progress bar has not been set to 100% width.`);
+            assert(parseInt(document.querySelector('.guic-progress-bar-filler').style.width) === 100, `Progress bar has not been set to 100% width.`);
         });
     });
 
@@ -64,7 +64,7 @@ describe('Progress Bar Tests', () => {
         });
 
         it(`Should have an animation running.`, async () => {
-            const progressBarFiller = document.querySelector('.progress-bar-filler');
+            const progressBarFiller = document.querySelector('.guic-progress-bar-filler');
             let intermediateWidthValue = 0;
 
             document.querySelector('gameface-progress-bar').setProgress(targetValue);

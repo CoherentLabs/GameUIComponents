@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-.vertical-rangeslider-wrapper {
+.guic-vertical-rangeslider-wrapper {
     width: 5vh;
     display: flex;
     height: 40vh;
@@ -13,7 +13,7 @@
     user-select: none;
 }
 
-.vertical-rangeslider{
+.guic-vertical-rangeslider {
     position: relative;
     width: 5px;
     height: 100%;
@@ -23,7 +23,7 @@
     flex-direction: column;
 }
 
-.vertical-rangeslider-handle {
+.guic-vertical-rangeslider-handle {
     position: absolute;
     transform: translateY(-50%);
     height: 20px;
@@ -34,7 +34,7 @@
     z-index: 2;
 }
 
-.vertical-rangeslider-bar {
+.guic-vertical-rangeslider-bar {
     position: absolute;
     top: 100%;
     left: 0px;
@@ -44,7 +44,7 @@
     transform: translateY(-100%);
 }
 
-.vertical-rangeslider-grid {
+.guic-vertical-rangeslider-grid {
     display: flex;
     flex-direction: column-reverse;
     position: absolute;
@@ -53,29 +53,29 @@
     justify-content: space-between;
 }
 
-.vertical-grid-pol-container {
+.guic-rangeslider-vertical-grid-pol-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 2px;
 }
 
-.vertical-grid-pol {
+.guic-rangeslider-vertical-grid-pol {
     width: 10px;
     height: 2px;
     background-color: black;
 }
 
-.vertical-grid-text {
+.guic-rangeslider-vertical-grid-text {
     color: black;
     font-size: 0.8rem;
 }
 
-.vertical-pol-without-text {
+.guic-rangeslider-vertical-pol-without-text {
     width: 5px;
 }
 
-.vertical-rangeslider-thumb {
+.guic-vertical-rangeslider-thumb {
     position: absolute;
     right: 300%; /* Since the percent of the left/right property is based on the width of the parent, to position the handle to the left we need 3x the width */
     transform: translateY(-50%);

@@ -12,7 +12,7 @@ gameface-accordion-panel {
     border-bottom: 1px solid #dddddd;
 }
 
-.accordion-last-panel {
+.guic-accordion-last-panel {
     border-bottom: 0;
 }
 
@@ -32,11 +32,11 @@ gameface-accordion-menu, gameface-accordion-panel, gameface-accordion-header, ga
     display: block;
 }
 
-.accordion-panel-disabled {
+.guic-accordion-panel-disabled {
     color: #dddddd;
 }
 
-.accordion-header-caret {
+.guic-accordion-header-caret {
     position: absolute;
     transform: rotate(0deg);
     transition-property: transform;

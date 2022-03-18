@@ -33,7 +33,7 @@ class ProgressBar extends HTMLElement {
                 components.renderOnce(this);
 
                 // Get the filler element when the component is rendered.
-                this.filler = this.querySelector('.progress-bar-filler');
+                this.filler = this.querySelector('.guic-progress-bar-filler');
                 this.animDuration = parseInt(this.dataset.animationDuration) || 0;
             })
             .catch(err => console.error(err));

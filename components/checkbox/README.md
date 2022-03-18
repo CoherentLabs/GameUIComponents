@@ -67,17 +67,17 @@ Customizing the Checkbox
 The checkbox has three slots:
 - **checkbox-background** - holds the check box itself
 - **check-mark** - holds the check symbol
-- **label** - holds the text of the checkbox; leave empty if no label is required
+- **checkbox-label** - holds the text of the checkbox; leave empty if no label is required
 
 Use the slots to put customized background or label.
 
 ~~~~{.html}
 <gameface-checkbox class="checkbox-component" data-url="checkbox">
     <component-slot data-name="checkbox-background">
-        <div class="checkbox-background"></div>
+        <div class="guic-checkbox-background"></div>
     </component-slot>
-    <component-slot data-name="label">
-        <span class="label">Enable Music</span>
+    <component-slot data-name="checkbox-label">
+        <span class="guic-checkbox-label">Enable Music</span>
     </component-slot>
 </gameface-checkbox>
 ~~~~

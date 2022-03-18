@@ -39,10 +39,10 @@ class GamefaceRadioGroup extends HTMLElement {
     // eslint-disable-next-line require-jsdoc
     set disabled(value) {
         if (value) {
-            this.classList.add('radio-button-disabled');
+            this.classList.add('guic-radio-button-disabled');
             this.setAttribute('disabled', '');
         } else {
-            this.classList.remove('radio-button-disabled');
+            this.classList.remove('guic-radio-button-disabled');
             this.removeAttribute('disabled');
         }
     }
@@ -183,7 +183,7 @@ class GamefaceRadioGroup extends HTMLElement {
         // do it and possibly forget it.
         this.setAttribute('role', 'radiogroup');
         this.setupButtons();
-        if (this.disabled) this.classList.add('radio-button-disabled');
+        if (this.disabled) this.classList.add('guic-radio-button-disabled');
         this.previouslyCheckedElement = this.querySelector('[aria-checked="true"]');
     }
 }
@@ -238,10 +238,10 @@ class RadioButton extends HTMLElement {
     // eslint-disable-next-line require-jsdoc
     set disabled(value) {
         if (value) {
-            this.firstChild.classList.add('radio-button-disabled');
+            this.firstChild.classList.add('guic-radio-button-disabled');
             this.setAttribute('disabled', '');
         } else {
-            this.firstChild.classList.remove('radio-button-disabled');
+            this.firstChild.classList.remove('guic-radio-button-disabled');
             this.removeAttribute('disabled');
         }
     }
@@ -260,7 +260,7 @@ class RadioButton extends HTMLElement {
                 this.textElement = this.querySelector('.radio-button-text');
                 // Apply the user set text.
                 this.textElement.textContent = radioButtonText;
-                if (this.disabled) this.firstChild.classList.add('radio-button-disabled');
+                if (this.disabled) this.firstChild.classList.add('guic-radio-button-disabled');
             })
             .catch(err => console.error(err));
     }

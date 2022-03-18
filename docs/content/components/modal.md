@@ -1,10 +1,10 @@
 ---
+date: 2022-3-08
 title: "Modal"
-date: 2020-10-08T14:00:45Z
 draft: false
 ---
 
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
 Installation
@@ -89,8 +89,8 @@ Use the slots to put customized background or label.
     </div>
     <div slot="footer">
         <div class="actions">
-            <button id="confirm" class="close modal-button confirm controls">Yes</button>
-            <button class="close modal-button discard controls">No</button>
+            <button id="confirm" class="close guic-modal-button confirm controls">Yes</button>
+            <button class="close guic-modal-button discard controls">No</button>
         </div>
     </div>
 </gameface-modal>

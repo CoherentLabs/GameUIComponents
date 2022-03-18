@@ -29,8 +29,8 @@ describe('Switch Component', () => {
     it('Should be checked', async () => {
         await loadSwitch({ checked: true });
         const switchToggle = document.querySelector('gameface-switch');
-        const checkedSwitch = switchToggle.querySelector('.switch-toggle-checked');
-        const checkedHandle = switchToggle.querySelector('.switch-toggle-handle-checked');
+        const checkedSwitch = switchToggle.querySelector('.guic-switch-toggle-checked');
+        const checkedHandle = switchToggle.querySelector('.guic-switch-toggle-handle-checked');
         assert.exists(checkedSwitch, 'Switch is checked');
         assert.exists(checkedHandle, 'Switch handle is checked');
     });
@@ -38,14 +38,14 @@ describe('Switch Component', () => {
     it('Should be disabled', async () => {
         await loadSwitch({ disabled: true });
         const switchToggle = document.querySelector('gameface-switch');
-        const disabledSwitch = switchToggle.querySelector('.switch-toggle-disabled');
+        const disabledSwitch = switchToggle.querySelector('.guic-switch-toggle-disabled');
         assert.exists(disabledSwitch, 'Switch is disabled');
     });
 
     it('Should be inset', async () => {
         await loadSwitch({ type: 'inset' });
         const switchToggle = document.querySelector('gameface-switch');
-        const insetSwitch = switchToggle.querySelector('.switch-toggle-inset');
+        const insetSwitch = switchToggle.querySelector('.guic-switch-toggle-inset');
         assert.exists(insetSwitch, 'Switch is inset');
     });
 
@@ -60,8 +60,8 @@ describe('Switch Component', () => {
         const uncheckText = 'Off';
         await loadSwitch({ checkText, uncheckText });
         const switchToggle = document.querySelector('gameface-switch');
-        const checkedTextElement = switchToggle.querySelector('.switch-toggle-true');
-        const uncheckedTextElement = switchToggle.querySelector('.switch-toggle-false');
+        const checkedTextElement = switchToggle.querySelector('.guic-switch-toggle-true');
+        const uncheckedTextElement = switchToggle.querySelector('.guic-switch-toggle-false');
         // The regex finds and replaces spaces and new lines that the textContent has
         assert.equal(checkedTextElement.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim(), checkText);
         assert.equal(uncheckedTextElement.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim(), uncheckText);
@@ -71,8 +71,8 @@ describe('Switch Component', () => {
         await loadSwitch({});
         const switchToggle = document.querySelector('gameface-switch');
         switchToggle.onClick();
-        const checkedSwitch = switchToggle.querySelector('.switch-toggle-checked');
-        const checkedHandle = switchToggle.querySelector('.switch-toggle-handle-checked');
+        const checkedSwitch = switchToggle.querySelector('.guic-switch-toggle-checked');
+        const checkedHandle = switchToggle.querySelector('.guic-switch-toggle-handle-checked');
         assert.exists(checkedSwitch, 'Switch is checked');
         assert.exists(checkedHandle, 'Switch handle is checked');
     });
@@ -81,8 +81,8 @@ describe('Switch Component', () => {
         await loadSwitch({ disabled: true });
         const switchToggle = document.querySelector('gameface-switch');
         switchToggle.firstChild.dispatchEvent(new MouseEvent('click'));
-        const checkedSwitch = switchToggle.querySelector('.switch-toggle-checked');
-        const checkedHandle = switchToggle.querySelector('.switch-toggle-handle-checked');
+        const checkedSwitch = switchToggle.querySelector('.guic-switch-toggle-checked');
+        const checkedHandle = switchToggle.querySelector('.guic-switch-toggle-handle-checked');
         assert.notExists(checkedSwitch, 'Switch is not checked');
         assert.notExists(checkedHandle, 'Switch handle is not checked');
     });

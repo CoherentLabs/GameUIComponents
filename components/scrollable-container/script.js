@@ -95,8 +95,8 @@ class ScrollableContainer extends HTMLElement {
      * Set the scrollableContainer  and scrollbar members and attach event listeners.
     */
     setup() {
-        this.scrollableContainer = this.getElementsByClassName('scrollable-container')[0];
-        this.scrollbar = this.getElementsByClassName('slider-component')[0];
+        this.scrollableContainer = this.getElementsByClassName('guic-scrollable-container')[0];
+        this.scrollbar = this.getElementsByClassName('guic-slider-component')[0];
 
         this.addEventListeners();
     }

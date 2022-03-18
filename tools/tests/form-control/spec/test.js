@@ -153,7 +153,7 @@ function setFormTestCasesWithInteraction() {
                         click(document.querySelectorAll('radio-button')[1]);
                         click(document.querySelector('gameface-checkbox'));
                         const rangeslider = document.querySelector('gameface-rangeslider');
-                        const { x, width } = document.querySelector('.horizontal-rangeslider').getBoundingClientRect();
+                        const { x, width } = document.querySelector('.guic-horizontal-rangeslider').getBoundingClientRect();
                         rangeslider.onMouseDown({ clientX: x + width });
                         break;
                     case formsTestNames.CHECKBOXES_FORM:

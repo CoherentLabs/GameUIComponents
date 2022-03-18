@@ -54,10 +54,10 @@ class Switch extends CustomElementValidator {
                 components.renderOnce(this);
 
                 // Set the elements of the switch we'll be changing depending if it's checked or not
-                this._switch = this.querySelector('.switch-toggle');
-                this._handle = this.querySelector('.switch-toggle-handle');
-                this._textChecked = this.querySelector('.switch-toggle-true');
-                this._textUnchecked = this.querySelector('.switch-toggle-false');
+                this._switch = this.querySelector('.guic-switch-toggle');
+                this._handle = this.querySelector('.guic-switch-toggle-handle');
+                this._textChecked = this.querySelector('.guic-switch-toggle-true');
+                this._textUnchecked = this.querySelector('.guic-switch-toggle-false');
 
                 this.setup();
             })
@@ -86,8 +86,8 @@ class Switch extends CustomElementValidator {
      * Sets up the switch based on the attributes it has and attaches the event listeners
      */
     setup() {
-        if (this._isDefault) this._handle.classList.add('switch-toggle-handle-default');
-        if (this._isInset) this._switch.classList.add('switch-toggle-inset');
+        if (this._isDefault) this._handle.classList.add('guic-switch-toggle-handle-default');
+        if (this._isInset) this._switch.classList.add('guic-switch-toggle-inset');
         if (this.checked) this.toggleClasses();
         if (this.disabled) this.toggleDisabled();
 
@@ -113,12 +113,12 @@ class Switch extends CustomElementValidator {
      * Changes the classes of the switch elements
      */
     toggleClasses() {
-        this._handle.classList.toggle('switch-toggle-handle-checked');
-        this._switch.classList.toggle('switch-toggle-checked');
+        this._handle.classList.toggle('guic-switch-toggle-handle-checked');
+        this._switch.classList.toggle('guic-switch-toggle-checked');
 
         if (this._isTextInside) {
-            this._textChecked.classList.toggle('switch-text-hidden');
-            this._textUnchecked.classList.toggle('switch-text-hidden');
+            this._textChecked.classList.toggle('guic-switch-text-hidden');
+            this._textUnchecked.classList.toggle('guic-switch-text-hidden');
         }
     }
 
@@ -126,7 +126,7 @@ class Switch extends CustomElementValidator {
      * Toggles the disabled state of the switch. Can be used externaly to enable or disabled the switch
      */
     toggleDisabled() {
-        this.firstChild.classList.toggle('switch-toggle-disabled');
+        this.firstChild.classList.toggle('guic-switch-toggle-disabled');
     }
 }
 components.defineCustomElement('gameface-switch', Switch);

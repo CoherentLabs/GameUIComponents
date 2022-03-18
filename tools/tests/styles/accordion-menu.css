@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 gameface-accordion-menu {
     background-color: white;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
@@ -7,7 +12,7 @@ gameface-accordion-panel {
     border-bottom: 1px solid #dddddd;
 }
 
-.accordion-last-panel {
+.guic-accordion-last-panel {
     border-bottom: 0;
 }
 
@@ -27,11 +32,11 @@ gameface-accordion-menu, gameface-accordion-panel, gameface-accordion-header, ga
     display: block;
 }
 
-.accordion-panel-disabled {
+.guic-accordion-panel-disabled {
     color: #dddddd;
 }
 
-.accordion-header-caret {
+.guic-accordion-header-caret {
     position: absolute;
     transform: rotate(0deg);
     transition-property: transform;
@@ -41,4 +46,5 @@ gameface-accordion-menu, gameface-accordion-panel, gameface-accordion-header, ga
     border-right: 6px solid transparent;
     right: 24px;
     top: 24px;
+    pointer-events: none;
 }

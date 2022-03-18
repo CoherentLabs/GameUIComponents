@@ -27,7 +27,7 @@ The gameface-scrollable-container component comes with UMD and CJS builds.
 * add the gameface-scrollable-container component to your html:
 
 ~~~~{.html}
-<gameface-scrollable-container class="gameface-scrollable-container-component"></gameface-scrollable-container>
+<gameface-scrollable-container class="scrollable-container-component"></gameface-scrollable-container>
 ~~~~
 
 This is all! Load the file in Gameface to see the gameface-scrollable-container.
@@ -66,7 +66,7 @@ If the scrollable container is hidden, you'll need to manually re-initialize the
 The scrollable container has a method called **showScrollBar**. It accepts the scrollbar as an argument:
 
 ~~~~{.js}
-const scrollableContainer = document.querySelector('.scrollable-container');
+const scrollableContainer = document.querySelector('.guic-scrollable-container');
 scrollableContainer.showScrollBar(scrollableContainer.scrollbar);
 ~~~~
 
@@ -75,7 +75,7 @@ scrollable container as an argument:
 
 ~~~~{.js}
 const scrollableContent = scrollableContainer.querySelector('[name="scrollable-content"]');
-const scrollableContainer = document.querySelector('.scrollable-container');
+const scrollableContainer = document.querySelector('.guic-scrollable-container');
 
 scrollableContainer.scrollbar.resize(scrollableContent);
 ~~~~
@@ -83,14 +83,14 @@ scrollableContainer.scrollbar.resize(scrollableContent);
 The scrollableContainer has a method called **shouldShowScrollbar** which checks if the scrollable content is bigger than the scrollable container and if it is - it shows the scrollbar. Use this if you are not sure if you have to show the scrollbar:
 
 ~~~~{.js}
-const scrollableContainer = document.querySelector('.scrollable-container');
+const scrollableContainer = document.querySelector('.guic-scrollable-container');
 scrollableContainer.shouldShowScrollbar();
 ~~~~
 
 If you need to hide the scrollbar - use the **hideScrollBar method** and pass it the scrollbar as an argument:
 
 ~~~~{.js}
-const scrollableContainer = document.querySelector('.scrollable-container');
+const scrollableContainer = document.querySelector('.guic-scrollable-container');
 scrollableContainer.hideScrollBar(scrollableContainer.scrollbar);
 ~~~~
 
