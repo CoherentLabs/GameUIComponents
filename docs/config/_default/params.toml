@@ -43,6 +43,7 @@ footer = ""
   kaTex = false
   multilingualMode = false
   docsVersioning = false
+  cookieConsent = true
 
 [menu]
   [menu.section]
