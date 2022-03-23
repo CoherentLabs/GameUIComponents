@@ -1,11 +1,10 @@
 ---
-title: "Accordion Menu"
-date: 2020-10-08T14:00:45Z
+date: 2022-3-25
+title: Accordion menu
 draft: false
-menu:
-  components:
-    identifier: "Accordion Menu"
 ---
+
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 
 The accordion-menu is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
@@ -107,12 +106,12 @@ To add panels that will expand on click you need to add gameface-accordion-panel
 You can use the following attributes to customize the accordion-menu
 
 |Attribute   |Type   |Default   | Description |
-|---|---|---|---|---|
+|---|---|---|---|
 |multiple  | Boolean   |false   | If you can expand multiple panels at once   |
 
 You can also add the following attributes to the gameface-accordion-panel
 
 |Attribute   |Type   |Default   | Description   |
-|---|---|---|---|---|
+|---|---|---|---|
 |disabled  | Boolean   |false   | If the panel is disabled. You can't expand or shrink disabled panels  |
 |expanded   | Boolean   |false   | If the panel is expanded on load    |

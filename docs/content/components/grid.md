@@ -1,10 +1,10 @@
 ---
-title: "Grid"
-date: 2020-10-08T14:00:45Z
+date: 2022-3-25
+title: Grid
 draft: false
 ---
 
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The grid is part of the Gameface components suite. It provides a set of styles which enable the creation of
 a responsive grid.
 

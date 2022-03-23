@@ -1,4 +1,5 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!-- HEADER-START -->
 # Components for Game User Interface [![CI status][github-action-image]][github-action-url] [![NPM version][npm-image]][npm-url]
 
 [npm-image]: http://img.shields.io/npm/v/coherent-gameface-components.svg?style=flat-square
@@ -7,22 +8,22 @@
 [github-action-url]: https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml?query=workflow%3A%22Run+Tests%22++
 [github-action-image]: https://github.com/CoherentLabs/GameUIComponents/workflows/Run%20Tests/badge.svg
 
-
+<!-- HEADER-END -->
 This is a suite of custom elements designed specifically for [Gameface](https://coherent-labs.com/products/coherent-gameface/). All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package. All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them. You can also build them from source.
 
 # Running the demo
 
 Navigate to the root directory and run:
 
-    `npm install`
+    npm install
 
 This will install a webpack server as well as all other dependencies. After that run:
 
-    `npm run build`
+    npm run build
 
 This will build all components. After that run:
 
-    `npm run start:demo`
+    npm run start:demo
 
 This will serve the files on http://localhost:8080. Load that url in the Gameface player or in Chrome and preview the components. You can change the port in the webpack.config.js file.
 
@@ -37,11 +38,11 @@ These are the commands used to build and package the components.
 |Command   |Description   |Arguments   |Usage   |
 |---|---|---|---|
 |rebuild               |Do a clean install of all dependencies and build everything.                 |N/A|`npm run rebuild`|
-|build                 |Build all components - create their demo, umd and cjs bundles.               |[--no-install -ni][--no-install], [--library][--library], [ --documentation][ --documentation]|`npm run build -- --no-install --library --documentation`|
+|build                 |Build all components - create their demo, umd and cjs bundles.               |[--no-install -ni][--no-install], [--library][--library] |`npm run build -- --no-install --library`|
 |build:demo            |Build only the demos of all components.                                      |N/A|`npm run build:demo`|
 |build:library         |Build only the components library.                                           |N/A|`npm run build:library`|
 |build:dev             |Build the components using only the local packages. Will install dependencies only from source, not the npm registry. |N/A|`npm run build:dev`|
-|build:documentation   |Build the components, the demos and the documentation.                       |[--component]|`npm run build:documentation -- --component checkbox`|
+|build:documentation   |Build the components, the demos and the documentation.                       |[--rebuild][--rebuild], [--component][--component]|`npm run build:documentation -- --component checkbox`, `npm run build:documentation -- --rebuild`|
 |check:copyright       |Will check the files inside the *components* folder for copyright notice.    |N/A|`npm run check:copyright`|
 |add:copyright       |Will add copyright notice to files inside the *components* folder that are missing it. |N/A|`npm run add:copyright`|
 |start:demo            |Serve the demo project.                                                      |N/A|`npm run start:demo`|
@@ -57,9 +58,9 @@ These are the commands used to build and package the components.
 
 [--no-install]: ## "skip the npm install step"
 [--library]: ## "builds only the components library"
-[--documentation]: ## "also build the documentation"
 [--rootDir]: ## "the folder in which to perform recursive npm install"
 [--component]: ## "the name of the folder of the component that you want to build the documentation for"
+[--rebuild]: ## "rebuild all the components"
 
 After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
 
@@ -96,27 +97,28 @@ All Gameface JavaScript components are custom HTML elements. Each component has:
 
 If you don't want to add your component to the GameUIComponent suite you can use it without building and packaging it as npm module. However, you'll still have to use the components library as dependency. Initialize an npm project using
 
-`npm init`
+    npm init
 
 and install the components library:
 
-`npm i coherent-gameface-components`
+    npm i coherent-gameface-components
 
 After that create an index.html and index.js files. Import the components library and the component's definition file using script tag:
 
-```
+```html
 <script src="node_modules/coherent-gameface-components/umd/components.development.js"></script>
 <script src="script.js"></script>
 ```
 
 Add the custom component to the page:
 
-`<gameface-checkbox></<gameface-checkbox>`
-
+```html
+<gameface-checkbox></<gameface-checkbox>
+```
 
 The JavaScript definition is a simple class which extends the HTMLElemnt. The template is loaded using XHR. The url property of the component class shows the path to the template html file. Use the <link> tags to import style files. Use the `loadResource` method to load the template. When the template is loaded you can render the component.
 
-```
+```javascript
 class Checkbox extends HTMLElement {
     constructor() {
         super();
@@ -139,9 +141,9 @@ components.defineCustomElement('gameface-checkbox', Checkbox);
 
 To test the component start an http server at the root and open index.html. If you use http-server go to /checkbox and run:
 
-`http-server`
+    http-server
 
-Navigate to localhost:<port> and check your component.
+Navigate to `localhost:<port>` and check your component.
 
 # Adding component to the components suite
 
@@ -160,22 +162,26 @@ You can use the [coherent-guic-cli](https://github.com/CoherentLabs/GameUICompon
 
 The `build` command generates UMD and CJS bundles of the component. The module bundler that is used is [Rollup](https://rollupjs.org/guide/en/). That means we can use `import` and `export` statements and rollup will automatically resolve all modules. Now we can import all dependencies at the top of the script.js file:
 
-```
+```javascript
 import components from 'coherent-gameface-components';
 import template from './template.html';
 ```
 
 And we can export the checkbox at the bottom:
 
-`export { Checkbox };`
+```javascript
+export { Checkbox };
+```
 
 Because the templates are imported as modules we no longer need to load them using XHR. Set the template as a property of the component:
 
-`this.template = template;`
+```javascript
+this.template = template;
+```
 
 The loadResource method can both work with URL and an imported template. The usage is the same so that it is more convenient to switch between XHR and imported template. This is how the component's definition looks like after the changes:
 
-```
+```javascript
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
@@ -202,11 +208,13 @@ export { Checkbox };
 
 Because all components are npm packages you need to add an entry index.js file. This is the file that would be loaded when you import your component from node_modules like this:
 
-`import { Checkbox } from 'gameface-checkbox'`
+```javascript
+import { Checkbox } from 'gameface-checkbox';
+```
 
 It should export either the development or the production CJS bundle:
 
-```
+```javascript
 if (process.env.NODE_ENV === 'production') {
     module.exports = require('./cjs/checkbox.production.min.js');
 } else {
@@ -216,14 +224,14 @@ if (process.env.NODE_ENV === 'production') {
 
 Each component has a demo page. It is placed in a /demo folder. The JavaScript file of the demo should be bundled so that it can be easily checked with double click or drag and drop without the need to manually setup an environment. The demo.js file imports all dependencies so that Rollup can resolve and bundle them.
 
-```
+```javascript
 import components from 'coherent-gameface-components';
 import checkbox from '../umd/checkbox.development.js'
 ```
 
 The demo.html file should import the bundle.js and use the custom element:
 
-```
+```html
 <body>
     <gameface-checkbox></gameface-checkbox>
     <script src="./bundle.js"></script>
@@ -235,7 +243,7 @@ Make sure all files have the LICENSE notice at the top. Run `npm run add:copyrig
 
 To build the component run:
 
-`npm run rebuild`
+    npm run rebuild
 
 The newly created bundles are located in checkbox/umd and checkbox/cjs folders. To test if everything works open the demo.html file.
 
@@ -247,7 +255,7 @@ The styles of a component are located in the same location as its source in a `s
 **Make sure to prefix all selectors with `guic-` to avoid overwriting global selectors with common names**. The prefix is an abbreviation of Game UI Components.
 Import the styles using a `link` tag in the file where you use the custom component:
 
-```
+```html
 <link rel="stylesheet" href="style.css">
 ```
 
@@ -255,31 +263,33 @@ Import the styles using a `link` tag in the file where you use the custom compon
 
 The [<slot>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) HTML element is a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together. This component system provides a custom element called <component-slot> which replaces the standard <slot> element, but keeps the main idea. Slots are usable in cases where a dynamic content must be placed in a specific place in the HTML. In the example of the <checkbox> if template is:
 
-~~~~{.html}
+```html
 <div>
     <div class="check-mark"></div>
     <component-slot data-name="label">Click me!</component-slot>
 </div>
-~~~~
+```
 
 the label is the dynamic part. If the label is not specified - the default one will be used, this allows the component to be used like this:
 
-`<gameface-checkbox></gameface-checkbox>`
+```html
+<gameface-checkbox></gameface-checkbox>
+```
 
 and the `renderOnce` method will replace this with:
 
-~~~~{.html}
+```html
 <gameface-checkbox>
     <div>
         <div class="check-mark"></div>
         <component-slot data-name="label">Click me!</component-slot>
     </div>
 </gameface-checkbox>
-~~~~
+```
 
 If the label is specified the data-name="label" will be replaced with the element passed to that slot:
 
-~~~~{.html}
+```html
 <gameface-checkbox>
     <component-slot data-name="label">
         <div class="some-custom-fancy-label-wrapper">
@@ -287,11 +297,11 @@ If the label is specified the data-name="label" will be replaced with the elemen
         </div>
     </component-slot>
 </gameface-checkbox>
-~~~~
+```
 
 will be replaced with:
 
-~~~~{.html}
+```html
 <gameface-checkbox>
     <div>
         <div class="check-mark"></div>
@@ -302,13 +312,13 @@ will be replaced with:
         </component-slot>
     </div>
 </gameface-checkbox>
-~~~~
+```
 
 **See the full checkbox component [here](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/checkbox).**
 
 Slots can be very powerful when a component has more complicated template, especially if there are nested components. For example the dropdown component has a scrollable-container (another component) in its template and all options (list items) of the dropdown, which are passed through slots as they are dynamic go into the scrollable container:
 
-~~~~{.html}
+```html
 <div class="dropdown">
     <div class="dropdown-header">
         <div class="selected">Select an option</div>
@@ -325,22 +335,22 @@ Slots can be very powerful when a component has more complicated template, espec
         </gameface-scrollable-container>
     </div>
 </div>
-~~~~
+```
 
 The usage of the component looks a lot simpler:
 
-~~~~{.html}
+```html
 <gameface-dropdown class="gameface-dropdown-component">
     <dropdown-option slot="option">Cat1</dropdown-option>
     <dropdown-option slot="option" disabled>Cat1</dropdown-option>
     <dropdown-option slot="option" disabled>Cat1</dropdown-option>
     <dropdown-option slot="option">Cat3</dropdown-option>
 </gameface-dropdown>
-~~~~
+```
 
 And when the component is rendered and all elements are slotted the final markup will look like this:
 
-~~~~{.html}
+```html
 <div class="dropdown">
     <div class="dropdown-header">
         <div class="selected">Select an option</div>
@@ -359,7 +369,7 @@ And when the component is rendered and all elements are slotted the final markup
         </gameface-scrollable-container>
     </div>
 </div>
-~~~~
+```
 
 # Testing
 

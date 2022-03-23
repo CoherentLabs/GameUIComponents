@@ -14,7 +14,7 @@
     "unlink": "node ./scripts/unlink.js",
     "build:dev": "npm i && npm run clean && npm run link && npm run build -- -ni && npm run build:demo",
     "build:library": "node ./scripts/build.js --library",
-    "build:documentation": "node ./scripts/build.js --documentation",
+    "build:documentation": "node scripts/transfer-doc-files.js",
     "check:copyright": "node ./scripts/copyright-notice.js",
     "add:copyright": "node ./scripts/copyright-notice.js -a",
     "clean": "node ./scripts/clean.js",

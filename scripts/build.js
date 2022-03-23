@@ -170,22 +170,13 @@ function createBundle(inputOptions, outputOptions) {
 /** */
 async function main() {
     copyCSSTheme();
-    let componentArgument = '';
     const args = process.argv.slice(2);
     if (args.indexOf('--no-install') > -1 || args.indexOf('-ni') > -1) noInstall = true;
-
-    const componentArgIdx = args.indexOf('--component');
-    if (componentArgIdx > -1) componentArgument = `--component ${args[componentArgIdx + 1]}`;
 
     if (args.indexOf('--library') > -1) {
         buildComponentsLibrary();
     } else {
         await buildEverything();
-    }
-
-    if (args.indexOf('--documentation') > -1) {
-        const result = execSync(`node scripts/transfer-doc-files.js ${componentArgument}`, { cwd: path.join(__dirname, '../'), encoding: 'utf8' });
-        console.log(result);
     }
 }
 
