@@ -71,7 +71,7 @@ class GamefaceDropdown extends CustomElementValidator {
         this.onKeydown = this.onKeydown.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onMouseOverOption = createOptionEventHandler(this.onMouseOverOption.bind(this));
-        this.onMouseLeave = createOptionEventHandler(this.onMouseLeave.bind(this));
+        this.onMouseOut = createOptionEventHandler(this.onMouseOut.bind(this));
     }
 
     /**
@@ -641,7 +641,7 @@ class GamefaceDropdown extends CustomElementValidator {
 
         optionsContainer[methodName]('click', this.onClickOption);
         optionsContainer[methodName]('mouseover', this.onMouseOverOption);
-        optionsContainer[methodName]('mouseout', this.onMouseLeave);
+        optionsContainer[methodName]('mouseout', this.onMouseOut);
     }
 
     /**
@@ -649,7 +649,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {HTMLElement} option
      * @returns {void}
      */
-    onMouseLeave(option) {
+    onMouseOut(option) {
         const index = this.indexOf(this.allOptions, option);
         if (this.multiple && this.selectedList.indexOf(index) > -1) return;
         this.removeActiveClass(option);
