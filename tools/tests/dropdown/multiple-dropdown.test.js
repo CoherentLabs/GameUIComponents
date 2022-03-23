@@ -3,6 +3,21 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * Create a fake event object.
+ * @param {HTMLElement} target
+ * @param {boolean} bubbles
+ * @param {boolean} ctrlKey
+ * @returns {object}
+ */
+function mockEventObject(target, bubbles = false, ctrlKey = false) {
+    return {
+        target: target,
+        ctrlKey: ctrlKey,
+        bubbles: bubbles,
+        stopPropagation: () => {},
+    };
+}
 
 const multipleDropdownTemplate = `<gameface-dropdown multiple class="gameface-dropdown-component">
 <dropdown-option slot="option">Cat</dropdown-option>
@@ -74,7 +89,7 @@ describe('Multiple Dropdown Test', () => {
             const options = dropdown.querySelectorAll('dropdown-option');
             const optionsCount = options.length;
 
-            click(options[optionsCount - 2]);
+            click(options[optionsCount - 2], { bubbles: true });
 
             await createAsyncSpec(() => {
                 dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.HOME, shiftKey: true });
@@ -92,7 +107,7 @@ describe('Multiple Dropdown Test', () => {
             const options = dropdown.querySelectorAll('dropdown-option');
             const optionsCount = options.length;
 
-            click(options[1]);
+            click(options[1], { bubbles: true });
 
             await createAsyncSpec(() => {
                 dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.END, shiftKey: true });
@@ -109,7 +124,7 @@ describe('Multiple Dropdown Test', () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const options = dropdown.querySelectorAll('dropdown-option');
 
-            click(options[1]);
+            click(options[1], { bubbles: true });
 
             await createAsyncSpec(() => {
                 dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.ARROW_UP, shiftKey: true });
@@ -155,7 +170,7 @@ describe('Multiple Dropdown Test', () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const options = dropdown.querySelectorAll('dropdown-option');
 
-            click(options[1]);
+            click(options[1], { bubbles: true });
 
             await createAsyncSpec(() => {
                 dispatchKeyboardEvent(dropdown, { keyCode: KEY_CODES.END, shiftKey: true });
@@ -185,8 +200,8 @@ describe('Multiple Dropdown Test', () => {
             const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
             const options = dropdown.querySelectorAll('dropdown-option');
 
-            options[1].onClick({ target: options[1], ctrlKey: true });
-            options[2].onClick({ target: options[2], ctrlKey: true });
+            dropdown.onClickOption(mockEventObject(options[1], true, true));
+            dropdown.onClickOption(mockEventObject(options[2], true, true));
 
             assert(dropdown.selectedOptions.length === 2,
                 `Expected selected options length to be 2, got ${dropdown.selectedOptions.length}.`);
@@ -197,11 +212,11 @@ describe('Multiple Dropdown Test', () => {
             const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
             const options = dropdown.querySelectorAll('dropdown-option');
 
-            options[1].onClick({ target: options[1], ctrlKey: true });
-            options[2].onClick({ target: options[2], ctrlKey: true });
+            dropdown.onClickOption(mockEventObject(options[1], true, true));
+            dropdown.onClickOption(mockEventObject(options[2], true, true));
 
-            options[1].onClick({ target: options[1], ctrlKey: true });
-            options[2].onClick({ target: options[2], ctrlKey: true });
+            dropdown.onClickOption(mockEventObject(options[1], true, true));
+            dropdown.onClickOption(mockEventObject(options[2], true, true));
 
             assert(dropdown.selectedOptions.length === 0,
                 `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
@@ -212,10 +227,10 @@ describe('Multiple Dropdown Test', () => {
             const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
             const options = dropdown.querySelectorAll('dropdown-option');
 
-            options[1].onClick({ target: options[1], ctrlKey: true });
-            options[2].onClick({ target: options[2], ctrlKey: true });
-            options[3].onClick({ target: options[2], ctrlKey: true });
-            options[0].onClick({ target: options[0] });
+            dropdown.onClickOption(mockEventObject(options[1], true, true));
+            dropdown.onClickOption(mockEventObject(options[2], true, true));
+            dropdown.onClickOption(mockEventObject(options[3], true, true));
+            click(options[0], { bubbles: true });
 
             assert(dropdown.selectedOptions.length === 1,
                 `It didn't select only one element. Expected selected options length to be 1, got ${dropdown.selectedOptions.length}.`);
@@ -234,7 +249,7 @@ describe('Multiple Dropdown Test', () => {
             const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
             const options = dropdown.querySelectorAll('dropdown-option');
 
-            options[1].onClick({ target: options[1], ctrlKey: true });
+            click(options[1], { bubbles: true });
 
             click(document.body);
             assert(dropdown.querySelector('.guic-dropdown-options-container').classList.contains('guic-dropdown-hidden') === true,
