@@ -97,7 +97,7 @@ class ScrollableContainer extends HTMLElement {
     setup() {
         this.scrollableContainer = this.getElementsByClassName('guic-scrollable-container')[0];
         this.scrollbar = this.getElementsByClassName('guic-slider-component')[0];
-
+        if (!components.isBrowserGameface()) this.scrollableContainer.classList.add('guic-native-scroll-disabled');
         this.addEventListeners();
     }
 
@@ -169,6 +169,8 @@ class ScrollableContainer extends HTMLElement {
 
     /**
      * Checks if a scrollbar should be visible.
+     * @warning - Be careful! Any mutation to the scrollable container in this method will cause a memory leak!
+     * For example this.scrollableContainer.classList.add('some-class').
     */
     shouldShowScrollbar() {
         const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
@@ -183,5 +185,29 @@ class ScrollableContainer extends HTMLElement {
         });
     }
 }
+
+/**
+ * Will add styles for the non Coherent browsers that are disabling the native scrollbar
+ */
+function addDisabledNativeScrollbarStyles() {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .guic-native-scroll-disabled {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .guic-native-scroll-disabled::-webkit-scrollbar {
+            display: none;
+        }`;
+    document.head.appendChild(style);
+}
+
+if (!components.isBrowserGameface() && !components.nativeScrollDisabledStylesAdded) {
+    addDisabledNativeScrollbarStyles();
+    // We are doing this to prevent readdition of the styles needed for the native scrollbar to not be visible.
+    // This problem is produced when multiple components have the scrollable container bundled.
+    components.nativeScrollDisabledStylesAdded = true;
+}
+
 components.defineCustomElement('gameface-scrollable-container', ScrollableContainer);
 export default ScrollableContainer;

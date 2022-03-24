@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-scrollable-container",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A component for Coherent Labs Gameface.",
   "main": "script.js",
   "repository": {
@@ -13,7 +13,7 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.0.5",
+    "coherent-gameface-components": "^1.0.9",
     "coherent-gameface-slider": "^1.0.5",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"

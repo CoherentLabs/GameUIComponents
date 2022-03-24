@@ -537,14 +537,6 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 
     /**
-     * Checks if the current user agent is Cohtml
-     * @returns {boolean}
-    */
-    isGameface() {
-        return navigator.userAgent.match('Cohtml');
-    }
-
-    /**
      * Called on click on the select element.
      * Toggles the options panel, shows the scrollbar and scrolls to
      * the selected option element.
@@ -566,7 +558,7 @@ class GamefaceDropdown extends CustomElementValidator {
     initScrollbar() {
         const scrollableContainer = this.querySelector('gameface-scrollable-container');
 
-        if (!this.isGameface()) return scrollableContainer.querySelector('.guic-scrollable-container').classList.add('full-width');
+        if (!components.isBrowserGameface()) return scrollableContainer.querySelector('.guic-scrollable-container').classList.add('full-width');
         scrollableContainer.shouldShowScrollbar();
     }
 
