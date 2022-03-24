@@ -14,7 +14,6 @@
   "dependencies": {
     "@rollup/plugin-node-resolve": "9.0.0",
     "postmessage-polyfill": "1.0.0",
-    "recursive-install": "^1.0.1",
     "rimraf": "3.0.2",
     "rollup": "2.27.1",
     "rollup-plugin-html": "0.2.1",
