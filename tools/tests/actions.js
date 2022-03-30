@@ -65,3 +65,19 @@ function cleanTestPage(selector) {
         testWrapper.parentElement.removeChild(testWrapper);
     }
 }
+
+/**
+ * Create a fake event object.
+ * @param {HTMLElement} target
+ * @param {boolean} bubbles
+ * @param {boolean} ctrlKey
+ * @returns {object}
+ */
+function mockEventObject(target, bubbles = false, ctrlKey = false) {
+    return {
+        target: target,
+        ctrlKey: ctrlKey,
+        bubbles: bubbles,
+        stopPropagation: () => { },
+    };
+}

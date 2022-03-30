@@ -14,9 +14,9 @@ const KEYCODES = components.KEYCODES;
 /**
  * Used to get the option element from an event target.
  * @param {event} event
- * @returns {HTMLElement | null}
+ * @returns {HTMLElement | undefined}
  */
-function getOptionElFomTarget(event) {
+function getOptionElFromTarget(event) {
     const target = event.target;
 
     if (target === event.currentTarget) return;
@@ -27,13 +27,12 @@ function getOptionElFomTarget(event) {
 
 /**
  * A factory that wraps an option event handler.
- * @param {function} callback - the function that will wrapped.
- * @param {any} params - the callback parameters.
+ * @param {function} callback - the function that will be wrapped.
  * @returns {function} - the wrapped function.
  */
 function createOptionEventHandler(callback) {
     return (event) => {
-        const option = getOptionElFomTarget(event);
+        const option = getOptionElFromTarget(event);
         if (!option) return;
 
         callback(option, event);
@@ -339,7 +338,7 @@ class GamefaceDropdown extends CustomElementValidator {
         components.loadResource(this)
             .then((result) => {
                 this.template = result.template;
-                components.simpleRender(this, '.guic-dropdown-options', this.querySelectorAll('dropdown-option'));
+                components.transferChildren(this, '.guic-dropdown-options', this.querySelectorAll('dropdown-option'));
 
                 // Check the type after the component has rendered.
                 this.multiple = this.hasAttribute('multiple');
@@ -613,9 +612,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Attaches event listeners.
     */
     attachEventListeners() {
-        // handle keyboard
         this.addEventListener('keydown', this.onKeydown);
-        // handle click on the selected element placeholder
         this.querySelector('.guic-dropdown-selected-option').addEventListener('click', this.onClick);
         this.toggleOptionsListeners('addEventListener');
     }
@@ -624,9 +621,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * Removes event listeners.
     */
     removeEventListeners() {
-        // handle keyboard
         this.removeEventListener('keydown', this.onKeydown);
-        // handle click on the selected element placeholder
         this.querySelector('.guic-dropdown-selected-option').removeEventListener('click', this.onClick);
         this.toggleOptionsListeners('removeEventListener');
     }

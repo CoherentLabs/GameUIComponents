@@ -1,5 +1,5 @@
 ---
-date: 2022-3-25
+date: 2022-3-31
 title: Components for Game User Interface
 draft: false
 ---
@@ -49,7 +49,6 @@ These are the commands used to build and package the components.
 |pack:library          |Create npm package of the component library.                                 |N/A|`npm run pack:library`|
 |link                  |Create links for all components to test with local packages only[^1].        |N/A|`npm run link`|
 |unlink                |Remove all global links that exist for components. To remove the local packages use `npm run clean`.|N/A|`npm run link`|
-|install:all           |Recursively install dependencies in all folders located in given root.       |[--rootDir][--rootDir]|`npm run install:all -- --rootDir=components/checkbox`|
 |clean                 |Remove all existing bundles, packages and installed dependencies.            |N/A|`npm run clean`|
 
 [^1]: The components will not use the local packages created from source, not the ones from the npm registry. Useful when you are doing changes the core library or to any of the existing components and you want to test your changes. Remember to build with the **--no-install** option when using links as otherwise the build will perform `npm install` which will overwrite the links.

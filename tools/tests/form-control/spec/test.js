@@ -147,7 +147,7 @@ function setFormTestCasesWithInteraction() {
                 // Interact with elements
                 switch (formTestName) {
                     case formsTestNames.LOGIN_FORM:
-                        click(document.querySelectorAll('dropdown-option')[1]);
+                        click(document.querySelectorAll('dropdown-option')[1], { bubbles: true });
                         break;
                     case formsTestNames.REGISTER_FORM:
                         click(document.querySelectorAll('radio-button')[1]);
@@ -173,9 +173,10 @@ function setFormTestCasesWithInteraction() {
 
                         // Skips the last multiple selection dropdown which is tested after the for loop.
                         for (let i = 0; i < dropdowns.length - 1; i++) {
-                            click(dropdowns[i].querySelectorAll('dropdown-option')[1]);
+                            click(dropdowns[i].querySelectorAll('dropdown-option')[1], { bubbles: true });
                         }
-                        multipleSelectOptionTwo.onClick({ target: multipleSelectOptionTwo, ctrlKey: true });
+
+                        dropdowns[4].onClickOption(mockEventObject(multipleSelectOptionTwo, true, true));
                         break;
                 }
 

@@ -3,22 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-/**
- * Create a fake event object.
- * @param {HTMLElement} target
- * @param {boolean} bubbles
- * @param {boolean} ctrlKey
- * @returns {object}
- */
-function mockEventObject(target, bubbles = false, ctrlKey = false) {
-    return {
-        target: target,
-        ctrlKey: ctrlKey,
-        bubbles: bubbles,
-        stopPropagation: () => {},
-    };
-}
-
 const multipleDropdownTemplate = `<gameface-dropdown multiple class="gameface-dropdown-component">
 <dropdown-option slot="option">Cat</dropdown-option>
 <dropdown-option slot="option">Parrot</dropdown-option>
