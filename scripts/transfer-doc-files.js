@@ -7,6 +7,7 @@ const DOC_FILES_CONTENT_DIRECTORY = path.join(__dirname, '../docs/content');
 const DOC_FILES_COMPONENTS_DIRECTORY = path.join(__dirname, '../docs/content/components');
 const DOC_FILES_CONTENT_EXAMPLES_DIRECTORY = path.join(__dirname, '../docs/content/examples');
 const EXCLUDED_FILES = new Set(['coherent-gameface-components-theme.css', 'demo.html', 'node_modules']);
+const IGNORED_EXAMPLES = new Set(['form-control']);
 
 /**
  * @param {number} value
@@ -22,6 +23,9 @@ function toTwoDigits(value) {
  * @returns {string}
  */
 function frontMatterTemplate(componentName) {
+    const title = componentName === '_index' ?
+        'Components for Game User Interface' :
+        (componentName.charAt(0).toUpperCase() + componentName.slice(1)).replace(/-/g, ' ');
     const now = new Date();
     const year = now.getFullYear();
     const month = now.getMonth() + 1;
@@ -29,7 +33,7 @@ function frontMatterTemplate(componentName) {
     const date = `${year}-${month}-${day}`;
     return `---
 date: ${date}
-title: "${componentName.charAt(0).toUpperCase() + componentName.slice(1)}"
+title: ${title}
 draft: false
 ---`;
 };
@@ -70,6 +74,34 @@ function copyAllStyleFiles(folder, component) {
 }
 
 /**
+ * Transfers a all the components documentation, styles and bundle to the documentation
+ * @param {string[]} components
+ */
+function transferAllComponents(components) {
+    console.log('Transfering README.md...');
+    saveMarkdownWithFrontMatter('_index', path.join(__dirname, '../README.md'), DOC_FILES_CONTENT_DIRECTORY);
+    for (const component of components) {
+        copyDocumentationFiles(component);
+    }
+}
+
+/**
+ * Transfers a single component documentation, styles and bundle to the documentation
+ * @param {string} component
+ * @param {string[]} components
+ * @returns {void}
+ */
+function transferSingleComponent(component, components) {
+    if (components.indexOf(component) === -1) {
+        return console.error(`Component ${component} does not exist. Make sure the name you passed is correct.`);
+    }
+
+    if (components.indexOf(component) > -1) return copyDocumentationFiles(component);
+    process.exitCode = 1;
+    console.error(`Component ${component} does not exist. Please pass an existing name or omit the --component argument to transfer the documentation files of all components.`);
+}
+
+/**
  * If the component argument is omitted reads all components folders and calls the function
  * that transfers the documentation files. Logs an error if the passed component
  * does not exist.
@@ -79,21 +111,9 @@ function copyAllStyleFiles(folder, component) {
 */
 function transferBundleAndStyles(component = null) {
     const components = getFolderDirectories('../components');
-    if (components.indexOf(component) === -1) {
-        return console.error(`Component ${component} does not exist. Make sure the name you passed is correct.`);
-    }
+    if (!component) return transferAllComponents(components);
 
-    if (!component) {
-        saveMarkdownWithFrontMatter('_index', path.join(__dirname, '../README.md'), DOC_FILES_CONTENT_DIRECTORY);
-        for (const component of components) {
-            copyDocumentationFiles(component);
-        }
-        return;
-    }
-
-    if (components.indexOf(component) > -1) return copyDocumentationFiles(component);
-    process.exitCode = 1;
-    console.error(`Component ${component} does not exist. Please pass an existing name or omit the --component argument to transfer the documentation files of all components.`);
+    return transferSingleComponent(component, components);
 }
 
 /**
@@ -104,6 +124,7 @@ function transferBundleAndStyles(component = null) {
  * @param {string} component - the name of the component
 */
 function copyDocumentationFiles(component) {
+    console.log(`Transfering ${component}...`);
     const componentPath = path.join(__dirname, '../components', component);
     const componentSourcePath = path.join(componentPath, '/demo/bundle.js');
     const componentDocsDestPath = path.join(DOC_FILES_DIRECTORY, component);
@@ -111,12 +132,47 @@ function copyDocumentationFiles(component) {
     if (!fs.existsSync(componentSourcePath)) return;
     if (!fs.existsSync(componentDocsDestPath)) fs.mkdirSync(componentDocsDestPath);
 
-    copyAllStyleFiles(componentPath, component);
+    if (!IGNORED_EXAMPLES.has(component)) {
+        copyAllStyleFiles(componentPath, component);
 
-    copyFile(componentSourcePath, path.join(componentDocsDestPath, 'bundle.js'));
+        copyFile(componentSourcePath, path.join(componentDocsDestPath, 'bundle.js'));
+
+        saveMarkdownWithFrontMatter(component, path.join(DOC_FILES_CONTENT_EXAMPLES_DIRECTORY, `${component}.html`), DOC_FILES_CONTENT_EXAMPLES_DIRECTORY, 'html');
+    }
 
     saveMarkdownWithFrontMatter(component, path.join(componentPath, 'README.md'), DOC_FILES_COMPONENTS_DIRECTORY);
-    saveMarkdownWithFrontMatter(component, path.join(DOC_FILES_CONTENT_EXAMPLES_DIRECTORY, `${component}.html`), DOC_FILES_CONTENT_EXAMPLES_DIRECTORY, 'html');
+}
+
+/**
+ * Removes the README.md file content between <!-- HEADER-START --> and <!-- HEADER-END -->
+ * @param {string} fileContent
+ * @returns {string}
+ */
+function removeIndexFileHeader(fileContent) {
+    const headerRegExp = /(<!-- HEADER-START -->)(.*)(<!-- HEADER-END -->)/s;
+    const currentHeaderContent = fileContent.match(headerRegExp);
+    const hasHeaderContent = currentHeaderContent && currentHeaderContent.length;
+
+    if (hasHeaderContent) return fileContent.replace(headerRegExp, '');
+
+    return fileContent;
+}
+
+/**
+ * Will replace the front matter if it exists. Will append new one if none exists
+ * @param {string} component
+ * @param {string} file
+ * @returns {string}
+ */
+function replaceFrontMatter(component, file) {
+    const frontMatter = frontMatterTemplate(component);
+    const frontMatterRegExp = /(---(\n|\r\n))(.*)((\r\n|\n)---)/s;
+    const currentFrontMatter = file.match(frontMatterRegExp);
+    const hasFrontMatter = currentFrontMatter && currentFrontMatter.length;
+
+    if (hasFrontMatter) return file.replace(frontMatterRegExp, frontMatter);
+
+    return `${frontMatter}\n\n${file}`;
 }
 
 /**
@@ -129,15 +185,13 @@ function copyDocumentationFiles(component) {
  * @param {string} [extension='md']
 */
 function saveMarkdownWithFrontMatter(component, readmeFilePath, targetDir, extension = 'md') {
-    const frontMatter = frontMatterTemplate(component);
     let file = fs.readFileSync(readmeFilePath, { encoding: 'utf8' });
-    const frontMatterRegExp = /(---\n)(.*)(\n---)/s;
-    const currentFrontMatter = file.match(frontMatterRegExp);
 
-    if (currentFrontMatter && currentFrontMatter.length) {
-        file = file.replace(frontMatterRegExp, '');
-    }
-    fs.writeFileSync(path.join(targetDir, `${component}.${extension}`), `${frontMatter}\n\n${file}`);
+    file = replaceFrontMatter(component, file);
+
+    if (component === '_index') file = removeIndexFileHeader(file);
+
+    fs.writeFileSync(path.join(targetDir, `${component}.${extension}`), `${file}`);
 }
 
 /**
@@ -147,10 +201,12 @@ function saveMarkdownWithFrontMatter(component, readmeFilePath, targetDir, exten
  * @param {string} dest - the path of the destination file
 */
 function copyFile(source, dest) {
-    fs.copyFile(source, dest, (err) => {
-        if (err) throw err;
+    try {
+        fs.copyFileSync(source, dest);
         console.log(`${source} was copied to ${dest}`);
-    });
+    } catch (error) {
+        throw new Error(error);
+    }
 }
 
 /**
@@ -158,12 +214,12 @@ function copyFile(source, dest) {
  */
 function main() {
     const args = process.argv.slice(2);
-
-    if (args.indexOf('--rebuild') > -1) execSync(`npm run rebuild`);
-
     const componentIdx = args.indexOf('--component');
-    if (componentIdx > -1) return transferBundleAndStyles(args[componentIdx + 1]);
-    transferBundleAndStyles();
+    let component = null;
+    if (componentIdx > -1) component = args[componentIdx + 1];
+
+    if (args.indexOf('--rebuild') > -1) execSync(`npm run build:dev`, { stdio: 'inherit' });
+    transferBundleAndStyles(component);
 }
 
 main();
