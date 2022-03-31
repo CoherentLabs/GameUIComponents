@@ -67,12 +67,15 @@
                 <button class="show-dynamic-content">Show more data</button>
                 <button class="hide-dynamic-content">Hide data</button>
                 <button class="remove-auto-attribute">Remove Auto</button>
-                <button class="add-auto-attribute">Make Aouto</button>
+                <button class="add-auto-attribute">Make Auto</button>
             </div>
+            Mode: <span id="mode">Non automatic</span>
         </div>
     </div>
     <script src="./bundle.js"></script>
     <script>
+        const modeElement = document.getElementById('mode');
+
         document.querySelector('.show-dynamic-content').addEventListener('click', () => {
             document.querySelector('.dynamic-content').style.display = 'block';
         });
@@ -81,9 +84,11 @@
         });
         document.querySelector('.remove-auto-attribute').addEventListener('click', () => {
             document.querySelector('.auto').removeAttribute('automatic');
+            modeElement.textContent = 'Non automatic';
         });
         document.querySelector('.add-auto-attribute').addEventListener('click', () => {
             document.querySelector('.auto').setAttribute('automatic', 'automatic');
+            modeElement.textContent = 'Automatic';
         });
     </script>
 </body>
