@@ -151,9 +151,15 @@ describe('Dropdown Tests', () => {
             assert(dropdown.value === firstValue, 'Selected value is not the default value.');
         });
 
-        it('Should have the first option selected by default', () => {
+        it('Should have the first option selected by default', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
-            assert(dropdown.querySelector('.guic-dropdown-selected-option').textContent === firstValue, 'Selected value is not the first value.');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
+
+            click(selectedElPlaceholder);
+
+            return createAsyncSpec(() => {
+                assert(dropdown.querySelector('.guic-dropdown-selected-option').textContent === firstValue, 'Selected value is not the first value.');
+            });
         });
 
         it('Should toggle the options list on click', async () => {
@@ -180,7 +186,7 @@ describe('Dropdown Tests', () => {
             click(selectedElPlaceholder);
 
             const option = dropdown.allOptions[2];
-            click(option);
+            click(option, { bubbles: true });
 
             return createAsyncSpec(() => {
                 assert(dropdown.querySelector('.guic-dropdown-selected-option').textContent === changedValue, `Changed value is not ${changedValue}`);
@@ -306,7 +312,7 @@ describe('Dropdown Tests', () => {
 
             await createAsyncSpec(() => {
                 const option = dropdown.allOptions[3];
-                click(option);
+                click(option, { bubbles: true });
             });
 
             await createAsyncSpec(() => {
@@ -328,7 +334,7 @@ describe('Dropdown Tests', () => {
 
             await createAsyncSpec(() => {
                 const option = dropdown.allOptions[5];
-                click(option);
+                click(option, { bubbles: true });
             });
 
             await createAsyncSpec(() => {

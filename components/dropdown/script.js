@@ -11,6 +11,34 @@ import template from './template.html';
 
 const KEYCODES = components.KEYCODES;
 
+/**
+ * Used to get the option element from an event target.
+ * @param {event} event
+ * @returns {HTMLElement | undefined}
+ */
+function getOptionElFromTarget(event) {
+    const target = event.target;
+
+    if (target === event.currentTarget) return;
+    if (target.tagName.toLowerCase() === 'dropdown-option') return target;
+
+    return target.closest('dropdown-option');
+}
+
+/**
+ * A factory that wraps an option event handler.
+ * @param {function} callback - the function that will be wrapped.
+ * @returns {function} - the wrapped function.
+ */
+function createOptionEventHandler(callback) {
+    return (event) => {
+        const option = getOptionElFromTarget(event);
+        if (!option) return;
+
+        callback(option, event);
+    };
+}
+
 const CustomElementValidator = components.CustomElementValidator;
 
 /**
@@ -38,11 +66,11 @@ class GamefaceDropdown extends CustomElementValidator {
 
         // bound handlers
         this.onDocumentClick = this.onDocumentClick.bind(this);
-        this.onClickOption = this.onClickOption.bind(this);
+        this.onClickOption = createOptionEventHandler(this.onClickOption.bind(this));
         this.onKeydown = this.onKeydown.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.onMouseOverOption = this.onMouseOverOption.bind(this);
-        this.onMouseLeave = this.onMouseLeave.bind(this);
+        this.onMouseOverOption = createOptionEventHandler(this.onMouseOverOption.bind(this));
+        this.onMouseOut = createOptionEventHandler(this.onMouseOut.bind(this));
     }
 
     /**
@@ -193,7 +221,7 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     isSelected(index) {
         if (typeof index === 'number') return this.selectedList.indexOf(index) > -1;
-        console.warn(`Using Dropdwon.isSelected with an unsupported argument type - make sure you passed an index of type number.`);
+        console.warn(`Using Dropdown.isSelected with an unsupported argument type - make sure you passed an index of type number.`);
         return false;
     }
 
@@ -310,7 +338,7 @@ class GamefaceDropdown extends CustomElementValidator {
         components.loadResource(this)
             .then((result) => {
                 this.template = result.template;
-                components.renderOnce(this);
+                components.transferChildren(this, '.guic-dropdown-options', this.querySelectorAll('dropdown-option'));
 
                 // Check the type after the component has rendered.
                 this.multiple = this.hasAttribute('multiple');
@@ -321,12 +349,28 @@ class GamefaceDropdown extends CustomElementValidator {
                 if (this.multiple && !this.collapsable) this.setupMultiple();
                 if (this.disabled) this.disabled = true;
 
-                this.allOptions = this.querySelector('.guic-dropdown-options').children;
+                // comment this out until we fix the bug with the broken live collections
+                // this.allOptions = this.querySelector('.guic-dropdown-options').children;
 
                 this.preselectOptions();
                 this.attachEventListeners();
             })
             .catch(err => console.error(err));
+    }
+
+    /**
+     * A temporary getter for the dropdown's children - until we fix the
+     * live HTMLCollections.
+    */
+    get allOptions() {
+        return this.querySelector('.guic-dropdown-options').children;
+    }
+
+    /**
+     * Called whenever the element is removed from the DOM.
+     */
+    disconnectedCallback() {
+        this.removeEventListeners();
     }
 
     /**
@@ -540,9 +584,11 @@ class GamefaceDropdown extends CustomElementValidator {
      * Called on click on the select element.
      * Toggles the options panel, shows the scrollbar and scrolls to
      * the selected option element.
+     * @param {Event} event
      * @returns {void}
     */
-    onClick() {
+    onClick(event) {
+        if (event) event.stopPropagation();
         if (this.disabled) return;
         if (this.isOpened) return this.closeOptionsPanel();
 
@@ -566,11 +612,18 @@ class GamefaceDropdown extends CustomElementValidator {
      * Attaches event listeners.
     */
     attachEventListeners() {
-        // handle keyboard
         this.addEventListener('keydown', this.onKeydown);
-        // handle click on the selected element placeholder
         this.querySelector('.guic-dropdown-selected-option').addEventListener('click', this.onClick);
         this.toggleOptionsListeners('addEventListener');
+    }
+
+    /**
+     * Removes event listeners.
+    */
+    removeEventListeners() {
+        this.removeEventListener('keydown', this.onKeydown);
+        this.querySelector('.guic-dropdown-selected-option').removeEventListener('click', this.onClick);
+        this.toggleOptionsListeners('removeEventListener');
     }
 
     /**
@@ -579,25 +632,22 @@ class GamefaceDropdown extends CustomElementValidator {
      * executed on the option - addEventListener or removeEventListener.
     */
     toggleOptionsListeners(methodName) {
-        const options = this.querySelectorAll('dropdown-option');
+        const optionsContainer = this.querySelector('.guic-dropdown-options');
 
-        for (let i = 0; i < options.length; i++) {
-            const option = options[i];
-            option[methodName]('selected-option', this.onClickOption);
-            option[methodName]('mouseenter', this.onMouseOverOption);
-            option[methodName]('mouseleave', this.onMouseLeave);
-        }
+        optionsContainer[methodName]('click', this.onClickOption);
+        optionsContainer[methodName]('mouseover', this.onMouseOverOption);
+        optionsContainer[methodName]('mouseout', this.onMouseOut);
     }
 
     /**
      * Handler for mouse leave
-     * @param {HTMLEvent} event
+     * @param {HTMLElement} option
      * @returns {void}
      */
-    onMouseLeave(event) {
-        const index = this.indexOf(this.allOptions, event.target);
+    onMouseOut(option) {
+        const index = this.indexOf(this.allOptions, option);
         if (this.multiple && this.selectedList.indexOf(index) > -1) return;
-        this.removeActiveClass(event.target);
+        this.removeActiveClass(option);
     }
 
     /**
@@ -618,52 +668,54 @@ class GamefaceDropdown extends CustomElementValidator {
 
     /**
      * Called on mouseover an option element.
-     * @param {MouseEvent} event - the current event object.
+     * @param {HTMLElement} option
     */
-    onMouseOverOption(event) {
+    onMouseOverOption(option) {
         const options = this.allOptions;
-        const target = event.target;
-
         if (!this.multiple) this.removeActiveClass(this.selected);
-        this.addActiveClass(target);
-        this.hoveredElIndex = this.indexOf(options, event.target);
+        this.addActiveClass(option);
+        this.hoveredElIndex = this.indexOf(options, option);
     }
 
     /**
      * Called when the option of a multiple select is clicked.
      * Selects the target if it is unselected and deselects it if it is selected.
+     * @param {HTMLElement} option - the option element.
      * @param {Event} event - the event object.
      * @returns {void}
     */
-    onClickMultipleOptions(event) {
+    onClickMultipleOptions(option, event) {
         // reset the selectedList if only one option is selected
-        if (!event.detail.ctrlKey) this.selected = null;
-        if (event.target.hasAttribute('selected')) return this.deselect(event.target);
+        if (!event.ctrlKey) this.selected = null;
+        if (option.hasAttribute('selected')) return this.deselect(option);
 
-        this.setSelected(event.target);
+        this.setSelected(option);
         this.focus();
     }
 
     /**
      * Called on click of an option of a single select.
      * Selects the target and closes the options list.
-     * @param {HTMLEvent} event
+     * @param {HTMLElement} option
     */
-    onClickSingleOption(event) {
-        this.setSelected(event.target);
+    onClickSingleOption(option) {
+        this.setSelected(option);
         this.closeOptionsPanel();
     }
 
     /**
      * Called when an option element is clicked.
      * Updates the selected member and closes the options panel.
+     * @param {HTMLElement} option - the option that was clicked.
      * @param {MouseEvent} event - the current event object.
      * @returns {void}
     */
-    onClickOption(event) {
+    onClickOption(option, event) {
+        event.stopPropagation();
+
         // handle multiple
-        if (this.multiple) return this.onClickMultipleOptions(event);
-        this.onClickSingleOption(event);
+        if (this.multiple) return this.onClickMultipleOptions(option, event);
+        this.onClickSingleOption(option);
     }
 
     /**
@@ -747,10 +799,8 @@ class DropdownOption extends HTMLElement {
     attributeChangedCallback() {
         if (this.hasAttribute('disabled')) {
             this.classList.add('guic-dropdown-option-disabled');
-            this.removeEventListener('click', this.onClick);
         } else {
             this.classList.remove('guic-dropdown-option-disabled');
-            this.addEventListener('click', this.onClick);
         }
     }
 
@@ -758,14 +808,6 @@ class DropdownOption extends HTMLElement {
     constructor() {
         super();
         this.attributeChangedCallback();
-    }
-
-    /**
-     * Click event handler
-     * @param {HTMLEvent} event
-     */
-    onClick(event) {
-        event.target.dispatchEvent(new CustomEvent('selected-option', { detail: { ctrlKey: event.ctrlKey } }));
     }
 }
 

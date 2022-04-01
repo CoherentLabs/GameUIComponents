@@ -1,11 +1,11 @@
 ---
-date: 2022-3-25
+date: 2022-3-31
 title: Dropdown
 draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
-The gameface-dropdown is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
+The gameface-dropdown is part of the Gameface custom components suite.
 
 Installation
 ===================
@@ -36,18 +36,16 @@ The gameface-dropdown component comes with UMD and CJS builds.
 <gameface-dropdown></gameface-dropdown>
 ~~~~
 
-To add options to the dropdown use the **option** slot:
+To add options to the dropdown use the **dropdown-option** custom element:
 
 ~~~~{.html}
-<gameface-dropdown id="my-dropdown">
-    <dropdown-option slot="option">Cat</dropdown-option>
-    <dropdown-option slot="option">Dog</dropdown-option>
-    <dropdown-option slot="option">Giraffe</dropdown-option>
-    <dropdown-option slot="option">Lion</dropdown-option>
+<gameface-dropdown>
+    <dropdown-option>Cat</dropdown-option>
+    <dropdown-option>Dog</dropdown-option>
+    <dropdown-option>Giraffe</dropdown-option>
+    <dropdown-option>Lion</dropdown-option>
 </gameface-dropdown>
 ~~~~
-
-Adding the `id` attribute is **required** for the dropdown to work correctly.
 
 To manually select an option use the setSelected(`<optionIndex>`) function.
 For example - to select the Giraffe option from the dropdown above call:
@@ -94,8 +92,8 @@ To enable multiple selection add a `multiple` attribute to the gameface-dropdown
 
 ~~~~{.html}
 <gameface-dropdown class="gameface-dropdown-component" multiple>
-    <dropdown-option slot="option" >Cat1</dropdown-option>
-    <dropdown-option slot="option">Parrot</dropdown-option>
+    <dropdown-option>Cat1</dropdown-option>
+    <dropdown-option>Parrot</dropdown-option>
 </gameface-dropdown>
 ~~~~
 
@@ -105,8 +103,8 @@ supports multiple selected elements - add the `collapsable` attribute along with
 
 ~~~~{.html}
 <gameface-dropdown class="gameface-dropdown-component" multiple collapsable>
-    <dropdown-option slot="option" >Cat1</dropdown-option>
-    <dropdown-option slot="option">Parrot</dropdown-option>
+    <dropdown-option>Cat1</dropdown-option>
+    <dropdown-option>Parrot</dropdown-option>
 </gameface-dropdown>
 ~~~~
 
