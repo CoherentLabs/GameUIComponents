@@ -1,0 +1,17 @@
+{
+  "name": "interaction-manager",
+  "version": "1.0.0",
+  "description": "Library for the most common UI interactions",
+  "main": "dist/InteractionManager.js",
+  "module": "esm/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/ui_utils/interaction_manager"
+  },
+  "keywords": [
+    "UI",
+    "Interactions"
+  ],
+  "author": "CoherentLabs",
+  "license": "ISC"
+}
