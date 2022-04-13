@@ -15,6 +15,7 @@
     "build:dev": "npm i && npm run clean && npm run link && npm run build -- -ni && npm run build:demo",
     "build:library": "node ./scripts/build.js --library",
     "build:documentation": "node scripts/transfer-doc-files.js",
+    "build:im": "node scripts/build-im.js",
     "check:copyright": "node ./scripts/copyright-notice.js",
     "add:copyright": "node ./scripts/copyright-notice.js -a",
     "clean": "node ./scripts/clean.js",
@@ -55,18 +56,20 @@
     "babel-loader": "^8.2.2",
     "chai": "^4.3.4",
     "css-loader": "^5.2.7",
+    "esbuild": "^0.14.36",
+    "esbuild-plugin-ifdef": "^1.0.1",
     "eslint": "^8.10.0",
     "eslint-config-google": "^0.14.0",
     "husky": "^4.3.8",
-    "esbuild": "^0.14.36",
-    "esbuild": "^0.14.36",
     "karma": "^6.3.4",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^3.1.0",
     "karma-html2js-preprocessor": "^1.1.0",
     "karma-jasmine": "^4.0.1",
+    "karma-sinon": "^1.0.5",
     "karma-spec-reporter": "0.0.32",
     "karma-webpack": "^5.0.0",
+    "lint-staged": "^12.3.5",
     "rimraf": "^3.0.2",
     "rollup": "^2.56.3",
     "rollup-plugin-html": "^0.2.1",
@@ -76,12 +79,9 @@
     "uglifycss": "0.0.29",
     "webpack": "^5.59.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.3.1",
-    "karma-sinon": "^1.0.5",
-    "lint-staged": "^12.3.5"
+    "webpack-dev-server": "^4.3.1"
   },
   "engines": {
     "node": ">=16.10.0"
-  },
-  "dependencies": {}
+  }
 }
