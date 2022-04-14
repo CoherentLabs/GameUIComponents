@@ -17,7 +17,7 @@ const orientationUnitsNames = new Map([
         sizePX: 'widthPX',
         position: 'left',
         scroll: 'scrollWidth',
-    }]
+    }],
 ]);
 
 export { orientationUnitsNames };

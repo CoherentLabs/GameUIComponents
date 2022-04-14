@@ -15,7 +15,7 @@ const orientationUnitsNames = new Map([
         size: 'width',
         position: 'left',
         coordinate: 'x',
-    }]
+    }],
 ]);
 
 export { orientationUnitsNames };

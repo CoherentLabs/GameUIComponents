@@ -4,7 +4,8 @@
         "es2021": true
     },
     "extends": [
-        "google"
+        "google",
+        "eslint:recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 13,
@@ -87,7 +88,7 @@
         "comma-dangle": [
             "error",
             {
-                "arrays": "never",
+                "arrays": "always-multiline",
                 "objects": "always-multiline",
                 "imports": "always-multiline",
                 "exports": "always-multiline",
@@ -131,6 +132,7 @@
                 "requireReturnDescription": false,
                 "requireReturn": false
             }
-        ]
+        ],
+        "no-sparse-arrays": "error"
     }
 }

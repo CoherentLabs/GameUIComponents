@@ -27,7 +27,7 @@ const TEXT_FIELD_ATTRIBUTES = [
     { name: 'max', parseMethod: parseFloat, isAttrValueValidMethod: isNaN },
     { name: 'min', parseMethod: parseFloat, isAttrValueValidMethod: isNaN },
     { name: 'minlength', parseMethod: parseInt, isAttrValueValidMethod: isNaN },
-    { name: 'step', defaultValue: 1, parseMethod: parseFloat, isAttrValueValidMethod: isNaN }
+    { name: 'step', defaultValue: 1, parseMethod: parseFloat, isAttrValueValidMethod: isNaN },
 ];
 
 const TextFieldValidator = components.TextFieldValidator;

@@ -59,7 +59,7 @@ class Router {
     parseURL(url) {
         const parseUrlExp = new RegExp([
             '(.+?(?=\/))',                     // host
-            '(/[^?#]*|)'                       // pathname
+            '(/[^?#]*|)',                      // pathname
         ].join(''));
 
         const parseUrlMap = {

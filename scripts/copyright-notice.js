@@ -22,7 +22,7 @@ const INCLUDED_EXTENSIONS = new Set([
     FILE_EXTENSIONS.JS,
     FILE_EXTENSIONS.CSS,
     FILE_EXTENSIONS.HTML,
-    FILE_EXTENSIONS.MD
+    FILE_EXTENSIONS.MD,
 ]);
 const EXCLUDED_FOLDERS = new Set(['node_modules', 'umd', 'cjs', 'dist']);
 let addCopyrights = false;

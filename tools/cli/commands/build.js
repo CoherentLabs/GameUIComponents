@@ -12,13 +12,13 @@ const html = require('rollup-plugin-html');
 // The module formats which will be bundled
 const FORMATS = [
     'cjs',
-    'umd'
+    'umd',
 ];
 
 // The target environments
 const ENVIRONMENTS = [
     'prod',
-    'dev'
+    'dev',
 ];
 
 /**
@@ -83,7 +83,7 @@ function build(watch) {
         external: ['coherent-gameface-components'],
         plugins: [
             nodeResolve(),
-            html()
+            html(),
         ],
     };
 

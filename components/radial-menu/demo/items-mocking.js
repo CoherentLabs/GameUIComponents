@@ -46,6 +46,6 @@ const itemsModel = {
             id: '247',
             name: 'Laser Blagger',
             imagePath: './images/weapon4.png',
-        }
+        },
     ],
 };
