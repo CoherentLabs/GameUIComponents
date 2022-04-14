@@ -37,7 +37,7 @@ const VALID_FORM_CONTROL_CUSTOM_ELEMENT_TAGS = new Set([
     tags.GAMEFACE_RADIO_GROUP,
     tags.GAMEFACE_RANGESLIDER,
     tags.GAMEFACE_SWITCH,
-    tags.TEXT_FIELD
+    tags.TEXT_FIELD,
 ]);
 
 const NativeElementValidator = components.NativeElementValidator;

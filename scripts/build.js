@@ -18,13 +18,13 @@ let noInstall = false;
 // The module formats which will be bundled
 const FORMATS = [
     'cjs',
-    'umd'
+    'umd',
 ];
 
 // The target environments
 const ENVIRONMENTS = [
     'prod',
-    'dev'
+    'dev',
 ];
 
 /**
@@ -133,7 +133,7 @@ async function buildEverything() {
             external: ['coherent-gameface-components'],
             plugins: [
                 nodeResolve(),
-                html()
+                html(),
             ],
         };
 

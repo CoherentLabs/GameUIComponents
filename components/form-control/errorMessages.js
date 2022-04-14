@@ -8,5 +8,5 @@ export default new Map([
     ['nameMissing', () => 'The elements does not have a name attribute and will not be submitted'],
     ['badURL', element => `Please enter a valid URL. It should match the following pattern: /${element.pattern || element.getAttribute('pattern')}/.`],
     ['badEmail', () => `Please enter a valid email. It should contain a @ symbol.`],
-    ['customError', error => `The following error has ocurred: ${error}.`]
+    ['customError', error => `The following error has ocurred: ${error}.`],
 ]);
