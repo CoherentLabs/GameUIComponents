@@ -13,5 +13,10 @@
     "Interactions"
   ],
   "author": "CoherentLabs",
-  "license": "ISC"
+  "license": "ISC",
+  "eslintConfig": {
+    "globals": {
+        "_IM": false
+    }
+}
 }

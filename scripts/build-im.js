@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -17,10 +18,13 @@ function buildInteractionManager() {
 
     const builds = [
         { folder: 'esm', type: 'esm' },
-        { folder: 'dist', type: 'iife' }
+        { folder: 'dist', type: 'iife' },
     ];
 
     builds.forEach((build) => {
+        // Clear folder if it exists
+        // if (fs.pathExistsSync(`${outputDir}/${build.folder}`)) fs.emptyDirSync(`${outputDir}/${build.folder}`);
+
         // Building for each different entry point, to be able to declare different global names for different files
         entryPoints.forEach((entryPoint) => {
             const options = {
@@ -50,7 +54,7 @@ function getEntryPoints() {
     return itemsInFolder.reduce((acc, el) => {
         if (!fs.statSync(`${pathToFiles}/${el}`).isFile() && path.extname(el) !== 'js') return acc;
 
-        acc.push({ path: `${pathToFiles}/${el}`, name: path.basename(el) });
+        acc.push({ path: `${pathToFiles}/${el}`, name: path.basename(el, '.js') });
         return acc;
     }, []);
 }
