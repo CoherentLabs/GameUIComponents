@@ -11,7 +11,7 @@ class Actions {
      * @returns {void}
      */
     register(action, callback) {
-        if (getAction(action)) return console.error(`The following action ${action} is already registered!`);
+        if (getAction(action)) return console.error(`The following action "${action}" is already registered!`);
 
         _IM.actions.push({ name: action, callback });
     }

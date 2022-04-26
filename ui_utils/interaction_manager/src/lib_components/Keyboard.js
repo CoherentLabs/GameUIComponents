@@ -1,6 +1,5 @@
 import { getKeys, getKeysIndex, getRegisteredKey } from '../utils/global-object-utility-functions';
 import mappings from '../utils/keyboard-mappings';
-import { getModifiers, isCombinationCorrect } from '../utils/utility-functions';
 import Actions from './Actions';
 /**
  * Keyboard class that handles all keyboard interactions
@@ -10,6 +9,8 @@ class Keyboard {
     constructor() {
         this.mappings = mappings;
         this.eventListenerAttached = false;
+
+        this.keysPressed = new Set();
 
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
@@ -31,13 +32,11 @@ class Keyboard {
             this.eventListenerAttached = true;
         }
 
-        if (options.keys.length > 1 && !isCombinationCorrect(options.keys)) {
-            return console.error('You need to provide a correct key combination! Correct key combinations consist of modifier keys (CTRL, SHIFT, ALT) and a key.');
-        }
-
         if (getKeys(options.keys)) {
             return console.error('You are trying to overwrite an existing key combination! To do that, first remove it with .off([keys]) then add it again');
         }
+
+        if (options.type === 'lift' && options.keys.length > 1) return console.error('You can only have a single key trigger an action on lift');
 
         _IM.keyboardFunctions.push(options);
     }
@@ -70,17 +69,19 @@ class Keyboard {
     onKeyDown(event) {
         const keyPressed = this.keyCodeToString(event.keyCode);
 
-        const registeredKeys = getRegisteredKey(keyPressed);
+        this.keysPressed.add(keyPressed);
+
+        const registeredKeys = getKeys([...this.keysPressed]);
 
         if (!registeredKeys) return;
 
-        if (registeredKeys.type !== 'press' && registeredKeys.type !== 'hold') return;
+        if (registeredKeys.type === 'press' && event.repeat) return;
 
-        if (this.mappings.MODIFIERS.includes(keyPressed) && registeredKeys.keys.length > 1) return;
+        if (registeredKeys.type !== 'press' && registeredKeys.type !== 'hold') return;
 
         if (registeredKeys.type === 'hold' && !event.repeat) return;
 
-        this.executeCallback(event, registeredKeys, { CTRL: event.ctrlKey, ALT: event.altKey, SHIFT: event.shiftKey });
+        this.executeCallback(event, registeredKeys);
     }
 
     /**
@@ -91,6 +92,8 @@ class Keyboard {
      */
     onKeyUp(event) {
         const keyPressed = this.keyCodeToString(event.keyCode);
+
+        this.keysPressed.delete(keyPressed);
 
         const registeredKeys = getRegisteredKey(keyPressed);
 
@@ -123,13 +126,7 @@ class Keyboard {
      * @return {void}
      * @private
      */
-    executeCallback(event, registeredKeys, modifiers) {
-        const regModifiers = getModifiers(registeredKeys.keys);
-
-        const modifierPressed = JSON.stringify(regModifiers) === JSON.stringify(modifiers);
-
-        if (!modifierPressed) return;
-
+    executeCallback(event, registeredKeys) {
         if (typeof registeredKeys.callback === 'string') return Actions.execute(registeredKeys.callback, event);
 
         registeredKeys.callback(event);
