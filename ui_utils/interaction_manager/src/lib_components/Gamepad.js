@@ -1,5 +1,6 @@
 import mappings from '../utils/gamepad-mappings';
 import { getGamepadAction, getGamepadActionIndex } from '../utils/global-object-utility-functions';
+import Actions from './Actions';
 
 const AXIS_THRESHOLD = 0.9;
 /**
@@ -27,6 +28,7 @@ class Gamepad {
 
     /**
      * Attaches the event listeners for the gamepads
+     * @private
      */
     init() {
         window.addEventListener('gamepadconnected', this.onGamepadConnected);
@@ -34,6 +36,7 @@ class Gamepad {
 
     /**
      * Removes any attached event listeners for gamepads
+     * @private
      */
     deinit() {
         window.removeEventListener('gamepadconnected', this.onGamepadConnected);
@@ -42,6 +45,7 @@ class Gamepad {
     /**
      * Starts polling on the first connected
      * @returns {void}
+     * @private
      */
     onGamepadConnected() {
         if (this.pollingStarted) return;
@@ -88,6 +92,7 @@ class Gamepad {
     /**
      * Loop that handles button presses and axis movement
      * @returns {void}
+     * @private
      */
     startPolling() {
         const gamepads = navigator.getGamepads();
@@ -110,7 +115,8 @@ class Gamepad {
 
     /**
      *
-     * @param {*} buttons
+     * @param {Object[]} buttons
+     * @private
      */
     handleButtons(buttons) {
         const pressedButtons = buttons.reduce(
@@ -133,7 +139,8 @@ class Gamepad {
 
     /**
      *
-     * @param {*} axes
+     * @param {number[]} axes
+     * @private
      */
     // eslint-disable-next-line max-lines-per-function, require-jsdoc
     handleJoysticks(axes) {
@@ -178,6 +185,7 @@ class Gamepad {
      * Convert button aliases to indexes or keep joystick aliases
      * @param {string | number} action Actions to convert
      * @returns {string | number} Converted action strings
+     * @private
      */
     sanitizeAction(action) {
         if (this.mappings.axisAliases.includes(action.toLowerCase())) return action.toLowerCase();
@@ -194,6 +202,7 @@ class Gamepad {
     /**
      * Gets all registered Joystick actions
      * @returns {Object[]} Joystick actions
+     * @private
      */
     getJoystickActions() {
         return _IM.gamepadFunctions.filter(gpFunc => this.mappings.axisAliases.includes(gpFunc.actions[0]));
@@ -203,8 +212,12 @@ class Gamepad {
      * Executes the callback from the registered action
      * @param {Object} action
      * @param {any} value
+     * @returns {void}
+     * @private
      */
     executeCallback(action, value) {
+        if (typeof action.callback === 'string') return Actions.execute(action.callback, value);
+
         action.callback(value);
     }
 }

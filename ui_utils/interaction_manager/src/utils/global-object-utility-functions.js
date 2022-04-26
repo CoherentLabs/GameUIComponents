@@ -42,3 +42,21 @@ export function getGamepadAction(actions) {
 export function getGamepadActionIndex(actions) {
     return _IM.gamepadFunctions.findIndex(gpFunc => gpFunc.actions.every(action => actions.includes(action)));
 }
+
+/**
+ *
+ * @param {string} action Action to search for
+ * @returns {Object}
+ */
+export function getAction(action) {
+    return _IM.actions.find(actionObj => actionObj.name === action);
+}
+
+/**
+ *
+ * @param {string} action Action to search for
+ * @returns {number}
+ */
+export function getActionIndex(action) {
+    return _IM.actions.findIndex(actionObj => actionObj.name === action);
+}

@@ -1,6 +1,7 @@
 import { getKeys, getKeysIndex, getRegisteredKey } from '../utils/global-object-utility-functions';
 import mappings from '../utils/keyboard-mappings';
 import { getModifiers, isCombinationCorrect } from '../utils/utility-functions';
+import Actions from './Actions';
 /**
  * Keyboard class that handles all keyboard interactions
  */
@@ -119,6 +120,7 @@ class Keyboard {
      * @param {boolean} modifiers.CTRL If ctrl key is pressed
      * @param {boolean} modifiers.ALT If alt key is pressed
      * @param {boolean} modifiers.SHIFT If shift key is pressed
+     * @return {void}
      * @private
      */
     executeCallback(event, registeredKeys, modifiers) {
@@ -126,7 +128,11 @@ class Keyboard {
 
         const modifierPressed = JSON.stringify(regModifiers) === JSON.stringify(modifiers);
 
-        if (modifierPressed) registeredKeys.callback(event);
+        if (!modifierPressed) return;
+
+        if (typeof registeredKeys.callback === 'string') return Actions.execute(registeredKeys.callback, event);
+
+        registeredKeys.callback(event);
     }
 }
 
