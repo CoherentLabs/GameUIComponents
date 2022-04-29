@@ -1,0 +1,297 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Keyboard demo</title>
+        <style>
+            body {
+                background-color: white;
+                width: 100vw;
+                height: 100vh;
+                margin: 0;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .keyboard {
+                width: 1000px;
+                height: 330px;
+                background-color: #eee;
+                border-radius: 2%;
+                box-shadow: 0px 10px 10px 5px rgba(0, 0, 0, 0.2);
+                padding: 20px;
+                margin-top: 100px;
+            }
+
+            .row {
+                width: 100%;
+                display: flex;
+                box-sizing: border-box;
+            }
+
+            .key {
+                width: 35px;
+                height: 35px;
+                color: white;
+                background-color: rgb(63, 63, 63);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 3px;
+                box-shadow: 2px 2px 0px 2px black;
+                margin: 3px;
+                font-size: 12px;
+            }
+
+            .empty-key {
+                width: 35px;
+                height: 35px;
+                margin: 3px;
+            }
+
+            .key-block {
+                display: flex;
+                margin-left: 23.5px;
+            }
+            .small {
+                font-size: 10px;
+            }
+
+            .top-row {
+                margin-bottom: 30px;
+            }
+            .half-key {
+                width: 21.5px;
+            }
+            .tab-key {
+                width: 55.5px;
+            }
+            .caps-lock-key {
+                width: 75px;
+            }
+            .shift-key {
+                width: 96.5px;
+            }
+
+            .spacebar-key {
+                width: 323px;
+            }
+            .mb-0 {
+                margin-bottom: 0;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                height: 38px;
+            }
+            .mt-0 {
+                margin-top: 0;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                height: 38px;
+            }
+            .mr-0 {
+                margin-right: 0;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+            .ml-0 {
+                margin-left: 0;
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+            }
+
+            .pressed {
+                background-color: limegreen;
+                box-shadow: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Press any key on your keyboard to highlight it on the screen.</h1>
+
+        <div class="keyboard">
+            <div class="row top-row">
+                <div class="key" data-key="esc">ESC</div>
+                <div class="key-block">
+                    <div class="key" data-key="f1">F1</div>
+                    <div class="key" data-key="f2">F2</div>
+                    <div class="key" data-key="f3">F3</div>
+                    <div class="key" data-key="f4">F4</div>
+                </div>
+                <div class="key-block">
+                    <div class="key" data-key="f5">F5</div>
+                    <div class="key" data-key="f6">F6</div>
+                    <div class="key" data-key="f7">F7</div>
+                    <div class="key" data-key="f8">F8</div>
+                </div>
+                <div class="key-block">
+                    <div class="key" data-key="f9">F9</div>
+                    <div class="key" data-key="f10">F10</div>
+                    <div class="key" data-key="f11">F11</div>
+                    <div class="key" data-key="f12">F12</div>
+                </div>
+                <div class="key-block">
+                    <div class="key small" data-key="print_scrn">
+                        Print <br />
+                        Scrn
+                    </div>
+                    <div class="key small" data-key="scroll_lock">
+                        Scroll <br />
+                        Lock
+                    </div>
+                    <div class="key small" data-key="pause">Pause</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="key" data-key="backtick">`</div>
+                <div class="key" data-key="1">1</div>
+                <div class="key" data-key="2">2</div>
+                <div class="key" data-key="3">3</div>
+                <div class="key" data-key="4">4</div>
+                <div class="key" data-key="5">5</div>
+                <div class="key" data-key="6">6</div>
+                <div class="key" data-key="7">7</div>
+                <div class="key" data-key="8">8</div>
+                <div class="key" data-key="9">9</div>
+                <div class="key" data-key="0">0</div>
+                <div class="key" data-key="dash">-</div>
+                <div class="key" data-key="equal">=</div>
+                <div class="key" data-key="backward_slash">\</div>
+                <div class="key" data-key="backspace">back</div>
+                <div class="key-block">
+                    <div class="key small" data-key="insert">insert</div>
+                    <div class="key small" data-key="home">home</div>
+                    <div class="key" data-key="page_up">page up</div>
+                </div>
+                <div class="key-block">
+                    <div class="key small" data-key="num_lock">Num Lock</div>
+                    <div class="key" data-key="numpad_forward_slash">/</div>
+                    <div class="key" data-key="numpad_star">*</div>
+                    <div class="key" data-key="numpad_dash">-</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="key tab-key" data-key="tab">tab</div>
+                <div class="key" data-key="q">Q</div>
+                <div class="key" data-key="w">W</div>
+                <div class="key" data-key="e">E</div>
+                <div class="key" data-key="r">R</div>
+                <div class="key" data-key="t">T</div>
+                <div class="key" data-key="y">Y</div>
+                <div class="key" data-key="u">U</div>
+                <div class="key" data-key="i">I</div>
+                <div class="key" data-key="o">O</div>
+                <div class="key" data-key="p">P</div>
+                <div class="key" data-key="square_bracket_left">[</div>
+                <div class="key" data-key="square_bracket_right">]</div>
+                <div class="key tab-key mb-0" data-key="enter"></div>
+                <div class="key-block">
+                    <div class="key small" data-key="delete">delete</div>
+                    <div class="key" data-key="end">end</div>
+                    <div class="key" data-key="page_down">page down</div>
+                </div>
+                <div class="key-block">
+                    <div class="key" data-key="numpad_7">7</div>
+                    <div class="key" data-key="numpad_8">8</div>
+                    <div class="key" data-key="numpad_9">9</div>
+                    <div class="key mb-0" data-key="numpad_plus">+</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="key caps-lock-key" data-key="caps_lock">caps lock</div>
+                <div class="key" data-key="a">A</div>
+                <div class="key" data-key="s">S</div>
+                <div class="key" data-key="d">D</div>
+                <div class="key" data-key="f">F</div>
+                <div class="key" data-key="g">G</div>
+                <div class="key" data-key="h">H</div>
+                <div class="key" data-key="j">J</div>
+                <div class="key" data-key="k">K</div>
+                <div class="key" data-key="l">l</div>
+                <div class="key" data-key="semi_colon">;</div>
+                <div class="key" data-key="quote">'</div>
+                <div class="key half-key mr-0" data-key="enter"></div>
+                <div class="key tab-key mt-0 ml-0" data-key="enter">enter</div>
+                <div class="key-block">
+                    <div class="empty-key"></div>
+                    <div class="empty-key"></div>
+                    <div class="empty-key"></div>
+                </div>
+                <div class="key-block">
+                    <div class="key" data-key="numpad_4">4</div>
+                    <div class="key" data-key="numpad_5">5</div>
+                    <div class="key" data-key="numpad_6">6</div>
+                    <div class="key mt-0" data-key="numpad_plus"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="key shift-key" data-key="shift">shift</div>
+                <div class="key" data-key="z">Z</div>
+                <div class="key" data-key="x">X</div>
+                <div class="key" data-key="c">C</div>
+                <div class="key" data-key="v">V</div>
+                <div class="key" data-key="b">B</div>
+                <div class="key" data-key="n">N</div>
+                <div class="key" data-key="m">M</div>
+                <div class="key" data-key="comma">,</div>
+                <div class="key" data-key="dot">.</div>
+                <div class="key" data-key="forward_slash">/</div>
+                <div class="key shift-key" data-key="shift">shift</div>
+                <div class="key-block">
+                    <div class="empty-key"></div>
+                    <div class="key" data-key="arrow_up">up</div>
+                    <div class="empty-key"></div>
+                </div>
+                <div class="key-block">
+                    <div class="key" data-key="numpad_1">1</div>
+                    <div class="key" data-key="numpad_2">2</div>
+                    <div class="key" data-key="numpad_3">3</div>
+                    <div class="key mb-0" data-key="numpad_enter">enter</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="key tab-key" data-key="ctrl">ctrl</div>
+                <div class="key small" data-key="system">system</div>
+                <div class="key" data-key="alt">alt</div>
+                <div class="key spacebar-key" data-key="spacebar"></div>
+                <div class="key" data-key="alt">alt</div>
+                <div class="key small" data-key="system">system</div>
+                <div class="key tab-key" data-key="ctrl">ctrl</div>
+
+                <div class="key-block">
+                    <div class="key" data-key="arrow_left">left</div>
+                    <div class="key" data-key="arrow_down">down</div>
+                    <div class="key" data-key="arrow_right">right</div>
+                </div>
+                <div class="key-block">
+                    <div class="key caps-lock-key" data-key="numpad_0">0</div>
+                    <div class="key" data-key="numpad_dot">.</div>
+                    <div class="key mt-0" data-key="numpad_enter"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../../dist/Keyboard.js"></script>
+        <script>
+            Object.keys(Keyboard.mappings).forEach((key) => {
+                Keyboard.on({
+                    keys: [key],
+                    callback: (event) => {
+                        event.preventDefault();
+                        
+                        const buttons = document.querySelectorAll(`[data-key="${key.toLowerCase()}"]`);
+                        
+                        console.log(`press ${key}`)
+                        if (!buttons) return;
+
+                        buttons.forEach((button) => button.classList.add('pressed'));
+                    },
+                    type: 'press',
+                });
+            });
+
+        </script>
+    </body>
+</html>

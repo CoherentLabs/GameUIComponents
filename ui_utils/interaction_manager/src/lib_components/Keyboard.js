@@ -1,4 +1,4 @@
-import { getKeys, getKeysIndex, getRegisteredKey } from '../utils/global-object-utility-functions';
+import { getKeys, getKeysIndex } from '../utils/global-object-utility-functions';
 import mappings from '../utils/keyboard-mappings';
 import Actions from './Actions';
 /**
@@ -24,7 +24,7 @@ class Keyboard {
      * @returns {void}
      */
     on(options) {
-        options.keys = options.keys.map(key => key.toUpperCase());
+        options.keys = [...new Set(options.keys.map(key => key.toUpperCase()))]; // Remove duplicate keys. For example if someone write keys: ['A', 'A'] we'll treat it like ['A']
 
         if (!this.eventListenerAttached) {
             document.addEventListener('keydown', this.onKeyDown);
@@ -32,7 +32,9 @@ class Keyboard {
             this.eventListenerAttached = true;
         }
 
-        if (getKeys(options.keys)) {
+        const registeredKeys = getKeys(options.keys);
+
+        if (registeredKeys.length > 0 && registeredKeys.some(key => key.type === options.type)) {
             return console.error('You are trying to overwrite an existing key combination! To do that, first remove it with .off([keys]) then add it again');
         }
 
@@ -73,15 +75,17 @@ class Keyboard {
 
         const registeredKeys = getKeys([...this.keysPressed]);
 
-        if (!registeredKeys) return;
+        if (registeredKeys.length === 0) return;
 
-        if (registeredKeys.type === 'press' && event.repeat) return;
+        registeredKeys.forEach((key) => {
+            if (key.type === 'press' && event.repeat) return;
 
-        if (registeredKeys.type !== 'press' && registeredKeys.type !== 'hold') return;
+            if (key.type !== 'press' && key.type !== 'hold') return;
 
-        if (registeredKeys.type === 'hold' && !event.repeat) return;
+            if (key.type === 'hold' && !event.repeat) return;
 
-        this.executeCallback(event, registeredKeys);
+            this.executeCallback(event, key);
+        });
     }
 
     /**
@@ -95,11 +99,15 @@ class Keyboard {
 
         this.keysPressed.delete(keyPressed);
 
-        const registeredKeys = getRegisteredKey(keyPressed);
+        const registeredKeys = getKeys(keyPressed);
 
-        if (!registeredKeys || registeredKeys.type !== 'lift') return;
+        if (registeredKeys.length === 0) return;
 
-        this.executeCallback(event, registeredKeys, { CTRL: event.ctrlKey, ALT: event.altKey, SHIFT: event.shiftKey });
+        const registeredKey = registeredKeys.find(key => key.type === 'lift');
+
+        if (!registeredKey) return;
+
+        this.executeCallback(event, registeredKey);
     }
 
     /**

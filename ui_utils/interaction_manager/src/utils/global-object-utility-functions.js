@@ -4,7 +4,7 @@
  * @returns {string[]} Key combination from the _IM global object
  */
 export function getKeys(keys) {
-    return _IM.keyboardFunctions.find(keyFunction => keyFunction.keys.every(key => keys.includes(key)));
+    return _IM.keyboardFunctions.filter(keyFunction => keyFunction.keys.every(key => keys.includes(key)));
 }
 
 /**
@@ -14,15 +14,6 @@ export function getKeys(keys) {
  */
 export function getKeysIndex(keys) {
     return _IM.keyboardFunctions.findIndex(keyFunction => keyFunction.keys.every(key => keys.includes(key)));
-}
-
-/**
- *
- * @param {string} key
- * @returns {Object}
- */
-export function getRegisteredKey(key) {
-    return _IM.keyboardFunctions.find(keyFunction => keyFunction.keys.some(registeredKey => registeredKey === key));
 }
 
 /**

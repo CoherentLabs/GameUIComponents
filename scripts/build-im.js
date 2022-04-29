@@ -16,32 +16,42 @@ function buildInteractionManager() {
 
     const entryPoints = getEntryPoints();
 
-    const builds = [
-        { folder: 'esm', type: 'esm' },
-        { folder: 'dist', type: 'iife' },
-    ];
+    const builds = ['esm', 'dist'];
+
+    const errors = [];
 
     builds.forEach((build) => {
         // Clear folder if it exists
-        // if (fs.pathExistsSync(`${outputDir}/${build.folder}`)) fs.emptyDirSync(`${outputDir}/${build.folder}`);
-
-        // Building for each different entry point, to be able to declare different global names for different files
-        entryPoints.forEach((entryPoint) => {
-            const options = {
-                entryPoints: [entryPoint.path],
-                bundle: true,
-                outdir: `${outputDir}/${build.folder}`,
-                format: `${build.type}`,
-                plugins: [],
-            };
-
-            if (build.type === 'iife') options.globalName = entryPoint.name;
-
-            const { errors } = esbuild.buildSync(options);
-
-            if (errors.length > 0) console.error(...errors);
-        });
+        if (fs.pathExistsSync(`${outputDir}/${build}`)) fs.emptyDirSync(`${outputDir}/${build}`);
     });
+
+    // Building for ESM
+    const esmResult = esbuild.buildSync({
+        entryPoints: [`${outputDir}/src/InteractionManager.js`],
+        bundle: true,
+        outdir: `${outputDir}/esm`,
+        format: 'esm',
+    });
+
+    errors.push(...esmResult.errors);
+
+    // Building for UMD
+    entryPoints.forEach((entryPoint) => {
+        const options = {
+            entryPoints: [entryPoint.path],
+            bundle: true,
+            outdir: `${outputDir}/dist`,
+            format: `iife`,
+        };
+
+        options.globalName = entryPoint.name;
+
+        const umdBuild = esbuild.buildSync(options);
+
+        errors.push(...umdBuild.errors);
+    });
+
+    if (errors.length > 0) console.error(...errors);
 }
 
 /**

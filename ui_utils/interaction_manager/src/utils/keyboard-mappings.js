@@ -96,5 +96,5 @@ export default {
     BACKWARD_SLASH: 220,
     BACKTICK: 192,
     EQUAL: 187,
-    MODIFIERS: ['CTRL', 'ALT', 'SHIFT'],
+    SYSTEM: 91,
 };

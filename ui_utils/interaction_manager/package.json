@@ -17,6 +17,10 @@
   "eslintConfig": {
     "globals": {
         "_IM": false
+    },
+    "env": {
+      "browser": true,
+      "node": true
     }
 }
 }
