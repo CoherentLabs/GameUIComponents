@@ -188,6 +188,8 @@ class Gamepad {
      * @private
      */
     sanitizeAction(action) {
+        if (typeof action === 'number') return action;
+
         if (this.mappings.axisAliases.includes(action.toLowerCase())) return action.toLowerCase();
 
         if (typeof action === 'string') {
