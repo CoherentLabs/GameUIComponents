@@ -1,6 +1,6 @@
 import mappings from '../utils/gamepad-mappings';
 import { getGamepadAction, getGamepadActionIndex } from '../utils/global-object-utility-functions';
-import Actions from './Actions';
+import Actions from './actions';
 
 const AXIS_THRESHOLD = 0.9;
 /**

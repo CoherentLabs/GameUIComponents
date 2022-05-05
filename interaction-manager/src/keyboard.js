@@ -1,4 +1,4 @@
-import Keyboard from './lib_components/Keyboard';
+import Keyboard from './lib_components/keyboard';
 import globalObjectInitialize from './utils/global-object-initialize';
 
 globalObjectInitialize();

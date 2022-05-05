@@ -1,6 +1,6 @@
 import { getKeys, getKeysIndex } from '../utils/global-object-utility-functions';
 import mappings from '../utils/keyboard-mappings';
-import Actions from './Actions';
+import Actions from './actions';
 /**
  * Keyboard class that handles all keyboard interactions
  */
