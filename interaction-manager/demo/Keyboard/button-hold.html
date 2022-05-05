@@ -5,7 +5,7 @@
             body {
                 background-color: white;
                 display: flex;
-                flex-direction: column;
+                flex-directionection: column;
                 align-items: center;
             }
             .container {
@@ -32,9 +32,9 @@
         <script src="../../dist/keyboard.js"></script>
         <script>
             const square = document.querySelector('.square');
-            let dir = { x: 5, y: 5 };
+            let direction = { x: 5, y: 5 };
 
-            Keyboard.on({
+            keyboard.on({
                 keys: ['J'],
                 callback: () => {
                     const r = Math.floor(Math.random() * 255);
@@ -45,7 +45,7 @@
                 type: 'press',
             });
 
-            Keyboard.on({
+            keyboard.on({
                 keys: ['J'],
                 callback: () => {
                     const pos = {
@@ -53,11 +53,11 @@
                         y: parseFloat(square.style.top),
                     };
 
-                    if (pos.y < 0 || pos.y > 400) dir.y *= -1;
-                    if (pos.x < 0 || pos.x > 900) dir.x *= -1;
+                    if (pos.y < 0 || pos.y > 400) direction.y *= -1;
+                    if (pos.x < 0 || pos.x > 900) direction.x *= -1;
 
-                    square.style.left = `${pos.x + dir.x}px`;
-                    square.style.top = `${pos.y + dir.y}px`;
+                    square.style.left = `${pos.x + direction.x}px`;
+                    square.style.top = `${pos.y + direction.y}px`;
                 },
                 type: 'hold',
             });

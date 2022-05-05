@@ -120,39 +120,38 @@
 
         <script src="../../dist/gamepad.js"></script>
         <script>
-            Gamepad.enabled = true;
+            gamepad.enabled = true;
 
             const buttons = [];
 
-            for (let i = 0; i < 17; i++) {
-                buttons.push(document.getElementById(i));
+            for (let buttonID = 0; buttonID < 17; buttonID++) {
+                const element = document.getElementById(buttonID);
+                if (!element) continue;
+
+                buttons.push(element);
             }
 
-            Gamepad.on({
+            gamepad.on({
                 actions: ['playstation.r1', 'playstation.l1'],
                 callback: () => {
                     const r = Math.floor(Math.random() * 255);
                     const g = Math.floor(Math.random() * 255);
                     const b = Math.floor(Math.random() * 255);
                     const color = `rgb(${r}, ${g}, ${b})`;
-                    buttons.forEach(button => {
-                        if (!button) return;
-
+                    buttons.forEach((button) => {
                         button.setAttribute('fill', color);
-                    })
-                }
-            })
+                    });
+                },
+            });
 
-            Gamepad.on({
+            gamepad.on({
                 actions: ['playstation.d-pad-left', 'playstation.l3'],
                 callback: () => {
-                    buttons.forEach(button => {
-                        if (!button) return;
-
+                    buttons.forEach((button) => {
                         button.setAttribute('fill', '#A9A8A9');
-                    })
-                }
-            })
+                    });
+                },
+            });
         </script>
     </body>
 </html>

@@ -25,7 +25,7 @@ function buildInteractionManager() {
 
     builds.forEach((build) => {
         // Clear folder if it exists
-        if (fs.pathExistsSync(`${outputDir}/${build}`)) fs.emptyDirSync(`${outputDir}/${build.output}`);
+        if (fs.pathExistsSync(build.output)) fs.emptyDirSync(build.output);
 
         build.entry.forEach((entry) => {
             const options = {
@@ -54,9 +54,10 @@ function getEntryPoints() {
     const pathToFiles = path.resolve(__dirname, '../interaction-manager/src');
     const itemsInFolder = fs.readdirSync(pathToFiles, { encoding: 'utf-8' });
     return itemsInFolder.reduce((acc, el) => {
-        if (!fs.statSync(`${pathToFiles}/${el}`).isFile() && path.extname(el) !== 'js') return acc;
+        const pathToFile = `${pathToFiles}/${el}`;
+        if (!fs.statSync(pathToFile).isFile() && path.extname(el) !== 'js') return acc;
 
-        acc.push({ path: `${pathToFiles}/${el}`, name: path.basename(el, '.js') });
+        acc.push({ path: pathToFile, name: path.basename(el, '.js') });
         return acc;
     }, []);
 }

@@ -1,4 +1,4 @@
-import { getKeys, getKeysIndex } from '../utils/global-object-utility-functions';
+import IM from '../utils/global-object';
 import mappings from '../utils/keyboard-mappings';
 import Actions from './actions';
 /**
@@ -18,13 +18,14 @@ class Keyboard {
 
     /**
      * @param {Object} options
-     * @param {string[]} options.keys Array of keys you want to use, allows only combination of modifier and regular keys
-     * @param {function | string} options.callback Function or action to be executed on the key combination
-     * @param {('press'|'hold'|'lift')} options.type Type of key action you want to use.
+     * @param {string[]} options.keys - Array of keys you want to use, allows only combination of modifier and regular keys
+     * @param {function | string} options.callback - Function or action to be executed on the key combination
+     * @param {('press'|'hold'|'lift')} options.type - Type of key action you want to use.
      * @returns {void}
      */
     on(options) {
-        options.keys = [...new Set(options.keys.map(key => key.toUpperCase()))]; // Remove duplicate keys. For example if someone write keys: ['A', 'A'] we'll treat it like ['A']
+        // Remove duplicate keys. For example if someone write keys: ['A', 'A'] we'll treat it like ['A']
+        options.keys = [...new Set(options.keys.map(key => key.toUpperCase()))];
 
         if (!this.eventListenerAttached) {
             document.addEventListener('keydown', this.onKeyDown);
@@ -32,7 +33,7 @@ class Keyboard {
             this.eventListenerAttached = true;
         }
 
-        const registeredKeys = getKeys(options.keys);
+        const registeredKeys = IM.getKeys(options.keys);
 
         if (registeredKeys.length > 0 && registeredKeys.some(key => key.type === options.type)) {
             return console.error('You are trying to overwrite an existing key combination! To do that, first remove it with .off([keys]) then add it again');
@@ -45,11 +46,11 @@ class Keyboard {
 
     /**
      *
-     * @param {string[]} keys Key combination you want to remove from the listener
+     * @param {string[]} keys - Key combination you want to remove from the listener
      * @returns {void}
      */
     off(keys) {
-        const keyCombinationIndex = getKeysIndex(keys);
+        const keyCombinationIndex = IM.getKeysIndex(keys);
 
         if (keyCombinationIndex === -1) return console.error('You are trying to remove a non-existent key combination!');
 
@@ -70,11 +71,9 @@ class Keyboard {
      */
     onKeyDown(event) {
         const keyPressed = this.keyCodeToString(event.keyCode);
-
         this.keysPressed.add(keyPressed);
 
-        const registeredKeys = getKeys([...this.keysPressed]);
-
+        const registeredKeys = IM.getKeys([...this.keysPressed]);
         if (registeredKeys.length === 0) return;
 
         registeredKeys.forEach((key) => {
@@ -96,15 +95,12 @@ class Keyboard {
      */
     onKeyUp(event) {
         const keyPressed = this.keyCodeToString(event.keyCode);
-
         this.keysPressed.delete(keyPressed);
 
-        const registeredKeys = getKeys(keyPressed);
-
+        const registeredKeys = IM.getKeys(keyPressed);
         if (registeredKeys.length === 0) return;
 
         const registeredKey = registeredKeys.find(key => key.type === 'lift');
-
         if (!registeredKey) return;
 
         this.executeCallback(event, registeredKey);
@@ -124,13 +120,9 @@ class Keyboard {
      * Executes the registered callbacks. Has to be invoked from the onKeyDown and onKeyUp functions
      * @param {KeyboardEvent} event
      * @param {Object} registeredKeys
-     * @param {string[]} registeredKeys.keys Array of keys you want to use, allows only combination of modifier and regular keys
-     * @param {function | string} registeredKeys.callback Function or action to be executed on the key combination
-     * @param {('press'|'hold'|'lift')} registeredKeys.type Type of key action you want to use.
-     * @param {Object} modifiers
-     * @param {boolean} modifiers.CTRL If ctrl key is pressed
-     * @param {boolean} modifiers.ALT If alt key is pressed
-     * @param {boolean} modifiers.SHIFT If shift key is pressed
+     * @param {string[]} registeredKeys.keys - Array of keys you want to use, allows only combination of modifier and regular keys
+     * @param {function | string} registeredKeys.callback - Function or action to be executed on the key combination
+     * @param {('press'|'hold'|'lift')} registeredKeys.type - Type of key action you want to use.
      * @return {void}
      * @private
      */

@@ -1,6 +1,6 @@
 <html lang="en">
     <head>
-        <title>Gamepad demo</title>
+        <title>gamepad demo</title>
         <style>
             body {
                 background-color: white;
@@ -119,16 +119,18 @@
 
         <script src="../../dist/gamepad.js"></script>
         <script>
-            Gamepad.enabled = true;
+            gamepad.enabled = true;
 
             const buttons = [];
 
-            for (let i = 0; i < 17; i++) {
-                buttons.push(document.getElementById(i));
+            const NUMBER_OF_BUTTONS = 17;
+
+            for (let buttonId = 0; buttonId < NUMBER_OF_BUTTONS; buttonId++) {
+                buttons.push(document.getElementById(buttonId));
             }
 
             buttons.forEach((button, index) => {
-                Gamepad.on({
+                gamepad.on({
                     actions: [index],
                     callback: (buttons) => {
                         const color = 169 - 169 * buttons[0].value;
@@ -138,14 +140,14 @@
                 });
             });
 
-            Gamepad.on({
+            gamepad.on({
                 actions: ['left.joystick'],
                 callback: (axes) => {
                     buttons[10].style.transform = `translate(${axes[0] * 12}px, ${axes[1] * 12}px)`;
                 },
             });
 
-            Gamepad.on({
+            gamepad.on({
                 actions: ['right.joystick'],
                 callback: (axes) => {
                     buttons[11].style.transform = `translate(${axes[0] * 12}px, ${axes[1] * 12}px)`;
@@ -154,7 +156,6 @@
 
             const loop = () => {
                 buttons.forEach((button) => {
-                    console.log(button);
                     if (!button || !button.hasAttribute('pressed')) return;
 
                     button.removeAttribute('pressed');

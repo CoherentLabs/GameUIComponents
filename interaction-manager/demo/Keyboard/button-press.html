@@ -276,14 +276,12 @@
         <script src="../../dist/keyboard.js"></script>
         <script>
             Object.keys(Keyboard.mappings).forEach((key) => {
-                Keyboard.on({
+                keyboard.on({
                     keys: [key],
                     callback: (event) => {
                         event.preventDefault();
-                        
                         const buttons = document.querySelectorAll(`[data-key="${key.toLowerCase()}"]`);
                         
-                        console.log(`press ${key}`)
                         if (!buttons) return;
 
                         buttons.forEach((button) => button.classList.add('pressed'));

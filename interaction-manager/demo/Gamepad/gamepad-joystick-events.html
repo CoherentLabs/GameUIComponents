@@ -126,15 +126,13 @@
 
         <script src="../../dist/gamepad.js"></script>
         <script>
-            Gamepad.enabled = true;
-
+            gamepad.enabled = true;
+            
             const buttons = [document.getElementById('10'), document.getElementById('11')];
-
             const gamepadElement = document.querySelector('.gamepad-element');
-
             let rotation = 0;
 
-            Gamepad.on({
+            gamepad.on({
                 actions: ['left.joystick.down'],
                 callback: () => {
                     rotation += 2;
@@ -143,7 +141,7 @@
                 },
             });
 
-            Gamepad.on({
+            gamepad.on({
                 actions: ['right.joystick.up'],
                 callback: () => {
                     rotation -= 2;
@@ -152,14 +150,14 @@
                 },
             });
 
-            Gamepad.on({
+            gamepad.on({
                 actions: ['left.joystick'],
                 callback: (axes) => {
                     buttons[0].style.transform = `translate(${axes[0] * 12}px, ${axes[1] * 12}px)`;
                 },
             });
 
-            Gamepad.on({
+            gamepad.on({
                 actions: ['right.joystick'],
                 callback: (axes) => {
                     buttons[1].style.transform = `translate(${axes[0] * 12}px, ${axes[1] * 12}px)`;

@@ -1,5 +1,5 @@
 import mappings from '../utils/gamepad-mappings';
-import { getGamepadAction, getGamepadActionIndex } from '../utils/global-object-utility-functions';
+import IM from '../utils/global-object';
 import Actions from './actions';
 
 const AXIS_THRESHOLD = 0.9;
@@ -57,9 +57,9 @@ class Gamepad {
     /**
      *
      * @param {Object} options
-     * @param {string} options.actions Action to trigger the callback. Can be name of button or joystick
-     * @param {function} options.callback Callback to trigger on the set action
-     * @param {number} options.gamepadNumber The number of the gamepad that you want to trigger the callback on. Use -1 for all gamepads
+     * @param {string} options.actions - Action to trigger the callback. Can be name of button or joystick
+     * @param {function} options.callback - Callback to trigger on the set action
+     * @param {number} options.gamepadNumber - The number of the gamepad that you want to trigger the callback on. Use -1 for all gamepads
      * @returns {void}
      */
     on(options) {
@@ -69,7 +69,7 @@ class Gamepad {
 
         if (options.actions.length > 1 && isAxisAlias) return console.error(`You can't use an axis action in a combination with a button action`);
 
-        if (getGamepadAction(options.actions)) {
+        if (IM.getGamepadAction(options.actions)) {
             return console.error('You have already registered a callback for this action. If you want to overwrite it, remove it first with .off([actions])');
         }
 
@@ -78,11 +78,11 @@ class Gamepad {
 
     /**
      * Removes registered actions
-     * @param {Array} actions Array containing the action you want to remove
+     * @param {Array} actions - Array containing the action you want to remove
      * @returns {void}
      */
     off(actions) {
-        const actionsIndex = getGamepadActionIndex(actions);
+        const actionsIndex = IM.getGamepadActionIndex(actions);
 
         if (actionsIndex === -1) return console.error('You are trying to remove a non-existent action!');
 
@@ -130,23 +130,21 @@ class Gamepad {
             { buttonIndexes: [], buttons: [] }
         );
 
-        const gamepadAction = getGamepadAction(pressedButtons.buttonIndexes);
-
+        const gamepadAction = IM.getGamepadAction(pressedButtons.buttonIndexes);
         if (!gamepadAction) return;
 
         this.executeCallback(gamepadAction, pressedButtons.buttons);
     }
 
+    /* eslint-disable max-lines-per-function */
     /**
      *
      * @param {number[]} axes
      * @private
      */
-    // eslint-disable-next-line max-lines-per-function, require-jsdoc
     handleJoysticks(axes) {
         const joystickActions = this.getJoystickActions();
 
-        // eslint-disable-next-line max-lines-per-function
         joystickActions.forEach((jAction) => {
             switch (jAction.actions[0]) {
                 case 'left.joystick':
@@ -180,11 +178,12 @@ class Gamepad {
             }
         });
     }
+    /* eslint-enable max-lines-per-function */
 
     /**
      * Convert button aliases to indexes or keep joystick aliases
-     * @param {string | number} action Actions to convert
-     * @returns {string | number} Converted action strings
+     * @param {string | number} action - Actions to convert
+     * @returns {string | number} - Converted action strings
      * @private
      */
     sanitizeAction(action) {
@@ -203,7 +202,7 @@ class Gamepad {
 
     /**
      * Gets all registered Joystick actions
-     * @returns {Object[]} Joystick actions
+     * @returns {Object[]} - Joystick actions
      * @private
      */
     getJoystickActions() {

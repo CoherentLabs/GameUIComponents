@@ -1,6 +1,6 @@
 import Gamepad from './lib_components/gamepad';
-import globalObjectInitialize from './utils/global-object-initialize';
+import IM from './utils/global-object';
 
-globalObjectInitialize();
+IM.init();
 
 module.exports = Gamepad;

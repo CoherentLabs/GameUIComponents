@@ -95,16 +95,15 @@
         </div>
         <script src="../../dist/keyboard.js"></script>
         <script>
-            Keyboard.on({
+            keyboard.on({
                 keys: ['A', 'S', 'D'],
                 callback: () => {
                     document.querySelector('.square').style.animationPlayState = 'running';
-                    console.log('test');
                 },
                 type: 'press',
             });
 
-            Keyboard.on({
+            keyboard.on({
                 keys: ['Z', 'X', 'C'],
                 callback: () => {
                     document.querySelector('.square').style.animationPlayState = 'paused';
@@ -112,7 +111,7 @@
                 type: 'press',
             });
 
-            Keyboard.on({
+            keyboard.on({
                 keys: ['CTRL', 'ALT', 'Q'],
                 callback: () => {
                     document.querySelector('.square').style.animationDirection = 'normal';
@@ -120,7 +119,7 @@
                 type: 'press',
             });
 
-            Keyboard.on({
+            keyboard.on({
                 keys: ['SHIFT', 'ALT', 'E'],
                 callback: () => {
                     document.querySelector('.square').style.animationDirection = 'reverse';

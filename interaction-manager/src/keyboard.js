@@ -1,6 +1,6 @@
 import Keyboard from './lib_components/keyboard';
-import globalObjectInitialize from './utils/global-object-initialize';
+import IM from './utils/global-object';
 
-globalObjectInitialize();
+IM.init();
 
 module.exports = Keyboard;
