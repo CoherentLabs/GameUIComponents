@@ -14,6 +14,8 @@ class Keyboard {
 
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
+
+        if (!window.KEYS) window.KEYS = mappings;
     }
 
     /**
@@ -25,7 +27,18 @@ class Keyboard {
      */
     on(options) {
         // Remove duplicate keys. For example if someone write keys: ['A', 'A'] we'll treat it like ['A']
-        options.keys = [...new Set(options.keys.map(key => key.toUpperCase()))];
+        options.keys = [
+            ...new Set(
+                options.keys.map((key) => {
+                    key = typeof key === 'number' ? this.keyCodeToString(key) : key;
+                    return key.toUpperCase();
+                })
+            ),
+        ];
+
+        const incorrectKeys = options.keys.filter(key => !this.mappings[key]);
+
+        if (incorrectKeys.length > 0) return console.error(`The following keys [${incorrectKeys.join(', ')}] you have entered are incorrect! `);
 
         if (!this.eventListenerAttached) {
             document.addEventListener('keydown', this.onKeyDown);

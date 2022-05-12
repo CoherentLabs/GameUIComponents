@@ -108,9 +108,9 @@ class Gamepad {
             this.handleJoysticks(gamepad.axes);
         });
 
-        requestAnimationFrame(() => {
+        setTimeout(() => {
             this.startPolling();
-        });
+        }, 100);
     }
 
     /**
