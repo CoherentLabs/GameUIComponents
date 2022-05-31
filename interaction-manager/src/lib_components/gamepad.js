@@ -86,7 +86,7 @@ class Gamepad {
 
         if (actionsIndex === -1) return console.error('You are trying to remove a non-existent action!');
 
-        _IM.keyboardFunctions.splice(actionsIndex, 1);
+        _IM.gamepadFunctions.splice(actionsIndex, 1);
     }
 
     /**
@@ -108,9 +108,9 @@ class Gamepad {
             this.handleJoysticks(gamepad.axes);
         });
 
-        requestAnimationFrame(() => {
+        setTimeout(() => {
             this.startPolling();
-        });
+        }, 100);
     }
 
     /**

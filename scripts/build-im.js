@@ -17,7 +17,7 @@ function buildInteractionManager() {
     const entryPoints = getEntryPoints();
 
     const builds = [
-        { output: `${outputDir}/esm`, entry: [{ path: `${outputDir}/src/interaction_manager.js` }], format: 'esm' },
+        { output: `${outputDir}/esm`, entry: [{ path: `${outputDir}/src/interaction-manager.js` }], format: 'esm' },
         { output: `${outputDir}/dist`, entry: entryPoints, format: 'iife', globalName: true },
     ];
 
@@ -35,7 +35,7 @@ function buildInteractionManager() {
                 format: build.format,
             };
 
-            if (build.globalName) options.globalName = entry.name;
+            if (build.globalName) options.globalName = kebabToCamelCase(entry.name);
 
             const buildResult = esbuild.buildSync(options);
 
@@ -60,6 +60,15 @@ function getEntryPoints() {
         acc.push({ path: pathToFile, name: path.basename(el, '.js') });
         return acc;
     }, []);
+}
+
+/**
+ * Converts to CamelCase
+ * @param {string} string
+ * @returns {string}
+ */
+function kebabToCamelCase(string) {
+    return string.replace(/-./g, word => word[1].toUpperCase());
 }
 
 buildInteractionManager();

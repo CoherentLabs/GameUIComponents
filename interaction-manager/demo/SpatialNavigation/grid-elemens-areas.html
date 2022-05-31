@@ -1,0 +1,126 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Spatial Navigation Demo</title>
+        <style>
+            body {
+                background-color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+            
+            .area-container {
+                width: 99vw;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .area-containers {
+                width: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .container {
+                width: 400px;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .square {
+                width: 100px;
+                height: 100px;
+                background-color: cadetblue;
+                border: 1px solid black;
+                box-sizing: border-box;
+            }
+
+            .square1 {
+                background-color: cornflowerblue;
+            }
+
+            .square2 {
+                background-color: burlywood;
+            }
+
+            .square:focus {
+                background-color: crimson;
+            }
+
+            .disabled {
+                filter: grayscale(1);
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Move the focus around by using the keyboard arrow keys</h2>
+        <h2>Press Spacebar to change areas</h2>
+        <div class="area-container">
+            <div class="area-containers">
+                <div class="container">
+                    <div class="square square1">1</div>
+                    <div class="square square1">2</div>
+                    <div class="square square1">3</div>
+                    <div class="square square1">4</div>
+                    <div class="square square1">5</div>
+                    <div class="square square1">6</div>
+                    <div class="square square1">7</div>
+                    <div class="square square1">8</div>
+                    <div class="square square1">9</div>
+                    <div class="square square1">10</div>
+                    <div class="square square1">11</div>
+                    <div class="square square1">12</div>
+                    <div class="square square1">13</div>
+                    <div class="square square1">14</div>
+                    <div class="square square1">15</div>
+                    <div class="square square1">16</div>
+                </div>
+            </div>
+            <div class="area-containers">
+                <div class="container">
+                    <div class="square square2">1</div>
+                    <div class="square square2">2</div>
+                    <div class="square square2">3</div>
+                    <div class="square square2">4</div>
+                    <div class="square square2">5</div>
+                    <div class="square square2">6</div>
+                    <div class="square square2">7</div>
+                    <div class="square square2">8</div>
+                    <div class="square square2">9</div>
+                    <div class="square square2">10</div>
+                    <div class="square square2">11</div>
+                    <div class="square square2">12</div>
+                    <div class="square square2">13</div>
+                    <div class="square square2">14</div>
+                    <div class="square square2">15</div>
+                    <div class="square square2">16</div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../../dist/spatial-navigation.js"></script>
+        <script src="../../dist/gamepad.js"></script>
+        <script>
+            let counter = 0;
+
+            spatialNavigation.init([
+                { area: 'square-1', elements: ['.square1'] },
+                { area: 'square-2', elements: ['.square2'] },
+            ]);
+
+            spatialNavigation.focusFirst('square-1');
+
+            document.addEventListener('keydown', (e) => {
+                if (e.keyCode === KEYS.SPACEBAR && !e.repeat) {
+                    counter++;
+                    spatialNavigation.switchArea(`square-${(counter % 2) + 1}`);
+                }
+            });
+        </script>
+    </body>
+</html>
