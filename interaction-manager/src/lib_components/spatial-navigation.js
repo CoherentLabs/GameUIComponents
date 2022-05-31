@@ -33,11 +33,9 @@ class SpatialNavigation {
      */
     init(navigatableElements = []) {
         if (this.enabled) return;
-
         this.enabled = true;
 
         this.add(navigatableElements);
-
         this.registerKeyActions();
     }
 
@@ -47,11 +45,9 @@ class SpatialNavigation {
      */
     deinit() {
         if (!this.enabled) return;
-
         this.enabled = false;
 
         this.navigatableElements = { default: [] };
-
         this.removeKeyActions();
     }
     /**
@@ -76,7 +72,7 @@ class SpatialNavigation {
     remove(area = 'default') {
         if (!this.enabled) return;
 
-        if (!this.navigatableElements[area]) return console.error(`The area '${area}' you are trying to remve doesn't exist`);
+        if (!this.navigatableElements[area]) return console.error(`The area '${area}' you are trying to remove doesn't exist`);
 
         this.navigatableElements[area].forEach(element => element.removeAttribute('tabindex'));
 
@@ -151,7 +147,7 @@ class SpatialNavigation {
     }
 
     /**
-     * Gets the element closest to the oposite edge of the navigation direction
+     * Gets the element closest to the opposite edge of the navigation direction
      * @param {string} direction
      * @param {NavigationObject[]} elements
      * @param {Object} focusedElement
@@ -279,10 +275,11 @@ class SpatialNavigation {
      * @returns {void}
      */
     focusFirst(area = 'default') {
-        if (!this.navigatableElements[area] || this.navigatableElements[area].length === 0) {
+        const navigatableElements = this.navigatableElements[area];
+        if (!navigatableElements || navigatableElements.length === 0) {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
-        this.navigatableElements[area][0].focus();
+        navigatableElements[0].focus();
     }
 
     /**
@@ -292,10 +289,12 @@ class SpatialNavigation {
      */
     focusLast(area = 'default') {
         if (!this.enabled) return;
-        if (!this.navigatableElements[area] || this.navigatableElements[area].length === 0) {
+
+        const navigatableElements = this.navigatableElements[area];
+        if (!navigatableElements || navigatableElements.length === 0) {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
-        this.navigatableElements[area].slice(-1)[0].focus();
+        navigatableElements.slice(-1)[0].focus();
     }
 
     /**
