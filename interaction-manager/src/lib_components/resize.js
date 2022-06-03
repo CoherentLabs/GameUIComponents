@@ -1,7 +1,5 @@
-import { clamp } from '../utils/utility-functions';
+import { clamp, createHash } from '../utils/utility-functions';
 import actions from './actions';
-
-const hash = (Math.random() + 1).toString(36).substring(7);
 
 /**
  * Allows you to resize elements on the screen
@@ -9,15 +7,20 @@ const hash = (Math.random() + 1).toString(36).substring(7);
 class Resize {
     /**
      *
-     * @param {Object} options
-     * @param {string} options.element
-     * @param {number} options.edgeWidth
-     * @param {function} options.onWidthChange
-     * @param {function} options.onHeightChange
-     * @param {number} options.widthMin
-     * @param {number} options.widthMax
-     * @param {number} options.heightMin
-     * @param {number} options.heightMax
+     * @typedef {Object} ResizeOptions
+     * @property {string} element
+     * @property {number} edgeWidth
+     * @property {function} onWidthChange
+     * @property {function} onHeightChange
+     * @property {number} widthMin
+     * @property {number} widthMax
+     * @property {number} heightMin
+     * @property {number} heightMax
+     */
+
+    /**
+     *
+     * @param {ResizeOptions} options
      */
     constructor(options) {
         this.options = options;
@@ -36,8 +39,10 @@ class Resize {
             bottomRight: null,
         };
 
-        this.actionHeight = `resize-height-${hash}`;
-        this.actionWidth = `resize-width-${hash}`;
+        const hash = createHash();
+
+        this.heightAction = `resize-height-${hash}`;
+        this.widthAction = `resize-width-${hash}`;
 
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -106,16 +111,16 @@ class Resize {
 
         switch (this.activeEdge) {
             case 'bottom':
-                actions.execute(this.actionHeight, offsetY);
+                actions.execute(this.heightAction, offsetY);
                 this.options.onHeightChange && this.options.onHeightChange(offsetY);
                 break;
             case 'right':
-                actions.execute(this.actionWidth, offsetX);
+                actions.execute(this.widthAction, offsetX);
                 this.options.onWidthChange && this.options.onWidthChange(offsetX);
                 break;
             case 'bottomRight':
-                actions.execute(this.actionHeight, offsetY);
-                actions.execute(this.actionWidth, offsetX);
+                actions.execute(this.heightAction, offsetY);
+                actions.execute(this.widthAction, offsetX);
                 this.options.onWidthChange && this.options.onWidthChange(offsetX);
                 this.options.onHeightChange && this.options.onHeightChange(offsetY);
                 break;
@@ -133,7 +138,7 @@ class Resize {
     }
 
     /**
-     * Sets the active adge when resizing. If there is no edge it returns null
+     * Sets the active edge when resizing. If there is no edge it returns null
      * @param {HTMLElement} element
      * @returns {string|null}
      */
@@ -203,14 +208,14 @@ class Resize {
      * Registers actions
      */
     registerActions() {
-        actions.register(this.actionHeight, (height) => {
+        actions.register(this.heightAction, (height) => {
             this.resizableElement.style.height = `${clamp(height, this.options.heightMin, this.options.heightMax)}px`;
             this.edges.right.style.height = `${
                 clamp(height, this.options.heightMin, this.options.heightMax) - this.options.edgeWidth
             }px`;
         });
 
-        actions.register(this.actionWidth, (width) => {
+        actions.register(this.widthAction, (width) => {
             this.resizableElement.style.width = `${clamp(width, this.options.widthMin, this.options.widthMax)}px`;
             this.edges.bottom.style.width = `${
                 clamp(width, this.options.widthMin, this.options.widthMax) - this.options.edgeWidth
@@ -222,8 +227,8 @@ class Resize {
      * Removes the registered actions
      */
     removeActions() {
-        actions.remove(this.actionHeight);
-        actions.remove(this.actionWidth);
+        actions.remove(this.heightAction);
+        actions.remove(this.widthAction);
     }
 }
 

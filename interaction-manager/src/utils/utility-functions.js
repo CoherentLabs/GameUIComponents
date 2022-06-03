@@ -17,3 +17,11 @@ export function toDeg(rad) {
 export function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
+
+/**
+ * Creates a random 5 character hash
+ * @returns {string}
+ */
+export function createHash() {
+    return (Math.random() + 1).toString(36).substring(7);
+}

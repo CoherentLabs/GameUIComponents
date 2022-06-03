@@ -1,61 +1,44 @@
+import DragBase from '../utils/drag-base';
+import { createHash } from '../utils/utility-functions';
 import actions from './actions';
 
 /**
  * Makes an element draggable
  */
-class Dropzone {
+class Dropzone extends DragBase {
     /**
      *
-     * @param {Object} options
-     * @param {string} options.element
-     * @param {string[]} options.dropzones
-     * @param {string} options.draggedClass
-     * @param {string} options.dropzoneActiveClass
-     * @param {'switch'|'add'|'shift'|'none'} options.dropType If there is already an element in the dropzone
-     * @param {function} options.onDragStart
-     * @param {function} options.onDragMove
-     * @param {function} options.onDragEnd
-     * @param {function} options.onDropZoneEnter
-     * @param {function} options.onDropZoneLeave
+     * @typedef {Object} DropzoneOptions
+     * @property {string} element
+     * @property {string[]} dropzones
+     * @property {string} draggedClass
+     * @property {string} dropzoneActiveClass
+     * @property {'switch'|'add'|'shift'|'none'} dropType If there is already an element in the dropzone
+     * @property {function} onDragStart
+     * @property {function} onDragMove
+     * @property {function} onDragEnd
+     * @property {function} onDropZoneEnter
+     * @property {function} onDropZoneLeave
+     */
+
+    /**
+     *
+     * @param {DropzoneOptions} options
      */
     constructor(options) {
-        const hash = (Math.random() + 1).toString(36).substring(7);
+        super(options);
+        const hash = createHash();
 
-        this.draggableElements = [];
         this.dropzones = [];
-        this.draggedElement = null;
         this.draggedOver = null;
-        this.enabled = false;
 
         this.actionName = `drag-and-drop-${hash}`;
         this.automaticAction = `move-to-${hash}`;
 
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseEnter = this.onMouseEnter.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
 
-        this.options = options;
-
         this.init();
-    }
-
-    /**
-     * Get the index of the dragged item in the draggableElements
-     */
-    get draggedItemIndex() {
-        return [...this.draggableElements].indexOf(this.draggedElement);
-    }
-
-    /**
-     * Gets the body scroll offset to calculate in the dragging
-     */
-    get scrollOffset() {
-        return {
-            x: document.body.scrollLeft,
-            y: document.body.scrollTop,
-        };
     }
 
     /**

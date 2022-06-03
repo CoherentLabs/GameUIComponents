@@ -1,34 +1,32 @@
-import { clamp } from '../utils/utility-functions';
+import DragBase from '../utils/drag-base';
+import { clamp, createHash } from '../utils/utility-functions';
 import actions from './actions';
 
 const AXIS = ['x', 'y'];
 /**
  * Makes an element draggable
  */
-class Draggable {
+class Draggable extends DragBase {
+    /**
+     * @typedef {Object} DraggableOptions
+     * @property {string} element
+     * @property {string} restrictTo
+     * @property {string} dragClass
+     * @property {'x'|'y'} lockAxis
+     * @property {function} onDragStart
+     * @property {function} onDragMove
+     * @property {function} onDragEnd
+     */
+
     /**
      *
-     * @param {Object} options
-     * @param {string} options.element
-     * @param {string} options.restrictTo
-     * @param {string} options.dragClass
-     * @param {'x'|'y'} options.lockAxis
-     * @param {function} options.onDragStart
-     * @param {function} options.onDragMove
-     * @param {function} options.onDragEnd
+     * @param {DraggableOptions} options
      */
     constructor(options) {
-        const hash = (Math.random() + 1).toString(36).substring(7);
-
-        this.draggableElements = [];
-        this.draggedElement = null;
-        this.enabled = false;
+        super(options);
+        const hash = createHash();
 
         this.actionName = `drag-around-${hash}`;
-
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
 
         this.restrict = {
             top: 0,
@@ -37,26 +35,7 @@ class Draggable {
             bottom: Infinity,
         };
 
-        this.options = options;
-
         this.init();
-    }
-
-    /**
-     * Get the index of the dragged item in the draggableElements
-     */
-    get draggedItemIndex() {
-        return [...this.draggableElements].indexOf(this.draggedElement);
-    }
-
-    /**
-     * Gets the body scroll offset to calculate in the dragging
-     */
-    get scrollOffset() {
-        return {
-            x: document.body.scrollLeft,
-            y: document.body.scrollTop,
-        };
     }
 
     /**
@@ -113,8 +92,8 @@ class Draggable {
      */
     onMouseMove(event) {
         actions.execute(this.actionName, {
-            x: event.clientX + this.scrollOffset.x,
-            y: event.clientY + this.scrollOffset.y,
+            x: event.clientX + this.bodyScrollOffset.x,
+            y: event.clientY + this.bodyScrollOffset.y,
             index: this.draggedItemIndex,
         });
     }

@@ -1,5 +1,8 @@
-import { toDeg } from '../utils/utility-functions';
+import { createHash, toDeg } from '../utils/utility-functions';
 import actions from './actions';
+
+const fullRotation = 360;
+const rotationOffset = 90;
 
 /**
  * Allows for an element to be rotated
@@ -9,11 +12,11 @@ class Rotate {
      *
      * @param {Object} options
      * @param {string} options.element
-     * @param {number} options.snapAngle
+     * @param {number} options.snapAngle Snaps the rotating element to increments of that angle
      * @param {function} options.onRotation
      */
     constructor(options) {
-        const hash = (Math.random() + 1).toString(36).substring(7);
+        const hash = createHash();
 
         this.options = options;
 
@@ -88,7 +91,7 @@ class Rotate {
 
         actions.execute(this.actionName, this.angle);
 
-        this.options.onRotation && this.options.onRotation(this.angle < 0 ? 360 + this.angle : this.angle);
+        this.options.onRotation && this.options.onRotation(this.angle < 0 ? fullRotation + this.angle : this.angle);
     }
 
     /**
@@ -124,7 +127,7 @@ class Rotate {
     getAngle(x, y) {
         const offsetX = x - this.elementPosition.x;
         const offsetY = y - this.elementPosition.y;
-        return (toDeg(Math.atan2(offsetY, offsetX)) + 450) % 360;
+        return (toDeg(Math.atan2(offsetY, offsetX)) + fullRotation + rotationOffset) % fullRotation;
     }
 }
 

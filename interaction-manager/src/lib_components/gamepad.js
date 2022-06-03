@@ -69,7 +69,9 @@ class Gamepad {
 
         const isAxisAlias = this.mappings.axisAliases.some(alias => options.actions.includes(alias));
 
-        if (options.actions.length > 1 && isAxisAlias) { return console.error(`You can't use an axis action in a combination with a button action`); }
+        if (options.actions.length > 1 && isAxisAlias) {
+            return console.error(`You can't use an axis action in a combination with a button action`);
+        }
 
         if (IM.getGamepadAction(options.actions)) {
             return console.error(
@@ -113,9 +115,7 @@ class Gamepad {
         });
 
         if (this.lessSensitive) {
-            setTimeout(() => {
-                this.startPolling();
-            }, 100);
+            setTimeout(this.startPolling, 100);
             return;
         }
 
