@@ -92,6 +92,8 @@ class Zoom {
         actions.register(this.actionName, ({ x, y, zoomDirection }) => {
             const offset = this.calculateOffsets(x, y);
 
+            this.options.onZoom && this.options.onZoom();
+
             const scale = this.transform.scale - zoomDirection * this.options.zoomFactor;
             if (scale < this.options.minZoom || scale > this.options.maxZoom) return;
 
