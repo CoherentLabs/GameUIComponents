@@ -38,8 +38,14 @@ function buildInteractionManager() {
             if (build.globalName) options.globalName = kebabToCamelCase(entry.name);
 
             const buildResult = esbuild.buildSync(options);
+            const buildResultMinified = esbuild.buildSync({
+                ...options,
+                minify: true,
+                outExtension: { '.js': '.min.js' },
+                sourcemap: true,
+            });
 
-            if (buildResult.errors) errors.push(...buildResult.errors);
+            if (buildResult.errors) errors.push(...buildResult.errors, ...buildResultMinified.errors);
         });
     });
 
