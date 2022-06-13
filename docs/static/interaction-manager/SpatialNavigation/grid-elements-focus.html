@@ -34,7 +34,6 @@
         </style>
     </head>
     <body>
-        <h2>Move the focus around by using the keyboard arrow keys or the gamepad d-pad</h2>
         <div class="container">
             <div class="square">1</div>
             <div class="square">2</div>
@@ -54,15 +53,9 @@
             <div class="square">16</div>
         </div>
 
-        <script src="../../dist/spatial-navigation.js"></script>
-        <script src="../../dist/gamepad.js"></script>
+        <script src="./spatial-navigation.min.js"></script>
         <script>
             spatialNavigation.init(['.square']);
-
-            spatialNavigation.focusFirst();
-
-            gamepad.enabled = true;
-            gamepad.lessSensitive = true;
         </script>
     </body>
 </html>
