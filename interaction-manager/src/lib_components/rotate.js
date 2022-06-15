@@ -95,8 +95,6 @@ class Rotate {
         }
 
         actions.execute(this.actionName, this.angle);
-
-        this.options.onRotation && this.options.onRotation(this.angle < 0 ? fullRotation + this.angle : this.angle);
     }
 
     /**
@@ -113,6 +111,7 @@ class Rotate {
     registerAction() {
         actions.register(this.actionName, (angle) => {
             this.rotatingElement.style.transform = `rotate(${angle}deg)`;
+            this.options.onRotation && this.options.onRotation(angle < 0 ? fullRotation + angle : angle);
         });
     }
 

@@ -10,6 +10,7 @@ const { linkSingleComponent } = require('./helpers');
 const TESTS_FOLDER = path.join(__dirname, '../tools/tests');
 const ROOT_FOLDER = path.join(__dirname, '../');
 const COMPONENTS_FOLDER = path.join(__dirname, '../components');
+const INTERACTION_MANAGER_FOLDER = path.join(__dirname, '../interaction-manager')
 
 const components = fs.readdirSync(COMPONENTS_FOLDER);
 
@@ -27,6 +28,13 @@ function areComponentsPackaged() {
         if (!fs.existsSync(componentTestFolder) || fs.existsSync(componentFolder)) continue;
         notBuildComponents.push(component);
     }
+
+    const IMFolder = path.join(INTERACTION_MANAGER_FOLDER, 'dist');
+    const IMTestFolder = path.join(TESTS_FOLDER, 'interaction-manager');
+
+    if (fs.existsSync(IMTestFolder) && !fs.existsSync(IMFolder)) notBuildComponents.push('interaction-manager');
+
+
     if (!notBuildComponents.length) return true;
     console.error(`Missing packages for ${components.join(', ')}.
     Did you forget to build the components?
@@ -50,7 +58,10 @@ function linkDependencies() {
  * @returns {void}
  */
 function test(rebuild, browsersArg, noLink = false) {
-    if (rebuild) execSync('npm run build:dev', { cwd: ROOT_FOLDER, stdio: 'inherit' });
+    if (rebuild) {
+        execSync('npm run build:dev', { cwd: ROOT_FOLDER, stdio: 'inherit' });
+        execSync('npm run build:im', { cwd: ROOT_FOLDER, stdio: 'inherit' });
+    }
     if (!areComponentsPackaged()) return;
 
     execSync('npm i', { cwd: ROOT_FOLDER, stdio: 'inherit' });
@@ -85,7 +96,7 @@ function test(rebuild, browsersArg, noLink = false) {
 /** */
 function main() {
     const args = process.argv.slice(2);
-    const rebuild = (args.indexOf('--rebuild') > -1);
+    const rebuild = args.indexOf('--rebuild') > -1;
     const noLink = args.indexOf('--no-link') > -1 || false;
     let browsersArg = '';
 

@@ -99,7 +99,7 @@ class Zoom {
 
             this.options.onZoom && this.options.onZoom();
 
-            const scale = this.transform.scale - zoomDirection * this.options.zoomFactor;
+            const scale = (this.transform.scale - zoomDirection * this.options.zoomFactor).toFixed(5);
             if (scale < this.options.minZoom || scale > this.options.maxZoom) return;
 
             const zoomPoint = {
