@@ -15,6 +15,8 @@ class Gamepad {
 
         this.onGamepadConnected = this.onGamepadConnected.bind(this);
         this.sanitizeAction = this.sanitizeAction.bind(this);
+
+        this.lessSensitive = false;
     }
 
     /**
@@ -67,10 +69,14 @@ class Gamepad {
 
         const isAxisAlias = this.mappings.axisAliases.some(alias => options.actions.includes(alias));
 
-        if (options.actions.length > 1 && isAxisAlias) return console.error(`You can't use an axis action in a combination with a button action`);
+        if (options.actions.length > 1 && isAxisAlias) {
+            return console.error(`You can't use an axis action in a combination with a button action`);
+        }
 
         if (IM.getGamepadAction(options.actions)) {
-            return console.error('You have already registered a callback for this action. If you want to overwrite it, remove it first with .off([actions])');
+            return console.error(
+                'You have already registered a callback for this action. If you want to overwrite it, remove it first with .off([actions])'
+            );
         }
 
         _IM.gamepadFunctions.push(options);
@@ -108,9 +114,12 @@ class Gamepad {
             this.handleJoysticks(gamepad.axes);
         });
 
-        setTimeout(() => {
-            this.startPolling();
-        }, 100);
+        if (this.lessSensitive) {
+            setTimeout(this.startPolling, 100);
+            return;
+        }
+
+        requestAnimationFrame(() => this.startPolling());
     }
 
     /**
