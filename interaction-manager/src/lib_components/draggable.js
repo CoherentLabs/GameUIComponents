@@ -78,6 +78,13 @@ class Draggable extends DragBase {
         this.elementRect = this.draggedElement.getBoundingClientRect();
 
         this.setRestriction();
+        this.setPointerOffset(event.clientX, event.clientY, this.draggedElement);
+
+        actions.execute(this.actionName, {
+            x: event.clientX + this.bodyScrollOffset.x - this.offset.x,
+            y: event.clientY + this.bodyScrollOffset.y - this.offset.y,
+            index: this.draggedItemIndex,
+        });
 
         this.options.dragClass && this.draggedElement.classList.add(this.options.dragClass);
         this.options.onDragStart && this.options.onDragStart(this.draggedElement);
@@ -92,8 +99,8 @@ class Draggable extends DragBase {
      */
     onMouseMove(event) {
         actions.execute(this.actionName, {
-            x: event.clientX + this.bodyScrollOffset.x,
-            y: event.clientY + this.bodyScrollOffset.y,
+            x: event.clientX + this.bodyScrollOffset.x - this.offset.x,
+            y: event.clientY + this.bodyScrollOffset.y - this.offset.y,
             index: this.draggedItemIndex,
         });
     }

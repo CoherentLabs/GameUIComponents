@@ -95,6 +95,13 @@ class Dropzone extends DragBase {
         this.draggedElement.style.position = 'absolute';
         this.draggedElement.style.pointerEvents = 'none';
 
+        this.setPointerOffset(event.clientX, event.clientY, this.draggedElement);
+        actions.execute(this.actionName, {
+            x: event.clientX + this.bodyScrollOffset.x - this.offset.x,
+            y: event.clientY + this.bodyScrollOffset.y - this.offset.y,
+            index: this.draggedItemIndex,
+        });
+
         this.options.dragStyle && this.draggedElement.classList.add(this.options.dragStyle);
         this.options.onDragStart && this.options.onDragStart(this.draggedElement);
 
@@ -108,8 +115,8 @@ class Dropzone extends DragBase {
      */
     onMouseMove(event) {
         actions.execute(this.actionName, {
-            x: event.clientX + this.scrollOffset.x,
-            y: event.clientY + this.scrollOffset.y,
+            x: event.clientX + this.bodyScrollOffset.x - this.offset.x,
+            y: event.clientY + this.bodyScrollOffset.y - this.offset.y,
             index: this.draggedItemIndex,
         });
     }

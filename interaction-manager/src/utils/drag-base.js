@@ -34,6 +34,20 @@ class DragBase {
             y: document.body.scrollTop,
         };
     }
+
+    /**
+     *
+     * @param {number} clientX
+     * @param {number} clientY
+     * @param {HTMLElement} target
+     */
+    setPointerOffset(clientX, clientY, target) {
+        const { x, y } = target.getBoundingClientRect();
+        this.offset = {
+            x: clientX - x,
+            y: clientY - y,
+        };
+    }
 }
 
 export default DragBase;
