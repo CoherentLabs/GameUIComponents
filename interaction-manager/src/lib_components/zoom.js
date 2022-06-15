@@ -102,11 +102,15 @@ class Zoom {
                 y: offset.y / this.transform.scale,
             };
 
-            this.transform.x += zoomPoint.x * (this.transform.scale - scale);
-            this.transform.y += zoomPoint.y * (this.transform.scale - scale);
-            this.transform.scale = scale;
+            const transform = this.transform;
 
-            this.zoomableElement.style.transform = `matrix(${this.transform.scale}, 0, 0, ${this.transform.scale}, ${this.transform.x}, ${this.transform.y})`;
+            transform.x += zoomPoint.x * (this.transform.scale - scale);
+            transform.y += zoomPoint.y * (this.transform.scale - scale);
+            transform.scale = scale;
+
+            this.zoomableElement.style.transform = `matrix(${transform.scale}, 0, 0, ${transform.scale}, ${transform.x}, ${transform.y})`;
+
+            this.transform = transform;
         });
     }
 
@@ -129,18 +133,6 @@ class Zoom {
         return {
             x: x - elementRect.x,
             y: y - elementRect.y,
-        };
-    }
-
-    /**
-     * Gets the margins of the element. This will work only if they are in pixels
-     */
-    getMargins() {
-        const { marginTop, marginLeft } = getComputedStyle(this.zoomableElement);
-
-        this.margins = {
-            x: parseFloat(marginLeft),
-            y: parseFloat(marginTop),
         };
     }
 }
