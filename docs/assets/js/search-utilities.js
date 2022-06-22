@@ -166,6 +166,7 @@ function constructTitleSuggestions(entries, resultTitlesIds, suggestionDescripti
     const title = document.createElement('span');
     title.textContent = storedEntry.title;
     title.classList.add("suggestion__title");
+    title.title = storedEntry.title;
     a.appendChild(title);
 
     const description = document.createElement('span');
@@ -200,7 +201,9 @@ function constructContentSuggestions(entries, searchQuery, resultIds, suggestion
       a.appendChild(title);
 
       const description = document.createElement('span');
-      description.innerHTML = getFoundWordFromDescription(storedEntry.content, searchQuery, startPosition);
+      const descriptionText = getFoundWordFromDescription(storedEntry.content, searchQuery, startPosition);
+      description.innerHTML = descriptionText;
+      description.title = descriptionText;
       description.classList.add(suggestionDescriptionClass);
       a.appendChild(description);
 

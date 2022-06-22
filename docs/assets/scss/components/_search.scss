@@ -87,8 +87,10 @@ body > #suggestions{
 }
 
 #suggestions span {
-  display: flex;
   font-size: $font-size-base;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 [data-dark-mode] .suggestion__title {
@@ -96,7 +98,8 @@ body > #suggestions{
 }
 
 .suggestion__title {
-  width: 15%;
+  min-width: 0;
+  width: 30%;
   font-weight: $headings-font-weight;
   color: $black;
 }
@@ -106,7 +109,6 @@ body > #suggestions{
 .suggestion__no-results {
   color: $gray-700;
   width: 75%;
-  overflow-wrap: anywhere;
 }
 
 [data-dark-mode] .suggestion__description {
@@ -180,8 +182,6 @@ body > #suggestions{
   .suggestion__title {
     padding-right: 1rem;
     border-right: 1px solid $gray-200;
-    display: inline-block;
-    text-align: right;
   }
 
   .suggestion__description,
