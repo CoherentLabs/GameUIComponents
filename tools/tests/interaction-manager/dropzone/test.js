@@ -19,13 +19,7 @@ const createDropzones = async () => {
         document.body.appendChild(createDropzoneElement(zone));
     });
 
-    await waitDropzoneFrames();
-};
-
-const waitDropzoneFrames = () => {
-    return new Promise((resolve) => {
-        waitForStyles(resolve, 4);
-    });
+    await createAsyncSpec();
 };
 
 const removeDropzones = () => {
@@ -37,11 +31,11 @@ const removeDropzones = () => {
 const dragToDropzone = (square, x, y, dropzone) => {
     const squareElement = square.draggableElements[0];
 
+    const { x: startX, y: startY } = squareElement.getBoundingClientRect();
+
     square.draggedOver = dropzone;
 
-    square.onMouseDown({ currentTarget: squareElement });
-    square.onMouseMove({ clientX: x, clientY: y });
-    square.onMouseUp();
+    dragIMElement(square, { x, y, currentTarget: squareElement, startDragX: startX, startDragY: startY });
 
     square.draggedOver = null;
 };
@@ -81,7 +75,7 @@ describe('Dropzone', () => {
 
         dragToDropzone(square, dropzoneLeft, dropzoneTop, dropzone);
 
-        await waitDropzoneFrames();
+        await createAsyncSpec();
 
         const { left, top } = squareElement.getBoundingClientRect();
 
@@ -101,7 +95,7 @@ describe('Dropzone', () => {
 
         dragToDropzone(square, dropzoneLeft, dropzoneTop, dropzone);
 
-        await waitDropzoneFrames();
+        await createAsyncSpec();
 
         assert.equal(dropzone.children.length, 2);
     });
@@ -120,7 +114,7 @@ describe('Dropzone', () => {
 
         dragToDropzone(square, dropzoneLeft, dropzoneTop, dropzone);
 
-        await waitDropzoneFrames();
+        await createAsyncSpec();
 
         const { left, top } = squareElement.getBoundingClientRect();
 
@@ -144,7 +138,7 @@ describe('Dropzone', () => {
 
         dragToDropzone(square, dropzoneLeft, dropzoneTop, dropzone);
 
-        await waitDropzoneFrames();
+        await createAsyncSpec();
 
         const { left, top } = squareElement.getBoundingClientRect();
         const { left: switchNewLeft, top: switchNewTop } = dropzoneChild.getBoundingClientRect();
@@ -171,7 +165,7 @@ describe('Dropzone', () => {
 
         dragToDropzone(square, dropzoneLeft, dropzoneTop, dropzone);
 
-        await waitDropzoneFrames();
+        await createAsyncSpec();
 
         const { left, top } = squareElement.getBoundingClientRect();
         const { left: switchLeft, top: switchTop } = dropzoneChild.getBoundingClientRect();
@@ -197,7 +191,7 @@ describe('Dropzone', () => {
 
         dragToDropzone(square, dropzoneLeft, dropzoneTop, dropzone);
 
-        await waitDropzoneFrames();
+        await createAsyncSpec();
 
         assert.isTrue(hasPassed);
     });
@@ -217,7 +211,7 @@ describe('Dropzone', () => {
 
         dragToDropzone(square, dropzoneLeft, dropzoneTop, dropzone);
 
-        await waitDropzoneFrames();
+        await createAsyncSpec();
 
         assert.isTrue(hasPassed);
     });
@@ -237,7 +231,7 @@ describe('Dropzone', () => {
 
         dragToDropzone(square, dropzoneLeft, dropzoneTop, dropzone);
 
-        await waitDropzoneFrames();
+        await createAsyncSpec();
 
         assert.isTrue(hasPassed);
     });

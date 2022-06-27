@@ -1,24 +1,3 @@
-const createZoomElement = async () => {
-    const wrapper = document.createElement('DIV');
-    wrapper.innerHTML = `<div class="square" style="background-color: cadetblue; width: 200px; height: 200px;"></div>`;
-
-    document.body.appendChild(wrapper.firstChild);
-
-    await waitZoomFrames();
-};
-
-const removeZoomElement = () => {
-    const square = document.querySelector('.square');
-
-    document.body.removeChild(square);
-};
-
-const waitZoomFrames = () => {
-    return new Promise((resolve) => {
-        waitForStyles(resolve, 4);
-    });
-};
-
 const simulateZoom = (x, y, direction, element) => {
     element.onWheel({
         preventDefault: () => {},
@@ -30,11 +9,11 @@ const simulateZoom = (x, y, direction, element) => {
 
 describe('Pan and Zoom', () => {
     beforeEach(async () => {
-        await createZoomElement();
+        await createIMElement();
     });
 
     afterEach(() => {
-        removeZoomElement();
+        cleanTestPage('.square');
     });
 
     it('Should create panzoom object', () => {
@@ -60,7 +39,7 @@ describe('Pan and Zoom', () => {
 
         simulateZoom(100, 100, 1, zoom);
 
-        await waitZoomFrames();
+        await createAsyncSpec();
 
         const { width, height } = zoomElement.getBoundingClientRect();
 
@@ -76,7 +55,7 @@ describe('Pan and Zoom', () => {
 
         simulateZoom(100, 100, -1, zoom);
 
-        await waitZoomFrames();
+        await createAsyncSpec();
 
         const { width, height } = zoomElement.getBoundingClientRect();
 
@@ -93,7 +72,7 @@ describe('Pan and Zoom', () => {
 
         simulateZoom(initialLeft + offset, initialTop + offset, 1, zoom);
 
-        await waitZoomFrames();
+        await createAsyncSpec();
 
         const { left, top } = zoomElement.getBoundingClientRect();
 
@@ -114,7 +93,7 @@ describe('Pan and Zoom', () => {
             scale -= 0.1;
         }
 
-        await waitZoomFrames();
+        await createAsyncSpec();
 
         const { width, height } = zoomElement.getBoundingClientRect();
 
@@ -135,7 +114,7 @@ describe('Pan and Zoom', () => {
             scale += 0.1;
         }
 
-        await waitZoomFrames();
+        await createAsyncSpec();
 
         const { width, height } = zoomElement.getBoundingClientRect();
 
@@ -152,7 +131,7 @@ describe('Pan and Zoom', () => {
 
         simulateZoom(100, 100, 1, zoom);
 
-        await waitZoomFrames();
+        await createAsyncSpec();
 
         const { width, height } = zoomElement.getBoundingClientRect();
 
@@ -171,8 +150,8 @@ describe('Pan and Zoom', () => {
 
         simulateZoom(100, 100, 1, zoom);
 
-        await waitZoomFrames();
+        await createAsyncSpec();
 
-       assert.isTrue(hasPassed);
+        assert.isTrue(hasPassed);
     });
 });

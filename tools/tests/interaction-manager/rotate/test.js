@@ -1,32 +1,5 @@
 const isCohtml = navigator.userAgent.match('cohtml');
 
-const createRotateElement = async () => {
-    const container = document.createElement('DIV');
-
-    container.style.width = '500px';
-    container.style.height = '500px';
-    container.classList.add('container');
-
-    const template = `<div class="square" style="background-color: cadetblue; width: 200px; height: 200px;"></div>`;
-    container.innerHTML = template;
-
-    document.body.appendChild(container);
-
-    await waitRotateFrames();
-};
-
-const waitRotateFrames = () => {
-    return new Promise((resolve) => {
-        waitForStyles(resolve, 4);
-    });
-};
-
-const removeRotateElement = () => {
-    const container = document.querySelector('.container');
-
-    document.body.removeChild(container);
-};
-
 const rotateElement = (square, x, y) => {
     const { left, top, width } = square.rotatingElement.getBoundingClientRect();
 
@@ -43,11 +16,11 @@ const handleMatrix = (matrix) => {
 
 describe('Rotate', () => {
     beforeEach(async () => {
-        await createRotateElement();
+        await createIMElement();
     });
 
     afterEach(() => {
-        removeRotateElement();
+        cleanTestPage('.container');
     });
 
     it('Should create rotate object', () => {
@@ -75,7 +48,7 @@ describe('Rotate', () => {
 
         rotateElement(square, moveX, moveY);
 
-        await waitRotateFrames();
+        await createAsyncSpec();
 
         const { transform } = getComputedStyle(squareElement);
 
@@ -91,7 +64,7 @@ describe('Rotate', () => {
 
         interactionManager.actions.execute(square.actionName, targetAngle);
 
-        await waitRotateFrames();
+        await createAsyncSpec();
 
         const { transform } = getComputedStyle(squareElement);
 
@@ -110,7 +83,7 @@ describe('Rotate', () => {
 
         rotateElement(square, moveX, moveY);
 
-        await waitRotateFrames();
+        await createAsyncSpec();
 
         const { transform } = getComputedStyle(squareElement);
 
@@ -134,7 +107,7 @@ describe('Rotate', () => {
 
         rotateElement(square, moveX, moveY);
 
-        await waitRotateFrames();
+        await createAsyncSpec();
 
         assert.isTrue(hasPassed);
     });

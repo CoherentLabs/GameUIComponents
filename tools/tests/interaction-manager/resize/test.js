@@ -1,39 +1,10 @@
-const createResizeElement = async () => {
-    const container = document.createElement('DIV');
-
-    const template = `<div class="square" style="background-color: cadetblue; width: 200px; height: 200px;"></div>`;
-    container.innerHTML = template;
-
-    document.body.appendChild(container.firstChild);
-
-    await waitResizeFrames();
-};
-
-const waitResizeFrames = () => {
-    return new Promise((resolve) => {
-        waitForStyles(resolve, 4);
-    });
-};
-
-const removeResizeElement = () => {
-    const square = document.querySelector('.square');
-
-    document.body.removeChild(square);
-};
-
-const dragBorderElement = (square, x, y, target) => {
-    square.onMouseDown({ target });
-    square.onMouseMove({ clientX: x, clientY: y });
-    square.onMouseUp();
-};
-
 describe('Resize', () => {
     beforeEach(async () => {
-        await createResizeElement();
+        await createIMElement();
     });
 
     afterEach(() => {
-        removeResizeElement();
+        cleanTestPage('.square');
     });
 
     it('Should create resize object', () => {
@@ -74,9 +45,9 @@ describe('Resize', () => {
         const targetWidth = 300;
         const movement = x + targetWidth;
 
-        dragBorderElement(square, movement, 0, rightEdge);
+        dragIMElement(square, { x: movement, y: 0, target: rightEdge });
 
-        await waitResizeFrames();
+        await createAsyncSpec();
 
         const { width } = squareElement.getBoundingClientRect();
 
@@ -92,9 +63,9 @@ describe('Resize', () => {
         const targetHeight = 300;
         const movement = y + targetHeight;
 
-        dragBorderElement(square, 0, movement, bottomEdge);
+        dragIMElement(square, { x: 0, y: movement, target: bottomEdge });
 
-        await waitResizeFrames();
+        await createAsyncSpec();
         const { height } = squareElement.getBoundingClientRect();
 
         assert.equal(height, targetHeight);
@@ -110,9 +81,9 @@ describe('Resize', () => {
         const movementX = x + target;
         const movementY = y + target;
 
-        dragBorderElement(square, movementX, movementY, bottomRightEdge);
+        dragIMElement(square, { x: movementX, y: movementY, target: bottomRightEdge });
 
-        await waitResizeFrames();
+        await createAsyncSpec();
         const { height, width } = squareElement.getBoundingClientRect();
 
         assert.equal(height, target);
@@ -126,7 +97,7 @@ describe('Resize', () => {
 
         interactionManager.actions.execute(square.widthAction, targetWidth);
 
-        await waitResizeFrames();
+        await createAsyncSpec();
         const { width } = squareElement.getBoundingClientRect();
 
         assert.equal(width, targetWidth);
@@ -139,7 +110,7 @@ describe('Resize', () => {
 
         interactionManager.actions.execute(square.heightAction, targetHeight);
 
-        await waitResizeFrames();
+        await createAsyncSpec();
         const { height } = squareElement.getBoundingClientRect();
 
         assert.equal(height, targetHeight);
@@ -161,9 +132,9 @@ describe('Resize', () => {
         const targetWidth = 300;
         const movement = x + targetWidth;
 
-        dragBorderElement(square, movement, 0, rightEdge);
+        dragIMElement(square, { x: movement, y: 0, target: rightEdge });
 
-        await waitResizeFrames();
+        await createAsyncSpec();
 
         assert.isTrue(hasPassed);
     });
@@ -184,9 +155,9 @@ describe('Resize', () => {
         const targetHeight = 300;
         const movement = y + targetHeight;
 
-        dragBorderElement(square, 0, movement, bottomEdge);
+        dragIMElement(square, { x: 0, y: movement, target: bottomEdge });
 
-        await waitResizeFrames();
+        await createAsyncSpec();
 
         assert.isTrue(hasPassed);
     });

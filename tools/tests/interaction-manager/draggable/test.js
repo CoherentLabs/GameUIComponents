@@ -1,44 +1,10 @@
-const createDraggableElement = async () => {
-    const container = document.createElement('DIV');
-
-    container.style.width = '500px';
-    container.style.height = '500px';
-    container.classList.add('container');
-
-    const template = `<div class="square" style="background-color: cadetblue; width: 200px; height: 200px;"></div>`;
-    container.innerHTML = template;
-
-    document.body.appendChild(container);
-
-    await waitDraggableFrames();
-};
-
-const waitDraggableFrames = () => {
-    return new Promise((resolve) => {
-        waitForStyles(resolve, 4);
-    });
-};
-
-const removeDraggableElement = () => {
-    const container = document.querySelector('.container');
-
-    document.body.removeChild(container);
-};
-
-const dragElement = (square, x, y) => {
-    const squareElement = square.draggableElements[0];
-    square.onMouseDown({ currentTarget: squareElement });
-    square.onMouseMove({ clientX: x, clientY: y });
-    square.onMouseUp();
-};
-
 describe('Draggable', () => {
     beforeEach(async () => {
-        await createDraggableElement();
+        await createIMElement();
     });
 
     afterEach(() => {
-        removeDraggableElement();
+        cleanTestPage('.container');
     });
 
     it('Should create draggable object', () => {
@@ -62,10 +28,17 @@ describe('Draggable', () => {
 
         const square = new interactionManager.draggable({ element: '.square' });
         const squareElement = square.draggableElements[0];
+        const { x: startX, y: startY } = squareElement.getBoundingClientRect();
 
-        dragElement(square, movement, movement);
+        dragIMElement(square, {
+            x: movement,
+            y: movement,
+            startDragX: startX,
+            startDragY: startY,
+            currentTarget: squareElement,
+        });
 
-        await waitDraggableFrames();
+        await createAsyncSpec();
 
         const { left, top } = squareElement.getBoundingClientRect();
 
@@ -83,7 +56,7 @@ describe('Draggable', () => {
 
         interactionManager.actions.execute(square.actionName, { x: movement, y: movement, index: 0 });
 
-        await waitDraggableFrames();
+        await createAsyncSpec();
 
         const { left, top } = squareElement.getBoundingClientRect();
 
@@ -99,9 +72,15 @@ describe('Draggable', () => {
 
         const initialPosition = squareElement.getBoundingClientRect();
 
-        dragElement(square, movement, movement);
+        dragIMElement(square, {
+            x: movement,
+            y: movement,
+            startDragX: initialPosition.x,
+            startDragY: initialPosition.y,
+            currentTarget: squareElement,
+        });
 
-        await waitDraggableFrames();
+        await createAsyncSpec();
 
         const newPosition = squareElement.getBoundingClientRect();
 
@@ -117,9 +96,15 @@ describe('Draggable', () => {
 
         const initialPosition = squareElement.getBoundingClientRect();
 
-        dragElement(square, movement, movement);
+        dragIMElement(square, {
+            x: movement,
+            y: movement,
+            startDragX: initialPosition.x,
+            startDragY: initialPosition.y,
+            currentTarget: squareElement,
+        });
 
-        await waitDraggableFrames();
+        await createAsyncSpec();
 
         const newPosition = squareElement.getBoundingClientRect();
 
@@ -135,9 +120,17 @@ describe('Draggable', () => {
         const movementX = parentWidth + 200;
         const movementY = parentHeight + 200;
 
-        dragElement(square, movementX, movementY);
+        const { x: startX, y: startY } = squareElement.getBoundingClientRect();
 
-        await waitDraggableFrames();
+        dragIMElement(square, {
+            x: movementX,
+            y: movementY,
+            startDragX: startX,
+            startDragY: startY,
+            currentTarget: squareElement,
+        });
+
+        await createAsyncSpec();
 
         const { left, top } = squareElement.getBoundingClientRect();
 
@@ -156,8 +149,15 @@ describe('Draggable', () => {
                 hasPassed = true;
             },
         });
+        const squareElement = square.draggableElements[0];
 
-        dragElement(square, movement, movement);
+        dragIMElement(square, {
+            x: movement,
+            y: movement,
+            startDragX: 0,
+            startDragY: 0,
+            currentTarget: squareElement,
+        });
 
         assert.isTrue(hasPassed);
     });
@@ -173,8 +173,15 @@ describe('Draggable', () => {
                 hasPassed = true;
             },
         });
+        const squareElement = square.draggableElements[0];
 
-        dragElement(square, movement, movement);
+        dragIMElement(square, {
+            x: movement,
+            y: movement,
+            startDragX: 0,
+            startDragY: 0,
+            currentTarget: squareElement,
+        });
 
         assert.isTrue(hasPassed);
     });
@@ -190,8 +197,15 @@ describe('Draggable', () => {
                 hasPassed = true;
             },
         });
+        const squareElement = square.draggableElements[0];
 
-        dragElement(square, movement, movement);
+        dragIMElement(square, {
+            x: movement,
+            y: movement,
+            startDragX: 0,
+            startDragY: 0,
+            currentTarget: squareElement,
+        });
 
         assert.isTrue(hasPassed);
     });
