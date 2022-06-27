@@ -9,13 +9,13 @@ Allows you to zoom in on an element.
 
 ## Usage
 
-```
+```javascript
 new zoom(zoomOptions)
 ```
 
 ## Basic implementation
 
-```
+```javascript
 const grid = new zoom({ element: '.grid' });
 ```
 
@@ -27,7 +27,7 @@ const grid = new zoom({ element: '.grid' });
 
 Type:
 
-```
+```javascript
 type element = string
 ```
 
@@ -37,7 +37,7 @@ The element selector.
 
 Type:
 
-```
+```javascript
 type minZoom = number
 ```
 
@@ -49,7 +49,7 @@ How much you can zoom out of the element.
 
 Type:
 
-```
+```javascript
 type maxZoom = number
 ```
 
@@ -61,7 +61,7 @@ How much you can zoom in on the element.
 
 Type:
 
-```
+```javascript
 type zoomFactor = number
 ```
 
@@ -73,7 +73,7 @@ By how much to zoom in or out of the element.
 
 Type:
 
-```
+```javascript
 type onZoom = () => {}
 ```
 
@@ -83,7 +83,7 @@ Executes when the element zooms in or out.
 
 You are able to zoom elements using actions. Since every zoom action is unique you can do the following:
 
-```
+```javascript
 const element = new zoom({ element: '.grid' });
 
 actions.execute(element.actionName, {x: 100, y: 100, zoomDirection: -1});

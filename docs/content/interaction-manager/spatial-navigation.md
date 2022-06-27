@@ -9,7 +9,7 @@ A JavaScript-based implementation for Spatial Navigation with gamepad support
 
 ## Basic implementation
 
-```
+```javascript
 spatialNavigation.init(['.square']);
 ```
 
@@ -30,13 +30,13 @@ Initializes the spatial navigation.
 
 The navigatableElement can either be a string with a element selector
 
-```
+```javascript
 spatialNavigation.init(['.square']);
 ```
 
 or a navigatableArea object
 
-```
+```javascript
 spatialNavigation.init([
     { area: 'square-1', elements: ['.square1'] },
     { area: 'square-2', elements: ['.square2'] },
@@ -51,7 +51,7 @@ This will create different areas to separate the navigation. If you pass only a 
 
 Type:
 
-```
+```javascript
 type area = string
 ```
 
@@ -61,7 +61,7 @@ The name of the are you want to be navigatable
 
 Type:
 
-```
+```javascript
 type elements = string[]
 ```
 
@@ -75,13 +75,13 @@ Removes the spatial navigation, listeners and actions.
 
 The same as `.init()` but only adds elements to areas and new areas. Use it after initialization.
 
-```
+```javascript
 spatialNavigation.add([{ area: 'area-1', elements: ['.element'] }]);
 ```
 
 ### remove(area)
 
-```
+```javascript
 type area = string
 ```
 
@@ -89,13 +89,13 @@ type area = string
 
 Remove all of the elements from an area. It uses the area name as an argument, if you don't pass any arguments it will remove the elements from the default area.
 
-```
+```javascript
 spatialNavigation.remove('area-1');
 ```
 
 ### focusFirst(area)
 
-```
+```javascript
 type area = string
 ```
 
@@ -105,7 +105,7 @@ Focuses on the first element of an area.
 
 ### focusLast(area)
 
-```
+```javascript
 type area = string
 ```
 
@@ -115,7 +115,7 @@ Focuses on the last element of an area.
 
 ### switchArea(area)
 
-```
+```javascript
 type area = string
 ```
 
@@ -129,7 +129,7 @@ Unfocuses the currently focused element in a navigatable area.
 
 The spatial-navigation registers actions that move the focus. You can use these from your code directly with
 
-```
+```javascript
 action.execute('move-focus-down'); // moves the focus down
 action.execute('move-focus-up'); // moves the focus up
 action.execute('move-focus-left'); // moves the focus left

@@ -16,8 +16,8 @@ The library's aim is to provide an easy implementation for things like gamepad c
 To get started, you will first need to install the `coherent-gameface-interaction-manager` after that you can create different interactions based on your project needs.
 
 For example to set up a draggable object, you just need to do:
-```
-    const square = new interactionManager.draggable({element: '.square'})
+```javascript
+const square = new interactionManager.draggable({element: '.square'})
 ```
 
 ## Features
@@ -34,12 +34,12 @@ The `coherent-gameface-interaction-manager` supports the following features:
 - Pan and zoom
 
 All of these features can be loaded individually from the `coherent-gameface-interaction-manager` library.
-```
+```javascript
 import {keyboard, gamepad, actions, spatialNavigation, draggable, dropzone, resize, rotate, zoom} from 'coherent-gameface-interaction-manager`
 ```
 
 You can also download and load them as individual scripts
 
-```
+```html
 <script src="coherent-gameface-interaction-manager/dist/keyboard.min.js"></script>
 ```

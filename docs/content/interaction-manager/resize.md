@@ -9,13 +9,13 @@ Allows you to resize an element.
 
 ## Usage
 
-```
+```javascript
 new resize(resizeOptions);
 ```
 
 ## Basic implementation
 
-```
+```javascript
 const square = new resize({ element: '.square' });
 ```
 
@@ -27,7 +27,7 @@ const square = new resize({ element: '.square' });
 
 Type:
 
-```
+```javascript
 type element = string
 ```
 
@@ -37,7 +37,7 @@ The element selector.
 
 Type:
 
-```
+```javascript
 type edgeWidth = number
 ```
 
@@ -49,7 +49,7 @@ The width of the edge that you can grab.
 
 Type:
 
-```
+```javascript
 type widthMin = number
 ```
 
@@ -61,7 +61,7 @@ The minimum width that element can be resized to.
 
 Type:
 
-```
+```javascript
 type widthMax = number
 ```
 
@@ -73,7 +73,7 @@ The maximum width that element can be resized to.
 
 Type:
 
-```
+```javascript
 type heightMin = number
 ```
 
@@ -85,7 +85,7 @@ The minimum height that element can be resized to.
 
 Type:
 
-```
+```javascript
 type heightMax = number
 ```
 
@@ -97,7 +97,7 @@ The maximum height that element can be resized to.
 
 Type:
 
-```
+```javascript
 type onWidthChange = (width) => {}
 ```
 
@@ -107,7 +107,7 @@ Executes when the element width changes
 
 Type:
 
-```
+```javascript
 type onHeightChange = (height) => {}
 ```
 
@@ -117,7 +117,7 @@ Executes when the element height changes.
 
 You are able to resize elements using actions. Since every resize action is unique you can do the following:
 
-```
+```javascript
 const element = new resize({ element: '.square' });
 
 actions.execute(element.heightAction, height);

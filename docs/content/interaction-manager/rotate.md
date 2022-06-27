@@ -9,13 +9,13 @@ Allows you to rotate an element.
 
 ## Usage
 
-```
+```javascript
 new rotate(rotateOptions)
 ```
 
 ## Basic implementation
 
-```
+```javascript
 const circle = new rotate({ element: '.circle1' });
 ```
 
@@ -27,7 +27,7 @@ const circle = new rotate({ element: '.circle1' });
 
 Type:
 
-```
+```javascript
 type element = string
 ```
 
@@ -37,7 +37,7 @@ The element selector.
 
 Type:
 
-```
+```javascript
 type snapAngle = number
 ```
 
@@ -49,7 +49,7 @@ The angle that the rotation snaps to.
 
 Type:
 
-```
+```javascript
 type onRotation = (angle) => {}
 ```
 
@@ -60,7 +60,7 @@ Executes when the element rotates.
 
 You are able to rotate elements using actions. Since every rotate action is unique you can do the following:
 
-```
+```javascript
 const element = new rotate({ element: '.circle1' });
 
 actions.execute(element.actionName, angle);

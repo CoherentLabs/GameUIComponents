@@ -19,9 +19,9 @@
     </head>
     <body>
         <div class="square"></div>
-        <script src="./draggable.js"></script>
+        <script src="./draggable.min.js"></script>
         <script>
-            const square = new draggable({ element: '.square'});
+            const square = new draggable({ element: '.square', restrictTo: 'body'});
         </script>
     </body>
 </html>

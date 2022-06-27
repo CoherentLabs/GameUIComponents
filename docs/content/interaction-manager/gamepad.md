@@ -9,7 +9,7 @@ The gamepad object allows for easier gamepad set up. It uses the Gamepad API to 
 
 To start listening for connected gamepads, you first need to enable it. To do that you need to set the following:
 
-```
+```javascript
 gamepad.enabled = true;
 ```
 
@@ -25,7 +25,7 @@ The `.on` call allows you to set up listeners for your gamepad actions.
 
 Type:
 
-```
+```javascript
 type actions = string[] | number[]
 ```
 
@@ -55,7 +55,7 @@ You can use either the button number or an alias for the buttons. For the users 
 
 For example:
 
-```
+```javascript
 gamepad.on({
     actions: ['pad-down', 'right-shoulder'],
     callback: () => {},
@@ -68,7 +68,7 @@ You can also use joystick aliases to trigger callbacks on specific joystick move
 
 For example:
 
-```
+```javascript
 gamepad.on({
     actions: ['left.joystick'],
     callback: () => {},
@@ -79,7 +79,7 @@ will trigger the callback when the left joystick moves.
 
 There are also aliases for specific directions available:
 
-```
+```javascript
 gamepad.on({
     actions: ['left.joystick.down'],
     callback: () => {},
@@ -90,19 +90,19 @@ will trigger the callback when the left joystick is moved down.
 
 The available aliases are
 
-```
-    [
-        'right.joystick',
-        'left.joystick',
-        'left.joystick.down',
-        'left.joystick.up',
-        'left.joystick.left',
-        'left.joystick.right',
-        'right.joystick.down',
-        'right.joystick.up',
-        'right.joystick.left',
-        'right.joystick.right',
-    ]
+```javascript
+[
+    'right.joystick',
+    'left.joystick',
+    'left.joystick.down',
+    'left.joystick.up',
+    'left.joystick.left',
+    'left.joystick.right',
+    'right.joystick.down',
+    'right.joystick.up',
+    'right.joystick.left',
+    'right.joystick.right',
+]
 ```
 
 {{< alert icon="❗" text="Currently it's not possible to combine a joystick action with another joystick or button action" />}}
@@ -111,20 +111,20 @@ The available aliases are
 
 Type:
 
-```
+```javascript
 type callback = ([{pressed, touched, value}]) => {} | ([axisX, axisY]) => {} | string
 ```
 
 The function that will execute when a gamepad action is triggered.
 
-```
+```javascript
 gamepad.on({
     actions: ['face-button-down'],
     callback: ([button]) => doSomething(button.pressed, button.touched, button.value),
 });
 ```
 
-```
+```javascript
 gamepad.on({
     actions: ['left.joystick'],
     callback: ([axisX, axisY]) => doSomething(axisX, axisY),
@@ -135,7 +135,7 @@ If you are using an action for buttons, you can get the [GamepadButton](https://
 
 If you already have a registered action you can use it instead of a function:
 
-```
+```javascript
 gamepad.on({
     actions: ['face-button-down'],
     callback: 'registered-action',
@@ -146,7 +146,7 @@ gamepad.on({
 
 Removes a registered gamepad action.
 
-```
+```javascript
 gamepad.off(['left.joystick']);
 ```
 
@@ -158,7 +158,7 @@ For example if you have registered an action using a `playstation` alias, you wi
 
 Type:
 
-```
+```javascript
 type lessSensitive = boolean
 ```
 
@@ -166,6 +166,6 @@ type lessSensitive = boolean
 
 If you want to make the joystick less sensitive to movement you can enable the `lessSensitive` option
 
-```
+```javascript
 gamepad.lessSensitive = true;
 ```

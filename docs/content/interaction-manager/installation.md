@@ -15,13 +15,13 @@ npm install coherent-gameface-interaction-manager
 ```
 
 and then do
-```
+```javascript
 import * as interactionManager from 'coherent-gameface-interaction-manager';
 ```
 
 or you can also link it in your HTML directly
 
-```
+```html
 <script src="node_modules/coherent-gameface-interaction-manager/dist/interaction-manager.min.js"></script>
 ```
 
@@ -29,12 +29,12 @@ or you can also link it in your HTML directly
 You can either download the coherent-gameface-interaction-manager from [UNPKG](https://unpkg.com/coherent-gameface-interaction-manager/dist/interaction-manager.min.js) or [jsDelivr](https://cdn.jsdelivr.net/npm/coherent-gameface-interaction-manager/dist/interaction-manager.min.js)
 
 and then include it to your HTML
-```
+```html
 <script src="interaction-manager.min.js"></script>
 ```
 
 or you can include it directly as a CDN link
-```
+```html
 <script src="https://unpkg.com/coherent-gameface-interaction-manager/dist/interaction-manager.min.js"></script>
 ```
 
