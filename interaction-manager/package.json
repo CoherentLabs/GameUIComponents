@@ -1,9 +1,9 @@
 {
   "name": "coherent-gameface-interaction-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Library for the most common UI interactions",
   "main": "dist/InteractionManager.js",
-  "module": "esm/index.js",
+  "module": "esm/interaction-manager.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/ui_utils/interaction_manager"
