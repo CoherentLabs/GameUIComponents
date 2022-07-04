@@ -4,6 +4,7 @@ resources/
 cjs/
 umd/
 dist/
+esm/
 **.tgz
 components/**/bundle.js
 .eslintcache
