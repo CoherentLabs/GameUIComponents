@@ -81,3 +81,40 @@ function mockEventObject(target, bubbles = false, ctrlKey = false) {
         stopPropagation: () => { },
     };
 }
+/**
+ * Creates a square to work with the interaction manager
+ * @returns {Promise}
+ */
+function createIMElement() {
+    const container = document.createElement('DIV');
+
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.classList.add('container');
+
+    const template = `<div class="square" style="background-color: cadetblue; width: 200px; height: 200px;"></div>`;
+    container.innerHTML = template;
+
+    document.body.appendChild(container);
+
+    return new Promise((resolve) => {
+        waitForStyles(resolve, 3);
+    });
+}
+
+/**
+ * Drags a draggable object
+ * @param {DraggableObject} square
+ * @param {Object} options
+ * @param {number} options.x
+ * @param {number} options.y
+ * @param {HTMLElement} options.currentTarget
+ * @param {HTMLElement} options.target
+ * @param {number} options.startDragY
+ * @param {number} options.startDragX
+ */
+function dragIMElement(square, { x, y, target, currentTarget, startDragX, startDragY }) {
+    square.onMouseDown({ target, currentTarget, clientX: startDragX, clientY: startDragY });
+    square.onMouseMove({ clientX: x, clientY: y });
+    square.onMouseUp();
+}

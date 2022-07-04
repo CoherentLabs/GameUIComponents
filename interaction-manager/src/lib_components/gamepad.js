@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import mappings from '../utils/gamepad-mappings';
 import IM from '../utils/global-object';
 import Actions from './actions';
@@ -59,7 +64,7 @@ class Gamepad {
     /**
      *
      * @param {Object} options
-     * @param {string} options.actions - Action to trigger the callback. Can be name of button or joystick
+     * @param {string[] | number[]} options.actions - Action to trigger the callback. Can be name of button or joystick
      * @param {function} options.callback - Callback to trigger on the set action
      * @param {number} options.gamepadNumber - The number of the gamepad that you want to trigger the callback on. Use -1 for all gamepads
      * @returns {void}
@@ -115,7 +120,7 @@ class Gamepad {
         });
 
         if (this.lessSensitive) {
-            setTimeout(this.startPolling, 100);
+            setTimeout(this.startPolling.bind(this), 100);
             return;
         }
 

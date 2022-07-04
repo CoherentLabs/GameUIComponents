@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import actions from './actions';
 
 /**
@@ -94,7 +99,7 @@ class Zoom {
 
             this.options.onZoom && this.options.onZoom();
 
-            const scale = this.transform.scale - zoomDirection * this.options.zoomFactor;
+            const scale = (this.transform.scale - zoomDirection * this.options.zoomFactor).toFixed(5);
             if (scale < this.options.minZoom || scale > this.options.maxZoom) return;
 
             const zoomPoint = {

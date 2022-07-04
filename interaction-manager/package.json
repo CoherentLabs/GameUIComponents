@@ -1,5 +1,5 @@
 {
-  "name": "interaction-manager",
+  "name": "coherent-gameface-interaction-manager",
   "version": "1.0.0",
   "description": "Library for the most common UI interactions",
   "main": "dist/InteractionManager.js",

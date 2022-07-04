@@ -17,6 +17,7 @@ const FILE_EXTENSIONS = {
     MD: '.md',
 };
 const COMPONENTS_FOLDER_PATH = path.join(__dirname, '../components');
+const INTERACTION_MANAGER_FOLDER_PATH = path.join(__dirname, '../interaction-manager');
 const EXCLUDED_FILES = new Set(['package.json', 'package-lock.json', 'bundle.js']);
 const INCLUDED_EXTENSIONS = new Set([
     FILE_EXTENSIONS.JS,
@@ -24,7 +25,7 @@ const INCLUDED_EXTENSIONS = new Set([
     FILE_EXTENSIONS.HTML,
     FILE_EXTENSIONS.MD,
 ]);
-const EXCLUDED_FOLDERS = new Set(['node_modules', 'umd', 'cjs', 'dist']);
+const EXCLUDED_FOLDERS = new Set(['node_modules', 'umd', 'cjs', 'dist', 'esm']);
 let addCopyrights = false;
 let allCheckedFilesHaveCopyrightNotice = true;
 
@@ -156,6 +157,7 @@ function main() {
     if (args.indexOf('--add') > -1 || args.indexOf('-a') > -1) addCopyrights = true;
 
     checkCopyrightsInDirectory(COMPONENTS_FOLDER_PATH);
+    checkCopyrightsInDirectory(INTERACTION_MANAGER_FOLDER_PATH);
 
     if (!addCopyrights && !allCheckedFilesHaveCopyrightNotice) {
         console.log(`There are files that are missing the copyright notice! Run the 'npm run add:copyright' that will automatically fix the issue!`);

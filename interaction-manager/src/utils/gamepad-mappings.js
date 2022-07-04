@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 export default {
     FACE_BUTTON_DOWN: 0,
     FACE_BUTTON_RIGHT: 1,
@@ -17,6 +22,23 @@ export default {
     PAD_RIGHT: 15,
     CENTER_BUTTON: 16,
     aliases: {
+        'face-button-down': 'FACE_BUTTON_DOWN',
+        'face-button-left': 'FACE_BUTTON_LEFT',
+        'face-button-right': 'FACE_BUTTON_RIGHT',
+        'face-button-up': 'FACE_BUTTON_TOP',
+        'left-sholder': 'LEFT_SHOULDER',
+        'right-sholder': 'RIGHT_SHOULDER',
+        'left-sholder-bottom': 'LEFT_SHOULDER_BOTTOM',
+        'right-sholder-bottom': 'RIGHT_SHOULDER_BOTTOM',
+        select: 'SELECT',
+        start: 'START',
+        'left-analogue-stick': 'LEFT_ANALOGUE_STICK',
+        'right-analogue-stick': 'RIGHT_ANALOGUE_STICK',
+        'pad-up': 'PAD_UP',
+        'pad-down': 'PAD_DOWN',
+        'pad-left': 'PAD_LEFT',
+        'pad-right': 'PAD_RIGHT',
+        'center-button': 'CENTER_BUTTON',
         'playstation.x': 'FACE_BUTTON_DOWN',
         'playstation.square': 'FACE_BUTTON_LEFT',
         'playstation.circle': 'FACE_BUTTON_RIGHT',
