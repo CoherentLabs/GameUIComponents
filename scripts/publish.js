@@ -59,6 +59,7 @@ function publish(component, folder = COMPONENTS_PATH) {
 function main() {
     if (shouldUpdate('lib', LIBRARY_PATH)) publish('lib', LIBRARY_PATH);
     if (shouldUpdate('cli', CLI_PATH)) publish('cli', CLI_PATH);
+    if (shouldUpdate('interaction-manager', LIBRARY_PATH )) publish('interaction-manager', LIBRARY_PATH);
 
     const components = fs.readdirSync(COMPONENTS_PATH);
     for (const component of components) {

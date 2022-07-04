@@ -1,0 +1,139 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Draggable demo</title>
+        <style>
+            body {
+                background-color: white;
+            }
+
+            .container {
+                display: flex;
+            }
+
+            .square {
+                width: 90px;
+                height: 90px;
+                user-select: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+            }
+
+            .square1 {
+                background-color: cadetblue;
+            }
+
+            .square2 {
+                background-color: coral;
+            }
+
+            .square3 {
+                background-color: burlywood;
+            }
+
+            .square4 {
+                background-color: tomato;
+            }
+
+            .dropzone {
+                width: 100px;
+                min-height: 100px;
+                border: 5px solid black;
+                box-sizing: border-box;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>dropType: 'add' - adds the element to the dropzone, this is the default dropType</h3>
+        <div class="container">
+            <div class="dropzone dropzone1">
+                <div class="square square1">1</div>
+            </div>
+            <div class="dropzone dropzone1">
+                <div class="square square1">2</div>
+            </div>
+            <div class="dropzone dropzone1">
+                <div class="square square1">3</div>
+            </div>
+            <div class="dropzone dropzone1">
+                <div class="square square1">4</div>
+            </div>
+            <div class="dropzone dropzone1">
+                <div class="square square1">5</div>
+            </div>
+            <div class="dropzone dropzone1"></div>
+        </div>
+        <h3>dropType: 'none' - does nothing when you drop on a non-empty dropzone</h3>
+        <div class="container">
+            <div class="dropzone dropzone2">
+                <div class="square square2">1</div>
+            </div>
+            <div class="dropzone dropzone2">
+                <div class="square square2">2</div>
+            </div>
+            <div class="dropzone dropzone2">
+                <div class="square square2">3</div>
+            </div>
+            <div class="dropzone dropzone2">
+                <div class="square square2">4</div>
+            </div>
+            <div class="dropzone dropzone2">
+                <div class="square square2">5</div>
+            </div>
+            <div class="dropzone dropzone2"></div>
+        </div>
+        <h3>dropType: 'switch' - switches the elements when you drop on a non-empty dropzone</h3>
+        <div class="container">
+            <div class="dropzone dropzone3">
+                <div class="square square3">1</div>
+            </div>
+            <div class="dropzone dropzone3">
+                <div class="square square3">2</div>
+            </div>
+            <div class="dropzone dropzone3">
+                <div class="square square3">3</div>
+            </div>
+            <div class="dropzone dropzone3">
+                <div class="square square3">4</div>
+            </div>
+            <div class="dropzone dropzone3">
+                <div class="square square3">5</div>
+            </div>
+            <div class="dropzone dropzone3"></div>
+        </div>
+        <h3>
+            dropType: 'shift' - shifts the elements to the nearest empty dropzone when you drop on a non-empty dropzone
+        </h3>
+        <div class="container">
+            <div class="dropzone dropzone4">
+                <div class="square square4">1</div>
+            </div>
+            <div class="dropzone dropzone4">
+                <div class="square square4">2</div>
+            </div>
+            <div class="dropzone dropzone4">
+                <div class="square square4">3</div>
+            </div>
+            <div class="dropzone dropzone4">
+                <div class="square square4">4</div>
+            </div>
+            <div class="dropzone dropzone4">
+                <div class="square square4">5</div>
+            </div>
+            <div class="dropzone dropzone4"></div>
+        </div>
+
+        <script src="./dropzone.min.js"></script>
+        <script>
+            const square = new dropzone({ element: '.square1', dropzones: ['.dropzone1'], dropType: 'add' });
+            const square1 = new dropzone({ element: '.square2', dropzones: ['.dropzone2'], dropType: 'none' });
+            const square2 = new dropzone({ element: '.square3', dropzones: ['.dropzone3'], dropType: 'switch' });
+            const square3 = new dropzone({ element: '.square4', dropzones: ['.dropzone4'], dropType: 'shift' });
+        </script>
+    </body>
+</html>

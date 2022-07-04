@@ -1,0 +1,40 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Draggable demo</title>
+        <style>
+            body {
+                background-color: white;
+                user-select: none;
+            }
+            .square {
+                width: 100px;
+                height: 100px;
+                position: absolute;
+            }
+
+            .square1 {
+                background-color: cadetblue;
+                top: 80px;
+            }
+
+            .square2 {
+                background-color: coral;
+                top: 180px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>The first square is locked on the X axis. The second is locked on the Y axis</h1>
+        <div class="square1 square"></div>
+        <div class="square2 square"></div>
+        <script src="../../dist/draggable.js"></script>
+        <script>
+            const square1 = new draggable({ element: '.square1', lockAxis: 'x' });
+            const square2 = new draggable({ element: '.square2', lockAxis: 'y' });
+        </script>
+    </body>
+</html>

@@ -29,6 +29,7 @@ module.exports = function (config) {
       { pattern: 'node_modules/coherent-gameface-*/**/*.css', included: true, type: 'css' },
       { pattern: 'node_modules/coherent-gameface-components/umd/*.development.js', served: true },
       { pattern: 'node_modules/coherent-gameface-*/umd/*.development.js', served: true },
+      { pattern: 'node_modules/coherent-gameface-interaction-manager/dist/interaction-manager.js', served: true },
       { pattern: 'actions.js', served: true },
       'scrollable-container/*.js',
       'checkbox/*.js',
@@ -48,6 +49,7 @@ module.exports = function (config) {
       'tooltip/*js',
       'text-field/*.js',
       'accordion-menu/*.js',
+      'interaction-manager/**/*.js'
     ],
     singleRun: true,
     retryLimit: 0,
