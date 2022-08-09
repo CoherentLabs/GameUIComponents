@@ -29,7 +29,6 @@
 .navbar {
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid $gray-200;
 
   /*
   margin-top: 4px;
@@ -152,9 +151,6 @@ button#doks-versions {
 */
 
 @include media-breakpoint-up(md) {
-  .navbar-brand {
-    margin-right: 0.75rem !important;
-  }
 
   .main-nav .nav-item:first-child .nav-link,
   .social-nav .nav-item:first-child .nav-link {
@@ -181,6 +177,17 @@ button#doks-versions {
   */
 }
 
+.show--consent,
+.show--consent body{
+  height: auto !important;
+  width: 100vw !important;
+  overflow-x: hidden !important;
+}
+
+object{
+  width: 100%;
+}
+
 .form-control.is-search {
   padding-right: 4rem;
   border: 1px solid transparent;
@@ -191,10 +198,10 @@ button#doks-versions {
   border: 1px solid $primary;
 }
 
-.doks-search::after {
+#form::after,
+#form-search::after {
   position: absolute;
   top: 0.4625rem;
-  right: 0.5375rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -206,6 +213,14 @@ button#doks-versions {
   content: "Ctrl + /";
   border: 1px solid $gray-300;
   border-radius: 0.25rem;
+}
+
+#form-search::after {
+  right: 3.3rem;
+}
+
+#form::after {
+  right: 0.3rem;
 }
 
 /*
@@ -365,25 +380,25 @@ button#doks-versions {
   display: none;
 }
 
-.navbar .menu-btn:checked ~ .navbar-collapse {
+.navbar .menu-btn:checked~.navbar-collapse {
   display: block;
   max-height: 100vh;
 }
 
-.navbar .menu-btn:checked ~ .menu-icon .navicon {
+.navbar .menu-btn:checked~.menu-icon .navicon {
   background: transparent;
 }
 
-.navbar .menu-btn:checked ~ .menu-icon .navicon::before {
+.navbar .menu-btn:checked~.menu-icon .navicon::before {
   transform: rotate(-45deg);
 }
 
-.navbar .menu-btn:checked ~ .menu-icon .navicon::after {
+.navbar .menu-btn:checked~.menu-icon .navicon::after {
   transform: rotate(45deg);
 }
 
-.navbar .menu-btn:checked ~ .menu-icon:not(.steps) .navicon::before,
-.navbar .menu-btn:checked ~ .menu-icon:not(.steps) .navicon::after {
+.navbar .menu-btn:checked~.menu-icon:not(.steps) .navicon::before,
+.navbar .menu-btn:checked~.menu-icon:not(.steps) .navicon::after {
   top: 0;
 }
 
@@ -446,4 +461,23 @@ button#doks-versions {
 
 button[data-link="home"]::before {
   display: none;
+}
+
+.coh-title {
+  white-space: pre-line;
+  overflow-wrap: break-word;
+}
+
+[data-bs-target="#offcanvasDoks"] {
+  margin-right: 0.4rem !important;
+}
+
+[data-bs-target="#offcanvasDoks"]:hover,
+[data-bs-target="#offcanvasDoks"]:focus {
+  border: 1px solid #dee2e6 !important;
+}
+
+[data-dark-mode] [data-bs-target="#offcanvasDoks"]:hover,
+[data-dark-mode] [data-bs-target="#offcanvasDoks"]:focus {
+  border: 1px solid #495057 !important;
 }
