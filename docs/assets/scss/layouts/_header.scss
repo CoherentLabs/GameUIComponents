@@ -150,6 +150,11 @@ button#doks-versions {
 }
 */
 
+.doks-search.list-search {
+  width: 80%;
+  max-width: none;
+}
+
 @include media-breakpoint-up(md) {
 
   .main-nav .nav-item:first-child .nav-link,
@@ -178,13 +183,14 @@ button#doks-versions {
 }
 
 .show--consent,
-.show--consent body{
+.show--consent body {
   height: auto !important;
   width: 100vw !important;
   overflow-x: hidden !important;
 }
 
-object{
+/*We need this so the IM examples don't overflow the page*/
+object {
   width: 100%;
 }
 
@@ -192,6 +198,11 @@ object{
   padding-right: 4rem;
   border: 1px solid transparent;
   background: $gray-100;
+}
+
+.form-control.is-search.list-search {
+  width: 100%;
+  display: inline;
 }
 
 .form-control.is-search:focus {

@@ -91,10 +91,6 @@ body>#suggestions {
   border-top: 1px dashed $gray-200;
 }
 
-#suggestions * {
-  box-sizing: unset;
-}
-
 #suggestions>div:first-child {
   margin-top: 0.5rem;
 }
@@ -121,6 +117,7 @@ body>#suggestions {
   font-weight: $headings-font-weight;
   margin-bottom: 0.5rem;
   color: $black;
+  overflow-wrap: break-word;
 }
 
 .suggestion__description,

@@ -10,8 +10,8 @@
         <nav class="doks-subnavbar py-2 sticky-lg-top{{ if eq .Site.Params.options.flexSearch false }} d-lg-none{{ end }}"
             aria-label="Secondary navigation">
             <div class="container-xxl d-flex flex-row align-items-md-center flex-wrap">
-                <form id="form" style="width: 80%; max-width: none;" class="doks-search position-relative flex-grow-1 me-2">
-                    <input style="width: 100%; display:inline;" id="search" class="form-control is-search" type="search" placeholder="Search..." aria-label="Search..." autocomplete="off">
+                <form id="form" class="doks-search list-search position-relative flex-grow-1 me-2">
+                    <input id="search" class="form-control is-search list-search" type="search" placeholder="Search..." aria-label="Search..." autocomplete="off">
                 </form>
                 <button id="start-search-btn" type="submit" style="background: none; border:none; width: 38px; height: 38px;" >
                    <img src="/GameUIComponents/images/search.png">
