@@ -163,16 +163,18 @@ function constructTitleSuggestions(entries, resultTitlesIds, suggestionDescripti
     a.href = storedEntry.href;
     entry.appendChild(a);
 
-    const title = document.createElement('span');
+    const title = document.createElement('div');
     title.textContent = storedEntry.title;
     title.classList.add("suggestion__title");
     a.appendChild(title);
 
-    const description = document.createElement('span');
+    const description = document.createElement('div');
     if (storedEntry.href.indexOf('components') !== -1) {
       description.innerHTML = '<b>Components</b>';
     } else if (storedEntry.href.indexOf('examples') !== -1) {
       description.innerHTML = '<b>Examples</b>';
+    } else if (storedEntry.href.indexOf('interaction manager') !== -1) {
+      description.innerHTML = '<b>Interaction manager</b>';
     } else {
       description.innerHTML = storedEntry.href;
     }
@@ -194,12 +196,12 @@ function constructContentSuggestions(entries, searchQuery, resultIds, suggestion
       a.href = storedEntry.href;
       entry.appendChild(a);
 
-      const title = document.createElement('span');
+      const title = document.createElement('div');
       title.textContent = storedEntry.title;
       title.classList.add("suggestion__title");
       a.appendChild(title);
 
-      const description = document.createElement('span');
+      const description = document.createElement('div');
       description.innerHTML = getFoundWordFromDescription(storedEntry.content, searchQuery, startPosition);
       description.classList.add(suggestionDescriptionClass);
       a.appendChild(description);
