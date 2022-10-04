@@ -38,6 +38,13 @@ class Checkbox extends CustomElementValidator {
     }
 
     // eslint-disable-next-line require-jsdoc
+    set checked(value) {
+        value ? this.setAttribute('checked', '') : this.removeAttribute('checked');
+        this.state.checked = value && true;// In the input type="checkbox" if you set the checked to a string or something like that it will set it to true, if it's false or an empty string it sets it to false
+        this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? 'block' : 'none';
+    }
+
+    // eslint-disable-next-line require-jsdoc
     set disabled(value) {
         if (value) {
             this.firstChild.classList.add('guic-checkbox-disabled');
@@ -74,8 +81,7 @@ class Checkbox extends CustomElementValidator {
                 this.template = result.template;
                 components.renderOnce(this);
                 this.addEventListener('click', this.toggleChecked);
-                this.state.checked = this.hasAttribute('checked');
-                this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? 'block' : 'none';
+                this.checked = this.hasAttribute('checked');
                 this.disabled = (this.disabled) ? true : false;
             })
             .catch(err => console.error(err));
@@ -88,8 +94,7 @@ class Checkbox extends CustomElementValidator {
     toggleChecked() {
         if (this.disabled) return;
 
-        this.state.checked = !this.state.checked;
-        this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? 'block' : 'none';
+        this.checked = !this.state.checked;
     }
 }
 
