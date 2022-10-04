@@ -19,7 +19,7 @@ class Checkbox extends CustomElementValidator {
         this.template = template;
 
         this.state = {
-            checked: true,
+            checked: false,
         };
 
         this.toggleChecked = this.toggleChecked.bind(this);
@@ -74,6 +74,8 @@ class Checkbox extends CustomElementValidator {
                 this.template = result.template;
                 components.renderOnce(this);
                 this.addEventListener('click', this.toggleChecked);
+                this.state.checked = this.hasAttribute('checked');
+                this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? 'block' : 'none';
                 this.disabled = (this.disabled) ? true : false;
             })
             .catch(err => console.error(err));
