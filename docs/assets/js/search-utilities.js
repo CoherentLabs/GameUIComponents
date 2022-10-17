@@ -74,19 +74,16 @@ var docs = [
 {{ $list := .Site.Pages  -}}
 {{ $len := (len $list) -}}
 
+{{ range $index, $element := $list -}}
 index.add(
-  {{ range $index, $element := $list -}}
     {
       id: {{ $index }},
       href: "{{ .RelPermalink }}",
       title: {{ .Title | jsonify }},
       content: {{ .Plain | jsonify }},
       lowerCaseContent: ({{ .Plain | jsonify }}).toLowerCase()
-    })
-    {{ if ne (add $index 1) $len -}}
-      .add(
-    {{ end -}}
-  {{ end -}}
+    });
+{{ end -}}
       
 ;
 
