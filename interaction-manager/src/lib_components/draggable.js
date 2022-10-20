@@ -68,7 +68,7 @@ class Draggable extends DragBase {
         if (!this.enabled) return;
         this.enabled = false;
 
-        this.draggableElements.forEach(element => element.removeEventListener('mousedown'), this.onMouseDown);
+        this.draggableElements.forEach(element => element.removeEventListener('mousedown', this.onMouseDown));
         this.removeDragActions();
     }
 
