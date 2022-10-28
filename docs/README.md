@@ -2,9 +2,7 @@ This is the documentation source of the GameUIComponents.
 
 # Getting Started
 
-The documentation is built using [Hugo - a framework for building websites](https://gohugo.io/). You need to install it globally in order to be able to use it. The installation steps vary depending on the operating system on which it will be used. For Windows you can [download](https://github.com/gohugoio/hugo/releases) the non-extended version. Extract the files and add the containing folder to the user PATH variable. Refer to the [documentation](https://gohugo.io/getting-started/installing/) for more information.
-
-You need to install hugo with a version higher than 0.80. The documentation is tested with version 0.92.
+The documentation is built using [Hugo - a framework for building websites](https://gohugo.io/). Refer to the [documentation](https://gohugo.io/getting-started) for more information.
 
 Before you start the hugo server you need to fetch the theme. Run:
 
@@ -19,13 +17,7 @@ Perform an `npm install` to install the npm modules.
 Now run:
 
 ```
-hugo server --bind=0.0.0.0 --disableFastRender
-```
-
-or
-
-```
-hugo server -D -F
+npm run server
 ```
 
  -F or --buildFuture is to configure Hugo to include content with publishdate in the future. The publish date that we use is the current local date. but Hugo uses some other time zone for reference, so the current local date seems in the future.
