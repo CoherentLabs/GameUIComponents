@@ -1,3 +1,6 @@
+/* eslint-disable new-cap */
+/* eslint-disable max-lines-per-function */
+/* global createIMElement */
 const isCohtml = navigator.userAgent.match('cohtml');
 
 const rotateElement = (square, x, y) => {

@@ -187,19 +187,11 @@ class TextField extends CustomElementValidator {
     }
 
     set pattern(value) {
-        this.setAttribute('pattern', pattern);
+        this.setAttribute('pattern', value);
     }
 
     get pattern() {
         return this.getAttribute('pattern');
-    }
-
-    isBadURL() {
-        return TextFieldValidator.isBadURL(this);
-    }
-
-    isBadEmail() {
-        return TextFieldValidator.isBadEmail(this);
     }
 
     tooLong() {

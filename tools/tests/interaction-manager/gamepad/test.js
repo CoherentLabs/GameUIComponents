@@ -1,3 +1,5 @@
+/* eslint-disable max-lines-per-function */
+/* global _IM */
 const registeredGamepadButtons = [0, 1];
 
 const simulateGamepadButton = () => {

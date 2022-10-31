@@ -23,6 +23,18 @@
       "coherent-gameface-accordion-menu": "^1.0.1",
       "coherent-gameface-interaction-manager": "^1.0.0"
     },
+    "eslintConfig": {
+      "globals": {
+        "click": "readonly",
+        "createAsyncSpec": "readonly",
+        "assert": "readonly",
+        "cleanTestPage": "readonly",
+        "waitForStyles": "readonly",
+        "interactionManager": "readonly",
+        "mockEventObject": "readonly",
+        "dragIMElement": "readonly"
+      }
+    },
     "author": "CoherentLabs",
     "license": "ISC"
 }

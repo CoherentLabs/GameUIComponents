@@ -4,6 +4,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/* eslint-disable no-useless-escape */
 import components from 'coherent-gameface-components';
 import { HashHistory, BrowserHistory } from './history';
 import { Route } from './route';
@@ -185,7 +186,7 @@ class Router {
             const [routeParams, configuration] = this.getRouteParamsAndConfiguration(url, currentURL);
             const finalRegex = configuration.join('/');
             // match from the beginning ^ of the url to the end $ if the match is exact
-            const urlRegex = new RegExp(`^(\/${finalRegex})${isExact ? '$' : ''}`);
+            const urlRegex = new RegExp(`^(/${finalRegex})${isExact ? '$' : ''}`);
             const result = currentURL.match(urlRegex);
 
             if (result) {

@@ -79,7 +79,7 @@ export const ERROR_MESSAGES = new Map([
     ['rangeOverflow', 'The value is too big. Maximum is 30.'],
     ['rangeUnderflow', 'The value is too small. Minimum is 10.'],
     ['valueMissing', 'The value is required.'],
-    ['nameMissing', 'The elements does not have a name attribute and will not be submitted.']
+    ['nameMissing', 'The elements does not have a name attribute and will not be submitted.'],
 ]);
 
 export const SERVER_TIMEOUT = 1000;

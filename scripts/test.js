@@ -11,7 +11,7 @@ const TESTS_FOLDER = path.join(__dirname, '../tools/tests');
 const ROOT_FOLDER = path.join(__dirname, '../');
 const COMPONENTS_FOLDER = path.join(__dirname, '../components');
 
-const INTERACTION_MANAGER_FOLDER = path.join(__dirname, '../interaction-manager')
+const INTERACTION_MANAGER_FOLDER = path.join(__dirname, '../interaction-manager');
 const IMFolder = path.join(INTERACTION_MANAGER_FOLDER, 'dist');
 const IMTestFolder = path.join(TESTS_FOLDER, 'interaction-manager');
 

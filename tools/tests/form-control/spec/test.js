@@ -68,7 +68,7 @@ const forms = [
         // Expected options will change when the caching feature is reworked or removed.
         submitDataInteraction: '{"option1":"2","option2":"Two","option4":"Two","option5":"3"}',
         template: DROPDOWN_TEMPLATE,
-    }
+    },
 ];
 
 /**
@@ -150,24 +150,31 @@ function setFormTestCasesWithInteraction() {
                         click(document.querySelectorAll('dropdown-option')[1], { bubbles: true });
                         break;
                     case formsTestNames.REGISTER_FORM:
+                    {
                         click(document.querySelectorAll('radio-button')[1]);
                         click(document.querySelector('gameface-checkbox'));
                         const rangeslider = document.querySelector('gameface-rangeslider');
                         const { x, width } = document.querySelector('.guic-horizontal-rangeslider').getBoundingClientRect();
                         rangeslider.onMouseDown({ clientX: x + width });
                         break;
+                    }
                     case formsTestNames.CHECKBOXES_FORM:
+                    {
                         const checkboxes = Array.from(document.querySelectorAll('gameface-checkbox'));
                         checkboxes.forEach(checkbox => click(checkbox));
                         break;
+                    }
                     case formsTestNames.RADIO_FORM:
                         click(document.querySelectorAll('radio-button')[1]);
                         break;
                     case formsTestNames.SWITCH_FORM:
+                    {
                         const switches = Array.from(document.querySelectorAll('gameface-switch'));
                         switches.forEach(switchElement => switchElement.onClick());
                         break;
+                    }
                     case formsTestNames.DROPDOWN_FORM:
+                    {
                         const dropdowns = document.querySelectorAll('gameface-dropdown');
                         const multipleSelectOptionTwo = dropdowns[4].querySelectorAll('dropdown-option')[1];
 
@@ -178,6 +185,7 @@ function setFormTestCasesWithInteraction() {
 
                         dropdowns[4].onClickOption(mockEventObject(multipleSelectOptionTwo, true, true));
                         break;
+                    }
                 }
 
                 // Submit

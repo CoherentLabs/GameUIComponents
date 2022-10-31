@@ -144,7 +144,7 @@ function getDefaultRenderConfiguraion(type, defaultValue, typingValue) {
             caseName: `${displayType} field that is disabled with placeholder and has default value`,
             attributes: { type: type, value: defaultValue, disabled: '', placeholder: 'This input is disabled', label: label },
             tests: [getTypingTest(typingValue, defaultValue), changeTextFieldProperty()],
-        }
+        },
     ];
 }
 
@@ -266,7 +266,7 @@ const testCasesRenderConfiguration = [
                 assert(textField.value === '4', 'Input value overflowed the minimum value.');
             });
         }],
-    }
+    },
 ];
 
 /**

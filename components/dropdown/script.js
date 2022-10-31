@@ -174,6 +174,7 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     set selected(option) {
         // reset
+        // eslint-disable-next-line no-setter-return
         if (option === null) return this.resetSelection();
 
         if (!this.multiple) {
@@ -199,7 +200,7 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     set hoveredElIndex(value) {
         if (!this.allOptions[value]) return;
-        return this._hovered = value;
+        this._hovered = value;
     }
 
     /**

@@ -1,11 +1,12 @@
+/* global _IM */
 let actionWorking = false;
 const actionName = 'registered-action';
 
 describe('Actions', () => {
     it('Should register an action', () => {
-        interactionManager.actions.register(actionName, () => {actionWorking = true});
+        interactionManager.actions.register(actionName, () => actionWorking = true);
 
-        const registeredAction = _IM.actions.find((action) => action.name === actionName);
+        const registeredAction = _IM.actions.find(action => action.name === actionName);
 
         assert.exists(registeredAction);
     });
@@ -16,11 +17,11 @@ describe('Actions', () => {
         assert.isTrue(actionWorking);
     });
 
-    it ('Should remove action', () => {
+    it('Should remove action', () => {
         interactionManager.actions.remove(actionName);
 
-        const registeredAction = _IM.actions.find((action) => action.name === actionName);
+        const registeredAction = _IM.actions.find(action => action.name === actionName);
 
         assert.notExists(registeredAction);
-    })
+    });
 });

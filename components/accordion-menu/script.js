@@ -137,6 +137,7 @@ class AccordionHeader extends HTMLElement {
         this._caret.classList.add('guic-accordion-header-caret');
 
         // Clear any carets on rerender
+        // eslint-disable-next-line no-self-assign
         this.textContent = this.textContent;
 
         this.appendChild(this._caret);

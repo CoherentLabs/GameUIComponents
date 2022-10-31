@@ -2,7 +2,7 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
+/* global sinon */
 const tooltipTemplate = `
 <gameface-tooltip target=".target" on="click" position="bottom" off="click">
 <div slot="message">Message on bottom</div>

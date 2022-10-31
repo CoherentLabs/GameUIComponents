@@ -36,7 +36,7 @@ date: ${date}
 title: ${title}
 draft: false
 ---`;
-};
+}
 
 /**
  * Get all folder names within the components folder.

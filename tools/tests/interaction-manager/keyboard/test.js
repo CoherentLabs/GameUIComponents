@@ -1,3 +1,5 @@
+/* globals KEYS, _IM */
+/* eslint-disable max-lines-per-function */
 const simulateKeyDown = (key, repeat = false) => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: KEYS[key], repeat }));
 };

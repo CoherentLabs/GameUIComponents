@@ -25,7 +25,7 @@ class Demo {
      */
     onSaveName() {
         document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';
-    };
+    }
 
     /**
      * Attach listeners to all the modal buttons

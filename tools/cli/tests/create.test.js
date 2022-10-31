@@ -20,7 +20,7 @@ const componentFiles = {
         'README.md',
         'script.js',
         'style.css',
-        'template.html'
+        'template.html',
     ],
     demo: ['demo.html', 'demo.js'],
 };
