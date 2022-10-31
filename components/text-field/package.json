@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-text-field",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A text field component.",
   "main": "index.js",
   "repository": {
