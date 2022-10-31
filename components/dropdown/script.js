@@ -174,10 +174,8 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     set selected(option) {
         // reset
-        if (option === null) {
-            this.resetSelection();
-            return;
-        }
+        // eslint-disable-next-line no-setter-return
+        if (option === null) return this.resetSelection();
 
         if (!this.multiple) {
             this.resetSelection();

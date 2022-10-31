@@ -5,16 +5,6 @@
         "node": true,
         "jest": true
     },
-    "globals": {
-        "click": "readonly",
-        "createAsyncSpec": "readonly",
-        "assert": "readonly",
-        "cleanTestPage": "readonly",
-        "waitForStyles": "readonly",
-        "interactionManager": "readonly",
-        "mockEventObject": "readonly",
-        "dragIMElement": "readonly"
-    },
     "extends": [
         "google",
         "eslint:recommended"

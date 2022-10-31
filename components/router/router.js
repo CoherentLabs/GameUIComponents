@@ -4,6 +4,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/* eslint-disable no-useless-escape */
 import components from 'coherent-gameface-components';
 import { HashHistory, BrowserHistory } from './history';
 import { Route } from './route';
@@ -58,7 +59,7 @@ class Router {
      */
     parseURL(url) {
         const parseUrlExp = new RegExp([
-            '(.+?(?=/))',                     // host
+            '(.+?(?=\/))',                     // host
             '(/[^?#]*|)',                      // pathname
         ].join(''));
 

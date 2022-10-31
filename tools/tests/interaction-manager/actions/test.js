@@ -4,7 +4,7 @@ const actionName = 'registered-action';
 
 describe('Actions', () => {
     it('Should register an action', () => {
-        interactionManager.actions.register(actionName, () => { actionWorking = true; });
+        interactionManager.actions.register(actionName, () => actionWorking = true);
 
         const registeredAction = _IM.actions.find(action => action.name === actionName);
 

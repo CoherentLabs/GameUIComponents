@@ -26,10 +26,8 @@ class GamefaceRadioGroup extends HTMLElement {
 
     // eslint-disable-next-line require-jsdoc
     get value() {
-        if (this.disabled) return null;
-        if (this.previouslyCheckedElement && this.previouslyCheckedElement.disabled) return null;
         if (this.previouslyCheckedElement) return this.previouslyCheckedElement.value;
-
+        // will return null if it is disabled
         return null;
     }
 
