@@ -81,6 +81,7 @@ function addCopyrightsToFile(fileContent, fileExtension, filePath) {
             break;
         case FILE_EXTENSIONS.HTML:
         case FILE_EXTENSIONS.MD:
+        {
             const hasOldLicence = fileContent.indexOf(OLD_COPYRIGHT_NOTICE_HTML_MD) !== -1;
             const hasOldCRLFLicence = fileContent.indexOf(OLD_COPYRIGHT_NOTICE_HTML_MD_CRLF) !== -1;
 
@@ -92,6 +93,7 @@ function addCopyrightsToFile(fileContent, fileExtension, filePath) {
                 buffer = COPYRIGHT_NOTICE_HTML_MD_CRLF + fileContent;
             }
             break;
+        }
         default: break;
     }
 

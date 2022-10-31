@@ -174,7 +174,10 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     set selected(option) {
         // reset
-        if (option === null) return this.resetSelection();
+        if (option === null) {
+            this.resetSelection();
+            return;
+        }
 
         if (!this.multiple) {
             this.resetSelection();
@@ -199,7 +202,7 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     set hoveredElIndex(value) {
         if (!this.allOptions[value]) return;
-        return this._hovered = value;
+        this._hovered = value;
     }
 
     /**

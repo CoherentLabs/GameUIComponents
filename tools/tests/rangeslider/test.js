@@ -30,7 +30,7 @@ function loadRangeslider({ value, min, max, values, grid, thumb, twoHandles, ori
         twoHandles ? `two-handles` : '',
         customHandle ? `custom-handle="${customHandle}"` : '',
         customHandleLeft ? `custom-handle-left="${customHandleLeft}"` : '',
-        customHandleRight ? `custom-handle-right="${customHandleRight}"` : ''
+        customHandleRight ? `custom-handle-right="${customHandleRight}"` : '',
     ];
 
     const wrapper = document.createElement('div');

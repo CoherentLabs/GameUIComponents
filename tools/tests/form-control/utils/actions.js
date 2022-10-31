@@ -41,4 +41,4 @@ export async function checkResponseData(expectedData) {
         const data = document.querySelector('.response').textContent;
         assert(data === expectedData, `The form data is not the same as the expected one. Expected: ${expectedData}. Received: ${data}`);
     });
-};
+}

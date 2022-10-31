@@ -4,7 +4,7 @@ const textFieldErrorMessages = new Map([
     ['rangeOverflow', 'The value is too big. Maximum is 200.'],
     ['rangeUnderflow', 'The value is too small. Minimum is 15.'],
     ['badURL', 'Please enter a valid URL. It should match the following pattern: /https://.*/.'],
-    ['badEmail', 'Please enter a valid email. It should contain a @ symbol.']
+    ['badEmail', 'Please enter a valid email. It should contain a @ symbol.'],
 ]);
 
 const textFieldValidationTestTemplate = `<gameface-form-control style="position: absolute;top: 200px;">
