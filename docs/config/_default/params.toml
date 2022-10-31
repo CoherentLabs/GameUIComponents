@@ -7,7 +7,7 @@ titleAddition = "Components designed specifically for Gameface"
 description = "Game UI Components designed specifically for Gameface"
 
 ## Documentation
-# docsVersion = "0.3"
+docsVersion = "1.0.0"
 
 ## Open Graph
 images = []
@@ -42,7 +42,7 @@ footer = ""
   highLight = true
   kaTex = false
   multilingualMode = false
-  docsVersioning = false
+  docsVersioning = true
   cookieConsent = true
 
 [menu]
