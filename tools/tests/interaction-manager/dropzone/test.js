@@ -1,3 +1,5 @@
+/* eslint-disable new-cap */
+/* eslint-disable max-lines-per-function */
 const createDropzoneElement = (hasChild = false) => {
     const container = document.createElement('DIV');
 
@@ -25,7 +27,7 @@ const createDropzones = async () => {
 const removeDropzones = () => {
     const dropzones = document.querySelectorAll('.dropzone');
 
-    dropzones.forEach((dropzone) => document.body.removeChild(dropzone));
+    dropzones.forEach(dropzone => document.body.removeChild(dropzone));
 };
 
 const dragToDropzone = (square, x, y, dropzone) => {

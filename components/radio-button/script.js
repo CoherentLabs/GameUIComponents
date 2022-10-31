@@ -26,9 +26,11 @@ class GamefaceRadioGroup extends HTMLElement {
 
     // eslint-disable-next-line require-jsdoc
     get value() {
-        if (this.disabled) return;
-        if (this.previouslyCheckedElement && this.previouslyCheckedElement.disabled) return;
+        if (this.disabled) return null;
+        if (this.previouslyCheckedElement && this.previouslyCheckedElement.disabled) return null;
         if (this.previouslyCheckedElement) return this.previouslyCheckedElement.value;
+
+        return null;
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -136,7 +138,7 @@ class GamefaceRadioGroup extends HTMLElement {
             default:
                 break;
         }
-    };
+    }
 
     /**
      * @param {HTMLElement} button
