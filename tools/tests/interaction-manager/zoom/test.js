@@ -1,3 +1,6 @@
+/* eslint-disable new-cap */
+/* eslint-disable max-lines-per-function */
+/* global createIMElement */
 const simulateZoom = (x, y, direction, element) => {
     element.onWheel({
         preventDefault: () => {},

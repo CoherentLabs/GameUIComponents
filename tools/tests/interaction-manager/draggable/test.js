@@ -1,3 +1,6 @@
+/* eslint-disable new-cap */
+/* eslint-disable max-lines-per-function */
+/* global createIMElement */
 describe('Draggable', () => {
     beforeEach(async () => {
         await createIMElement();
