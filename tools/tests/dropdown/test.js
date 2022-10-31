@@ -3,6 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import KEY_CODES from '../keyCodes';
+
 const template = `<gameface-dropdown class="gameface-dropdown-component">
 <dropdown-option slot="option">Cat</dropdown-option>
 <dropdown-option slot="option">Dog</dropdown-option>
@@ -106,18 +108,6 @@ const firstValue = 'Cat';
 const secondValue = 'Dog';
 const changedValue = 'Giraffe';
 const lastValue = 'Last Parrot';
-
-const KEY_CODES = {
-    ARROW_UP: 38,
-    ARROW_DOWN: 40,
-    ARROW_RIGHT: 39,
-    ARROW_LEFT: 37,
-    END: 35,
-    HOME: 36,
-    ENTER: 13,
-    ESCAPE: 27,
-    KeyA: 65,
-};
 
 /**
  * Will dispatch a keydown event

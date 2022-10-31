@@ -2,7 +2,7 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
+/* global components */
 import { Router, Route, BrowserHistory, HashHistory } from '../node_modules/coherent-gameface-router/umd/router.development.js';
 
 const NumbersModel = {

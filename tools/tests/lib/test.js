@@ -2,7 +2,7 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
+/* global components */
 // eslint-disable-next-line max-lines-per-function
 describe('Components Library', () => {
     afterAll(() => cleanTestPage('.components-library-test'));
@@ -137,7 +137,7 @@ describe('Components Library', () => {
                         this.template = result.template;
                         if (components.renderOnce(this)) {
                             this.timesRendered += 1;
-                        };
+                        }
                     })
                     .catch(err => console.error(err));
             }
@@ -155,7 +155,7 @@ describe('Components Library', () => {
                         this.template = result.template;
                         if (components.renderOnce(this)) {
                             this.timesRendered += 1;
-                        };
+                        }
                     })
                     .catch(err => console.error(err));
             }
