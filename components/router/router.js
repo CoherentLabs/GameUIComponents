@@ -58,7 +58,7 @@ class Router {
      */
     parseURL(url) {
         const parseUrlExp = new RegExp([
-            '(.+?(?=\/))',                     // host
+            '(.+?(?=/))',                     // host
             '(/[^?#]*|)',                      // pathname
         ].join(''));
 
@@ -185,7 +185,7 @@ class Router {
             const [routeParams, configuration] = this.getRouteParamsAndConfiguration(url, currentURL);
             const finalRegex = configuration.join('/');
             // match from the beginning ^ of the url to the end $ if the match is exact
-            const urlRegex = new RegExp(`^(\/${finalRegex})${isExact ? '$' : ''}`);
+            const urlRegex = new RegExp(`^(/${finalRegex})${isExact ? '$' : ''}`);
             const result = currentURL.match(urlRegex);
 
             if (result) {
