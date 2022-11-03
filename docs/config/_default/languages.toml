@@ -1,0 +1,14 @@
+[en]
+  languageName = "English"
+  contentDir = "content/en"
+  weight = 10
+  [en.params]
+    languageISO = "EN"
+    languageTag = "en-US"
+[kor]
+  languageName = "Korean"
+  contentDir = "content/kor"
+  weight = 15
+  [kor.params]
+    languageISO = "KOR"
+    languageTag = "kor-KOR"
