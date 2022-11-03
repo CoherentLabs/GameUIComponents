@@ -41,7 +41,7 @@ footer = ""
   breadCrumb = true
   highLight = true
   kaTex = false
-  multilingualMode = false
+  multilingualMode = true
   docsVersioning = false
   cookieConsent = true
 
