@@ -12,6 +12,7 @@ const PARAMS_FILE_DIRECTORY = path.join(__dirname, '../docs/config/_default/para
 const PACKAGE_FILE_DIRECTORY = path.join(__dirname, '../package.json');
 const docsVersionRegExp = /docsVersion = "([0-9]|\.)+"/;
 
+const packageFile = require(PACKAGE_FILE_DIRECTORY);
 /**
  * @param {number} value
  * @returns {string}
@@ -218,10 +219,9 @@ function copyFile(source, dest) {
  * the toml file.
 */
 function updateDocVersion() {
-    const packageJSON = fs.readFileSync(PACKAGE_FILE_DIRECTORY, { encoding: 'utf8' });
     const paramsToml = fs.readFileSync(PARAMS_FILE_DIRECTORY, { encoding: 'utf8' });
 
-    const version = JSON.parse(packageJSON).version;
+    const version = packageFile.version;
     // always update without checking id the current version is the same to avoid
     // additional regexp matches that could not match correctly
     const updated = paramsToml.replace(docsVersionRegExp, `docsVersion = "${version}"`);
