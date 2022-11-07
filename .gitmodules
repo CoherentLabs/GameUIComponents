@@ -1,4 +1,4 @@
 [submodule "docs/themes/doks"]
 	path = docs/themes/doks
 	url = https://github.com/CoherentLabs/doks
-	branch = coherent-doks-theme
+	branch = languages-in-theme-files
