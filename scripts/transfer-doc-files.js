@@ -8,7 +8,11 @@ const DOC_FILES_COMPONENTS_DIRECTORY = path.join(__dirname, '../docs/content/com
 const DOC_FILES_CONTENT_EXAMPLES_DIRECTORY = path.join(__dirname, '../docs/content/examples');
 const EXCLUDED_FILES = new Set(['coherent-gameface-components-theme.css', 'demo.html', 'node_modules']);
 const IGNORED_EXAMPLES = new Set(['form-control']);
+const PARAMS_FILE_DIRECTORY = path.join(__dirname, '../docs/config/_default/params.toml');
+const PACKAGE_FILE_DIRECTORY = path.join(__dirname, '../package.json');
+const docsVersionRegExp = /docsVersion = "([0-9]|\.)+"/;
 
+const packageFile = require(PACKAGE_FILE_DIRECTORY);
 /**
  * @param {number} value
  * @returns {string}
@@ -210,6 +214,24 @@ function copyFile(source, dest) {
 }
 
 /**
+ * Updates the docsVersion field in docs/config/_default/params.toml file.
+ * Gets the GameUIComponents version from the package.json and syncs it with
+ * the toml file.
+*/
+function updateDocVersion() {
+    const paramsToml = fs.readFileSync(PARAMS_FILE_DIRECTORY, { encoding: 'utf8' });
+
+    const version = packageFile.version;
+    // always update without checking id the current version is the same to avoid
+    // additional regexp matches that could not match correctly
+    const updated = paramsToml.replace(docsVersionRegExp, `docsVersion = "${version}"`);
+
+    fs.writeFileSync(PARAMS_FILE_DIRECTORY, updated);
+    console.log(`Updated docs version to ${version}`);
+}
+
+
+/**
  * @returns {void}
  */
 function main() {
@@ -220,6 +242,11 @@ function main() {
 
     if (args.indexOf('--rebuild') > -1) execSync(`npm run build:dev`, { stdio: 'inherit' });
     transferBundleAndStyles(component);
+    updateDocVersion();
 }
 
-main();
+try {
+    main();
+} catch (error) {
+    console.error(`The following error occured: ${error}`);
+}
