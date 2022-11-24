@@ -41,9 +41,10 @@ footer = ""
   breadCrumb = true
   highLight = true
   kaTex = false
-  multilingualMode = false
+  multilingualMode = true
   docsVersioning = true
   cookieConsent = true
+  changelog = true
 
 [menu]
   [menu.section]
