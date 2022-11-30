@@ -9,8 +9,19 @@ draft: false
 Changelog for GameUIComponents
 ===================
 
-<table class="table table-striped">
-    {{<changelog type="enhancement" product="Checkbox" description="The checkbox is now deselected by default.">}}
-    {{<changelog type="fix" product="Checkbox" description="The checkbox no longer triggers multiple selected events.">}}
-    {{<changelog type="enhancement" product="Checkbox" description="The checkbox is now deselected by default.">}}
+{{<version version="10.8.7" date="30.11.2022">}}
+<table class="table" style="border-collapse: collapse;">
+{{<changelog type="enhancement" product="Checkbox" description="The checkbox is now deselected by default.">}}
+**Some bold text** and some *italic text*
+{{</changelog>}}
+{{<changelog type="enhancement" product="asdasd" description="asdasdvvadfasfav  adfas"/>}}
+</table>
+
+{{<version version="10.8.7" date="30.11.2022">}}
+<table class="table" style="border-collapse: collapse;">
+{{<changelog type="enhancement" description="The checkbox is now deselected by default.">}}
+**Some bold text**
+{{</changelog>}}
+{{<changelog type="enhancement" description="asdasdvvadfasfav  adfas"/>}}
+{{<changelog type="fix" product="asdasd" description="asdasdvvadfasfav  adfas"/>}}
 </table>
