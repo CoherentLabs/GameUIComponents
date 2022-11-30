@@ -9,7 +9,7 @@ draft: false
 Changelog for GameUIComponents
 ===================
 
-{{<version version="10.8.7" date="30.11.2022">}}
+{{<version number="10.8.7" date="30.11.2022">}}
 <table class="table" style="border-collapse: collapse;">
 {{<changelog type="enhancement" product="Checkbox" description="The checkbox is now deselected by default.">}}
 **Some bold text** and some *italic text*
@@ -17,7 +17,7 @@ Changelog for GameUIComponents
 {{<changelog type="enhancement" product="asdasd" description="asdasdvvadfasfav  adfas"/>}}
 </table>
 
-{{<version version="10.8.7" date="30.11.2022">}}
+{{<version number="10.8.7" date="30.11.2022">}}
 <table class="table" style="border-collapse: collapse;">
 {{<changelog type="enhancement" description="The checkbox is now deselected by default.">}}
 **Some bold text**
