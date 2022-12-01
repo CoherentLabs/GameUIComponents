@@ -68,6 +68,15 @@ class Keyboard {
      * @returns {void}
      */
     off(keys) {
+        keys = [
+            ...new Set(
+                keys.map((key) => {
+                    key = typeof key === 'number' ? this.keyCodeToString(key) : key;
+                    return key.toUpperCase();
+                })
+            ),
+        ];
+
         const keyCombinationIndex = IM.getKeysIndex(keys);
 
         if (keyCombinationIndex === -1) return console.error('You are trying to remove a non-existent key combination!');

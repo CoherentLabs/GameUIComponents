@@ -93,7 +93,7 @@ class Gamepad {
      * @returns {void}
      */
     off(actions) {
-        const actionsIndex = IM.getGamepadActionIndex(actions);
+        const actionsIndex = IM.getGamepadActionIndex(actions.map(this.sanitizeAction));
 
         if (actionsIndex === -1) return console.error('You are trying to remove a non-existent action!');
 

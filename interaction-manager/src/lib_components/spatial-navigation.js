@@ -269,7 +269,7 @@ class SpatialNavigation {
     removeKeyActions() {
         directions.forEach((direction) => {
             actions.remove(`move-focus-${direction}`);
-            keyboard.off([`arrow-${direction}`]);
+            keyboard.off([`arrow_${direction}`]);
             gamepad.off([`playstation.d-pad-${direction}`]);
         });
     }
