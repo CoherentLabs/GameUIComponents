@@ -45,6 +45,8 @@ footer = ""
   docsVersioning = true
   cookieConsent = true
   changelog = true
+  engines = ["Unity", "Unreal Engine"]
+
 
 [menu]
   [menu.section]
