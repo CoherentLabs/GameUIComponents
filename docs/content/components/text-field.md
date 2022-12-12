@@ -5,6 +5,7 @@ draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+
 The gameface-text-field is part of the Gameface custom components suite. As most of the components in this suite, it uses slots to allow dynamic content.
 
 # Installation
@@ -17,19 +18,19 @@ The gameface-text-field component comes with UMD and CJS builds.
 
 ## Usage with UMD modules:
 
-* import the components library:
+- import the components library:
 
 ```html
 <script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
 ```
 
-* import the gameface-text-field component:
+- import the gameface-text-field component:
 
 ```html
 <script src="./node_modules/coherent-gameface-text-field/umd/text-field.production.min.js"></script>
 ```
 
-* add the gameface-text-field component to your HTML:
+- add the gameface-text-field component to your HTML:
 
 ```html
 <gameface-text-field type="text"></gameface-text-field>
@@ -37,33 +38,30 @@ The gameface-text-field component comes with UMD and CJS builds.
 
 This is all! Load the file in Gameface to see the text field.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the text-field from the node_modules folder and import them like this:
+If you wish to import the modules using JavaScript you can remove the script tags which import the components and the text-field from the node_modules folder and import them like this:
 
-```javascript
+```{.javascript}
 import components from 'coherent-gameface-components';
 import TextField from 'coherent-gameface-text-field';
 ```
 
-Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively, you can import them directly from node_modules:
+Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the modules from the node_modules folder. Alternatively, you can import them directly from node_modules:
 
-```javascript
+```{.javascript}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
 import TextField from './node_modules/coherent-gameface-text-field/umd/text-field.production.min.js';
 ```
 
 ## Usage with CJS modules:
 
-* Import the components library:
+- Import the components library:
 
-```javascript
+```{.javascript}
 const components = require('coherent-gameface-components');
 const TextField = require('coherent-gameface-text-field');
 ```
 
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler to use them in a browser.
+The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module bundler to use them in a browser.
 
 # Text field attributes
 
@@ -90,6 +88,7 @@ The next attributes are working with all the `<gameface-text-field>` types **wit
 | `maxlength` | No       | Strings that are valid numbers | N/A           | Used to specify the maximum symbols from the text field the can be typed. |
 | `minlength` | No       | Strings that are valid numbers | N/A           | Used to specify the minimum symbols from the text field the can be typed. |
 
+
 ## Number type related attribute
 
 The next attributes are working just when the `gameface-text-field` type is `number`.
@@ -104,12 +103,12 @@ The next attributes are working just when the `gameface-text-field` type is `num
 
 The type of the text field is defined by the `type` attribute.
 
-* `text` - The text field will accept any string input.
-* `password` - The text field will accept any string input but it will be masked with the `*` character.
-* `email` - The text field will accept any string input. When the text field is used inside a `gameface-form-control` component it will be validated on submit if its value is a valid email (a string that includes the `@` symbol).
-* `url` - The text field will accept any string input. When the text field is used inside a `gameface-form-control` component it will be validated on submit if its value is a valid url.
-* `search` - The text field will accept any string input. The text field will display additional control (cross button) that can be used to clear the input value.
-* `number` - The text field will accept any number input. The text field will display additional control (arrow up and down) that can be used to increase/decrease the value with the `step` specified. By default, the arrows will change the value with `step` that is `1`. **The number type does not support the `e` symbol!**
+- `text` - The text field will accept any string input.
+- `password` - The text field will accept any string input but it will be masked with the `*` character.
+- `email` - The text field will accept any string input. When the text field is used inside a `gameface-form-control` component it will be validated on submit if its value is a valid email (a string that includes the `@` symbol).
+- `url` - The text field will accept any string input. When the text field is used inside a `gameface-form-control` component it will be validated on submit if its value is a valid url.
+- `search` - The text field will accept any string input. The text field will display additional control (cross button) that can be used to clear the input value.
+- `number` - The text field will accept any number input. The text field will display additional control (arrow up and down) that can be used to increase/decrease the value with the `step` specified. By default, the arrows will change the value with `step` that is `1`. **The number type does not support the `e` symbol!**
 
 # Input events to a gameface text input
 
@@ -124,23 +123,23 @@ To change runtime the type of the text field for example you can:
 
 The available properties that can be changed runtime are:
 
-* `type` - will change the text field's type. `textField.type = 'number'`.
-* `value` - will change the text field's value. `textField.value = 'some different value'`.
-* `disabled` - will enable/disable the text field. `textField.disabled = true` will disable the field and `textField.disabled = false` will enable it again.
-* `readonly` - will make the text field readonly. `textField.readonly = true` will make the field readonly and `textField.readonly = false` will enable it again.
-* `label` - will change the text field's label. `textField.label = 'User name:'`.
-* `placeholder` - will change the text field's placeholder. `textField.placeholder = 'Type your username here'`.
-* `inputControlDisabled` - will hide/show text field control for type - `search` and `number`. `textField.inputControlDisabled = true` will hide the control and `textField.inputControlDisabled = false` will show the control.
-* `maxlength` - will change the max length of the text field. `textField.maxlength = 10`.
-* `minlength` - will change the min length of the text field. `textField.minlength = 2`.
-* `max` - will change the maximum limit of the text field when the type is `number`. `textField.max = 10`.
-* `min` - will change the minimum limit of the text field when the type is `number`. `textField.min = 1`.
-* `step` - will change the step of the text field when the type is `number`. `textField.step = 0.5`.
+- `type` - will change the text field's type. `textField.type = 'number'`.
+- `value` - will change the text field's value. `textField.value = 'some different value'`.
+- `disabled` - will enable/disable the text field. `textField.disabled = true` will disable the field and `textField.disabled = false` will enable it again.
+- `readonly` - will make the text field readonly. `textField.readonly = true` will make the field readonly and `textField.readonly = false` will enable it again.
+- `label` - will change the text field's label. `textField.label = 'User name:'`.
+- `placeholder` - will change the text field's placeholder. `textField.placeholder = 'Type your username here'`.
+- `inputControlDisabled` - will hide/show text field control for type - `search` and `number`. `textField.inputControlDisabled = true` will hide the control and `textField.inputControlDisabled = false` will show the control.
+- `maxlength` - will change the max length of the text field. `textField.maxlength = 10`.
+- `minlength` - will change the min length of the text field. `textField.minlength = 2`.
+- `max` - will change the maximum limit of the text field when the type is `number`. `textField.max = 10`.
+- `min` - will change the minimum limit of the text field when the type is `number`. `textField.min = 1`.
+- `step` - will change the step of the text field when the type is `number`. `textField.step = 0.5`.
 
 # Example
 
 You can check the `demo.html` where can be found a lot of examples with the `gameface-text-field`. There you can find:
 
-* How to use all the available `gameface-text-field` attributes.
-* How to customize the default `gameface-text-field` elements.
-* How to use events with `gameface-text-field`.
+- How to use all the available `gameface-text-field` attributes.
+- How to customize the default `gameface-text-field` elements.
+- How to use events with `gameface-text-field`.

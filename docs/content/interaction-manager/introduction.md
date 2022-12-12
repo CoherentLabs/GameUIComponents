@@ -4,7 +4,6 @@ title: Introduction
 draft: false
 weight: 2
 ---
-
 ## What is the coherent-gameface-interaction-manager?
 
 The `coherent-gameface-interaction-manager` is a JS library for the most common UI interactions.
@@ -16,7 +15,8 @@ The library's aim is to provide an easy implementation for things like gamepad c
 To get started, you will first need to install the `coherent-gameface-interaction-manager` after that you can create different interactions based on your project needs.
 
 For example to set up a draggable object, you just need to do:
-```javascript
+
+```{.javascript}
 const square = new interactionManager.draggable({element: '.square'})
 ```
 
@@ -34,7 +34,8 @@ The `coherent-gameface-interaction-manager` supports the following features:
 - Pan and zoom
 
 All of these features can be loaded individually from the `coherent-gameface-interaction-manager` library.
-```javascript
+
+```{.javascript}
 import {keyboard, gamepad, actions, spatialNavigation, draggable, dropzone, resize, rotate, zoom} from 'coherent-gameface-interaction-manager`
 ```
 

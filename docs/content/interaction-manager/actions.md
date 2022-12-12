@@ -11,7 +11,7 @@ Allows to register actions that can be reused throughout your code.
 
 Registers the action
 
-```javascript
+```{.javascript}
 actions.register('action-to-register', () => {})
 ```
 
@@ -19,7 +19,7 @@ actions.register('action-to-register', () => {})
 
 Type:
 
-```javascript
+```{.javascript}
 type action = string
 ```
 
@@ -29,7 +29,7 @@ The name of the action you want to register.
 
 Type:
 
-```javascript
+```{.javascript}
 type callback = (value) => {}
 ```
 
@@ -43,7 +43,7 @@ Executes an action
 
 Type:
 
-```javascript
+```{.javascript}
 type action = string
 ```
 
@@ -53,7 +53,7 @@ The name of the action you want to execute.
 
 Type:
 
-```javascript
+```{.javascript}
 type value = any
 ```
 
@@ -67,7 +67,7 @@ Removes the action.
 
 Type:
 
-```javascript
+```{.javascript}
 type action = string
 ```
 

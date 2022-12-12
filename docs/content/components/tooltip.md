@@ -5,83 +5,79 @@ draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+
 The tooltip is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
-Installation
-===================
+# Installation
 
 `npm i coherent-gameface-tooltip`
 
-Usage
-===================
+# Usage
+
 The tooltip component comes with UMD and CJS builds.
 
 ## Usage with UMD modules:
 
-* import the components library:
+- import the components library:
 
-~~~~{.html}
+```{.html}
 <script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
-~~~~
+```
 
-* import the tooltip component:
+- import the tooltip component:
 
-~~~~{.html}
+```{.html}
 <script src="./node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js"></script>
-~~~~
+```
 
-* add the tooltip component to your html:
+- add the tooltip component to your html:
 
-~~~~{.html}
+```{.html}
 <gameface-tooltip target=".container">
     <div slot="message">Hello!</div>
 </gameface-tooltip>
-~~~~
+```
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the tooltip from the node_modules folder and import them like this:
+If you wish to import the modules using JavaScript you can remove the script tags which import the components and the tooltip from the node_modules folder and import them like this:
 
-~~~~{.js}
+```{.js}
 import components from 'coherent-gameface-components';
 import Tooltip from 'coherent-gameface-tooltip';
-~~~~
+```
 
-Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
+Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the modules from the node_modules folder. Alternatively you can import them directly from node_modules:
 
-~~~~{.js}
+```{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
 import Tooltip from './node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js';
-~~~~
+```
 
 ## Usage with CJS modules:
 
-* Import the components library:
+- Import the components library:
 
-~~~~{.js}
+```{.js}
 const components = require('coherent-gameface-components');
 const Tooltip = require('coherent-gameface-tooltip');
-~~~~
+```
 
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
+The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module bundler in order to be use them in a browser.
 
-Specifying the content
-=========================
+# Specifying the content
 
 Use the message slot to specify the message of the tooltip.
 
 Full list of the available attributes can be found [here](###Attributes).
 
-~~~~{.html}
+```{.html}
 <gameface-tooltip target=".container" on="mouseenter" off="mouseleave" position="left">
     <div slot="message">Message on left</div>
 </gameface-tooltip>
-~~~~
+```
 
 You can also put more complex content like interactive controls such as buttons:
 
-~~~~{.html}
+```{.html}
 <gameface-tooltip id="tutorial" target=".container" on="mouseenter" position="top" off="click">
     <div slot="message">
         <div class="msg-container">
@@ -94,25 +90,24 @@ You can also put more complex content like interactive controls such as buttons:
         </div>
     </div>
 </gameface-tooltip>
-~~~~
+```
 
 You can add more flexibility using JavaScript. In the above example the tooltip will be closed on click anywhere inside it. If you wish to close it only if the customer clicks for the example on the `Next` button you can manually attach a listener and call the `hide` method of the tooltip:
 
-~~~~{.js}
+```{.js}
 document.querySelector('.button').addEventListener('click', (e) => {
     document.querySelector('#tutorial').hide();
 });
-~~~~
+```
 
 ## Add the Styles
 
-~~~~{.css}
+```{.css}
 <link rel="stylesheet" href="coherent-gameface-components-theme.css">
 <link rel="stylesheet" href="style.css">
-~~~~
+```
 
-To overwrite the default styles, simply create new rules for the class names that
-you wish to change and include them after the default styles.
+To overwrite the default styles, simply create new rules for the class names that you wish to change and include them after the default styles.
 
 **You can put any custom styles inline or use class names and add an external file.**
 
@@ -124,8 +119,7 @@ Usually a tooltip is displayed as a result of an action performed on another ele
 
 To set or change the tooltip message, use the `setMessage` method.
 
-When the `async` attribute is present in `<gameface-tooltip>`, a callback that returns a Promise must be provided to the `setMessage` method.
-Async mode use case is shown in the demo page.
+When the `async` attribute is present in `<gameface-tooltip>`, a callback that returns a Promise must be provided to the `setMessage` method. Async mode use case is shown in the demo page.
 
 ### Attributes
 

@@ -97,7 +97,7 @@ const square3 = new dropzone({ element: '.square4', dropzones: ['.dropzone4'], d
 
 Type:
 
-```javascript
+```{.javascript}
 type onDragStart = () => {}
 ```
 
@@ -107,7 +107,7 @@ Executes when you start dragging the element.
 
 Type:
 
-```javascript
+```{.javascript}
 type onDragMove = () => {}
 ```
 
@@ -117,7 +117,7 @@ Executes when you move the dragged element.
 
 Type:
 
-```javascript
+```{.javascript}
 type onDragEnd = () => {}
 ```
 
@@ -127,7 +127,7 @@ Executes when you stop dragging the element.
 
 Type:
 
-```javascript
+```{.javascript}
 type onDropZoneLeave = () => {}
 ```
 
@@ -137,7 +137,7 @@ Executes when you drag an element out of a a dropzone
 
 Type:
 
-```javascript
+```{.javascript}
 type onDropZoneEnter = () => {}
 ```
 
@@ -147,7 +147,7 @@ Executes when you drag an element over a dropzone
 
 You are able to drag elements using actions. Since every dropzone action is unique you can do the following:
 
-```javascript
+```{.javascript}
 const element = new dropzone({ element: '.square', dropzones: ['.dropzone'] });
 
 actions.execute(element.actionName, {x: 100, y: 100, index: 0});

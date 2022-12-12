@@ -9,13 +9,13 @@ Allows you to drag around elements on the screen.
 
 ## Usage
 
-```javascript
+```{.javascript}
 new draggable(draggableOptions);
 ```
 
 ## Basic implementation
 
-```javascript
+```{.javascript}
 const square = new draggable({ element: '.square' });
 ```
 
@@ -27,7 +27,7 @@ const square = new draggable({ element: '.square' });
 
 Type:
 
-```javascript
+```{.javascript}
 type element = string
 ```
 
@@ -37,7 +37,7 @@ The element selector.
 
 Type:
 
-```javascript
+```{.javascript}
 type restrictTo = string;
 ```
 
@@ -45,7 +45,7 @@ Restricts the dragged element to another element. That way the dragged element w
 
 **Example**
 
-```javascript
+```{.javascript}
 const square = new draggable({ element: '.square', restrictTo: '.container' });
 ```
 
@@ -55,7 +55,7 @@ const square = new draggable({ element: '.square', restrictTo: '.container' });
 
 Type:
 
-```javascript
+```{.javascript}
 type dragClass = string
 ```
 
@@ -65,7 +65,7 @@ Class to be added to the dragged element.
 
 Type:
 
-```javascript
+```{.javascript}
 type lockAxis = 'x' | 'y'
 ```
 
@@ -73,18 +73,18 @@ Locks the dragged element to either the x or y axis.
 
 **Example**
 
-```javascript
+```{.javascript}
 const square1 = new draggable({ element: '.square1', lockAxis: 'x' });
 const square2 = new draggable({ element: '.square2', lockAxis: 'y' });
 ```
 
 <object style="border: 2px solid black;" data="../../interaction-manager/Draggable/drag-lock-axis.html" width="1000" height="600"></object>
 
-
 ### onDragStart
 
 Type:
-```javascript
+
+```{.javascript}
 type onDragStart = () => {}
 ```
 
@@ -93,7 +93,8 @@ Executes when you start dragging the element.
 ### onDragMove
 
 Type:
-```javascript
+
+```{.javascript}
 type onDragMove = () => {}
 ```
 
@@ -102,18 +103,18 @@ Executes when you move the dragged element.
 ### onDragEnd
 
 Type:
-```javascript
+
+```{.javascript}
 type onDragEnd = () => {}
 ```
 
 Executes when you stop dragging the element.
 
-
 ## Actions
 
 You are able to drag elements using actions. Since every draggable action is unique you can do the following:
 
-```javascript
+```{.javascript}
 const element = new draggable({ element: '.square'});
 
 actions.execute(element.actionName, {x: 100, y: 100, index: 0}); 
