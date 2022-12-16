@@ -1,0 +1,31 @@
+#!/bin/sh
+
+ret=$?
+if [ $ret -ne 0 ]; then
+	exit 1
+fi
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+    against=HEAD
+else
+    # Initial commit: diff against an empty tree object
+    against=$(git hash-object -t tree /dev/null)
+fi
+
+changed_files=$(git diff --cached --name-only --diff-filter=ACM $against |
+              tr '\r\n' ' ' | tr '\n' ' ')
+
+case "$changed_files" in
+	*"docs/content"*)
+		# echo $changed_files
+		# Uncomment when we add spellcheck.py
+		# echo 'Documentation is changed. Running spellcheck...'
+		# python docs/spellcheck.py --report
+		echo 'Checking for split sentences...'
+		python docs/split_sentence_checker.py -d "docs/content"
+		ret=$?
+		if [ $ret -ne 0 ]; then
+			exit 1
+		fi
+esac
