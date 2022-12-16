@@ -72,7 +72,7 @@ After you successfully execute `npm run tests` open the Gameface player or Chrom
 To build the components from this repository use the `npm run build:dev` command. This will:
 
 1. create symlinks for all components
-2. build all components and their demos NPM will use the links to install the dependencies, not the public npm packages. This means that if a component depends on another, the dependency will be installed from the source, making it easy to test local changes. For example - the dropdown component depends on the scrollable container. If you make changes to the scrollable-container and run `npm run build:dev` you'll be able to observe the changes that you did to the scrollable-container in the demo of dropdown, because it uses the local package created by the build:dev command. If you inspect the scrollable-container package located in the dropdown's node_modules you'll see that it is a symbolic link that references the source of the scrollable container located in the components folder.
+2. build all components and their demos - NPM will use the links to install the dependencies, not the public npm packages. This means that if a component depends on another, the dependency will be installed from the source, making it easy to test local changes. For example - the dropdown component depends on the scrollable container. If you make changes to the scrollable-container and run `npm run build:dev` you'll be able to observe the changes that you did to the scrollable-container in the demo of dropdown, because it uses the local package created by the build:dev command. If you inspect the scrollable-container package located in the dropdown's node_modules you'll see that it is a symbolic link that references the source of the scrollable container located in the components folder.
 
 The `npm run build:dev` command will build all components. If you are not changing all of them you don't need to rebuild them every time. You can build individual components using the coherent game UI components CLI. This is a command line tool that enables you to create, build and watch for changes, making the development iterations faster and easier. You can read more about it in the [documentation](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started).
 
@@ -406,8 +406,3 @@ To prevent errors, improve the code quality and readability, to make maintainabl
 - If you want to check anytime if you have some linter errors you can run `npm run lint:errors`. If you want to check for warnings as well you can run `npm run lint:all`. We advise you to use `lint:all` command!
 - You can install a [VSCode extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) that will run the linter in the background while you are coding. This will save you time fixing the errors at the end.
 - We added a GitHub action that will be triggered when you make a pull request. It will run the linter each time you make a change to the pull request to make sure everything is fine with the code.
-
-[--component]: ## "the name of the folder of the component that you want to build the documentation for"
-[--library]: ## "builds only the components library"
-[--no-install]: ## "skip the npm install step"
-[--rebuild]: ## "rebuild all the components"
