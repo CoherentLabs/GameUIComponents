@@ -1,0 +1,55 @@
+---
+date: 2022-3-25
+title: Tabs
+draft: false
+---
+
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../components/coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="../../components/tabs/style.css">
+    <style>
+        .page-wrapper {
+            position: relative;
+            height: 45vh;
+        }
+
+        tab-panel {
+            border-width: 2px;
+            border-style: solid;
+            padding: 10px;
+            width: 496px;
+            height: 205px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+
+        [data-dark-mode] gameface-tabs {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <gameface-tabs>
+            <tab-heading slot="tab">Chapter One</tab-heading>
+            <tab-panel slot="panel">Chapter One Content</tab-panel>
+            <tab-heading slot="tab">Chapter Two</tab-heading>
+            <tab-panel slot="panel">Chapter Two Content</tab-panel>
+            <tab-heading slot="tab">Chapter Three</tab-heading>
+            <tab-panel slot="panel">Chapter Three Content</tab-panel>
+            <tab-heading slot="tab">Chapter Four</tab-heading>
+            <tab-panel slot="panel">Chapter Four Content</tab-panel>
+        </gameface-tabs>
+    </div>
+    <script src="../../components/tabs/bundle.js"></script>
+</body>
+
+</html>
