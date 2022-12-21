@@ -400,3 +400,15 @@ To prevent errors, improve the code quality and readability, to make maintainabl
 * If you want to check anytime if you have some linter errors you can run `npm run lint:errors`. If you want to check for warnings as well you can run `npm run lint:all`. We advise you to use `lint:all` command!
 * You can install a [VSCode extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) that will run the linter in the background while you are coding. This will save you time fixing the errors at the end.
 * We added a GitHub action that will be triggered when you make a pull request. It will run the linter each time you make a change to the pull request to make sure everything is fine with the code.
+
+# Configuring the Python environment
+
+Currently, we still rely on [**Python2.7**](https://www.python.org/downloads/release/python-272/) for the execution of our scripts.
+This means that if you get weird errors, you probably have to double-check if you have Python2.7 installed on your system.
+
+In case you have previously installed Python3 only, to ensure that when `python` is called in a console environment, you must make sure that your Python2 installation location is included in your `Path` environment variable before the Python3 installation.
+
+Also, a common way to be able to call both Python2 and Python3 executions of scripts is to navigate to your Python3 install location (after configuring the `Path` environment variable as described above) and symlink your `python.exe` in the same directory and name it `python3.exe`.
+This way you will be able to easily call a script like so - `python3 somescript.py` - and let it be executed by Python3
+
+You can also opt for a [virtualenv setup](https://help.dreamhost.com/hc/en-us/articles/215489338-Installing-and-using-virtualenv-with-Python-2).
