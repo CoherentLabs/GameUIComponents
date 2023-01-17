@@ -49,6 +49,9 @@ isPlainText = true
 noUgly = true
 rel  = "sitemap"
 
+[build]
+  writeStats=true
+
 [caches]
   [caches.getjson]
     dir = ":cacheDir/:project"

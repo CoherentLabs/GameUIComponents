@@ -9,8 +9,8 @@ draft: false
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="../../components/coherent-gameface-components-theme.css">
-    <link rel="stylesheet" href="../../components/text-field/style.css">
+    {{<staticLink href="components/coherent-gameface-components-theme.css">}}
+    {{<staticLink href="components/text-field/style.css">}}
     <style>
         .text-fields-container {
             display: flex;
@@ -237,7 +237,7 @@ draft: false
             <gameface-text-field class="custom-text-field-styles" type="number" label="Number:"></gameface-text-field>
         </div>
     </div>
-    <script src="../../components/text-field/bundle.js"></script>
+    {{<staticScript src="components/text-field/bundle.js">}}
     <script>
         document.querySelector('#test1').addEventListener('change', (event) => console.log('change event', event.target.value));
         document.querySelector('#test1').addEventListener('blur', (event) => console.log('blur event', event.target.value));

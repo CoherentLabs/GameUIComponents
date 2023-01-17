@@ -9,10 +9,9 @@ draft: false
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="../../components/coherent-gameface-components-theme.css">
-    <link rel="stylesheet" href="../../components/rangeslider/horizontal.css">
-    <link rel="stylesheet" href="../../components/rangeslider/vertical.css">
-
+    {{<staticLink href="components/coherent-gameface-components-theme.css">}}
+    {{<staticLink href="components/rangeslider/horizontal.css">}}
+    {{<staticLink href="components/rangeslider/vertical.css">}}
     <style>
         gameface-rangeslider {
             /* reset the :root styles comming from Hugo's theme.min.css in order to show the thumb correctly */
@@ -108,7 +107,7 @@ draft: false
 
     </div>
 
-    <script src="../../components/rangeslider/bundle.js"></script>
+    {{<staticScript src="components/rangeslider/bundle.js">}}
 </body>
 
 </html>

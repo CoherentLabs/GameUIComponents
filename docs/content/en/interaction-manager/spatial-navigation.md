@@ -13,11 +13,11 @@ A JavaScript-based implementation for Spatial Navigation with gamepad support
 spatialNavigation.init(['.square']);
 ```
 
-Click on an element and move the focus with your keyboard arrow keys: <object data="../../interaction-manager/SpatialNavigation/grid-elements-focus.html" width="1000" height="500"></object>
+Click on an element and move the focus with your keyboard arrow keys: <object data="{{<staticUrl "interaction-manager/SpatialNavigation/grid-elemens-disabled.html">}}" width="1000" height="500"></object>
 
 If you add a `disabled` property to a navigatable element it will skip it when moving the focus
 
-<object data="../../interaction-manager/SpatialNavigation/grid-elemens-disabled.html" width="1050" height="700"></object>
+<object data="{{<staticUrl "interaction-manager/SpatialNavigation/grid-elemens-disabled.html">}}" width="1050" height="700"></object>
 
 ## API
 
@@ -44,7 +44,7 @@ spatialNavigation.init([
 
 This will create different areas to separate the navigation. If you pass only a selector, it will be saved to the default area.
 
-<object data="../../interaction-manager/SpatialNavigation/grid-elemens-areas.html" width="1050" height="700"></object>
+<object data="{{<staticUrl "interaction-manager/SpatialNavigation/grid-elemens-areas.html">}}" width="1050" height="700"></object>
 
 ##### area
 

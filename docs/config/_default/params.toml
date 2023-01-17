@@ -44,6 +44,7 @@ footer = ""
   multilingualMode = false
   docsVersioning = true
   cookieConsent = true
+  changelog = false
 
 [menu]
   [menu.section]

@@ -3,9 +3,9 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 
 const DOC_FILES_DIRECTORY = path.join(__dirname, '../docs/static/components');
-const DOC_FILES_CONTENT_DIRECTORY = path.join(__dirname, '../docs/content');
-const DOC_FILES_COMPONENTS_DIRECTORY = path.join(__dirname, '../docs/content/components');
-const DOC_FILES_CONTENT_EXAMPLES_DIRECTORY = path.join(__dirname, '../docs/content/examples');
+const DOC_FILES_CONTENT_DIRECTORY = path.join(__dirname, '../docs/content/en');
+const DOC_FILES_COMPONENTS_DIRECTORY = path.join(__dirname, '../docs/content/en/components');
+const DOC_FILES_CONTENT_EXAMPLES_DIRECTORY = path.join(__dirname, '../docs/content/en/examples');
 const EXCLUDED_FILES = new Set(['coherent-gameface-components-theme.css', 'demo.html', 'node_modules']);
 const IGNORED_EXAMPLES = new Set(['form-control']);
 const PARAMS_FILE_DIRECTORY = path.join(__dirname, '../docs/config/_default/params.toml');

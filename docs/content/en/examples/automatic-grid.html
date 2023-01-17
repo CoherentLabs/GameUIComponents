@@ -7,9 +7,9 @@ draft: false
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="../../components/grid/grid.css">
-<link rel="stylesheet" href="../../components/coherent-gameface-components-theme.css">
-<link rel="stylesheet" href="../../components/automatic-grid/style.css">
+{{<staticLink href="components/grid/grid.css">}}
+{{<staticLink href="components/coherent-gameface-components-theme.css">}}
+{{<staticLink href="components/automatic-grid/style.css">}}
 
 <style>
     .page-wrapper {
@@ -69,8 +69,7 @@ draft: false
             <component-slot data-name="item" class="box">6</component-slot>
         </gameface-automatic-grid>
     </div>
-
-    <script src="../../components/automatic-grid/bundle.js"></script>
+    {{<staticScript src="components/automatic-grid/bundle.js">}}
 </body>
 
 </html>
