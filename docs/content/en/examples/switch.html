@@ -1,5 +1,5 @@
 ---
-date: 2022-3-25
+date: 2023-1-18
 title: Switch
 draft: false
 ---
@@ -28,94 +28,96 @@ draft: false
 </style>
 
 <body>
-    <div class="row">
-        <div class="cell"></div>
-        <div class="cell">type="default"</div>
-        <div class="cell">type="inset"</div>
-        <div class="cell">type="text-inside"</div>
-    </div>
-    <div class="row">
-        <div class="cell">Unchecked</div>
-        <div class="cell">
-            <gameface-switch>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
+    <div class="guic-demo">
+        <div class="row">
+            <div class="cell"></div>
+            <div class="cell">type="default"</div>
+            <div class="cell">type="inset"</div>
+            <div class="cell">type="text-inside"</div>
         </div>
-        <div class="cell">
-            <gameface-switch type="inset">
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
+        <div class="row">
+            <div class="cell">Unchecked</div>
+            <div class="cell">
+                <gameface-switch>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="cell">
+                <gameface-switch type="inset">
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="cell">
+                <gameface-switch type="text-inside">
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
         </div>
-        <div class="cell">
-            <gameface-switch type="text-inside">
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
+        <div class="row">
+            <div class="cell">Checked</div>
+            <div class="cell">
+                <gameface-switch checked>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="cell">
+                <gameface-switch type="inset" checked>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="cell">
+                <gameface-switch type="text-inside" checked>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="cell">Checked</div>
-        <div class="cell">
-            <gameface-switch checked>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
+        <div class="row">
+            <div class="cell">Unchecked disabled</div>
+            <div class="cell">
+                <gameface-switch disabled>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="cell">
+                <gameface-switch type="inset" disabled>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="cell">
+                <gameface-switch type="text-inside" disabled>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
         </div>
-        <div class="cell">
-            <gameface-switch type="inset" checked>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
-        </div>
-        <div class="cell">
-            <gameface-switch type="text-inside" checked>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
-        </div>
-    </div>
-    <div class="row">
-        <div class="cell">Unchecked disabled</div>
-        <div class="cell">
-            <gameface-switch disabled>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
-        </div>
-        <div class="cell">
-            <gameface-switch type="inset" disabled>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
-        </div>
-        <div class="cell">
-            <gameface-switch type="text-inside" disabled>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
-        </div>
-    </div>
-    <div class="row">
-        <div class="cell">Checked disabled</div>
-        <div class="cell">
-            <gameface-switch disabled checked>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
-        </div>
-        <div class="cell">
-            <gameface-switch type="inset" disabled checked>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
-        </div>
-        <div class="cell">
-            <gameface-switch type="text-inside" disabled checked>
-                <component-slot data-name="switch-unchecked">Off</component-slot>
-                <component-slot data-name="switch-checked">On</component-slot>
-            </gameface-switch>
+        <div class="row">
+            <div class="cell">Checked disabled</div>
+            <div class="cell">
+                <gameface-switch disabled checked>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="cell">
+                <gameface-switch type="inset" disabled checked>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="cell">
+                <gameface-switch type="text-inside" disabled checked>
+                    <component-slot data-name="switch-unchecked">Off</component-slot>
+                    <component-slot data-name="switch-checked">On</component-slot>
+                </gameface-switch>
+            </div>
         </div>
     </div>
 

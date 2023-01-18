@@ -9,7 +9,9 @@
 	--default-color-gray: #e6e6e6;
 }
 
-input, textarea, button {
+.guic-demo input,
+.guic-demo textarea,
+.guic-demo button {
 	border-top-color: var(--default-color-blue);
 	border-right-color: var(--default-color-blue);
 	border-bottom-color: var(--default-color-blue);
@@ -17,6 +19,7 @@ input, textarea, button {
 	background-color: var(--default-color-white);
 }
 
-button, input[type="button"] {
+.guic-demo button,
+.guic-demo input[type="button"] {
 	background-color: var(--default-color-gray);
 }
