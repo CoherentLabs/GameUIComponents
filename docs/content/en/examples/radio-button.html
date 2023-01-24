@@ -1,5 +1,5 @@
 ---
-date: 2022-3-25
+date: 2023-1-18
 title: Radio button
 draft: false
 ---
@@ -34,23 +34,24 @@ draft: false
 </head>
 
 <body>
-
-	<div class="section">
-		<div class="section-label">Targeting System:</div>
-		<gameface-radio-group>
-			<radio-button>Tab Targeting</radio-button>
-			<radio-button checked>Action Combat</radio-button>
-		</gameface-radio-group>
+	<div class="guic-demo">
+		<div class="section">
+			<div class="section-label">Targeting System:</div>
+			<gameface-radio-group>
+				<radio-button>Tab Targeting</radio-button>
+				<radio-button checked>Action Combat</radio-button>
+			</gameface-radio-group>
+		</div>
+		<div class="section">
+			<div class="section-label">HUD Elements Placement:</div>
+			<gameface-radio-group>
+				<radio-button checked>Locked (Default)</radio-button>
+				<radio-button>Grid Slots (Sticky)</radio-button>
+				<radio-button>Unlocked</radio-button>
+			</gameface-radio-group>
+		</div>
 	</div>
-	<div class="section">
-		<div class="section-label">HUD Elements Placement:</div>
-		<gameface-radio-group>
-			<radio-button checked>Locked (Default)</radio-button>
-			<radio-button>Grid Slots (Sticky)</radio-button>
-			<radio-button>Unlocked</radio-button>
-		</gameface-radio-group>
-	</div>
-
+	
 	{{<staticScript src="components/radio-button/bundle.js">}}
 </body>
 
