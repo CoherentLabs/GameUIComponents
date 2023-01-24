@@ -19,7 +19,7 @@ new zoom(zoomOptions)
 const grid = new zoom({ element: '.grid' });
 ```
 
-<object style="border: 2px solid black;" data="../../interaction-manager/Zoom/pan-zoom.html" width="1000" height="600"></object>
+<object style="border: 2px solid black;" data="{{<staticUrl "interaction-manager/Zoom/pan-zoom.html">}}" width="1000" height="600"></object>
 
 ## zoomOptions
 

@@ -12,8 +12,8 @@ draft: false
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../components/coherent-gameface-components-theme.css">
-    <link rel="stylesheet" href="../../components/tabs/style.css">
+    {{<staticLink href="components/coherent-gameface-components-theme.css">}}
+    {{<staticLink href="components/tabs/style.css">}}
     <style>
         .page-wrapper {
             position: relative;
@@ -49,7 +49,7 @@ draft: false
             <tab-panel slot="panel">Chapter Four Content</tab-panel>
         </gameface-tabs>
     </div>
-    <script src="../../components/tabs/bundle.js"></script>
+    {{<staticScript src="components/tabs/bundle.js">}}
 </body>
 
 </html>

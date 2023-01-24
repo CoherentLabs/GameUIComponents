@@ -19,7 +19,7 @@ new draggable(draggableOptions);
 const square = new draggable({ element: '.square' });
 ```
 
-<object style="border: 2px solid black;" data="../../interaction-manager/Draggable/drag-around-screen.html" width="1000" height="500"></object>
+<object style="border: 2px solid black;" data="{{<staticUrl "interaction-manager/Draggable/drag-around-screen.html">}}" width="1000" height="500"></object>
 
 ## dragableOptions
 
@@ -49,7 +49,7 @@ Restricts the dragged element to another element. That way the dragged element w
 const square = new draggable({ element: '.square', restrictTo: '.container' });
 ```
 
-<object style="border: 2px solid black;" data="../../interaction-manager/Draggable/restrict-drag-to-container.html" width="1000" height="600"></object>
+<object style="border: 2px solid black;" data="{{<staticUrl "interaction-manager/Draggable/restrict-drag-to-container.html">}}" width="1000" height="600"></object>
 
 ### dragClass
 
@@ -78,7 +78,7 @@ const square1 = new draggable({ element: '.square1', lockAxis: 'x' });
 const square2 = new draggable({ element: '.square2', lockAxis: 'y' });
 ```
 
-<object style="border: 2px solid black;" data="../../interaction-manager/Draggable/drag-lock-axis.html" width="1000" height="600"></object>
+<object style="border: 2px solid black;" data="{{<staticUrl "interaction-manager/Draggable/drag-lock-axis.html">}}" width="1000" height="600"></object>
 
 ### onDragStart
 

@@ -19,7 +19,7 @@ new resize(resizeOptions);
 const square = new resize({ element: '.square' });
 ```
 
-<object style="border: 2px solid black;" data="../../interaction-manager/Resize/resize.html" width="1000" height="500"></object>
+<object style="border: 2px solid black;" data="{{<staticUrl "interaction-manager/Resize/resize.html">}}" width="1000" height="500"></object>
 
 ## resizeOptions
 

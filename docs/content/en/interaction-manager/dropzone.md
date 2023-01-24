@@ -19,7 +19,7 @@ new dropzone(dropzoneOptions);
 const square = new dropzone({ element: '.square', dropzones: ['.dropzone'] });
 ```
 
-<object style="border: 2px solid black;" data="../../interaction-manager/Dropzone/dropzone-drop.html" width="1000" height="500"></object>
+<object style="border: 2px solid black;" data="{{<staticUrl "interaction-manager/Dropzone/dropzone-drop.html">}}" width="1000" height="500"></object>
 
 ## dropzoneOptions
 
@@ -91,7 +91,7 @@ const square2 = new dropzone({ element: '.square3', dropzones: ['.dropzone3'], d
 const square3 = new dropzone({ element: '.square4', dropzones: ['.dropzone4'], dropType: 'shift' });
 ```
 
-<object style="border: 2px solid black;" data="../../interaction-manager/Dropzone/dropzone-drop-type.html" width="1000" height="700"></object>
+<object style="border: 2px solid black;" data="{{<staticUrl "interaction-manager/Dropzone/dropzone-drop-type.html">}}" width="1000" height="700"></object>
 
 ### onDragStart
 

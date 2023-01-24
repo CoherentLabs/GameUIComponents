@@ -19,7 +19,7 @@ new rotate(rotateOptions)
 const circle = new rotate({ element: '.circle1' });
 ```
 
-<object style="border: 2px solid black;" data="../../interaction-manager/Rotate/rotate.html" width="1000" height="500"></object>
+<object style="border: 2px solid black;" data="{{<staticUrl "interaction-manager/Rotate/rotate.html">}}" width="1000" height="500"></object>
 
 ## rotateOptions
 
