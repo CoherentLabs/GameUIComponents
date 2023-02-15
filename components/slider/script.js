@@ -47,6 +47,21 @@ class Slider extends HTMLElement {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
+
+
+        this.onSlideUp = (e) => { this.onSlideWithArrorws(-1); };
+        this.onSlideDown = (e) => { this.onSlideWithArrorws(1); };
+        this.onClick = this.onClick.bind(this);
+        this.onWheel = this.onWheel.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
+    }
+
+    /**
+     * Called when the element was attached to the DOM.
+    */
+    connectedCallback() {
         // the amount of units that the slider will be updated
         this.step = this.getAttribute('step') || 10;
         // the initial position of the handle
@@ -63,19 +78,6 @@ class Slider extends HTMLElement {
         */
         this.units = orientationUnitsNames.get(this.orientation);
 
-        this.onSlideUp = (e) => { this.onSlideWithArrorws(-1); };
-        this.onSlideDown = (e) => { this.onSlideWithArrorws(1); };
-        this.onClick = this.onClick.bind(this);
-        this.onWheel = this.onWheel.bind(this);
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
-    }
-
-    /**
-     * Called when the element was attached to the DOM.
-    */
-    connectedCallback() {
         // Load the template
         components.loadResource(this)
             .then((result) => {
