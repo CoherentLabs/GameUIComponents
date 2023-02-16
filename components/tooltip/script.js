@@ -225,34 +225,50 @@ class Tooltip extends HTMLElement {
      * easily deconstruct the value like this: let [orientation, position] = getPositionCoords(...).
     */
     getPositionCoords(orientation, elementSize) {
-        const tooltipSize = this.getBoundingClientRect();
-
         const elementPosition = {
-            top: (elementSize.top + elementSize.height / 2) - tooltipSize.height / 2,
-            left: elementSize.left + (elementSize.width / 2) - tooltipSize.width / 2,
+            top: (elementSize.top + elementSize.height / 2),
+            left: elementSize.left + (elementSize.width / 2),
         };
 
+        return this.getOrientationAndPosition(orientation, elementPosition, elementSize);
+    }
+
+    /**
+     * Sets the position of the tooltip based on the given orientation and the element.
+     * @param {string} orientation - top, left, right or bottom.
+     * @param {object} elementPosition - the position of the tooltip.
+     * @param {object} elementSize - the bounding rect of the element that triggered the tooltip show.
+     * @returns {Array<string|object>} - the orientation as a string and the position as an object in an array so that we can
+     * easily deconstruct the value like this: let [orientation, position] = getPositionCoords(...).
+     */
+    getOrientationAndPosition(orientation, elementPosition, elementSize) {
+        let transform = '';
         switch (orientation) {
             case 'top':
-                elementPosition.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
+                elementPosition.top = elementSize.top - TOOLTIP_MARGIN;
+                transform = 'translate(-50%, -100%)';
                 break;
             case 'bottom':
                 elementPosition.top = elementSize.top + elementSize.height + TOOLTIP_MARGIN;
+                transform = 'translate(-50%, 0)';
                 break;
             case 'left':
-                elementPosition.left = elementSize.left - tooltipSize.width - TOOLTIP_MARGIN;
+                elementPosition.left = elementSize.left - TOOLTIP_MARGIN;
+                transform = 'translate(-100%, -50%)';
                 break;
             case 'right':
                 elementPosition.left = elementSize.left + elementSize.width + TOOLTIP_MARGIN;
+                transform = 'translate(0, -50%)';
                 break;
             default:
-                elementPosition.top = elementSize.top - TOOLTIP_MARGIN - tooltipSize.height;
+                elementPosition.top = elementSize.top - TOOLTIP_MARGIN;
+                transform = 'translate(-50%, -100%)';
                 console.log(`The provided option for position ${orientation} is not valid - using top as a fallback. Possible options are top, bottom, left and right.`);
                 orientation = 'top';
                 break;
         }
 
-        return [orientation, elementPosition];
+        return [orientation, elementPosition, transform];
     }
 
     /**
@@ -267,11 +283,12 @@ class Tooltip extends HTMLElement {
     async setPosition(scrollOffsetX, scrollOffsetY, orientation = this.position) {
         const elementSize = this.triggerElement.getBoundingClientRect();
 
-        const [updatedOrientation, elementPosition] = this.getPositionCoords(orientation, elementSize);
+        const [updatedOrientation, elementPosition, transform] = this.getPositionCoords(orientation, elementSize);
 
         this.position = updatedOrientation;
         this.style.top = scrollOffsetY + elementPosition.top + 'px';
         this.style.left = scrollOffsetX + elementPosition.left + 'px';
+        this.style.transform = transform;
 
         await this.waitForFrames(2);
         const overflowingSides = Object.keys(this.overflows);
