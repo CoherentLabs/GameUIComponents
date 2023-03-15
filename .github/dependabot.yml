@@ -4,7 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: "feature/run-cli-tests-automatically"
+    target-branch: "master"
     # Labels on pull requests for security and version updates
     labels:
-      - "npm dependencies"
+      - "npm dependencies check"
