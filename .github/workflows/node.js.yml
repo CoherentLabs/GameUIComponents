@@ -28,5 +28,5 @@ jobs:
     - name: Run tests
     - run: npm run build:dev
     - run: npm test -- --browsers Chrome
-    - name: Run cli tests:
+    - name: Run cli tests
     - run: cd tools/cli && npm i && npm run test
