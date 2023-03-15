@@ -25,10 +25,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-
-    - name: Run tests
-      - run: npm run build:dev
-      - run: npm test -- --browsers Chrome
-
-    - name: Run cli tests
-      - run: cd tools/cli && npm i && npm run test
+    - run: npm run build:dev
+    - run: npm test -- --browsers Chrome
+    - run: cd tools/cli && npm i && npm run test
