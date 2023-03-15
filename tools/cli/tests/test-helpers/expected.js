@@ -35,7 +35,7 @@ exports.demojs = `
         pm({
             origin: 'http://127.0.0.1/:3000',
             target: window,
-            data: message
+            data: message,
         });
     };
 `;
@@ -135,12 +135,17 @@ exports.READMEmd = `
 exports.scriptjs = `
     import components from 'coherent-gameface-components';
     import template from './template.html';
-    
+
+    /**
+     * Class description
+     */
     class TestName extends HTMLElement {
+        /* eslint-disable require-jsdoc */
         constructor() {
             super();
             this.template = template;
         }
+
         connectedCallback() {
             components.loadResource(this)
                 .then((result) => {
@@ -149,6 +154,7 @@ exports.scriptjs = `
                 })
                 .catch(err => console.error(err));
         }
+        /* eslint-enable require-jsdoc */
     }
     components.defineCustomElement('test-name', TestName);
     export default TestName;
