@@ -45,6 +45,24 @@ class ScrollableContainer extends HTMLElement {
         this.onScrollSlider = this.onScrollSlider.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.onResize = this.onResize.bind(this);
+        this.init = this.init.bind(this);
+    }
+
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        components.onTemplateLoaded(this, data, () => {
+            // render the component
+            components.renderOnce(this);
+            // do the initial setup - add event listeners, assign members
+
+            this.setup();
+            this.shouldShowScrollbar();
+            if (this.automatic) this.initMutationObserver();
+        });
     }
 
     /**
@@ -53,16 +71,7 @@ class ScrollableContainer extends HTMLElement {
     connectedCallback() {
         // load the template
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                // render the component
-                components.renderOnce(this);
-                // do the initial setup - add event listeners, assign members
-
-                this.setup();
-                this.shouldShowScrollbar();
-                if (this.automatic) this.initMutationObserver();
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

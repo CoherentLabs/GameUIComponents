@@ -13,8 +13,8 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.0.9",
-    "coherent-gameface-scrollable-container": "^1.0.10",
+    "coherent-gameface-components": "^1.2.0",
+    "coherent-gameface-scrollable-container": "^1.1.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },

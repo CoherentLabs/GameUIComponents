@@ -56,7 +56,24 @@ class Slider extends HTMLElement {
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
+        this.init = this.init.bind(this);
     }
+
+
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        components.onTemplateLoaded(this, data, () => {
+            // render the template
+            components.renderOnce(this);
+            // do the initial setup - add event listeners, assign members
+            this.setup();
+        });
+    }
+
 
     /**
      * Called when the element was attached to the DOM.
@@ -80,13 +97,7 @@ class Slider extends HTMLElement {
 
         // Load the template
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                // render the template
-                components.renderOnce(this);
-                // do the initial setup - add event listeners, assign members
-                this.setup();
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

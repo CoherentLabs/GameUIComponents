@@ -71,6 +71,7 @@ class GamefaceDropdown extends CustomElementValidator {
         this.onClick = this.onClick.bind(this);
         this.onMouseOverOption = createOptionEventHandler(this.onMouseOverOption.bind(this));
         this.onMouseOut = createOptionEventHandler(this.onMouseOut.bind(this));
+        this.init = this.init.bind(this);
     }
 
     /**
@@ -334,28 +335,36 @@ class GamefaceDropdown extends CustomElementValidator {
         components.waitForFrames(() => this.onClick(), 6);
     }
 
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        components.onTemplateLoaded(this, data, () => {
+            components.transferChildren(this, '.guic-dropdown-options', this.querySelectorAll('dropdown-option'));
+
+            // Check the type after the component has rendered.
+            this.multiple = this.hasAttribute('multiple');
+            this.collapsable = this.hasAttribute('collapsable');
+            // make this element focusable
+            this.setAttribute('tabindex', '1');
+
+            if (this.multiple && !this.collapsable) this.setupMultiple();
+            if (this.disabled) this.disabled = true;
+
+            // comment this out until we fix the bug with the broken live collections
+            // this.allOptions = this.querySelector('.guic-dropdown-options').children;
+
+            this.preselectOptions();
+            this.attachEventListeners();
+        });
+    }
+
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.transferChildren(this, '.guic-dropdown-options', this.querySelectorAll('dropdown-option'));
-
-                // Check the type after the component has rendered.
-                this.multiple = this.hasAttribute('multiple');
-                this.collapsable = this.hasAttribute('collapsable');
-                // make this element focusable
-                this.setAttribute('tabindex', '1');
-
-                if (this.multiple && !this.collapsable) this.setupMultiple();
-                if (this.disabled) this.disabled = true;
-
-                // comment this out until we fix the bug with the broken live collections
-                // this.allOptions = this.querySelector('.guic-dropdown-options').children;
-
-                this.preselectOptions();
-                this.attachEventListeners();
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 
