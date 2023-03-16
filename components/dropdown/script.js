@@ -363,7 +363,6 @@ class GamefaceDropdown extends CustomElementValidator {
 
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
-        console.log('connected scrollable container');
         components.loadResource(this)
             .then(this.init)
             .catch(err => console.error(err));
