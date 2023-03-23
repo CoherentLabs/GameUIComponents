@@ -31,3 +31,14 @@ jobs:
       run: npm test -- --browsers Chrome
     - name: Run cli tests
       run: cd tools/cli && npm i && npm run test
+      
+  dependabot:
+    runs-on: windows-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Approve a PR
+        if: ${{ github.jobs.build.status == 'success' }}
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
