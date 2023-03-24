@@ -55,7 +55,7 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "babel-loader": "^8.2.2",
     "chai": "^4.3.4",
-    "css-loader": "^5.2.7",
+    "css-loader": "^6.7.3",
     "esbuild": "^0.14.36",
     "esbuild-plugin-ifdef": "^1.0.1",
     "eslint": "^8.10.0",
