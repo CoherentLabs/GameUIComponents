@@ -78,7 +78,7 @@
     "style-loader": "^2.0.0",
     "uglifycss": "0.0.29",
     "webpack": "^5.59.0",
-    "webpack-cli": "^4.9.1",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.3.1"
   },
   "engines": {
