@@ -33,6 +33,7 @@ jobs:
       run: cd tools/cli && npm i && npm run test
       
   dependabot:
+    needs: build
     runs-on: windows-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
