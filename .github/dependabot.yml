@@ -7,4 +7,4 @@ updates:
     target-branch: "feature/run-cli-tests-automatically"
     # Labels on pull requests for security and version updates
     labels:
-      - "npm dependencies"
+      - "npm dependencies updates"
