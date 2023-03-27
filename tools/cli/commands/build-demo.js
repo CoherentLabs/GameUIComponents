@@ -3,26 +3,19 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-const path = require('path');
 const webpack = require('webpack');
+const webpackBaseConfig = require('../config/webpack-base-config');
 
 /**
  * Builds the demo of the component.
  * @param {boolean} [dev=false]
 */
 function buildDemo(dev = false) {
-    const pathToDemo = path.resolve(path.join(process.cwd(), 'demo'));
-
     webpack({
-        mode: dev ? 'development' : 'production',
-        entry: path.join(pathToDemo, 'demo.js'),
-        devtool: false,
-        resolve: {
-            symlinks: true,
-        },
-        output: {
-            path: pathToDemo,
-            filename: 'bundle.js',
+        ...webpackBaseConfig,
+        ...{
+            mode: dev ? 'development' : 'production',
+            devtool: false,
         },
     }, (err, stats) => { // Stats Object
         if (err) {

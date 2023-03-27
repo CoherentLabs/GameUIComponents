@@ -6,40 +6,36 @@
 const path = require('path');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
+const webpackBaseConfig = require('../config/webpack-base-config');
 
 const PORT = 3000;
+const pathToDemo = path.resolve(path.join(process.cwd(), 'demo'));
+
+const devServerOptions = {
+    static: {
+        directory: path.join(pathToDemo, '../'),
+        watch: {
+            ignored: 'demo/',
+        },
+    },
+    open: 'http://localhost:3000/demo/demo.html',
+    allowedHosts: 'all',
+    hot: false,
+    port: PORT,
+};
+
+const webpackConfig = { ...webpackBaseConfig, devServer: devServerOptions };
 
 /**
  * Will start the demo
  */
 function startDemo() {
-    const pathToDemo = path.resolve(path.join(process.cwd(), 'demo'));
+    const compiler = webpack(webpackConfig);
+    const devServerOptions = { ...webpackConfig.devServer };
+    const server = new WebpackDevServer(devServerOptions, compiler);
 
-    const compiler = webpack({
-        mode: 'development',
-        devtool: false,
-        entry: path.join(pathToDemo, 'demo.js'),
-        output: {
-            path: pathToDemo,
-            filename: 'bundle.js',
-        },
-    });
-
-    const server = new WebpackDevServer(compiler, {
-        contentBase: path.join(pathToDemo),
-        publicPath: `http://localhost:${PORT}/`,
-        watchContentBase: true,
-        port: PORT,
-        hot: true,
-        disableHostCheck: true,
-        watchOptions: {
-            poll: 500,
-        },
-    });
-
-
-    server.listen(PORT, '127.0.0.1', () => {
-        console.log(`Starting server on http://localhost:${PORT}`);
+    server.startCallback(() => {
+        console.log('Successfully started server on http://localhost:3000');
     });
 }
 

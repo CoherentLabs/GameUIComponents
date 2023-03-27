@@ -15,7 +15,8 @@
   "dependencies": {
     "coherent-gameface-components": "^1.0.5",
     "postmessage-polyfill": "1.0.0",
-    "whatwg-fetch": "3.4.1"
+    "whatwg-fetch": "3.4.1",
+    "coherent-gameface-grid": "1.0.3"
   },
   "author": "CoherentLabs",
   "license": "ISC"
