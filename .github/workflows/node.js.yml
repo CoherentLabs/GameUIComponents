@@ -25,5 +25,28 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run build:dev
-    - run: npm test -- --browsers Chrome
+    - name: Build components
+      run: npm run build:dev
+    - name: Run tests
+      run: npm test -- --browsers Chrome
+    - name: Run cli tests
+      run: cd tools/cli && npm i && npm run test
+      
+  dependabot:
+    needs: build
+    runs-on: windows-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+     - uses: actions/checkout@v2
+       with:
+         ref: ${{ github.event.pull_request.head.ref }}
+     - name: Use Node.js ${{ matrix.node-version }}
+       uses: actions/setup-node@v2
+       with:
+        node-version: ${{ matrix.node-version }}
+     - name: Approve a PR
+       if: ${{ needs.build.result == 'success' }}
+       run: gh pr review --approve "$PR_URL"
+       env:
+         PR_URL: ${{github.event.pull_request.html_url}}
+         GITHUB_TOKEN: ${{secrets.DEPENDABOT}}
