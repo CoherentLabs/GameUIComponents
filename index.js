@@ -1,3 +1,5 @@
+var suggestionsWrapper = document.getElementById('suggestions-wrapper');
+var loader = suggestionsWrapper.querySelector('#loader-container');
 var suggestions = document.getElementById('suggestions');
 var search = document.getElementById('search');
 const form = document.getElementById('form-search');
@@ -7,12 +9,13 @@ let baseUrl = "https://CoherentLabs.github.io/GameUIComponents/";
 baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
 (function () {
   let entries = [];
-
+  let searchScheduled = false;
   search.addEventListener('input', show_results, true);
 
   function showMoreResults(searchQuery) {
     if (searchQuery) window.localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = baseUrl + 'search';
+    const searchUrl = window.siteLanguage ? `${window.siteLanguage}/search` : 'search';
+    window.location.href = baseUrl + searchUrl;
   }
 
   function displayShowMoreFooter(searchQuery) {
@@ -25,10 +28,31 @@ baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
   function clearPrevResults() {
     entries = [];
     suggestions.innerHTML = "";
+    loader.classList.add('d-none');
     suggestions.classList.remove('d-none');
   }
 
+  function addLoader() {
+    loader.classList.remove('d-none');
+  }
+
   function show_results(limit) {
+    if (!this.value) {
+      searchScheduled = false;
+      clearPrevResults();
+      return;
+    }
+
+    if (!window.searchIndexReady) {
+      if (searchScheduled) return;
+
+      addLoader();
+      search.addEventListener('search-index-ready', show_results);
+      searchScheduled = true;
+      return;
+    }
+    search.removeEventListener('search-index-ready', show_results);
+
     clearPrevResults();
     if (isNaN(limit)) limit = 3;
     var searchQuery = this.value;
@@ -38,7 +62,7 @@ baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
       showMoreResults(searchQuery);
     }, true)
 
-    const [resultIds, resultTitlesIds] = getIndexResults(index, searchQuery, limit);
+    const [resultIds, resultTitlesIds] = getIndexResults(searchQuery, limit);
 
     if (!hasResultsForQuery(resultIds, resultTitlesIds, searchQuery)) return;
 
