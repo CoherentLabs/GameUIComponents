@@ -26,6 +26,14 @@ to start a development server.
 
 Open `localhost:1313/GameUIComponents/` to see the documentation.
 
+To make a production build run:
+
+`npm run build`
+
+The result will be saved into the /public folder. Navigate there and start an http server:
+
+`http-server` or any web server of your choice.
+
 # Adding a page
 
 All components must have an info page that explains what the component is and how to use it and an interactive demo page that shows how the component looks and how it works. Most of the documentation files are automatically copied from the source. Run `node scripts/transfer-doc-files.js` in the root of the repo to copy all documentation files[^1] or `npm run build:documentation` to build the components and copy the documentation files.
