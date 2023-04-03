@@ -51,6 +51,7 @@ class TextField extends CustomElementValidator {
         this.stepUpBound = this.onStepUp.bind(this);
         this.stepDownBound = this.onStepDown.bind(this);
         this.clearMousedownIntervalBound = this.clearMousedownInterval.bind(this);
+        this.init = this.init.bind(this);
     }
 
     get label() {
@@ -222,14 +223,21 @@ class TextField extends CustomElementValidator {
         return TextFieldValidator.isBadEmail(this);
     }
 
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+            this.initTextField();
+        });
+    }
+
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-
-                this.initTextField();
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

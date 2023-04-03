@@ -7,6 +7,7 @@ import components from 'coherent-gameface-components';
 import template from './template.html';
 
 const KEYCODES = components.KEYCODES;
+const BaseComponent = components.BaseComponent;
 
 /**
  * Class definition of the gameface radio group custom element
@@ -191,13 +192,14 @@ class GamefaceRadioGroup extends HTMLElement {
 /**
  * Class definition of the gameface radio button custom element
  */
-class RadioButton extends HTMLElement {
+class RadioButton extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
 
         this.template = template;
         this.textElement = null;
+        this.init = this.init.bind(this);
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -246,22 +248,29 @@ class RadioButton extends HTMLElement {
         }
     }
 
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            this.textElement = this.querySelector('.radio-button-text');
+            // Apply the user set text.
+            this.textElement.textContent = this.textContent;
+            if (this.disabled) this.firstChild.classList.add('guic-radio-button-disabled');
+        });
+    }
+
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         // Get the text set from the user before applying the template.
         this.radioGroup = this.parentElement;
-        const radioButtonText = this.textContent;
 
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-
-                this.textElement = this.querySelector('.radio-button-text');
-                // Apply the user set text.
-                this.textElement.textContent = radioButtonText;
-                if (this.disabled) this.firstChild.classList.add('guic-radio-button-disabled');
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 }

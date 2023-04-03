@@ -96,6 +96,7 @@ class Rangeslider extends CustomElementValidator {
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
+        this.init = this.init.bind(this);
     }
 
     /**
@@ -118,6 +119,19 @@ class Rangeslider extends CustomElementValidator {
     valueMissing() {
         if (!this._value && !this._value[0]) return true;
         return false;
+    }
+
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+            // do the initial setup - add event listeners, assign members
+            this.setup();
+        });
     }
 
     /**
@@ -163,13 +177,7 @@ class Rangeslider extends CustomElementValidator {
         // Load the template
         components
             .loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                // render the template
-                components.renderOnce(this);
-                // do the initial setup - add event listeners, assign members
-                this.setup();
-            })
+            .then(this.init)
             .catch(err => console.error(JSON.stringify(err)));
     }
 

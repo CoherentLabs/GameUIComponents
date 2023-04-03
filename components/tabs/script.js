@@ -10,11 +10,12 @@ let tabsCounter = 0;
 let panelsCounter = 0;
 
 const KEYCODES = components.KEYCODES;
+const BaseComponent = components.BaseComponent;
 
 /**
  * Class definition of the gameface-tabs custom element
  */
-class Tabs extends HTMLElement {
+class Tabs extends BaseComponent {
     /* eslint-disable require-jsdoc */
     constructor() {
         super();
@@ -26,6 +27,19 @@ class Tabs extends HTMLElement {
         this.onClick = this.onClick.bind(this);
 
         this.url = '/components/tabs/template.html';
+        this.init = this.init.bind(this);
+    }
+
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            // render the component
+            components.renderOnce(this);
+        });
     }
 
     connectedCallback() {
@@ -33,10 +47,7 @@ class Tabs extends HTMLElement {
         this.panels = this.getElementsByTagName('tab-panel');
 
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-            })
+            .then(this.init)
             .catch(err => console.error(err));
 
         this.tabSlot = this.querySelector('[data-name="tab"]');

@@ -7,6 +7,8 @@ import components from 'coherent-gameface-components';
 import template from '../template.html';
 import { TAG_NAMES } from '../constants';
 
+const BaseComponent = components.BaseComponent;
+
 /**
  * Helper function used to check if an element is a child of another element
  *
@@ -38,7 +40,7 @@ const KEY_MAPPING = {
 /**
  * Class definition of the gameface menu custom element
  */
-class GamefaceMenu extends HTMLElement {
+class GamefaceMenu extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
@@ -52,6 +54,26 @@ class GamefaceMenu extends HTMLElement {
         this.onFocusOut = this.onFocusOut.bind(this);
 
         this.url = '/components/menu/template.html';
+        this.init = this.init.bind(this);
+    }
+
+    /**
+ * Initialize the custom component.
+ * Set template, attach event listeners, setup initial state etc.
+ * @param {object} data
+*/
+    init(data) {
+        this.setupTemplate(data, () => {
+            this.orientation = this.getAttribute('orientation');
+            components.renderOnce(this);
+
+            this.attachEventListeners();
+
+            // setup the initial position of the menu items
+            this.setupMenuItems(true);
+            this.setOrientation();
+            this.setAttribute('tabindex', 0);
+        });
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -61,19 +83,8 @@ class GamefaceMenu extends HTMLElement {
         if (this.wasConnected) return;
         this.wasConnected = true;
 
-        components.loadResource(this, this.template)
-            .then((result) => {
-                this.orientation = this.getAttribute('orientation');
-                this.template = result.template;
-                components.renderOnce(this);
-
-                this.attachEventListeners();
-
-                // setup the initial position of the menu items
-                this.setupMenuItems(true);
-                this.setOrientation();
-                this.setAttribute('tabindex', 0);
-            })
+        components.loadResource(this)
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

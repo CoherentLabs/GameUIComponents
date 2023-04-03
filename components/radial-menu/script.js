@@ -7,10 +7,12 @@
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
+const BaseComponent = components.BaseComponent;
+
 /**
  * Class definition of the gameface radial menu custom element
  */
-class RadialMenu extends HTMLElement {
+class RadialMenu extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
@@ -29,6 +31,7 @@ class RadialMenu extends HTMLElement {
         this.segmentDegrees = 0;
         this.currentSegmentId = 0;
         this.radialMenuTemplateWrapper = {};
+        this.init = this.init.bind(this);
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -42,13 +45,21 @@ class RadialMenu extends HTMLElement {
         return this._items;
     }
 
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+        });
+    }
+
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

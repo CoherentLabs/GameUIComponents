@@ -25,6 +25,7 @@ class Checkbox extends CustomElementValidator {
         this.toggleChecked = this.toggleChecked.bind(this);
 
         this.url = '/components/checkbox/template.html';
+        this.init = this.init.bind(this);
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -74,16 +75,24 @@ class Checkbox extends CustomElementValidator {
         return true;
     }
 
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+            this.addEventListener('click', this.toggleChecked);
+            this.checked = this.hasAttribute('checked');
+            this.disabled = (this.disabled) ? true : false;
+        });
+    }
+
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-                this.addEventListener('click', this.toggleChecked);
-                this.checked = this.hasAttribute('checked');
-                this.disabled = (this.disabled) ? true : false;
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

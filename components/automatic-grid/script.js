@@ -8,11 +8,12 @@ import components from 'coherent-gameface-components';
 import template from './template.html';
 
 const maxColumns = 12; // Max number of columns as it's based on the grid component
+const BaseComponent = components.BaseComponent;
 
 /**
  * Class definition of the gameface automatic grid custom element
  */
-class AutomaticGrid extends HTMLElement {
+class AutomaticGrid extends BaseComponent {
     /**
      * Formats floats to have only 1 decimal integer or if 0 to be parsed into an integer. Then replaces the decimal separator to "_" so it can be used as a css class
      * @param {number} number
@@ -41,6 +42,25 @@ class AutomaticGrid extends HTMLElement {
         this.dragStart = this.dragStart.bind(this);
         this.dragMove = this.dragMove.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
+        this.init = this.init.bind(this);
+    }
+
+    /**
+    * Initialize the custom component.
+    * Set template, attach event listeners, setup initial state etc.
+    * @param {object} data
+   */
+    init(data) {
+        this.setupTemplate(data, () => {
+            // render the template
+            components.renderOnce(this);
+
+            // Get the grid container, where all of the cells will be
+            this._gridContainer = this.querySelector('.guic-automatic-grid-container');
+
+            this.buildGrid();
+            this.addItemsToCells();
+        });
     }
 
     /**
@@ -63,17 +83,7 @@ class AutomaticGrid extends HTMLElement {
 
         // Load the template
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                // render the template
-                components.renderOnce(this);
-
-                // Get the grid container, where all of the cells will be
-                this._gridContainer = this.querySelector('.guic-automatic-grid-container');
-
-                this.buildGrid();
-                this.addItemsToCells();
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

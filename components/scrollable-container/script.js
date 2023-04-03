@@ -9,10 +9,12 @@ import components from 'coherent-gameface-components';
 import Slider from 'coherent-gameface-slider';
 import template from './template.html';
 
+const BaseComponent = components.BaseComponent;
+
 /**
  * Scrollable container. If it's content overflows a scrollbar will appear.
 */
-class ScrollableContainer extends HTMLElement {
+class ScrollableContainer extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     static get observedAttributes() {
         return ['automatic'];
@@ -54,7 +56,7 @@ class ScrollableContainer extends HTMLElement {
      * @param {object} data
     */
     init(data) {
-        components.onTemplateLoaded(this, data, () => {
+        this.setupTemplate(data, () => {
             // render the component
             components.renderOnce(this);
             // do the initial setup - add event listeners, assign members

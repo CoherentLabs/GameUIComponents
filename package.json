@@ -53,6 +53,7 @@
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-strip": "^3.0.2",
     "babel-loader": "^8.2.2",
     "chai": "^4.3.7",
     "css-loader": "^5.2.7",

@@ -9,13 +9,15 @@ import verticalTemplate from './templates/vertical.html';
 import horizontalTemplate from './templates/horizontal.html';
 import { orientationUnitsNames } from './orientationUnitsNames';
 
+const BaseComponent = components.BaseComponent;
+
 
 /**
  * Slider component; can be independently or as a building block of another
  * component - for example a scrollbar. This is a custom slider control, do not
  * confuse with the standard input type slider HTML element.
 */
-class Slider extends HTMLElement {
+class Slider extends BaseComponent {
     /**
      * Set the position of the slider's handler.
      * @param {number} value - the new value in percents.
@@ -66,7 +68,7 @@ class Slider extends HTMLElement {
      * @param {object} data
     */
     init(data) {
-        components.onTemplateLoaded(this, data, () => {
+        this.setupTemplate(data, () => {
             // render the template
             components.renderOnce(this);
             // do the initial setup - add event listeners, assign members
