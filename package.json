@@ -12,7 +12,7 @@
     "build": "node ./scripts/build.js",
     "link": "node ./scripts/link.js",
     "unlink": "node ./scripts/unlink.js",
-    "build:dev": "npm i && npm run clean && npm run link && npm run build -- -ni && npm run build:demo",
+    "build:dev": "npm i && npm run clean && npm run link && npm run build -- -ni && npm run build:demo && npm run build:im",
     "build:library": "node ./scripts/build.js --library",
     "build:documentation": "node scripts/transfer-doc-files.js",
     "build:im": "node scripts/build-im.js",
