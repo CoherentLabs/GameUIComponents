@@ -57,6 +57,7 @@ module.exports = function (config) {
       'router/*.js': ['webpack'],
       'form-control/spec/*.js': ['webpack'],
       'node_modules/coherent-gameface-router/umd/*.development.js': ['webpack'],
+      'dropdown/*.js': ['webpack'],
     },
     webpack: {
       externals: {

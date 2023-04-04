@@ -37,7 +37,7 @@ function areComponentsPackaged() {
 
 
     if (!notBuildComponents.length) return true;
-    console.error(`Missing packages for ${components.join(', ')}.
+    console.error(`Missing packages for ${notBuildComponents.join(', ')}.
     Did you forget to build the components?
     Try running npm run test -- --rebuild to generate the component packages.`);
 

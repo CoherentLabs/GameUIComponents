@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import KEY_CODES from '../keyCodes';
+import { KEY_CODES } from '../keyCodes';
 
 const template = `<gameface-dropdown class="gameface-dropdown-component">
 <dropdown-option slot="option">Cat</dropdown-option>
