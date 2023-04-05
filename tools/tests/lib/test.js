@@ -221,4 +221,35 @@ describe('Components Library', () => {
             }
         });
     });
+
+    it('Should not render disconnected elements', async () => {
+        const BaseComponent = components.BaseComponent;
+        /* eslint-disable require-jsdoc */
+        class MyComponent extends BaseComponent {
+            init(data) {
+                this.setupTemplate(data, () => {
+                    components.renderOnce(this);
+                    this.someCustomProp = 'I was rendered';
+                });
+            }
+
+            connectedCallback() {
+                this.init = this.init.bind(this);
+
+                this.parentElement.removeChild(this);
+                this.init();
+            }
+        }
+
+        components.defineCustomElement('my-component', MyComponent);
+
+        const myComponentInstance = document.createElement('my-component');
+        const testWrapper = document.createElement('div');
+        testWrapper.className = 'components-library-test';
+        testWrapper.appendChild(myComponentInstance);
+
+        document.body.appendChild(testWrapper);
+
+        expect(myComponentInstance.someCustomProp).toBe(undefined);
+    });
 });
