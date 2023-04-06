@@ -63,7 +63,7 @@ function test(rebuild, browsersArg, noLink = false) {
         execSync('npm run build:dev', { cwd: ROOT_FOLDER, stdio: 'inherit' });
         execSync('npm run build:im', { cwd: ROOT_FOLDER, stdio: 'inherit' });
     }
-    if (!areComponentsPackaged()) return;
+    if (!areComponentsPackaged()) global.process.exit(1);
 
     execSync('npm i', { cwd: ROOT_FOLDER, stdio: 'inherit' });
 
@@ -77,26 +77,26 @@ function test(rebuild, browsersArg, noLink = false) {
     });
 
     if (!noLink) linkDependencies();
-    const process = exec(`karma start tools/tests/karma.conf.js ${browsersArg}`, { cwd: ROOT_FOLDER });
+    const karmaProcess = exec(`karma start tools/tests/karma.conf.js ${browsersArg}`, { cwd: ROOT_FOLDER });
 
-    process.stdout.on('data', function (data) {
+    karmaProcess.stdout.on('data', function (data) {
         console.log(data.toString());
     });
-    process.on('exit', function (code) {
+    karmaProcess.on('exit', function (code) {
         formsServer.kill();
         global.process.exit(code);
     });
-    process.on('uncaughtException', () => {
+    karmaProcess.on('uncaughtException', () => {
         formsServer.kill();
     });
-    process.on('SIGTERM', () => {
+    karmaProcess.on('SIGTERM', () => {
         formsServer.kill();
     });
 }
 
 /** */
 function main() {
-    const args = process.argv.slice(2);
+    const args = global.process.argv.slice(2);
     const rebuild = args.indexOf('--rebuild') > -1;
     const noLink = args.indexOf('--no-link') > -1 || false;
     let browsersArg = '';
