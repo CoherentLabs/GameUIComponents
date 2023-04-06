@@ -100,3 +100,50 @@ describe('Accordion Menu component', () => {
         assert.equal(height, 0);
     });
 });
+
+/* eslint-disable max-lines-per-function */
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Accordion Menu Component (Gameface Data Binding Test)', () => {
+        const templateName = 'accordionMenu';
+
+        const template = `
+        <div data-bind-for="array:{{${templateName}.array}}">
+            <gameface-accordion-menu>
+                <gameface-accordion-panel slot="accordion-panel">
+                    <gameface-accordion-header>Header Panel 1</gameface-accordion-header>
+                    <gameface-accordion-content>Content 1</gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel">
+                    <gameface-accordion-header>Header Panel 2</gameface-accordion-header>
+                    <gameface-accordion-content>Content 2</gameface-accordion-content>
+                </gameface-accordion-panel>
+            </gameface-accordion-menu>
+        </div>`;
+
+        const createAccordionMenu = (template) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'test-wrapper';
+            wrapper.innerHTML = template;
+
+            document.body.appendChild(wrapper);
+
+            return new Promise((resolve) => {
+                waitForStyles(resolve, 4);
+            });
+        };
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, createAccordionMenu);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const accordionMenuCount = document.querySelectorAll('gameface-accordion-menu').length;
+            assert.equal(accordionMenuCount, expectedCount, `Accordion Menus found: ${accordionMenuCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

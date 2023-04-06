@@ -3,19 +3,14 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-const radioButtonTemplate = `<gameface-radio-group>
-<radio-button value="one">1</radio-button>
-<radio-button>2</radio-button>
-<radio-button>3</radio-button>
-</gameface-radio-group>`;
-
 /**
+ * @param {string} template
  * @returns {Promise<void>}
  */
-function setupRadioButtonTestPage() {
+function setupRadioButtonTestPage(template) {
     const el = document.createElement('div');
     el.className = 'radio-button-test-wrapper';
-    el.innerHTML = radioButtonTemplate;
+    el.innerHTML = template;
 
     cleanTestPage('.radio-button-test-wrapper');
 
@@ -32,8 +27,15 @@ describe('Radio Button Tests', () => {
 
     // eslint-disable-next-line max-lines-per-function
     describe('Radio Button Component', () => {
-        beforeEach(function (done) {
-            setupRadioButtonTestPage().then(done).catch(err => console.error(err));
+        const template = `
+        <gameface-radio-group>
+            <radio-button value="one">1</radio-button>
+            <radio-button>2</radio-button>
+            <radio-button>3</radio-button>
+        </gameface-radio-group>`;
+
+        beforeEach(async () => {
+            await setupRadioButtonTestPage(template);
         });
 
         it('Radio Group should be rendered', () => {
@@ -99,4 +101,30 @@ describe('Radio Button Tests', () => {
             assert.equal(radioButtons[0].checked, 'true', 'radio-button has not been checked by using ArrowLeft key.');
         });
     });
+
+    /* global engine */
+    /* global setupDataBindingTest */
+    if (engine?.isAttached) {
+        describe('Radio Button Component (Gameface Data Binding Test)', () => {
+            const templateName = 'radioButton';
+
+            const template = `
+            <div data-bind-for="array:{{${templateName}.array}}">
+                <gameface-radio-group>
+                    <radio-button>1</radio-button>
+                    <radio-button>2</radio-button>
+                </gameface-radio-group>
+            </div>`;
+
+            beforeEach(async () => {
+                await setupDataBindingTest(templateName, template, setupRadioButtonTestPage);
+            });
+
+            it(`Should have populated 2 elements`, () => {
+                const expectedCount = 2;
+                const radioButtonCount = document.querySelectorAll('gameface-radio-group').length;
+                assert.equal(radioButtonCount, expectedCount, `Radio Butttons found: ${radioButtonCount}, should have been ${expectedCount}.`);
+            });
+        });
+    }
 });

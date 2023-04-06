@@ -3,19 +3,32 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-describe('Modal Component', () => {
-    beforeEach(function (done) {
-        const el = document.createElement('gameface-modal');
+/**
+ * @param {string} template
+ * @returns {Promise<void>}
+ */
+function setupModal(template) {
+    const el = document.createElement('div');
+    el.className = 'test-wrapper';
+    el.innerHTML = template;
 
-        cleanTestPage('gameface-modal');
-        document.body.appendChild(el);
+    cleanTestPage('.test-wrapper');
 
-        waitForStyles(() => {
-            done();
-        });
+    document.body.appendChild(el);
+
+    return new Promise((resolve) => {
+        waitForStyles(resolve);
     });
+}
 
-    afterAll(() => cleanTestPage('gameface-modal'));
+describe('Modal Component', () => {
+    const template = `<gameface-modal></gameface-modal>`;
+
+    afterAll(() => cleanTestPage('.test-wrapper'));
+
+    beforeEach(async () => {
+        await setupModal(template);
+    });
 
     it('Should be rendered', () => {
         assert(document.querySelector('.guic-modal-wrapper') !== null, 'The modal was not rendered.');
@@ -28,3 +41,25 @@ describe('Modal Component', () => {
         assert(modal.style.display === 'none', 'The modal is not hidden.');
     });
 });
+
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Modal Component (Gameface Data Binding Test)', () => {
+        const templateName = 'modal';
+
+        const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-modal></gameface-modal></div>`;
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, setupModal);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const modalCount = document.querySelectorAll('gameface-modal').length;
+            assert.equal(modalCount, expectedCount, `Progress Bars found: ${modalCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

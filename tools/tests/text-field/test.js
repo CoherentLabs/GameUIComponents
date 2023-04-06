@@ -330,3 +330,47 @@ describe('Text field component', () => {
         });
     }
 });
+
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Text Field Component (Gameface Data Binding Test)', () => {
+        const templateName = 'textField';
+
+        const template = `
+        <div data-bind-for="array:{{${templateName}.array}}">
+            <gameface-text-field id="test1" type="text" label="Text:"></gameface-text-field>
+        </div>
+        `;
+
+        /**
+         * @param {string} template
+         * @returns {Promise<void>}
+         */
+        function setupTextField(template) {
+            const el = document.createElement('div');
+            el.className = 'test-wrapper';
+            el.innerHTML = template;
+
+            cleanTestPage('.test-wrapper');
+
+            document.body.appendChild(el);
+
+            return new Promise((resolve) => {
+                waitForStyles(resolve);
+            });
+        }
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, setupTextField);
+        });
+
+        it(`Should have populated 2 elements`, async () => {
+            const expectedCount = 2;
+            const textFieldCount = document.querySelectorAll('gameface-text-field').length;
+            assert.equal(textFieldCount, expectedCount, `Text Fields found: ${textFieldCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

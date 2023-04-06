@@ -1,4 +1,3 @@
-
 module.exports = function (config) {
   config.set({
     failOnFailingTestSuite: true,
@@ -31,6 +30,9 @@ module.exports = function (config) {
       { pattern: 'node_modules/coherent-gameface-*/umd/*.development.js', served: true },
       { pattern: 'node_modules/coherent-gameface-interaction-manager/dist/interaction-manager.js', served: true },
       { pattern: 'actions.js', served: true },
+      { pattern: 'define-engine.js', served: true },
+      { pattern: '../../../cohtml.js', served: true },
+      { pattern: 'comprehensive-components-test/templates.js', served: true },
       'scrollable-container/*.js',
       'checkbox/*.js',
       'dropdown/*.js',
@@ -49,7 +51,8 @@ module.exports = function (config) {
       'tooltip/*js',
       'text-field/*.js',
       'accordion-menu/*.js',
-      'interaction-manager/**/*.js'
+      'interaction-manager/**/*.js',
+      'comprehensive-components-test/test.js'
     ],
     singleRun: true,
     retryLimit: 0,

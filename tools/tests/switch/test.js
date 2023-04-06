@@ -99,3 +99,44 @@ describe('Switch Component', () => {
         });
     });
 });
+
+/* eslint-disable max-lines-per-function */
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Switch Component (Gameface Data Binding Test)', () => {
+        const templateName = 'switches';
+
+        const template = `
+        <div data-bind-for="array:{{${templateName}.array}}">
+            <gameface-switch>
+                <component-slot data-name="switch-unchecked">Unchecked text</component-slot>
+                <component-slot data-name="switch-checked">Checked text</component-slot>
+            </gameface-switch>
+        </div>`;
+
+        const createSwitch = (template) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'test-wrapper';
+            wrapper.innerHTML = template;
+
+            document.body.appendChild(wrapper);
+
+            return new Promise((resolve) => {
+                waitForStyles(resolve);
+            });
+        };
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, createSwitch);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const switchCount = document.querySelectorAll('gameface-switch').length;
+            assert.equal(switchCount, expectedCount, `Switches found: ${switchCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

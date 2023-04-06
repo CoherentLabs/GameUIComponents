@@ -6,40 +6,23 @@
  *--------------------------------------------------------------------------------------------*/
 
 /**
+ * @param {string} template
  * Will setup page for the radial menu
  */
-async function setupRadialMenuTestPage() {
-    const template = `
-    <gameface-radial-menu id="radial-menu-one"
-        data-name="Radial Menu Name Test"
-        data-change-event-name="radOneItemChanged"
-        data-select-event-name="radOneItemSelected"
-        data-open-key-code="16"
-        class="radial-menu-component"></gameface-radial-menu>
-    `;
-
+async function setupRadialMenuTestPage(template) {
     const el = document.createElement('div');
     el.className = 'radial-menu-test-wrapper';
 
     el.innerHTML = template;
 
-    const currentEl = document.querySelector('.radial-menu-test-wrapper');
-
-    // Since we don't want to replace the whole content of the body using
-    // innerHtml setter, we query only the current custom element and we replace
-    // it with a new one; this is needed because the specs are executed in a random
-    // order and sometimes the component might be left in a state that is not
-    // ready for testing
-    if (currentEl) {
-        currentEl.parentElement.removeChild(currentEl);
-    }
+    cleanTestPage('.radial-menu-test-wrapper');
 
     document.body.appendChild(el);
 
     await createAsyncSpec(() => {
-        const radialMenuOne = document.getElementById('radial-menu-one');
+        const radialMenus = document.querySelectorAll('.radial-menu-component');
         // Provide the items.
-        radialMenuOne.items = itemsModel.items;
+        radialMenus.forEach(radialMenu => radialMenu.items = itemsModel.items );
     });
 
     // the .items setter triggers a DOM change, so we wait a bit to make
@@ -69,15 +52,20 @@ describe('Radial Menu Tests', () => {
 
     // eslint-disable-next-line max-lines-per-function
     describe('Radial Menu', () => {
-        beforeEach(function (done) {
-            setupRadialMenuTestPage().then(done).catch(err => console.error(err));
+        const template = `
+        <gameface-radial-menu
+            data-name="Radial Menu Name Test"
+            data-change-event-name="radOneItemChanged"
+            data-select-event-name="radOneItemSelected"
+            data-open-key-code="16"
+            class="radial-menu-component"></gameface-radial-menu>
+        `;
+
+        beforeEach(async () => {
+            await setupRadialMenuTestPage(template);
         });
 
-        it('Should be created', () => {
-            assert(document.querySelector('gameface-radial-menu').id === 'radial-menu-one', 'The id of the radial menu is not radial-menu-one.');
-        });
-
-        it('Should set the provided name', () => {
+        it('Should have the provided name', () => {
             assert(document.querySelector('.guic-radial-menu-center-text').textContent === 'Radial Menu Name Test', 'The textContent of the radial menu is not "Radial Menu Name Test".');
         });
 
@@ -151,4 +139,31 @@ describe('Radial Menu Tests', () => {
             });
         });
     });
+
+    /* global engine */
+    /* global setupDataBindingTest */
+    if (engine?.isAttached) {
+        describe('Radial Menu Component (Gameface Data Binding Test)', () => {
+            const templateName = 'radialMenu';
+
+            const template = `
+            <div data-bind-for="array:{{${templateName}.array}}">
+                <gameface-radial-menu
+                    data-name="Radial Menu Name Test"
+                    class="radial-menu-component">
+                </gameface-radial-menu>
+            </div>
+            `;
+
+            beforeEach(async () => {
+                await setupDataBindingTest(templateName, template, setupRadialMenuTestPage);
+            });
+
+            it(`Should have populated 2 elements`, () => {
+                const expectedCount = 2;
+                const radialMenuCount = document.querySelectorAll('gameface-radial-menu').length;
+                assert.equal(radialMenuCount, expectedCount, `Radial Menus found: ${radialMenuCount}, should have been ${expectedCount}.`);
+            });
+        });
+    }
 });

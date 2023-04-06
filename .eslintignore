@@ -5,3 +5,7 @@ docs
 karma.conf.js
 demo.template.js
 script.template.js
+tools/tests/cohtml.js
+esm/
+umd/
+dist/
