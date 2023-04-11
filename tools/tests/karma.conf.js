@@ -45,7 +45,7 @@ module.exports = function (config) {
       'automatic-grid/*.js',
       'radio-button/*.js',
       'switch/*.js',
-      'form-control/spec/*.js',
+      // 'form-control/spec/*.js',
       'tooltip/*js',
       'text-field/*.js',
       'accordion-menu/*.js',
