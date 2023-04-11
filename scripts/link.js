@@ -12,6 +12,7 @@ const COMPONENTS_PATH = path.join(__dirname, '../components');
 function main() {
     // link the components library
     safelyCreateLink(path.join(__dirname, '../lib'), 'coherent-gameface-components');
+    safelyCreateLink(path.join(__dirname, '../interaction-manager'), 'coherent-gameface-interaction-manager');
     const components = fs.readdirSync(COMPONENTS_PATH);
 
     // loop all components once to create links to the global node_modules.

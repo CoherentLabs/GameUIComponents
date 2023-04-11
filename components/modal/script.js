@@ -6,10 +6,12 @@
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
+const BaseComponent = components.BaseComponent;
+
 /**
  * Class definition of the gameface modal custom element
  */
-class Modal extends HTMLElement {
+class Modal extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
@@ -20,16 +22,25 @@ class Modal extends HTMLElement {
 
         this.closeBound = e => this.close(e);
         this.url = '/components/modal/template.html';
+        this.init = this.init.bind(this);
+    }
+
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+            this.attachEventListeners();
+        });
     }
 
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-                this.attachEventListeners();
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

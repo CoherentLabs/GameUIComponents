@@ -7,10 +7,12 @@
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
+const BaseComponent = components.BaseComponent;
+
 /**
  * Class definition of the gameface progress bar custom element
  */
-class ProgressBar extends HTMLElement {
+class ProgressBar extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
@@ -23,19 +25,28 @@ class ProgressBar extends HTMLElement {
         this.currentRafInstanceId = 0;
         this.hasStarted = false;
         this.previousWidth = 0;
+        this.init = this.init.bind(this);
+    }
+
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            // Get the filler element when the component is rendered.
+            this.filler = this.querySelector('.guic-progress-bar-filler');
+            this.animDuration = parseInt(this.dataset.animationDuration) || 0;
+        });
     }
 
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-
-                // Get the filler element when the component is rendered.
-                this.filler = this.querySelector('.guic-progress-bar-filler');
-                this.animDuration = parseInt(this.dataset.animationDuration) || 0;
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

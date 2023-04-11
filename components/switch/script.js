@@ -25,6 +25,28 @@ class Switch extends CustomElementValidator {
         super();
 
         this.onClick = this.onClick.bind(this);
+        this.init = this.init.bind(this);
+    }
+
+
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            // Render the template
+            components.renderOnce(this);
+
+            // Set the elements of the switch we'll be changing depending if it's checked or not
+            this._switch = this.querySelector('.guic-switch-toggle');
+            this._handle = this.querySelector('.guic-switch-toggle-handle');
+            this._textChecked = this.querySelector('.guic-switch-toggle-true');
+            this._textUnchecked = this.querySelector('.guic-switch-toggle-false');
+
+            this.setup();
+        });
     }
 
     /**
@@ -48,19 +70,7 @@ class Switch extends CustomElementValidator {
         // Load the template
         components
             .loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                // Render the template
-                components.renderOnce(this);
-
-                // Set the elements of the switch we'll be changing depending if it's checked or not
-                this._switch = this.querySelector('.guic-switch-toggle');
-                this._handle = this.querySelector('.guic-switch-toggle-handle');
-                this._textChecked = this.querySelector('.guic-switch-toggle-true');
-                this._textUnchecked = this.querySelector('.guic-switch-toggle-false');
-
-                this.setup();
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 

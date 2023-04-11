@@ -136,22 +136,29 @@ exports.scriptjs = `
     import components from 'coherent-gameface-components';
     import template from './template.html';
 
+    const BaseComponent = components.BaseComponent;
+
     /**
      * Class description
      */
-    class TestName extends HTMLElement {
+    class TestName extends BaseComponent {
         /* eslint-disable require-jsdoc */
         constructor() {
             super();
             this.template = template;
+            this.init = this.init.bind(this);
+        }
+
+        init() {
+            this.setupTemplate(data, () => {
+                components.renderOnce(this);
+                // attach event handlers here
+            });
         }
 
         connectedCallback() {
             components.loadResource(this)
-                .then((result) => {
-                    this.template = result.template;
-                    components.renderOnce(this);
-                })
+                .then(this.init)
                 .catch(err => console.error(err));
         }
         /* eslint-enable require-jsdoc */

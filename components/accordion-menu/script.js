@@ -5,13 +5,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
+const BaseComponent = components.BaseComponent;
 
 const PADDING_BOTTOM = 16;
 
 /**
  * AccordionMenu component, allows you to create a menu with drawers that can be expanded or shrunk on click
  */
-class AccordionMenu extends HTMLElement {
+class AccordionMenu extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();

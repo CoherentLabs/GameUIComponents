@@ -341,7 +341,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {object} data
     */
     init(data) {
-        components.onTemplateLoaded(this, data, () => {
+        this.setupTemplate(data, () => {
             components.transferChildren(this, '.guic-dropdown-options', this.querySelectorAll('dropdown-option'));
 
             // Check the type after the component has rendered.

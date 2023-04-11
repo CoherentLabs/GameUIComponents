@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const rollup = require('rollup');
 const terser = require('rollup-plugin-terser').terser;
+const strip = require('@rollup/plugin-strip').default;
 const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const html = require('rollup-plugin-html');
 const buildCssComponents = require('./build-style-component');
@@ -60,7 +61,7 @@ function generateOutputOptions(directory, format = 'umd', moduleName, isProd = f
     // the global variable that will be exported.
     if (format === 'umd') outputOptions.name = moduleName;
     // terser is a rollup plugin that minifies the code
-    if (isProd) outputOptions.plugins = [terser()];
+    if (isProd) outputOptions.plugins = [terser(), strip()];
 
     return outputOptions;
 }

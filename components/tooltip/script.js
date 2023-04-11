@@ -8,11 +8,12 @@ import template from './template.html';
 const TOOLTIP_MARGIN = 5;
 const TOOLTIP_POSITIONS = ['top', 'bottom', 'left', 'right'];
 const NOT_A_PROMISE_ERROR = 'The value in async mode must be a function that returns a promise.';
+const BaseComponent = components.BaseComponent;
 
 /**
  * Class definition of the gameface tooltip custom element
  */
-class Tooltip extends HTMLElement {
+class Tooltip extends BaseComponent {
     /* eslint-disable require-jsdoc */
     constructor() {
         super();
@@ -57,11 +58,25 @@ class Tooltip extends HTMLElement {
         };
     }
 
+    /**
+     * Initialize the custom component.
+     * Set template, attach event listeners, setup initial state etc.
+     * @param {object} data
+    */
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+            this.attachEventListeners();
+            this._messageSlot = this.querySelector('.guic-tooltip').firstElementChild;
+        });
+    }
+
     connectedCallback() {
         this.position = this.getAttribute('position') || 'top';
         this.showOn = this.getAttribute('on');
         this.hideOn = this.getAttribute('off');
         this.elementSelector = this.getAttribute('target');
+        this.init = this.init.bind(this);
 
         this.triggerElement = this.targetElement || document.querySelector(this.elementSelector);
         if (!this.triggerElement) {
@@ -73,12 +88,7 @@ class Tooltip extends HTMLElement {
         this.resizeDebounced = this.debounce(this.onWindowResize);
 
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-                this.attachEventListeners();
-                this._messageSlot = this.querySelector('.guic-tooltip').firstElementChild;
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 
