@@ -77,6 +77,15 @@ function test(rebuild, browsersArg, noLink = false) {
     });
 
     if (!noLink) linkDependencies();
+    startKarma(formsServer, browsersArg);
+}
+
+/**
+ * Start a Karma server and listen for process events
+ * @param {object} formsServer - the form server instance
+ * @param {string} browsersArg
+ */
+function startKarma(formsServer, browsersArg) {
     const karmaProcess = exec(`karma start tools/tests/karma.conf.js ${browsersArg}`, { cwd: ROOT_FOLDER });
 
     karmaProcess.stdout.on('data', function (data) {
@@ -88,11 +97,13 @@ function test(rebuild, browsersArg, noLink = false) {
     });
     karmaProcess.on('uncaughtException', () => {
         formsServer.kill();
+        global.process.exit(1);
     });
     karmaProcess.on('SIGTERM', () => {
         formsServer.kill();
     });
 }
+
 
 /** */
 function main() {
