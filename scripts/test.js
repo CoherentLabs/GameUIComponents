@@ -95,8 +95,9 @@ function startKarma(formsServer, browsersArg) {
         formsServer.kill();
         global.process.exit(code);
     });
-    karmaProcess.on('uncaughtException', () => {
+    karmaProcess.on('uncaughtException', (err) => {
         formsServer.kill();
+        console.error(err);
         global.process.exit(1);
     });
     karmaProcess.on('SIGTERM', () => {
@@ -117,5 +118,6 @@ function main() {
 
     test(rebuild, browsersArg, noLink);
 }
+
 
 main();
