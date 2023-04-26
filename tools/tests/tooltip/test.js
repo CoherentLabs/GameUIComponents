@@ -75,8 +75,8 @@ describe('Tooltip component', () => {
     afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
     afterEach(() => removeTooltips());
 
-    beforeEach(function (done) {
-        setupTooltipTestPage(tooltipTemplate).then(done).catch(err => console.error(err));
+    beforeEach(async () => {
+        await setupTooltipTestPage(tooltipTemplate);
     });
 
     it('Should be displayed on click', async () => {
@@ -166,8 +166,8 @@ describe('Tooltip component (async mode)', () => {
     afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
     afterEach(() => removeTooltips());
 
-    beforeEach(function (done) {
-        setupTooltipTestPage(tooltipTemplateAsync).then(done).catch(err => console.error(err));
+    beforeEach(async () => {
+        await setupTooltipTestPage(tooltipTemplateAsync);
     });
 
     it('Should change a tooltip message (function returning a Promise).', async () => {
@@ -188,3 +188,32 @@ describe('Tooltip component (async mode)', () => {
         assert(gamefaceTooltip.message === newValue, 'Tooltip message failed to change.');
     });
 });
+
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Tooltip Component (Gameface Data Binding Test)', () => {
+        const templateName = 'tooltip';
+
+        const template = `
+        <div data-bind-for="array:{{${templateName}.array}}">
+        <gameface-tooltip target=".target" on="click" position="bottom" off="click">
+            <div slot="message">tooltip</div>
+        </gameface-tooltip>
+
+        <div class="target">target</div>
+        </div>`;
+
+        afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, setupTooltipTestPage);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const tooltipCount = document.querySelectorAll('gameface-tooltip').length;
+            assert.equal(tooltipCount, expectedCount, `Tooltips found: ${tooltipCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

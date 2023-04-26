@@ -4,23 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 
 /**
+ * @param {string} template
  * @returns {string}
  */
-function setupMenuTestPage() {
-    const template = `
-    <gameface-menu orientation="horizontal">
-    <menu-item id="game" slot="menu-item">Start Game</menu-item>
-    <menu-item id="settings" slot="menu-item">
-        Settings
-        <gameface-left-menu class="nested-menu-settings" orientation="vertical">
-            <menu-item slot="menu-item">Keyboard</menu-item>
-            <menu-item slot="menu-item"> Mouse</menu-item>
-        </gameface-left-menu>
-    </menu-item>
-    <menu-item slot="menu-item" id="hero_gallery" disabled>Hero Gallery</menu-item>
-</gameface-menu>
-    `;
-
+function setupMenuTestPage(template) {
     const el = document.createElement('div');
     el.innerHTML = template;
     el.className = 'menu-test-wrapper';
@@ -34,15 +21,30 @@ function setupMenuTestPage() {
     });
 }
 
+/* eslint-disable max-lines-per-function */
 describe('Menu Component Tests', () => {
     afterAll(() => cleanTestPage('.menu-test-wrapper'));
 
     describe('Menu Component', () => {
-        beforeEach(function (done) {
-            setupMenuTestPage().then(done);
+        const template = `
+        <gameface-menu orientation="horizontal">
+            <menu-item id="game" slot="menu-item">Start Game</menu-item>
+            <menu-item id="settings" slot="menu-item">
+                Settings
+                <gameface-left-menu class="nested-menu-settings" orientation="vertical">
+                    <menu-item slot="menu-item">Keyboard</menu-item>
+                    <menu-item slot="menu-item"> Mouse</menu-item>
+                </gameface-left-menu>
+            </menu-item>
+            <menu-item slot="menu-item" id="hero_gallery" disabled>Hero Gallery</menu-item>
+        </gameface-menu>
+        `;
+
+        beforeEach(async () => {
+            await setupMenuTestPage(template);
         });
 
-        it('Should be rendered', function () {
+        it('Should be rendered', () => {
             assert(document.querySelectorAll('menu-item')[0].textContent === 'Start Game', 'The textContent of the menu is not Start Game');
         });
 
@@ -63,4 +65,38 @@ describe('Menu Component Tests', () => {
             assert(heroGallery.classList.contains('active-menu-item') === false, 'Selected menu element is hero_gallery, but it should not be it.');
         });
     });
+
+    /* global engine */
+    /* global setupDataBindingTest */
+    if (engine?.isAttached) {
+        describe('Menu Component (Gameface Data Binding Test)', () => {
+            const templateName = 'menu';
+
+            const template = `
+            <div data-bind-for="array:{{${templateName}.array}}">
+                <gameface-menu orientation="horizontal">
+                    <menu-item id="game" slot="menu-item">Start Game</menu-item>
+                    <menu-item id="settings" slot="menu-item">
+                        Settings
+                        <gameface-left-menu class="nested-menu-settings" orientation="vertical">
+                            <menu-item slot="menu-item">Keyboard</menu-item>
+                            <menu-item slot="menu-item"> Mouse</menu-item>
+                        </gameface-left-menu>
+                    </menu-item>
+                    <menu-item slot="menu-item" id="hero_gallery" disabled>Hero Gallery</menu-item>
+                </gameface-menu>
+            </div>
+            `;
+
+            beforeEach(async () => {
+                await setupDataBindingTest(templateName, template, setupMenuTestPage);
+            });
+
+            it(`Should have populated 2 elements`, () => {
+                const expectedCount = 2;
+                const menuCount = document.querySelectorAll('gameface-menu').length;
+                assert.equal(menuCount, expectedCount, `Menus found: ${menuCount}, should have been ${expectedCount}.`);
+            });
+        });
+    }
 });

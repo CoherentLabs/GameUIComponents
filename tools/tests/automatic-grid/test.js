@@ -1,18 +1,11 @@
-const loadGrid = () => {
+const loadGrid = (template) => {
     const wrapper = document.createElement('div');
-
-    const template = `<gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable>
-    <component-slot data-name="item" col="3" row="2" class="box">1</component-slot>
-    <component-slot data-name="item" col="3" row="2" class="box">2</component-slot>
-    <component-slot data-name="item" col="8" row="8" class="box">3</component-slot>
-    <component-slot data-name="item" class="box">4</component-slot>
-    <component-slot data-name="item" class="box">5</component-slot>
-    <component-slot data-name="item" class="box">6</component-slot>
-</gameface-automatic-grid>`;
-
+    wrapper.className = 'test-wrapper';
     wrapper.innerHTML = template;
 
-    document.body.appendChild(wrapper.children[0]);
+    cleanTestPage('.test-wrapper');
+
+    document.body.appendChild(wrapper);
 
     return new Promise((resolve) => {
         waitForStyles(resolve);
@@ -53,31 +46,41 @@ const dragItemSim = (cell1, cell2) => {
 
 // eslint-disable-next-line max-lines-per-function
 describe('Automatic grid component', () => {
-    afterEach(() => cleanTestPage('gameface-automatic-grid'));
+    const template = `
+    <gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable>
+        <component-slot data-name="item" col="3" row="2" class="box">1</component-slot>
+        <component-slot data-name="item" col="3" row="2" class="box">2</component-slot>
+        <component-slot data-name="item" col="8" row="8" class="box">3</component-slot>
+        <component-slot data-name="item" class="box">4</component-slot>
+        <component-slot data-name="item" class="box">5</component-slot>
+        <component-slot data-name="item" class="box">6</component-slot>
+    </gameface-automatic-grid>`;
+
+    afterEach(() => cleanTestPage('.test-wrapper'));
 
     it('Should create the correct number of columns', async () => {
-        await loadGrid();
+        await loadGrid(template);
         const columns = document.querySelector('.guic-row').childElementCount;
 
         assert.equal(columns, 7);
     });
 
     it('Should create the correct number of rows', async () => {
-        await loadGrid();
+        await loadGrid(template);
         const rows = document.querySelectorAll('.guic-row').length;
 
         assert.equal(rows, 5);
     });
 
     it('Should position items in correct cell', async () => {
-        await loadGrid();
+        await loadGrid(template);
         const cell = document.querySelectorAll('.guic-automatic-grid-cell')[9];
 
         assert.notEqual(cell.childElementCount, 0);
     });
 
     it('Should move items when dragged to another cell', (done) => {
-        loadGrid().then(() => {
+        loadGrid(template).then(() => {
             const cells = document.querySelectorAll('.guic-automatic-grid-cell');
 
             const cell1 = cells[1];
@@ -97,3 +100,33 @@ describe('Automatic grid component', () => {
         });
     });
 });
+
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Automatic Grid Component (Gameface Data Binding Test)', () => {
+        const templateName = 'automaticGrid';
+
+        const template = `
+        <div data-bind-for="array:{{${templateName}.array}}">
+            <gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable>
+                <component-slot data-name="item" col="3" row="2" class="box">1</component-slot>
+                <component-slot data-name="item" col="3" row="2" class="box">2</component-slot>
+                <component-slot data-name="item" class="box">4</component-slot>
+                <component-slot data-name="item" class="box">5</component-slot>
+        </gameface-automatic-grid>
+        </div>`;
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, loadGrid);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const automaticGridCount = document.querySelectorAll('gameface-automatic-grid').length;
+            assert.equal(automaticGridCount, expectedCount, `Automatic Grids found: ${automaticGridCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

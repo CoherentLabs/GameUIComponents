@@ -288,3 +288,43 @@ describe('Rangeslider component', () => {
         assert.equal(customHandleRight.textContent, 75);
     });
 });
+
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Rangeslider Component (Gameface Data Binding Test)', () => {
+        const templateName = 'rangeSlider';
+
+        const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-rangeslider></gameface-rangeslider></div>`;
+
+        /**
+         * @param {string} template
+         * @returns {Promise<void>}
+         */
+        function setupRangeSlider(template) {
+            const el = document.createElement('div');
+            el.className = 'test-wrapper';
+            el.innerHTML = template;
+
+            cleanTestPage('.test-wrapper');
+
+            document.body.appendChild(el);
+
+            return new Promise((resolve) => {
+                waitForStyles(resolve, 4);
+            });
+        }
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, setupRangeSlider);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const rangeSliderCount = document.querySelectorAll('gameface-rangeslider').length;
+            assert.equal(rangeSliderCount, expectedCount, `Range Sliders found: ${rangeSliderCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

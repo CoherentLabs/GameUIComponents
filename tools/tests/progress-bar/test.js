@@ -34,8 +34,8 @@ describe('Progress Bar Tests', () => {
     afterAll(() => cleanTestPage('.guic-progress-bar-wrapper'));
 
     describe('Progress Bar Component', () => {
-        beforeEach(function (done) {
-            setupProgressBar(templateNoAnimation).then(done).catch(err => console.error(err));
+        beforeEach(async () => {
+            await setupProgressBar(templateNoAnimation);
         });
 
         it(`Should have rendered`, () => {
@@ -59,8 +59,8 @@ describe('Progress Bar Tests', () => {
     });
 
     describe('Progress Bar Component', () => {
-        beforeEach(function (done) {
-            setupProgressBar(templateAnimation100ms).then(done).catch(err => console.error(err));
+        beforeEach(async () => {
+            await setupProgressBar(templateAnimation100ms);
         });
 
         it(`Should have an animation running.`, async () => {
@@ -78,5 +78,24 @@ describe('Progress Bar Tests', () => {
             }, animationTime / 4); // Get the value and validate while still running the animation.
         });
     });
-});
 
+    /* global engine */
+    /* global setupDataBindingTest */
+    if (engine?.isAttached) {
+        describe('Progress Bar Component (Gameface Data Binding Test)', () => {
+            const templateName = 'progressBar';
+
+            const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-progress-bar></gameface-progress-bar></div>`;
+
+            beforeEach(async () => {
+                await setupDataBindingTest(templateName, template, setupProgressBar);
+            });
+
+            it(`Should have populated 2 elements`, () => {
+                const expectedCount = 2;
+                const progressBarCount = document.querySelectorAll('gameface-progress-bar').length;
+                assert.equal(progressBarCount, expectedCount, `Progress Bars found: ${progressBarCount}, should have been ${expectedCount}.`);
+            });
+        });
+    }
+});

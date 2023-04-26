@@ -3,22 +3,31 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * @param {string} template
+ * @returns {Promise<void>}
+ */
+function setupTabs(template) {
+    const el = document.createElement('div');
+    el.className = 'test-wrapper';
+    el.innerHTML = template;
+
+    cleanTestPage('.test-wrapper');
+
+    document.body.appendChild(el);
+
+    return new Promise((resolve) => {
+        waitForStyles(resolve);
+    });
+}
+
 describe('Tabs Components', () => {
+    const template = `<gameface-tabs></gameface-tabs>`;
+
     afterAll(() => cleanTestPage('gameface-tabs'));
 
-    beforeEach(function (done) {
-        const currentElement = document.querySelector('gameface-tabs');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-
-        const el = document.createElement('gameface-tabs');
-        document.body.appendChild(el);
-
-        waitForStyles(() => {
-            done();
-        });
+    beforeEach(async () => {
+        await setupTabs(template);
     });
 
     it('Should be rendered', () => {
@@ -36,3 +45,25 @@ describe('Tabs Components', () => {
         assert(document.querySelector('tab-panel[selected="true"]').textContent === `${secondTab.textContent} Content`, `Second tab's content is not correct.`);
     });
 });
+
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Tabs Component (Gameface Data Binding Test)', () => {
+        const templateName = 'tabs';
+
+        const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-tabs></gameface-tabs></div>`;
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, setupTabs);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const tabsCount = document.querySelectorAll('gameface-tabs').length;
+            assert.equal(tabsCount, expectedCount, `Tabs found: ${tabsCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

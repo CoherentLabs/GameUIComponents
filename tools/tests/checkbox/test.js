@@ -3,18 +3,31 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * @param {string} template
+ * @returns {Promise<void>}
+ */
+function setupCheckbox(template) {
+    const el = document.createElement('div');
+    el.className = 'test-wrapper';
+    el.innerHTML = template;
+
+    cleanTestPage('.test-wrapper');
+
+    document.body.appendChild(el);
+
+    return new Promise((resolve) => {
+        waitForStyles(resolve);
+    });
+}
+
 describe('Checkbox component', () => {
-    afterAll(() => cleanTestPage('gameface-checkbox'));
+    const template = `<gameface-checkbox></gameface-checkbox>`;
 
-    beforeEach(function (done) {
-        cleanTestPage('gameface-checkbox');
+    afterAll(() => cleanTestPage('.test-wrapper'));
 
-        const el = document.createElement('gameface-checkbox');
-        document.body.appendChild(el);
-
-        waitForStyles(() => {
-            done();
-        });
+    beforeEach(async () => {
+        await setupCheckbox(template);
     });
 
     it('Should be rendered', () => {
@@ -30,3 +43,25 @@ describe('Checkbox component', () => {
         assert(checkMark.style.display === 'none', 'Check mark is not visible when the checkbox is selected.');
     });
 });
+
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Checkbox Component (Gameface Data Binding Test)', () => {
+        const templateName = 'checkbox';
+
+        const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-checkbox></gameface-checkbox></div>`;
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, setupCheckbox);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const checkboxCount = document.querySelectorAll('gameface-checkbox').length;
+            assert.equal(checkboxCount, expectedCount, `Checkboxes found: ${checkboxCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

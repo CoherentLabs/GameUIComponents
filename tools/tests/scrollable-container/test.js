@@ -3,6 +3,24 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * @param {string} template
+ * @returns {Promise<void>}
+ */
+function setupScrollableContainer(template) {
+    const el = document.createElement('div');
+    el.className = 'scrollable-container-test-wrapper';
+    el.innerHTML = template;
+
+    cleanTestPage('.scrollable-container-test-wrapper');
+
+    document.body.appendChild(el);
+
+    return new Promise((resolve) => {
+        waitForStyles(resolve);
+    });
+}
+
 const longContent = `<div>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu urna tempus, ultricies lacus fermentum, posuere arcu. Ut eget elit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse feugiat auctor finibus. Ut in euismod magna. Fusce eget dapibus arcu. Curabitur laoreet elit id lobortis tristique. Sed vel finibus turpis. Nulla sed lectus ante. Sed rutrum libero odio, non congue erat hendrerit non. Nunc in vulputate dolor, et dapibus neque. Sed accumsan sapien fermentum facilisis pharetra. Pellentesque fermentum, ligula faucibus suscipit elementum, erat ante ullamcorper tortor, id cursus mi eros ut lorem.
 
@@ -53,22 +71,8 @@ const dynamicScrollbarTemplate = `<gameface-scrollable-container class="guic-scr
 describe('Scrollable Container Component', () => {
     afterAll(() => cleanTestPage('.scrollable-container-test-wrapper'));
 
-    beforeEach(function (done) {
-        const el = document.createElement('div');
-        el.innerHTML = dynamicScrollbarTemplate;
-        el.className = 'scrollable-container-test-wrapper';
-
-        const currentElement = document.querySelector('.scrollable-container-test-wrapper');
-
-        if (currentElement) {
-            currentElement.parentElement.removeChild(currentElement);
-        }
-
-        document.body.insertBefore(el, document.body.firstElementChild);
-
-        waitForStyles(() => {
-            done();
-        });
+    beforeEach(async () => {
+        await setupScrollableContainer(dynamicScrollbarTemplate);
     });
 
     it('Should be rendered', () => {
@@ -101,3 +105,30 @@ describe('Scrollable Container Component', () => {
         });
     });
 });
+
+/* global engine */
+/* global setupDataBindingTest */
+if (engine?.isAttached) {
+    describe('Scrollable Container Component (Gameface Data Binding Test)', () => {
+        const templateName = 'scrollableContainer';
+
+        const template = `
+        <div data-bind-for="array:{{${templateName}.array}}">
+            <gameface-scrollable-container class="guic-scrollable-container">
+                <component-slot data-name="scrollable-content">Some text but not very long</component-slot>
+            </gameface-scrollable-container>
+        </div>`;
+
+        afterAll(() => cleanTestPage('.scrollable-container-test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, setupScrollableContainer);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const scrollableContainerCount = document.querySelectorAll('gameface-scrollable-container').length;
+            assert.equal(scrollableContainerCount, expectedCount, `Checkboxes found: ${scrollableContainerCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

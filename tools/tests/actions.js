@@ -118,3 +118,21 @@ function dragIMElement(square, { x, y, target, currentTarget, startDragX, startD
     square.onMouseMove({ clientX: x, clientY: y });
     square.onMouseUp();
 }
+
+/* global engine */
+/**
+ * Creates a Gameface JS data bind model, creates the template with the
+ * provided function and synchronizes the models to reflect the change.
+ * @param {*} modelName The name of the data binding model that will be created
+ * @param {*} template Template that includes an element with data-bind property
+ * @param {*} setupFunction The function used in the test for creating the component
+ * @param {*} model [{ array: [{}, {}] }] The model used to populate the component
+ */
+async function setupDataBindingTest(modelName, template, setupFunction, model = { array: [{}, {}] }) {
+    engine.createJSModel(modelName, model);
+    engine.updateWholeModel(window[modelName]);
+
+    await setupFunction(template);
+
+    engine.synchronizeModels();
+}
