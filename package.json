@@ -51,7 +51,7 @@
   },
   "homepage": "https://github.com/CoherentLabs/GameUIComponents#readme",
   "devDependencies": {
-    "@babel/core": "^7.15.5",
+    "@babel/core": "^7.21.4",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-strip": "^3.0.2",
     "babel-loader": "^8.2.2",
