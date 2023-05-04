@@ -1,0 +1,58 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+gameface-stepper {
+    display: flex;
+}
+
+.guic-stepper {
+    display: flex;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    font-size: 16px;
+    height: 3vmax;
+    overflow: hidden;
+}
+
+.guic-stepper-button {
+    color: var(--default-color-blue);
+    position: relative;
+    font-size: 1.2rem;
+    width: 3vmax;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.guic-stepper-button:hover {
+    background-color: var(--default-color-gray);
+}
+
+.guic-stepper-button:active {
+    background-color: var(--default-color-blue);
+    color: var(--default-color-white);
+}
+
+.guic-stepper-left::after {
+    content: '<';
+    position: absolute;
+}
+
+.guic-stepper-right::after {
+    content: '>';
+    position: absolute;
+}
+
+.guic-stepper-value {
+    color: black;
+    min-width: 7vmax;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}

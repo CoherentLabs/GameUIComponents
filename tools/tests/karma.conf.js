@@ -47,6 +47,7 @@ module.exports = function (config) {
       'automatic-grid/*.js',
       'radio-button/*.js',
       'switch/*.js',
+      'stepper/*.js',
       // 'form-control/spec/*.js',
       'tooltip/*js',
       'text-field/*.js',
