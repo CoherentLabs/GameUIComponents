@@ -145,7 +145,7 @@ class Slider extends BaseComponent {
             const controlsSizePercent = controlsSize * 2 / sliderWrapperSize * 100;
 
             // get the size of the slider area
-            const sliderSize = this.slider.getBoundingClientRect()[this.units.size];
+            const sliderSize = this.slider[this.units.offset];
             // get the size of the handle in percents relative to the current scroll(Height/Width)
             const handleSizePercent = (sliderSize / scrollableContainer[this.units.scroll]) * 100;
             // get the size of the handle in px; exclude the controlsSizePercent from the whole size
