@@ -6,10 +6,12 @@
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
+const { BaseComponent } = components;
+
 /**
  * Class description
  */
-class Stepper extends HTMLElement {
+class Stepper extends BaseComponent {
     /**
      * Returns the currently selected item
      */
@@ -27,6 +29,22 @@ class Stepper extends HTMLElement {
 
         this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);
+
+        this.init = this.init.bind(this);
+    }
+
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            this.leftButton = this.querySelector('.guic-stepper-left');
+            this.rightButton = this.querySelector('.guic-stepper-right');
+            this.valueElement = this.querySelector('.guic-stepper-value');
+
+            this.valueElement.textContent = this.value;
+
+            this.attachListeners();
+        });
     }
 
     connectedCallback() {
@@ -38,18 +56,7 @@ class Stepper extends HTMLElement {
 
         components
             .loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-
-                this.leftButton = this.querySelector('.guic-stepper-left');
-                this.rightButton = this.querySelector('.guic-stepper-right');
-                this.valueElement = this.querySelector('.guic-stepper-value');
-
-                this.valueElement.textContent = this.value;
-
-                this.attachListeners();
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 
