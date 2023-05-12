@@ -254,8 +254,7 @@ class Rangeslider extends CustomElementValidator {
      */
     setup() {
         components.waitForFrames(() => {
-            // saves the size of the rangeslider so we don't have to request it on every action
-            this.sizes = this.getRangeSliderSize();
+            this.wrapper = this.querySelector(`.guic-${this.orientation}-rangeslider-wrapper`);
 
             this.rangeslider = this.querySelector(`.guic-${this.orientation}-rangeslider`);
             this.handle = !this.twoHandles ?
@@ -297,7 +296,7 @@ class Rangeslider extends CustomElementValidator {
      */
     buildGrid() {
         // calculates the number of pols the grid will have based on the size of the slider
-        const numberOfPols = Math.round(this.sizes[this.units.size] / SPACE_BETWEEN_GRID_POLS / 4) * 4; // here we round to a number that is divisible by 4 and to make sure, the last pol has a number
+        const numberOfPols = Math.round(this.wrapper[this.units.offset] / SPACE_BETWEEN_GRID_POLS / 4) * 4; // here we round to a number that is divisible by 4 and to make sure, the last pol has a number
         const grid = document.createElement('div');
         grid.classList.add(`guic-${this.orientation}-rangeslider-grid`);
         for (let i = 0; i <= numberOfPols; i++) {
@@ -371,7 +370,7 @@ class Rangeslider extends CustomElementValidator {
      * @returns {DOMRect}
      */
     getRangeSliderSize() {
-        return this.querySelector(`.guic-${this.orientation}-rangeslider-wrapper`).getBoundingClientRect();
+        return this.wrapper.getBoundingClientRect();
     }
 
     /**
@@ -539,15 +538,18 @@ class Rangeslider extends CustomElementValidator {
      */
     getHandlePercent(e) {
         // we calculate the offsetX or offsetY of the click event
-        const size = this.sizes[this.units.coordinate];
+        const rangesliderRect = this.getRangeSliderSize();
+        const size = rangesliderRect[this.units.size];
+        const coordinate = rangesliderRect[this.units.coordinate];
+
         const mouseCoords = e[this.units.mouseAxisCoords];
 
-        let offset = document.body.scrollLeft + mouseCoords - size;
+        let offset = mouseCoords - coordinate;
         if (this.orientation === 'vertical') {
-            offset = size + this.sizes[this.units.size] - (document.body.scrollTop + mouseCoords);
+            offset = coordinate + size - mouseCoords;
         }
 
-        return Rangeslider.valueToPercent(offset, 0, this.sizes[this.units.size]);
+        return Rangeslider.valueToPercent(offset, 0, size);
     }
 
     /**
