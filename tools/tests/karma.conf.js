@@ -48,7 +48,7 @@ module.exports = function (config) {
       'radio-button/*.js',
       'switch/*.js',
       'stepper/*.js',
-      // 'form-control/spec/*.js',
+      'form-control/spec/*.js',
       'tooltip/*js',
       'text-field/*.js',
       'accordion-menu/*.js',

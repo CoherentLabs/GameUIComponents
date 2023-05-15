@@ -50,8 +50,8 @@ const forms = [
     {
         testName: formsTestNames.RADIO_FORM,
         id: formsIds.RADIO_FORM,
-        submitData: '{"option1":"1","option3":"on","option5":"3"}',
-        submitDataInteraction: '{"option1":"2","option3":"on","option5":"3"}',
+        submitData: '{"option1":"1","option3":"on","option4":"null","option5":"3","option6":"null"}',
+        submitDataInteraction: '{"option1":"2","option3":"on","option4":"null","option5":"3","option6":"null"}',
         template: RADIO_TEMPLATE,
     },
     {
