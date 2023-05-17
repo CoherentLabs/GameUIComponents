@@ -1,4 +1,5 @@
 const cc = initCookieConsent();
+const pagePath = window.location.pathname;
 
 // configuration
 cc.run({
@@ -44,7 +45,7 @@ cc.run({
                 blocks: [
                     {
                         title: 'Cookie usage 📢',
-                        description: 'Cookies are used to ensure the basic functionalities of the website and to enhance your online experience. You can choose for each category to opt-in/out whenever you want. For more details relative to cookies and other sensitive data, please read the full <a href="https://coherentlabs.github.io/GameUIComponents/privacy-policy/" class="cc-link">privacy policy</a>.'
+                        description: `Cookies are used to ensure the basic functionalities of the website and to enhance your online experience. You can choose for each category to opt-in/out whenever you want. For more details relative to cookies and other sensitive data, please read the full <a href="${pagePath}${pagePath.includes('privacy-policy') ? '' : 'privacy-policy'}" class="cc-link">privacy policy</a>.`
                     }, {
                         title: 'Strictly necessary cookies',
                         description: 'These cookies are essential for the proper functioning of my website. Without these cookies, the website may not work properly.',
