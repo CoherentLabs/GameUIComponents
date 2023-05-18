@@ -9,12 +9,14 @@ const orientationUnitsNames = new Map([
         size: 'height',
         position: 'top',
         coordinate: 'y',
+        offset: 'offsetHeight',
     }],
     ['horizontal', {
         mouseAxisCoords: 'clientX',
         size: 'width',
         position: 'left',
         coordinate: 'x',
+        offset: 'offsetWidth',
     }],
 ]);
 
