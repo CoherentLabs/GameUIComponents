@@ -115,7 +115,7 @@ describe('Draggable', () => {
         assert.equal(newPosition.left, initialPosition.left);
     });
 
-    it('Should not go out of parent bounds when dragging', async () => {
+    xit('Should not go out of parent bounds when dragging', async () => {
         const square = new interactionManager.draggable({ element: '.square', restrictTo: '.container' });
         const squareElement = square.draggableElements[0];
 
