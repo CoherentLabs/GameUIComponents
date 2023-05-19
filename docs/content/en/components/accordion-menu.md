@@ -10,6 +10,18 @@ The accordion-menu is part of the Gameface custom components suite. As most of t
 
 # Usage
 
+Some experimental change to check the action.
+Some experimental change to check the action.
+Some experimental change to check the action.
+Some experimental change to check the action.
+The accordion-menu component comes with UMD and CJS builds.
+The accordion-menu component comes with UMD and CJS builds.
+The accordion-menu component comes with UMD and CJS builds.
+The accordion-menu component comes with UMD and CJS builds.
+The accordion-menu component comes with UMD and CJS builds.
+The accordion-menu component comes with UMD and CJS builds.
+The accordion-menu component comes with UMD and CJS builds.
+The accordion-menu component comes with UMD and CJS builds.
 The accordion-menu component comes with UMD and CJS builds.
 
 # Installation
