@@ -2,8 +2,8 @@ name: Deploy Documentation
 
 
 on:
-  push:
-    branches: [ test-gh-pages-action ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   deploy:
