@@ -3,7 +3,7 @@ name: Deploy Documentation
 on:
   push:
     branches:
-      - master  # Deploy on pushing to the default branch
+      - test-gh-pages-action  # Deploy on pushing to the test
   pull_request:
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+          fetch-depth: 2
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -33,7 +33,7 @@ jobs:
 
       - name: Deploy to target branch # Takes the content from publish_dir: which is going to gh-pages branch automatically.
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/master' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: test-gh-pages-deploy
           publish_dir: ./docs/public
