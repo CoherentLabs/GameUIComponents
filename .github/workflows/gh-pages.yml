@@ -37,4 +37,4 @@ jobs:
           publish_branch: test-gh-pages-deploy
           publish_dir: ./docs/public
           keep_files: true
-          tag_name: ${{ github.ref_name }}-${{ github.ref }}
+          tag_name: ${{ github.ref_name }}-${{ github.sha }}
