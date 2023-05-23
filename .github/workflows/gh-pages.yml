@@ -37,5 +37,4 @@ jobs:
           publish_branch: test-gh-pages-deploy
           publish_dir: ./docs/public
           keep_files: true
-          full_commit_message: ${{ github.event.head_commit.message }}
           tag_name: 'Deployment ${{ github.ref_name }}-${{ github.sha }}'
