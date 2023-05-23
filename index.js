@@ -4,7 +4,7 @@ var suggestions = document.getElementById('suggestions');
 var search = document.getElementById('search');
 const form = document.getElementById('form-search');
 
-let baseUrl = "https://CoherentLabs.github.io/GameUIComponents/";
+let baseUrl = "";
 
 baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
 (function () {
