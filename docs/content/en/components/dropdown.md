@@ -15,6 +15,20 @@ The gameface-dropdown is part of the Gameface custom components suite.
 # Usage
 
 The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
+The gameface-dropdown component comes with UMD and CJS builds.
 
 ## Usage with UMD modules:
 
