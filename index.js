@@ -11,6 +11,7 @@ baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
   let entries = [];
   let searchScheduled = false;
   search.addEventListener('input', show_results, true);
+  show_results();
 
   function showMoreResults(searchQuery) {
     if (searchQuery) window.localStorage.setItem('searchQuery', searchQuery);
@@ -37,7 +38,7 @@ baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
   }
 
   function show_results(limit) {
-    if (!this.value) {
+    if (!search.value) {
       searchScheduled = false;
       clearPrevResults();
       return;
