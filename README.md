@@ -116,30 +116,94 @@ Add the custom component to the page:
 <gameface-checkbox></<gameface-checkbox>
 ```
 
-The JavaScript definition is a simple class which extends the HTMLElemnt. The template is loaded using XHR. The url property of the component class shows the path to the template html file. Use the <link> tags to import style files. Use the `loadResource` method to load the template. When the template is loaded you can render the component.
+The JavaScript definition is a simple class which extends the HTMLElement. The template can be loaded asynchronously using XHR. Set the URL member of the component in the constructor to load the template via XHR.
 
+
+Using XHR
 ```javascript
-class Checkbox extends HTMLElement {
+class Checkbox extends BaseComponent {
     constructor() {
         super();
 
+        // the URL specifies the path to the template file
         this.url = '/components/checkbox/template.html';
+    }
+}
+```
+
+Use the `loadResource` method from the components library to load the template:
+
+```javascript
+class Checkbox extends BaseComponent {
+    connectedCallback() {
+        components.loadResource(this)
+            .then(this.init)
+            .catch(err => console.error(err));
+    }
+}
+```
+
+The `setupTemplate` method internally checks if the custom element is still connected to the DOM and ready to be used. Its first argument is `data` - the result returned from the `loadResource` method. Its second parameter is a callback that will be executed if the checks in the setup template were successful. If they were not - you'll see a message in the debugger console - 'DEBUG: component Checkbox was not initialized because it was disconnected from the DOM!'. Make sure to call the `renderOnce(this);` method of the components library in the `setupTemplate` callback. This will attach the template to the custom component replacing all slots with their slottable items (if there are any). Here is also where you should define custom members or event listeners.
+
+```javascript
+class Checkbox extends BaseComponent {
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            // init members and event listeners here
+            this.addEventListener('click', this.toggleChecked);
+            this.checked = this.hasAttribute('checked');
+            this.disabled = this.disabled ? true : false;
+        });
     }
 
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 }
-
-components.defineCustomElement('gameface-checkbox', Checkbox);
 ```
 
-To test the component start an http server at the root and open index.html. If you use http-server go to /checkbox and run:
+Here's the full example of a custom Checkbox component:
+
+```javascript
+class Checkbox extends BaseComponent {
+    constructor() {
+        super();
+        this.url = '/components/checkbox/template.html';
+    }
+
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            // init members and event listeners here
+            this.addEventListener('click', this.toggleChecked);
+            this.checked = this.hasAttribute('checked');
+            this.disabled = (this.disabled) ? true : false;
+        });
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then(this.init)
+            .catch(err => console.error(err));
+    }
+
+    components.defineCustomElement('gameface-checkbox', Checkbox);
+}
+```
+
+Use the `<link>` tags to import style files.
+
+```html
+<link rel="stylesheet" href="../coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="../style.css">
+```
+
+To test the component start an http server at the root and open index.html. If you use [http-server](https://www.npmjs.com/package/http-server) go to /checkbox and run:
 
     http-server
 
@@ -147,18 +211,17 @@ Navigate to `localhost:<port>` and check your component.
 
 # Adding component to the components suite
 
-If you want to contribute to the components library and add a new component you need to add the required files in the correct folders. Make sure they can be successfully bundled and add documentation.
+If you want to contribute to the components library and add a new component you need to add the required files in the correct folders. Make sure they can be successfully bundled and are documented.
 
 * All components are placed in the /components folder.
 * The folders are named using lower case and camel-case for longer names.
-* All names should be prefixed with `gameface-`. So now instead of some-component
-* the custom element should be named `gameface-some-component`:
+* All names should be prefixed with `gameface-` - `gameface-some-component` instead of `some-component`
 
 `components.defineCustomElement('gameface-some-component', SomeComponent);`
 
 **Note that only the name of the custom element and the name of the npm package in package.json must be prefixed.**
 
-You can use the [coherent-guic-cli](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started) to build single component. Follow the steps bellow to see how to manually build all components if you don't want yo use the CLI.
+You can use the [coherent-guic-cli](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started) to build a single component. Follow the steps bellow to see how to manually build all components if you don't want to use the CLI.
 
 The `build` command generates UMD and CJS bundles of the component. The module bundler that is used is [Rollup](https://rollupjs.org/guide/en/). That means we can use `import` and `export` statements and rollup will automatically resolve all modules. Now we can import all dependencies at the top of the script.js file:
 
@@ -173,38 +236,47 @@ And we can export the checkbox at the bottom:
 export { Checkbox };
 ```
 
-Because the templates are imported as modules we no longer need to load them using XHR. Set the template as a property of the component:
+This example uses module loader to import the template - set the template as a property of the component:
 
 ```javascript
 this.template = template;
 ```
 
-The loadResource method can both work with URL and an imported template. The usage is the same so that it is more convenient to switch between XHR and imported template. This is how the component's definition looks like after the changes:
+The loadResource method can work both with URL and an imported template. You can conveniently switch between XHR and the imported template as the syntax is the same. This is how the component's definition looks like:
 
 ```javascript
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
-class Checkbox extends HTMLElement {
+class Checkbox extends BaseComponent {
     constructor() {
         super();
-
         this.template = template;
+    }
+
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            // init members and event listeners here
+            this.addEventListener('click', this.toggleChecked);
+            this.checked = this.hasAttribute('checked');
+            this.disabled = this.disabled ? true : false;
+        });
     }
 
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
+
+    components.defineCustomElement('gameface-checkbox', Checkbox);
+
+    export { Checkbox };
 }
 
-components.defineCustomElement('gameface-checkbox', Checkbox);
-export { Checkbox };
-```
+Check the [full implementation](https://github.com/CoherentLabs/GameUIComponents/blob/master/components/checkbox/script.js) and the [demo](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/checkbox/demo) on [the GitHub repository](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/checkbox)
 
 Because all components are npm packages you need to add an entry index.js file. This is the file that would be loaded when you import your component from node_modules like this:
 
@@ -222,7 +294,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 ```
 
-Each component has a demo page. It is placed in a /demo folder. The JavaScript file of the demo should be bundled so that it can be easily checked with double click or drag and drop without the need to manually setup an environment. The demo.js file imports all dependencies so that Rollup can resolve and bundle them.
+Each component has a demo page. It is located in a /demo folder. Bundle the JavaScript file of the demo to make sure it can directly work in the browser. The demo.js file imports all dependencies and Rollup can resolves and bundles them.
 
 ```javascript
 import components from 'coherent-gameface-components';
