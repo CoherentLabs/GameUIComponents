@@ -121,7 +121,7 @@ Add the custom component to the page:
 <gameface-checkbox></<gameface-checkbox>
 ```
 
-The JavaScript definition is a simple class which extends the HTMLElemnt. The template is loaded using XHR. The url property of the component class shows the path to the template html file. Use the <link> tags to import style files. Use the `loadResource` method to load the template. When the template is loaded you can render the component.
+The JavaScript definition is a simple class that extends the HTMLElement. The template can be loaded asynchronously using XHR. Set the URL member of the component in the constructor to load the template via XHR.
 
 ```{.javascript}
 class Checkbox extends HTMLElement {
@@ -154,7 +154,7 @@ Navigate to `localhost:<port>` and check your component.
 
 # Adding component to the components suite
 
-If you want to contribute to the components library and add a new component you need to add the required files in the correct folders. Make sure they can be successfully bundled and add documentation.
+If you want to contribute to the components library and add a new component, you need to add the required files in the correct folders. Make sure they can be successfully bundled and are documented.
 
 - All components are placed in the /components folder.
 - The folders are named using lower case and camel-case for longer names.
@@ -180,13 +180,13 @@ And we can export the checkbox at the bottom:
 export { Checkbox };
 ```
 
-Because the templates are imported as modules we no longer need to load them using XHR. Set the template as a property of the component:
+This example uses a module loader to import the template - set the template as a property of the component:
 
 ```{.javascript}
 this.template = template;
 ```
 
-The loadResource method can both work with URL and an imported template. The usage is the same so that it is more convenient to switch between XHR and imported template. This is how the component's definition looks like after the changes:
+The `loadResource` method can work both with URL and an imported template. You can conveniently switch between XHR and imported template as the syntax is the same. This is how the component's definition looks like:
 
 ```{.javascript}
 import components from 'coherent-gameface-components';

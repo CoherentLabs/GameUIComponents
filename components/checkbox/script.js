@@ -85,7 +85,7 @@ class Checkbox extends CustomElementValidator {
             components.renderOnce(this);
             this.addEventListener('click', this.toggleChecked);
             this.checked = this.hasAttribute('checked');
-            this.disabled = (this.disabled) ? true : false;
+            this.disabled = this.disabled ? true : false;
         });
     }
 
