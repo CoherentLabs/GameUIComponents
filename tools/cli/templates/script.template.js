@@ -14,7 +14,7 @@ class ${this.className} extends BaseComponent {
         this.init = this.init.bind(this);
     }
 
-    init() {
+    init(data) {
         this.setupTemplate(data, () => {
             components.renderOnce(this);
             // attach event handlers here
