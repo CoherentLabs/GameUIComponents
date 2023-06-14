@@ -27,10 +27,13 @@ jobs:
       - name: Build with Hugo
         run: npm run build
         working-directory: ./docs/
+      
+      - run: |
+          echo ${{ github.workspace }}
 
       - name: Deploy to target branch # Takes the content from publish_dir: which is going to gh-pages branch automatically.
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/public/
+          publish_dir: \.git/docs/public
           tag_name: ${{ github.ref_name }}-${{ github.sha }}
