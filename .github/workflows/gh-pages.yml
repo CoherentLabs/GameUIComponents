@@ -15,7 +15,6 @@ jobs:
         with:
           submodules: true  # Fetch Hugo themes (true OR recursive)
           fetch-depth: 1
-      - run: git checkout HEAD^
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
