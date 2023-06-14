@@ -1,0 +1,160 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.guic-row {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
+}
+
+.guic-col,
+.guic-col-1,
+.guic-col-2,
+.guic-col-3,
+.guic-col-4,
+.guic-col-5,
+.guic-col-6,
+.guic-col-7,
+.guic-col-8,
+.guic-col-9,
+.guic-col-10,
+.guic-col-11,
+.guic-col-12,
+.guic-col-offset-0,
+.guic-col-offset-1,
+.guic-col-offset-2,
+.guic-col-offset-3,
+.guic-col-offset-4,
+.guic-col-offset-5,
+.guic-col-offset-6,
+.guic-col-offset-7,
+.guic-col-offset-8,
+.guic-col-offset-9,
+.guic-col-offset-10,
+.guic-col-offset-11,
+.guic-col-offset-12 {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.guic-col {
+    flex-grow: 1;
+    flex: 1 1 0;
+    max-width: 100%;
+}
+
+.guic-col-1 {
+    flex: 1 1 8.33333333%;
+    max-width: 8.33333333%;
+}
+
+.guic-col-2 {
+    flex: 1 1 16.66666667%;
+    max-width: 16.66666667%;
+}
+
+.guic-col-3 {
+    flex: 1 1 25%;
+    max-width: 25%;
+}
+
+.guic-col-4 {
+    flex: 1 1 33.33333333%;
+    max-width: 33.33333333%;
+}
+
+.guic-col-5 {
+    flex: 1 1 41.66666667%;
+    max-width: 41.66666667%;
+}
+
+.guic-col-6 {
+    flex: 1 1 50%;
+    max-width: 50%;
+}
+
+.guic-col-7 {
+    flex: 1 1 58.33333333%;
+    max-width: 58.33333333%;
+}
+
+.guic-col-8 {
+    flex: 1 1 66.66666667%;
+    max-width: 66.66666667%;
+}
+
+.guic-col-9 {
+    flex: 1 1 75%;
+    max-width: 75%;
+}
+
+.guic-col-10 {
+    flex: 1 1 83.33333333%;
+    max-width: 83.33333333%;
+}
+
+.guic-col-11 {
+    flex: 1 1 91.66666667%;
+    max-width: 91.66666667%;
+}
+
+.guic-col-12 {
+    flex: 1 1 100%;
+    max-width: 100%;
+}
+
+.guic-col-offset-0 {
+    margin-left: 0;
+}
+
+.guic-col-offset-1 {
+    margin-left: 8.33333333%;
+}
+
+.guic-col-offset-2 {
+    margin-left: 16.66666667%;
+}
+
+.guic-col-offset-3 {
+    margin-left: 25%;
+}
+
+.guic-col-offset-4 {
+    margin-left: 33.33333333%;
+}
+
+.guic-col-offset-5 {
+    margin-left: 41.66666667%;
+}
+
+.guic-col-offset-6 {
+    margin-left: 50%;
+}
+
+.guic-col-offset-7 {
+    margin-left: 58.33333333%;
+}
+
+.guic-col-offset-8 {
+    margin-left: 66.66666667%;
+}
+
+.guic-col-offset-9 {
+    margin-left: 75%;
+}
+
+.guic-col-offset-10 {
+    margin-left: 83.33333333%;
+}
+
+.guic-col-offset-11 {
+    margin-left: 91.66666667%;
+}

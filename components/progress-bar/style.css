@@ -1,0 +1,19 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.guic-progress-bar {
+	border: 2px solid;
+	border-top-color: var(--default-color-gray);
+	border-right-color: var(--default-color-gray);
+	border-bottom-color: var(--default-color-gray);
+	border-left-color: var(--default-color-gray);
+	height: 100%;
+	width: 100%;
+}
+
+.guic-progress-bar-filler {
+	height: 100%;
+	background-color: var(--default-color-blue);
+}
