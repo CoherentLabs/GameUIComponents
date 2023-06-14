@@ -32,6 +32,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./docs/public
+          working-directory: ./docs/
+          publish_dir: ./public/
           tag_name: ${{ github.ref_name }}-${{ github.sha }}
