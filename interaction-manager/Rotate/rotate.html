@@ -1,0 +1,71 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<html lang="en">
+    <head>
+        <title>Rotate Demo</title>
+        <style>
+            body {
+                background-color: black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                margin: 0;
+                padding: 0;
+                width: 100vw;
+                height: 100vh;
+                color: white;
+            }
+
+            .circle {
+                width: 300px;
+                height: 300px;
+                border-radius: 50%;
+            }
+
+            .knob {
+                position: relative;
+                top: 5%;
+                left: 50%;
+                width: 15px;
+                height: 60px;
+                background-color: black;
+                margin-left: -7.5px;
+            }
+
+            .circle1 {
+                background-color: tomato;
+            }
+
+            .circle2 {
+                background-color: limegreen;
+            }
+
+            .circle3 {
+                background-color: cadetblue;
+            }
+
+            .knob-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="knob-container">
+            <div class="container">
+                <div class="circle circle1">
+                    <div class="knob"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./rotate.min.js"></script>
+        <script>
+            const circle1 = new rotate({
+                element: '.circle1',
+            });
+        </script>
+    </body>
+</html>
