@@ -33,4 +33,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
+          publish_dir: ./docs/public
           tag_name: ${{ github.ref_name }}-${{ github.sha }}
