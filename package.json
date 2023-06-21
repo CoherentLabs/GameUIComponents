@@ -28,7 +28,8 @@
     "publish": "node ./scripts/publish.js",
     "lint:errors": "eslint \"./**/*.js\" --quiet",
     "lint:all": "eslint \"./**/*.js\"",
-    "lint:fix": "eslint \"./**/*.js\" --fix"
+    "lint:fix": "eslint \"./**/*.js\" --fix",
+    "deploy-gh-pages": "node ./scripts/publish-gh-pages.js"
   },
   "husky": {
     "hooks": {
@@ -84,5 +85,9 @@
   },
   "engines": {
     "node": ">=16.10.0"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
   }
 }

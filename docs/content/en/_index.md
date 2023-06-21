@@ -10,7 +10,7 @@ This is a suite of custom elements designed specifically for [Gameface](https://
 
 # Running the demo
 
-Navigate to the root directory and run:
+To run the demo you need to navigate to the root directory and run:
 
 ```
 npm install
