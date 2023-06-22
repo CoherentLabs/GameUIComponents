@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -25,21 +26,21 @@ describe('Form control XHR property tests', () => {
         assert.exists(xhr, 'The xhr property exists.');
     });
 
-    it('Should be able to attach a listener to the xhr property', function (done) {
+    it('Should be able to attach a listener to the xhr property', async () => {
         const form = document.querySelector('gameface-form-control');
         const xhr = form.xhr;
         const submitButton = document.querySelector('[type="submit"]');
         let load = 0;
 
-        xhr.onload = () => {
-            load++;
+        const received = await new Promise((resolve) => {
             xhr.onload = () => {
-                assert(load === 1, `The xhr load event callback was called ${load} times, expected: 1.`);
-                done();
+                load++;
+                xhr.onload = () => resolve(load);
+                click(submitButton);
             };
             click(submitButton);
-        };
+        });
 
-        click(submitButton);
+        assert(received === 1, `The xhr load event callback was called ${load} times, expected: 1.`);
     });
 });
