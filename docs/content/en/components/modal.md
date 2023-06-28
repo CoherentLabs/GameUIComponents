@@ -16,7 +16,7 @@ The modal is part of the Gameface custom components suite. As most of the compon
 
 The modal component comes with UMD and CJS builds.
 
-## Usage with UMD modules:
+## Usage with UMD modules
 
 - import the components library:
 
