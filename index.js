@@ -4,6 +4,11 @@ var suggestions = document.getElementById('suggestions');
 var search = document.getElementById('search');
 const form = document.getElementById('form-search');
 
+const MAX_LIMIT_PAGE_ENTRIES = 300; // https://github.com/nextapps-de/flexsearch#limit--offset
+const pagesCount = parseInt('58');
+// This value has impact on the search performance.
+const searchDocumentsLimit = (pagesCount > MAX_LIMIT_PAGE_ENTRIES) ? MAX_LIMIT_PAGE_ENTRIES : pagesCount;
+
 let baseUrl = "https://CoherentLabs.github.io/GameUIComponents/";
 
 baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
@@ -11,6 +16,7 @@ baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
   let entries = [];
   let searchScheduled = false;
   search.addEventListener('input', show_results, true);
+  show_results();
 
   function showMoreResults(searchQuery) {
     if (searchQuery) window.localStorage.setItem('searchQuery', searchQuery);
@@ -36,8 +42,8 @@ baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
     loader.classList.remove('d-none');
   }
 
-  function show_results(limit) {
-    if (!this.value) {
+  function show_results() {
+    if (!search.value) {
       searchScheduled = false;
       clearPrevResults();
       return;
@@ -54,23 +60,23 @@ baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
     search.removeEventListener('search-index-ready', show_results);
 
     clearPrevResults();
-    if (isNaN(limit)) limit = 3;
-    var searchQuery = this.value;
+    const searchQuery = this.value;
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       showMoreResults(searchQuery);
     }, true)
 
-    const [resultIds, resultTitlesIds] = getIndexResults(searchQuery, limit);
+    const [resultIds, resultTitlesIds] = getIndexResults(index, searchQuery, searchDocumentsLimit);
 
     if (!hasResultsForQuery(resultIds, resultTitlesIds, searchQuery)) return;
 
     // construct a list of suggestions
-    constructTitleSuggestions(entries, resultTitlesIds, 'suggestion__description');
+    constructTitleSuggestions(entries, resultTitlesIds, 'suggestion__description', true);
 
+    const RESULTS_PER_DOCUMENT_LIMIT = 3;
     // construct a list of suggestions
-    constructContentSuggestions(entries, searchQuery, resultIds, 'suggestion__description', limit);
+    constructContentSuggestions(entries, searchQuery, resultIds, 'suggestion__description', true, RESULTS_PER_DOCUMENT_LIMIT);
 
     if (entries.length) {
       for (const entry of entries) {
