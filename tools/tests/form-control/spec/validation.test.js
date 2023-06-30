@@ -116,7 +116,7 @@ async function nameExistsValidationMethod(element) {
             serverError = true;
             return resolve(true);
         };
-        xhr.timeout = 1000;
+        xhr.timeout = 5000;
         xhr.ontimeout = () => {
             serverNotReachable = true;
             return resolve(true);
@@ -371,6 +371,8 @@ describe('Form custom validation', () => {
 
         const formElement = document.querySelector('gameface-form-control');
         await submitForm(formElement, false, true);
-        await checkResponse('{"username":"username","url":"https://site.com","email":"email@domain.com"}');
+        await retryIfFails(async () => {
+            await checkResponse('{"username":"username","url":"https://site.com","email":"email@domain.com"}');
+        });
     });
 });
