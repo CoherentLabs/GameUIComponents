@@ -33,8 +33,6 @@ function prepareDocs() {
     exec('npm install', docsDir);
     core.info('[INFO] Building documentation');
     exec('npm run build', docsDir);
-    // Re-run the build because the first build produces broken documentation
-    exec('npm run build', docsDir);
     core.info(`[INFO] Creating a temp folder of the documentation source to ${docsBuildDir}`);
     exec(`cp -R public ${docsBuildDir}`, docsDir);
     core.endGroup();
