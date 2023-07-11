@@ -2,7 +2,7 @@
   "name": "coherent-gameface-form-control",
   "version": "1.0.7",
   "description": "A component for Coherent Labs Gameface.",
-  "main": "script.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-form-control"
