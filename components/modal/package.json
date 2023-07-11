@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-modal",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A modal component for Coheren Labs' Gameface.",
   "main": "index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-switch",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "repository": {
