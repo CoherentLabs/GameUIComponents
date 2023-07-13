@@ -23,15 +23,37 @@
             margin-bottom: 5px;
         }
 
+        .custom-buttons [role="radio"] .before,
+        .custom-buttons [role="radio"] .after,
+        .custom-buttons [role="radio"][aria-checked="true"] .after {
+            display: none;
+        }
+
         .inner-button {
-            background-color: aquamarine;
+            width: 100px;
+            height: 30px;
+            border: 1px;
+            border-style: solid;
+            border-color: #ebebeb;
+            background-color: var(--default-color-gray);
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .custom-buttons radio-button  {
+            padding-left: 0px;
+            margin-left: 0px;
+        }
+
+        radio-button[aria-checked="true"] .inner-button {
+            background-color: var(--default-color-blue);
         }
     </style>
 </head>
 
 <body class="guic-demo">
 
-    <!-- <div class="section">
+    <div class="section">
         <div class="section-label">Targeting System:</div>
         <gameface-radio-group>
             <radio-button>Tab Targeting</radio-button>
@@ -45,9 +67,10 @@
             <radio-button>Grid Slots (Sticky)</radio-button>
             <radio-button>Unlocked</radio-button>
         </gameface-radio-group>
-    </div> -->
+    </div>
     <div class="section">
-        <gameface-radio-group>
+        <div class="section-label">Custom Radio Buttons:</div>
+        <gameface-radio-group class="custom-buttons">
             <radio-button slot="radio-button" checked>
                 <div slot="radio-button-content" class="inner-button"><span>OFF</span></div>
             </radio-button>

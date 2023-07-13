@@ -80,6 +80,22 @@ that you wish to change and include them after the default styles.
 Load the HTML file in Gameface to see the radio-button.
 You can also see an example in the demo folder of the component.
 
+## Custom Buttons
+
+You can add different styles for the radio buttons. Put the custom elements in the `radio-button-content` slot:
+
+```html
+<gameface-radio-group class="custom-buttons">
+	<radio-button slot="radio-button" checked>
+		<div slot="radio-button-content" class="inner-button"><span>OFF</span></div>
+	</radio-button>
+	<radio-button slot="radio-button">
+		<div slot="radio-button-content" class="inner-button"><span>ON</span></div>
+	</radio-button>
+</gameface-radio-group>
+```
+You can put HTML elements or other components in the `radio-button-content` slot.
+
 ## Usage
 
 On top of using the `radioButton.checked` and `radioButton.checked` you can
