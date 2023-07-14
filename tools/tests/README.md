@@ -28,7 +28,7 @@ tools/tests/package.json
     "name": "components-tests",
     "dependencies": {
       "coherent-gameface-automatic-grid": "^1.0.6",
-      "coherent-gameface-components": "^1.0.5",
+      "coherent-gameface-components": "^1.4.0",
       "coherent-gameface-checkbox": "^1.0.5",
       "coherent-gameface-dropdown": "^1.0.6",
       "coherent-gameface-form-control": "^1.0.1",
