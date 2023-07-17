@@ -9,14 +9,25 @@ import { SERVER_TIMEOUT } from './constants';
  * Will submit the form and wait for server response
  * @param {HTMLElement} formElement
  * @param {boolean} [shouldWaitForServerResponse=true]
+ * @param {boolean} [hasLoadendEvent=true]
  * @returns {boolean}
  */
-export async function submitForm(formElement, shouldWaitForServerResponse = true) {
+export async function submitForm(formElement, shouldWaitForServerResponse = true, hasLoadendEvent = false) {
     const submitButton = formElement.querySelector('[type="submit"]');
 
     if (!shouldWaitForServerResponse) {
-        click(submitButton);
-        return true;
+        if (hasLoadendEvent) {
+            return new Promise((resolve) => {
+                formElement.addEventListener('loadend', (event) => {
+                    document.getElementById('form-response').textContent = event.detail.target.response;
+                    return resolve(true);
+                });
+                click(submitButton);
+            });
+        } else {
+            click(submitButton);
+            return true;
+        }
     }
 
     return new Promise((resolve, reject) => {
