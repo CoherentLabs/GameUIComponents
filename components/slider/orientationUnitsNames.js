@@ -10,6 +10,7 @@ const orientationUnitsNames = new Map([
         sizePX: 'heightPX',
         position: 'top',
         scroll: 'scrollHeight',
+        offset: 'offsetHeight',
     }],
     ['horizontal', {
         mouseAxisCoords: 'clientX',
@@ -17,6 +18,7 @@ const orientationUnitsNames = new Map([
         sizePX: 'widthPX',
         position: 'left',
         scroll: 'scrollWidth',
+        offset: 'offsetWidth',
     }],
 ]);
 

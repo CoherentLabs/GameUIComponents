@@ -17,6 +17,7 @@
       "coherent-gameface-scrollable-container": "^1.2.0",
       "coherent-gameface-slider": "^1.2.0",
       "coherent-gameface-switch": "^1.1.0",
+      "coherent-gameface-stepper": "^1.0.0",
       "coherent-gameface-tabs": "^1.1.0",
       "coherent-gameface-tooltip": "^1.1.0",
       "coherent-gameface-text-field": "^1.1.0",
@@ -27,6 +28,7 @@
       "globals": {
         "click": "readonly",
         "createAsyncSpec": "readonly",
+        "retryIfFails": "readonly",
         "assert": "readonly",
         "cleanTestPage": "readonly",
         "waitForStyles": "readonly",

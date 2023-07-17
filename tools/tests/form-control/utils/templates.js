@@ -61,7 +61,7 @@ export const REGISTER_TEMPLATE = `
         </div>
         <div class="form-element">
             <span>What are your interests?</span>
-            <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
+            <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element" checked>
                 <component-slot data-name="checkbox-background">
                     <div class="checkbox-background"></div>
                 </component-slot>
@@ -69,7 +69,7 @@ export const REGISTER_TEMPLATE = `
                     <span class="label">Music</span>
                 </component-slot>
             </gameface-checkbox>
-            <gameface-checkbox name="user-interests" value="coding" class="checkbox-component form-element">
+            <gameface-checkbox name="user-interests" value="coding" class="checkbox-component form-element" checked>
                 <component-slot data-name="checkbox-background">
                     <div class="checkbox-background"></div>
                 </component-slot>
@@ -105,7 +105,7 @@ export const CHECKBOXES_TEMPLATE = `
 <div class="form-wrapper">
     <h2>Checkbox cases</h2>
     <gameface-form-control id="${formsIds.CHECKBOXES_FORM}" action="http://localhost:${SERVER_PORT}/user" method="get">
-        <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
+        <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element" checked>
             <component-slot data-name="checkbox-background">
                 <div class="checkbox-background"></div>
             </component-slot>
@@ -123,7 +123,7 @@ export const CHECKBOXES_TEMPLATE = `
             </component-slot>
         </gameface-checkbox>
         <!-- Should send "on" as value if it is checked -->
-        <gameface-checkbox name="user-interests" class="checkbox-component form-element">
+        <gameface-checkbox name="user-interests" class="checkbox-component form-element" checked>
             <component-slot data-name="checkbox-background">
                 <div class="checkbox-background"></div>
             </component-slot>

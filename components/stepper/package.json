@@ -1,0 +1,23 @@
+{
+    "name": "coherent-gameface-stepper",
+    "version": "1.0.0",
+    "description": "A component for Coherent Labs Gameface.",
+    "main": "script.js",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/stepper"
+    },
+    "keywords": [
+      "UI",
+      "Component"
+    ],
+    "dependencies": {
+      "coherent-gameface-components": "^1.3.0",
+      "postmessage-polyfill": "1.0.0",
+      "whatwg-fetch": "3.4.1"
+    },
+
+    "author": "CoherentLabs",
+    "license": "ISC"
+  }
+  

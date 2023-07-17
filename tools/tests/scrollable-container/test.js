@@ -96,11 +96,7 @@ describe('Scrollable Container Component', () => {
             downButton.dispatchEvent(new CustomEvent('mousedown', { bubbles: true }));
         });
 
-        await createAsyncSpec(() => {
-            downButton.dispatchEvent(new CustomEvent('mouseup', { bubbles: true }));
-        });
-
-        return createAsyncSpec(() => {
+        await retryIfFails(async () => {
             assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');
         });
     });

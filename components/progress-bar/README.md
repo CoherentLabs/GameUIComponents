@@ -11,7 +11,7 @@ Usage
 ===================
 The progress-bar component comes with UMD and CJS builds.
 
-## Usage with UMD modules:
+## Usage with UMD Modules:
 
 * import the components library:
 
