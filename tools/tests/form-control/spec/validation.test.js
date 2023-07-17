@@ -82,7 +82,7 @@ async function badValueTestCustomValidation(
         await new Promise(resolve => setTimeout(resolve, SERVER_TIMEOUT));
     }
 
-    return createAsyncSpec(() => {
+    await retryIfFails(async () => {
         let received = null;
 
         if (!errorDisplayElement) {
@@ -116,7 +116,7 @@ async function nameExistsValidationMethod(element) {
             serverError = true;
             return resolve(true);
         };
-        xhr.timeout = 1000;
+        xhr.timeout = 5000;
         xhr.ontimeout = () => {
             serverNotReachable = true;
             return resolve(true);
@@ -166,10 +166,6 @@ function setCustomFormValidators(form) {
  */
 function setCustomValidators() {
     const form = document.getElementById('custom-validation-form');
-
-    form.addEventListener('loadend', (event) => {
-        document.getElementById('form-response').textContent = event.detail.target.response;
-    });
 
     serverError = false;
     serverNotReachable = false;
@@ -340,6 +336,8 @@ describe('Form custom validation', () => {
     });
 
     it('Should test custom message of the url shown in a tooltip', async () => {
+        document.getElementById('username').value = 'username';
+
         return badValueTestCustomValidation(
             '#url',
             'The url should start with "http://" or "https://"!',
@@ -366,8 +364,15 @@ describe('Form custom validation', () => {
     });
 
     it('Should submit the form and have valid response', async () => {
+        // Fill the required fields for the form to be valid and submitted successfully.
+        document.getElementById('username').value = 'username';
+        document.getElementById('url').value = 'https://site.com';
+        document.getElementById('email').value = 'email@domain.com';
+
         const formElement = document.querySelector('gameface-form-control');
-        await submitForm(formElement, false);
-        await checkResponse('{"username":"username","url":"https://site.com","email":"email@domain.com"}');
+        await submitForm(formElement, false, true);
+        await retryIfFails(async () => {
+            await checkResponse('{"username":"username","url":"https://site.com","email":"email@domain.com"}');
+        });
     });
 });

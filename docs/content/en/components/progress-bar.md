@@ -16,7 +16,7 @@ The progress-bar is part of the Gameface custom components suite.
 
 The progress-bar component comes with UMD and CJS builds.
 
-## Usage with UMD modules:
+## Usage with UMD Modules:
 
 - import the components library:
 
@@ -47,7 +47,7 @@ import progressBar from 'coherent-gameface-progress-bar';
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the modules from the node_modules folder.
 
-## Usage with CJS modules:
+## Usage with CJS Modules:
 
 - Import the components library:
 

@@ -28,6 +28,7 @@
       "globals": {
         "click": "readonly",
         "createAsyncSpec": "readonly",
+        "retryIfFails": "readonly",
         "assert": "readonly",
         "cleanTestPage": "readonly",
         "waitForStyles": "readonly",

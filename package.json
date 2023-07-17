@@ -28,7 +28,8 @@
     "publish": "node ./scripts/publish.js",
     "lint:errors": "eslint \"./**/*.js\" --quiet",
     "lint:all": "eslint \"./**/*.js\"",
-    "lint:fix": "eslint \"./**/*.js\" --fix"
+    "lint:fix": "eslint \"./**/*.js\" --fix",
+    "deploy-gh-pages": "node ./scripts/publish-gh-pages.js"
   },
   "husky": {
     "hooks": {
@@ -51,7 +52,7 @@
   },
   "homepage": "https://github.com/CoherentLabs/GameUIComponents#readme",
   "devDependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.22.9",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-strip": "^3.0.2",
     "babel-loader": "^8.2.2",
@@ -64,7 +65,7 @@
     "husky": "^4.3.8",
     "karma": "^6.4.2",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^3.1.0",
+    "karma-chrome-launcher": "^3.2.0",
     "karma-html2js-preprocessor": "^1.1.0",
     "karma-jasmine": "^4.0.2",
     "karma-sinon": "^1.0.5",
@@ -84,5 +85,9 @@
   },
   "engines": {
     "node": ">=16.10.0"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
   }
 }
