@@ -8,7 +8,6 @@ const fs = require('fs');
 const rollup = require('rollup');
 const terser = require('rollup-plugin-terser').terser;
 const strip = require('@rollup/plugin-strip').default;
-const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const html = require('rollup-plugin-html');
 const buildCssComponents = require('./build-style-component');
 const copyCSSTheme = require('./copy-theme');
@@ -132,10 +131,7 @@ async function buildEverything() {
         const inputOptions = {
             input: path.join(componentPath, 'script.js'),
             external: ['coherent-gameface-components'],
-            plugins: [
-                nodeResolve(),
-                html(),
-            ],
+            plugins: [html()],
         };
 
         await buildAndPackage(component, inputOptions, FORMATS, ENVIRONMENTS, componentPath);
