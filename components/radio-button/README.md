@@ -86,15 +86,28 @@ You can add different styles for the radio buttons. Put the custom elements in t
 
 ```html
 <gameface-radio-group class="custom-buttons">
-	<radio-button slot="radio-button" checked>
-		<div slot="radio-button-content" class="inner-button"><span>OFF</span></div>
-	</radio-button>
-	<radio-button slot="radio-button">
-		<div slot="radio-button-content" class="inner-button"><span>ON</span></div>
-	</radio-button>
+    <radio-button slot="radio-button" checked>
+        <div slot="radio-button-content" class="inner-button"><span>OFF</span></div>
+    </radio-button>
+    <radio-button slot="radio-button">
+        <div slot="radio-button-content" class="inner-button"><span>ON</span></div>
+    </radio-button>
 </gameface-radio-group>
 ```
 You can put HTML elements or other components in the `radio-button-content` slot.
+
+Add the `controls-disabled` attribute to the `<radio-button>` element to hide the default radio button style:
+
+```html
+<gameface-radio-group class="custom-buttons">
+    <radio-button checked controls-disabled>
+        <div slot="radio-button-content">OFF</div>
+    </radio-button>
+    <radio-button controls-disabled>
+        <div slot="radio-button-content">ON</div>
+    </radio-button>
+</gameface-radio-group>
+```
 
 ## Usage
 

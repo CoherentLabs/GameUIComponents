@@ -254,11 +254,16 @@ class RadioButton extends BaseComponent {
      * @param {object} data
     */
     init(data) {
+        let radioButtonText;
+        const hasSlots = this.querySelectorAll('[slot="radio-button-content"]').length;
+        // use text content if there is no slot
+        if (!hasSlots) radioButtonText = this.textContent;
+
         this.setupTemplate(data, () => {
             components.renderOnce(this);
-
             this.textElement = this.querySelector('.radio-button-text');
-            // Apply the user set text.
+            if (!hasSlots) this.textElement.textContent = radioButtonText;
+            // Apply the user set text
             if (this.disabled) this.firstChild.classList.add('guic-radio-button-disabled');
         });
     }
