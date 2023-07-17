@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/coherent-gameface-radio-button.production.min.js');
+    module.exports = require('./cjs/radio-button.production.min.js');
 } else {
-    module.exports = require('./cjs/coherent-gameface-radio-button.development.js');
+    module.exports = require('./cjs/radio-button.development.js');
 }
