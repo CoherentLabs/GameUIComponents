@@ -23,7 +23,7 @@ describe('Start demo test', () => {
         execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8', stdio: 'inherit' });
 
         // install the component's dependencies
-        execSync(`npm i`, { encoding: 'utf8', cwd: componentSourcePath, stdio: 'inherit' });
+        execSync(`npm link coherent-gameface-components && npm i`, { encoding: 'utf8', cwd: componentSourcePath, stdio: 'inherit' });
         // the demo uses the UMD module of the component so we need to build the component first
         execSync(`node ../../index.js build`, { encoding: 'utf8', cwd: componentSourcePath, stdio: 'inherit' });
         // serve the demo

@@ -24,11 +24,11 @@ describe('Build demo test', () => {
         execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
 
         // install the component's dependencies
-        execSync(`cd ${componentSourcePath} && npm i`, { encoding: 'utf8' });
+        execSync(`npm link coherent-gameface-components && npm i`, { cwd: componentSourcePath, stdio: 'inherit', encoding: 'utf8' });
         // the demo uses the UMD module of the component so we need to build the component first
-        execSync(`cd ${componentSourcePath} && node ../../index.js build`, { encoding: 'utf8' });
+        execSync(`node ../../index.js build`, { cwd: componentSourcePath, stdio: 'inherit', encoding: 'utf8' });
         // build the demo
-        execSync(`cd ${componentSourcePath} && node ../../index.js build:demo`, { encoding: 'utf8' });
+        execSync(`node ../../index.js build:demo`, { cwd: componentSourcePath, stdio: 'inherit', encoding: 'utf8' });
         // check if the demo folder contains the demo JavaScript bundle
         const hasDemoBundle = folderContainsFiles(path.join(componentSourcePath, 'demo'), ['bundle.js']);
         expect(hasDemoBundle).toBe(true);
