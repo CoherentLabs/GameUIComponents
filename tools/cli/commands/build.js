@@ -6,7 +6,6 @@
 const path = require('path');
 const rollup = require('rollup');
 const terser = require('rollup-plugin-terser').terser;
-const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const html = require('rollup-plugin-html');
 
 // The module formats which will be bundled
@@ -82,7 +81,6 @@ function build(watch) {
         input: path.resolve('./script.js'),
         external: ['coherent-gameface-components'],
         plugins: [
-            nodeResolve(),
             html(),
         ],
     };
