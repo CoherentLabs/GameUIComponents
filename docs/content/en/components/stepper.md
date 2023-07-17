@@ -37,16 +37,14 @@ The stepper component comes with UMD and CJS builds.
 
 This is all! Load the file in Gameface to see the stepper.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the stepper from the node_modules folder and import them like this:
+If you wish to import the modules using JavaScript you can remove the script tags which import the components and the stepper from the node_modules folder and import them like this:
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
 import stepper from 'coherent-gameface-stepper';
 ~~~~
 
-Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
+Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the modules from the node_modules folder. Alternatively you can import them directly from node_modules:
 
 ~~~~{.js}
 import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
@@ -62,8 +60,7 @@ const components = require('coherent-gameface-components');
 const stepper = require('coherent-gameface-stepper');
 ~~~~
 
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
+The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module bundler in order to be use them in a browser.
 
 ## Add the styles
 

@@ -136,3 +136,41 @@ async function setupDataBindingTest(modelName, template, setupFunction, model = 
 
     engine.synchronizeModels();
 }
+
+const RETRY_INTERVAL = 500;
+
+/**
+ * Retries a test action.
+ *
+ * @param {function} action
+ * @param {function} resolve
+ * @param {function} reject
+ * @param {number} remainingCount
+ * @private
+ */
+function _retryInner(action, resolve, reject, remainingCount) {
+    action().then(resolve).catch((error) => {
+        if (remainingCount) {
+            remainingCount--;
+
+            setTimeout(() => {
+                _retryInner(action, resolve, reject, remainingCount);
+            }, RETRY_INTERVAL);
+        } else {
+            reject(error);
+        }
+    });
+}
+
+/**
+ * Retries a function if it fails for a number of times.
+ *
+ * @param {function} action
+ * @param {number} retryCount - Default = 10.
+ * @returns {Promise<any>}
+ */
+function retryIfFails(action, retryCount = 10) {
+    return new Promise((resolve, reject) => {
+        _retryInner(action, resolve, reject, retryCount);
+    });
+}
