@@ -12,9 +12,50 @@ just for immediate execution, without reporting to Karma server.
   <title>Karma DEBUG RUNNER</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <style type="text/css">
+    iframe {
+      height: 100%;
+      width: 100%;
+      border: 0;
+      display: none;
+    }
+
+    html, body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+
+      font-family: sans-serif;
+    }
+
+    .offline {
+      background: #DDD;
+    }
+
+    .online {
+      background: #6C4;
+    }
+
+    .executing {
+      background: #F99;
+    }
+
+    #banner {
+      padding: 5px 10px;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 
 <body>
+  <div id="banner" class="offline">
+    <h1 id="title">Karma - starting</h1>
+  </div>
   <iframe id="context" src="about:blank" width="100%" height="100%"></iframe>
 
   <!-- The scripts need to be at the end of body, so that some test running frameworks
@@ -31,8 +72,10 @@ just for immediate execution, without reporting to Karma server.
     }
   </script>
   <script type="text/javascript">
-      // Configure our Karma
-      %CLIENT_CONFIG%
+    document.querySelector('#context').contentWindow = {};
+
+    // Configure our Karma
+    %CLIENT_CONFIG%
 
     // All served files with the latest timestamps
     %MAPPINGS%
@@ -47,7 +90,6 @@ just for immediate execution, without reporting to Karma server.
   <script nomodule>
     window.__karma__.loaded();
   </script>
-  Tests.
 </body>
 
 </html>

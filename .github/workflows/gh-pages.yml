@@ -2,6 +2,7 @@ name: Deploy Documentation
 
 
 on:
+  workflow_dispatch:
   push:
     branches: [ master ]
 
@@ -11,29 +12,26 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0
-
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: '0.92.0'
           extended: true
 
-      - name: Install modules
-        run: npm install
-        working-directory: ./docs/
-
-      - name: Build with Hugo
-        run: npm run build
-        working-directory: ./docs/
-
-      - name: Deploy to target branch # Takes the content from publish_dir: which is going to gh-pages branch automatically.
-        uses: peaceiris/actions-gh-pages@v3
+      - uses: actions/setup-node@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./docs/public
-          tag_name: ${{ github.ref_name }}-${{ github.sha }}
+          node-version: "18.16.0"
+
+      - name: Install repo modules
+        run: npm install
+
+      - name: Deploy to gh-pages branch
+        env:
+          TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          TAG: "${{ github.ref_name }}-${{ github.sha }}"
+          WORKSPACE_DIR: "${{ github.workspace }}"
+          GITHUB_SHA: "${{ github.sha }}"
+        run: npm run deploy-gh-pages

@@ -82,4 +82,4 @@ export const ERROR_MESSAGES = new Map([
     ['nameMissing', 'The elements does not have a name attribute and will not be submitted.'],
 ]);
 
-export const SERVER_TIMEOUT = 1000;
+export const SERVER_TIMEOUT = 5000;

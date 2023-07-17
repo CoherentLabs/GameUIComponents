@@ -11,7 +11,7 @@
 <!-- HEADER-END -->
 This is a suite of custom elements designed specifically for [Gameface](https://coherent-labs.com/products/coherent-gameface/). All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package. All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them. You can also build them from source.
 
-# Running the demo
+# Running the Demo
 
 Navigate to the root directory and run:
 
