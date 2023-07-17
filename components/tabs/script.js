@@ -43,7 +43,6 @@ class Tabs extends BaseComponent {
             this.tabSlot = this.querySelector('[data-name="tab"]');
             this.panelSlot = this.querySelector('[data-name="panel"]');
 
-            console.log('attach listeners in init callback');
             this.attachEventListeners();
         });
     }
@@ -192,7 +191,7 @@ class Tabs extends BaseComponent {
         // The switch-case will determine which tab should be marked as active
         // depending on the key that was pressed.
         let newTab;
-        switch (event.KEYCODES) {
+        switch (event.keyCode) {
             case KEYCODES.LEFT:
             case KEYCODES.UP:
                 newTab = this.getPrevTab();
