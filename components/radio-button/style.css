@@ -79,3 +79,8 @@
     opacity: 0.5;
     pointer-events: none;
 }
+
+radio-button[controls-disabled] .before,
+radio-button[controls-disabled] .after {
+    display: none;
+}
