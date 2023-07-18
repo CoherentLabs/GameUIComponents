@@ -39,6 +39,11 @@ class Tabs extends BaseComponent {
         this.setupTemplate(data, () => {
             // render the component
             components.renderOnce(this);
+
+            this.tabSlot = this.querySelector('[data-name="tab"]');
+            this.panelSlot = this.querySelector('[data-name="panel"]');
+
+            this.attachEventListeners();
         });
     }
 
@@ -49,11 +54,6 @@ class Tabs extends BaseComponent {
         components.loadResource(this)
             .then(this.init)
             .catch(err => console.error(err));
-
-        this.tabSlot = this.querySelector('[data-name="tab"]');
-        this.panelSlot = this.querySelector('[data-name="panel"]');
-
-        this.attachEventListeners();
     }
 
     /* eslint-enable require-jsdoc */
@@ -63,10 +63,7 @@ class Tabs extends BaseComponent {
      * @param {MouseEvent} event - the event object.
     */
     onClick(event) {
-        // avoid all cases except when the target is a tab heading.
-        if (event.target.tagName.toLowerCase() === 'tab-heading') {
-            this.selectTab(event.target);
-        }
+        this.selectTab(event.currentTarget);
     }
 
     /**
@@ -112,7 +109,12 @@ class Tabs extends BaseComponent {
     */
     attachEventListeners() {
         this.addEventListener('keydown', this.onKeyDown);
-        this.addEventListener('click', this.onClick);
+
+        const tabHeadings = this.querySelectorAll('tab-heading');
+
+        for (const tabHeading of tabHeadings) {
+            tabHeading.addEventListener('click', this.onClick);
+        }
     }
     /**
      * Sets a tab and its corresponding panel in an active state.
@@ -122,7 +124,6 @@ class Tabs extends BaseComponent {
     selectTab(newTab) {
         // Deselect all tabs and hide all panels.
         this.reset();
-
         // Get the panel that the `newTab` is associated with.
         const newPanel = this.getPanelForTab(newTab);
         // If that panel doesn’t exist, abort.
@@ -190,7 +191,7 @@ class Tabs extends BaseComponent {
         // The switch-case will determine which tab should be marked as active
         // depending on the key that was pressed.
         let newTab;
-        switch (event.KEYCODES) {
+        switch (event.keyCode) {
             case KEYCODES.LEFT:
             case KEYCODES.UP:
                 newTab = this.getPrevTab();
