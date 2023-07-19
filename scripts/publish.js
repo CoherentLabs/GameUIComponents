@@ -2,18 +2,10 @@ const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
 const { getPackageJSON } = require('./helpers');
+const { getPublicVersion } = require('./utils');
 const COMPONENTS_PATH = path.join(__dirname, '../components');
 const LIBRARY_PATH = path.join(__dirname, '../');
 const CLI_PATH = path.join(__dirname, '../tools');
-
-/**
- * Gets the latest version of some npm package
- * @param {string} npmPackage - The npm package name
- * @returns {string}
- */
-function getPublicVersion(npmPackage) {
-    return execSync(`npm view ${npmPackage} version`, { encoding: 'utf8' }).replace('\n', '');
-}
 
 /**
  * Checks if some component should be updated in npm if its version is bumped
