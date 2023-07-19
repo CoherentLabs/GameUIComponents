@@ -1,4 +1,6 @@
-module.exports = (env) => {
+/* eslint-disable max-lines-per-function */
+
+module.exports = function (env) {
     const environment = env === 'production' ? 'production' : 'development';
 
     return {
@@ -6,7 +8,7 @@ module.exports = (env) => {
             'coherent-gameface-components': 'components',
         },
         mode: environment,
-        devtool: environment === 'development' ? 'inline-source-map' : false,
+        devtool: 'inline-source-map',
         module: {
             rules: [
                 {

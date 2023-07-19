@@ -8,20 +8,22 @@ Installation
 
 Usage
 ===================
-The tooltip component comes with UMD and CJS builds.
+The tooltip component exports the following objects:
+- bundle - production and development builds, ready for use in the browser
+- Tooltip - the source file that imports its dependencies
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ~~~~
 
 * import the tooltip component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-tooltip/dist/tooltip.production.min.js"></script>
 ~~~~
 
 * add the tooltip component to your html:
@@ -37,28 +39,11 @@ which import the components and the tooltip from the node_modules folder and imp
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import Tooltip from 'coherent-gameface-tooltip';
+import { Tooltip } from 'coherent-gameface-tooltip';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
-
-~~~~{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import Tooltip from './node_modules/coherent-gameface-tooltip/umd/tooltip.production.min.js';
-~~~~
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const Tooltip = require('coherent-gameface-tooltip');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
+modules from the node_modules folder.
 
 Specifying the content
 =========================

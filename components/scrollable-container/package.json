@@ -1,8 +1,13 @@
 {
   "name": "coherent-gameface-scrollable-container",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
+  "sideEffects": [
+    "./demo/demo.js",
+    "./script.js",
+    "./index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/scrollable-container"
@@ -13,8 +18,8 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.4.0",
-    "coherent-gameface-slider": "^1.2.0",
+    "coherent-gameface-components": "^2.0.0",
+    "coherent-gameface-slider": "^2.0.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },

@@ -1,8 +1,13 @@
 {
   "name": "coherent-gameface-automatic-grid",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
+  "sideEffects": [
+    "./demo/demo.js",
+    "./script.js",
+    "./index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/automatic-grid"
@@ -13,10 +18,10 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.4.0",
+    "coherent-gameface-components": "^2.0.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1",
-    "coherent-gameface-grid": "1.0.3"
+    "coherent-gameface-grid": "^2.0.0"
   },
   "author": "CoherentLabs",
   "license": "ISC"

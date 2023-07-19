@@ -6,7 +6,7 @@
 
 import components from 'coherent-gameface-components';
 // eslint-disable-next-line no-unused-vars
-import ScrollableContainer from 'coherent-gameface-scrollable-container';
+import { ScrollableContainer } from 'coherent-gameface-scrollable-container';
 import template from './template.html';
 
 const KEYCODES = components.KEYCODES;

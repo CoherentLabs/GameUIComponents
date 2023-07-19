@@ -8,9 +8,16 @@ Installation
 
 Importing the Router
 ===================
-The router component comes with UMD and CJS builds.
+The router component exports the following objects:
+- bundle - production and development builds, ready for use in the browser
+- Router
+- Route
+- BrowserHistory
+- HashHistory
 
-## With UMD modules:
+Refer to to **Available Modules** section for more information on what each exported variable is for.
+
+## Usage with the bundle modules:
 
 * import the components library:
 
@@ -49,23 +56,6 @@ import { Router } from 'coherent-gameface-router';
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
 modules from the node_modules folder. Alternatively, you can import them directly from node_modules:
-
-~~~~{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import { Router } from './node_modules/coherent-gameface-router/umd/router.production.min.js';
-~~~~
-
-## With CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const gameface-router = require('coherent-gameface-router');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to use them in a browser.
 
 Available Modules
 ===================

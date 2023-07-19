@@ -4,8 +4,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/radial-menu.production.min.js');
-} else {
-    module.exports = require('./cjs/radial-menu.development.js');
-}
+import RadialMenu from './script.js';
+import * as bundle from './dist/radial-menu.development.js';
+
+export {
+    RadialMenu,
+    bundle,
+};

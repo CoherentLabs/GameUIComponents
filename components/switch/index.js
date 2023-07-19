@@ -4,8 +4,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/switch.production.min.js');
-} else {
-    module.exports = require('./cjs/switch.development.js');
-}
+import Switch from './script.js';
+import * as bundle from './dist/switch.development.js';
+
+export {
+    Switch,
+    bundle,
+};

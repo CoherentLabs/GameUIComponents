@@ -27,11 +27,11 @@ exports.demohtml = `
 
 exports.demojs = `
     import components from 'coherent-gameface-components';
-    import TestName from '../umd/test-name.development.js';
-    import {pm} from 'postmessage-polyfill';
-    import {fetch as fetchPolyfill} from 'whatwg-fetch';
+    import TestName from '../script.js';
+    import { pm } from 'postmessage-polyfill';
+    import { fetch as fetchPolyfill } from 'whatwg-fetch';
 
-    window.postMessage = function(message) {
+    window.postMessage = function (message) {
         pm({
             origin: 'http://127.0.0.1/:3000',
             target: window,
@@ -41,36 +41,41 @@ exports.demojs = `
 `;
 
 exports.indexjs = `
-    if (process.env.NODE_ENV === 'production') {
-        module.exports = require('./cjs/test-name.production.min.js');
-    } else {
-        module.exports = require('./cjs/test-name.development.js');
-    }
+    import TestName from './script.js';
+    import * as bundle from './dist/test-name.development.js';
+
+    export {
+        TestName,
+        bundle,
+    };
 `;
 
 exports.packagejson = `
 {
     "name": "test-name",
     "version": "1.0.0",
-    "description": "A component for Coherent Labs Gameface.",
+    "description": "AcomponentforCoherentLabsGameface.",
+    "sideEffects": [
+        "./demo/demo.js",
+        "./script.js"
+    ],
     "main": "script.js",
     "repository": {
-      "type": "git",
-      "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/test-name"
+        "type": "git",
+        "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/test-name"
     },
     "keywords": [
-      "UI",
-      "Component"
+        "UI",
+        "Component"
     ],
     "dependencies": {
-      "coherent-gameface-components": "^1.4.0",
-      "postmessage-polyfill": "1.0.0",
-      "whatwg-fetch": "3.4.1"
+        "coherent-gameface-components": "^1.4.0",
+        "postmessage-polyfill": "1.0.0",
+        "whatwg-fetch": "3.4.1"
     },
-
     "author": "CoherentLabs",
     "license": "ISC"
-  }
+}
 `;
 
 exports.READMEmd = `

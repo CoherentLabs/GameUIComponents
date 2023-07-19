@@ -18,7 +18,7 @@ describe('build component test', () => {
         rimraf.sync(componentFolderPath);
     });
 
-    test('Builds a component CJS and UMD modules from source', () => {
+    test('Builds a component dist modules from source', () => {
         // create a component
         execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
 
@@ -27,25 +27,16 @@ describe('build component test', () => {
         // build the component's umd and cjs bundles
         execSync(`node ../../index.js build`, { cwd: componentSourcePath, stdio: 'inherit', encoding: 'utf8' });
         // check inf the bundle folders were created
-        const hasBundles = folderContainsFiles(componentSourcePath, ['umd', 'cjs']);
+        const hasBundles = folderContainsFiles(componentSourcePath, ['dist']);
         expect(hasBundles).toBe(true);
     });
 
-    test('Has UMD files', () => {
-        // check if the UMD JavaScript bundles were created
-        const hasUMDBundles = folderContainsFiles(
-            path.join(componentSourcePath, 'umd'),
+    test('Has dist files', () => {
+        // check if the dist JavaScript bundles were created
+        const hasBundles = folderContainsFiles(
+            path.join(componentSourcePath, 'dist'),
             [`${componentName}.development.js`, `${componentName}.production.min.js`]);
 
-        expect(hasUMDBundles).toBe(true);
-    });
-
-    test('Has CJS files', () => {
-        // check if the CJS JavaScript bundles were created
-        const hasUMDBundles = folderContainsFiles(
-            path.join(componentSourcePath, 'cjs'),
-            [`${componentName}.development.js`, `${componentName}.production.min.js`]);
-
-        expect(hasUMDBundles).toBe(true);
+        expect(hasBundles).toBe(true);
     });
 });

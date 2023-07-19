@@ -7,5 +7,6 @@ dist/
 esm/
 **.tgz
 components/**/bundle.js
+components/**/dist.js
 .eslintcache
 docs/hugo_stats.json

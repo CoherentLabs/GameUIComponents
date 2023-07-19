@@ -8,20 +8,22 @@ Installation
 
 Usage
 ===================
-The gameface-scrollable-container component comes with UMD and CJS builds.
+The gameface-scrollable-container component exports the following objects:
+- bundle - production and development builds, ready for use in the browser
+- ScrollableContainer - the source file that imports its dependencies
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ~~~~
 
 * import the gameface-scrollable-container component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-scrollable-container/dist/scrollable-container.production.min.js"></script>
 ~~~~
 
 * add the gameface-scrollable-container component to your html:
@@ -37,28 +39,11 @@ which import the components and the gameface-scrollable-container from the node_
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import GamefaceScrollableContainer from 'coherent-gameface-scrollable-container';
+import { ScrollableContainer } from 'coherent-gameface-scrollable-container';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
-
-~~~~{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceScrollableContainer from './node_modules/coherent-gameface-scrollable-container/umd/scrollable-container.production.min.js';
-~~~~
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const GamefaceScrollableContainer = require('coherent-gameface-scrollable-container');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to use them in a browser.
+modules from the node_modules folder.
 
 ## Manually showing and resizing the scrollbar
 

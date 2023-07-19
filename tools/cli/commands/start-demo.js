@@ -6,7 +6,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const webpackBaseConfig = require('../config/webpack-base-config');
+const webpackDemoConfig = require('../config/webpack-demo-config');
 
 const PORT = 3000;
 const pathToDemo = path.resolve(path.join(process.cwd(), 'demo'));
@@ -24,7 +24,7 @@ const devServerOptions = {
     port: PORT,
 };
 
-const webpackConfig = { ...webpackBaseConfig, devServer: devServerOptions };
+const webpackConfig = { ...webpackDemoConfig, devServer: devServerOptions };
 
 /**
  * Will start the demo

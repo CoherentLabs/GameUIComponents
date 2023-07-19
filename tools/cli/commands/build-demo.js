@@ -4,25 +4,16 @@
  *--------------------------------------------------------------------------------------------*/
 
 const webpack = require('webpack');
-const webpackBaseConfig = require('../config/webpack-base-config');
+const webpackDemoConfig = require('../config/webpack-demo-config');
 
 /**
  * Builds the demo of the component.
  * @param {boolean} [dev=false]
 */
 function buildDemo(dev = false) {
-    webpack({
-        ...webpackBaseConfig,
-        ...{
-            mode: dev ? 'development' : 'production',
-            devtool: false,
-        },
-    }, (err, stats) => { // Stats Object
-        if (err) {
+    webpack(webpackDemoConfig, (err, stats) => { // Stats Object
+        if (err || stats.hasErrors()) {
             console.error(err);
-        }
-        if (stats.hasErrors()) {
-            console.error(stats.compilation.getErrors().join('\n'));
         }
     });
 }

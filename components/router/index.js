@@ -4,8 +4,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/router.production.min.js');
-} else {
-    module.exports = require('./cjs/router.development.js');
-}
+import { Router, Route, BrowserHistory, HashHistory } from './router';
+import * as bundle from './dist/router.development';
+
+export {
+    Router,
+    Route,
+    BrowserHistory,
+    HashHistory,
+    bundle,
+};

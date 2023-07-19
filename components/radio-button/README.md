@@ -4,20 +4,22 @@ The radio-button is part of the Gameface custom components suite.
 
 Usage
 ===================
-The radio-button component comes with UMD and CJS builds.
+The radio-button component exports two objects:
+- bundle - production and development builds, ready for use in the browser
+- GamefaceRadioGroup - the source file that imports its dependencies
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ~~~~
 
 * import the radio-button component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-radio-button/umd/coherent-gameface-radio-button.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-radio-button/dist/coherent-gameface-radio-button.production.min.js"></script>
 ~~~~
 
 * add the radio-button group and button custom Elements to your html:
@@ -35,24 +37,12 @@ Import using ES modules:
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import radioButton from 'coherent-gameface-radio-button';
+import { GamefaceRadioGroup } from 'coherent-gameface-radio-button';
 ~~~~
 
 Note that this approach requires a module bundler like
 [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/)
 to resolve the modules from the node_modules folder.
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const radioButton = require('coherent-gameface-radio-button');
-~~~~
-
-The CommonJS(CJS) modules are native for NodeJS environment, be sure to use a
-module bundler in order to be able to import the components in a browser.
 
 # Configuration and Usage
 

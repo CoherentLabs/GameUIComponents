@@ -7,20 +7,22 @@ The gameface-text-field is part of the Gameface custom components suite. As most
 
 # Usage
 
-The gameface-text-field component comes with UMD and CJS builds.
+The gameface-text-field component exports the following objects:
+- bundle - production and development builds, ready for use in the browser
+- TextField - the source file that imports its dependencies
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ```html
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ```
 
 * import the gameface-text-field component:
 
 ```html
-<script src="./node_modules/coherent-gameface-text-field/umd/text-field.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-text-field/dist/text-field.production.min.js"></script>
 ```
 
 * add the gameface-text-field component to your HTML:
@@ -36,28 +38,11 @@ which import the components and the text-field from the node_modules folder and 
 
 ```javascript
 import components from 'coherent-gameface-components';
-import TextField from 'coherent-gameface-text-field';
+import { TextField } from 'coherent-gameface-text-field';
 ```
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively, you can import them directly from node_modules:
-
-```javascript
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import TextField from './node_modules/coherent-gameface-text-field/umd/text-field.production.min.js';
-```
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-```javascript
-const components = require('coherent-gameface-components');
-const TextField = require('coherent-gameface-text-field');
-```
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler to use them in a browser.
+modules from the node_modules folder.
 
 # Text field attributes
 

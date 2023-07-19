@@ -4,8 +4,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/progress-bar.production.min.js');
-} else {
-    module.exports = require('./cjs/progress-bar.development.js');
-}
+import ProgressBar from './script.js';
+import * as bundle from './dist/progress-bar.development.js';
+
+export {
+    ProgressBar,
+    bundle,
+};

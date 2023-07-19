@@ -3,24 +3,25 @@ The gameface-switch is part of the Gameface custom components suite. As most of 
 
 Usage
 ===================
-
-The gameface-switch component comes with UMD and CJS builds.
+The gameface-switch component exports the following objects:
+- bundle - production and development builds, ready for use in the browser
+- Switch - the source file that imports its dependencies
 
 ## Installation
 `npm i coherent-gameface-switch`
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 -   import the components library:
 
 ```{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ```
 
 -   import the gameface-switch component:
 
 ```{.html}
-<script src="./node_modules/coherent-gameface-switch/umd/switch.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-switch/dist/switch.production.min.js"></script>
 ```
 
 -   add the gameface-switch component to your html:
@@ -36,28 +37,11 @@ which import the components and the switch from the node_modules folder and impo
 
 ```{.js}
 import components from 'coherent-gameface-components';
-import switch from 'coherent-gameface-switch';
+import { Switch } from 'coherent-gameface-switch';
 ```
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
-
-```{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import switch from './node_modules/coherent-gameface-switch/umd/switch.production.min.js';
-```
-
-## Usage with CJS modules:
-
--   Import the components library:
-
-```{.js}
-const components = require('coherent-gameface-components');
-const switch = require('coherent-gameface-switch');
-```
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
+modules from the node_modules folder.
 
 ## Add the styles
 

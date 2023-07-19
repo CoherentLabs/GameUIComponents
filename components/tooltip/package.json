@@ -1,8 +1,13 @@
 {
   "name": "coherent-gameface-tooltip",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "A tooltip component for Coherent Labs' Gameface.",
   "main": "index.js",
+  "sideEffects": [
+    "./demo/demo.js",
+    "./script.js",
+    "./index.js"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,7 +21,7 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.4.0",
+    "coherent-gameface-components": "^2.0.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
