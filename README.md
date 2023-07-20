@@ -484,3 +484,92 @@ Also, a common way to be able to call both Python2 and Python3 executions of scr
 This way you will be able to easily call a script like so - `python3 somescript.py` - and let it be executed by Python3
 
 You can also opt for a [virtualenv setup](https://help.dreamhost.com/hc/en-us/articles/215489338-Installing-and-using-virtualenv-with-Python-2).
+
+# Update versions in the package.json files of components
+
+When you update a component or component library source then you need to bump the version in the package.json. However, some components depend on others so you need to bump the component dependencies versions as well.
+
+Because we are using the `^` notation updating the dependencies versions should be done when you do a major update of the main package because it won't be backward compatible anymore. Check the next sections for examples.
+
+## When you don't need to update the dependencies versions
+
+### Patch update
+
+```diff
+{
+    "name": "coherent-gameface-components",
+-    "version": "1.4.0"
++    "version": "1.4.1"
+}
+```
+
+```diff
+{
+    "name": "coherent-gameface-slider",
+    "version": "1.3.0"
+    ...
+    "dependencies": {
+        "coherent-gameface-components": "^1.4.0"
+    }
+}
+```
+
+In this case, you don't need to update the coherent-gameface-components dependency in the gameface-slider package.json file because `npm i` will install the latest minor or patch version of the components library.
+
+### Minor update 
+
+```diff
+{
+    "name": "coherent-gameface-components",
+-    "version": "1.4.0"
++    "version": "1.5.0"
+}
+```
+
+```diff
+{
+    "name": "coherent-gameface-slider",
+    "version": "1.3.0"
+    ...
+    "dependencies": {
+        "coherent-gameface-components": "^1.4.0"
+    }
+}
+```
+
+In this case, you don't need to update the coherent-gameface-components dependency in the gameface-slider package.json file because `npm i` will install the latest minor or patch version of the components library.
+
+### Major update
+
+```diff
+{
+    "name": "coherent-gameface-components",
+-    "version": "1.4.0"
++    "version": "2.0.0"
+}
+```
+
+```diff
+{
+    "name": "coherent-gameface-slider",
+-    "version": "1.3.0"
++    "version": "2.0.0"
+    ...
+    "dependencies": {
+-        "coherent-gameface-components": "^1.4.0"
++        "coherent-gameface-components": "^2.0.0"
+    }
+}
+```
+
+In this case, you need to update the coherent-gameface-components dependency in the slider package.json file because it is a major update and it is not backwards compatible.
+
+**Also see that here the version of the slider is updated as well!**
+
+## Auto update versions
+
+Instead of manually updating all the versions of the dependencies when you have a major update you can directly use the `update-versions.js` script for that purpose.
+
+To use it first change the major version of all the modules that are updated (`coherent-gameface-component` for example as above) and then run `npm run update-versions` in the repo root.
+
+The script is going to check all the new updated versions and then iterate through all the components and reflect the update in the version of the dependencies as it is done manually [here](#major-update).
