@@ -73,21 +73,17 @@ function getUpdatedPackageVersion(update, currentFullVersion) {
 function updateDependencies(packageJSONPath, { moduleVersion, name }) {
     const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath, { encoding: 'utf-8' }));
     const packageVersion = packageJSON.version;
-    if (!packageJSON.dependencies) return;
+    if (!packageJSON.dependencies || !packageJSON.dependencies[name]) return console.log(`Did not found '${name}' as dependency in '${packageJSON.name}'.`);
 
-    if (!packageJSON.dependencies[name]) return;
     const dependencyVersion = packageJSON.dependencies[name].replace('^', '');
-
     const { update, versionUpdate } = getVersionDiff(moduleVersion, dependencyVersion);
     // We should update the dependency just if it has major update!
     if (!update || update !== 'major') return;
     const newDependencyVersion = getNewVersion(update, dependencyVersion, versionUpdate);
-
     if (newDependencyVersion === dependencyVersion) return;
 
     console.log(`Updating '${name}' dependency for ${packageJSON.name} from ${dependencyVersion} to ${newDependencyVersion}`);
     packageJSON.dependencies[name] = `^${newDependencyVersion}`;
-
     // If major update has been done of some dependency then update the package major versions as well
     // because the backwards compatability will be broken
     // Also check if the package version has been updated already to prevent updating it twice.

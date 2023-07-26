@@ -487,9 +487,9 @@ You can also opt for a [virtualenv setup](https://help.dreamhost.com/hc/en-us/ar
 
 # Update versions in the package.json files of components
 
-When you update a component or component library source then you need to bump the version in the package.json. However, some components depend on others so you need to bump the component dependencies versions as well.
+When you update a component or the component library source then you need to bump the version in the package.json so they can be published automatically. However, some components depend on others so you need to bump the component dependencies versions as well.
 
-Because we are using the `^` notation updating the dependencies versions should be done when you do a major update of the main package because it won't be backward compatible anymore. Check the next sections for examples.
+Because we are using the `^` notation, updating the dependencies versions should be done when you do a major version update of the main package because it won't be backward compatible anymore. Check the next sections for examples.
 
 ## When you don't need to update the dependencies versions
 
