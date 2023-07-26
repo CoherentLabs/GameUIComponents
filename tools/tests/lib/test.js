@@ -37,7 +37,7 @@ describe('Components Library', () => {
 
         const loadedResource = await components.loadResource(component);
         assert(loadedResource !== undefined, 'Resource was not loaded.');
-        assert(loadedResource.template.textContent === 'This is a dummy template.', 'The template of the loaded resource is not correct.');
+        assert(loadedResource.template === '<div>This is a dummy template.</div>', 'The template of the loaded resource is not correct.');
     });
 
     it('Should find slots', () => {

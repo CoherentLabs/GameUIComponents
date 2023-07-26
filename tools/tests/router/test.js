@@ -90,8 +90,8 @@ function setupPage() {
             components.loadResource(this)
                 .then((result) => {
                     this.template = result.template;
-                    this.template.textContent = this.model.join(',');
                     components.renderOnce(this);
+                    this.textContent = this.model.join(',');
                 })
                 .catch(err => console.error(err));
         }

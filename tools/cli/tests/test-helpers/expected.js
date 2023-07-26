@@ -63,7 +63,7 @@ exports.packagejson = `
       "Component"
     ],
     "dependencies": {
-      "coherent-gameface-components": "^1.0.5",
+      "coherent-gameface-components": "^1.4.0",
       "postmessage-polyfill": "1.0.0",
       "whatwg-fetch": "3.4.1"
     },

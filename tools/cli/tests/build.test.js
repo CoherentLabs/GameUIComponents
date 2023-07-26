@@ -23,9 +23,9 @@ describe('build component test', () => {
         execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
 
         // install the component's dependencies
-        execSync(`cd ${componentSourcePath} && npm i`, { encoding: 'utf8' });
+        execSync(`npm link coherent-gameface-components && npm i`, { cwd: componentSourcePath, stdio: 'inherit', encoding: 'utf8' });
         // build the component's umd and cjs bundles
-        execSync(`cd ${componentSourcePath} && node ../../index.js build`, { encoding: 'utf8' });
+        execSync(`node ../../index.js build`, { cwd: componentSourcePath, stdio: 'inherit', encoding: 'utf8' });
         // check inf the bundle folders were created
         const hasBundles = folderContainsFiles(componentSourcePath, ['umd', 'cjs']);
         expect(hasBundles).toBe(true);

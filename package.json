@@ -22,7 +22,7 @@
     "pack": "node ./scripts/pack.js",
     "pack:library": "node ./scripts/pack.js --directory ./lib",
     "build:demo": "node ./scripts/build-demo.js",
-    "rebuild": "npm i && npm run clean && npm run build:library && npm run pack:library && npm run build && npm run build:demo && npm run build:im",
+    "rebuild": "npm i && npm run clean && npm run link && npm run build:library && npm run pack:library && npm run build && npm run build:demo && npm run build:im",
     "test": "node ./scripts/test.js",
     "test:Chrome": "node ./scripts/test.js -- --browsers Chrome",
     "publish": "node ./scripts/publish.js",

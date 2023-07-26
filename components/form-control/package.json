@@ -13,7 +13,7 @@
     "Form"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.3.0",
+    "coherent-gameface-components": "^1.4.0",
     "coherent-gameface-checkbox": "^1.2.0",
     "coherent-gameface-radio-button": "^1.1.0",
     "coherent-gameface-switch": "^1.1.0",
