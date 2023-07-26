@@ -18,10 +18,14 @@ export async function submitForm(formElement, shouldWaitForServerResponse = true
     if (!shouldWaitForServerResponse) {
         if (hasLoadendEvent) {
             return new Promise((resolve) => {
-                formElement.addEventListener('loadend', (event) => {
+                const loadendHandler = (event) => {
                     document.getElementById('form-response').textContent = event.detail.target.response;
+                    // Remove event listener because it has been trigered again in the next form submit test after the form element is cleared in the Player.
+                    formElement.removeEventListener('loadend', loadendHandler);
                     return resolve(true);
-                });
+                };
+
+                formElement.addEventListener('loadend', loadendHandler);
                 click(submitButton);
             });
         } else {
