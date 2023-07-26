@@ -29,7 +29,8 @@
     "lint:errors": "eslint \"./**/*.js\" --quiet",
     "lint:all": "eslint \"./**/*.js\"",
     "lint:fix": "eslint \"./**/*.js\" --fix",
-    "deploy-gh-pages": "node ./scripts/publish-gh-pages.js"
+    "deploy-gh-pages": "node ./scripts/publish-gh-pages.js",
+    "update-versions": "node ./scripts/update-versions.js"
   },
   "husky": {
     "hooks": {

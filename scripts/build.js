@@ -11,6 +11,7 @@ const strip = require('@rollup/plugin-strip').default;
 const html = require('rollup-plugin-html');
 const buildCssComponents = require('./build-style-component');
 const copyCSSTheme = require('./copy-theme');
+const { getComponentDirectories } = require('./utils');
 
 const { execSync } = require('child_process');
 
@@ -26,14 +27,6 @@ const ENVIRONMENTS = [
     'prod',
     'dev',
 ];
-
-/**
- * Get all folder names within the components folder.
- * @returns {Array<string>}
-*/
-function getComponentDirectories() {
-    return fs.readdirSync(path.join(__dirname, '../components'));
-}
 
 /**
  * Creates an object of output options for rollup.
@@ -108,13 +101,7 @@ function installDependencies(componentPath) {
 */
 async function buildEverything() {
     buildComponentsLibrary();
-    let components = getComponentDirectories();
-    const ordered = ['slider', 'scrollable-container', 'dropdown'];
-
-    // get only the elements that are not included in the ordered list
-    components = components.filter(el => !ordered.includes(el));
-    // add the ['scrollable-container', 'dropdown'] in the order they should be build
-    components = [...components, ...ordered];
+    const components = getComponentDirectories(['slider', 'scrollable-container', 'dropdown']);
 
     for (const component of components) {
         const componentPath = path.join(__dirname, '../components', component);

@@ -6,21 +6,14 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
-
-/**
- * Get all folder names within the components folder.
- * @returns {Array<string>}
-*/
-function getComponentDirectories() {
-    return fs.readdirSync(path.join(__dirname, '../components'));
-}
+const { getComponentDirectories } = require('./utils');
 
 /**
  * Calls buildForTargets for all components and passes all environments
  * and formats as targets. Builds the components library first.
 */
 function buildAllDemos() {
-    const components = getComponentDirectories();
+    const components = getComponentDirectories(['slider', 'scrollable-container', 'dropdown']);
 
     for (const component of components) {
         const pathToDemo = path.resolve(path.join(__dirname, '../components', component, 'demo'));
