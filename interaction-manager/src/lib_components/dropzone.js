@@ -24,6 +24,7 @@ class Dropzone extends DragBase {
      * @property {function} onDragEnd
      * @property {function} onDropZoneEnter
      * @property {function} onDropZoneLeave
+     * @property {function} onDrop
      */
 
     /**
@@ -253,6 +254,18 @@ class Dropzone extends DragBase {
      */
     handleDrop() {
         let dropType = this.options.dropType;
+
+        const eventData = {
+            preventDefault: () => {
+                dropType = 'ignore';
+            },
+            target: this.draggedElement,
+            dropzone: this.draggedOver,
+        };
+
+        this.options.onDrop && this.options.onDrop(eventData);
+
+        if (dropType === 'ignore') return;
 
         if (this.draggedOver.children.length === 0) dropType = 'add';
 
