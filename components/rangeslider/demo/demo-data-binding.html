@@ -1,0 +1,136 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="../styles/horizontal.css">
+    <link rel="stylesheet" href="../styles/vertical.css">
+
+    <style>
+        body {
+            background-color: white;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body class="guic-demo">
+    <!-- TODO - support min-max attributes -->
+    <gameface-rangeslider orientation="horizontal" grid thumb
+        data-bind-guic-rangeslider-value="{{model.rangeSlider1.value}}">
+    </gameface-rangeslider>
+
+    <gameface-rangeslider orientation="horizontal" grid thumb two-handles step="20"
+        data-bind-guic-rangeslider-value="{{model.rangeSlider2.value}}">
+    </gameface-rangeslider>
+
+    <div class="flex-container">
+        <gameface-rangeslider orientation="horizontal" grid custom-handle='#myValue1'
+            data-bind-guic-rangeslider-value="{{model.rangeSlider3.value}}">
+        </gameface-rangeslider>
+        <span>Current value: <span id="myValue1"></span></span>
+    </div>
+
+    <gameface-rangeslider orientation="horizontal" grid thumb value="Hard"
+        values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+        data-bind-guic-rangeslider-value="{{model.rangeSlider4.value}}" step="20">
+    </gameface-rangeslider>
+
+    <div class="flex-container">
+        <gameface-rangeslider orientation="horizontal" grid custom-handle="#myValue4" value="Hard"
+            values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+            data-bind-guic-rangeslider-value="{{model.rangeSlider5.value}}" step="20">
+        </gameface-rangeslider>
+        <span>Current value: <span id="myValue4"></span></span>
+    </div>
+
+    <p class="flex-container">
+        <gameface-rangeslider orientation="vertical" grid thumb
+            data-bind-guic-rangeslider-value="{{model.rangeSlider1.value}}" step="20">
+        </gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical" value="Hard"
+            values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
+            data-bind-guic-rangeslider-value="{{model.rangeSlider4.value}}" grid thumb step="20">
+        </gameface-rangeslider>
+        <gameface-rangeslider orientation="vertical" min="56" max="255"
+            data-bind-guic-rangeslider-value="{{model.rangeSlider2.value}}" grid thumb two-handles step="20">
+        </gameface-rangeslider>
+    </p>
+
+    <div class="flex-container">
+        <div class="flex-container">
+            <gameface-rangeslider orientation="vertical" min="56" max="255" grid custom-handle="#myValue5"
+                data-bind-guic-rangeslider-value="{{model.rangeSlider3.value}}" step="20">
+            </gameface-rangeslider>
+            <span>Current value: <span id="myValue5"></span></span>
+        </div>
+
+        <div class="flex-container">
+            <gameface-rangeslider orientation="vertical" value="Hard"
+                values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]' grid custom-handle="#myValue6"
+                data-bind-guic-rangeslider-value="{{model.rangeSlider5.value}}" step="20">
+            </gameface-rangeslider>
+            <span>Current value: <span id="myValue6"></span></span>
+        </div>
+
+        <div class="flex-container">
+            <gameface-rangeslider orientation="vertical" min="56" max="255" grid custom-handle-left="#myValue7"
+                custom-handle-right="#myValue8" two-handles
+                data-bind-guic-rangeslider-value="{{model.rangeSlider3.value}}" step="20">
+            </gameface-rangeslider>
+            <span>Current value: <span id="myValue7"></span></span>
+            <span style="margin-left: 10px;">Current value: <span id="myValue8"></span></span>
+        </div>
+
+    </div>
+
+    <script src="./bundle.js"></script>
+    <script src="./cohtml.js"></script>
+    <script>
+        engine.on('Ready', () => {
+            const values = ["Easy", "Normal", "Hard", "Expert", "Nightmare"]
+            const model = {
+                rangeSlider1: {
+                    value: [50]
+                },
+                rangeSlider2: {
+                    value: [70, 90]
+                },
+                rangeSlider3: {
+                    value: [20]
+                },
+                rangeSlider4: {
+                    value: 'Expert'
+                },
+                rangeSlider5: {
+                    value: 'Normal'
+                },
+            }
+
+            engine.createJSModel('model', model);
+            engine.synchronizeModels();
+
+            setInterval(() => {
+                for (const key of Object.keys(model)) {
+                    switch (key) {
+                        case 'rangeSlider4':
+                        case 'rangeSlider5': model[key].value = values[parseInt(Math.random() * 5)]; break;
+                        default: model[key].value[0] = Math.random() * 100;
+                    }
+                }
+
+                engine.updateWholeModel(model);
+                engine.synchronizeModels();
+            }, 1000)
+        });
+    </script>
+</body>
+
+</html>

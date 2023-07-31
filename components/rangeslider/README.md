@@ -60,11 +60,10 @@ const RangeSlider = require('coherent-gameface-rangeslider');
 The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
 bundler in order to be use them in a browser.
 
-
-
 ## How to use
 
 To use simply add
+
 ~~~~{.html}
 <gameface-rangeslider></gameface-rangeslider>
 ~~~~
@@ -99,3 +98,62 @@ You can use the following attributes to customize the rangeslider
 <gameface-rangeslider orientation="vertical" min="56" max="255" grid thumb step="20"><gameface-rangeslider>
 
 ~~~~
+
+## Range-slider with data-binding
+
+It is very convinient to control range-slider runtime via data-binding. For this puprose we exposed some custom binding attributes that are usefull when you have a model with data about range-slider/s and want to bound it with the component. Like that updating the model will update the range-slider component dynamically as well.
+
+Check the next subsections so you get to know how to use these custom attributes.
+
+### Bound range-slider value
+
+The range-slider value can be controlled dynamically via the `data-bind-guic-rangeslider-value` attribute. When the value is changed in the model then the range-slider thumb will be automatically set to the right position based on value data.
+
+For example you can use the attribute like that in the HTML:
+
+```html
+<range-slider data-bind-guic-rangeslider-value="{{model.rangeSliderValue}}"></range-slider>
+```
+
+and then you can initialize the model like that
+
+```js
+engine.on('Ready', () => {
+    const model = {
+        rangeSliderValue: [50]
+    }
+
+    engine.createJSModel('model', model);
+    engine.synchronizeModels();
+});
+```
+
+That example will directly set `50` as a value to the range-slider. After that you can runtime update the model and the range-slider will be updated as well.
+
+```js
+model.rangeSliderValue: [20];
+engine.updateWholeModel(model);
+engine.synchronizeModels();
+```
+
+**Note that the model value should have the following syntax: `[50]` or `'Option 1'`**.
+
+* Array with single value - used for range-slider when the `two-handles` attribute is not used. For example `[50]`
+* String - used for range-slider when the `values` attribute is used. For example if the `values` attribute is `"['Option 1', 'Option 2', 'Option 3']"` then the `'Option 2'` will set the second option as a current value to the range-slider.
+
+```html
+<range-slider data-bind-guic-rangeslider-value="{{model.rangeSliderValue}}" values="['Option 1', 'Option 2', 'Option 3']"></range-slider>
+<script>
+    const model = {
+        rangeSliderValue: 'Option 2'
+    }
+
+    engine.createJSModel('model', model);
+    engine.synchronizeModels();
+</script>
+```
+
+### Limitations
+
+* Currently setting two values when the range-slider has `two-handles` attribute is not supported! For example `[50, 60]` as value will not work.
+* When the range-slider has `value` attribute and the `data-bind-guic-rangeslider-value` it will use the bound value with higher priority and will discard the one in the normal attribute.

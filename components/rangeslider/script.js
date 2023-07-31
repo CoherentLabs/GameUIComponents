@@ -4,13 +4,14 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import components from 'coherent-gameface-components';
+import components from '../../lib/components';
 import verticalTemplate from './templates/vertical.html';
 import verticalTemplateTwoHandles from './templates/verticalTwoHandles.html';
 import horizontalTemplate from './templates/horizontal.html';
 import horizontalTemplateTwoHandles from './templates/horizontalTwoHandles.html';
 import { orientationUnitsNames } from './orientationUnitsNames';
 
+let registeredBindingAttributes = false;
 const ORIENTATIONS = ['vertical', 'horizontal'];
 const SPACE_BETWEEN_GRID_POLS = 10;
 const CustomElementValidator = components.CustomElementValidator;
@@ -97,8 +98,48 @@ class Rangeslider extends CustomElementValidator {
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.init = this.init.bind(this);
+        this.registerBindingAttributes();
     }
 
+    /**
+     * Will registed data-bind-guic-rangeslider-value attribute
+     */
+    registerBoundValueAttribute() {
+        this.registerBindingAttribute('value', class extends components.BaseDataBindingAttribute {
+            // eslint-disable-next-line require-jsdoc
+            constructor() {
+                super();
+                this.initializing = true;
+            }
+            // eslint-disable-next-line require-jsdoc
+            init(element, value) {
+                // Wait 4 frames because the setup function waits 3 frames
+                // If we directly set the rangeslider value it will fails because init method is called in the same time setup
+                // but the setup will wait for 3 frames until it initialize everything about the rangeslider...
+                // We can't set value until everything is setup.
+                components.waitForFrames(() => {
+                    element.setRangliderValue(value);
+                    this.initializing = false;
+                }, 4);
+            }
+            // eslint-disable-next-line require-jsdoc
+            update(element, value) {
+                // Prevent the first update call because it will be executed in the same time with the init method
+                if (this.initializing) return;
+                element.setRangliderValue(value);
+            }
+        });
+    }
+
+    /**
+     * Will register all data-binding attributes of the rangeslider
+     */
+    registerBindingAttributes() {
+        if (registeredBindingAttributes) return;
+
+        this.registerBoundValueAttribute();
+        registeredBindingAttributes = true;
+    }
     /**
      * Will display a custom error if the slider has two handles and it is wrapped inside a gameface form control element
      * @returns {boolean}
@@ -386,6 +427,25 @@ class Rangeslider extends CustomElementValidator {
 
         this.min = this.getAttribute('min') || 0;
         this.max = this.getAttribute('max') || 100;
+    }
+
+    /**
+     * Will update the rangeslider value/s and re-render it.
+     * IMPORTANT - This method works just when the rangeslider has single handle and will not with two handles.
+     * @param {Array<number|string>} value
+     * @returns {void}
+     */
+    setRangliderValue(value) {
+        if (this.twoHandles) return;
+
+        let percent = null;
+        if (this.hasValuesArray) {
+            percent = this._values.findIndex(el => el == value) * (100 / this._values.length);
+        } else {
+            percent = Rangeslider.valueToPercent(value, this.min, this.max);
+        }
+
+        this.updateSliderPosition(percent, 0);
     }
 
     /**

@@ -9,3 +9,4 @@ tools/tests/cohtml.js
 esm/
 umd/
 dist/
+components/**/cohtml.js
