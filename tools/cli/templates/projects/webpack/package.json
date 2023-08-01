@@ -1,0 +1,30 @@
+{
+  "name": "gameface-webpack-project",
+  "version": "1.0.0",
+  "description": "Am environment for Gameface components with Webpack",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --env production",
+    "build:dev": "webpack --env development",
+    "dev": "webpack serve"
+  },
+  "dependencies": {
+    "coherent-gameface-checkbox": "^1.2.0",
+    "coherent-gameface-grid": "^1.0.3"
+  },
+  "devDependencies": {
+    "html-loader": "^4.2.0",
+    "mini-css-extract-plugin": "^2.7.6",
+    "postmessage-polyfill": "^1.0.0",
+    "webpack": "^5.88.0",
+    "whatwg-fetch": "^3.6.2",
+    "css-loader": "^6.8.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.3",
+    "style-loader": "^3.3.3",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
