@@ -80,7 +80,7 @@ The type of action to take, when you drop an element over a dropzone that alread
 | none   | Returns the dragged element to the initial position           |
 | switch | Switches the dragged element with the element in the dropzone |
 | add    | Adds the dragged element to the dropzone                      |
-| shift  | Shifts the element to the nearest empty dropzone"             |
+| shift  | Shifts the element to the nearest empty dropzone              |
 
 **Example**
 
@@ -142,6 +142,28 @@ type onDropZoneEnter = () => {}
 ```
 
 Executes when you drag an element over a dropzone
+
+### onDrop
+
+Type:
+
+```{.javascript}
+type onDrop = (dropEventData) => {}
+```
+
+Executes when an element is dropped in a dropzone.
+
+#### dropEventData
+
+```{.javascript}
+type dropEventData = {
+    preventDefault: () => {} //preventDefault stops the element from being dropped. Useful when you want to have a backend handle the element move
+    target: HTMLElement,
+    dropzone: HTMLElement,
+}
+```
+
+{{< alert icon="💡" text="Note: Using asynchronous operations inside the event callback will stop preventDefault from working. To workaround that, use dropType: 'ignore' to simulate the same effect." />}}
 
 ## Actions
 
