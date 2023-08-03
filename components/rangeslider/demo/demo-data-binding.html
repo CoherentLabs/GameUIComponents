@@ -4,8 +4,7 @@
 
 <head>
     <link rel="stylesheet" href="../coherent-gameface-components-theme.css">
-    <link rel="stylesheet" href="../styles/horizontal.css">
-    <link rel="stylesheet" href="../styles/vertical.css">
+    <link rel="stylesheet" href="../style.css">
 
     <style>
         body {
@@ -22,9 +21,24 @@
 </head>
 
 <body class="guic-demo">
+    <h1>Data-bind-for range-sliders</h1>
+    <div class="flex-container">
+        <gameface-rangeslider class="multiple-sliders" data-bind-for="rangeSlider:{{model.rangeSliders}}"
+            data-bind-guic-rangeslider-orientation="{{rangeSlider.orientation}}"
+            data-bind-guic-rangeslider-max="{{rangeSlider.max}}" data-bind-guic-rangeslider-min="{{rangeSlider.min}}"
+            data-bind-guic-rangeslider-value="{{rangeSlider.value}}"
+            data-bind-guic-rangeslider-grid="{{rangeSlider.grid}}"
+            data-bind-guic-rangeslider-thumb="{{rangeSlider.thumb}}"></gameface-rangeslider>
+    </div>
     <!-- TODO - support min-max attributes -->
     <gameface-rangeslider orientation="horizontal" grid thumb
-        data-bind-guic-rangeslider-value="{{model.rangeSlider1.value}}">
+        data-bind-guic-rangeslider-value="{{model.rangeSlider1.value}}"
+        data-bind-guic-rangeslider-two-handles="{{model.rangeSlider1.twoHandles}}">
+    </gameface-rangeslider>
+
+    <gameface-rangeslider orientation="horizontal" grid thumb
+        data-bind-guic-rangeslider-min="{{model.rangeSlider1.min}}"
+        data-bind-guic-rangeslider-max="{{model.rangeSlider1.max}}">
     </gameface-rangeslider>
 
     <gameface-rangeslider orientation="horizontal" grid thumb two-handles step="20"
@@ -38,9 +52,12 @@
         <span>Current value: <span id="myValue1"></span></span>
     </div>
 
-    <gameface-rangeslider orientation="horizontal" grid thumb value="Hard"
-        values='["Easy", "Normal", "Hard", "Expert", "Nightmare"]'
-        data-bind-guic-rangeslider-value="{{model.rangeSlider4.value}}" step="20">
+    <gameface-rangeslider data-bind-guic-rangeslider-orientation="{{model.rangeSlider4.orientation}}"
+        data-bind-guic-rangeslider-grid="{{model.rangeSlider4.grid}}"
+        data-bind-guic-rangeslider-thumb="{{model.rangeSlider4.thumb}}" value="Hard"
+        data-bind-guic-rangeslider-values="{{model.rangeSlider4.values}}"
+        data-bind-guic-rangeslider-value="{{model.rangeSlider4.value}}"
+        data-bind-guic-rangeslider-step="{{model.rangeSlider4.step}}">
     </gameface-rangeslider>
 
     <div class="flex-container">
@@ -81,24 +98,37 @@
         </div>
 
         <div class="flex-container">
-            <gameface-rangeslider orientation="vertical" min="56" max="255" grid custom-handle-left="#myValue7"
-                custom-handle-right="#myValue8" two-handles
-                data-bind-guic-rangeslider-value="{{model.rangeSlider3.value}}" step="20">
+            <gameface-rangeslider orientation="horizontal" grid
+                data-bind-guic-rangeslider-value="{{model.rangeSlider6.value}}"
+                data-bind-guic-rangeslider-custom-handle="{{model.rangeSlider6.customHandle}}" step="20">
             </gameface-rangeslider>
-            <span>Current value: <span id="myValue7"></span></span>
-            <span style="margin-left: 10px;">Current value: <span id="myValue8"></span></span>
+            <span>Current value: <span id="test-handle"></span></span>
+        </div>
+
+        <div class="flex-container">
+            <gameface-rangeslider orientation="horizontal"
+                data-bind-guic-rangeslider-value="{{model.rangeSlider7.value}}"
+                data-bind-guic-rangeslider-custom-handle-left="{{model.rangeSlider7.customHandleLeft}}"
+                data-bind-guic-rangeslider-custom-handle-right="{{model.rangeSlider7.customHandleRight}}" grid
+                two-handles step="20">
+            </gameface-rangeslider>
+            <span>Current value: <span id="test-handle-left"></span></span>
+            <span style="margin-left: 10px;">Current value: <span id="test-handle-right"></span></span>
         </div>
 
     </div>
 
-    <script src="./bundle.js"></script>
     <script src="./cohtml.js"></script>
+    <script src="./bundle.js"></script>
     <script>
         engine.on('Ready', () => {
             const values = ["Easy", "Normal", "Hard", "Expert", "Nightmare"]
             const model = {
                 rangeSlider1: {
-                    value: [50]
+                    value: [50],
+                    twoHandles: false,
+                    min: 10,
+                    max: 150
                 },
                 rangeSlider2: {
                     value: [70, 90]
@@ -107,21 +137,60 @@
                     value: [20]
                 },
                 rangeSlider4: {
-                    value: 'Expert'
+                    value: ['Expert'],
+                    values: ["Easy", "Normal", "Hard", "Expert", "Nightmare"],
+                    step: 20,
+                    orientation: 'horizontal',
+                    grid: true,
+                    thumb: true,
                 },
                 rangeSlider5: {
                     value: 'Normal'
                 },
+                rangeSlider6: {
+                    value: [70],
+                    customHandle: '#test-handle'
+                },
+                rangeSlider7: {
+                    value: [20, 50],
+                    customHandleRight: '#test-handle-right',
+                    customHandleLeft: '#test-handle-left'
+                },
+                rangeSliders: [
+                    {
+                        max: 70,
+                        min: 10,
+                        orientation: 'horizontal',
+                        value: [10]
+                    },
+                    {
+                        max: 150,
+                        min: 0,
+                        orientation: 'vertical',
+                        grid: true,
+                        thumb: true,
+                        value: [100]
+                    }
+                ]
             }
 
             engine.createJSModel('model', model);
             engine.synchronizeModels();
 
+            const multipleSliders = document.querySelectorAll('.multiple-sliders');
+            for (let i = 0; i < multipleSliders.length; i++) {
+                multipleSliders[i].addEventListener('sliderupdate', ({ detail }) => {
+                    // if(model.rangeSliders[i].value === detail[0]) return;
+                    model.rangeSliders[i].value = [detail[0]];
+                    // engine.updateWholeModel(model);
+                });
+            }
             setInterval(() => {
                 for (const key of Object.keys(model)) {
                     switch (key) {
                         case 'rangeSlider4':
                         case 'rangeSlider5': model[key].value = values[parseInt(Math.random() * 5)]; break;
+                        case 'rangeSliders': continue;
                         default: model[key].value[0] = Math.random() * 100;
                     }
                 }

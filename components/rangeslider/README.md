@@ -136,16 +136,16 @@ engine.updateWholeModel(model);
 engine.synchronizeModels();
 ```
 
-**Note that the model value should have the following syntax: `[50]` or `'Option 1'`**.
+**Note that the model value should have the following syntax: `[50]` or `['Option 1']`**.
 
-* Array with single value - used for range-slider when the `two-handles` attribute is not used. For example `[50]`
-* String - used for range-slider when the `values` attribute is used. For example if the `values` attribute is `"['Option 1', 'Option 2', 'Option 3']"` then the `'Option 2'` will set the second option as a current value to the range-slider.
+* Array with a single numeric value - used for range-slider when the `two-handles` attribute is not used. For example `[50]`
+* Array with a single string value - used for range-slider when the `values` attribute is used. For example if the `values` attribute is `"['Option 1', 'Option 2', 'Option 3']"` then the `['Option 2']` will set the second option as a current value to the range-slider.
 
 ```html
 <range-slider data-bind-guic-rangeslider-value="{{model.rangeSliderValue}}" values="['Option 1', 'Option 2', 'Option 3']"></range-slider>
 <script>
     const model = {
-        rangeSliderValue: 'Option 2'
+        rangeSliderValue: ['Option 2']
     }
 
     engine.createJSModel('model', model);
@@ -157,3 +157,42 @@ engine.synchronizeModels();
 
 * Currently setting two values when the range-slider has `two-handles` attribute is not supported! For example `[50, 60]` as value will not work.
 * When the range-slider has `value` attribute and the `data-bind-guic-rangeslider-value` it will use the bound value with higher priority and will discard the one in the normal attribute.
+
+### Other bound range-slider attributes
+
+Range-slider also support a few more bound attributes that can configure it through the data binding model. However, these attribute are currently not supporting update so updating the model runtime won't update those bound attributes.
+They are usefull for initial configuration of the range-slider via the data from the model.
+
+For example you can define a model with configuration for a multiple range-sliders components and use `data-bind-for` to instantiate all of them dynamically in the UI.
+
+```html
+<gameface-rangeslider
+    data-bind-for="rangeSlider:{{model.rangeSliders}}"
+    data-bind-guic-rangeslider-max="{{rangeSlider.max}}"
+    data-bind-guic-rangeslider-min="{{rangeSlider.min}}"
+    data-bind-guic-rangeslider-value="{{rangeSlider.value}}"
+    data-bind-guic-rangeslider-grid="{{rangeSlider.grid}}"
+    data-bind-guic-rangeslider-thumb="{{rangeSlider.thumb}}"
+></gameface-rangeslider>
+<script>
+    const model = {
+        rangeSliders: [
+            {
+                max: 70,
+                min: 10,
+                value: [50]
+            },
+            {
+                max: 150,
+                min: 0,
+                grid: true,
+                thumb: true,
+                value: [100]
+            }
+        ]
+    }
+
+    engine.createJSModel('model', model);
+    engine.synchronizeModels();
+</script>
+```

@@ -5,10 +5,11 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from '../../lib/components';
-import verticalTemplate from './templates/vertical.html';
-import verticalTemplateTwoHandles from './templates/verticalTwoHandles.html';
-import horizontalTemplate from './templates/horizontal.html';
-import horizontalTemplateTwoHandles from './templates/horizontalTwoHandles.html';
+// import verticalTemplate from './templates/vertical.html';
+// import verticalTemplateTwoHandles from './templates/verticalTwoHandles.html';
+// import horizontalTemplate from './templates/horizontal.html';
+// import horizontalTemplateTwoHandles from './templates/horizontalTwoHandles.html';
+import template from './template.html';
 import { orientationUnitsNames } from './orientationUnitsNames';
 
 let registeredBindingAttributes = false;
@@ -102,7 +103,7 @@ class Rangeslider extends CustomElementValidator {
     }
 
     /**
-     * Will registed data-bind-guic-rangeslider-value attribute
+     * Will register data-bind-guic-rangeslider-value attribute
      */
     registerBoundValueAttribute() {
         this.registerBindingAttribute('value', class extends components.BaseDataBindingAttribute {
@@ -113,22 +114,47 @@ class Rangeslider extends CustomElementValidator {
             }
             // eslint-disable-next-line require-jsdoc
             init(element, value) {
-                // Wait 4 frames because the setup function waits 3 frames
-                // If we directly set the rangeslider value it will fails because init method is called in the same time setup
-                // but the setup will wait for 3 frames until it initialize everything about the rangeslider...
-                // We can't set value until everything is setup.
+                element.value = value;
+                // Wait 4 frames because the setup function waits 1 frames and the connectedCallback 3 frames
+                // If we set `initializing` flag to true earlier then the update method is going to be triggered.
+                // Calling setRangeSliderValue before the rangeslider is fully initialized will throw errors.
                 components.waitForFrames(() => {
-                    element.setRangliderValue(value);
                     this.initializing = false;
-                }, 4);
+                }, 3);
             }
             // eslint-disable-next-line require-jsdoc
             update(element, value) {
                 // Prevent the first update call because it will be executed in the same time with the init method
                 if (this.initializing) return;
-                element.setRangliderValue(value);
+                element.setRangeSliderValue(value);
             }
         });
+    }
+
+    /**
+     * Will register custom handle attributes
+     */
+    registerCustomHandleAttributes() {
+        const customHandleAttributes = {
+            SINGLE: 'custom-handle',
+            LEFT: 'custom-handle-left',
+            RIGHT: 'custom-handle-right',
+        };
+
+        for (const key of Object.keys(customHandleAttributes)) {
+            const customHandleVariableName = customHandleVariableNames[key];
+            const attributeName = customHandleAttributes[key];
+
+            this.registerBindingAttribute(attributeName, class extends components.BaseDataBindingAttribute {
+                // eslint-disable-next-line require-jsdoc
+                init(element, value) {
+                    element[customHandleVariableName] = value ?
+                        document.querySelector(value) :
+                        null;
+                    element.validateCustomHandle(value, element[customHandleVariableName]);
+                }
+            });
+        }
     }
 
     /**
@@ -138,6 +164,29 @@ class Rangeslider extends CustomElementValidator {
         if (registeredBindingAttributes) return;
 
         this.registerBoundValueAttribute();
+
+        const attributesMap = [
+            ['two-handles', 'twoHandles'], ['values', '_values'], ['step', 'step'], ['grid', 'grid'],
+            ['thumb', 'thumb'], ['min', 'min'], ['max', 'max'],
+        ];
+        for (const [attrName, attributeSetterName] of attributesMap) {
+            this.registerBindingAttribute(attrName, class extends components.BaseDataBindingAttribute {
+                // eslint-disable-next-line require-jsdoc
+                init(element, value) {
+                    element[attributeSetterName] = value;
+                }
+            });
+        }
+
+        this.registerBindingAttribute('orientation', class extends components.BaseDataBindingAttribute {
+            // eslint-disable-next-line require-jsdoc
+            init(element, value) {
+                element.orientation = element.checkOrientation(value);
+            }
+        });
+
+        this.registerCustomHandleAttributes();
+
         registeredBindingAttributes = true;
     }
     /**
@@ -179,42 +228,7 @@ class Rangeslider extends CustomElementValidator {
      * Called when the element was attached to the DOM.
      */
     connectedCallback() {
-        // if an array is passed these are the values of the array
-        this._values = this.hasAttribute('values') ? JSON.parse(this.getAttribute('values')) : null;
-
-        // if an array is passed
-        this.hasValuesArray = Array.isArray(this._values) && this._values.length > 0;
-
-        // the step of the slider
-        this.step = this.getAttribute('step') || 1;
-
-        this._min;
-        this._max;
-        this._value = [];
-
-        // the slider orientation, can be 'vertical' or 'horizontal'
-        this.orientation = this.checkOrientation(this.getAttribute('orientation'));
-        // if there will be two handles
-        this.twoHandles = !this.hasValuesArray && this.hasAttribute('two-handles');
-
-        // if there is a grid
-        this.grid = this.hasAttribute('grid');
-        // if there are thumbs
-        this.thumb = this.hasAttribute('thumb');
-
-        // check if component has already been rendered if not
-        if (typeof this.template !== 'object') {
-            // use the template for the current slider orientation and number of handles
-            this.template = this.getTemplate(this.orientation, this.twoHandles);
-        }
-
-        /**
-         * The names of the units are different for the two slider types.
-         * ['clientY', 'height', 'top', 'y'] for vertical and
-         * ['clientX', 'width', 'left', 'x'] for horizontal
-         */
-        this.units = orientationUnitsNames.get(this.orientation);
-
+        this.template = template;
         // Load the template
         components
             .loadResource(this)
@@ -231,19 +245,19 @@ class Rangeslider extends CustomElementValidator {
         return ORIENTATIONS.includes(orientation) ? orientation : 'horizontal';
     }
 
-    /**
-     * Gets the correct template to be loaded for the rangeslider
-     * @param {string} orientation - the orientation of the slider
-     * @param {boolean} twoHandles - if there are two handles
-     * @returns {string}
-     */
-    getTemplate(orientation, twoHandles) {
-        if (orientation === 'vertical') {
-            return twoHandles ? verticalTemplateTwoHandles : verticalTemplate;
-        }
+    // /**
+    //  * Gets the correct template to be loaded for the rangeslider
+    //  * @param {string} orientation - the orientation of the slider
+    //  * @param {boolean} twoHandles - if there are two handles
+    //  * @returns {string}
+    //  */
+    // getTemplate(orientation, twoHandles) {
+    //     if (orientation === 'vertical') {
+    //         return twoHandles ? verticalTemplateTwoHandles : verticalTemplate;
+    //     }
 
-        return twoHandles ? horizontalTemplateTwoHandles : horizontalTemplate;
-    }
+    //     return twoHandles ? horizontalTemplateTwoHandles : horizontalTemplate;
+    // }
 
     /**
      * Will validate the custom handle selector and if element with that selector exists.
@@ -266,8 +280,8 @@ class Rangeslider extends CustomElementValidator {
             this.twoHandles ? this._value.forEach(val => this.buildThumb(val)) : this.buildThumb(this.value);
 
             this.thumbElement = !this.twoHandles ?
-                [this.querySelector(`.guic-${this.orientation}-rangeslider-thumb`)] :
-                this.querySelectorAll(`.guic-${this.orientation}-rangeslider-thumb`);
+                [this.querySelector(`.guic-rangeslider-thumb`)] :
+                this.querySelectorAll(`.guic-rangeslider-thumb`);
         }
     }
 
@@ -285,32 +299,89 @@ class Rangeslider extends CustomElementValidator {
             const customHandleVariableName = customHandleVariableNames[key];
             const customHandleSelector = customHandleSelectors[key];
 
-            this[customHandleVariableName] = customHandleSelector ? document.querySelector(customHandleSelector) : null;
-            this.validateCustomHandle(customHandleSelector, this[customHandleVariableName]);
+            if (!this[customHandleVariableName]) {
+                this[customHandleVariableName] = customHandleSelector ?
+                    document.querySelector(customHandleSelector) :
+                    null;
+                this.validateCustomHandle(customHandleSelector, this[customHandleVariableName]);
+            }
         }
     }
 
+    /**
+     * Will set the orientation of the slider
+     */
+    setTemplateOrientation() {
+        this.querySelector('.guic-rangeslider-wrapper').classList.add(this.orientation);
+    }
+
+    /**
+     * Will set the handles of the slider
+     */
+    setTemplateHandles() {
+        this.querySelector('.guic-rangeslider-handle.handle-0').classList.toggle('hidden', !this.twoHandles);
+        this.querySelector('.guic-rangeslider-handle.handle-1').classList.toggle('hidden', !this.twoHandles);
+        this.querySelector('.guic-rangeslider-handle.handle').classList.toggle('hidden', this.twoHandles);
+    }
+
+    /* eslint-disable max-lines-per-function */
     /**
      * Sets up the rangeslider, draws the additional things like grid and thumbs, attaches the event listeners
      */
     setup() {
         components.waitForFrames(() => {
-            this.wrapper = this.querySelector(`.guic-${this.orientation}-rangeslider-wrapper`);
+            // if an array is passed these are the values of the array
+            if (!this._values) this._values = this.hasAttribute('values') ? JSON.parse(this.getAttribute('values')) : null;
 
-            this.rangeslider = this.querySelector(`.guic-${this.orientation}-rangeslider`);
+            // if an array is passed
+            this.hasValuesArray = Array.isArray(this._values) && this._values.length > 0;
+
+            // the step of the slider
+            if (!this.step) this.step = this.getAttribute('step') || 1;
+
+            if (!this._value) this._value = [];
+
+            // the slider orientation, can be 'vertical' or 'horizontal'
+            if (!this.orientation) this.orientation = this.checkOrientation(this.getAttribute('orientation'));
+            // if there will be two handles
+            if (!this.twoHandles) this.twoHandles = !this.hasValuesArray && this.hasAttribute('two-handles');
+
+            // if there is a grid
+            if (this.grid === undefined) this.grid = this.hasAttribute('grid');
+
+            // if there are thumbs
+            if (this.thumb === undefined) this.thumb = this.hasAttribute('thumb');
+
+            this.setTemplateOrientation();
+            this.setTemplateHandles();
+
+            /**
+             * The names of the units are different for the two slider types.
+             * ['clientY', 'height', 'top', 'y'] for vertical and
+             * ['clientX', 'width', 'left', 'x'] for horizontal
+             */
+            this.units = orientationUnitsNames.get(this.orientation);
+            this.wrapper = this.querySelector(`.guic-rangeslider-wrapper`);
+
+            this.rangeslider = this.querySelector(`.guic-rangeslider`);
             this.handle = !this.twoHandles ?
-                [this.querySelector(`.guic-${this.orientation}-rangeslider-handle`)] :
-                this.querySelectorAll(`.guic-${this.orientation}-rangeslider-handle`);
+                [this.querySelector(`.guic-rangeslider-handle.handle`)] :
+                [
+                    this.querySelector(`.guic-rangeslider-handle.handle-0`),
+                    this.querySelector(`.guic-rangeslider-handle.handle-1`),
+                ];
 
-            this.bar = this.querySelector(`.guic-${this.orientation}-rangeslider-bar`);
+            this.bar = this.querySelector(`.guic-rangeslider-bar`);
 
             this.setMinAndMax();
             this.setHandleValues();
 
-            // if the grid attribute is added, the grid is created
-            if (this.grid) {
-                this.hasValuesArray ? this.buildArrayGrid() : this.buildGrid();
-            }
+            components.waitForFrames(() => {
+                // if the grid attribute is added, the grid is created
+                if (this.grid) {
+                    this.hasValuesArray ? this.buildArrayGrid() : this.buildGrid();
+                }
+            }, 3);
 
             this.setThumb();
 
@@ -332,6 +403,8 @@ class Rangeslider extends CustomElementValidator {
         }, 3);
     }
 
+    /* eslint-enable max-lines-per-function */
+
     /**
      * Builds the grid
      */
@@ -339,7 +412,7 @@ class Rangeslider extends CustomElementValidator {
         // calculates the number of pols the grid will have based on the size of the slider
         const numberOfPols = Math.round(this.wrapper[this.units.offset] / SPACE_BETWEEN_GRID_POLS / 4) * 4; // here we round to a number that is divisible by 4 and to make sure, the last pol has a number
         const grid = document.createElement('div');
-        grid.classList.add(`guic-${this.orientation}-rangeslider-grid`);
+        grid.classList.add(`guic-rangeslider-grid`);
         for (let i = 0; i <= numberOfPols; i++) {
             // each forth poll will be larger with a value added
             if (i % (numberOfPols / 4) === 0) {
@@ -361,7 +434,7 @@ class Rangeslider extends CustomElementValidator {
      */
     buildArrayGrid() {
         const grid = document.createElement('div');
-        grid.classList.add(`guic-${this.orientation}-rangeslider-grid`);
+        grid.classList.add(`guic-rangeslider-grid`);
         // builds only pols for the values of the array
         for (let i = 0; i < this._values.length; i++) {
             const entry = this._values[i];
@@ -378,17 +451,17 @@ class Rangeslider extends CustomElementValidator {
      */
     createGridPol(value) {
         const polContainer = document.createElement('div');
-        polContainer.classList.add(`guic-rangeslider-${this.orientation}-grid-pol-container`);
+        polContainer.classList.add(`guic-rangeslider-grid-pol-container`);
 
         polContainer.innerHTML = `
-            <div class="guic-rangeslider-${this.orientation}-grid-pol guic-rangeslider-${this.orientation}-pol-without-text"></div>
+            <div class="guic-rangeslider-grid-pol guic-rangeslider-pol-without-text"></div>
         `;
 
         // checks if the passed value is a string or number and then makes a pol with value
         if (typeof value === 'number' || typeof value === 'string') {
             polContainer.innerHTML = `
-                <div class="guic-rangeslider-${this.orientation}-grid-pol"></div>
-                <div class="guic-rangeslider-${this.orientation}-grid-text">${value}</div>
+                <div class="guic-rangeslider-grid-pol"></div>
+                <div class="guic-rangeslider-grid-text">${value}</div>
             `;
         }
 
@@ -401,7 +474,7 @@ class Rangeslider extends CustomElementValidator {
      */
     buildThumb(value) {
         const thumb = document.createElement('div');
-        thumb.classList.add(`guic-${this.orientation}-rangeslider-thumb`);
+        thumb.classList.add(`guic-rangeslider-thumb`);
         thumb.textContent = value;
         this.rangeslider.appendChild(thumb);
     }
@@ -425,8 +498,8 @@ class Rangeslider extends CustomElementValidator {
             return;
         }
 
-        this.min = this.getAttribute('min') || 0;
-        this.max = this.getAttribute('max') || 100;
+        if (this.min === undefined) this.min = this.getAttribute('min') || 0;
+        if (this.max === undefined) this.max = this.getAttribute('max') || 100;
     }
 
     /**
@@ -435,8 +508,10 @@ class Rangeslider extends CustomElementValidator {
      * @param {Array<number|string>} value
      * @returns {void}
      */
-    setRangliderValue(value) {
+    setRangeSliderValue(value) {
         if (this.twoHandles) return;
+
+        if (this.value === value[0]) return;
 
         let percent = null;
         if (this.hasValuesArray) {
@@ -458,7 +533,7 @@ class Rangeslider extends CustomElementValidator {
             return;
         }
 
-        this.value = [this.getAttribute('value')] || [this.min];
+        if (!this.value) this.value = [this.getAttribute('value')] || [this.min];
         // checks if the value provided is less than the min or more than the max and sets it to the minimum value
         this.value = this.min <= this.value && this.max >= this.value ? [this.value] : [this.min];
     }
@@ -476,7 +551,7 @@ class Rangeslider extends CustomElementValidator {
      * Attaches the event listener
      */
     attachEventListener() {
-        this.querySelector(`.guic-${this.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
+        this.querySelector(`.guic-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
     }
 
     /**

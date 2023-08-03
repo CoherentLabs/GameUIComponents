@@ -1,0 +1,187 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.guic-rangeslider-wrapper.horizontal {
+    width: 40vh;
+    display: flex;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    margin: 10vh;
+    user-select: none;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider {
+    position: relative;
+    width: 100%;
+    height: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider-handle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #00ccff;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 50%;
+    background-color: #0085a7;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider-grid {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider-grid-pol-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 2px;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider-grid-pol {
+    height: 10px;
+    width: 2px;
+    background-color: black;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider-grid-text {
+    color: black;
+    font-size: 0.8rem;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider-pol-without-text {
+    height: 5px;
+}
+
+.guic-rangeslider-wrapper.horizontal .guic-rangeslider-thumb {
+    position: absolute;
+    top: -800%;
+    /* Since the percent of the top property is based on the height of the parent, to position the handle above we need 8x the height */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0085a7;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.guic-rangeslider-wrapper.vertical {
+    width: 5vh;
+    display: flex;
+    height: 40vh;
+    margin: 10vh;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+}
+
+.guic-rangeslider-wrapper.vertical .guic-rangeslider {
+    position: relative;
+    width: 5px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.guic-rangeslider-wrapper.vertical .guic-rangeslider-handle {
+    position: absolute;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #00ccff;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.guic-rangeslider-wrapper.vertical .guic-rangeslider-bar {
+    position: absolute;
+    top: 100%;
+    left: 0px;
+    height: 50%;
+    width: 100%;
+    background-color: #0085a7;
+    transform: translateY(-100%);
+}
+
+.guic-rangeslider-wrapper.vertical .guic-rangeslider-grid {
+    display: flex;
+    flex-direction: column-reverse;
+    position: absolute;
+    left: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.guic-rangeslider-wrapper.vertical .guic-rangeslider-grid-pol-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 2px;
+}
+
+.guic-rangeslider-wrapper.vertical .guic-vertical-grid-pol {
+    width: 10px;
+    height: 2px;
+    background-color: black;
+}
+
+.guic-rangeslider-wrapper.vertical .guic-rangeslider-grid-text {
+    color: black;
+    font-size: 0.8rem;
+}
+
+.guic-rangeslider-wrapper.vertical .guic-rangeslider-pol-without-text {
+    width: 5px;
+}
+
+.guic-rangeslider-wrapper.vertical .guic-rangeslider-thumb {
+    position: absolute;
+    right: 300%;
+    /* Since the percent of the left/right property is based on the width of the parent, to position the handle to the left we need 3x the width */
+    transform: translateY(-50%);
+    background-color: #0085a7;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+.guic-rangeslider-handle.handle-0.hidden {
+    display: none;
+}
+
+.guic-rangeslider-handle.handle.hidden {
+    display: none;
+}
+
+.guic-rangeslider-handle.handle-1.hidden {
+    display: none;
+}

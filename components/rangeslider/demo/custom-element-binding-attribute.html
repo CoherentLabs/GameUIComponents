@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+</head>
+
+<body>
+    <custom-element data-bind-test="{{model.test}}"></custom-element>
+
+    <script src="./cohtml.js"></script>
+    <script>
+        class CustomElement extends HTMLElement {
+            constructor() {
+                super();
+                this.testValue = null;
+
+                engine.registerBindingAttribute('test', class {
+                    init(element, value) {
+                        console.log('init attribute with value = ', value)
+                        element.testValue = value;
+                    }
+                });
+            }
+
+            // DOES NOT WORK
+            connectedCallback() {
+                console.log('connected callback')
+                engine.on('Ready',()=>{
+
+                    console.log('this.testValue = ', this.testValue)
+                })
+            }
+
+            // WORKS
+            // connectedCallback() {
+            //     console.log('connected callback')
+            //     requestAnimationFrame(() => {
+            //         requestAnimationFrame(() => {
+            //             requestAnimationFrame(() => {
+            //                 console.log('this.testValue = ', this.testValue)
+            //             })
+            //         })
+            //     })
+            // }
+        }
+        customElements.define('custom-element', CustomElement);
+    </script>
+    <script>
+        engine.on('Ready', () => {
+            const model = { test: '1' };
+
+            engine.createJSModel('model', model);
+            engine.synchronizeModels();
+        });
+    </script>
+</body>
+
+</html>
