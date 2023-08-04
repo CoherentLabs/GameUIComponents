@@ -75,7 +75,7 @@ class Rangeslider extends CustomElementValidator {
      * @returns {number} - returns the value in percent
      */
     static valueToPercent(value, min, max) {
-        return (value * 100) / (max - min);
+        return ((value - min) * 100) / (max - min);
     }
 
     /**
@@ -145,7 +145,7 @@ class Rangeslider extends CustomElementValidator {
         this.hasValuesArray = Array.isArray(this._values) && this._values.length > 0;
 
         // the step of the slider
-        this.step = this.getAttribute('step') || 1;
+        this.step = parseFloat(this.getAttribute('step')) || 1;
 
         this._min;
         this._max;
@@ -384,8 +384,10 @@ class Rangeslider extends CustomElementValidator {
             return;
         }
 
-        this.min = this.getAttribute('min') || 0;
-        this.max = this.getAttribute('max') || 100;
+        const min = parseFloat(this.getAttribute('min'));
+        const max = parseFloat(this.getAttribute('max'));
+        this.min = !isNaN(min) ? min : 0;
+        this.max = !isNaN(min) ? max : 100;
     }
 
     /**
@@ -398,9 +400,20 @@ class Rangeslider extends CustomElementValidator {
             return;
         }
 
-        this.value = [this.getAttribute('value')] || [this.min];
-        // checks if the value provided is less than the min or more than the max and sets it to the minimum value
-        this.value = this.min <= this.value && this.max >= this.value ? [this.value] : [this.min];
+        let valueAttr = this.getAttribute('value');
+
+        if (!this.hasValuesArray) {
+            valueAttr = parseFloat(valueAttr);
+            this.value = !isNaN(valueAttr) ? [valueAttr] : [this.min];
+        } else {
+            this.value = valueAttr !== null ? [valueAttr] : [this.min];
+        }
+
+
+        if (!this.hasValuesArray) {
+            // checks if the value provided is less than the min or more than the max and sets it to the minimum value
+            this.value = this.min <= this.value && this.max >= this.value ? [this.value] : [this.min];
+        }
     }
 
     /**
@@ -500,7 +513,7 @@ class Rangeslider extends CustomElementValidator {
         // The percent of the step that is set, if the values are an array, the step is between each array value
         const percentStep = this.hasValuesArray ?
             100 / (this._values.length - 1) :
-            Rangeslider.valueToPercent(this.step, this.min, this.max);
+            Rangeslider.valueToPercent(this.step + this.min, this.min, this.max);
 
         // the range which should be clamped
         let clampRange = [0, 100];

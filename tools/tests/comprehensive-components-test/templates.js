@@ -90,7 +90,7 @@ componentsTemplates.radioButton = `
 `;
 
 componentsTemplates.rangeSlider = `
-<gameface-rangeslider orientation="horizontal" min="1" max="3" thumb></gameface-rangeslider>
+<gameface-rangeslider orientation="horizontal" min="1" max="3" value="2" thumb></gameface-rangeslider>
 `;
 
 componentsTemplates.slider = `

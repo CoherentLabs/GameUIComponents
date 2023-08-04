@@ -58,13 +58,13 @@ You can use the following attributes to customize the rangeslider
 
 |Attribute   |Type   |Default   | Description   |Notes   |
 |---|---|---|---|---|
-|value   | Number   |0   | The initial value of the rangeslider   | If there is a min value set, it defaults to it   |
-|min   | Number  | 0   | The minimum value of the rangeslider  |   |
-|max   | Number  | 100  | The maximum value of the rangeslider  |   |
-|step   | Number  | 1  | The step of the handle  |   |
+|value   | Number   |0   | The initial value of the rangeslider   | If the value attribute is not set it defaults to the min value if set set.   |
+|min   | Number  | 0   | The minimum value of the rangeslider  |  **Not working when the `values` attribute is set.**  |
+|max   | Number  | 100  | The maximum value of the rangeslider  |  **Not working when the `values` attribute is set.**  |
+|step   | Number  | 1  | The step of the handle  | **Not working when the `values` attribute is set.**  |
 |grid   | Boolean  | false  | Draws a grid with numbers or array entries  | To enable it you just need to put 'grid' as attribute   |
 |thumb   | Boolean  | false  | Draws a thumb with a value for each handle  | To enable it you just need to put 'thumb' as attribute   |
-|two-handles   | Boolean  | false  | Creates two handles to specify a range  | To enable it you just need to put 'two-handles' as attribute. If enabled the value attribute is ignored   |
+|two-handles   | Boolean  | false  | Creates two handles to specify a range  | To enable it you just need to put 'two-handles' as attribute. **If enabled the `value` attribute is ignored**. **Not working when the `values` attribute is set.**  |
 |custom-handle   | String  | ''  | Element selector  | Will find the element with the specified selector and will automatically render the slider value in it. This option will work when the two-handles option is set to false. |
 |custom-handle-left   | String  | ''  | Element selector  | Will find the element with the specified selector and will automatically render the left slider value in it. This option will work when the two-handles option is set to true. |
 |custom-handle-right   | String  | ''  | Element selector | Will find the element with the specified selector and will automatically render the right slider value in it. This option will work when the two-handles option is set to true.  |
