@@ -11,7 +11,6 @@ import { orientationUnitsNames } from './orientationUnitsNames';
 
 const BaseComponent = components.BaseComponent;
 
-
 /**
  * Slider component; can be independently or as a building block of another
  * component - for example a scrollbar. This is a custom slider control, do not

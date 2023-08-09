@@ -6,7 +6,8 @@
 
 import components from 'coherent-gameface-components';
 // eslint-disable-next-line no-unused-vars
-import tooltip from 'coherent-gameface-tooltip';
+import { Tooltip } from 'coherent-gameface-tooltip';
+// eslint-disable-next-line no-unused-vars
 import errorMessages from './errorMessages';
 import 'url-search-params-polyfill';
 

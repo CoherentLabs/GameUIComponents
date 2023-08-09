@@ -8,20 +8,22 @@ Installation
 
 Usage
 ===================
-The automatic-grid component comes with UMD and CJS builds.
+The automatic-grid component exports two objects:
+- bundle - production and development builds, ready for use in the browser
+- AutomaticGrid - the source file that imports its dependencies
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ~~~~
 
 * import the automatic-grid component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-automatic-grid/dist/automatic-grid.production.min.js"></script>
 ~~~~
 
 * add the automatic-grid component to your html:
@@ -37,29 +39,11 @@ which import the components and the automatic-grid from the node_modules folder 
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import automatic-grid from 'coherent-gameface-automatic-grid';
+import { AutomaticGrid } from 'coherent-gameface-automatic-grid';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
 modules from the node_modules folder. Alternatively you can import them directly from node_modules:
-
-~~~~{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import automatic-grid from './node_modules/coherent-gameface-automatic-grid/umd/automatic-grid.production.min.js';
-~~~~
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const automatic-grid = require('coherent-gameface-automatic-grid');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
-
 
 ## Add the styles
 

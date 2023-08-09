@@ -7,20 +7,22 @@ The gameface-form-control is part of the Gameface custom components suite. As mo
 
 # Usage
 
-The gameface-form-control component comes with UMD and CJS builds.
+The gameface-form-control component exports two objects:
+- bundle - production and development builds, ready for use in the browser
+- GamefaceFormControl - the source file that imports its dependencies
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ```html
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ```
 
 * import the gameface-form-control component:
 
 ```html
-<script src="./node_modules/coherent-gameface-form-control/umd/form-control.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-form-control/dist/form-control.production.min.js"></script>
 ```
 
 This is all! Load the file in Gameface to see the gameface-form-control.
@@ -34,28 +36,11 @@ with import statements like this:
 
 ```javascript
 import components from 'coherent-gameface-components';
-import GamefaceFormControl from 'coherent-gameface-form-control';
+import { GamefaceFormControl } from 'coherent-gameface-form-control';
 ```
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively, you can import them directly from node_modules:
-
-```javascript
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceFormControl from './node_modules/coherent-gameface-form-control/umd/form-control.production.min.js';
-```
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-```javascript
-const components = require('coherent-gameface-components');
-const GamefaceFormControl = require('coherent-gameface-form-control');
-```
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler to use them in a browser.
+modules from the node_modules folder.
 
 # Form control attributes
 

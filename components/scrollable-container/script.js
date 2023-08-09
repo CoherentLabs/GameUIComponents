@@ -6,7 +6,7 @@
 
 import components from 'coherent-gameface-components';
 // eslint-disable-next-line no-unused-vars
-import Slider from 'coherent-gameface-slider';
+import { Slider } from 'coherent-gameface-slider';
 import template from './template.html';
 
 const BaseComponent = components.BaseComponent;
@@ -43,11 +43,6 @@ class ScrollableContainer extends BaseComponent {
         super();
         this.template = template;
         this.url = '/components/scrollable-container/template.html';
-
-        this.onScrollSlider = this.onScrollSlider.bind(this);
-        this.onScroll = this.onScroll.bind(this);
-        this.onResize = this.onResize.bind(this);
-        this.init = this.init.bind(this);
     }
 
     /**
@@ -71,6 +66,14 @@ class ScrollableContainer extends BaseComponent {
      * Called when the element is attached to the DOM.
     */
     connectedCallback() {
+        this.onScrollSlider = this.onScrollSlider.bind(this);
+        this.onScroll = this.onScroll.bind(this);
+        this.onResize = this.onResize.bind(this);
+        this.init = this.init.bind(this);
+        this.setup = this.setup.bind(this);
+        this.shouldShowScrollbar = this.shouldShowScrollbar.bind(this);
+        this.shouldShowScrollbarCallback = this.shouldShowScrollbarCallback.bind(this);
+
         // load the template
         components.loadResource(this)
             .then(this.init)
@@ -184,16 +187,23 @@ class ScrollableContainer extends BaseComponent {
      * For example this.scrollableContainer.classList.add('some-class').
     */
     shouldShowScrollbar() {
+        components.waitForFrames(this.shouldShowScrollbarCallback);
+    }
+
+    /**
+     * Called after we've waited for enough frames for the UI to be ready.
+     * @returns {void}
+     */
+    shouldShowScrollbarCallback() {
         const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
-        components.waitForFrames(() => {
-            const scrollableContentRect = scrollableContent.getBoundingClientRect();
-            const boundingRect = this.getBoundingClientRect();
-            if (scrollableContentRect.height <= boundingRect.height) {
-                return this.hideScrollBar(this.scrollbar);
-            }
-            this.showScrollBar(this.scrollbar);
-            this.scrollbar.resize(this.scrollableContainer);
-        });
+        const scrollableContentRect = scrollableContent.getBoundingClientRect();
+        const boundingRect = this.getBoundingClientRect();
+        if (scrollableContentRect.height <= boundingRect.height) {
+            return this.hideScrollBar(this.scrollbar);
+        }
+
+        this.showScrollBar(this.scrollbar);
+        this.scrollbar.resize(this.scrollableContainer);
     }
 }
 

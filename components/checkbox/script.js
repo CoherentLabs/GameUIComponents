@@ -109,4 +109,4 @@ class Checkbox extends CustomElementValidator {
 
 components.defineCustomElement('gameface-checkbox', Checkbox);
 
-export { Checkbox };
+export default Checkbox;

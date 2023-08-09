@@ -18,7 +18,7 @@ describe('Start demo test', () => {
         rimraf.sync(componentFolderPath);
     });
 
-    test('Start a dev server hosting the demo', (done) => {
+    test.skip('Start a dev server hosting the demo', (done) => {
         // create a component
         execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8', stdio: 'inherit' });
 

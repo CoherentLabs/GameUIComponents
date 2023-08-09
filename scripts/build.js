@@ -1,86 +1,73 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Coherent Labs AD. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+/* eslint-disable max-lines-per-function */
 
 const path = require('path');
 const fs = require('fs');
-const rollup = require('rollup');
-const terser = require('rollup-plugin-terser').terser;
-const strip = require('@rollup/plugin-strip').default;
-const html = require('rollup-plugin-html');
 const buildCssComponents = require('./build-style-component');
 const copyCSSTheme = require('./copy-theme');
+const webpack = require('webpack');
+const baseConfig = require('./config/webpack-base.config');
+const libraryConfig = require('./config/webpack-library.config');
 const { getComponentDirectories } = require('./utils');
 
 const { execSync } = require('child_process');
 
 let noInstall = false;
-// The module formats which will be bundled
-const FORMATS = [
-    'cjs',
-    'umd',
-];
-
 // The target environments
 const ENVIRONMENTS = [
-    'prod',
-    'dev',
+    'production',
+    'development',
 ];
-
-/**
- * Creates an object of output options for rollup.
- * @param {string} directory - the component's folder.
- * @param {string} format - the module type to which to bundle.
- * @param {string} moduleName - the name of the bundle.
- * @param {boolean} isProd - if true, the code will be minified.
- * @returns {object} - OutputParams object.
-*/
-function generateOutputOptions(directory, format = 'umd', moduleName, isProd = false) {
-    const suffix = isProd ? '.production.min' : '.development';
-
-    const outputOptions = {
-        format: format,
-        dir: path.join(directory, format),
-        entryFileNames: `${moduleName}${suffix}.js`,
-        globals: {
-            'coherent-gameface-components': 'components',
-        },
-        exports: 'auto',
-    };
-
-    // When bundling for umd we need to specify a name for
-    // the global variable that will be exported.
-    if (format === 'umd') outputOptions.name = moduleName;
-    // terser is a rollup plugin that minifies the code
-    if (isProd) outputOptions.plugins = [terser(), strip()];
-
-    return outputOptions;
-}
 
 /**
  * Creates bundles for given list of formats and environments.
  * @param {string} moduleName - the root name of the bundle.
  * @param {object} inputOptions - rollup input options.
- * @param {Array<string>} formats - the module types for which to bundle(UMD, CJS).
  * @param {Array<string>} environments - the environments for which to bundle(prod, dev).
  * @param {string} libPath - the path to either the library or a component.
 */
-async function buildAndPackage(moduleName, inputOptions, formats, environments, libPath) {
-    for (const format of formats) {
-        for (const environment of environments) {
-            await createBundle(inputOptions, generateOutputOptions(
-                path.dirname(inputOptions.input),
-                format,
-                moduleName,
-                environment === 'prod' ? true : false
-            ));
-        }
-    }
+async function buildAndPackage(moduleName, inputOptions, environments, libPath) {
+    for (const environment of environments) {
+        const suffix = environment === 'development' ? '.development' : '.production.min';
+        const name = `${moduleName}${suffix}.js`;
 
-    // npm pack must run after createBundle has finished, otherwise the rollup
-    // bundling will not be ready yet and not everything will be packed.
-    execSync('npm pack', { cwd: libPath });
+        const config = baseConfig(environment);
+        let additionalOutputConfig = {};
+
+        if (moduleName === 'components') additionalOutputConfig = libraryConfig.output;
+
+        await buildWithWebpack({
+            ...config,
+            entry: inputOptions.entry,
+            output: {
+                path: path.join(path.dirname(inputOptions.entry), 'dist'),
+                filename: name,
+                ...additionalOutputConfig,
+            },
+        }).catch(console.error);
+
+        // npm pack must run after createBundle has finished, otherwise the webpack
+        // bundling will not be ready yet and not everything will be packed.
+        execSync('npm pack', { cwd: libPath });
+    }
+}
+
+/**
+ * build using webpack
+ * @param {object} config
+ * @returns {Promise}
+ */
+function buildWithWebpack(config) {
+    return new Promise((resolve, reject) => {
+        webpack(config, (err, stats) => { // Stats Object
+            if (err) {
+                reject(err);
+            }
+            if (stats && stats.hasErrors()) {
+                reject(stats.compilation.getErrors().join('\n'));
+            }
+            resolve();
+        });
+    });
 }
 
 /**
@@ -100,8 +87,8 @@ function installDependencies(componentPath) {
  * and formats as targets. Builds the components library first.
 */
 async function buildEverything() {
-    buildComponentsLibrary();
-    const components = getComponentDirectories(['slider', 'scrollable-container', 'dropdown']);
+    await buildComponentsLibrary();
+    const components = getComponentDirectories(['slider', 'scrollable-container', 'dropdown', 'tooltip', 'form-control']);
 
     for (const component of components) {
         const componentPath = path.join(__dirname, '../components', component);
@@ -116,39 +103,25 @@ async function buildEverything() {
         }
 
         const inputOptions = {
-            input: path.join(componentPath, 'script.js'),
-            external: ['coherent-gameface-components'],
-            plugins: [html()],
+            entry: path.join(componentPath, 'script.js'),
         };
 
-        await buildAndPackage(component, inputOptions, FORMATS, ENVIRONMENTS, componentPath);
+        await buildAndPackage(component, inputOptions, ENVIRONMENTS, componentPath);
     }
 }
 
-/** */
+/**
+ * Build the components library
+ * @returns {Promise}
+ */
 function buildComponentsLibrary() {
     const libPath = path.join(__dirname, '../lib');
 
     const inputOptions = {
-        input: path.join(libPath, 'components.js'),
+        entry: path.join(libPath, 'components.js'),
     };
 
-    buildAndPackage('components', inputOptions, FORMATS, ENVIRONMENTS, libPath);
-}
-
-/**
- * Invokes the rollup JS API to create and write a bundle.
- * See https://rollupjs.org/guide/en/#rolluprollup.
- * @param {rollup.RollupOptions} inputOptions
- * @param {rollup.OutputOptions} outputOptions
- * @returns {Promise<rollup.RollupBuild>}
-*/
-function createBundle(inputOptions, outputOptions) {
-    // create a bundle
-    return rollup.rollup(inputOptions).then((bundle) => {
-        // and write the bundle to disk
-        return bundle.write(outputOptions);
-    }).catch(err => console.error(err));
+    return buildAndPackage('components', inputOptions, ENVIRONMENTS, libPath);
 }
 
 /** */

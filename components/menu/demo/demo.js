@@ -6,7 +6,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import GamefaceMenu from '../umd/menu.development.js';
+import * as GamefaceMenu from '../script.js';
 import { pm } from 'postmessage-polyfill';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
 

@@ -6,7 +6,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import { Router, Route, BrowserHistory, HashHistory } from '../umd/router.development.js';
+import { Router, Route, BrowserHistory, HashHistory } from '../script.js';
 import { pm } from 'postmessage-polyfill';
 // eslint-disable-next-line no-unused-vars
 import { fetch as fetchPolyfill } from 'whatwg-fetch';

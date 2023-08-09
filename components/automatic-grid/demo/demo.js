@@ -5,8 +5,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import components from 'coherent-gameface-components';
-import AutomaticGrid from '../umd/automatic-grid.development.js';
+import AutomaticGrid from '../script.js';
 import { pm } from 'postmessage-polyfill';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
 

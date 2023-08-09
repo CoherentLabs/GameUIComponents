@@ -4,8 +4,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/accordion-menu.production.min.js');
-} else {
-    module.exports = require('./cjs/accordion-menu.development.js');
-}
+import AccordionMenu from './script.js';
+import * as bundle from './dist/accordion-menu.development.js';
+
+export {
+    AccordionMenu,
+    bundle,
+};

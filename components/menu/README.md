@@ -8,20 +8,25 @@ Installation
 
 Usage
 ===================
-The gameface-menu component comes with UMD and CJS builds.
+The gameface-menu component exports these objects:
+- bundle - production and development builds, ready for use in the browser
+- GamefaceMenu - the base menu component - by default anchored at the top
+- GamefaceLeftMenu - a menu item that would be anchored at the left
+- GamefaceBottomMenu - a menu item that would be anchored at the bottom
+- GamefaceRightMenu - a menu item that would be anchored at the right
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ~~~~
 
 * import the menu component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-menu/umd/menu.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-menu/dist/menu.production.min.js"></script>
 ~~~~
 
 * add the menu component to your html:
@@ -37,29 +42,11 @@ which import the components and the gameface-menu from the node_modules folder a
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import menu from 'coherent-gameface-menu';
+import { GamefaceMenu, GamefaceLeftMenu } from 'coherent-gameface-menu';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
-
-~~~~{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import menu from './node_modules/coherent-gameface-menu/umd/menu.production.min.js';
-~~~~
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const gameface-menu = require('coherent-gameface-menu');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
-
+modules from the node_modules folder.
 
 ## Usage in the HTML:
 

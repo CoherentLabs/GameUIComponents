@@ -5,24 +5,26 @@ The accordion-menu is part of the Gameface custom components suite. As most of t
 
 Usage
 ===================
-The accordion-menu component comes with UMD and CJS builds.
+The accordion-menu component exports two objects:
+- bundle - production and development builds, ready for use in the browser
+- AccordionMenu - the source file that imports its dependencies
 
 # Installation
 `npm i coherent-gameface-accordion-menu`
 
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ~~~~
 
 * import the accordion-menu component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-accordion-menu/umd/accordion-menu.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-accordion-menu/dist/accordion-menu.production.min.js"></script>
 ~~~~
 
 * add the gameface-accordion-menu component to your html along with the gameface-accordion-panel, gameface-accordion-header and gameface-accordion-content:
@@ -38,29 +40,11 @@ which import the components and the accordion-menu from the node_modules folder 
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import accordionMenu from 'coherent-gameface-accordion-menu';
+import { AccordionMenu } from 'coherent-gameface-accordion-menu';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
-
-~~~~{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import accordionMenu from './node_modules/coherent-gameface-accordion-menu/umd/accordion-menu.production.min.js';
-~~~~
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const accordionMenu = require('coherent-gameface-accordion-menu');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
-
+modules from the node_modules folder.
 
 ## Add the styles
 

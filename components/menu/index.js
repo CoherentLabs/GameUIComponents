@@ -4,8 +4,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/menu.production.min.js');
-} else {
-    module.exports = require('./cjs/menu.development.js');
-}
+import { GamefaceMenu, GamefaceLeftMenu, GamefaceBottomMenu, GamefaceRightMenu } from './script.js';
+import * as bundle from './dist/menu.development.js';
+
+export {
+    GamefaceMenu,
+    GamefaceLeftMenu,
+    GamefaceBottomMenu,
+    GamefaceRightMenu,
+    bundle,
+};

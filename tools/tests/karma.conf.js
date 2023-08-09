@@ -26,8 +26,8 @@ module.exports = function (config) {
     },
     files: [
       { pattern: 'node_modules/coherent-gameface-*/**/*.css', included: true, type: 'css' },
-      { pattern: 'node_modules/coherent-gameface-components/umd/*.development.js', served: true },
-      { pattern: 'node_modules/coherent-gameface-*/umd/*.development.js', served: true },
+      { pattern: 'node_modules/coherent-gameface-components/dist/components.development.js', served: true },
+      { pattern: 'node_modules/coherent-gameface-*/dist/*.development.js', served: true },
       { pattern: 'node_modules/coherent-gameface-interaction-manager/dist/interaction-manager.js', served: true },
       { pattern: 'actions.js', served: true },
       { pattern: 'define-engine.js', served: true },
@@ -60,7 +60,6 @@ module.exports = function (config) {
     preprocessors: {
       'router/*.js': ['webpack'],
       'form-control/spec/*.js': ['webpack'],
-      'node_modules/coherent-gameface-router/umd/*.development.js': ['webpack'],
       'dropdown/*.js': ['webpack'],
     },
     webpack: {
@@ -83,7 +82,8 @@ module.exports = function (config) {
     },
     browsers: [],
     exclude: [
-      'node_modules/'
+      'node_modules/',
+      'node_modules/coherent-gameface-router/dist/router.development.js'
     ],
     customDebugFile: 'specRunner.html',
     logLevel: config.LOG_INFO,

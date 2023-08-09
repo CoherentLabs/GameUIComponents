@@ -1,10 +1,13 @@
+/* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/automatic-grid.production.min.js');
-} else {
-    module.exports = require('./cjs/automatic-grid.development.js');
-}
+import AutomaticGrid from './script.js';
+import * as bundle from './dist/automatic-grid.development.js';
+
+export {
+    AutomaticGrid,
+    bundle,
+};

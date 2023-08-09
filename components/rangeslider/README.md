@@ -8,20 +8,22 @@ Installation
 
 Usage
 ===================
-The gameface-rangeslider component comes with UMD and CJS builds.
+The gameface-rangeslider component exports two objects:
+- bundle - production and development builds, ready for use in the browser
+- RangeSlider - the source file that imports its dependencies
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the components library:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ~~~~
 
 * import the gameface-rangeslider component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-rangeslider/umd/rangeslider.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-rangeslider/dist/rangeslider.production.min.js"></script>
 ~~~~
 
 * add the gameface-rangeslider component to your html:
@@ -37,30 +39,11 @@ which import the components and the rangeslider from the node_modules folder and
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import RangeSlider from 'coherent-gameface-rangeslider';
+import { RangeSlider } from 'coherent-gameface-rangeslider';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-modules from the node_modules folder. Alternatively you can import them directly from node_modules:
-
-~~~~{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceSlider from './node_modules/coherent-gameface-rangeslider/umd/rangeslider.production.min.js';
-~~~~
-
-## Usage with CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const RangeSlider = require('coherent-gameface-rangeslider');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-bundler in order to be use them in a browser.
-
-
+modules from the node_modules folder.
 
 ## How to use
 

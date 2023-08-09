@@ -1,8 +1,13 @@
 {
   "name": "coherent-gameface-tabs",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "Tabs component for Coherent Labs' Gameface.",
   "main": "index.js",
+  "sideEffects": [
+    "./demo/demo.js",
+    "./script.js",
+    "./index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/tabs"
@@ -13,7 +18,7 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^1.4.0"
+    "coherent-gameface-components": "^2.0.0"
   },
   "author": "CoherentLabs",
   "license": "ISC"

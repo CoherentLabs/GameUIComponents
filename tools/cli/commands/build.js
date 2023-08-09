@@ -2,124 +2,80 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
+/* eslint-disable max-lines-per-function */
 const path = require('path');
-const rollup = require('rollup');
-const terser = require('rollup-plugin-terser').terser;
-const html = require('rollup-plugin-html');
+const webpack = require('webpack');
+const webpackBaseConfig = require('../config/webpack-base-config');
 
-// The module formats which will be bundled
-const FORMATS = [
-    'cjs',
-    'umd',
-];
-
-// The target environments
 const ENVIRONMENTS = [
-    'prod',
-    'dev',
+    'production',
+    'development',
 ];
 
 /**
- * Creates an object of output options for rollup.
- * @param {string} directory - the component's folder.
- * @param {string} format - the module type to which to bundle.
- * @param {string} moduleName - the name of the bundle.
- * @param {boolean} isProd - if true, the code will be minified.
- * @returns {object} - OutputParams object.
-*/
-function generateOutputOptions(directory, format = 'umd', moduleName, isProd = false) {
-    const suffix = isProd ? '.production.min' : '.development';
-
-    const outputOptions = {
-        format: format,
-        dir: path.join(directory, format),
-        entryFileNames: `${moduleName}${suffix}.js`,
-        globals: {
-            'coherent-gameface-components': 'components',
-        },
-        exports: 'auto',
-    };
-
-    // When bundling for umd we need to specify a name for
-    // the global variable that will be exported.
-    if (format === 'umd') outputOptions.name = moduleName;
-    // terser is a rollup plugin that minifies the code
-    if (isProd) outputOptions.plugins = [terser()];
-
-    return outputOptions;
-}
-
-/**
- * Creates bundles for given list of formats and environments.
- * @param {string} moduleName - the root name of the bundle.
- * @param {object} inputOptions - rollup input options.
- * @param {Array<string>} formats - the module types for which to bundle(UMD, CJS).
- * @param {Array<string>} environments - the environments for which to bundle(prod, dev).
-*/
-function buildForTargets(moduleName, inputOptions, formats, environments) {
-    for (const format of formats) {
-        for (const environment of environments) {
-            createBundle(inputOptions, generateOutputOptions(
-                path.dirname(inputOptions.input),
-                format,
-                moduleName,
-                environment === 'prod'
-            ));
-        }
-    }
-}
-
-/**
- * Calls buildForTargets for all components and passes all environments
- * and formats as targets. Builds the components library first.
+ * build using webpack
+ * @param {object} config
  * @param {boolean} watch
-*/
-function build(watch) {
-    const inputOptions = {
-        preserveSymlinks: true,
-        input: path.resolve('./script.js'),
-        external: ['coherent-gameface-components'],
-        plugins: [
-            html(),
-        ],
-    };
+ * @returns {Promise}
+ */
+function buildWithWebpack(config, watch) {
+    return new Promise((resolve, reject) => {
+        const compiler = webpack(config);
 
-    buildForTargets(path.basename(process.cwd()), inputOptions, FORMATS, ENVIRONMENTS);
+        if (watch) {
+            compiler.watch(
+                {
+                    // Example
+                    aggregateTimeout: 300,
+                },
+                (err, stats) => {
+                    if (err) return console.error(err);
+                    if (stats && stats.hasErrors()) return reject(stats.compilation.getErrors().join('\n'));
 
-    if (watch) {
-        const watcher = rollup.watch({
-            ...inputOptions,
-            watch: {
-                buildDelay: 800,
-            },
-        });
-
-        console.log(`coherent-guic-cli is watching for file changes...`);
-
-        watcher.on('change', () => {
-            console.log(`Rebuilding...`);
-            buildForTargets(path.basename(process.cwd()), inputOptions, FORMATS, ENVIRONMENTS);
-            console.log(`Changes saved!`);
-        });
-        return;
-    }
-    console.log(`Build finished. \n Created bundle for ${inputOptions.input}`);
+                    // Print watch/build result here...
+                    console.log('Successfully bundled');
+                    if (stats && stats.compilation.emittedAssets.size) {
+                        stats.compilation.emittedAssets.forEach(element => console.log(element));
+                    }
+                }
+            );
+        } else {
+            compiler.run((err, stats) => {
+                if (err) return reject(err);
+                if (stats && stats.hasErrors()) return reject(stats.compilation.getErrors().join('\n'));
+                resolve();
+            });
+        }
+    });
 }
 
 /**
- * Invokes the rollup JS API to create and write a bundle.
- * See https://rollupjs.org/guide/en/#rolluprollup.
- * @param {rollup.RollupOptions} inputOptions
- * @param {rollup.OutputOptions} outputOptions
- * @returns {Promise<rollup.RollupBuild>}
-*/
-function createBundle(inputOptions, outputOptions) {
-    // create a bundle
-    return rollup.rollup(inputOptions).then((bundle) => {
-        // and write the bundle to disk
-        return bundle.write(outputOptions);
-    }).catch(err => console.error(err));
+ * Build the component
+ * @param {Array<string>} environments
+ * @param {string} moduleName
+ * @param {boolean} watch
+ */
+async function build(environments, moduleName, watch = false) {
+    console.log(`Building component ${moduleName}...`);
+    const entry = path.join(process.cwd(), './script.js');
+    const output = path.join(path.dirname(entry), 'dist');
+
+    for (const environment of environments) {
+        const suffix = environment === 'development' ? '.development' : '.production.min';
+        const name = `${moduleName}${suffix}.js`;
+
+        await buildWithWebpack({
+            ...webpackBaseConfig(environment),
+            entry: entry,
+            output: {
+                path: output,
+                filename: name,
+            },
+        }, watch).catch(console.error);
+
+        console.log(`Created bundle - ${name}`);
+    }
+    console.log(`Build finished! Distribution files are located in ${output}`);
 }
 
 exports.command = 'build [--watch]';
@@ -130,5 +86,5 @@ exports.builder = {
     },
 };
 exports.handler = function (argv) {
-    build(argv.watch);
+    build(ENVIRONMENTS, (path.basename(process.cwd())), argv.watch);
 };

@@ -8,20 +8,22 @@ Installation
 
 Usage
 ===================
-The radial-menu Component comes with UMD and CJS builds.
+The radial-menu component exports two objects:
+- bundle - production and development builds, ready for use in the browser
+- RadialMenu - the source file that imports its dependencies
 
-## Usage with UMD modules:
+## Usage with the bundle modules:
 
 * import the Components library:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
 ~~~~
 
 * import the radial-menu Component:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-radial-menu/umd/radial-menu.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-radial-menu/dist/radial-menu.production.min.js"></script>
 ~~~~
 
 * add the radial-menu Component to your html:
@@ -36,24 +38,12 @@ Import using ES modules:
 
 ~~~~{.js}
 import components from 'coherent-gameface-components';
-import RadialMenu from 'coherent-gameface-radial-menu';
+import { RadialMenu } from 'coherent-gameface-radial-menu';
 ~~~~
 
 Note that this approach requires a module bundler like
 [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/)
 to resolve the modules from the node_modules folder.
-
-## Usage with CJS modules:
-
-* Import the Components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const RadialMenu = require('coherent-gameface-radial-menu');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a
-module bundler in order to be use them in a browser.
 
 # Features and Configuration
 

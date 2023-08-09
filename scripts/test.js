@@ -24,7 +24,7 @@ const components = fs.readdirSync(COMPONENTS_FOLDER);
 function areComponentsPackaged() {
     const notBuildComponents = [];
     for (const component of components) {
-        const componentFolder = path.join(COMPONENTS_FOLDER, component, 'umd');
+        const componentFolder = path.join(COMPONENTS_FOLDER, component, 'dist');
         const componentTestFolder = path.join(TESTS_FOLDER, component);
 
         // if there is a test for this component but doesn't have umd package
@@ -45,7 +45,7 @@ function areComponentsPackaged() {
 }
 
 /**
- * Will link all the components so thei will be tested with the local changes
+ * Will link all the components so that they will be tested with the local changes
  */
 function linkDependencies() {
     linkSingleComponent('', TESTS_FOLDER);

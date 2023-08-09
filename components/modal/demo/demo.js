@@ -5,7 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import components from 'coherent-gameface-components';
-import modal from '../umd/modal.development.js';
+import modal from '../script.js';
 
 /**
  * Class definition of the demo

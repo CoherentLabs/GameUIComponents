@@ -1,10 +1,13 @@
+/* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/stepper.production.min.js');
-} else {
-    module.exports = require('./cjs/stepper.development.js');
-}
+import Stepper from './script.js';
+import * as bundle from './dist/stepper.development.js';
+
+export {
+    Stepper,
+    bundle,
+};
