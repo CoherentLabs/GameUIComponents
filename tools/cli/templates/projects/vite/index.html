@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Game Settings</h1>
+      <div class="guic-row">
+        <div class="guic-col-2">
+          <p>Anti-aliasing:</p>
+        </div>
+        <div class="guic-col-10">
+          <gameface-checkbox><component-slot data-name="checkbox-label"></component-slot></gameface-checkbox>
+        </div>
+      </div>
+      <div class="guic-row">
+        <div class="guic-col-2">
+          <p>Fullscreen Mode:</p>
+        </div>
+        <div class="guic-col-10">
+          <gameface-checkbox><component-slot data-name="checkbox-label"></component-slot></gameface-checkbox>
+        </div>
+      </div>
+      <div class="guic-row">
+        <div class="guic-col-2">
+          <p>Music:</p>
+        </div>
+        <div class="guic-col-10">
+          <gameface-checkbox><component-slot data-name="checkbox-label"></component-slot></gameface-checkbox>
+        </div>
+      </div>
+      <div class="guic-row">
+        <div class="guic-col-2">
+          <p>Auto-rotate Camera:</p>
+        </div>
+        <div class="guic-col-10">
+          <gameface-checkbox><component-slot data-name="checkbox-label"></component-slot></gameface-checkbox>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>

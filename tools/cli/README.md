@@ -9,6 +9,28 @@ To install the cli open a console and type:
 This will install the cli as a global module and will make it available from everywhere.
 
 ## Usage
+
+### Setting up an Environment
+
+You can use the `coherent-guic-cli` to create a project that uses GameUIComponents. It will setup the required tools to build and debug the code. Run
+```
+coherent-guic-cli create-project <template> <directory>
+```
+
+`<template>` can be either 'webpack' or 'vite'.
+
+Example:
+```
+coherent-guic-cli create-project vite ./my-folder
+```
+
+This will create a new project inside `./my-folder` and will install the dependencies. After that you can navigate to the folder and start a development server:
+```
+cd ./my-folder
+npm run dev
+```
+
+### Creating a Component
 After the installation is complete open a console and run:
 
 `coherent-guic-cli create my-first-guic components`

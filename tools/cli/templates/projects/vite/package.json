@@ -1,0 +1,17 @@
+{
+  "name": "gameface-vite-project",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "coherent-gameface-checkbox": "^1.2.0",
+    "coherent-gameface-grid": "^1.0.3"
+  }
+}
