@@ -4,4 +4,7 @@ export default {
         cssCodeSplit: false,
         assetsInlineLimit: 0,
     },
+    optimizeDeps: {
+        exclude: ['coherent-gameface-components'],
+    },
 };

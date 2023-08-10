@@ -11,7 +11,7 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
-    "coherent-gameface-checkbox": "^1.2.0",
+    "coherent-gameface-checkbox": "^2.0.0",
     "coherent-gameface-grid": "^1.0.3"
   }
 }
