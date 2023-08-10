@@ -9,8 +9,8 @@
     "dev": "webpack serve"
   },
   "dependencies": {
-    "coherent-gameface-checkbox": "^1.2.0",
-    "coherent-gameface-grid": "^1.0.3"
+    "coherent-gameface-checkbox": "^2.0.0",
+    "coherent-gameface-grid": "^2.0.0"
   },
   "devDependencies": {
     "html-loader": "^4.2.0",

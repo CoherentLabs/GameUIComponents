@@ -1,13 +1,14 @@
 {
   "name": "coherent-gameface-menu",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "sideEffects": [
     "./demo/demo.js",
     "./script.js",
     "./index.js",
-    "./menus/**"
+    "./menus/**",
+    "./**/*css"
   ],
   "repository": {
     "type": "git",

@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const templatesLocation = path.join(__dirname, '../templates');
+const templatesLocation = path.join(__dirname, '../templates/component');
 
 /**
  * Will create folder in some directory
@@ -58,35 +58,38 @@ function create(name, directory) {
     const componentFolder = createFolder(path.join(directory), name);
     const demoFolder = createFolder(componentFolder, 'demo');
 
-    fs.readdirSync(templatesLocation).forEach((file) => {
-        const filename = file.replace('.template', '');
-        const data = fs.readFileSync(path.join(templatesLocation, file), 'utf8');
-        const className = toUpperCamelCase(name.split('-'));
+    try {
+        fs.readdirSync(templatesLocation).forEach((file) => {
+            const filename = file.replace('.template', '');
+            const data = fs.readFileSync(path.join(templatesLocation, file), 'utf8');
+            const className = toUpperCamelCase(name.split('-'));
 
-        const templateVars = {
-            componentName: name,
-            className: className,
-        };
+            const templateVars = {
+                componentName: name,
+                className: className,
+            };
 
-        /**
-         * @param {string} templateString
-         * @param {{componentName: string, className: string}} templateVars
-         * @returns {Function}
-         */
-        const fillTemplate = function (templateString, templateVars) {
-            return new Function('return `' + templateString + '`;').call(templateVars);
-        };
+            /**
+             * @param {string} templateString
+             * @param {{componentName: string, className: string}} templateVars
+             * @returns {Function}
+             */
+            const fillTemplate = function (templateString, templateVars) {
+                return new Function('return `' + templateString + '`;').call(templateVars);
+            };
 
-        const fileContent = fillTemplate(data, templateVars);
+            const fileContent = fillTemplate(data, templateVars);
 
-        if (filename !== 'demo.html' && filename !== 'demo.js') {
-            fs.writeFileSync(path.join(componentFolder, filename), fileContent, 'utf8');
-        } else {
-            fs.writeFileSync(path.join(demoFolder, filename), fileContent, 'utf8');
-        }
-    });
-
-    console.log(`Created component ${name} in ${componentFolder}.`);
+            if (filename !== 'demo.html' && filename !== 'demo.js') {
+                fs.writeFileSync(path.join(componentFolder, filename), fileContent, 'utf8');
+            } else {
+                fs.writeFileSync(path.join(demoFolder, filename), fileContent, 'utf8');
+            }
+        });
+        console.log(`Created component ${name} in ${componentFolder}.`);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 

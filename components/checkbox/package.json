@@ -1,12 +1,13 @@
 {
   "name": "coherent-gameface-checkbox",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A checkbox component for Coherent Labs' Gameface.",
   "main": "index.js",
   "sideEffects": [
     "./demo/demo.js",
     "./script.js",
-    "./index.js"
+    "./index.js",
+    "./**/*css"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,12 +1,13 @@
 {
   "name": "coherent-gameface-modal",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A modal component for Coheren Labs' Gameface.",
   "main": "index.js",
   "sideEffects": [
     "./demo/demo.js",
     "./script.js",
-    "./index.js"
+    "./index.js",
+    "./**/*css"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

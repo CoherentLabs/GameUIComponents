@@ -21,7 +21,7 @@
     "coherent-gameface-tabs": "^2.0.0",
     "coherent-gameface-tooltip": "^2.0.0",
     "coherent-gameface-text-field": "^2.0.0",
-    "coherent-gameface-accordion-menu": "^1.2.0",
+    "coherent-gameface-accordion-menu": "^2.0.0",
     "coherent-gameface-interaction-manager": "^1.0.4"
   },
   "eslintConfig": {
