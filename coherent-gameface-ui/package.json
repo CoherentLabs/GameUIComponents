@@ -1,0 +1,35 @@
+{
+  "name": "coherent-gameface-ui",
+  "version": "1.0.0",
+  "description": "A suite of components for Game UI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "coherent-gameface-automatic-grid": "^2.0.0",
+    "coherent-gameface-components": "^2.0.0",
+    "coherent-gameface-checkbox": "^2.0.0",
+    "coherent-gameface-dropdown": "^2.0.0",
+    "coherent-gameface-form-control": "^2.0.0",
+    "coherent-gameface-grid": "^2.0.0",
+    "coherent-gameface-menu": "^2.0.0",
+    "coherent-gameface-modal": "^2.0.0",
+    "coherent-gameface-progress-bar": "^2.0.0",
+    "coherent-gameface-radial-menu": "^2.0.0",
+    "coherent-gameface-radio-button": "^2.0.0",
+    "coherent-gameface-rangeslider": "^2.0.0",
+    "coherent-gameface-router": "^2.0.0",
+    "coherent-gameface-scrollable-container": "^2.0.0",
+    "coherent-gameface-slider": "^2.0.0",
+    "coherent-gameface-switch": "^2.0.0",
+    "coherent-gameface-stepper": "^2.0.0",
+    "coherent-gameface-tabs": "^2.0.0",
+    "coherent-gameface-tooltip": "^2.0.0",
+    "coherent-gameface-text-field": "^2.0.0",
+    "coherent-gameface-accordion-menu": "^2.0.0",
+    "coherent-gameface-interaction-manager": "^1.0.4"
+  },
+  "author": "",
+  "license": "ISC"
+}
