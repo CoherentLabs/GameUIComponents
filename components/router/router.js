@@ -5,7 +5,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 /* eslint-disable no-useless-escape */
-import components from 'coherent-gameface-components';
+import { Components } from 'coherent-gameface-components';
+const components = new Components();
 import { HashHistory, BrowserHistory } from './history';
 import { Route } from './route';
 

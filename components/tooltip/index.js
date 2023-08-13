@@ -4,10 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import Tooltip from './script.js';
-import * as bundle from './dist/tooltip.development.js';
-
-export {
-    Tooltip,
-    bundle,
-};
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./dist/tooltip.production.min.js');
+} else {
+    module.exports = require('./dist/tooltip.development.js');
+}

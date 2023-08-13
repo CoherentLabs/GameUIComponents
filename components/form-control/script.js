@@ -4,10 +4,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import components from 'coherent-gameface-components';
-// eslint-disable-next-line no-unused-vars
-import { Tooltip } from 'coherent-gameface-tooltip';
-// eslint-disable-next-line no-unused-vars
+import { Components } from 'coherent-gameface-components';
+const components = new Components();
+import 'coherent-gameface-tooltip';
 import errorMessages from './errorMessages';
 import 'url-search-params-polyfill';
 

@@ -4,7 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import components from 'coherent-gameface-components';
+import { Components } from 'coherent-gameface-components';
+const components = new Components();
 import verticalTemplate from './templates/vertical.html';
 import verticalTemplateTwoHandles from './templates/verticalTwoHandles.html';
 import horizontalTemplate from './templates/horizontal.html';

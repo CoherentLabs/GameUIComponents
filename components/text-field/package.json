@@ -4,10 +4,10 @@
   "description": "A text field component.",
   "main": "index.js",
   "sideEffects": [
-    "./demo/demo.js",
     "./script.js",
     "./index.js",
-    "./**/*css"
+    "./**/*css",
+    "./dist/**.js"
   ],
   "repository": {
     "type": "git",

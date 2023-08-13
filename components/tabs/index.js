@@ -4,10 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import Tabs from './script.js';
-import * as bundle from './dist/tabs.development.js';
-
-export {
-    Tabs,
-    bundle,
-};
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./dist/tabs.production.min.js');
+} else {
+    module.exports = require('./dist/tabs.development.js');
+}

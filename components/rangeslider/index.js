@@ -4,10 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import RangeSlider from './script.js';
-import * as bundle from './dist/rangeslider.development.js';
-
-export {
-    RangeSlider,
-    bundle,
-};
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./dist/rangeslider.production.min.js');
+} else {
+    module.exports = require('./dist/rangeslider.development.js');
+}

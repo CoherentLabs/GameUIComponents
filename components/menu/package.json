@@ -4,11 +4,11 @@
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "sideEffects": [
-    "./demo/demo.js",
     "./script.js",
     "./index.js",
     "./menus/**",
-    "./**/*css"
+    "./**/*css",
+    "./dist/**.js"
   ],
   "repository": {
     "type": "git",
