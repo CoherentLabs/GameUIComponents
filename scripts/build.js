@@ -10,6 +10,7 @@ const libraryConfig = require('./config/webpack-library.config');
 const { getComponentDirectories } = require('./utils');
 
 const { execSync } = require('child_process');
+const routerConfig = require('./config/webpack-router.config');
 
 let noInstall = false;
 // The target environments
@@ -17,6 +18,17 @@ const ENVIRONMENTS = [
     'production',
     'development',
 ];
+
+/**
+ * Converts kebap-case to camelCase
+ * https://stackoverflow.com/questions/57556471/convert-kebab-case-to-camelcase-with-javascript
+ * @param {string} name
+ * @returns {string}
+ */
+function kebabToCamelCase(name) {
+    if (!name.match(/i/g)) return name;
+    return name.replace(/-./g, x => x[1].toUpperCase());
+}
 
 /**
  * Creates bundles for given list of formats and environments.
@@ -33,7 +45,15 @@ async function buildAndPackage(moduleName, inputOptions, environments, libPath) 
         const config = baseConfig(environment);
         let additionalOutputConfig = {};
 
+        additionalOutputConfig = {
+            library: {
+                type: 'umd',
+                name: kebabToCamelCase(moduleName),
+            },
+        };
+
         if (moduleName === 'components') additionalOutputConfig = libraryConfig.output;
+        if (moduleName === 'router') additionalOutputConfig = routerConfig.output;
 
         await buildWithWebpack({
             ...config,

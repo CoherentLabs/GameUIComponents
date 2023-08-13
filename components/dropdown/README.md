@@ -4,23 +4,11 @@ The gameface-dropdown is part of the Gameface custom components suite.
 Installation
 ===================
 
-`npm i coherent-gameface-dropdown`
+```
+npm i coherent-gameface-dropdown
+```
 
-Usage
-===================
-The gameface-dropdown component exports two objects:
-- bundle - production and development builds, ready for use in the browser
-- GamefaceDropdown - the source file that imports its dependencies
-
-## Usage with the bundle modules:
-
-* import the components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
-~~~~
-
-* import the gameface-dropdown component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-dropdown/dist/dropdown.production.min.js"></script>
@@ -53,12 +41,18 @@ dropdown.setSelected(2);
 
 This is all! Load the file in Gameface to see the gameface-dropdown.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the gameface-dropdown from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the GamefaceDropdown using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
 import { GamefaceDropdown } from 'coherent-gameface-dropdown';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-dropdown';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the

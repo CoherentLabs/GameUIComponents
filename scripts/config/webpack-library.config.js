@@ -5,8 +5,8 @@ module.exports = {
         path: path.join(__dirname, '../../lib/dist/'),
         library: {
             type: 'umd',
-            name: 'components',
-            export: 'default',
+            name: 'Components',
+            export: 'Components',
         },
     },
 };

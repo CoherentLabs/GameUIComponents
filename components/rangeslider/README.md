@@ -4,23 +4,11 @@ The gameface-rangeslider is part of the Gameface custom components suite. As mos
 Installation
 ===================
 
-`npm i coherent-gameface-rangeslider`
+```
+npm i coherent-gameface-rangeslider
+```
 
-Usage
-===================
-The gameface-rangeslider component exports two objects:
-- bundle - production and development builds, ready for use in the browser
-- RangeSlider - the source file that imports its dependencies
-
-## Usage with the bundle modules:
-
-* import the components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
-~~~~
-
-* import the gameface-rangeslider component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-rangeslider/dist/rangeslider.production.min.js"></script>
@@ -34,12 +22,18 @@ The gameface-rangeslider component exports two objects:
 
 This is all! Load the file in Gameface to see the rangeslider.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the rangeslider from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the RangeSlider using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
 import { RangeSlider } from 'coherent-gameface-rangeslider';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-rangeslider';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the

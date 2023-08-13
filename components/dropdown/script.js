@@ -4,9 +4,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import components from 'coherent-gameface-components';
-// eslint-disable-next-line no-unused-vars
-import { ScrollableContainer } from 'coherent-gameface-scrollable-container';
+import { Components } from 'coherent-gameface-components';
+const components = new Components();
+import 'coherent-gameface-scrollable-container';
 import template from './template.html';
 
 const KEYCODES = components.KEYCODES;

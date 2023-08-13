@@ -4,7 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import components from 'coherent-gameface-components';
+import { Components } from 'coherent-gameface-components';
+const components = new Components();
 import template from './template.html';
 
 const maxColumns = 12; // Max number of columns as it's based on the grid component

@@ -4,10 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import GamefaceFormControl from './script.js';
-import * as bundle from './dist/form-control.development.js';
-
-export {
-    GamefaceFormControl,
-    bundle,
-};
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./dist/form-control.production.min.js');
+} else {
+    module.exports = require('./dist/form-control.development.js');
+}

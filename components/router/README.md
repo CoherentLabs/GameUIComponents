@@ -4,7 +4,9 @@ The gameface-router is part of the components suite. It is not a custom element 
 Installation
 ===================
 
-`npm i coherent-gameface-router`
+```
+npm i coherent-gameface-router
+```
 
 Importing the Router
 ===================
@@ -17,15 +19,7 @@ The router component exports the following objects:
 
 Refer to to **Available Modules** section for more information on what each exported variable is for.
 
-## Usage with the bundle modules:
-
-* import the components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
-~~~~
-
-* import the gameface-router component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-router/umd/router.production.min.js"></script>
@@ -46,12 +40,18 @@ new router.Router({
 }, browserHistory);
 ~~~~
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the gameface-router from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the Router using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
 import { Router } from 'coherent-gameface-router';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-router';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
