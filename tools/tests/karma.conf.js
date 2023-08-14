@@ -26,7 +26,6 @@ module.exports = function (config) {
     },
     files: [
       { pattern: 'node_modules/coherent-gameface-*/**/*.css', included: true, type: 'css' },
-      { pattern: 'node_modules/coherent-gameface-components/dist/components.development.js', served: true },
       { pattern: 'node_modules/coherent-gameface-*/dist/*.development.js', served: true },
       { pattern: 'node_modules/coherent-gameface-interaction-manager/dist/interaction-manager.js', served: true },
       { pattern: 'actions.js', served: true },
@@ -61,11 +60,9 @@ module.exports = function (config) {
       'router/*.js': ['webpack'],
       'form-control/spec/*.js': ['webpack'],
       'dropdown/*.js': ['webpack'],
+      'lib/*.js': ['webpack'],
     },
     webpack: {
-      externals: {
-        'coherent-gameface-components': 'components'
-      },
       module: {
         rules: [
           {

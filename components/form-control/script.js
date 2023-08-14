@@ -10,6 +10,8 @@ import 'coherent-gameface-tooltip';
 import errorMessages from './errorMessages';
 import 'url-search-params-polyfill';
 
+const NativeElementValidator = components.NativeElementValidator;
+
 const formMethods = {
     GET: 'GET',
     POST: 'POST',
@@ -39,9 +41,6 @@ const VALID_FORM_CONTROL_CUSTOM_ELEMENT_TAGS = new Set([
     tags.GAMEFACE_SWITCH,
     tags.TEXT_FIELD,
 ]);
-
-const NativeElementValidator = components.NativeElementValidator;
-const CustomElementValidator = components.CustomElementValidator;
 
 /**
 * @callback ValidationMethod
@@ -288,7 +287,7 @@ class GamefaceFormControl extends HTMLElement {
         for (const type in customElementValidators) {
             if (!this.hasValidMethodProperty(customElementValidators[type])) continue;
 
-            if (element instanceof NativeElementValidator) {
+            if (element.instanceType && element.instanceType === 'NativeElementValidator') {
                 customErrorTypes[type] = await customElementValidators[type].method(element.element);
             } else {
                 customErrorTypes[type] = await customElementValidators[type].method(element);
@@ -334,7 +333,7 @@ class GamefaceFormControl extends HTMLElement {
      * @returns {NativeElementValidator | HTMLElement}
     */
     toCustomElement(element) {
-        if (!(element instanceof CustomElementValidator)) element = new NativeElementValidator(element);
+        if (!(element.instanceType && element.instanceType === 'CustomElementValidator')) element = new NativeElementValidator(element);
         return element;
     }
 
@@ -486,7 +485,7 @@ class GamefaceFormControl extends HTMLElement {
 
         if (typeof getErrorMessageCallback !== 'function') return '';
 
-        if (element instanceof NativeElementValidator) {
+        if (element.instanceType && element.instanceType === 'NativeElementValidator') {
             return getErrorMessageCallback(element.element);
         }
 

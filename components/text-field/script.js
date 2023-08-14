@@ -8,6 +8,9 @@ import { Components } from 'coherent-gameface-components';
 const components = new Components();
 import template from './template.html';
 
+const TextFieldValidator = components.TextFieldValidator;
+const CustomElementValidator = components.CustomElementValidator;
+
 const supportedTextFieldTypes = {
     TEXT: 'text',
     PASSWORD: 'password',
@@ -30,9 +33,6 @@ const TEXT_FIELD_ATTRIBUTES = [
     { name: 'minlength', parseMethod: parseInt, isAttrValueValidMethod: isNaN },
     { name: 'step', defaultValue: 1, parseMethod: parseFloat, isAttrValueValidMethod: isNaN },
 ];
-
-const TextFieldValidator = components.TextFieldValidator;
-const CustomElementValidator = components.CustomElementValidator;
 
 /**
  * Class definition of gameface text field custom element
