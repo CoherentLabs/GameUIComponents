@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import GamefaceMenu from '../menu';
 import { Components } from 'coherent-gameface-components';
 const components = new Components();
-import GamefaceMenu from '../menu';
 
 const KEYCODES = components.KEYCODES;
 

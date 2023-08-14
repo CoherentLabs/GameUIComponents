@@ -111,7 +111,7 @@ class Router {
         const view = document.querySelector('router-view');
 
         let el;
-        if (components.definedElements[component]) {
+        if (window.GUIComponentsDefinedElements[component]) {
             el = document.createElement(component);
         } else {
             el = document.createElement('div');
@@ -206,7 +206,7 @@ class Router {
     }
 }
 
-if (!components.definedElements['router-view']) {
+if (!window.GUIComponentsDefinedElements['router-view']) {
     components.defineCustomElement('router-view', class RouterView extends HTMLElement { });
 }
 

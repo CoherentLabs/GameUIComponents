@@ -101,7 +101,7 @@ class GamefaceRoute extends HTMLElement {
     }
 }
 
-if (!components.definedElements['gameface-route']) {
+if (!window.GUIComponentsDefinedElements['gameface-route']) {
     components.defineCustomElement('gameface-route', GamefaceRoute);
 }
 

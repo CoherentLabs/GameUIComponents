@@ -27,7 +27,7 @@ describe('Components Library', () => {
 
     it('Should define custom element', () => {
         components.defineCustomElement('defined-element', class TestElement extends HTMLElement { });
-        assert(components.definedElements['defined-element'] !== undefined, 'defined-element was not defined.');
+        assert(window.GUIComponentsDefinedElements['defined-element'] !== undefined, 'defined-element was not defined.');
     });
 
     it('Should load html from a component with template', async () => {
