@@ -10,6 +10,7 @@ const libraryConfig = require('./config/webpack-library.config');
 const { getComponentDirectories } = require('./utils');
 
 const { execSync } = require('child_process');
+const routerConfig = require('./config/webpack-router.config');
 
 let noInstall = false;
 // The target environments
@@ -34,6 +35,7 @@ async function buildAndPackage(moduleName, inputOptions, environments, libPath) 
         let additionalOutputConfig = {};
 
         if (moduleName === 'components') additionalOutputConfig = libraryConfig.output;
+        if (moduleName === 'router') additionalOutputConfig = routerConfig.output;
 
         await buildWithWebpack({
             ...config,
