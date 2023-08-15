@@ -55,10 +55,6 @@ exports.packagejson = `
     "name": "test-name",
     "version": "1.0.0",
     "description": "AcomponentforCoherentLabsGameface.",
-    "sideEffects": [
-        "./demo/demo.js",
-        "./script.js"
-    ],
     "main": "script.js",
     "repository": {
         "type": "git",

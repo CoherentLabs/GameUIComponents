@@ -2,7 +2,6 @@
     "name": "${this.componentName}",
     "version": "1.0.0",
     "description": "A component for Coherent Labs Gameface.",
-    "sideEffects": ["./demo/demo.js", "./script.js"],
     "main": "script.js",
     "repository": {
       "type": "git",

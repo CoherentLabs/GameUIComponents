@@ -3,12 +3,6 @@
   "version": "2.0.1",
   "description": "A text field component.",
   "main": "index.js",
-  "sideEffects": [
-    "./script.js",
-    "./index.js",
-    "./**/*css",
-    "./dist/**.js"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/text-field"

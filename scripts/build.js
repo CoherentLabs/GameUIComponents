@@ -20,6 +20,17 @@ const ENVIRONMENTS = [
 ];
 
 /**
+ * Converts kebap-case to camelCase
+ * https://stackoverflow.com/questions/57556471/convert-kebab-case-to-camelcase-with-javascript
+ * @param {string} name
+ * @returns {string}
+ */
+function kebabToCamelCase(name) {
+    if (!name.match(/i/g)) return name;
+    return name.replace(/-./g, x => x[1].toUpperCase());
+}
+
+/**
  * Creates bundles for given list of formats and environments.
  * @param {string} moduleName - the root name of the bundle.
  * @param {object} inputOptions - rollup input options.
@@ -33,6 +44,13 @@ async function buildAndPackage(moduleName, inputOptions, environments, libPath) 
 
         const config = baseConfig(environment);
         let additionalOutputConfig = {};
+
+        additionalOutputConfig = {
+            library: {
+                type: 'umd',
+                name: kebabToCamelCase(moduleName),
+            },
+        };
 
         if (moduleName === 'components') additionalOutputConfig = libraryConfig.output;
         if (moduleName === 'router') additionalOutputConfig = routerConfig.output;
