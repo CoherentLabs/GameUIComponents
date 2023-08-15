@@ -4,26 +4,11 @@ The gameface-menu is part of the Gameface custom components suite. As most of th
 Installation
 ===================
 
-`npm i coherent-gameface-menu`
+```
+npm i coherent-gameface-menu
+```
 
-Usage
-===================
-The gameface-menu component exports these objects:
-- bundle - production and development builds, ready for use in the browser
-- GamefaceMenu - the base menu component - by default anchored at the top
-- GamefaceLeftMenu - a menu item that would be anchored at the left
-- GamefaceBottomMenu - a menu item that would be anchored at the bottom
-- GamefaceRightMenu - a menu item that would be anchored at the right
-
-## Usage with the bundle modules:
-
-* import the components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
-~~~~
-
-* import the menu component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-menu/dist/menu.production.min.js"></script>
@@ -37,12 +22,18 @@ The gameface-menu component exports these objects:
 
 This is all! Load the file in Gameface to see the menu.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the gameface-menu from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the GamefaceMenu using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
-import { GamefaceMenu, GamefaceLeftMenu } from 'coherent-gameface-menu';
+import { GamefaceMenu, GamefaceLeftMenu, GamefaceBottomMenu, GamefaceRightMenu } from 'coherent-gameface-menu';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-menu';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the

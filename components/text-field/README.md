@@ -1,25 +1,14 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The gameface-text-field is part of the Gameface custom components suite. As most of the components in this suite, it uses slots to allow dynamic content.
 
-# Installation
+Installation
+===================
 
-`npm i coherent-gameface-text-field`
-
-# Usage
-
-The gameface-text-field component exports the following objects:
-- bundle - production and development builds, ready for use in the browser
-- TextField - the source file that imports its dependencies
-
-## Usage with the bundle modules:
-
-* import the components library:
-
-```html
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
+```
+npm i coherent-gameface-text-field
 ```
 
-* import the gameface-text-field component:
+## Usage with UMD:
 
 ```html
 <script src="./node_modules/coherent-gameface-text-field/dist/text-field.production.min.js"></script>
@@ -33,13 +22,19 @@ The gameface-text-field component exports the following objects:
 
 This is all! Load the file in Gameface to see the text field.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the text-field from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the TextField using JavaScript you can remove the script tag and import it like this:
 
 ```javascript
-import components from 'coherent-gameface-components';
 import { TextField } from 'coherent-gameface-text-field';
 ```
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-text-field';
+~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
 modules from the node_modules folder.

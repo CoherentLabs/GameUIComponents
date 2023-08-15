@@ -2,26 +2,14 @@
 
 The accordion-menu is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
-
-Usage
+Installation
 ===================
-The accordion-menu component exports two objects:
-- bundle - production and development builds, ready for use in the browser
-- AccordionMenu - the source file that imports its dependencies
 
-# Installation
-`npm i coherent-gameface-accordion-menu`
+```
+npm i coherent-gameface-accordion-menu
+```
 
-
-## Usage with the bundle modules:
-
-* import the components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
-~~~~
-
-* import the accordion-menu component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-accordion-menu/dist/accordion-menu.production.min.js"></script>
@@ -35,12 +23,18 @@ The accordion-menu component exports two objects:
 
 This is all! Load the file in Gameface to see the accordion-menu. 
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the accordion-menu from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the AccordionMenu using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
 import { AccordionMenu } from 'coherent-gameface-accordion-menu';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-accordion-menu';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the

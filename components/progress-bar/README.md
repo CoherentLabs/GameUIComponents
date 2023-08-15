@@ -5,23 +5,11 @@ The progress-bar is part of the Gameface custom components suite.
 Installation
 ===================
 
-`npm i coherent-gameface-progress-bar`
+```
+npm i coherent-gameface-progress-bar
+```
 
-Usage
-===================
-The progress-bar component exports two objects:
-- bundle - production and development builds, ready for use in the browser
-- ProgressBar - the source file that imports its dependencies
-
-## Usage with the bundle modules:
-
-* import the components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
-~~~~
-
-* import the progress-bar component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-progress-bar/dist/progress-bar.production.min.js"></script>
@@ -35,11 +23,18 @@ The progress-bar component exports two objects:
 
 Configuration and usage is explained further down the document. 
 
-Import using ES modules:
+## Usage with JavaScript:
+
+If you wish to import the ProgressBar using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
 import { ProgressBar } from 'coherent-gameface-progress-bar';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-progress-bar';
 ~~~~
 
 Note that this approach requires a module bundler like

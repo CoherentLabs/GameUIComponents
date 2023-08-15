@@ -4,23 +4,11 @@ The radial-menu is part of the Gameface custom Components suite.
 Installation
 ===================
 
-`npm i coherent-gameface-radial-menu`
+```
+npm i coherent-gameface-radial-menu
+```
 
-Usage
-===================
-The radial-menu component exports two objects:
-- bundle - production and development builds, ready for use in the browser
-- RadialMenu - the source file that imports its dependencies
-
-## Usage with the bundle modules:
-
-* import the Components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
-~~~~
-
-* import the radial-menu Component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-radial-menu/dist/radial-menu.production.min.js"></script>
@@ -34,11 +22,18 @@ The radial-menu component exports two objects:
 
 This is all! Load the file in Gameface to see the radial-menu.
 
-Import using ES modules:
+## Usage with JavaScript:
+
+If you wish to import the RadialMenu using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
 import { RadialMenu } from 'coherent-gameface-radial-menu';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-radial-menu';
 ~~~~
 
 Note that this approach requires a module bundler like
