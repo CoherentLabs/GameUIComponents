@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-text-field",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "A text field component.",
   "main": "index.js",
   "repository": {
@@ -13,7 +13,7 @@
     "Text field"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^2.0.0",
+    "coherent-gameface-components": "^3.0.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },
