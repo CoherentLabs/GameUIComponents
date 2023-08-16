@@ -1,0 +1,17 @@
+{
+  "name": "project-that-uses-the-suite",
+  "version": "3.0.0",
+  "description": "A test demo project that uses the components-ui suite",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/checkbox"
+  },
+  "dependencies": {
+    "coherent-gameface-ui": "^1.0.0"
+  },
+  "author": "CoherentLabs",
+  "license": "ISC"
+}

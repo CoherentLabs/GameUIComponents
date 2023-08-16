@@ -1,0 +1,346 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-checkbox/coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-switch/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-menu/menus/left/left.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-menu/menus/menu.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-dropdown/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-dropdown/node_modules/coherent-gameface-scrollable-container/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-dropdown/node_modules/coherent-gameface-scrollable-container/node_modules/coherent-gameface-slider/styles/vertical.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-modal/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-progress-bar/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-radio-button/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-rangeslider/styles/horizontal.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-slider/styles/horizontal.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-stepper/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-tooltip/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-text-field/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-accordion-menu/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-tabs/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-radial-menu/style.css">
+    <link rel="stylesheet" href="../node_modules/coherent-gameface-ui/node_modules/coherent-gameface-router/style.css">
+    <style>
+        .guic-scrollable-container-wrapper {
+            width: 100%;
+            height: 200px;
+        }
+
+        .guic-vertical-slider-wrapper {
+            height: 200px;
+        }
+
+        .guic-dropdown-selected-option {
+            flex-wrap: wrap;
+        }
+
+        .box {
+            box-sizing: border-box;
+            background: #25a5d6;
+            margin-bottom: 1rem;
+            height: 4rem;
+        }
+
+        .guic-modal-backdrop {
+            display: none;
+        }
+
+        .guic-modal-wrapper {
+            top: unset;
+            left: unset;
+            width: unset;
+            height: unset;
+            display: unset;
+            position: relative;
+        }
+
+        .guic-modal {
+            width: 300px;
+            height: 200px;
+            z-index: unset;
+            position: relative;
+        }
+
+        .progress-bar-wrapper-one {
+            width: 60%;
+            height: 15px;
+        }
+
+        .guic-row {
+            margin-bottom: 80px;
+        }
+
+        .guic-horizontal-slider-wrapper,
+        .guic-horizontal-rangeslider-wrapper {
+            width: 300px;
+            margin: 0px;
+        }
+
+        .guic-stepper {
+            height: 2vmax;
+        }
+
+        .auto,
+        .manual,
+        .async {
+            width: 150px;
+            text-align: center;
+            background-color: #6e6d6d;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        tab-panel {
+            height: 300px;
+        }
+
+        gameface-radial-menu {
+            pointer-events: auto;
+            visibility: visible;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body class="guic-demo">
+    <div class="guic-row">
+        <div class="guic-col">
+            <gameface-menu orientation="horizontal">
+                <menu-item slot="menu-item">Start Game</menu-item>
+                <menu-item slot="menu-item">
+                    Settings
+                    <gameface-left-menu>
+                        <menu-item slot="menu-item">Graphics</menu-item>
+                        <menu-item slot="menu-item">
+                            Keyboard
+                            <gameface-left-menu>
+                                <menu-item slot="menu-item">Graphics</menu-item>
+                                <menu-item slot="menu-item">Keyboard</menu-item>
+                                <menu-item slot="menu-item">
+                                    Mouse
+                                    <gameface-left-menu>
+                                        <menu-item slot="menu-item">Graphics</menu-item>
+                                        <menu-item slot="menu-item">Keyboard</menu-item>
+                                        <menu-item slot="menu-item">Mouse</menu-item>
+                                    </gameface-left-menu>
+                                </menu-item>
+                            </gameface-left-menu>
+                        </menu-item>
+                        <menu-item slot="menu-item">
+                            Mouse
+                        </menu-item>
+                    </gameface-left-menu>
+                </menu-item>
+                <menu-item slot="menu-item" disabled>Hero Gallery</menu-item>
+                <menu-item slot="menu-item">Credits</menu-item>
+            </gameface-menu>
+        </div>
+        <div class="guic-col">
+            <gameface-switch>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="guic-col">
+            <gameface-checkbox class="checkbox-component">
+                <component-slot data-name="checkbox-background">
+                    <div class="guic-checkbox-background"></div>
+                </component-slot>
+                <component-slot data-name="checkbox-label">
+                    <span class="guic-checkbox-label">Enable Music</span>
+                </component-slot>
+            </gameface-checkbox>
+        </div>
+        <div class="guic-col">
+            <div class="auto">Hover over me</div>
+            <gameface-tooltip target=".auto" on="mouseenter" position="bottom" off="mouseleave">
+                <div slot="message">Message on the left</div>
+            </gameface-tooltip>
+        </div>
+    </div>
+    <div class="guic-row">
+        <div class="guic-col"></div>
+        <div class="guic-col">    <gameface-modal>
+            <div slot="header">
+                    Character name selection
+            </div>
+            <div slot="body">
+                <div class="confirmation-text">Are you sure you want to save this name?</div>
+            </div>
+            <div slot="footer">
+                <div class="actions">
+                    <button id="confirm" class="close guic-modal-button confirm controls">Yes</button>
+                    <button class="close guic-modal-button discard controls">No</button>
+                </div>
+            </div>
+        </gameface-modal></div>
+        <div class="guic-col">
+            <div class="progress-bar-wrapper-one">
+                <gameface-progress-bar id="progress-bar-one" data-animation-duration="2000">
+                </gameface-progress-bar>
+            </div>
+        </div>
+        <div class="guic-col">
+            <gameface-radio-group>
+                <radio-button>Tab Targeting</radio-button>
+                <radio-button checked>Action Combat</radio-button>
+            </gameface-radio-group>
+        </div>
+    </div>
+    <div class="guic-row">
+        <div class="guic-col"></div>
+        <div class="guic-col">
+            <gameface-rangeslider orientation="horizontal" min="56" max="255" grid thumb>
+            </gameface-rangeslider>
+        </div>
+        <div class="guic-col">
+            <gameface-slider class="horizontal-slider-component" orientation="horizontal"></gameface-slider>
+        </div>
+        <div class="guic-col">
+            <gameface-stepper class="stepper-component">
+                <gameface-stepper-item>Easy</gameface-stepper-item>
+                <gameface-stepper-item>Medium</gameface-stepper-item>
+                <gameface-stepper-item>Hard</gameface-stepper-item>
+                <gameface-stepper-item>Expert</gameface-stepper-item>
+                <gameface-stepper-item>Legendary</gameface-stepper-item>
+                <gameface-stepper-item>Impossible</gameface-stepper-item>
+            </gameface-stepper>
+        </div>
+    </div>
+    <div class="guic-row">
+        <div class="guic-col">
+            <gameface-dropdown class="gameface-dropdown-component" id="dropdown-default">
+                <dropdown-option>Cat1</dropdown-option>
+                <dropdown-option disabled>Cat1</dropdown-option>
+                <dropdown-option disabled>Cat1</dropdown-option>
+                <dropdown-option>Cat3</dropdown-option>
+                <dropdown-option>Cat4</dropdown-option>
+                <dropdown-option>Dog</dropdown-option>
+                <dropdown-option>Giraffe</dropdown-option>
+                <dropdown-option>Lion</dropdown-option>
+                <dropdown-option disabled>Pig</dropdown-option>
+                <dropdown-option>Eagle</dropdown-option>
+                <dropdown-option>Parrot</dropdown-option>
+                <dropdown-option disabled>Last Parrot</dropdown-option>
+                <dropdown-option disabled>Last Parrota</dropdown-option>
+                <dropdown-option>Last Parrot</dropdown-option>
+            </gameface-dropdown>
+        </div>
+        <div class="guic-col">
+            <gameface-text-field id="test1" type="text" label="Text:"></gameface-text-field>
+            <gameface-text-field type="text" value="default value" label="Text:"></gameface-text-field>
+            <gameface-text-field type="text" readonly value="(read only) default value" label="Text:">
+            </gameface-text-field>
+            <gameface-text-field type="text"
+                placeholder="Type some very very long text here to test overflow and placeholder" label="Text:">
+            </gameface-text-field>
+            <gameface-text-field type="text" value="The value should be visible instead the placeholder"
+                placeholder="Type some very very long text here to test overflow and placeholder" label="Text:">
+            </gameface-text-field>
+            <gameface-text-field type="password" label="Password:"></gameface-text-field>
+            <gameface-text-field type="password" value="default value" label="Password:"></gameface-text-field>
+            <gameface-text-field type="password" disabled value="(disabled) default value" label="Password:">
+            </gameface-text-field>
+            <gameface-text-field type="search" value="default value" label="Search:"></gameface-text-field>
+            <gameface-text-field type="search" disabled value="(disabled) default value" label="Search:">
+            </gameface-text-field>
+            <gameface-text-field type="number" label="Number:"></gameface-text-field>
+            <gameface-text-field type="number" value="7" label="Number:"></gameface-text-field>
+            <gameface-text-field readonly type="number" placeholder="This input is read only" label="Number:">
+            </gameface-text-field>
+        </div>
+        <div class="guic-col">
+            <gameface-accordion-menu>
+                <gameface-accordion-panel slot="accordion-panel" expanded>
+                    <gameface-accordion-header>Long Text</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque molestias, laudantium sapiente, veritatis
+                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic quisquam, a tenetur eaque asperiores
+                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione. Debitis totam deleniti quibusdam hic.
+                    </gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel" disabled>
+                    <gameface-accordion-header>Disabled Closed</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel" disabled expanded>
+                    <gameface-accordion-header>Disabled Open</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel">
+                    <gameface-accordion-header>Short Text</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+            </gameface-accordion-menu>
+        </div>
+        <div class="guic-col">
+            <gameface-tabs>
+                <tab-heading slot="tab">Chapter One</tab-heading>
+                <tab-panel slot="panel">Chapter One Content</tab-panel>
+                <tab-heading slot="tab">Chapter Two</tab-heading>
+                <tab-panel slot="panel">Chapter Two Content</tab-panel>
+                <tab-heading slot="tab">Chapter Three</tab-heading>
+                <tab-panel slot="panel">Chapter Three Content</tab-panel>
+                <tab-heading slot="tab">Chapter Four</tab-heading>
+                <tab-panel slot="panel">Chapter Four Content</tab-panel>
+            </gameface-tabs>
+        </div>
+    </div>
+    <div class="guic-row">
+        <div class="guic-col">
+            Hold LShift to choose item
+            <gameface-radial-menu id="radial-menu-one"
+                data-name="Radial Menu"
+                data-change-event-name="radOneItemChanged"
+                data-select-event-name="radOneItemSelected"
+                data-open-key-code="shift"
+                class="radial-menu-component">
+            </gameface-radial-menu>
+        </div>
+        <div class="guic-col">
+            <div class="menu">
+                <gameface-route activeClass="active" class="active" to="/">Home</gameface-route>
+                <gameface-route activeClass="active" to="/start-game">Start Game</gameface-route>
+            </div>
+
+            <router-view></router-view>
+        </div>
+        <div class="guic-col"></div>
+        <div class="guic-col"></div>
+    </div>
+
+    <script src="items-mocking.js" type="text/javascript"></script>
+    <script src="./bundle.js"></script>
+    <script>
+        const radialMenuOne = document.getElementById('radial-menu-one');
+        // Provide the items.
+        radialMenuOne.items = itemsModel.items;
+    </script>
+    <script>
+        const progressBarOne = document.getElementById('progress-bar-one');
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min);
+        }
+
+        let progressBarOneValue = 0;
+
+        setInterval(() => {
+            (progressBarOneValue < 100) ? progressBarOneValue += 2 : progressBarOneValue = 0;
+            progressBarOne.setProgress(progressBarOneValue);
+        }, 100);
+    </script>
+</body>
+
+</html>
