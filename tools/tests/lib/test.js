@@ -2,7 +2,9 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-/* global components */
+import { Components } from 'coherent-gameface-components';
+const components = new Components();
+
 // eslint-disable-next-line max-lines-per-function
 describe('Components Library', () => {
     afterAll(() => cleanTestPage('.components-library-test'));
@@ -27,7 +29,7 @@ describe('Components Library', () => {
 
     it('Should define custom element', () => {
         components.defineCustomElement('defined-element', class TestElement extends HTMLElement { });
-        assert(components.definedElements['defined-element'] !== undefined, 'defined-element was not defined.');
+        assert(window.GUIComponentsDefinedElements['defined-element'] !== undefined, 'defined-element was not defined.');
     });
 
     it('Should load html from a component with template', async () => {

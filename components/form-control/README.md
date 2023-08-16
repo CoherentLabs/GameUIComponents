@@ -1,25 +1,14 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The gameface-form-control is part of the Gameface custom components suite. As most of the components in this suite, it uses slots to allow dynamic content.
 
-# Installation
+Installation
+===================
 
-`npm i coherent-gameface-form-control`
-
-# Usage
-
-The gameface-form-control component exports two objects:
-- bundle - production and development builds, ready for use in the browser
-- GamefaceFormControl - the source file that imports its dependencies
-
-## Usage with the bundle modules:
-
-* import the components library:
-
-```html
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
+```
+npm i coherent-gameface-form-control
 ```
 
-* import the gameface-form-control component:
+## Usage with UMD:
 
 ```html
 <script src="./node_modules/coherent-gameface-form-control/dist/form-control.production.min.js"></script>
@@ -31,13 +20,19 @@ This is all! Load the file in Gameface to see the gameface-form-control.
 <gameface-form-control></gameface-form-control>
 ```
 
-If you wish to import the modules using JavaScript you can replace the script tags
-with import statements like this:
+## Usage with JavaScript:
+
+If you wish to import the GamefaceFormControl using JavaScript you can replace the script tag with import statements like this:
 
 ```javascript
-import components from 'coherent-gameface-components';
 import { GamefaceFormControl } from 'coherent-gameface-form-control';
 ```
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-form-control';
+~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
 modules from the node_modules folder.

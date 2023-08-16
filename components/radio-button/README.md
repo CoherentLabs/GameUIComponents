@@ -2,21 +2,14 @@
 
 The radio-button is part of the Gameface custom components suite.
 
-Usage
+Installation
 ===================
-The radio-button component exports two objects:
-- bundle - production and development builds, ready for use in the browser
-- GamefaceRadioGroup - the source file that imports its dependencies
 
-## Usage with the bundle modules:
+```
+npm i coherent-gameface-radio-button
+```
 
-* import the components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
-~~~~
-
-* import the radio-button component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-radio-button/dist/coherent-gameface-radio-button.production.min.js"></script>
@@ -33,11 +26,18 @@ The radio-button component exports two objects:
 
 Configuration and usage is explained further down the document. 
 
-Import using ES modules:
+## Usage with JavaScript:
+
+If you wish to import the GamefaceRadioGroup using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
 import { GamefaceRadioGroup } from 'coherent-gameface-radio-button';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-radio-button';
 ~~~~
 
 Note that this approach requires a module bundler like

@@ -4,9 +4,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import components from 'coherent-gameface-components';
-// eslint-disable-next-line no-unused-vars
-import { Slider } from 'coherent-gameface-slider';
+import { Components } from 'coherent-gameface-components';
+const components = new Components();// eslint-disable-next-line no-unused-vars
+import 'coherent-gameface-slider';
 import template from './template.html';
 
 const BaseComponent = components.BaseComponent;

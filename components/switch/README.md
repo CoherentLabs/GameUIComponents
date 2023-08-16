@@ -1,24 +1,14 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The gameface-switch is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
-Usage
+Installation
 ===================
-The gameface-switch component exports the following objects:
-- bundle - production and development builds, ready for use in the browser
-- Switch - the source file that imports its dependencies
 
-## Installation
-`npm i coherent-gameface-switch`
-
-## Usage with the bundle modules:
-
--   import the components library:
-
-```{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
+```
+npm i coherent-gameface-switch
 ```
 
--   import the gameface-switch component:
+## Usage with UMD:
 
 ```{.html}
 <script src="./node_modules/coherent-gameface-switch/dist/switch.production.min.js"></script>
@@ -32,13 +22,19 @@ The gameface-switch component exports the following objects:
 
 This is all! Load the file in Gameface to see the switch.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the switch from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the Switch using JavaScript you can remove the script tag and import it like this:
 
 ```{.js}
-import components from 'coherent-gameface-components';
 import { Switch } from 'coherent-gameface-switch';
 ```
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-switch';
+~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
 modules from the node_modules folder.

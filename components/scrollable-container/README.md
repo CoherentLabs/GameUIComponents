@@ -4,23 +4,11 @@ The gameface-scrollable-container is part of the Gameface custom components suit
 Installation
 ===================
 
-`npm i coherent-gameface-scrollable-container`
+```
+npm i coherent-gameface-scrollable-container
+```
 
-Usage
-===================
-The gameface-scrollable-container component exports the following objects:
-- bundle - production and development builds, ready for use in the browser
-- ScrollableContainer - the source file that imports its dependencies
-
-## Usage with the bundle modules:
-
-* import the components library:
-
-~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/dist/components.production.min.js"></script>
-~~~~
-
-* import the gameface-scrollable-container component:
+## Usage with UMD:
 
 ~~~~{.html}
 <script src="./node_modules/coherent-gameface-scrollable-container/dist/scrollable-container.production.min.js"></script>
@@ -34,12 +22,18 @@ The gameface-scrollable-container component exports the following objects:
 
 This is all! Load the file in Gameface to see the gameface-scrollable-container.
 
-If you wish to import the modules using JavaScript you can remove the script tags
-which import the components and the gameface-scrollable-container from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the ScrollableContainer using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
 import { ScrollableContainer } from 'coherent-gameface-scrollable-container';
+~~~~
+
+or simply
+
+~~~~{.js}
+import 'coherent-gameface-scrollable-container';
 ~~~~
 
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the

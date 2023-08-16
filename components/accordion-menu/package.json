@@ -1,14 +1,8 @@
 {
   "name": "coherent-gameface-accordion-menu",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
-  "sideEffects": [
-    "./demo/demo.js",
-    "./script.js",
-    "./index.js",
-    "./**/*css"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/accordion-menu"
@@ -18,7 +12,7 @@
     "Component"
   ],
   "dependencies": {
-    "coherent-gameface-components": "^2.0.0",
+    "coherent-gameface-components": "^3.0.0",
     "postmessage-polyfill": "1.0.0",
     "whatwg-fetch": "3.4.1"
   },

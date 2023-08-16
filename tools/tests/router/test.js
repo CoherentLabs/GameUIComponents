@@ -2,8 +2,9 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-/* global components */
 import { Router, Route, BrowserHistory, HashHistory } from 'coherent-gameface-router';
+import { Components } from 'coherent-gameface-components';
+const components = new Components();
 
 const NumbersModel = {
     whole: [1, 2, 3, 4, 5, 6, -7],

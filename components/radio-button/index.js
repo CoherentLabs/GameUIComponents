@@ -4,10 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import GamefaceRadioGroup from './script.js';
-import * as bundle from './dist/radio-button.development.js';
-
-export {
-    GamefaceRadioGroup,
-    bundle,
-};
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./dist/radio-button.production.min.js');
+} else {
+    module.exports = require('./dist/radio-button.development.js');
+}

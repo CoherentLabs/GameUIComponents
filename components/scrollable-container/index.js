@@ -4,10 +4,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import ScrollableContainer from './script.js';
-import * as bundle from './dist/scrollable-container.development.js';
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./dist/scrollable-container.production.min.js');
+} else {
+    module.exports = require('./dist/scrollable-container.development.js');
+}
 
-export {
-    ScrollableContainer,
-    bundle,
-};

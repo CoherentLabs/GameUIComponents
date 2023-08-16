@@ -5,7 +5,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import components from 'coherent-gameface-components';
+import { Components } from 'coherent-gameface-components';
+const components = new Components();
 import { Router, Route, BrowserHistory, HashHistory } from '../script.js';
 import { pm } from 'postmessage-polyfill';
 // eslint-disable-next-line no-unused-vars

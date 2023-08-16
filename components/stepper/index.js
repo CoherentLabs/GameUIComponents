@@ -4,10 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import Stepper from './script.js';
-import * as bundle from './dist/stepper.development.js';
-
-export {
-    Stepper,
-    bundle,
-};
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./dist/stepper.production.min.js');
+} else {
+    module.exports = require('./dist/stepper.development.js');
+}
