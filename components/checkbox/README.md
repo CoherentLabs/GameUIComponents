@@ -5,7 +5,7 @@ Installation
 ===================
 
 ```
-npm i coherent-gameface-checkbox`
+npm i coherent-gameface-checkbox
 ```
 
 ## Usage with UMD:

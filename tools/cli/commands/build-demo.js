@@ -11,7 +11,7 @@ const webpackDemoConfig = require('../config/webpack-demo-config');
  * @param {boolean} [dev=false]
 */
 function buildDemo(dev = false) {
-    webpack(webpackDemoConfig, (err, stats) => { // Stats Object
+    webpack(webpackDemoConfig(dev), (err, stats) => { // Stats Object
         if (err || stats.hasErrors()) {
             console.error(err);
         }

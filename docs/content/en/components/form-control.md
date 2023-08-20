@@ -1,33 +1,23 @@
 ---
-date: 2022-3-25
+date: 2023-8-23
 title: Form control
 draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
-
 The gameface-form-control is part of the Gameface custom components suite. As most of the components in this suite, it uses slots to allow dynamic content.
 
-# Installation
+Installation
+===================
 
-`npm i coherent-gameface-form-control`
-
-# Usage
-
-The gameface-form-control component comes with UMD and CJS builds.
-
-## Usage with UMD modules:
-
-- import the components library:
-
-```html
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
+```
+npm i coherent-gameface-form-control
 ```
 
-- import the gameface-form-control component:
+## Usage with UMD:
 
 ```html
-<script src="./node_modules/coherent-gameface-form-control/umd/form-control.production.min.js"></script>
+<script src="./node_modules/coherent-gameface-form-control/dist/form-control.production.min.js"></script>
 ```
 
 This is all! Load the file in Gameface to see the gameface-form-control.
@@ -36,43 +26,35 @@ This is all! Load the file in Gameface to see the gameface-form-control.
 <gameface-form-control></gameface-form-control>
 ```
 
-If you wish to import the modules using JavaScript you can replace the script tags with import statements like this:
+## Usage with JavaScript:
 
-```{.javascript}
-import components from 'coherent-gameface-components';
-import GamefaceFormControl from 'coherent-gameface-form-control';
+If you wish to import the GamefaceFormControl using JavaScript you can replace the script tag with import statements like this:
+
+```javascript
+import { GamefaceFormControl } from 'coherent-gameface-form-control';
 ```
 
-Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the modules from the node_modules folder. Alternatively, you can import them directly from node_modules:
+or simply
 
-```{.javascript}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import GamefaceFormControl from './node_modules/coherent-gameface-form-control/umd/form-control.production.min.js';
-```
+~~~~{.js}
+import 'coherent-gameface-form-control';
+~~~~
 
-## Usage with CJS modules:
-
-- Import the components library:
-
-```{.javascript}
-const components = require('coherent-gameface-components');
-const GamefaceFormControl = require('coherent-gameface-form-control');
-```
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module bundler to use them in a browser.
+Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
+modules from the node_modules folder.
 
 # Form control attributes
 
 | Attribute | Required | Values        | Default value | Usage                                                                                                                                                                            |
 | --------- | -------- | ------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `method`  | Yes      | `GET`, `POST` | `GET`         | Used to specify the HTTP method that will be used to send data when the form is submitted. **If the attribute is not added or with no valid value the form won't be published.** |
-| `action`  | No       | Any valid URL | `./`          | Used to specify where the form will send the data. **If the attribute is not added the data will be sent to the current page URL.**        
+| `action`  | No       | Any valid URL | `./`          | Used to specify where the form will send the data. **If the attribute is not added the data will be sent to the current page URL.**                                              |
 
 ### Examples
 
-- `<gameface-form-control method="GET" action="http://localhost:12345/login"></gameface-form-control>` - Submitting this form will create a `GET` request with the form data and send it to the server that is available on `http://localhost:12345/login`.
-- `<gameface-form-control method="POST"></gameface-form-control>` - Submitting this form will create a `POST` request with the form data and send it to the current page location.
-- `<gameface-form-control></gameface-form-control>` - Submitting this form will produce a warning and the request will be aborted.
+* `<gameface-form-control method="GET" action="http://localhost:12345/login"></gameface-form-control>` - Submitting this form will create a `GET` request with the form data and send it to the server that is available on `http://localhost:12345/login`.
+* `<gameface-form-control method="POST"></gameface-form-control>` - Submitting this form will create a `POST` request with the form data and send it to the current page location.
+* `<gameface-form-control></gameface-form-control>` - Submitting this form will produce a warning and the request will be aborted.
 
 # Form control events
 
@@ -87,7 +69,7 @@ The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a mod
 
 Let us have the following functions:
 
-```{.javascript}
+```javascript
 function onRequestEnd(event) {
     console.log("Request response: ", event.detail.target.response)
 }
@@ -97,8 +79,8 @@ function preventSubmit(event) {
 }
 ```
 
-- `<gameface-form-control onload="onRequestEnd(event)" method="GET" action="http://localhost:12345/login"></gameface-form-control>` - `onRequestEnd` will log the response from the request.
-- `<gameface-form-control onsubmit="preventSubmit(event)" method="GET" action="http://localhost:12345/login"></gameface-form-control>` - `preventSubmit` will prevent form from making request to the server when the form is submitted.
+* `<gameface-form-control onload="onRequestEnd(event)" method="GET" action="http://localhost:12345/login"></gameface-form-control>` - `onRequestEnd` will log the response from the request.
+* `<gameface-form-control onsubmit="preventSubmit(event)" method="GET" action="http://localhost:12345/login"></gameface-form-control>` - `preventSubmit` will prevent form from making request to the server when the form is submitted.
 
 ## Event handlers
 
@@ -111,18 +93,18 @@ function preventSubmit(event) {
 
 Let us have the following form - `<gameface-form-control id="form" method="GET" action="http://localhost:12345/login"></gameface-form-control>`.
 
-- Log the response from the request.
+* Log the response from the request.
 
-```{.javascript}
+```javascript
 const form = document.getElementById('form');
 form.addEventListener('loadend', (event)=>{
     console.log("Request response: ",event.detail.target.response)
 });
 ```
 
-- Prevent form from submitting.
+* Prevent form from submitting.
 
-```{.javascript}
+```javascript
 const form = document.getElementById('form');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -166,8 +148,8 @@ Clicking on the input with type `submit` will make a `GET` request to `http://lo
 
 ### Notes
 
-- The data from `<input type="submit"/>` will be included in the request if this input is clicked.
-- The **name** attribute is required if you want your input to be included in the form data on submitting!
+* The data from `<input type="submit"/>` will be included in the request if this input is clicked.
+* The **name** attribute is required if you want your input to be included in the form data on submitting!
 
 ## Select
 
@@ -210,7 +192,8 @@ The `name` attribute will be used to specify the form-data key and the `value` w
 </gameface-form-control>
 ```
 
-Clicking on the button will make a `POST` request to `http://localhost:12345/register` with the body `{"info":"Default value"}`. `moreInfo` won't be included in the request body if its value is empty.
+Clicking on the button will make a `POST` request to `http://localhost:12345/register` with the body `{"info":"Default value"}`.
+`moreInfo` won't be included in the request body if its value is empty.
 
 ## Button
 
@@ -229,8 +212,8 @@ If a button has `name` and `value` attributes their values will be included in t
 </gameface-form-control>
 ```
 
-- Clicking on the button with id `button-with-data` will make a `GET` request to `http://localhost:12345/buttons?button=data`.
-- Clicking on the button with id `button-with-no-data` will make a `GET` request to `http://localhost:12345/buttons`.
+* Clicking on the button with id `button-with-data` will make a `GET` request to `http://localhost:12345/buttons?button=data`.
+* Clicking on the button with id `button-with-no-data` will make a `GET` request to `http://localhost:12345/buttons`.
 
 ## Gameface checkbox
 
@@ -368,13 +351,13 @@ Clicking on the submit button will make a `POST` request to `http://localhost:30
 
 ## Text Field
 
-`<gameface-text-field>` is a component that allows you to use a text input of different types - text, email, password, number, etc. It supports validation. For example, if you create a text field with the type:
-
-- email - the built-in validation will check if the value has a `@` symbol and it will show an error if does not.
-- url - the built-in validation will check a **pattern** as an attribute to the text field and its value should match this pattern. For example if the **url** should match certain domain name - `<gameface-text-field type="url" pattern="mydomain.*">`.
-- password - the built-in validation will check **length** through the `minlength` and `maxlength` attributes.
-- number - the built-in validation will check `min` and `max` attributes.
-- text, password, search - the built-in validation will check **length** through the `minlength` and `maxlength` attributes.
+`<gameface-text-field>` is a component that allows you to use a text input of different types - text, email, password, number, etc.
+It supports validation. For example, if you create a text field with the type:
+* email - the built-in validation will check if the value has a `@` symbol and it will show an error if does not.
+* url - the built-in validation will check a **pattern** as an attribute to the text field and its value should match this pattern. For example if the **url** should match certain domain name - `<gameface-text-field type="url" pattern="mydomain.*">`.
+* password - the built-in validation will check **length** through the `minlength` and `maxlength` attributes.
+* number - the built-in validation will check `min` and `max` attributes.
+* text, password, search - the built-in validation will check **length** through the `minlength` and `maxlength` attributes.
 
 ### Example
 
@@ -387,7 +370,6 @@ Clicking on the submit button will make a `POST` request to `http://localhost:30
     <button class="form-element" id="submit" type="submit">Login</button>
 </gameface-form-control>
 ```
-
 # Validation
 
 The form control supports validation. These are the attributes that you can use:
@@ -419,7 +401,6 @@ The form control component supports custom validation as well. Its purpose is to
 | `badEmail`             | `Please enter a valid email. It should contain a @ symbol.`                              | N/A                     | This validator validates `<gameface-text-field>` component's value when its type is `email`. |
 
 As you can see some validators have error messages that include some properties from the validated element. That is because each validator dynamically constructs the error messages using the currently validated form element.
-
 ## Custom form validation methods
 
 `<gameface-form-control>` component has some methods for making custom validation possible.
@@ -450,7 +431,7 @@ With the `ValidatorName` key you define your custom validator name or you can us
 
 `method` is the function that is used to tell the form component if the currently validated element is valid. It receives that element and should return a boolean with the result about the validity of the element. You can use the **async** function to define the `method` property. To overwrite the default validators use `ValidatorName` that has the same name as the one you wish to change:
 
-```{.javascript}
+```javascript
 form.setCustomValidators('username', {
     valueMissing: { // will use this one, no the default
         method: (element) => !element.value,
@@ -461,7 +442,7 @@ form.setCustomValidators('username', {
 
 `errorMessage` is the function that constructs the message if the validation of the form element fails. It receives that element so you can extract its attributes and return a more specific error message. The function should return a string. If this property is added to `ValidatorName` that is some of the default ones will overwrite the default validation message.
 
-```{.javascript}
+```javascript
 form.setCustomValidators('username', {
     valueMissing: { 
         errorMessage: () => 'The username is required! ' // will use this error message, not the default that is "The value is required."
@@ -472,7 +453,6 @@ form.setCustomValidators('username', {
 ## Example
 
 Let us have the following form defined
-
 ```html
 <gameface-form-control id="custom-validation-form">
     <gameface-text-field name="username" label="User name:" type="text" minlength="5" maxlength="20"></gameface-text-field>
@@ -483,9 +463,10 @@ Let us have the following form defined
 </gameface-form-control>
 ```
 
-As you can see some attributes are used to validate the user name. The url and email will be validated by default. We can add our custom validators using the methods exposed in the `gameface-form-control` component. **Note: Custom validation should be added after the form control bundle is added to the page.**
+As you can see some attributes are used to validate the user name. The url and email will be validated by default.
+We can add our custom validators using the methods exposed in the `gameface-form-control` component. **Note: Custom validation should be added after the form control bundle is added to the page.**
 
-```{.javascript}
+```javascript
 // Custom validators should be set after the components library is added!
 
 const form = document.getElementById('custom-validation-form');

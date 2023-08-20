@@ -1,5 +1,5 @@
 ---
-date: 2023-4-28
+date: 2023-8-23
 title: Stepper
 draft: false
 ---
@@ -7,26 +7,15 @@ draft: false
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 The stepper is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 
-
-Usage
+Installation
 ===================
-The stepper component comes with UMD and CJS builds.
 
-## Installation
 `npm i coherent-gameface-stepper`
 
-## Usage with UMD modules:
-
-* import the components library:
+## Usage with UMD:
 
 ~~~~{.html}
-<script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
-~~~~
-
-* import the stepper component:
-
-~~~~{.html}
-<script src="./node_modules/stepper/umd/stepper.production.min.js"></script>
+<script src="./node_modules/stepper/dist/stepper.production.min.js"></script>
 ~~~~
 
 * add the stepper component to your html:
@@ -37,30 +26,22 @@ The stepper component comes with UMD and CJS builds.
 
 This is all! Load the file in Gameface to see the stepper.
 
-If you wish to import the modules using JavaScript you can remove the script tags which import the components and the stepper from the node_modules folder and import them like this:
+## Usage with JavaScript:
+
+If you wish to import the Stepper using JavaScript you can remove the script tag and import it like this:
 
 ~~~~{.js}
-import components from 'coherent-gameface-components';
-import stepper from 'coherent-gameface-stepper';
+import { Stepper } from 'coherent-gameface-stepper';
 ~~~~
 
-Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the modules from the node_modules folder. Alternatively you can import them directly from node_modules:
+or simply
 
 ~~~~{.js}
-import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-import stepper from './node_modules/stepper/umd/stepper.production.min.js';
+import 'coherent-gameface-stepper';
 ~~~~
 
-## Usage with CJS modules:
-
-* Import the components library:
-
-~~~~{.js}
-const components = require('coherent-gameface-components');
-const stepper = require('coherent-gameface-stepper');
-~~~~
-
-The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module bundler in order to be use them in a browser.
+Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
+modules from the node_modules folder.
 
 ## Add the styles
 
