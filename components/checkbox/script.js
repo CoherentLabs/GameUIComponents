@@ -9,6 +9,31 @@ const components = new Components();
 const CustomElementValidator = components.CustomElementValidator;
 
 /**
+ * Class definition of the gameface checkbox custom data binding attribute
+ */
+class MyAttributeHandler {
+    /**
+     * This will be executed only once per element when the attribute attached to it is bound with a model.
+     * Set up any initial state, event handlers, etc. here.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    init(element, value) {
+        if (value) element.setAttribute('checked', '');
+    }
+
+    /**
+     * This will be executed every time that the model which the attribute is attached to is synchronized.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    update(element, value) {
+        if (!value) element.removeAttribute('checked');
+        if (value) element.setAttribute('checked', '');
+    }
+}
+
+/**
  * Class definition of the gameface checkbox custom element
  */
 class Checkbox extends CustomElementValidator {
@@ -22,10 +47,7 @@ class Checkbox extends CustomElementValidator {
             checked: false,
         };
 
-        this.toggleChecked = this.toggleChecked.bind(this);
-
         this.url = '/components/checkbox/template.html';
-        this.init = this.init.bind(this);
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -41,8 +63,7 @@ class Checkbox extends CustomElementValidator {
     // eslint-disable-next-line require-jsdoc
     set checked(value) {
         value ? this.setAttribute('checked', '') : this.removeAttribute('checked');
-        this.state.checked = value && true;// In the input type="checkbox" if you set the checked to a string or something like that it will set it to true, if it's false or an empty string it sets it to false
-        this.querySelector('[data-name="check-mark"]').style.display = this.state.checked ? 'block' : 'none';
+        this.updateState(value && true);
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -83,17 +104,51 @@ class Checkbox extends CustomElementValidator {
     init(data) {
         this.setupTemplate(data, () => {
             components.renderOnce(this);
+
             this.addEventListener('click', this.toggleChecked);
             this.checked = this.hasAttribute('checked');
             this.disabled = this.disabled ? true : false;
+
+            const event = new Event('ready');
+            const isCohtml = navigator.userAgent.match('cohtml');
+
+            if (isCohtml) {
+                window.engine.on('Ready', () => {
+                    engine.registerBindingAttribute('model-checked', MyAttributeHandler);
+                    this.dispatchEvent(event);
+                });
+            } else {
+                this.dispatchEvent(event);
+            }
         });
     }
 
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
+        this.init = this.init.bind(this);
+        this.toggleChecked = this.toggleChecked.bind(this);
+
         components.loadResource(this)
             .then(this.init)
             .catch(err => console.error(err));
+    }
+
+    /**
+     * Get an array of observed attributes
+     * @returns {Array<string>}
+     */
+    static get observedAttributes() { return ['checked']; }
+
+    /**
+     * Custom element lifecycle method. Called when an attribute is changed.
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string|boolean} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name !== 'checked') return;
+        const checked = newValue !== null;
+        this.updateState(checked);
     }
 
     /**
@@ -104,6 +159,15 @@ class Checkbox extends CustomElementValidator {
         if (this.disabled) return;
 
         this.checked = !this.state.checked;
+    }
+
+    /**
+     * Update the state of the checkbox and its style
+     * @param {boolean} checked - whether the checkbox is checked or not
+     */
+    updateState(checked) {
+        this.state.checked = checked;
+        this.querySelector('[data-name="check-mark"]').style.display = checked ? 'block' : 'none';
     }
 }
 

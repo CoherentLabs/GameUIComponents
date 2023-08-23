@@ -11,7 +11,7 @@
 </head>
 
 <body class="guic-demo">
-    <gameface-checkbox class="checkbox-component">
+    <gameface-checkbox class="checkbox-component" data-bind-model-checked="{{UserDefinedModel.checked}}">
         <component-slot data-name="checkbox-background">
             <div class="guic-checkbox-background"></div>
         </component-slot>
@@ -19,7 +19,16 @@
             <span class="guic-checkbox-label">Enable Music</span>
         </component-slot>
     </gameface-checkbox>
+    <script src="./cohtml.js"></script>
     <script src="./bundle.js"></script>
+    <script>
+    document.querySelector('gameface-checkbox')
+        .addEventListener('ready', () => {
+            debugger
+            engine.createJSModel('UserDefinedModel', { checked: true });
+            engine.synchronizeModels();
+        });
+    </script>
 </body>
 
 </html>
