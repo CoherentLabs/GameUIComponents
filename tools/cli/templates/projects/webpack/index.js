@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Checkbox } from 'coherent-gameface-checkbox';
+import 'coherent-gameface-checkbox';
 import { pm } from 'postmessage-polyfill';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
 
