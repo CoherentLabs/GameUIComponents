@@ -55,7 +55,7 @@ function setupDirectory(directory) {
  * @returns {void}
  */
 function create(template, directory) {
-    console.log(chalk.blue('Creating project in ${directory} ...'));
+    console.log(chalk.blue(`Creating project in ${directory} ...`));
 
     if (!isValidTemplate(template)) return;
 
