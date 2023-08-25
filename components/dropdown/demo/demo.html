@@ -49,8 +49,14 @@
     </div>
     <div class="dropdown-demo-row">
         <div class="dropdown-demo-column">
-            <gameface-dropdown class="gameface-dropdown-component" id="dropdown-default">
-                <dropdown-option>Cat1</dropdown-option>
+            <gameface-dropdown
+                class="gameface-dropdown-component"
+                id="dropdown-default"
+                data-bind-model-disabled="{{UserDefinedModel.disabled}}"
+                data-bind-model-multiple="{{UserDefinedModel.multiple}}"
+                data-bind-model-collapsable="{{UserDefinedModel.collapsable}}"
+                >
+                <dropdown-option data-bind-model-selected="{{UserDefinedModel.selected}}">Cat1</dropdown-option>
                 <dropdown-option disabled>Cat1</dropdown-option>
                 <dropdown-option disabled>Cat1</dropdown-option>
                 <dropdown-option>Cat3</dropdown-option>
@@ -67,7 +73,7 @@
             </gameface-dropdown>
         </div>
         <div class="dropdown-demo-column">
-            <gameface-dropdown class="gameface-dropdown-component" multiple id="dropdown-multiple">
+            <!-- <gameface-dropdown class="gameface-dropdown-component" multiple collapsable id="dropdown-multiple">
                 <dropdown-option>Cat1</dropdown-option>
                 <dropdown-option disabled>Cat1</dropdown-option>
                 <dropdown-option disabled>Cat1</dropdown-option>
@@ -82,10 +88,10 @@
                 <dropdown-option disabled>Last Parrot</dropdown-option>
                 <dropdown-option disabled>Last Parrota</dropdown-option>
                 <dropdown-option>Last Parrot</dropdown-option>
-            </gameface-dropdown>
+            </gameface-dropdown> -->
         </div>
         <div class="dropdown-demo-column">
-            <gameface-dropdown class="gameface-dropdown-component" multiple collapsable id="dropdown-multiple-collapsable">
+            <!-- <gameface-dropdown class="gameface-dropdown-component" multiple collapsable id="dropdown-multiple-collapsable">
                 <dropdown-option>Cat1</dropdown-option>
                 <dropdown-option disabled>Cat1</dropdown-option>
                 <dropdown-option disabled>Cat1</dropdown-option>
@@ -100,10 +106,39 @@
                 <dropdown-option disabled>Last Parrot</dropdown-option>
                 <dropdown-option disabled>Last Parrota</dropdown-option>
                 <dropdown-option>Last Parrot</dropdown-option>
-            </gameface-dropdown>
+            </gameface-dropdown> -->
         </div>
     </div>
 
+    <script src="./cohtml.js"></script>
     <script src="./bundle.js"></script>
+
+    <script>
+        document.querySelector('gameface-dropdown')
+            .addEventListener('ready', () => {
+                engine.createJSModel('UserDefinedModel', {
+                    disabled: false,
+                    multiple: true,
+                    collapsable: false,
+                    selected: true,
+                 });
+
+                function toggle(attribute) {
+                    UserDefinedModel[attribute] = !UserDefinedModel[attribute];
+                    engine.updateWholeModel(UserDefinedModel);
+                    engine.synchronizeModels();
+                }
+
+                engine.createJSModel('Options', {
+                    games: [
+                        { name: 'WoW' },
+                        { name: 'WoW1' },
+                        { name: 'WoW2' },
+                        { name: 'WoW3' },
+                    ]
+                 });
+                engine.synchronizeModels();
+            });
+    </script>
 </body>
 </html>

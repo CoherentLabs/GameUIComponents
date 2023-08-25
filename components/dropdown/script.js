@@ -12,6 +12,81 @@ import template from './template.html';
 const KEYCODES = components.KEYCODES;
 
 /**
+ * Handler for custom attribute
+ */
+class DisabledAttributeHandler {
+    /**
+     * This will be executed only once per element when the attribute attached to it is bound with a model.
+     * Set up any initial state, event handlers, etc. here.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    init(element, value) {
+        if (value) element.setAttribute('disabled', '');
+    }
+
+    /**
+     * This will be executed every time that the model which the attribute is attached to is synchronized.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    update(element, value) {
+        if (!value) element.removeAttribute('disabled');
+        if (value) element.setAttribute('disabled', '');
+    }
+}
+
+/**
+ * Handler for custom attribute
+ */
+class MultipleAttributeHandler {
+    /**
+     * This will be executed only once per element when the attribute attached to it is bound with a model.
+     * Set up any initial state, event handlers, etc. here.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    init(element, value) {
+        if (value) element.setAttribute('multiple', '');
+    }
+
+    /**
+     * This will be executed every time that the model which the attribute is attached to is synchronized.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    update(element, value) {
+        if (!value) element.removeAttribute('multiple');
+        if (value) element.setAttribute('multiple', '');
+    }
+}
+
+/**
+ * Handler for custom attribute
+ */
+class CollapsableAttributeHandler {
+    /**
+     * This will be executed only once per element when the attribute attached to it is bound with a model.
+     * Set up any initial state, event handlers, etc. here.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    init(element, value) {
+        if (value) element.setAttribute('collapsable', '');
+    }
+
+    /**
+     * This will be executed every time that the model which the attribute is attached to is synchronized.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    update(element, value) {
+        if (!value) element.removeAttribute('collapsable');
+        if (value) element.setAttribute('collapsable', '');
+    }
+}
+
+/**
  * Used to get the option element from an event target.
  * @param {event} event
  * @returns {HTMLElement | undefined}
@@ -275,7 +350,7 @@ class GamefaceDropdown extends CustomElementValidator {
         if (!option || this.isSelected(index)) return;
 
         this.addActiveClass(option);
-        option.setAttribute('selected', true);
+        if (!option.hasAttribute('selected')) option.setAttribute('selected', true);
         this.selectedList.push(index);
     }
 
@@ -336,6 +411,14 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 
     /**
+     * Setup the collapsable dropdown.
+     * Show the header element.
+    */
+    setupCollapsable() {
+        this.querySelector('.guic-dropdown-header').style.display = 'flex';
+    }
+
+    /**
      * Initialize the custom component.
      * Set template, attach event listeners, setup initial state etc.
      * @param {object} data
@@ -358,7 +441,64 @@ class GamefaceDropdown extends CustomElementValidator {
 
             this.preselectOptions();
             this.attachEventListeners();
+
+            const event = new Event('ready');
+            const isCohtml = navigator.userAgent.match('cohtml');
+            if (isCohtml) {
+                window.engine.on('Ready', () => {
+                    window.engine.registerBindingAttribute('model-disabled', DisabledAttributeHandler);
+                    window.engine.registerBindingAttribute('model-multiple', MultipleAttributeHandler);
+                    window.engine.registerBindingAttribute('model-collapsable', CollapsableAttributeHandler);
+
+                    // dropdown options attributes
+                    window.engine.registerBindingAttribute('model-selected', OptionSelectedAttributeHandler);
+
+                    components.waitForFrames(() => {
+                        this.dispatchEvent(event);
+                    }, 3);
+                });
+            } else {
+                this.dispatchEvent(event);
+            }
+
+            this.isRendered = true;
         });
+    }
+
+    /**
+     * Get an array of observed attributes
+     * @returns {Array<string>}
+     */
+    static get observedAttributes() { return ['disabled', 'multiple', 'collapsable']; }
+
+    /**
+     * Custom element lifecycle method. Called when an attribute is changed.
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string|boolean} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
+
+        if (name === 'disabled') {
+            const disabled = newValue !== null;
+
+            if (disabled) {
+                this.classList.add('guic-dropdown-disabled');
+                this.setAttribute('tabindex', '-1');
+            } else {
+                this.classList.remove('guic-dropdown-disabled');
+                this.setAttribute('tabindex', '1');
+            }
+        } else if (name === 'multiple') {
+            const multiple = newValue !== null;
+            this.multiple = multiple;
+            if (multiple && !this.collapsable) this.setupMultiple();
+        } else if (name === 'collapsable') {
+            const collapsable = newValue !== null;
+            this.collapsable = collapsable;
+            this.setupCollapsable();
+        }
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -381,6 +521,7 @@ class GamefaceDropdown extends CustomElementValidator {
      */
     disconnectedCallback() {
         this.removeEventListeners();
+        this.isRendered = false;
     }
 
     /**
@@ -789,13 +930,46 @@ class GamefaceDropdown extends CustomElementValidator {
     }
 }
 
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// DropdownOption
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+/**
+ * Handler for custom attribute
+ */
+class OptionSelectedAttributeHandler {
+    /**
+     * This will be executed only once per element when the attribute attached to it is bound with a model.
+     * Set up any initial state, event handlers, etc. here.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    init(element, value) {
+        if (value) element.setAttribute('selected', '');
+    }
+
+    /**
+     * This will be executed every time that the model which the attribute is attached to is synchronized.
+     * @param {HTMLElement} element
+     * @param {string|boolean} value
+     */
+    update(element, value) {
+        if (!value) element.removeAttribute('selected');
+        if (value) element.setAttribute('selected', '');
+    }
+}
+
+
 /**
  * Class definition of the gameface dropdown option custom element
  */
 class DropdownOption extends HTMLElement {
     // eslint-disable-next-line require-jsdoc
     static get observedAttributes() {
-        return ['disabled'];
+        return ['disabled', 'selected'];
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -812,6 +986,15 @@ class DropdownOption extends HTMLElement {
         } else {
             this.classList.remove('guic-dropdown-option-disabled');
         }
+
+        if (this.hasAttribute('selected')) {
+            const parent = this.closest('gameface-dropdown');
+            parent.selected = this;
+        }
+
+        // if it is selected
+        // call select from parent?
+        // avoid endless loop by not calling setAttribute 
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -819,6 +1002,16 @@ class DropdownOption extends HTMLElement {
         super();
         this.attributeChangedCallback();
     }
+
+    // eslint-disable-next-line require-jsdoc
+    // connectedCallback() {
+    //     const isCohtml = navigator.userAgent.match('cohtml');
+    //     if (isCohtml) {
+    //         window.engine.on('Ready', () => {
+                
+    //         });
+    //     }
+    // }
 }
 
 components.defineCustomElement('dropdown-option', DropdownOption);
