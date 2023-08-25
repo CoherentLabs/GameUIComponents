@@ -1,5 +1,5 @@
 ---
-date: 2022-3-31
+date: 2023-8-23
 title: Components for Game User Interface
 draft: false
 ---
@@ -8,31 +8,25 @@ draft: false
 
 This is a suite of custom elements designed specifically for [Gameface](https://coherent-labs.com/products/coherent-gameface/). All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package. All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them. You can also build them from source.
 
-# Running the demo
+# Running the Demo
 
-To run the demo you need to navigate to the root directory and run:
+Navigate to the root directory and run:
 
-```
-npm install
-```
+    npm install
 
 This will install a webpack server as well as all other dependencies. After that run:
 
-```
-npm run build
-```
+    npm run build
 
 This will build all components. After that run:
 
-```
-npm run start:demo
-```
+    npm run start:demo
 
 This will serve the files on http://localhost:8080. Load that url in the Gameface player or in Chrome and preview the components. You can change the port in the webpack.config.js file.
 
 # Samples
 
-The samples are more complex examples of how to create a complete user interface using the components. They are located in samples/user_interface. There are three pages - main, settings and shop. To run any of them navigate to their folder an run `npm i` to install the dependencies. After that load the \*.html file in Chrome. Keep in mind that each page has a link to one of the others and if you haven't installed the dependencies there, it will not work as expected. To avoid this make sure you execute `npm i` in all folders.
+The samples are more complex examples of how to create a complete user interface using the components. They are located in samples/user_interface. There are three pages - main, settings and shop. To run any of them navigate to their folder an run `npm i` to install the dependencies. After that load the *.html file in Chrome. Keep in mind that each page has a link to one of the others and if you haven't installed the dependencies there, it will not work as expected. To avoid this make sure you execute `npm i` in all folders.
 
 # Available Commands
 
@@ -67,16 +61,19 @@ These are the commands used to build and package the components.
 
 After you successfully execute `npm run tests` open the Gameface player or Chrome with "--url=http://localhost:9876/debug.html" to see the tests running.
 
+
 # Building from source
 
-To build the components from this repository use the `npm run build:dev` command. This will:
-
+To build the components from this repository use the `npm run build:dev` command. This will: 
 1. create symlinks for all components
-2. build all components and their demos - NPM will use the links to install the dependencies, not the public npm packages. This means that if a component depends on another, the dependency will be installed from the source, making it easy to test local changes. For example - the dropdown component depends on the scrollable container. If you make changes to the scrollable-container and run `npm run build:dev` you'll be able to observe the changes that you did to the scrollable-container in the demo of dropdown, because it uses the local package created by the build:dev command. If you inspect the scrollable-container package located in the dropdown's node_modules you'll see that it is a symbolic link that references the source of the scrollable container located in the components folder.
+2. build all components and their demos
+NPM will use the links to install the dependencies, not the public npm packages. This means that if a component depends on another, the dependency will be installed from the source, making it easy to test local changes. For example - the dropdown component depends on the scrollable container. If you make changes to the scrollable-container and run `npm run build:dev` you'll be able to observe the changes that you did to the scrollable-container in the demo of dropdown, because it uses the local package created by the build:dev command. If you inspect the scrollable-container package located in the dropdown's node_modules you'll see that it is a symbolic link that references the source of the scrollable container located in the components folder.
 
 The `npm run build:dev` command will build all components. If you are not changing all of them you don't need to rebuild them every time. You can build individual components using the coherent game UI components CLI. This is a command line tool that enables you to create, build and watch for changes, making the development iterations faster and easier. You can read more about it in the [documentation](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started).
 
-After you install it, navigate to a component, for example components/dropdown and run: `coherent-guic-cli build` **Make sure you've installed the dependencies before that using either npm run build:dev, npm i or npm run link** **Refer to the [commands](#available-commands) table for more info on each command.**
+After you install it, navigate to a component, for example components/dropdown and run: `coherent-guic-cli build`
+**Make sure you've installed the dependencies before that using either npm run build:dev, npm i or npm run link**
+**Refer to the [commands](#available-commands) table for more info on each command.**
 
 # Creating new components
 
@@ -85,28 +82,23 @@ All components are npm modules. Your component doesn't have to be an npm module.
 ## Structure of a Component
 
 All Gameface JavaScript components are custom HTML elements. Each component has:
-
-- a JavaScript source file - the custom element's definition; where all the logic is implemented
-- a JavaScript index file - the entry file
-- an HTML file - the component's template;
-- a CSS file - the component's styles
-- a package.json file
-- a README markdown file - short documentation explaining what the component does and how it's used
-- a demo folder - folder containing an example of the component
+* a JavaScript source file - the custom element's definition; where all the logic is implemented
+* a JavaScript index file - the entry file
+* an HTML file - the component's template;
+* a CSS file - the component's styles
+* a package.json file
+* a README markdown file - short documentation explaining what the component does and how it's used
+* a demo folder - folder containing an example of the component
 
 ## Using without bundling
 
 If you don't want to add your component to the GameUIComponent suite you can use it without building and packaging it as npm module. However, you'll still have to use the components library as dependency. Initialize an npm project using
 
-```
-npm init
-```
+    npm init
 
 and install the components library:
 
-```
-npm i coherent-gameface-components
-```
+    npm i coherent-gameface-components
 
 After that create an index.html and index.js files. Import the components library and the component's definition file using script tag:
 
@@ -121,107 +113,177 @@ Add the custom component to the page:
 <gameface-checkbox></<gameface-checkbox>
 ```
 
-The JavaScript definition is a simple class that extends the HTMLElement. The template can be loaded asynchronously using XHR. Set the URL member of the component in the constructor to load the template via XHR.
+The JavaScript definition is a simple class which extends the HTMLElement. The template can be loaded asynchronously using XHR. Set the URL member of the component in the constructor to load the template via XHR.
 
-```{.javascript}
-class Checkbox extends HTMLElement {
+
+Using XHR
+```javascript
+class Checkbox extends BaseComponent {
     constructor() {
         super();
 
+        // the URL specifies the path to the template file
         this.url = '/components/checkbox/template.html';
+    }
+}
+```
+
+Use the `loadResource` method from the components library to load the template:
+
+```javascript
+class Checkbox extends BaseComponent {
+    connectedCallback() {
+        components.loadResource(this)
+            .then(this.init)
+            .catch(err => console.error(err));
+    }
+}
+```
+
+The `setupTemplate` method internally checks if the custom element is still connected to the DOM and ready to be used. Its first argument is `data` - the result returned from the `loadResource` method. Its second parameter is a callback that will be executed if the checks in the setup template were successful. If they were not - you'll see a message in the debugger console - 'DEBUG: component Checkbox was not initialized because it was disconnected from the DOM!'. Make sure to call the `renderOnce(this);` method of the components library in the `setupTemplate` callback. This will attach the template to the custom component replacing all slots with their slottable items (if there are any). Here is also where you should define custom members or event listeners.
+
+```javascript
+class Checkbox extends BaseComponent {
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            // init members and event listeners here
+            this.addEventListener('click', this.toggleChecked);
+            this.checked = this.hasAttribute('checked');
+            this.disabled = this.disabled ? true : false;
+        });
     }
 
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
 }
-
-components.defineCustomElement('gameface-checkbox', Checkbox);
 ```
 
-To test the component start an http server at the root and open index.html. If you use http-server go to /checkbox and run:
+Here's the full example of a custom Checkbox component:
 
+```javascript
+class Checkbox extends BaseComponent {
+    constructor() {
+        super();
+        this.url = '/components/checkbox/template.html';
+    }
+
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            // init members and event listeners here
+            this.addEventListener('click', this.toggleChecked);
+            this.checked = this.hasAttribute('checked');
+            this.disabled = (this.disabled) ? true : false;
+        });
+    }
+
+    connectedCallback() {
+        components.loadResource(this)
+            .then(this.init)
+            .catch(err => console.error(err));
+    }
+
+    components.defineCustomElement('gameface-checkbox', Checkbox);
+}
 ```
-http-server
+
+Use the `<link>` tags to import style files.
+
+```html
+<link rel="stylesheet" href="../coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="../style.css">
 ```
+
+To test the component start an http server at the root and open index.html. If you use [http-server](https://www.npmjs.com/package/http-server) go to /checkbox and run:
+
+    http-server
 
 Navigate to `localhost:<port>` and check your component.
 
 # Adding component to the components suite
 
-If you want to contribute to the components library and add a new component, you need to add the required files in the correct folders. Make sure they can be successfully bundled and are documented.
+If you want to contribute to the components library and add a new component you need to add the required files in the correct folders. Make sure they can be successfully bundled and are documented.
 
-- All components are placed in the /components folder.
-- The folders are named using lower case and camel-case for longer names.
-- All names should be prefixed with `gameface-`. So now instead of some-component
-- the custom element should be named `gameface-some-component`:
+* All components are placed in the /components folder.
+* The folders are named using lower case and camel-case for longer names.
+* All names should be prefixed with `gameface-` - `gameface-some-component` instead of `some-component`
 
 `components.defineCustomElement('gameface-some-component', SomeComponent);`
 
 **Note that only the name of the custom element and the name of the npm package in package.json must be prefixed.**
 
-You can use the [coherent-guic-cli](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started) to build single component. Follow the steps bellow to see how to manually build all components if you don't want yo use the CLI.
+You can use the [coherent-guic-cli](https://github.com/CoherentLabs/GameUIComponents/tree/master/tools/cli#getting-started) to build a single component. Follow the steps bellow to see how to manually build all components if you don't want to use the CLI.
 
 The `build` command generates UMD and CJS bundles of the component. The module bundler that is used is [Rollup](https://rollupjs.org/guide/en/). That means we can use `import` and `export` statements and rollup will automatically resolve all modules. Now we can import all dependencies at the top of the script.js file:
 
-```{.javascript}
+```javascript
 import components from 'coherent-gameface-components';
 import template from './template.html';
 ```
 
 And we can export the checkbox at the bottom:
 
-```{.javascript}
+```javascript
 export { Checkbox };
 ```
 
-This example uses a module loader to import the template - set the template as a property of the component:
+This example uses module loader to import the template - set the template as a property of the component:
 
-```{.javascript}
+```javascript
 this.template = template;
 ```
 
-The `loadResource` method can work both with URL and an imported template. You can conveniently switch between XHR and imported template as the syntax is the same. This is how the component's definition looks like:
+The loadResource method can work both with URL and an imported template. You can conveniently switch between XHR and the imported template as the syntax is the same. This is how the component's definition looks like:
 
-```{.javascript}
+```javascript
 import components from 'coherent-gameface-components';
 import template from './template.html';
 
-class Checkbox extends HTMLElement {
+class Checkbox extends BaseComponent {
     constructor() {
         super();
-
         this.template = template;
+    }
+
+    init(data) {
+        this.setupTemplate(data, () => {
+            components.renderOnce(this);
+
+            // init members and event listeners here
+            this.addEventListener('click', this.toggleChecked);
+            this.checked = this.hasAttribute('checked');
+            this.disabled = this.disabled ? true : false;
+        });
     }
 
     connectedCallback() {
         components.loadResource(this)
-            .then((result) => {
-                this.template = result.template;
-                components.renderOnce(this);
-            })
+            .then(this.init)
             .catch(err => console.error(err));
     }
+
+    components.defineCustomElement('gameface-checkbox', Checkbox);
+
+    export { Checkbox };
 }
 
-components.defineCustomElement('gameface-checkbox', Checkbox);
-export { Checkbox };
-```
+Check the [full implementation](https://github.com/CoherentLabs/GameUIComponents/blob/master/components/checkbox/script.js) and the [demo](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/checkbox/demo) on [the GitHub repository](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/checkbox)
 
 Because all components are npm packages you need to add an entry index.js file. This is the file that would be loaded when you import your component from node_modules like this:
 
-```{.javascript}
+```javascript
 import { Checkbox } from 'gameface-checkbox';
 ```
 
 It should export either the development or the production CJS bundle:
 
-```{.javascript}
+```javascript
 if (process.env.NODE_ENV === 'production') {
     module.exports = require('./cjs/checkbox.production.min.js');
 } else {
@@ -229,9 +291,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 ```
 
-Each component has a demo page. It is placed in a /demo folder. The JavaScript file of the demo should be bundled so that it can be easily checked with double click or drag and drop without the need to manually setup an environment. The demo.js file imports all dependencies so that Rollup can resolve and bundle them.
+Each component has a demo page. It is located in a /demo folder. Bundle the JavaScript file of the demo to make sure it can directly work in the browser. The demo.js file imports all dependencies and Rollup can resolves and bundles them.
 
-```{.javascript}
+```javascript
 import components from 'coherent-gameface-components';
 import checkbox from '../umd/checkbox.development.js'
 ```
@@ -245,13 +307,12 @@ The demo.html file should import the bundle.js and use the custom element:
 </body>
 ```
 
-Note that the demo files should have the names demo.js and demo.html for the JavaScript and html files respectively. Make sure all files have the LICENSE notice at the top. Run `npm run add:copyright` to automatically add copyright notice to all files.
+Note that the demo files should have the names demo.js and demo.html for the JavaScript and html files respectively.
+Make sure all files have the LICENSE notice at the top. Run `npm run add:copyright` to automatically add copyright notice to all files.
 
 To build the component run:
 
-```
-npm run rebuild
-```
+    npm run rebuild
 
 The newly created bundles are located in checkbox/umd and checkbox/cjs folders. To test if everything works open the demo.html file.
 
@@ -259,7 +320,9 @@ If everything works, add a README.md file to the component folder and add a docu
 
 # Adding styles
 
-The styles of a component are located in the same location as its source in a `style.css` file. You can use different file name and folder structure if it makes sense. For example [the styles of the slider component](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/slider/styles) are located in a separate folder and they have names corresponding to the type of slider they style. **Make sure to prefix all selectors with `guic-` to avoid overwriting global selectors with common names**. The prefix is an abbreviation of Game UI Components. Import the styles using a `link` tag in the file where you use the custom component:
+The styles of a component are located in the same location as its source in a `style.css` file. You can use different file name and folder structure if it makes sense. For example [the styles of the slider component](https://github.com/CoherentLabs/GameUIComponents/tree/master/components/slider/styles) are located in a separate folder and they have names corresponding to the type of slider they style.
+**Make sure to prefix all selectors with `guic-` to avoid overwriting global selectors with common names**. The prefix is an abbreviation of Game UI Components.
+Import the styles using a `link` tag in the file where you use the custom component:
 
 ```html
 <link rel="stylesheet" href="style.css">
@@ -401,8 +464,109 @@ Manually update the version of the component in package.json and run
 
 To prevent errors, improve the code quality and readability, to make maintainable and consistent code we decided to add a style guide to the repository. We defined all the rules by setting an [eslinter](https://eslint.org/) that will force all the developers to respect the style guide when developing JavaScript features. To make sure that "clean" code is committed we added additional actions:
 
-- We added a pre-commit hook that is set up by the `husky` and `load-staged` modules. When committing changes the hook will run the linter on the staged files to make sure everything is fine. If the lint check fails the commit will be discarded so the errors be fixed first. When the errors are fixed you can try again to make a commit.
-- To fix all the errors from the lint check you can run `npm run lint:fix`. Make sure that they are correctly fixed!
-- If you want to check anytime if you have some linter errors you can run `npm run lint:errors`. If you want to check for warnings as well you can run `npm run lint:all`. We advise you to use `lint:all` command!
-- You can install a [VSCode extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) that will run the linter in the background while you are coding. This will save you time fixing the errors at the end.
-- We added a GitHub action that will be triggered when you make a pull request. It will run the linter each time you make a change to the pull request to make sure everything is fine with the code.
+* We added a pre-commit hook that is set up by the `husky` and `load-staged` modules. When committing changes the hook will run the linter on the staged files to make sure everything is fine. If the lint check fails the commit will be discarded so the errors be fixed first. When the errors are fixed you can try again to make a commit.
+* To fix all the errors from the lint check you can run `npm run lint:fix`. Make sure that they are correctly fixed!
+* If you want to check anytime if you have some linter errors you can run `npm run lint:errors`. If you want to check for warnings as well you can run `npm run lint:all`. We advise you to use `lint:all` command!
+* You can install a [VSCode extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) that will run the linter in the background while you are coding. This will save you time fixing the errors at the end.
+* We added a GitHub action that will be triggered when you make a pull request. It will run the linter each time you make a change to the pull request to make sure everything is fine with the code.
+
+# Configuring the Python environment
+
+Currently, we still rely on [**Python2.7**](https://www.python.org/downloads/release/python-272/) for the execution of our scripts.
+This means that if you get weird errors, you probably have to double-check if you have Python2.7 installed on your system.
+
+In case you have previously installed Python3 only, to ensure that when `python` is called in a console environment, you must make sure that your Python2 installation location is included in your `Path` environment variable before the Python3 installation.
+
+Also, a common way to be able to call both Python2 and Python3 executions of scripts is to navigate to your Python3 install location (after configuring the `Path` environment variable as described above) and symlink your `python.exe` in the same directory and name it `python3.exe`.
+This way you will be able to easily call a script like so - `python3 somescript.py` - and let it be executed by Python3
+
+You can also opt for a [virtualenv setup](https://help.dreamhost.com/hc/en-us/articles/215489338-Installing-and-using-virtualenv-with-Python-2).
+
+# Update versions in the package.json files of components
+
+When you update a component or the component library source then you need to bump the version in the package.json so they can be published automatically. However, some components depend on others so you need to bump the component dependencies versions as well.
+
+Because we are using the `^` notation, updating the dependencies versions should be done when you do a major version update of the main package because it won't be backward compatible anymore. Check the next sections for examples.
+
+## When you don't need to update the dependencies versions
+
+### Patch update
+
+```diff
+{
+    "name": "coherent-gameface-components",
+-    "version": "1.4.0"
++    "version": "1.4.1"
+}
+```
+
+```diff
+{
+    "name": "coherent-gameface-slider",
+    "version": "1.3.0"
+    ...
+    "dependencies": {
+        "coherent-gameface-components": "^1.4.0"
+    }
+}
+```
+
+In this case, you don't need to update the coherent-gameface-components dependency in the gameface-slider package.json file because `npm i` will install the latest minor or patch version of the components library.
+
+### Minor update 
+
+```diff
+{
+    "name": "coherent-gameface-components",
+-    "version": "1.4.0"
++    "version": "1.5.0"
+}
+```
+
+```diff
+{
+    "name": "coherent-gameface-slider",
+    "version": "1.3.0"
+    ...
+    "dependencies": {
+        "coherent-gameface-components": "^1.4.0"
+    }
+}
+```
+
+In this case, you don't need to update the coherent-gameface-components dependency in the gameface-slider package.json file because `npm i` will install the latest minor or patch version of the components library.
+
+### Major update
+
+```diff
+{
+    "name": "coherent-gameface-components",
+-    "version": "1.4.0"
++    "version": "2.0.0"
+}
+```
+
+```diff
+{
+    "name": "coherent-gameface-slider",
+-    "version": "1.3.0"
++    "version": "2.0.0"
+    ...
+    "dependencies": {
+-        "coherent-gameface-components": "^1.4.0"
++        "coherent-gameface-components": "^2.0.0"
+    }
+}
+```
+
+In this case, you need to update the coherent-gameface-components dependency in the slider package.json file because it is a major update and it is not backwards compatible.
+
+**Also see that here the version of the slider is updated as well!**
+
+## Auto update versions
+
+Instead of manually updating all the versions of the dependencies when you have a major update you can directly use the `update-versions.js` script for that purpose.
+
+To use it first change the major version of all the modules that are updated (`coherent-gameface-component` for example as above) and then run `npm run update-versions` in the repo root.
+
+The script is going to check all the new updated versions and then iterate through all the components and reflect the update in the version of the dependencies as it is done manually [here](#major-update).

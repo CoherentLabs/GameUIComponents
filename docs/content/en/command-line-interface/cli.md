@@ -1,4 +1,11 @@
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+---
+date: 2022-3-25
+title: Command Line Interface
+draft: false
+---
+
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+
 The coherent-guic-cli is a tool that helps you create and develop components from the GameUIComponents suite. It can also setup a development environment with live reload that will allow you to easily create a UI using the components.
 
 # Getting Started
