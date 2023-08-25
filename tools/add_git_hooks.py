@@ -2,7 +2,8 @@ import os
 import glob
 import stat
 
-
+# this will be only for testing purposes
+# added a comment to have a change
 def generate_hooks(repo_root, hooks_dir, dest):
     stub_format = """#!/bin/bash
 if [ -f "{0}" ]
