@@ -52,20 +52,17 @@
     </div>
     <div class="dropdown-demo-row">
         <div class="dropdown-demo-column">
-            <gameface-dropdown
-                class="gameface-dropdown-component"
-                id="dropdown-default"
-                data-bind-model-disabled="{{UserDefinedModel.disabled}}"
-                data-bind-model-multiple="{{UserDefinedModel.multiple}}"
-                data-bind-model-collapsable="{{UserDefinedModel.collapsable}}"
-                >
+            <gameface-dropdown class="gameface-dropdown-component" id="dropdown-default"
+                data-bind-model-disabled="{{UserDefinedModel.disabled}}" data-bind-model-multiple="{{UserDefinedModel.multiple}}"
+                data-bind-model-collapsable="{{UserDefinedModel.collapsable}}">
+
                 <dropdown-option data-bind-for="game:{{Options.games}}" data-bind-model-selected="{{game.selected}}">
                     <span data-bind-value="{{game.name}}"></span>
                 </dropdown-option>
             </gameface-dropdown>
         </div>
         <div class="dropdown-demo-column">
-            <!-- <gameface-dropdown class="gameface-dropdown-component" multiple collapsable id="dropdown-multiple">
+            <gameface-dropdown class="gameface-dropdown-component">
                 <dropdown-option>Cat1</dropdown-option>
                 <dropdown-option disabled>Cat1</dropdown-option>
                 <dropdown-option disabled>Cat1</dropdown-option>
@@ -80,7 +77,7 @@
                 <dropdown-option disabled>Last Parrot</dropdown-option>
                 <dropdown-option disabled>Last Parrota</dropdown-option>
                 <dropdown-option>Last Parrot</dropdown-option>
-            </gameface-dropdown> -->
+            </gameface-dropdown>
         </div>
         <div class="dropdown-demo-column">
             <!-- <gameface-dropdown class="gameface-dropdown-component" multiple collapsable id="dropdown-multiple-collapsable">
@@ -120,22 +117,22 @@
                     engine.synchronizeModels();
                 }
 
-                engine.createJSModel('Options', {
-                    games: [
-                        {selected: false, name: 'WoW' },
-                        {selected: true, name: 'WoW1' },
-                        {selected: false, name: 'WoW2' },
-                        {selected: true, name: 'WoW3' },
-                        {selected: true, name: 'WoW4' },
-                        {selected: false, name: 'WoW5' },
-                        {selected: false, name: 'WoW6' },
-                        {selected: false, name: 'WoW7' },
-                        {selected: false, name: 'WoW8' },
-                        {selected: false, name: 'WoW9' },
-                        {selected: false, name: 'WoW11' },
-                        {selected: false, name: 'WoW22' },
-                    ]
-                 });
+engine.createJSModel('Options', {
+    games: [
+        {selected: false, name: 'WoW' },
+        {selected: true, name: 'WoW1' },
+        {selected: false, name: 'WoW2' },
+        {selected: true, name: 'WoW3' },
+        {selected: true, name: 'WoW4' },
+        {selected: false, name: 'WoW5' },
+        {selected: false, name: 'WoW6' },
+        {selected: false, name: 'WoW7' },
+        {selected: false, name: 'WoW8' },
+        {selected: false, name: 'WoW9' },
+        {selected: false, name: 'WoW11' },
+        {selected: false, name: 'WoW22' },
+    ]
+    });
                 engine.synchronizeModels();
             });
     </script>

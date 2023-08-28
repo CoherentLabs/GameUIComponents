@@ -384,7 +384,6 @@ class GamefaceDropdown extends CustomElementValidator {
      * @returns {void}
     */
     preselectOptions() {
-        return;
         if (this.multiple) return this.setInitialMultipleSelection();
         this.setInitialSingleSelection();
     }
@@ -451,7 +450,8 @@ class GamefaceDropdown extends CustomElementValidator {
             // comment this out until we fix the bug with the broken live collections
             // this.allOptions = this.querySelector('.guic-dropdown-options').children;
 
-            this.preselectOptions();
+            if (!this.querySelector('dropdown-option').hasAttribute('data-bind-for')) this.preselectOptions();
+
             this.attachEventListeners();
 
             const event = new Event('ready');
