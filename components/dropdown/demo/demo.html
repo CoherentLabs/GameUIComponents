@@ -36,6 +36,9 @@
 </head>
 
 <body class="guic-demo">
+    <!-- <div data-bind-for="game:{{Options.games}}">
+        <span data-bind-value="{{game.name}}">
+    </div> -->
     <div class="dropdown-demo-row">
         <div class="dropdown-demo-column">
             <span>Single</span>
@@ -56,20 +59,9 @@
                 data-bind-model-multiple="{{UserDefinedModel.multiple}}"
                 data-bind-model-collapsable="{{UserDefinedModel.collapsable}}"
                 >
-                <dropdown-option data-bind-model-selected="{{UserDefinedModel.selected}}">Cat1</dropdown-option>
-                <dropdown-option disabled>Cat1</dropdown-option>
-                <dropdown-option disabled>Cat1</dropdown-option>
-                <dropdown-option>Cat3</dropdown-option>
-                <dropdown-option>Cat4</dropdown-option>
-                <dropdown-option>Dog</dropdown-option>
-                <dropdown-option>Giraffe</dropdown-option>
-                <dropdown-option>Lion</dropdown-option>
-                <dropdown-option disabled>Pig</dropdown-option>
-                <dropdown-option>Eagle</dropdown-option>
-                <dropdown-option>Parrot</dropdown-option>
-                <dropdown-option disabled>Last Parrot</dropdown-option>
-                <dropdown-option disabled>Last Parrota</dropdown-option>
-                <dropdown-option>Last Parrot</dropdown-option>
+                <dropdown-option data-bind-for="game:{{Options.games}}" data-bind-model-selected="{{game.selected}}">
+                    <span data-bind-value="{{game.name}}"></span>
+                </dropdown-option>
             </gameface-dropdown>
         </div>
         <div class="dropdown-demo-column">
@@ -114,13 +106,12 @@
     <script src="./bundle.js"></script>
 
     <script>
-        document.querySelector('gameface-dropdown')
+         document.querySelector('gameface-dropdown')
             .addEventListener('ready', () => {
                 engine.createJSModel('UserDefinedModel', {
                     disabled: false,
                     multiple: true,
                     collapsable: false,
-                    selected: true,
                  });
 
                 function toggle(attribute) {
@@ -131,10 +122,18 @@
 
                 engine.createJSModel('Options', {
                     games: [
-                        { name: 'WoW' },
-                        { name: 'WoW1' },
-                        { name: 'WoW2' },
-                        { name: 'WoW3' },
+                        {selected: false, name: 'WoW' },
+                        {selected: true, name: 'WoW1' },
+                        {selected: false, name: 'WoW2' },
+                        {selected: true, name: 'WoW3' },
+                        {selected: true, name: 'WoW4' },
+                        {selected: false, name: 'WoW5' },
+                        {selected: false, name: 'WoW6' },
+                        {selected: false, name: 'WoW7' },
+                        {selected: false, name: 'WoW8' },
+                        {selected: false, name: 'WoW9' },
+                        {selected: false, name: 'WoW11' },
+                        {selected: false, name: 'WoW22' },
                     ]
                  });
                 engine.synchronizeModels();

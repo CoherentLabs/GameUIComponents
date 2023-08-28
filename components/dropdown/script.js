@@ -249,6 +249,16 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {HTMLElement} option
     */
     set selected(option) {
+        this.setSelection(option);
+    }
+
+    /**
+     * Set the selection of the Dropdown
+     * @param {HTMLElement} option - the current option that needs to be selected
+     * @param {boolean} setOptionAttr - specifies if the selected attribute of the option should be updated
+     * @returns {void}
+     */
+    setSelection(option, setOptionAttr = true) {
         // reset
         // eslint-disable-next-line no-setter-return
         if (option === null) return this.resetSelection();
@@ -258,7 +268,7 @@ class GamefaceDropdown extends CustomElementValidator {
             this.updateSelectHeader(option);
         }
 
-        this.select(option);
+        this.select(option, setOptionAttr);
         this.dispatchChangeEvent(option);
     }
 
@@ -344,13 +354,14 @@ class GamefaceDropdown extends CustomElementValidator {
      * Add the active class and the selected attribute.
      * Add the option's index to the selectedList array.
      * @param {HTMLElement} option - the option that has to be selected.
+     * @param {boolean} setOptionAttr - specifies if the selected attribute of the option should be set
      */
-    select(option) {
+    select(option, setOptionAttr = true) {
         const index = this.indexOf(this.allOptions, option);
         if (!option || this.isSelected(index)) return;
 
         this.addActiveClass(option);
-        if (!option.hasAttribute('selected')) option.setAttribute('selected', true);
+        if (setOptionAttr) option.setAttribute('selected', true);
         this.selectedList.push(index);
     }
 
@@ -373,6 +384,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @returns {void}
     */
     preselectOptions() {
+        return;
         if (this.multiple) return this.setInitialMultipleSelection();
         this.setInitialSingleSelection();
     }
@@ -383,7 +395,7 @@ class GamefaceDropdown extends CustomElementValidator {
     setInitialMultipleSelection() {
         for (const option of this.allOptions) {
             if (!option.hasAttribute('selected')) continue;
-            this.setSelected(option);
+            this.setSelectedAndScroll(option);
         }
     }
 
@@ -396,7 +408,7 @@ class GamefaceDropdown extends CustomElementValidator {
         const selectedLength = allSelected.length;
         // use the last option that has the selected attribute or the first element in the options list
         const selectedDefault = selectedLength ? allSelected[selectedLength - 1] : this.selected;
-        this.setSelected(selectedDefault);
+        this.setSelectedAndScroll(selectedDefault);
     }
 
     /**
@@ -550,7 +562,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {number} nextOptionIndex - the index of the option that has to be focused.
     */
     focusOption(nextOptionIndex) {
-        this.setSelected(this.allOptions[nextOptionIndex], true);
+        this.setSelectedAndScroll(this.allOptions[nextOptionIndex], true);
         this.hoveredElIndex = nextOptionIndex;
     }
 
@@ -700,7 +712,7 @@ class GamefaceDropdown extends CustomElementValidator {
         }
 
         this.resetSelection();
-        this.setSelected(this.allOptions[enabledOptions[nextElement]], true);
+        this.setSelectedAndScroll(this.allOptions[enabledOptions[nextElement]], true);
     }
 
     /**
@@ -840,7 +852,7 @@ class GamefaceDropdown extends CustomElementValidator {
         if (!event.ctrlKey) this.selected = null;
         if (option.hasAttribute('selected')) return this.deselect(option);
 
-        this.setSelected(option);
+        this.setSelectedAndScroll(option);
         this.focus();
     }
 
@@ -850,7 +862,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {HTMLElement} option
     */
     onClickSingleOption(option) {
-        this.setSelected(option);
+        this.setSelectedAndScroll(option);
         this.closeOptionsPanel();
     }
 
@@ -899,8 +911,8 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {DropdownOption} element - the option element.
      * @param {boolean} [scroll=false]
     */
-    setSelected(element, scroll = false) {
-        this.selected = element;
+    setSelectedAndScroll(element, scroll = false) {
+        this.setSelection(element);
         this._pivotIndex = this.lastSelectedIndex;
         this.hoveredElIndex = this.lastSelectedIndex;
 
@@ -989,12 +1001,8 @@ class DropdownOption extends HTMLElement {
 
         if (this.hasAttribute('selected')) {
             const parent = this.closest('gameface-dropdown');
-            parent.selected = this;
+            if (parent) parent.setSelection(this, false);
         }
-
-        // if it is selected
-        // call select from parent?
-        // avoid endless loop by not calling setAttribute 
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -1002,16 +1010,6 @@ class DropdownOption extends HTMLElement {
         super();
         this.attributeChangedCallback();
     }
-
-    // eslint-disable-next-line require-jsdoc
-    // connectedCallback() {
-    //     const isCohtml = navigator.userAgent.match('cohtml');
-    //     if (isCohtml) {
-    //         window.engine.on('Ready', () => {
-                
-    //         });
-    //     }
-    // }
 }
 
 components.defineCustomElement('dropdown-option', DropdownOption);
