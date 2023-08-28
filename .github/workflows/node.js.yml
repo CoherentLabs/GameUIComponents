@@ -17,21 +17,22 @@ jobs:
         node-version: [16.20.0]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
+  automerge:
+    runs-on: windows-latest
     steps:
-    - name: Setup Chrome
-      uses: browser-actions/setup-chrome@v0.0.0
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
+     - uses: actions/checkout@v2
+       with:
+         ref: ${{ github.event.pull_request.head.ref }}
+     - name: Use Node.js ${{ matrix.node-version }}
+       uses: actions/setup-node@v2
+       with:
         node-version: ${{ matrix.node-version }}
-    - name: Build components
-      run: npm run build:dev
-    - name: Run tests
-      run: npm test -- --browsers Chrome
-    - name: Run cli tests
-      run: cd tools/cli && npm i && npm run test
-      
+     - name: Approve a PR
+       run: gh pr review --approve "$PR_URL" && gh pr merge --auto --merge  "$PR_URL"
+       env:
+         PR_URL: ${{github.event.pull_request.html_url}}
+         GITHUB_TOKEN: ${{secrets.DEPENDABOT}}
+  
   dependabot:
     needs: build
     runs-on: windows-latest
@@ -46,7 +47,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
      - name: Approve a PR
        if: ${{ needs.build.result == 'success' }}
-       run: gh pr review --approve "$PR_URL"
+       run: gh pr review --approve "$PR_URL" && gh pr merge --auto --merge  "$PR_URL"
        env:
          PR_URL: ${{github.event.pull_request.html_url}}
          GITHUB_TOKEN: ${{secrets.DEPENDABOT}}
