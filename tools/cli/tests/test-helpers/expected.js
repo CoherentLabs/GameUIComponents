@@ -69,6 +69,9 @@ exports.packagejson = `
         "postmessage-polyfill": "1.0.0",
         "whatwg-fetch": "3.4.1"
     },
+    "devDependencies": {
+        "html-loader": "^4.2.0"
+    },
     "author": "CoherentLabs",
     "license": "ISC"
 }
