@@ -7,8 +7,8 @@ name = "npm"
 
 [[social]]
   name = "Tests"
-  pre = "<img src=\"https://github.com/CoherentLabs/GameUIComponents/workflows/Run%20Tests/badge.svg\"/>"
-  url = "https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml?query=workflow%3A%22Run+Tests%22++"
+  pre = "<img src=\"https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml/badge.svg?branch=master&event=push\"/>"
+  url = "https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml"
   post = "v0.1.0"
   weight = 10
 

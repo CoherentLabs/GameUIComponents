@@ -1,12 +1,6 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 <!-- HEADER-START -->
-# Components for Game User Interface [![CI status][github-action-image]][github-action-url] [![NPM version][npm-image]][npm-url]
-
-[npm-image]: http://img.shields.io/npm/v/coherent-gameface-components.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/coherent-gameface-components
-
-[github-action-url]: https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml?query=workflow%3A%22Run+Tests%22++
-[github-action-image]: https://github.com/CoherentLabs/GameUIComponents/workflows/Run%20Tests/badge.svg
+# Components for Game User Interface [![Run Tests](https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml/badge.svg?branch=master&event=push)](https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml)
 
 <!-- HEADER-END -->
 This is a suite of custom elements designed specifically for [Gameface](https://coherent-labs.com/products/coherent-gameface/). All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package. All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them. You can also build them from source.
