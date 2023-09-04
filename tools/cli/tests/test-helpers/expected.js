@@ -137,9 +137,10 @@ exports.READMEmd = `
 `;
 
 exports.scriptjs = `
-    import components from 'coherent-gameface-components';
+    import { Components } from 'coherent-gameface-components';
     import template from './template.html';
 
+    const components = new Components();
     const BaseComponent = components.BaseComponent;
 
     /**
