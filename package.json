@@ -57,7 +57,7 @@
     "html-loader": "^4.2.0",
     "chai": "^4.3.7",
     "css-loader": "^6.8.1",
-    "esbuild": "^0.17.16",
+    "esbuild": "^0.19.2",
     "esbuild-plugin-ifdef": "^1.0.1",
     "eslint": "^8.10.0",
     "eslint-config-google": "^0.14.0",
