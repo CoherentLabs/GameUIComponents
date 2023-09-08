@@ -82,7 +82,7 @@ describe('Radio Button Tests', () => {
             const radioButton = document.querySelector('radio-button');
             // This is a helper function defined in actions.js
             click(radioButton);
-            assert.equal(radioButton.checked, 'true', 'radio-button has not been checked by clicking.');
+            assert.equal(radioButton.checked, true, 'radio-button has not been checked by clicking.');
         });
 
         it('Radio Button should have been checked by ArrowRight key', () => {
@@ -90,7 +90,7 @@ describe('Radio Button Tests', () => {
             click(radioButtons[0]);
             radioButtons[0].dispatchEvent(new KeyboardEvent('keydown', { keyCode: 39 })); // ArrowRight
 
-            assert.equal(radioButtons[1].checked, 'true', 'radio-button has not been checked by using ArrowRight key.');
+            assert.equal(radioButtons[1].checked, true, 'radio-button has not been checked by using ArrowRight key.');
         });
 
         it('Radio Button should have been checked by ArrowLeft key', () => {
@@ -98,7 +98,7 @@ describe('Radio Button Tests', () => {
             click(radioButtons[1]);
             radioButtons[1].dispatchEvent(new KeyboardEvent('keydown', { keyCode: 37 })); // ArrowLeft
 
-            assert.equal(radioButtons[0].checked, 'true', 'radio-button has not been checked by using ArrowLeft key.');
+            assert.equal(radioButtons[0].checked, true, 'radio-button has not been checked by using ArrowLeft key.');
         });
     });
 

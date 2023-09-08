@@ -28,7 +28,9 @@ class GamefaceRadioGroup extends HTMLElement {
 
     // eslint-disable-next-line require-jsdoc
     get value() {
-        if (this.previouslyCheckedElement) return this.previouslyCheckedElement.value;
+        if (this.previouslyCheckedElement && !this.previouslyCheckedElement.disabled) {
+            return this.previouslyCheckedElement.value;
+        }
         // will return null if it is disabled
         return null;
     }
@@ -99,14 +101,32 @@ class GamefaceRadioGroup extends HTMLElement {
      * @returns {void}
      */
     checkButton(button) {
-        if (this.disabled) return;
-        if (button.disabled) return;
-
-        if (this.previouslyCheckedElement) this.setButtonAttributes(this.previouslyCheckedElement, false);
-        this.previouslyCheckedElement = null;
-
+        if (this.previouslyCheckedElement === button) return;
+        if (this.previouslyCheckedElement) {
+            // If the button is not rendered yet then removing the 'checked' attribute will not trigger attributeChangedCallback of the radio button.
+            // And it is not enough for updating the button state.
+            // Here we are making sure the button state is updated correctly when the button is not rendered yet.
+            if (!this.previouslyCheckedElement.isRendered) {
+                this.previouslyCheckedElement.removeAttribute('checked');
+                this.unCheckButtonState(this.previouslyCheckedElement);
+            } else {
+                // If the button is rendered we need just ot remove the checked attribute that will trigger attributeChangedCallback and
+                // update the state of the button from there.
+                this.previouslyCheckedElement.removeAttribute('checked');
+            }
+        }
         this.setButtonAttributes(button, true);
         this.previouslyCheckedElement = button;
+    }
+
+    /**
+     * Will check the passed button inside the radio group
+     * @param {HTMLElement} button
+     * @returns {void}
+    */
+    unCheckButtonState(button) {
+        if (button) this.setButtonAttributes(button, false);
+        if (button === this.previouslyCheckedElement) this.previouslyCheckedElement = null;
     }
 
     /**
@@ -162,6 +182,7 @@ class GamefaceRadioGroup extends HTMLElement {
     setButtonAttributes(button, checked) {
         button.setAttribute('tabindex', checked ? '0' : '-1');
         button.setAttribute('aria-checked', checked ? 'true' : 'false');
+        button.updateState('checked', checked ? true : false);
     }
 
     /**
@@ -195,27 +216,102 @@ class GamefaceRadioGroup extends HTMLElement {
  */
 class RadioButton extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
+    static get observedAttributes() { return ['checked', 'disabled', 'value']; }
+
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
 
         this.template = template;
         this.textElement = null;
         this.init = this.init.bind(this);
+
+        this.stateSchema = {
+            checked: { type: ['boolean'] },
+            disabled: { type: ['boolean'] },
+            value: { type: ['string'] },
+        };
+
+        this.state = {
+            checked: false,
+            disabled: false,
+            value: 'on',
+        };
+    }
+
+    /**
+     * Custom element lifecycle method. Called when an attribute is changed.
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string|boolean} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
+
+        this.updateAttributeState(name, newValue);
+    }
+
+    /**
+     * Update the radio button's state.
+     * @param {string} name - the name of the prop
+     * @param {string | boolean} value - the value of the the prop
+     * @returns {void}
+     */
+    updateState(name, value) {
+        if (!this.isStatePropValid(name, value)) return;
+        this.state[name] = value;
+    }
+
+    /**
+     * Will update the state properties linked with the checkbox attributes
+     * @param {string} name
+     * @param {string|boolean} value
+     */
+    updateAttributeState(name, value) {
+        switch (name) {
+            case 'checked':
+                if (value !== null) this.radioGroup.checkButton(this);
+                else this.radioGroup.unCheckButtonState(this);
+                break;
+            case 'disabled':
+                this.updateDisabledState(value !== null);
+                break;
+            case 'value':
+                this.updateState(name, value);
+                break;
+        }
+    }
+
+    /**
+     * Update the radio buttons's disabled state.
+     * Set relevant styles and tabindex.
+     * @param {boolean} value
+     */
+    updateDisabledState(value) {
+        this.updateState('disabled', value);
+
+        if (value) {
+            this.firstChild.classList.add('guic-radio-button-disabled');
+            this.setAttribute('tabindex', '-1');
+        } else {
+            this.firstChild.classList.remove('guic-radio-button-disabled');
+            this.setAttribute('tabindex', '0');
+        }
     }
 
     // eslint-disable-next-line require-jsdoc
     get checked() {
-        return this.getAttribute('aria-checked');
+        return this.state.checked;
     }
 
     // eslint-disable-next-line require-jsdoc
     set checked(value) {
-        this.radioGroup.checkButton(this);
+        value ? this.setAttribute('checked', '') : this.removeAttribute('checked');
     }
 
     // eslint-disable-next-line require-jsdoc
     get value() {
-        return this.getAttribute('value') || 'on';
+        return this.state.value;
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -235,16 +331,14 @@ class RadioButton extends BaseComponent {
 
     // eslint-disable-next-line require-jsdoc
     get disabled() {
-        return this.hasAttribute('disabled');
+        return this.state.disabled;
     }
 
     // eslint-disable-next-line require-jsdoc
     set disabled(value) {
         if (value) {
-            this.firstChild.classList.add('guic-radio-button-disabled');
             this.setAttribute('disabled', '');
         } else {
-            this.firstChild.classList.remove('guic-radio-button-disabled');
             this.removeAttribute('disabled');
         }
     }
@@ -265,7 +359,9 @@ class RadioButton extends BaseComponent {
             this.textElement = this.querySelector('.radio-button-text');
             if (!hasSlots) this.textElement.textContent = radioButtonText;
             // Apply the user set text
-            if (this.disabled) this.firstChild.classList.add('guic-radio-button-disabled');
+            if (this.hasAttribute('checked')) this.updateAttributeState('checked', true);
+            if (this.hasAttribute('disabled')) this.updateAttributeState('disabled', true);
+            if (this.hasAttribute('value')) this.updateAttributeState('value', this.getAttribute('value'));
         });
     }
 
