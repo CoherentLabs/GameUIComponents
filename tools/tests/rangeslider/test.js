@@ -22,7 +22,7 @@ function loadRangeslider({ value, min, max, values, grid, thumb, twoHandles, ori
         value ? `value="${value}"` : '',
         min ? `min="${min}"` : '',
         max ? `max="${max}"` : '',
-        values ? `values="${JSON.stringify(values)}"` : '',
+        values ? `values=${JSON.stringify(values).replace(/"/g, '&quot;')}` : '',
         orientation ? `orientation="${orientation}"` : '',
         step ? `step="${step}"` : '',
         grid ? `grid` : '',
@@ -112,6 +112,22 @@ describe('Rangeslider component', () => {
         assert.isAbove(height, width);
     });
 
+    it('Should change orientation dynamically', async () => {
+        await loadRangeslider({ orientation: 'vertical' });
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        rangeslider.orientation = 'horizontal';
+        await createAsyncSpec(() => {
+            const { width, height } = document.querySelector('.guic-horizontal-rangeslider').getBoundingClientRect();
+            assert.isAbove(width, height);
+        });
+
+        rangeslider.setAttribute('orientation', 'vertical');
+        await createAsyncSpec(() => {
+            const { width, height } = document.querySelector('.guic-vertical-rangeslider').getBoundingClientRect();
+            assert.isAbove(height, width);
+        });
+    });
+
     it('Handle should correspond to value', async () => {
         const value = 50;
         await loadRangeslider({ value });
@@ -121,12 +137,159 @@ describe('Rangeslider component', () => {
         assert.equal(left, value);
     });
 
+    it('Should change value dynamically', async () => {
+        await loadRangeslider({});
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+        rangeSlider.value = 70;
+        let left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 70);
+
+        rangeSlider.setAttribute('value', 20);
+        left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 20);
+    });
+
+    it('Should set value to min if changed value is invalid', async () => {
+        await loadRangeslider({ value: 70 });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+        rangeSlider.value = 'invalid';
+        const left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 0);
+    });
+
+    it('Should change value dynamically that overflows min', async () => {
+        await loadRangeslider({ min: 10, max: 70 });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+
+        rangeSlider.value = -10;
+        const left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 0);
+    });
+
+    it('Should change value dynamically that overflows max', async () => {
+        await loadRangeslider({ min: 10, max: 70 });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+        rangeSlider.value = 200;
+        const left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 100);
+    });
+
+    it('Should change dynamically min and recalculate the value', async () => {
+        await loadRangeslider({ value: 30, min: 10, max: 70 });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+        rangeSlider.min = 35;
+        const left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 0);
+        assert.equal(rangeSlider.value, 35);
+    });
+
+    it('Should change dynamically max and recalculate the value', async () => {
+        await loadRangeslider({ value: 35, min: 10, max: 70 });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+
+        rangeSlider.setAttribute('max', 30);
+        const left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 100);
+        assert.equal(rangeSlider.value, 30);
+    });
+
+    it('Should add values dynamically and change the rangeslider behavior', async () => {
+        await loadRangeslider({ value: 50, grid: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        rangeSlider.values = ['Easy', 'Medium', 'Hard'];
+
+        await createAsyncSpec(() => {
+            const values = document.querySelectorAll('.guic-rangeslider-horizontal-grid-text');
+            assert.equal(rangeSlider.values.length, values.length);
+            values.forEach((value, index) => {
+                assert.equal(value.textContent, rangeSlider.values[index]);
+            });
+        }, 4);
+    });
+
+    it('Should remove values dynamically and change the rangeslider behavior', async () => {
+        await loadRangeslider({ value: 50, grid: true, values: ['Easy', 'Medium', 'Hard'] });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        rangeSlider.removeAttribute('values');
+
+        await createAsyncSpec(() => {
+            const expectedGridValues = ['0', '25', '50', '75', '100'];
+            const values = document.querySelectorAll('.guic-rangeslider-horizontal-grid-text');
+            assert.equal(expectedGridValues.length, values.length);
+            values.forEach((value, index) => {
+                assert.equal(value.textContent, expectedGridValues[index]);
+            });
+        }, 4);
+    });
+
+    it('Should change value dynamically', async () => {
+        await loadRangeslider({ step: 20 });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+        rangeSlider.value = 15;
+        let left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 20);
+
+        rangeSlider.setAttribute('value', 5);
+        left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 0);
+    });
+
+    it('Should change value dynamically of rangeslider with values attribute', async () => {
+        await loadRangeslider({ values: ['Easy', 'Medium', 'Hard'] });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+        rangeSlider.value = 'Easy';
+        let left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 0);
+
+        rangeSlider.setAttribute('value', 'Medium');
+        left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 50);
+
+        rangeSlider.value = 'Hard';
+        left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 100);
+    });
+
+    it('Should set value to min if changed value is invalid for rangeslider with values array', async () => {
+        await loadRangeslider({ values: ['Easy', 'Medium', 'Hard'], value: 'Hard' });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+        rangeSlider.value = 'invalid';
+        const left = parseFloat(rangesliderHandle.style.left);
+        assert.equal(left, 0);
+    });
+
     it('Custom handle should correspond to value', async () => {
         const value = 50;
         await loadRangeslider({ value, customHandle: customHandleSelectors.SINGLE });
         const customHandle = document.querySelector(customHandleSelectors.SINGLE);
         assert.exists(customHandle, 'Custom handle element is rendered in the DOM');
         assert.equal(customHandle.textContent, value);
+    });
+
+    it('Should change customHandle dynamically and check its value', async () => {
+        const value = 50;
+        await loadRangeslider({ value, customHandle: customHandleSelectors.SINGLE });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const customHandle = document.querySelector(customHandleSelectors.SINGLE);
+        assert.exists(customHandle, 'Custom handle element is rendered in the DOM');
+        addCustomElementValue('test');
+        const customHandleTest = document.querySelector('#test');
+        assert.exists(customHandleTest, 'Custom handle test element is rendered in the DOM');
+        rangeSlider.customHandle = '#test';
+        assert.equal(rangeSlider.customHandle, customHandleTest);
+
+        rangeSlider.value = 70;
+        assert.equal(customHandle.textContent, value);
+        assert.equal(customHandleTest.textContent, rangeSlider.value);
     });
 
     it('Bar should correspond to value', async () => {
@@ -144,8 +307,41 @@ describe('Rangeslider component', () => {
         assert.exists(grid);
     });
 
+    it('Should disable grid dynamically', async () => {
+        await loadRangeslider({ grid: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        rangeSlider.grid = false;
+        const grid = document.querySelector('.guic-horizontal-rangeslider-grid');
+        assert.equal(grid, null);
+    });
+
+    it('Should enable grid dynamically', async () => {
+        await loadRangeslider({});
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+
+        rangeSlider.setAttribute('grid', '');
+        const grid = document.querySelector('.guic-horizontal-rangeslider-grid');
+        assert.exists(grid);
+    });
+
     it('Should have thumb', async () => {
         await loadRangeslider({ thumb: true });
+        const thumb = document.querySelector('.guic-horizontal-rangeslider-thumb');
+        assert.exists(thumb);
+    });
+
+    it('Should disable thumb dynamically', async () => {
+        await loadRangeslider({ thumb: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        rangeSlider.thumb = false;
+        const thumb = document.querySelector('.guic-horizontal-rangeslider-thumb');
+        assert.equal(thumb, null);
+    });
+
+    it('Should enable thumb dynamically', async () => {
+        await loadRangeslider({});
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        rangeSlider.setAttribute('thumb', '');
         const thumb = document.querySelector('.guic-horizontal-rangeslider-thumb');
         assert.exists(thumb);
     });
@@ -156,8 +352,66 @@ describe('Rangeslider component', () => {
         assert.lengthOf(handles, 2);
     });
 
+    it('Should disable two handles', async () => {
+        await loadRangeslider({ twoHandles: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        rangeSlider.twoHandles = false;
+        let handles;
+        await createAsyncSpec(() => {
+            handles = document.querySelectorAll('.guic-horizontal-rangeslider-handle');
+            assert.lengthOf(handles, 1);
+        });
+    });
+
+    it('Should enable/disable two handles', async () => {
+        await loadRangeslider({});
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        rangeSlider.setAttribute('two-handles', '');
+
+        await createAsyncSpec(() => {
+            const handles = document.querySelectorAll('.guic-horizontal-rangeslider-handle');
+            assert.lengthOf(handles, 2);
+        });
+    });
+
+    it('Should change dynamically min and recalculate the values when two handles are enabled', async () => {
+        await loadRangeslider({ twoHandles: true, min: 10, max: 70 });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandles = document.querySelectorAll('.guic-horizontal-rangeslider-handle');
+        rangeSlider.min = 35;
+        const left = parseFloat(rangesliderHandles[0].style.left);
+        assert.equal(left, 0);
+        assert.equal(rangeSlider.value[0], 35);
+    });
+
+    it('Should change dynamically max and recalculate the values when two handles are enabled', async () => {
+        await loadRangeslider({ twoHandles: true, min: 10, max: 70 });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const rangesliderHandles = document.querySelectorAll('.guic-horizontal-rangeslider-handle');
+        rangeSlider.setAttribute('max', 60);
+        const left = parseFloat(rangesliderHandles[1].style.left);
+        assert.equal(left, 100);
+        assert.equal(rangeSlider.value[1], 60);
+    });
+
     it('Should have two thumbs', async () => {
         await loadRangeslider({ twoHandles: true, thumb: true });
+        const thumbs = document.querySelectorAll('.guic-horizontal-rangeslider-thumb');
+        assert.lengthOf(thumbs, 2);
+    });
+
+    it('Should disable two thumbs', async () => {
+        await loadRangeslider({ twoHandles: true, thumb: true });
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        rangeslider.thumb = false;
+        const thumbs = document.querySelectorAll('.guic-horizontal-rangeslider-thumb');
+        assert.lengthOf(thumbs, 0);
+    });
+
+    it('Should enable two thumbs', async () => {
+        await loadRangeslider({ twoHandles: true });
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        rangeslider.setAttribute('thumb', '');
         const thumbs = document.querySelectorAll('.guic-horizontal-rangeslider-thumb');
         assert.lengthOf(thumbs, 2);
     });
@@ -166,7 +420,7 @@ describe('Rangeslider component', () => {
         loadRangeslider({}).then(() => {
             const rangeslider = document.querySelector('gameface-rangeslider');
             rangeslider.addEventListener('sliderupdate', ({ detail }) => {
-                assert.equal(detail[0], 50);
+                assert.equal(detail, 50);
                 done();
             });
 
@@ -292,6 +546,7 @@ describe('Rangeslider component', () => {
 /* global engine */
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
+    // eslint-disable-next-line max-lines-per-function
     describe('Rangeslider Component (Gameface Data Binding Test)', () => {
         const templateName = 'rangeSlider';
 
@@ -317,14 +572,47 @@ if (engine?.isAttached) {
 
         afterAll(() => cleanTestPage('.test-wrapper'));
 
-        beforeEach(async () => {
+        it(`Should have populated 2 elements`, async () => {
             await setupDataBindingTest(templateName, template, setupRangeSlider);
-        });
-
-        it(`Should have populated 2 elements`, () => {
             const expectedCount = 2;
             const rangeSliderCount = document.querySelectorAll('gameface-rangeslider').length;
             assert.equal(rangeSliderCount, expectedCount, `Range Sliders found: ${rangeSliderCount}, should have been ${expectedCount}.`);
+        });
+
+        it(`Should dynamically change the value of rangeslider`, async () => {
+            // eslint-disable-next-line require-jsdoc
+            class Value {
+                // eslint-disable-next-line require-jsdoc
+                init(element, value) {
+                    element.value = value;
+                }
+                // eslint-disable-next-line require-jsdoc
+                update(element, value) {
+                    element.value = value;
+                }
+            }
+
+            engine.registerBindingAttribute('rangeslider-value', Value);
+            const modelName = 'valueAttribute';
+            const templateAttributes = `<gameface-rangeslider data-bind-rangeslider-value="{{${modelName}.value}}"></gameface-rangeslider>`;
+
+            await setupDataBindingTest(modelName, templateAttributes, setupRangeSlider, { value: 50 });
+            const rangesliderHandle = document.querySelector('.guic-horizontal-rangeslider-handle');
+            let left;
+
+            await createAsyncSpec(() => {
+                left = parseFloat(rangesliderHandle.style.left);
+                assert.equal(left, 50);
+            });
+
+            window[modelName].value = 75;
+            engine.updateWholeModel(window[modelName]);
+            engine.synchronizeModels();
+
+            await createAsyncSpec(() => {
+                left = parseFloat(rangesliderHandle.style.left);
+                assert.equal(left, 75);
+            });
         });
     });
 }
