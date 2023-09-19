@@ -17,6 +17,8 @@ in the root of the GameUIComponents.
 The test script will execute `karma start tools/tests/karma.conf.js` which will automatically
 run the tests in Google Chrome.
 
+Do check out some caveats when creating tests: https://github.com/CoherentLabs/GameUIComponents/wiki/Tests-Hints-&-Tips
+
 # Adding new tests
 
 All tests are located in tools/tests. There is a separate folder for each component. All tests are named either **`test.js`** or **`<name>.test.js`**.
