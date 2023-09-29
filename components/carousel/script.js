@@ -16,9 +16,11 @@ class Carousel extends BaseComponent {
 
         this.items = [];
         this.auto = false;
-        this._pageSize = 4;
+        this._pageSize = 2;
         this.current = 0;
         this.itemsDirection = 1;
+
+        this.pages = 0;
     }
 
     addItem(node, index) {
@@ -110,9 +112,38 @@ class Carousel extends BaseComponent {
             this.resize();
             this.style.visibility = 'visible';
 
+            this.pages = this.items.length / this.pageSize;
+
+            this.createPaginationControls();
             this.attachControlButtonsListeners();
             // attach event handlers here
         });
+    }
+
+    createDot(page) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        dot.dataset.page = page;
+
+        return dot;
+    }
+
+    createPaginationControls() {
+        const container = this.querySelector('.dots');
+
+        for (let i = 0; i < this.pages; i++) {
+            container.appendChild(this.createDot(i));
+        }
+
+        const dots = container.querySelectorAll('.dot');
+
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].addEventListener('click', (e) => {
+                const page = e.currentTarget.dataset.page;
+                this.current = (Number(page) * this.pageSize);
+                this.moveTo(-this.current);
+            });
+        }
     }
 
     resize() {
