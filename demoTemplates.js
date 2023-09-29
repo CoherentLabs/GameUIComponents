@@ -648,7 +648,7 @@ const textFieldsTemplate = `
         <gameface-text-field type="search" minlength="3" maxlength="15" value="min-max-test" label="Search:">
         </gameface-text-field>
 
-        <gameface-text-field type="search" text-field-control-disabled value="control is disabled" label="Search:">
+        <gameface-text-field type="search" control-disabled value="control is disabled" label="Search:">
         </gameface-text-field>
 
         <gameface-text-field class="custom-input-styles" type="search" label="Search:"></gameface-text-field>
@@ -697,7 +697,7 @@ const textFieldsTemplate = `
         <gameface-text-field type="number" min="3" max="15" value="20" label="Number:">
         </gameface-text-field>
 
-        <gameface-text-field type="number" text-field-control-disabled label="Number:">
+        <gameface-text-field type="number" control-disabled label="Number:">
         </gameface-text-field>
 
         <gameface-text-field class="custom-input-styles" type="number" label="Number:"></gameface-text-field>

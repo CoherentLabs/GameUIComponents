@@ -14,6 +14,9 @@
 
         .case {
             margin: 5px;
+            max-width: 400px;
+            min-width: 100px;
+            width: 95%;
         }
 
         .guic-text-field-container {
@@ -36,6 +39,7 @@
         .custom-text-field-styles .guic-text-field {
             font-size: 20px;
             color: greenyellow;
+            background-color: transparent;
         }
 
         .custom-text-field-styles {
@@ -170,7 +174,7 @@
             <gameface-text-field type="search" minlength="3" maxlength="15" value="min-max-test" label="Search:">
             </gameface-text-field>
 
-            <gameface-text-field type="search" text-field-control-disabled value="control is disabled" label="Search:">
+            <gameface-text-field type="search" control-disabled value="control is disabled" label="Search:">
             </gameface-text-field>
 
             <gameface-text-field class="custom-text-field-styles" type="search" label="Search:"></gameface-text-field>
@@ -219,7 +223,7 @@
             <gameface-text-field type="number" min="3" max="15" value="20" label="Number:">
             </gameface-text-field>
 
-            <gameface-text-field type="number" text-field-control-disabled label="Number:">
+            <gameface-text-field type="number" control-disabled label="Number:">
             </gameface-text-field>
 
             <gameface-text-field class="custom-text-field-styles" type="number" label="Number:"></gameface-text-field>

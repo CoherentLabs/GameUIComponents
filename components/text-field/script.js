@@ -22,51 +22,80 @@ const supportedTextFieldTypes = {
 
 const DEFAULT_PLACEHOLDER_VALUE = '';
 const TEXT_FIELD_ATTRIBUTES = [
-    { name: 'label', defaultValue: '' },
-    { name: 'value', defaultValue: '' },
-    { name: 'type', defaultValue: supportedTextFieldTypes.TEXT },
-    { name: 'placeholder', defaultValue: DEFAULT_PLACEHOLDER_VALUE },
-    { name: 'maxlength', parseMethod: parseInt, isAttrValueValidMethod: isNaN },
-    { name: 'minlength', parseMethod: parseInt, isAttrValueValidMethod: isNaN },
-    { name: 'max', parseMethod: parseFloat, isAttrValueValidMethod: isNaN },
-    { name: 'min', parseMethod: parseFloat, isAttrValueValidMethod: isNaN },
-    { name: 'minlength', parseMethod: parseInt, isAttrValueValidMethod: isNaN },
-    { name: 'step', defaultValue: 1, parseMethod: parseFloat, isAttrValueValidMethod: isNaN },
+    { name: 'type', defaultValue: supportedTextFieldTypes.TEXT, type: ['string'] },
+    { name: 'label', defaultValue: '', type: ['string'] },
+    { name: 'disabled', defaultValue: false, type: ['boolean'] },
+    { name: 'readonly', defaultValue: false, type: ['boolean'] },
+    { name: 'pattern', defaultValue: '', type: ['string'] },
+    { name: 'control-disabled', defaultValue: false, type: ['boolean'] },
+    { name: 'value', defaultValue: '', type: ['string', 'number'] },
+    { name: 'name', defaultValue: '', type: ['string'] },
+    { name: 'placeholder', defaultValue: DEFAULT_PLACEHOLDER_VALUE, type: ['string'] },
+    { name: 'maxlength', defaultValue: undefined, parseMethod: parseInt, isAttrValueValidMethod: isNaN, type: ['string', 'number', 'undefined'] },
+    { name: 'minlength', defaultValue: undefined, parseMethod: parseInt, isAttrValueValidMethod: isNaN, type: ['string', 'number', 'undefined'] },
+    { name: 'max', defaultValue: undefined, parseMethod: parseFloat, isAttrValueValidMethod: isNaN, type: ['string', 'number', 'undefined'] },
+    { name: 'min', defaultValue: undefined, parseMethod: parseFloat, isAttrValueValidMethod: isNaN, type: ['string', 'number', 'undefined'] },
+    { name: 'step', defaultValue: 1, parseMethod: parseFloat, isAttrValueValidMethod: isNaN, type: ['string', 'number'] },
 ];
 
+/**
+ * @typedef {object} TextFieldState
+ * @property {string} label
+ * @property {boolean} disabled
+ * @property {boolean} readonly
+ * @property {string} pattern
+ * @property {boolean} control-disabled
+ * @property {string|number} value
+ * @property {string} name
+ * @property {'text'|'password'|'email'|'number'|'search'|'url'} type
+ * @property {string} placeholder
+ * @property {number|undefined} maxlength
+ * @property {number|undefined} minlength
+ * @property {number|undefined} max
+ * @property {number|undefined} min
+ * @property {number} step
+ */
 /**
  * Class definition of gameface text field custom element
  */
 class TextField extends CustomElementValidator {
+    // eslint-disable-next-line require-jsdoc
+    static get observedAttributes() { return TEXT_FIELD_ATTRIBUTES.map(attr => attr.name); }
+
     /* eslint-disable require-jsdoc */
     constructor() {
         super();
         this.template = template;
-        this.inputType = supportedTextFieldTypes.TEXT;
         this.showSearchRemoveIconBound = this.showSearchRemoveIcon.bind(this);
         this.hideSearchRemoveIconBound = this.hideSearchRemoveIcon.bind(this);
         this.showNumberControlBound = this.showNumberControl.bind(this);
         this.hideNumberControlBound = this.hideNumberControl.bind(this);
-        this.onNumberInputChangedBound = this.onNumberInputChanged.bind(this);
+        this.onInputChangedBound = this.onInputChanged.bind(this);
         this.disableInputBound = this.disableInput.bind(this);
         this.stepUpBound = this.onStepUp.bind(this);
         this.stepDownBound = this.onStepDown.bind(this);
         this.clearMousedownIntervalBound = this.clearMousedownInterval.bind(this);
         this.init = this.init.bind(this);
+        this.initTextField = this.initTextField.bind(this);
+
+        this.stateSchema = TEXT_FIELD_ATTRIBUTES.reduce((acc, attribute) => {
+            acc[attribute.name] = { type: [...attribute.type] };
+            return acc;
+        }, {});
+
+        /** @type {TextFieldState} */
+        this.state = TEXT_FIELD_ATTRIBUTES.reduce((acc, attribute) => {
+            acc[attribute.name] = attribute.defaultValue;
+            return acc;
+        }, {});
     }
 
     get label() {
-        return this.labelElement.textContent;
+        return this.state.label;
     }
 
     set label(value) {
-        if (value) {
-            this.labelElement.classList.remove('guic-hidden');
-        } else {
-            this.labelElement.classList.add('guic-hidden');
-        }
-
-        this.labelElement.textContent = value;
+        value ? this.setAttribute('label', value) : this.removeAttribute('label');
     }
 
     get value() {
@@ -74,118 +103,79 @@ class TextField extends CustomElementValidator {
     }
 
     set value(value) {
-        this.inputElement.value = value;
-        this.togglePlaceholder(!this.value);
+        this.setAttribute('value', value);
     }
 
     get type() {
-        return this.inputType;
+        return this.state.type;
     }
 
     set type(value) {
-        this.clearInputType(value);
-
-        switch (value) {
-            case supportedTextFieldTypes.TEXT:
-            case supportedTextFieldTypes.EMAIL:
-            case supportedTextFieldTypes.URL:
-                this.inputElement.type = supportedTextFieldTypes.TEXT;
-                break;
-            case supportedTextFieldTypes.PASSWORD:
-                this.inputElement.type = supportedTextFieldTypes.PASSWORD;
-                break;
-            case supportedTextFieldTypes.SEARCH:
-                this.inputElement.type = supportedTextFieldTypes.TEXT;
-                this.setSearchInput();
-                break;
-            case supportedTextFieldTypes.NUMBER:
-                this.inputElement.type = supportedTextFieldTypes.TEXT;
-                this.setNumberInput();
-                break;
-            default: this.inputElement.type = supportedTextFieldTypes.TEXT;
-        }
-
-        // Save the real text field type
-        this.inputType = value;
+        this.setAttribute('type', value);
     }
 
     get placeholder() {
-        return this.placeholderElement.textContent;
+        return this.state.placeholder;
     }
 
     set placeholder(value) {
-        this.placeholderElement.textContent = value || DEFAULT_PLACEHOLDER_VALUE;
-        this.togglePlaceholder(!this.value);
+        this.setAttribute('placeholder', value);
     }
 
     get disabled() {
-        return this.inputElement.disabled;
+        return this.state.disabled;
     }
 
     set disabled(value) {
-        const newValue = !!value;
-
-        if (newValue) {
-            this.componentContainer.classList.add('guic-text-field-disabled');
-        } else {
-            this.componentContainer.classList.remove('guic-text-field-disabled');
-        }
-
-        this.inputElement.disabled = newValue;
+        value ? this.setAttribute('disabled', '') : this.removeAttribute('disabled');
     }
 
     get readonly() {
-        return this.inputElement.readOnly;
+        return this.state.readonly;
     }
 
     set readonly(value) {
-        // Normalize the value to boolean value because the user can pass string for example that is not empty and the value will be true.
-        const newValue = !!value;
-
-        if (this.readonly === newValue) return;
-
-        if (this.readonly && !newValue) {
-            this.inputElement.removeEventListener('keypress', this.disableInputBound);
-        } else {
-            this.inputElement.addEventListener('keypress', this.disableInputBound);
-        }
-
-        // Set the value to the input property. Do not use this.readonly = newValue because it will end up in infinite recursion.
-        this.inputElement.readOnly = newValue;
+        value ? this.setAttribute('readonly', '') : this.removeAttribute('readonly');
     }
 
     get minlength() {
-        return this.inputElement.minLength;
+        return this.state.minlength;
     }
 
     set minlength(value) {
-        const parsedValue = parseInt(value);
-
-        if (isNaN(parsedValue)) return;
-        this.inputElement.minLength = value;
+        this.setAttribute('minlength', value);
     }
 
     get maxlength() {
-        return this.inputElement.maxLength;
+        return this.state.maxlength;
     }
 
     set maxlength(value) {
-        const parsedValue = parseInt(value);
-
-        if (isNaN(parsedValue)) return;
-        this.inputElement.maxLength = value;
+        this.setAttribute('maxlength', value);
     }
 
-    get textFieldControlDisabled() {
-        return this.hasAttribute('text-field-control-disabled');
+    set min(value) {
+        this.setAttribute('min', value);
     }
 
-    set textFieldControlDisabled(value) {
-        if (value) {
-            this.setAttribute('text-field-control-disabled', '');
-        } else {
-            this.removeAttribute('text-field-control-disabled');
-        }
+    get min() {
+        return this.state.min;
+    }
+
+    set max(value) {
+        this.setAttribute('max', value);
+    }
+
+    get max() {
+        return this.state.max;
+    }
+
+    get controlDisabled() {
+        return this.state['control-disabled'];
+    }
+
+    set controlDisabled(value) {
+        value ? this.setAttribute('control-disabled', '') : this.removeAttribute('control-disabled');
     }
 
     set pattern(value) {
@@ -193,7 +183,217 @@ class TextField extends CustomElementValidator {
     }
 
     get pattern() {
-        return this.getAttribute('pattern');
+        return this.state.pattern;
+    }
+
+    set step(value) {
+        this.setAttribute('step', value);
+    }
+
+    get step() {
+        return this.state.step;
+    }
+
+    get name() {
+        return this.state.name;
+    }
+
+    set name(value) {
+        this.setAttribute('name', value);
+    }
+
+    /**
+     * Custom element lifecycle method. Called when an attribute is changed.
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string|boolean} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
+
+        this.updateAttributeState(name, newValue);
+    }
+
+    /**
+     * Will update the state properties linked with the text-field attributes
+     * @param {string} name
+     * @param {string|boolean} value
+     */
+    // eslint-disable-next-line max-lines-per-function
+    updateAttributeState(name, value) {
+        switch (name) {
+            case 'label':
+                this.updateLabelState(value);
+                break;
+            case 'disabled':
+                this.updateDisabledState(value !== null);
+                break;
+            case 'value':
+                this.updateValueState(value);
+                break;
+            case 'type':
+                this.updateTypeState(value);
+                break;
+            case 'placeholder':
+                this.updatePlaceholderState(value);
+                break;
+            case 'readonly':
+                this.updateReadonlyState(value !== null);
+                break;
+            case 'control-disabled':
+                this.updateState(name, value !== null);
+                break;
+            case 'pattern':
+            case 'min':
+            case 'max':
+            case 'name':
+                this.updateState(name, value);
+                break;
+            case 'step':
+                this.updateStepState(value);
+                break;
+            case 'maxlength':
+            case 'minlength':
+                this.updateMinMaxLengthState(name, value);
+                break;
+        }
+    }
+
+    /**
+     * Update the text field's state.
+     * @param {string} name - the name of the prop
+     * @param {string | boolean} value - the value of the the prop
+     * @returns {void}
+     */
+    updateState(name, value) {
+        if (!this.isStatePropValid(name, value)) return;
+        this.state[name] = value;
+    }
+
+    /**
+     * Will update the text field's step state
+     * @param {number|string} value
+     * @returns {void}
+     */
+    updateStepState(value) {
+        if (typeof value !== 'number') value = parseFloat(value);
+        if (isNaN(value)) return;
+
+        this.updateState('step', value);
+    }
+
+    /**
+     * Will update the text field readonly state
+     * @param {string} name
+     * @param {boolean} value
+     */
+    updateMinMaxLengthState(name, value) {
+        const parsedValue = parseInt(value);
+
+        if (isNaN(parsedValue)) return;
+        this.state[name] = value;
+        if (name === 'minlength') this.inputElement.minLength = value;
+        else this.inputElement.maxLength = value;
+    }
+
+    /**
+     * Will update the text field readonly state
+     * @param {boolean} value
+     */
+    updateReadonlyState(value) {
+        if (this.readonly === value) return;
+
+        if (this.readonly && !value) {
+            this.inputElement.removeEventListener('keypress', this.disableInputBound);
+        } else {
+            this.inputElement.addEventListener('keypress', this.disableInputBound);
+        }
+
+        // Set the value to the input property. Do not use this.readonly = newValue because it will end up in infinite recursion.
+        this.state.readonly = this.inputElement.readOnly = value;
+    }
+
+    /**
+     * Will update the text field placeholder state
+     * @param {boolean} value
+     */
+    updatePlaceholderState(value) {
+        this.state.placeholder = this.placeholderElement.textContent = value || DEFAULT_PLACEHOLDER_VALUE;
+        this.togglePlaceholder(!this.value);
+    }
+
+    /**
+     * Will update the text field type state
+     * @param {boolean} value
+     */
+    updateTypeState(value) {
+        this.clearInputType(value);
+
+        switch (value) {
+            case supportedTextFieldTypes.TEXT:
+            case supportedTextFieldTypes.EMAIL:
+            case supportedTextFieldTypes.URL:
+                this.inputElement.type = supportedTextFieldTypes.TEXT;
+                this.state.type = value;
+                break;
+            case supportedTextFieldTypes.PASSWORD:
+                this.state.type = this.inputElement.type = supportedTextFieldTypes.PASSWORD;
+                break;
+            case supportedTextFieldTypes.SEARCH:
+                this.inputElement.type = supportedTextFieldTypes.TEXT;
+                this.state.type = supportedTextFieldTypes.SEARCH;
+                this.setSearchInput();
+                break;
+            case supportedTextFieldTypes.NUMBER:
+                this.inputElement.type = supportedTextFieldTypes.TEXT;
+                this.state.type = supportedTextFieldTypes.NUMBER;
+                this.setNumberInput();
+                break;
+            default: this.state.type = this.inputElement.type = supportedTextFieldTypes.TEXT;
+        }
+    }
+
+    /**
+     * Will process the value if it is set on text field with type number
+     * @param {string} value
+     * @returns {string}
+     */
+    getProcessedValue(value) {
+        if (this.type === supportedTextFieldTypes.NUMBER) {
+            const isNegative = value.length && value[0] === '-';
+            const newValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+            return isNegative ? '-' + newValue : newValue;
+        }
+
+        return value;
+    }
+
+    /**
+     * Will update the text field value state
+     * @param {string|number} value
+     */
+    updateValueState(value) {
+        this.inputElement.value = this.getProcessedValue(value);
+
+        this.togglePlaceholder(!this.value);
+    }
+
+    /**
+     * Will update the text field label state
+     * @param {boolean} value
+     */
+    updateLabelState(value) {
+        this.labelElement.classList.toggle('guic-hidden', !value);
+        this.state.label = this.labelElement.textContent = value;
+    }
+
+    /**
+     * Will update the text field disabled state
+     * @param {boolean} value
+     */
+    updateDisabledState(value) {
+        this.componentContainer.classList.toggle('guic-text-field-disabled', value);
+        this.state.disabled = this.inputElement.disabled = value;
     }
 
     tooLong() {
@@ -266,7 +466,7 @@ class TextField extends CustomElementValidator {
 
         if (this.type === supportedTextFieldTypes.NUMBER && newInputType !== supportedTextFieldTypes.NUMBER) {
             this.hideNumberControl();
-            this.inputElement.removeEventListener('input', this.onNumberInputChangedBound);
+            this.inputElement.removeEventListener('input', this.onInputChangedBound);
             this.inputElement.removeEventListener('focus', this.showNumberControlBound);
             this.inputElement.removeEventListener('blur', this.hideNumberControlBound);
         }
@@ -276,7 +476,7 @@ class TextField extends CustomElementValidator {
      * Displays the remove search icon if input control is enabled
      */
     showSearchRemoveIcon() {
-        if (this.textFieldControlDisabled || this.readonly) return;
+        if (this.controlDisabled || this.readonly) return;
 
         this.searchRemoveElement.classList.remove('guic-hidden');
     }
@@ -292,7 +492,7 @@ class TextField extends CustomElementValidator {
      * Displays the arrow icons if input control is enabled
      */
     showNumberControl() {
-        if (this.textFieldControlDisabled || this.readonly) return;
+        if (this.controlDisabled || this.readonly) return;
 
         this.numberControlElement.classList.remove('guic-hidden');
         this.increaseInputValueElement.addEventListener('mousedown', this.stepUpBound);
@@ -314,6 +514,7 @@ class TextField extends CustomElementValidator {
     setSearchInput() {
         this.inputElement.addEventListener('focus', this.showSearchRemoveIconBound);
         this.inputElement.addEventListener('blur', this.hideSearchRemoveIconBound);
+        this.inputElement.addEventListener('input', this.onInputChangedBound);
     }
 
     /**
@@ -334,18 +535,15 @@ class TextField extends CustomElementValidator {
         this.setDefaultInputNumberValue();
         this.inputElement.addEventListener('focus', this.showNumberControlBound);
         this.inputElement.addEventListener('blur', this.hideNumberControlBound);
-        this.inputElement.addEventListener('input', this.onNumberInputChangedBound);
+        this.inputElement.addEventListener('input', this.onInputChangedBound);
     }
 
     /**
      * Filter the input value and replace all characters that are not number or '.'
      * @param {Event} event
      */
-    onNumberInputChanged(event) {
-        const value = event.target.value;
-        const isNegative = value.length && value[0] === '-';
-        const newValue = event.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
-        event.target.value = isNegative ? '-' + newValue : newValue;
+    onInputChanged(event) {
+        this.updateValueState(event.target.value);
     }
 
     /**
@@ -354,12 +552,7 @@ class TextField extends CustomElementValidator {
      */
     togglePlaceholder(visible) {
         if (!this.placeholder) return;
-
-        if (visible) {
-            this.placeholderElement.classList.remove('guic-hidden');
-        } else {
-            this.placeholderElement.classList.add('guic-hidden');
-        }
+        this.placeholderElement.classList.toggle('guic-hidden', !visible);
     }
 
     /**
@@ -461,12 +654,18 @@ class TextField extends CustomElementValidator {
      * Will migrate the attributes from the component element to the this context
      * @param {string} attrName
      * @param {any} defaultValue
+     * @param {Array<string>} type
      * @param {Function} parseValueMethod
      * @param {Function} isAttrValueValid
      */
-    initTextFieldAttribute(attrName, defaultValue, parseValueMethod, isAttrValueValid) {
+    initTextFieldAttribute(attrName, defaultValue, type, parseValueMethod, isAttrValueValid) {
+        if (type.includes('boolean')) {
+            this.updateAttributeState(attrName, this.hasAttribute(attrName) ? true : null);
+            return;
+        }
+
         if (!this.hasAttribute(attrName)) {
-            this[attrName] = defaultValue;
+            this.updateAttributeState(attrName, defaultValue);
             return;
         }
 
@@ -475,9 +674,9 @@ class TextField extends CustomElementValidator {
             this.getAttribute(attrName);
 
         if (isAttrValueValid) {
-            this[attrName] = !isAttrValueValid(attrValue) ? attrValue : defaultValue;
+            this.updateAttributeState(attrName, !isAttrValueValid(attrValue) ? attrValue : defaultValue);
         } else {
-            this[attrName] = attrValue !== undefined ? attrValue : defaultValue;
+            this.updateAttributeState(attrName, attrValue !== undefined ? attrValue : defaultValue);
         }
     }
 
@@ -487,12 +686,10 @@ class TextField extends CustomElementValidator {
     initTextFieldAttributes() {
         // we need to set default readOnly to the input element because the readonly getter here is working with it
         this.inputElement.readOnly = false;
-        this.readonly = this.hasAttribute('readonly');
-        this.disabled = this.hasAttribute('disabled');
 
         for (const attribute of TEXT_FIELD_ATTRIBUTES) {
-            const { name, defaultValue, parseMethod, isAttrValueValidMethod } = attribute;
-            this.initTextFieldAttribute(name, defaultValue, parseMethod, isAttrValueValidMethod);
+            const { name, defaultValue, type, parseMethod, isAttrValueValidMethod } = attribute;
+            this.initTextFieldAttribute(name, defaultValue, type, parseMethod, isAttrValueValidMethod);
         }
     }
 
@@ -511,7 +708,7 @@ class TextField extends CustomElementValidator {
      */
     addTextFieldListeners() {
         this.searchRemoveElement.addEventListener('mousedown', (event) => {
-            this.value = '';
+            this.updateValueState('');
             event.preventDefault();
             event.stopPropagation();
         });

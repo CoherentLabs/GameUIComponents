@@ -47,7 +47,7 @@ function sendKeysToInput(input, value) {
 function getTypingTest(value, expectedValue) {
     return () => it(`Should type '${value}' to input`, async () => {
         const textField = document.querySelector(CUSTOM_ELEMENT_TAG);
-        const input = document.querySelector('.guic-text-field');
+        const input = textField.querySelector('input');
 
         if (textField.disabled || textField.readonly) return;
 
@@ -59,8 +59,8 @@ function getTypingTest(value, expectedValue) {
 }
 
 const textFieldComponentPropertiesCases = {
-    value: 'random',
     type: 'password',
+    value: 'random',
     placeholder: 'some placeholder',
     label: 'some label',
     disabled: true,
@@ -69,7 +69,7 @@ const textFieldComponentPropertiesCases = {
     max: 100,
     minlength: 12,
     maxlength: 203,
-    inputControlDisabled: true,
+    controlDisabled: true,
 };
 
 /**
@@ -81,8 +81,7 @@ function changeTextFieldProperty() {
         for (const prop in textFieldComponentPropertiesCases) {
             const value = textFieldComponentPropertiesCases[prop];
             textField[prop] = value;
-
-            assert(textField[prop] === value, `Expected: ${value}. Real value: ${textField.value}`);
+            assert(textField[prop] == value, `Expected ${prop} to have value: ${value}. Real value: ${textField[prop]}`);
         }
     });
 }
@@ -183,7 +182,7 @@ const testCasesRenderConfiguration = [
     },
     {
         caseName: `Search field that has disabled control`,
-        attributes: { type: 'search', 'text-field-control-disabled': '', value: 'search control is disabled', label: 'SEARCH:' },
+        attributes: { type: 'search', 'control-disabled': '', value: 'search control is disabled', label: 'SEARCH:' },
     },
     ...getDefaultRenderConfiguraion('number', '7', '5'),
     {
@@ -214,7 +213,7 @@ const testCasesRenderConfiguration = [
     },
     {
         caseName: `Number field that has disabled control`,
-        attributes: { type: 'number', 'text-field-control-disabled': '', value: '7', label: 'NUMBER:' },
+        attributes: { type: 'number', 'control-disabled': '', value: '7', label: 'NUMBER:' },
         tests: [getTypingTest('1423'), getTypingTest('12afe543', '12543'), getTypingTest('12.gfgs4', '12.4')],
     },
     {
@@ -334,6 +333,7 @@ describe('Text field component', () => {
 /* global engine */
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
+    // eslint-disable-next-line max-lines-per-function
     describe('Text Field Component (Gameface Data Binding Test)', () => {
         const templateName = 'textField';
 
@@ -363,14 +363,37 @@ if (engine?.isAttached) {
 
         afterAll(() => cleanTestPage('.test-wrapper'));
 
-        beforeEach(async () => {
-            await setupDataBindingTest(templateName, template, setupTextField);
-        });
-
         it(`Should have populated 2 elements`, async () => {
+            await setupDataBindingTest(templateName, template, setupTextField);
             const expectedCount = 2;
             const textFieldCount = document.querySelectorAll('gameface-text-field').length;
             assert.equal(textFieldCount, expectedCount, `Text Fields found: ${textFieldCount}, should have been ${expectedCount}.`);
+        });
+
+        it(`Should test text field with data-binding attributes`, async () => {
+            const template = `<gameface-text-field id="test1" type="text" label="Text:" data-bind-custom-attribute="{{model}}"></gameface-text-field>`;
+            // eslint-disable-next-line require-jsdoc
+            class CustomAttribute {
+                // eslint-disable-next-line require-jsdoc
+                init(element, model) {
+                    Object.keys(model).forEach(attrName => element[attrName] = model[attrName]);
+                }
+                // eslint-disable-next-line require-jsdoc
+                update(element, model) {
+                    Object.keys(model).forEach(attrName => element[attrName] = model[attrName]);
+                }
+            }
+
+            engine.registerBindingAttribute('custom-attribute', CustomAttribute);
+            const model = { value: 10, type: 'number', placeholder: 'Type a number', label: 'Number input' };
+            await setupDataBindingTest('model', template, setupTextField, model);
+            const textField = document.querySelector('gameface-text-field');
+            Object.keys(window.model).forEach(attrName => assert.equal(textField[attrName], window.model[attrName], `The text-field has a different ${attrName}. Received ${textField[attrName]}. Expected ${window.model[attrName]}`));
+            window.model.value = 75;
+            window.model.label = 'Test label';
+            engine.updateWholeModel(window.model);
+            engine.synchronizeModels();
+            Object.keys(window.model).forEach(attrName => assert.equal(textField[attrName], window.model[attrName], `The text-field has a different ${attrName}. Received ${textField[attrName]}. Expected ${window.model[attrName]}`));
         });
     });
 }

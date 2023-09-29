@@ -62,7 +62,7 @@ Attributes are used for configuration when the `gameface-text-field` component i
 | `readonly`               | No       | N/A                                                    | N/A           | Used to specify if the text field is read only. If it is then its `value` could not be edited but can be selected.          |
 | `label`                  | No       | Strings                                                | `''`          | Used to specify the label of the text field.                                                                                |
 | `placeholder`            | No       | Strings                                                | `''`          | Used to specify the placeholder of the text field that will be displayed when the value is empty.                           |
-| `text-field-control-disabled` | No       | N/А                                                    | N/A           | Used to specify hide the control when the type of the text field is `search` or `number`.                                   |
+| `control-disabled` | No       | N/А                                                    | N/A           | Used to specify hide the control when the type of the text field is `search` or `number`.                                   |
 
 ## Text types related attribute
 
