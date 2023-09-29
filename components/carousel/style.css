@@ -1,0 +1,17 @@
+gameface-carousel {
+    visibility: hidden;
+}
+
+.carousel {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+}
+
+.content-wrapper {
+    display: flex;
+    position: absolute;
+    left: 0px;
+    flex-direction: row;
+}

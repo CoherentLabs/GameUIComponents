@@ -1,0 +1,26 @@
+{
+    "name": "carousel",
+    "version": "1.0.0",
+    "description": "A component for Coherent Labs Gameface.",
+    "main": "script.js",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/carousel"
+    },
+    "keywords": [
+      "UI",
+      "Component"
+    ],
+    "dependencies": {
+      "coherent-gameface-components": "^3.0.1",
+      "postmessage-polyfill": "1.0.0",
+      "whatwg-fetch": "3.4.1"
+    },
+    "devDependencies": {
+      "html-loader": "^4.2.0"
+    },
+
+    "author": "CoherentLabs",
+    "license": "ISC"
+  }
+  

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+        }
+
+        #box1 {
+            background-color: rgb(170, 215, 255);
+        }
+
+        #box2 {
+            background-color: rgb(51, 162, 240);
+        }
+
+        #box3 {
+            background-color: rgb(255, 243, 154);
+        }
+
+        #box4 {
+            background-color: rgb(246, 230, 7);
+        }
+
+        #box5 {
+            background-color: rgb(246, 173, 136);
+        }
+
+        #box6 {
+            background-color: rgb(254, 103, 9);
+        }
+
+        #box7 {
+            background-color: rgb(149, 254, 200);
+        }
+
+        #box8 {
+            background-color: rgb(142, 251, 157);
+        }
+    </style>
+</head>
+
+<body>
+    <gameface-carousel class="carousel-component">
+            <div slot="carousel-content" class="box" id="box1">1</div>
+            <div slot="carousel-content" class="box" id="box2">2</div>
+            <div slot="carousel-content" class="box" id="box3">3</div>
+            <div slot="carousel-content" class="box" id="box4">4</div>
+            <div slot="carousel-content" class="box" id="box5">5</div>
+            <div slot="carousel-content" class="box" id="box6">6</div>
+            <div slot="carousel-content" class="box" id="box7">7</div>
+            <div slot="carousel-content" class="box" id="box8">8</div>
+
+            <div slot="carousel-controls"><button class="next">Next Page</button></div>
+            <div slot="carousel-controls"><button class="previous">Previous Page</button></div>
+            <div slot="carousel-controls"><button class="next-single">></button></div>
+            <div slot="carousel-controls"><button class="previous-single"><</button></div>
+    </gameface-carousel>
+
+    <script src="./bundle.js"></script>
+</body>
+
+</html>
