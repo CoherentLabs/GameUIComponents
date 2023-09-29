@@ -16,8 +16,17 @@ class Carousel extends BaseComponent {
 
         this.items = [];
         this.auto = false;
-        this.pageSize = 4;
+        this._pageSize = 4;
         this.current = 0;
+    }
+
+    set pageSize(size) {
+        this._pageSize = size;
+        this.resize();
+    }
+
+    get pageSize() {
+        return this._pageSize;
     }
 
     next(pageSize) {
@@ -75,14 +84,17 @@ class Carousel extends BaseComponent {
             this.itemHeight = this.items[0].getBoundingClientRect().height;
 
             this.contentWrapper = this.querySelector('.content-wrapper');
-
-            this.querySelector('.carousel').style.width = this.pageSize * this.itemWidth + 'px';
-            this.querySelector('.carousel').style.height = this.itemHeight + 'px';
+            this.resize();
             this.style.visibility = 'visible';
 
             this.attachControlButtonsListeners();
             // attach event handlers here
         });
+    }
+
+    resize() {
+        this.querySelector('.carousel').style.width = this.pageSize * this.itemWidth + 'px';
+        this.querySelector('.carousel').style.height = this.itemHeight + 'px';
     }
 
     attachControlButtonsListeners() {
