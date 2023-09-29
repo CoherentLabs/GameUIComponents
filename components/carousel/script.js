@@ -18,6 +18,27 @@ class Carousel extends BaseComponent {
         this.auto = false;
         this._pageSize = 4;
         this.current = 0;
+        this.itemsDirection = 1;
+    }
+
+    addItem(node, index) {
+        const contentWrapper = this.querySelector('.content-wrapper');
+        if (index === undefined) return contentWrapper.append(node);
+
+        const referenceNode = this.items[index-1];
+        referenceNode.parentNode.insertBefore(node, referenceNode);
+    }
+
+    removeItem(index) {
+        const items = this.querySelectorAll('.box');
+
+        if (this.itemsDirection === 1) return items[index].remove();
+
+        const itemsArr = Array.from(items);
+        const firstEl = itemsArr.pop();
+
+        itemsArr.reverse();
+        [firstEl, ...itemsArr][index].remove();
     }
 
     set pageSize(size) {
@@ -47,12 +68,14 @@ class Carousel extends BaseComponent {
         const itemsArr = Array.from(items);
         itemsArr.shift();
         itemsArr.reverse();
-
         let firstEl = this.querySelector('.box');
+
         for (let i=0; i< itemsArr.length; i++) {
             firstEl.parentNode.insertBefore(itemsArr[i], firstEl);
             firstEl = itemsArr[i];
         }
+
+        this.itemsDirection *= -1;
     }
 
     previous(pageSize) {
