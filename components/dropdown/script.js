@@ -174,6 +174,15 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {HTMLElement} option
     */
     set selected(option) {
+        this.setSelection(option);
+    }
+
+    /**
+     * Set the selection of the Dropdown
+     * @param {HTMLElement} option - the current option that needs to be selected
+     * @returns {void}
+     */
+    setSelection(option) {
         // reset
         // eslint-disable-next-line no-setter-return
         if (option === null) return this.resetSelection();
@@ -275,7 +284,6 @@ class GamefaceDropdown extends CustomElementValidator {
         if (!option || this.isSelected(index)) return;
 
         this.addActiveClass(option);
-        option.setAttribute('selected', true);
         this.selectedList.push(index);
     }
 
@@ -288,7 +296,6 @@ class GamefaceDropdown extends CustomElementValidator {
     deselect(option) {
         const index = this.indexOf(this.allOptions, option);
         this.removeActiveClass(option);
-        option.removeAttribute('selected');
         this.selectedList.splice(this.selectedList.indexOf(index), 1);
     }
 
@@ -308,7 +315,7 @@ class GamefaceDropdown extends CustomElementValidator {
     setInitialMultipleSelection() {
         for (const option of this.allOptions) {
             if (!option.hasAttribute('selected')) continue;
-            this.setSelected(option);
+            this.setSelectedAndScroll(option);
         }
     }
 
@@ -321,7 +328,28 @@ class GamefaceDropdown extends CustomElementValidator {
         const selectedLength = allSelected.length;
         // use the last option that has the selected attribute or the first element in the options list
         const selectedDefault = selectedLength ? allSelected[selectedLength - 1] : this.selected;
-        this.setSelected(selectedDefault);
+        this.setSelectedAndScroll(selectedDefault);
+    }
+
+    /**
+     * Setup the collapsable dropdown.
+     * Show the header element.
+     * @param {boolean} visible
+    */
+    toggleHeader(visible = true) {
+        this.querySelector('.guic-dropdown-header').style.display = visible ? 'flex' : 'none';
+    }
+
+    /**
+     * Remove the collapsable dropdown.
+     * Hide the header element.
+    */
+    removeCollapsable() {
+        if (!this.isOpened) {
+            this.initScrollbar();
+            this.openOptionsPanel();
+        }
+        this.toggleHeader(false);
     }
 
     /**
@@ -331,8 +359,18 @@ class GamefaceDropdown extends CustomElementValidator {
      * because of the cohtml style resolver and the scrollable container initialization.
     */
     setupMultiple() {
-        this.querySelector('.guic-dropdown-header').style.display = 'none';
+        this.toggleHeader(false);
         components.waitForFrames(() => this.onClick(), 6);
+    }
+
+    /**
+     * Stop "multiple" behavior
+     */
+    removeMultiple() {
+        this.toggleHeader();
+        // use the first element that is selected by the multiple selection
+        this.setSelection(this.allOptions[this.selectedList[0]]);
+        this.closeOptionsPanel();
     }
 
     /**
@@ -358,7 +396,47 @@ class GamefaceDropdown extends CustomElementValidator {
 
             this.preselectOptions();
             this.attachEventListeners();
+            this.isRendered = true;
         });
+    }
+
+    /**
+     * Get an array of observed attributes
+     * @returns {Array<string>}
+     */
+    static get observedAttributes() { return ['disabled', 'multiple', 'collapsable']; }
+
+    /**
+     * Custom element lifecycle method. Called when an attribute is changed.
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string|boolean} newValue
+     * @returns {void}
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
+
+        if (name === 'disabled') {
+            const disabled = newValue !== null;
+
+            if (disabled) {
+                this.classList.add('guic-dropdown-disabled');
+                this.setAttribute('tabindex', '-1');
+            } else {
+                this.classList.remove('guic-dropdown-disabled');
+                this.setAttribute('tabindex', '1');
+            }
+        } else if (name === 'multiple') {
+            const multiple = newValue !== null;
+            this.multiple = multiple;
+            if (multiple && !this.collapsable) this.setupMultiple();
+            if (!multiple) this.removeMultiple();
+        } else if (name === 'collapsable') {
+            const collapsable = newValue !== null;
+            this.collapsable = collapsable;
+            if (collapsable) return this.toggleHeader();
+            this.removeCollapsable();
+        }
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -381,6 +459,7 @@ class GamefaceDropdown extends CustomElementValidator {
      */
     disconnectedCallback() {
         this.removeEventListeners();
+        this.isRendered = false;
     }
 
     /**
@@ -409,7 +488,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {number} nextOptionIndex - the index of the option that has to be focused.
     */
     focusOption(nextOptionIndex) {
-        this.setSelected(this.allOptions[nextOptionIndex], true);
+        this.setSelectedAndScroll(this.allOptions[nextOptionIndex], true);
         this.hoveredElIndex = nextOptionIndex;
     }
 
@@ -559,7 +638,7 @@ class GamefaceDropdown extends CustomElementValidator {
         }
 
         this.resetSelection();
-        this.setSelected(this.allOptions[enabledOptions[nextElement]], true);
+        this.setSelectedAndScroll(this.allOptions[enabledOptions[nextElement]], true);
     }
 
     /**
@@ -697,9 +776,9 @@ class GamefaceDropdown extends CustomElementValidator {
     onClickMultipleOptions(option, event) {
         // reset the selectedList if only one option is selected
         if (!event.ctrlKey) this.selected = null;
-        if (option.hasAttribute('selected')) return this.deselect(option);
+        if (option.isAlreadySelected(this, option)) return this.deselect(option);
 
-        this.setSelected(option);
+        this.setSelectedAndScroll(option);
         this.focus();
     }
 
@@ -709,7 +788,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {HTMLElement} option
     */
     onClickSingleOption(option) {
-        this.setSelected(option);
+        this.setSelectedAndScroll(option);
         this.closeOptionsPanel();
     }
 
@@ -722,7 +801,6 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     onClickOption(option, event) {
         event.stopPropagation();
-
         // handle multiple
         if (this.multiple) return this.onClickMultipleOptions(option, event);
         this.onClickSingleOption(option);
@@ -758,8 +836,8 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {DropdownOption} element - the option element.
      * @param {boolean} [scroll=false]
     */
-    setSelected(element, scroll = false) {
-        this.selected = element;
+    setSelectedAndScroll(element, scroll = false) {
+        this.setSelection(element);
         this._pivotIndex = this.lastSelectedIndex;
         this.hoveredElIndex = this.lastSelectedIndex;
 
@@ -795,29 +873,58 @@ class GamefaceDropdown extends CustomElementValidator {
 class DropdownOption extends HTMLElement {
     // eslint-disable-next-line require-jsdoc
     static get observedAttributes() {
-        return ['disabled'];
+        return ['disabled', 'selected', 'value'];
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get selected() {
+        return this.isAlreadySelected(this.closest('gameface-dropdown'), this) ||
+            this.hasAttribute('selected');
     }
 
     // eslint-disable-next-line require-jsdoc
     get value() {
-        return this.getAttribute('value') || this.textContent;
+        return this._value || this.textContent;
+    }
+
+    /**
+     * Checks if an option is already selected
+     * @param {HTMLElement} parent
+     * @param {HTMLElement} option
+     * @returns {boolean}
+     */
+    isAlreadySelected(parent, option) {
+        return (parent.selectedOptions.findIndex(selectedOption => selectedOption === option) !== -1);
     }
 
     /**
      * Called when an attribute changes
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string} newValue
+     * @returns {void}
     */
-    attributeChangedCallback() {
-        if (this.hasAttribute('disabled')) {
-            this.classList.add('guic-dropdown-option-disabled');
-        } else {
-            this.classList.remove('guic-dropdown-option-disabled');
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'disabled') {
+            return this.classList.toggle('guic-dropdown-option-disabled', this.hasAttribute('disabled'));
         }
+
+        if (name === 'selected') {
+            const parent = this.closest('gameface-dropdown');
+            if (!parent || !parent.isRendered) return;
+            const hasSelected = newValue !== null;
+
+            // attributeChangedCallback is called before the parent is upgraded to custom element therefore has no custom methods
+            if (hasSelected && parent.setSelectedAndScroll) return parent.setSelectedAndScroll(this);
+            if (!hasSelected && parent.deselect) parent.deselect(this, false);
+        }
+
+        if (name === 'value') this._value = this.getAttribute('value') || this.textContent;
     }
 
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
-        this.attributeChangedCallback();
     }
 }
 
