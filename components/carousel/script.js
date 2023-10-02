@@ -19,8 +19,6 @@ class Carousel extends BaseComponent {
         this._pageSize = 2;
         this.current = 0;
         this.itemsDirection = 1;
-
-        this.pages = 0;
     }
 
     addItem(node, index) {
@@ -46,10 +44,15 @@ class Carousel extends BaseComponent {
     set pageSize(size) {
         this._pageSize = size;
         this.resize();
+        this.createPaginationControls();
     }
 
     get pageSize() {
         return this._pageSize;
+    }
+
+    get pages() {
+        return (this.items?.length / this.pageSize) || 0;
     }
 
     next(pageSize) {
@@ -112,8 +115,6 @@ class Carousel extends BaseComponent {
             this.resize();
             this.style.visibility = 'visible';
 
-            this.pages = this.items.length / this.pageSize;
-
             this.createPaginationControls();
             this.attachControlButtonsListeners();
             // attach event handlers here
@@ -130,6 +131,7 @@ class Carousel extends BaseComponent {
 
     createPaginationControls() {
         const container = this.querySelector('.dots');
+        container.innerHTML = '';
 
         for (let i = 0; i < this.pages; i++) {
             container.appendChild(this.createDot(i));
