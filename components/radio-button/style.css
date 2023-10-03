@@ -75,7 +75,6 @@
 }
 
 .guic-radio-button-disabled {
-    filter: grayscale(0.2);
     opacity: 0.5;
     pointer-events: none;
 }
