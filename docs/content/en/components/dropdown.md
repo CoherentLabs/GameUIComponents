@@ -1,5 +1,5 @@
 ---
-date: 2023-8-23
+date: 2023-10-03
 title: Dropdown
 draft: false
 ---
@@ -99,6 +99,25 @@ These are some of the differences to the standard select that are partially or n
 
 - *Selecting multiple options via keyboard* - this is possible with Shift + Arrow Up/Left/Down/Right and Shift + Home/End.
 - *Selecting a range of elements*.
+
+## Supported Attributes
+
+You can modify the dropdown and its options using HTML attributes. The `gameface-dropdown` supports:
+
+- multiple - makes the dropdown multiple, enabling selecting more than one option
+- collapsable - specifies if the options' list should be always visible
+- disabled - makes the dropdown disabled
+
+The `dropdown-option` supports:
+
+- value - sets a custom value to the option different from its text content
+- selected - makes an option selected
+- disabled - disables an option
+
+*Note that attempting to remove an attribute from an option that does not have this attribute will have no effect! For example an option could be selected and not have the selected attribute, as selecting an option using the mouse will update only its internal selected property.*
+
+To add or remove an attribute use the [setAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute) or the [removeAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute) method.
+
 
 ## Add the Styles
 

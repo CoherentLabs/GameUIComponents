@@ -6,19 +6,30 @@
 
 import { Components } from 'coherent-gameface-components';
 const components = new Components();
-import verticalTemplate from './templates/vertical.html';
-import verticalTemplateTwoHandles from './templates/verticalTwoHandles.html';
-import horizontalTemplate from './templates/horizontal.html';
-import horizontalTemplateTwoHandles from './templates/horizontalTwoHandles.html';
-import { orientationUnitsNames } from './orientationUnitsNames';
+import BasicRangeSlider from './rangesliders/singleHandleSliders/basicRangeslider';
+import ValuesRangeSlider from './rangesliders/singleHandleSliders/valuesRangeslider';
+import BasicTwoHandlesRangeSlider from './rangesliders/twoHandlesSliders/basicTwoHandlesRangeSlider';
+import { checkOrientation } from './rangesliders/rangeSliderUtils';
 
-const ORIENTATIONS = ['vertical', 'horizontal'];
-const SPACE_BETWEEN_GRID_POLS = 10;
+const RANGE_SLIDERS_TYPES = {
+    BASIC: 'basic',
+    VALUES: 'values',
+    BASIC_TWO_HANDLES: 'basic_two_handles',
+};
 const CustomElementValidator = components.CustomElementValidator;
-const customHandleVariableNames = {
-    SINGLE: 'customHandle',
-    LEFT: 'customHandleLeft',
-    RIGHT: 'customHandleRight',
+const stateSchema = {
+    min: { type: ['number'] },
+    max: { type: ['number'] },
+    value: { type: ['number', 'string'] },
+    values: { type: ['array'] },
+    ['two-handles']: { type: ['boolean'] },
+    grid: { type: ['boolean'] },
+    thumb: { type: ['boolean'] },
+    step: { type: ['number'] },
+    orientation: { type: ['string'] },
+    ['custom-handle']: { type: ['string'] },
+    ['custom-handle-left']: { type: ['string'] },
+    ['custom-handle-right']: { type: ['string'] },
 };
 
 /**
@@ -26,12 +37,164 @@ const customHandleVariableNames = {
  * It must be no less than a given value, and no more than another given value.
  */
 class Rangeslider extends CustomElementValidator {
+    // eslint-disable-next-line require-jsdoc
+    static get observedAttributes() { return Object.keys(stateSchema); }
+
+    // eslint-disable-next-line require-jsdoc
+    constructor() {
+        super();
+        this.rangesliderObject = null;
+        this.stateSchema = stateSchema;
+        this.state = {
+            orientation: 'horizontal',
+            ['two-handles']: false,
+        };
+    }
+
+    /**
+     * Custom element lifecycle method. Called when an attribute is changed.
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string|boolean|array} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
+
+        this.updateAttributeState(name, oldValue, newValue);
+    }
+
+    /**
+     * Will update the state properties linked with the checkbox attributes
+     * @param {string} name
+     * @param {string|boolean|array} oldValue
+     * @param {string|boolean|array} value
+     */
+    updateAttributeState(name, oldValue, value) {
+        switch (name) {
+            case 'two-handles':
+                this.updateTwoHandlesState(value !== null);
+                break;
+            case 'orientation':
+                this.updateOrientationState(value);
+                break;
+            case 'values':
+                this.updateValuesState(oldValue, value);
+                break;
+            case 'min':
+            case 'max':
+            case 'value':
+            case 'thumb':
+            case 'grid':
+            case 'step':
+            case 'custom-handle':
+            case 'custom-handle-right':
+            case 'custom-handle-left':
+                this.rangesliderObject.attributeChanged(name, oldValue, value);
+                break;
+        }
+    }
+
+    /**
+     * Update the checkbox's state.
+     * @param {string} name - the name of the prop
+     * @param {string | boolean} value - the value of the the prop
+     * @returns {void}
+     */
+    updateState(name, value) {
+        if (!this.isStatePropValid(name, value)) return;
+        this.state[name] = value;
+    }
+
+    /**
+     * Will update the rangeslider when orientation attribute is changed
+     * @param {string} value
+     */
+    updateOrientationState(value) {
+        const orientation = checkOrientation(value);
+        this.updateState('orientation', orientation);
+        this.reRender();
+    }
+
+    /**
+     * Will update the rangeslider when two-handles attribute is changed
+     * @param {boolean} value
+     */
+    updateTwoHandlesState(value) {
+        this.updateState('two-handles', value);
+        this.reRender();
+    }
+
+    /**
+     * Will update the rangeslider when values attribute is changed
+     * @param {array} oldValue
+     * @param {array} value
+     * @returns {void}
+     */
+    updateValuesState(oldValue, value) {
+        value = JSON.parse(value);
+        if (oldValue !== null && value === null) return this.reRender();
+
+        if (!this.isStatePropValid('values', value)) return;
+        if (oldValue === null && value !== null) return this.reRender();
+        if (oldValue !== null && value !== null) return this.rangesliderObject.attributeChanged('values', oldValue, value);
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get twoHandles() {
+        return this.state['two-handles'];
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set twoHandles(value) {
+        value ? this.setAttribute('two-handles', '') : this.removeAttribute('two-handles');
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get orientation() {
+        return this.state.orientation;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set orientation(value) {
+        value !== null ? this.setAttribute('orientation', value) : this.removeAttribute('orientation');
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get values() {
+        return this.rangesliderObject.values;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set values(value) {
+        value !== null ? this.setAttribute('values', JSON.stringify(value)) : this.removeAttribute('values');
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get grid() {
+        return this.rangesliderObject.grid;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set grid(value) {
+        this.rangesliderObject.grid = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get thumb() {
+        return this.rangesliderObject.thumb;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set thumb(value) {
+        this.rangesliderObject.thumb = value;
+    }
+
     /**
      * Sets the minimum value of the slider
      * @param {number} value
      */
     set min(value) {
-        this._min = value;
+        this.rangesliderObject.min = value;
     }
 
     /**
@@ -39,7 +202,7 @@ class Rangeslider extends CustomElementValidator {
      * @returns {number}
      */
     get min() {
-        return this._min;
+        return this.rangesliderObject.min;
     }
 
     /**
@@ -47,7 +210,7 @@ class Rangeslider extends CustomElementValidator {
      * @param {number} value
      */
     set max(value) {
-        this._max = value;
+        this.rangesliderObject.max = value;
     }
 
     /**
@@ -55,49 +218,57 @@ class Rangeslider extends CustomElementValidator {
      * @returns {number}
      */
     get max() {
-        return this._max;
+        return this.rangesliderObject.max;
     }
 
     // eslint-disable-next-line require-jsdoc
     get value() {
-        return this._value[0];
+        return this.rangesliderObject.value;
     }
 
     // eslint-disable-next-line require-jsdoc
     set value(value) {
-        this._value = value;
-    }
-
-    /**
-     * Converts a value to percent in a range
-     * @param {number} value - the value to be converted
-     * @param {number} min - the minimum value of the range
-     * @param {number} max - the maximum number of the range
-     * @returns {number} - returns the value in percent
-     */
-    static valueToPercent(value, min, max) {
-        return ((value - min) * 100) / (max - min);
-    }
-
-    /**
-     * Restricts a given value in a range
-     * @param {number} val - the value to be restricted
-     * @param {number} min - the minimum value of the range
-     * @param {number} max - the maximum number of the range
-     * @returns {number}
-     */
-    static clamp(val, min, max) {
-        return Math.min(Math.max(val, min), max);
+        this.rangesliderObject.value = value;
     }
 
     // eslint-disable-next-line require-jsdoc
-    constructor() {
-        super();
+    get step() {
+        return this.rangesliderObject.step;
+    }
 
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
-        this.init = this.init.bind(this);
+    // eslint-disable-next-line require-jsdoc
+    set step(value) {
+        this.rangesliderObject.step = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get customHandle() {
+        return this.rangesliderObject.customHandle;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set customHandle(value) {
+        this.rangesliderObject.customHandle = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get customHandleLeft() {
+        return this.rangesliderObject.customHandleLeft;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set customHandleLeft(value) {
+        this.rangesliderObject.customHandleLeft = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get customHandleRight() {
+        return this.rangesliderObject.customHandleRight;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set customHandleRight(value) {
+        this.rangesliderObject.customHandleRight = value;
     }
 
     /**
@@ -114,506 +285,107 @@ class Rangeslider extends CustomElementValidator {
     }
 
     /**
+     * Will change the thumb position of the slider
+     * This method is used from tests
+     * @param {number} percent
+     * @param {number} index - thumb index
+     */
+    updateSliderPosition(percent, index) {
+        this.rangesliderObject.updateSliderPosition(percent, index);
+    }
+
+    /**
+     * Used for testing purposes
+     * @param {Event} e
+     */
+    onMouseDown(e) {
+        this.rangesliderObject.onMouseDown(e);
+    }
+
+    /**
+     * Used for testing purposes
+     */
+    onMouseUp() {
+        this.rangesliderObject.onMouseUp();
+    }
+
+    /**
+     * Used for testing purposes
+     * @param {Event} e
+     */
+    onMouseMove(e) {
+        this.rangesliderObject.onMouseMove(e);
+    }
+
+    /**
      * Checks if the range slider has value
      * @returns {boolean}
      */
     valueMissing() {
-        if (!this._value && !this._value[0]) return true;
-        return false;
+        return this.rangesliderObject.valueMissing();
     }
 
     /**
-     * Initialize the custom component.
-     * Set template, attach event listeners, setup initial state etc.
-     * @param {object} data
-    */
-    init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
-            // do the initial setup - add event listeners, assign members
-            this.setup();
-        });
+     * Will get the type of the rangeslider
+     * @returns {RANGE_SLIDERS_TYPES}
+     */
+    getRangeSliderType() {
+        if (this.twoHandles) return RANGE_SLIDERS_TYPES.BASIC_TWO_HANDLES;
+        if (this.hasAttribute('values')) return RANGE_SLIDERS_TYPES.VALUES;
+
+        return RANGE_SLIDERS_TYPES.BASIC;
+    }
+
+    /**
+     * Factory for getting the rangeslider object based on its type
+     * @returns {BasicRangeSlider|ValuesRangeSlider|BasicTwoHandlesRangeSlider}
+     */
+    getRangeSlider() {
+        const type = this.getRangeSliderType();
+
+        switch (type) {
+            case RANGE_SLIDERS_TYPES.BASIC: return new BasicRangeSlider(this);
+            case RANGE_SLIDERS_TYPES.VALUES: return new ValuesRangeSlider(this);
+            case RANGE_SLIDERS_TYPES.BASIC_TWO_HANDLES: return new BasicTwoHandlesRangeSlider(this);
+            default: {
+                console.warn(`Unknown rangeslider type - ${type}. Will fallback to basic rangeslider.`);
+                return new BasicRangeSlider(this);
+            }
+        }
+    }
+
+    /**
+     * Will re-render the rangeslider from scratch
+     */
+    reRender() {
+        this.template = undefined;
+        this.isRendered = false;
+        this.connectedCallback();
+    }
+
+    /**
+     * Will init the state based on the initial attribute values
+     */
+    initState() {
+        if (this.hasAttribute('orientation')) {
+            const orientation = checkOrientation(this.getAttribute('orientation'));
+            this.updateState('orientation', orientation);
+        }
+        this.updateState('two-handles', this.hasAttribute('two-handles'));
     }
 
     /**
      * Called when the element was attached to the DOM.
      */
     connectedCallback() {
-        // if an array is passed these are the values of the array
-        this._values = this.hasAttribute('values') ? JSON.parse(this.getAttribute('values')) : null;
-
-        // if an array is passed
-        this.hasValuesArray = Array.isArray(this._values) && this._values.length > 0;
-
-        // the step of the slider
-        this.step = parseFloat(this.getAttribute('step')) || 1;
-
-        this._min;
-        this._max;
-        this._value = [];
-
-        // the slider orientation, can be 'vertical' or 'horizontal'
-        this.orientation = this.checkOrientation(this.getAttribute('orientation'));
-        // if there will be two handles
-        this.twoHandles = !this.hasValuesArray && this.hasAttribute('two-handles');
-
-        // if there is a grid
-        this.grid = this.hasAttribute('grid');
-        // if there are thumbs
-        this.thumb = this.hasAttribute('thumb');
-
-        // check if component has already been rendered if not
-        if (typeof this.template !== 'object') {
-            // use the template for the current slider orientation and number of handles
-            this.template = this.getTemplate(this.orientation, this.twoHandles);
+        this.initState();
+        if (this.rangesliderObject) {
+            delete this.rangesliderObject;
+            this.rangesliderObject = null;
         }
 
-        /**
-         * The names of the units are different for the two slider types.
-         * ['clientY', 'height', 'top', 'y'] for vertical and
-         * ['clientX', 'width', 'left', 'x'] for horizontal
-         */
-        this.units = orientationUnitsNames.get(this.orientation);
-
-        // Load the template
-        components
-            .loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(JSON.stringify(err)));
-    }
-
-    /**
-     * Checks if the orientation passed is vertical or horizontal, if it's neither it's set to horizontal
-     * @param {string} orientation - the orientation string
-     * @returns {string} - horizontal or vertical;
-     */
-    checkOrientation(orientation) {
-        return ORIENTATIONS.includes(orientation) ? orientation : 'horizontal';
-    }
-
-    /**
-     * Gets the correct template to be loaded for the rangeslider
-     * @param {string} orientation - the orientation of the slider
-     * @param {boolean} twoHandles - if there are two handles
-     * @returns {string}
-     */
-    getTemplate(orientation, twoHandles) {
-        if (orientation === 'vertical') {
-            return twoHandles ? verticalTemplateTwoHandles : verticalTemplate;
-        }
-
-        return twoHandles ? horizontalTemplateTwoHandles : horizontalTemplate;
-    }
-
-    /**
-     * Will validate the custom handle selector and if element with that selector exists.
-     * @param {string} customHandleSelector
-     * @param {HTMLElement} customHandleElement
-     */
-    validateCustomHandle(customHandleSelector, customHandleElement) {
-        if (customHandleSelector && !customHandleElement) {
-            console.warn(`Unable to find element with selector - "${customHandleSelector}" that will be used for displaying the range slider value.`);
-        }
-    }
-
-    /**
-     * Will set the thumb if this option is enabled
-     */
-    setThumb() {
-        // if the thumb attribute is added, the thumbs are created
-        if (this.thumb) {
-            // creates two thumbs
-            this.twoHandles ? this._value.forEach(val => this.buildThumb(val)) : this.buildThumb(this.value);
-
-            this.thumbElement = !this.twoHandles ?
-                [this.querySelector(`.guic-${this.orientation}-rangeslider-thumb`)] :
-                this.querySelectorAll(`.guic-${this.orientation}-rangeslider-thumb`);
-        }
-    }
-
-    /**
-     * Will initialize the custom handles variables
-     */
-    initCustomhandles() {
-        const customHandleSelectors = {
-            SINGLE: this.getAttribute('custom-handle'),
-            LEFT: this.getAttribute('custom-handle-left'),
-            RIGHT: this.getAttribute('custom-handle-right'),
-        };
-
-        for (const key of Object.keys(customHandleSelectors)) {
-            const customHandleVariableName = customHandleVariableNames[key];
-            const customHandleSelector = customHandleSelectors[key];
-
-            this[customHandleVariableName] = customHandleSelector ? document.querySelector(customHandleSelector) : null;
-            this.validateCustomHandle(customHandleSelector, this[customHandleVariableName]);
-        }
-    }
-
-    /**
-     * Sets up the rangeslider, draws the additional things like grid and thumbs, attaches the event listeners
-     */
-    setup() {
-        components.waitForFrames(() => {
-            this.wrapper = this.querySelector(`.guic-${this.orientation}-rangeslider-wrapper`);
-
-            this.rangeslider = this.querySelector(`.guic-${this.orientation}-rangeslider`);
-            this.handle = !this.twoHandles ?
-                [this.querySelector(`.guic-${this.orientation}-rangeslider-handle`)] :
-                this.querySelectorAll(`.guic-${this.orientation}-rangeslider-handle`);
-
-            this.bar = this.querySelector(`.guic-${this.orientation}-rangeslider-bar`);
-
-            this.setMinAndMax();
-            this.setHandleValues();
-
-            // if the grid attribute is added, the grid is created
-            if (this.grid) {
-                this.hasValuesArray ? this.buildArrayGrid() : this.buildGrid();
-            }
-
-            this.setThumb();
-
-            // sets the initial percent of the handles
-            let percent = this.twoHandles ? [0, 100] : [Rangeslider.valueToPercent(this.value, this.min, this.max)];
-
-            // if an array is passed the percent changes
-            if (this.hasValuesArray) {
-                percent = this._values.findIndex(el => el == this._value) * (100 / this._values.length);
-            }
-
-            this.twoHandles ?
-                percent.forEach((p, i) => this.updateSliderPosition(p, i)) :
-                this.updateSliderPosition(percent, 0);
-
-            this.initCustomhandles();
-            this.updateCustomHandles();
-            this.attachEventListener();
-        }, 3);
-    }
-
-    /**
-     * Builds the grid
-     */
-    buildGrid() {
-        // calculates the number of pols the grid will have based on the size of the slider
-        const numberOfPols = Math.round(this.wrapper[this.units.offset] / SPACE_BETWEEN_GRID_POLS / 4) * 4; // here we round to a number that is divisible by 4 and to make sure, the last pol has a number
-        const grid = document.createElement('div');
-        grid.classList.add(`guic-${this.orientation}-rangeslider-grid`);
-        for (let i = 0; i <= numberOfPols; i++) {
-            // each forth poll will be larger with a value added
-            if (i % (numberOfPols / 4) === 0) {
-                grid.appendChild(
-                    this.createGridPol(
-                        parseFloat((parseInt(this.min) + (this.max - this.min) * (i / numberOfPols)).toFixed(2))
-                    )
-                );
-                continue;
-            }
-            grid.appendChild(this.createGridPol());
-        }
-
-        this.rangeslider.appendChild(grid);
-    }
-
-    /**
-     * Builds a different grid if an array is passed
-     */
-    buildArrayGrid() {
-        const grid = document.createElement('div');
-        grid.classList.add(`guic-${this.orientation}-rangeslider-grid`);
-        // builds only pols for the values of the array
-        for (let i = 0; i < this._values.length; i++) {
-            const entry = this._values[i];
-            grid.appendChild(this.createGridPol(entry));
-        }
-
-        this.rangeslider.appendChild(grid);
-    }
-
-    /**
-     * Creates a grid pol
-     * @param {number} value - value of the grid pol
-     * @returns {HTMLDivElement}
-     */
-    createGridPol(value) {
-        const polContainer = document.createElement('div');
-        polContainer.classList.add(`guic-rangeslider-${this.orientation}-grid-pol-container`);
-
-        polContainer.innerHTML = `
-            <div class="guic-rangeslider-${this.orientation}-grid-pol guic-rangeslider-${this.orientation}-pol-without-text"></div>
-        `;
-
-        // checks if the passed value is a string or number and then makes a pol with value
-        if (typeof value === 'number' || typeof value === 'string') {
-            polContainer.innerHTML = `
-                <div class="guic-rangeslider-${this.orientation}-grid-pol"></div>
-                <div class="guic-rangeslider-${this.orientation}-grid-text">${value}</div>
-            `;
-        }
-
-        return polContainer;
-    }
-
-    /**
-     * Creates the thumb element
-     * @param {number | string} value - the initial value of the thumb
-     */
-    buildThumb(value) {
-        const thumb = document.createElement('div');
-        thumb.classList.add(`guic-${this.orientation}-rangeslider-thumb`);
-        thumb.textContent = value;
-        this.rangeslider.appendChild(thumb);
-    }
-
-    /**
-     * Gets the rangeslider dimensions
-     * @returns {DOMRect}
-     */
-    getRangeSliderSize() {
-        return this.wrapper.getBoundingClientRect();
-    }
-
-    /**
-     * Sets the min and max value of the rangeslider
-     */
-    setMinAndMax() {
-        // if we have an array we set the min and max values to the first and last entry of the array
-        if (this.hasValuesArray) {
-            this.min = this._values[0];
-            this.max = this._values[this._values.length - 1];
-            return;
-        }
-
-        const min = parseFloat(this.getAttribute('min'));
-        const max = parseFloat(this.getAttribute('max'));
-        this.min = !isNaN(min) ? min : 0;
-        this.max = !isNaN(min) ? max : 100;
-    }
-
-    /**
-     * Sets the value of the handles
-     */
-    setHandleValues() {
-        // if there are two handles we set their values to the min and max
-        if (this.twoHandles) {
-            this.value = [this.min, this.max];
-            return;
-        }
-
-        let valueAttr = this.getAttribute('value');
-
-        if (!this.hasValuesArray) {
-            valueAttr = parseFloat(valueAttr);
-            this.value = !isNaN(valueAttr) ? [valueAttr] : [this.min];
-        } else {
-            this.value = valueAttr !== null ? [valueAttr] : [this.min];
-        }
-
-
-        if (!this.hasValuesArray) {
-            // checks if the value provided is less than the min or more than the max and sets it to the minimum value
-            this.value = this.min <= this.value && this.max >= this.value ? [this.value] : [this.min];
-        }
-    }
-
-    /**
-     * Calculates the value of the handle based on the position of the handle
-     * @param {number} percent - the percent position
-     * @returns {number} - the value of the handle
-     */
-    calculateHandleValue(percent) {
-        return parseFloat(parseInt(this.min) + (this.max - this.min) * (percent / 100));
-    }
-
-    /**
-     * Attaches the event listener
-     */
-    attachEventListener() {
-        this.querySelector(`.guic-${this.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
-    }
-
-    /**
-     * Will update the handles values depending of if they are two or a single one
-     * @returns {void}
-     */
-    updateCustomHandles() {
-        if (this.twoHandles) {
-            if (this.customHandleLeft && this._value[0] !== undefined) {
-                this.customHandleLeft.textContent = this._value[0];
-            }
-
-            if (this.customHandleRight && this._value[1] !== undefined) {
-                this.customHandleRight.textContent = this._value[1];
-            }
-
-            return;
-        }
-
-        if (this.customHandle && this._value[0] !== undefined) this.customHandle.textContent = this._value[0];
-    }
-
-    /**
-     * If we have two handles we need to clamp each so that it doesn't pass beyond the other handle
-     * @param {number[]} clampRange
-     * @param {number} index
-     * @returns {number[]}
-     */
-    clampTwoHandles(clampRange, index) {
-        const handleZeroPosition = this.handle[0].style[this.units.position];
-        const handleOnePosition = this.handle[1].style[this.units.position];
-
-        if (index === 0) {
-            clampRange = this.orientation === 'vertical' ?
-                [0, 100 - parseFloat(handleOnePosition)] :
-                [0, parseFloat(handleOnePosition)];
-        } else if (index === 1) {
-            clampRange = this.orientation === 'vertical' ?
-                [100 - parseFloat(handleZeroPosition), 100] :
-                [parseFloat(handleZeroPosition), 100];
-        }
-
-        return clampRange;
-    }
-
-    /**
-     * Returns the disance between the two handles
-     * @returns {number}
-     */
-    getDistanceBetweenTwoHandles() {
-        const firstHandlePositionValue = this.handle[0].style[this.units.position];
-        const secondHandlePositionValue = this.handle[0].style[this.units.position];
-
-        return this.twoHandles ?
-            Math.abs(parseFloat(firstHandlePositionValue) - parseFloat(secondHandlePositionValue)) :
-            0;
-    }
-
-    /**
-     * Will set the bar styles
-     * @param {number} index
-     * @param {number} percent
-     */
-    setBarStyles(index, percent) {
-        // we get the distance between two handles to set the width of the bar to
-        const distanceBetweenHandles = this.getDistanceBetweenTwoHandles();
-
-        this.bar.style[this.units.size] = this.twoHandles ? `${distanceBetweenHandles}%` : `${percent}%`;
-
-        if (this.twoHandles && index === 0) {
-            this.bar.style[this.units.position] = `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
-        }
-    }
-
-    /**
-     * Updates the positions of the handles and the width of the bar
-     * @param {number} percent
-     * @param {number} index - the index of the handle we want to update
-     */
-    updateSliderPosition(percent, index) {
-        // The percent of the step that is set, if the values are an array, the step is between each array value
-        const percentStep = this.hasValuesArray ?
-            100 / (this._values.length - 1) :
-            Rangeslider.valueToPercent(this.step + this.min, this.min, this.max);
-
-        // the range which should be clamped
-        let clampRange = [0, 100];
-
-        if (this.twoHandles && this.handle[1].style[this.units.position]) {
-            clampRange = this.clampTwoHandles(clampRange, index);
-        }
-
-        // the provided percent is clamped
-        percent = Rangeslider.clamp(Math.round(percent / percentStep) * percentStep, ...clampRange);
-        this.handle[index].style[this.units.position] = `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
-
-        this.setBarStyles(index, percent);
-
-        this._value[index] = this.hasValuesArray ?
-            this._values[percent / percentStep] :
-            parseFloat(this.calculateHandleValue(percent).toFixed(2));
-
-        if (this.thumb) {
-            this.thumbElement[index].innerHTML = this._value[index];
-            this.thumbElement[index].style[this.units.position] =
-                `${this.orientation === 'vertical' ? 100 - percent : percent}%`;
-        }
-
-        this.updateCustomHandles();
-
-        // dispatching a custom event with the rangeslider values
-        this.dispatchEvent(new CustomEvent('sliderupdate', { detail: this._value }));
-    }
-
-    /**
-     * Calculates the position of the slider in percent based on the mouse coordinates
-     * @param {MouseEvent} e
-     * @returns {Number} Position in percent
-     */
-    getHandlePercent(e) {
-        // we calculate the offsetX or offsetY of the click event
-        const rangesliderRect = this.getRangeSliderSize();
-        const size = rangesliderRect[this.units.size];
-        const coordinate = rangesliderRect[this.units.coordinate];
-
-        const mouseCoords = e[this.units.mouseAxisCoords];
-
-        let offset = mouseCoords - coordinate;
-        if (this.orientation === 'vertical') {
-            offset = coordinate + size - mouseCoords;
-        }
-
-        return Rangeslider.valueToPercent(offset, 0, size);
-    }
-
-    /**
-     * Executed on mousedown. Sets the handle to the clicked coordinates and attaches event listeners to the document
-     * @param {MouseEvent} e
-     */
-    onMouseDown(e) {
-        // creates the active handle
-        this.activeHandle = 0;
-
-        const percent = this.getHandlePercent(e);
-
-        // get the closest handle to the click if we have two handles
-        if (this.twoHandles) {
-            const distance = [];
-
-            for (let i = 0; i < this.handle.length; i++) {
-                const pos = parseInt(this.handle[i].style[this.units.position]);
-                distance.push(Math.abs(pos - percent));
-            }
-
-            this.activeHandle =
-                this.orientation === 'vertical' ?
-                    distance.reverse().indexOf(Math.min(...distance)) :
-                    distance.indexOf(Math.min(...distance));
-        }
-
-        this.updateSliderPosition(percent, this.activeHandle);
-
-        // attaching event listeners on mousedown so we don't have them attached all the time
-        document.addEventListener('mousemove', this.onMouseMove);
-        document.addEventListener('mouseup', this.onMouseUp);
-    }
-
-    /**
-     * Moving the handle with the mouse
-     * @param {MouseEvent} e
-     */
-    onMouseMove(e) {
-        const percent = this.getHandlePercent(e);
-
-        this.updateSliderPosition(percent, this.activeHandle);
-    }
-
-    /**
-     * Removes the event listeners that we attach in onMouseDown
-     */
-    onMouseUp() {
-        document.removeEventListener('mousemove', this.onMouseMove);
-        document.removeEventListener('mouseup', this.onMouseUp);
+        this.rangesliderObject = this.getRangeSlider();
+        this.rangesliderObject.connectedCallback();
     }
 }
 
