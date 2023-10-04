@@ -14,19 +14,23 @@ class Carousel extends BaseComponent {
         this.template = template;
         this.init = this.init.bind(this);
 
-        this.items = [];
         this.auto = false;
         this._pageSize = 2;
         this.current = 0;
         this.itemsDirection = 1;
     }
 
+    // public API
     addItem(node, index) {
         const contentWrapper = this.querySelector('.content-wrapper');
-        if (index === undefined) return contentWrapper.append(node);
+        if (index === undefined) {
+            contentWrapper.append(node);
+        } else {
+            const referenceNode = this.items[index-1];
+            referenceNode.parentNode.insertBefore(node, referenceNode);
+        }
 
-        const referenceNode = this.items[index-1];
-        referenceNode.parentNode.insertBefore(node, referenceNode);
+        this.createPaginationControls();
     }
 
     removeItem(index) {
@@ -39,6 +43,8 @@ class Carousel extends BaseComponent {
 
         itemsArr.reverse();
         [firstEl, ...itemsArr][index].remove();
+
+        this.createPaginationControls();
     }
 
     set pageSize(size) {
@@ -53,6 +59,10 @@ class Carousel extends BaseComponent {
 
     get pages() {
         return (this.items?.length / this.pageSize) || 0;
+    }
+
+    get items() {
+        return this.querySelector('.content-wrapper').children;
     }
 
     next(pageSize) {
@@ -71,6 +81,10 @@ class Carousel extends BaseComponent {
     reverse() {
         const items = this.querySelectorAll('.box');
         const itemsArr = Array.from(items);
+        // TODO: use all visible elements as pivot, not only the fist one
+        // this way we'll reduce the number of dom manipulations
+        // further improvement - reverse only the amount of elements needed for the next page
+        // to avoid moving multiple elements
         itemsArr.shift();
         itemsArr.reverse();
         let firstEl = this.querySelector('.box');
@@ -107,7 +121,6 @@ class Carousel extends BaseComponent {
         this.setupTemplate(data, () => {
             components.renderOnce(this);
 
-            this.items = this.querySelector('.content-wrapper').children;
             this.itemWidth = this.items[0].getBoundingClientRect().width;
             this.itemHeight = this.items[0].getBoundingClientRect().height;
 
@@ -130,6 +143,8 @@ class Carousel extends BaseComponent {
     }
 
     createPaginationControls() {
+        // TODO: optimize by not recreating all elements but adding, removing
+        // according to the current needs
         const container = this.querySelector('.dots');
         container.innerHTML = '';
 
