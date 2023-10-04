@@ -1,4 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+
+<a href="https://www.npmjs.com/package/coherent-gameface-radial-menu"><img src="http://img.shields.io/npm/v/coherent-gameface-radial-menu.svg?style=flat-square"/></a>
+
 The radial-menu is part of the Gameface custom Components suite.
 
 Installation

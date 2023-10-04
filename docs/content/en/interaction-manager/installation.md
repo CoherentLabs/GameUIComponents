@@ -4,6 +4,9 @@ title: Installation
 draft: false
 weight: 1
 ---
+
+<a href="https://www.npmjs.com/package/coherent-gameface-interaction-manager"><img src="http://img.shields.io/npm/v/coherent-gameface-interaction-manager.svg?style=flat-square"/></a>
+
 The coherent-gameface-interaction-manager is distributed as both ESM and UMD bundles.
 
 ## Using NPM
