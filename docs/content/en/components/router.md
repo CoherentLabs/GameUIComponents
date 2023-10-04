@@ -1,10 +1,13 @@
 ---
-date: 2023-10-03
+date: 2023-10-04
 title: Router
 draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+
+<a href="https://www.npmjs.com/package/coherent-gameface-router"><img src="http://img.shields.io/npm/v/coherent-gameface-router.svg?style=flat-square"/></a>
+
 The gameface-router is part of the components suite. It is not a custom element like most of the components in this suite. It is a JavaScript library similar to the components library.
 
 Installation

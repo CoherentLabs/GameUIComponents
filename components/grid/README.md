@@ -1,4 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+
+<a href="https://www.npmjs.com/package/coherent-gameface-grid"><img src="http://img.shields.io/npm/v/coherent-gameface-grid.svg?style=flat-square"/></a>
+
 The grid is part of the Gameface components suite. It provides a set of styles which enable the creation of
 a responsive grid.
 

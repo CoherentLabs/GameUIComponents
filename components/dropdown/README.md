@@ -1,4 +1,7 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+
+<a href="https://www.npmjs.com/package/coherent-gameface-dropdown"><img src="http://img.shields.io/npm/v/coherent-gameface-dropdown.svg?style=flat-square"/></a>
+
 The gameface-dropdown is part of the Gameface custom components suite.
 
 Installation
