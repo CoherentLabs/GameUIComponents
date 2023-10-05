@@ -56,9 +56,13 @@ Attributes are used for configuration when the `gameface-text-field` component i
 | `readonly`               | No       | N/A                                                    | N/A           | Used to specify if the text field is read only. If it is then its `value` could not be edited but can be selected.          |
 | `label`                  | No       | Strings                                                | `''`          | Used to specify the label of the text field.                                                                                |
 | `placeholder`            | No       | Strings                                                | `''`          | Used to specify the placeholder of the text field that will be displayed when the value is empty.                           |
-| `text-field-control-disabled` | No       | N/А                                                    | N/A           | Used to specify hide the control when the type of the text field is `search` or `number`.                                   |
+| `control-disabled` | No       | N/А                                                    | N/A           | Used to specify hide the control when the type of the text field is `search` or `number`.                                   |
 
-## Text types related attribute
+### v.3.1.0
+
+**`text-field-control-disabled` attribute has been changed to `control-disabled`.**
+
+## Text type related attributes
 
 The next attributes are working with all the `<gameface-text-field>` types **without** the `number` type.
 
@@ -67,7 +71,7 @@ The next attributes are working with all the `<gameface-text-field>` types **wit
 | `maxlength` | No       | Strings that are valid numbers | N/A           | Used to specify the maximum symbols from the text field the can be typed. |
 | `minlength` | No       | Strings that are valid numbers | N/A           | Used to specify the minimum symbols from the text field the can be typed. |
 
-## Number type related attribute
+## Number type related attributes
 
 The next attributes are working just when the `gameface-text-field` type is `number`.
 
@@ -92,6 +96,17 @@ The type of the text field is defined by the `type` attribute.
 
 You can add input specific events directly to the `gameface-text-field` element like `input`, `change`, `focus`, `blur` by the `addEventListener` interface.
 
+# Change gameface text field attributes runtime
+
+You can change all the attributes from the tables above ([common attributes](#common-attributes), [text type related attributes](#text-type-related-attributes), [number type related attributes](#number-type-related-attributes)) runtime and they will take effect over the text-field behavior.
+For example you can change the type of the text-field via the `type` attribute value:
+
+```javascript
+const textField = document.querySelector('gameface-text-field');
+textField.setAttribute('type', 'number');
+textField.setAttribute('value', '10'); // You can also set a new value of the text-field like this.
+```
+
 # Change gameface text field properties programmatically
 
 To change runtime the type of the text field for example you can:
@@ -99,7 +114,7 @@ To change runtime the type of the text field for example you can:
 1. Get the text field element like `const textField = document.querySelector('gameface-text-field')`.
 2. Change the type like `textField.type = 'password'`.
 
-The available properties that can be changed runtime are:
+All the available properties that can be changed runtime are:
 
 * `type` - will change the text field's type. `textField.type = 'number'`.
 * `value` - will change the text field's value. `textField.value = 'some different value'`.
@@ -107,12 +122,16 @@ The available properties that can be changed runtime are:
 * `readonly` - will make the text field readonly. `textField.readonly = true` will make the field readonly and `textField.readonly = false` will enable it again.
 * `label` - will change the text field's label. `textField.label = 'User name:'`.
 * `placeholder` - will change the text field's placeholder. `textField.placeholder = 'Type your username here'`.
-* `inputControlDisabled` - will hide/show text field control for type - `search` and `number`. `textField.inputControlDisabled = true` will hide the control and `textField.inputControlDisabled = false` will show the control.
+* `controlDisabled` - will hide/show text field control for type - `search` and `number`. `textField.controlDisabled = true` will hide the control and `textField.controlDisabled = false` will show the control.
 * `maxlength` - will change the max length of the text field. `textField.maxlength = 10`.
 * `minlength` - will change the min length of the text field. `textField.minlength = 2`.
 * `max` - will change the maximum limit of the text field when the type is `number`. `textField.max = 10`.
 * `min` - will change the minimum limit of the text field when the type is `number`. `textField.min = 1`.
 * `step` - will change the step of the text field when the type is `number`. `textField.step = 0.5`.
+
+### v.3.1.0
+
+**`inputControlDisabled` property has been changed to `controlDisabled`.**
 
 # Example
 
