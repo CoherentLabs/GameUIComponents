@@ -70,7 +70,7 @@ describe('Menu Component Tests', () => {
     /* global setupDataBindingTest */
     if (engine?.isAttached) {
         describe('Menu Component (Gameface Data Binding Test)', () => {
-            const templateName = 'menu';
+            const templateName = 'model';
 
             const template = `
             <div data-bind-for="array:{{${templateName}.array}}">

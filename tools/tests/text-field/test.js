@@ -335,14 +335,6 @@ describe('Text field component', () => {
 if (engine?.isAttached) {
     // eslint-disable-next-line max-lines-per-function
     describe('Text Field Component (Gameface Data Binding Test)', () => {
-        const templateName = 'textField';
-
-        const template = `
-        <div data-bind-for="array:{{${templateName}.array}}">
-            <gameface-text-field id="test1" type="text" label="Text:"></gameface-text-field>
-        </div>
-        `;
-
         /**
          * @param {string} template
          * @returns {Promise<void>}
@@ -364,6 +356,13 @@ if (engine?.isAttached) {
         afterAll(() => cleanTestPage('.test-wrapper'));
 
         it(`Should have populated 2 elements`, async () => {
+            const templateName = 'model';
+
+            const template = `
+            <div data-bind-for="array:{{${templateName}.array}}">
+                <gameface-text-field id="test1" type="text" label="Text:"></gameface-text-field>
+            </div>
+            `;
             await setupDataBindingTest(templateName, template, setupTextField);
             const expectedCount = 2;
             const textFieldCount = document.querySelectorAll('gameface-text-field').length;

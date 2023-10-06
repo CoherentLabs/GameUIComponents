@@ -106,7 +106,7 @@ describe('Scrollable Container Component', () => {
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Scrollable Container Component (Gameface Data Binding Test)', () => {
-        const templateName = 'scrollableContainer';
+        const templateName = 'model';
 
         const template = `
         <div data-bind-for="array:{{${templateName}.array}}">

@@ -106,7 +106,7 @@ describe('Radio Button Tests', () => {
     /* global setupDataBindingTest */
     if (engine?.isAttached) {
         describe('Radio Button Component (Gameface Data Binding Test)', () => {
-            const templateName = 'radioButton';
+            const templateName = 'model';
 
             const template = `
             <div data-bind-for="array:{{${templateName}.array}}">

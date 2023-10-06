@@ -106,7 +106,7 @@ describe('Accordion Menu component', () => {
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Accordion Menu Component (Gameface Data Binding Test)', () => {
-        const templateName = 'accordionMenu';
+        const templateName = 'model';
 
         const template = `
         <div data-bind-for="array:{{${templateName}.array}}">

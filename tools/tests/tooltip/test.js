@@ -193,7 +193,7 @@ describe('Tooltip component (async mode)', () => {
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Tooltip Component (Gameface Data Binding Test)', () => {
-        const templateName = 'tooltip';
+        const templateName = 'model';
 
         const template = `
         <div data-bind-for="array:{{${templateName}.array}}">

@@ -105,7 +105,7 @@ describe('Automatic grid component', () => {
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Automatic Grid Component (Gameface Data Binding Test)', () => {
-        const templateName = 'automaticGrid';
+        const templateName = 'model';
 
         const template = `
         <div data-bind-for="array:{{${templateName}.array}}">

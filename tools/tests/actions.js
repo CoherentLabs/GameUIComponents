@@ -119,6 +119,32 @@ function dragIMElement(square, { x, y, target, currentTarget, startDragX, startD
     square.onMouseUp();
 }
 
+/**
+ * Will initialize the binding model or updates it if there is already registered
+ * @param {string} modelName
+ * @param {object} model
+ */
+function initModel(modelName, model) {
+    // There are components tests with data-binding that are using the same model name so we need to clear the previous model if we are in this scenario
+    // If the model already exists clear its keys and add the new keys from the model object
+    // We need to clear it in this way so we preserve the reference and updateWholeModel updates it correctly.
+    // Otherwise updateWholeModel will fail if we change the reference of the global object for example like this -> window[modelName] = model;
+    const currentModel = window[modelName];
+    if (currentModel !== undefined) {
+        for (const key in currentModel) {
+            delete currentModel[key];
+        }
+
+        for (const key in model) {
+            currentModel[key] = model[key];
+        }
+    } else {
+        engine.createJSModel(modelName, model);
+    }
+
+    engine.updateWholeModel(currentModel);
+}
+
 /* global engine */
 /**
  * Creates a Gameface JS data bind model, creates the template with the
@@ -129,8 +155,7 @@ function dragIMElement(square, { x, y, target, currentTarget, startDragX, startD
  * @param {*} model [{ array: [{}, {}] }] The model used to populate the component
  */
 async function setupDataBindingTest(modelName, template, setupFunction, model = { array: [{}, {}] }) {
-    engine.createJSModel(modelName, model);
-    engine.updateWholeModel(window[modelName]);
+    initModel(modelName, model);
 
     await setupFunction(template);
 
