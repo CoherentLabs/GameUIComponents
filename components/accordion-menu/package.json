@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-accordion-menu",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "repository": {
