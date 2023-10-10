@@ -127,7 +127,7 @@ describe('Checkbox component with attributes', () => {
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Checkbox Component (Gameface Data Binding Test)', () => {
-        const templateName = 'checkbox';
+        const templateName = 'model';
 
         const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-checkbox></gameface-checkbox></div>`;
 

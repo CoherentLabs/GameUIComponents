@@ -71,13 +71,27 @@ You can also add labels for your checked and unchecked values by using component
 </gameface-switch>
 ```
 
+## Switch attributes
+
 You can use the following attributes to customize the switch
 
 | Attribute           | Type    | Default | Description                                | Notes                                                                                                                                                                                                                 |
 | ------------------- | ------- | ------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type              | String  | default       | The type of the switch       | It can be default, inset or text-inside                                                                                                                                                                       |
+| type              | String  |        | The type of the switch       |  It can be without a type, `inset` or `text-inside`. If is set something else the type will fallback to the default.                                                                                                                                                                   |
 | checked                | Boolean  | false       | If the switch is checked when rendered       |                                                                                                                                                                                                                       |
 | disabled                 | Boolean  | false     | Disables the switch       |                                                                                                                                                                                                                       |
+
+### v3.1.0
+
+These attributes can be changed dynamically runtime via `setAttribute` or `switch[attrName] = value`. For example
+
+```javascript
+const switch = document.querySelector('gameface-switch');
+switch.setAttribute('type', 'text-inside'); // or switch.type = 'text-inside';
+switch.setAttribute('disabled', ''); // or switch.disabled = true;
+switch.setAttribute('checked', ''); // or switch.checked = true;
+```
+
 ## Examples
 
 ```{.html}

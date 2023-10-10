@@ -50,7 +50,7 @@ describe('Tabs Components', () => {
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Tabs Component (Gameface Data Binding Test)', () => {
-        const templateName = 'tabs';
+        const templateName = 'model';
 
         const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-tabs></gameface-tabs></div>`;
 

@@ -548,10 +548,6 @@ describe('Rangeslider component', () => {
 if (engine?.isAttached) {
     // eslint-disable-next-line max-lines-per-function
     describe('Rangeslider Component (Gameface Data Binding Test)', () => {
-        const templateName = 'rangeSlider';
-
-        const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-rangeslider></gameface-rangeslider></div>`;
-
         /**
          * @param {string} template
          * @returns {Promise<void>}
@@ -573,6 +569,9 @@ if (engine?.isAttached) {
         afterAll(() => cleanTestPage('.test-wrapper'));
 
         it(`Should have populated 2 elements`, async () => {
+            const templateName = 'model';
+            const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-rangeslider></gameface-rangeslider></div>`;
+
             await setupDataBindingTest(templateName, template, setupRangeSlider);
             const expectedCount = 2;
             const rangeSliderCount = document.querySelectorAll('gameface-rangeslider').length;
@@ -593,7 +592,7 @@ if (engine?.isAttached) {
             }
 
             engine.registerBindingAttribute('rangeslider-value', Value);
-            const modelName = 'valueAttribute';
+            const modelName = 'model';
             const templateAttributes = `<gameface-rangeslider data-bind-rangeslider-value="{{${modelName}.value}}"></gameface-rangeslider>`;
 
             await setupDataBindingTest(modelName, templateAttributes, setupRangeSlider, { value: 50 });

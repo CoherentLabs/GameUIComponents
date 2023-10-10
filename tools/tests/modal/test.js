@@ -46,7 +46,7 @@ describe('Modal Component', () => {
 /* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Modal Component (Gameface Data Binding Test)', () => {
-        const templateName = 'modal';
+        const templateName = 'model';
 
         const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-modal></gameface-modal></div>`;
 

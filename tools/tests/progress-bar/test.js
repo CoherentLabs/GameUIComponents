@@ -83,7 +83,7 @@ describe('Progress Bar Tests', () => {
     /* global setupDataBindingTest */
     if (engine?.isAttached) {
         describe('Progress Bar Component (Gameface Data Binding Test)', () => {
-            const templateName = 'progressBar';
+            const templateName = 'model';
 
             const template = `<div data-bind-for="array:{{${templateName}.array}}"><gameface-progress-bar></gameface-progress-bar></div>`;
 

@@ -144,7 +144,7 @@ describe('Radial Menu Tests', () => {
     /* global setupDataBindingTest */
     if (engine?.isAttached) {
         describe('Radial Menu Component (Gameface Data Binding Test)', () => {
-            const templateName = 'radialMenu';
+            const templateName = 'model';
 
             const template = `
             <div data-bind-for="array:{{${templateName}.array}}">
