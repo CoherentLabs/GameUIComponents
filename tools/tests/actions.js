@@ -199,3 +199,15 @@ function retryIfFails(action, retryCount = 10) {
         _retryInner(action, resolve, reject, retryCount);
     });
 }
+
+/**
+ * This is currently only used for the Scrollable Container tests.
+ * Chrome can start with great height and there will be no scroll.
+ * I didn't want to include another dependency like https://www.npmjs.com/package/karma-viewport
+ * @param {element} container
+ * @param {number} xySize Desired width and height in pixels.
+ */
+function resizeElementTo(container, xySize = 500) {
+    container.style.height = `${xySize}px`;
+    container.style.width = `${xySize}px`;
+}

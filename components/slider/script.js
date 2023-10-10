@@ -119,28 +119,31 @@ class Slider extends BaseComponent {
     }
     /**
      * Gets the size of an element in px.
-     * Uses the computed styles which return the size in pixels as a string.
      * @param {HTMLElement} element
      * @returns {number} - the size in pixels.
     */
-    _getPxSizeWithoutUnits(element) {
-        let unitsName = this.units.sizePX;
-        if (!navigator.userAgent.includes('Cohtml')) unitsName = unitsName.substring(0, unitsName.length - 2);
-
-        const size = getComputedStyle(element)[unitsName];
-        return Number(size.substring(0, size.length - 2));
+    getElementSize(element) {
+        const unitsName = this.units.size;
+        return element.getBoundingClientRect()[unitsName];
     }
 
     /**
      * Update the size of the slider thumb.
+     * This function is used from within the Scrollable Container Component only.
      * @param {HTMLElement} scrollableContainer
     */
     resize(scrollableContainer) {
         components.waitForFrames(() => {
+            const scrollableContainerSize = this.getElementSize(scrollableContainer);
+            const sliderWrapper = this.querySelector(`.guic-${this.orientation}-slider-wrapper`);
+
+            // set the slider wrapper to be as big as the scrollable container
+            sliderWrapper.style.height = `${scrollableContainerSize}px`;
+
             // get the size of the whole slider element
-            const sliderWrapperSize = this._getPxSizeWithoutUnits(this.querySelector(`.guic-${this.orientation}-slider-wrapper`));
+            const sliderWrapperSize = this.getElementSize(sliderWrapper);
             // get the size of the up or down buttons in px
-            const controlsSize = this._getPxSizeWithoutUnits(this.querySelector(`.guic-slider-${this.orientation}-arrow`));
+            const controlsSize = this.getElementSize(this.querySelector(`.guic-slider-${this.orientation}-arrow`));
             // get the combined size of the up and down buttons in % of the sliderWrapperSize
             const controlsSizePercent = controlsSize * 2 / sliderWrapperSize * 100;
 

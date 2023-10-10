@@ -34,7 +34,8 @@
       "waitForStyles": "readonly",
       "interactionManager": "readonly",
       "mockEventObject": "readonly",
-      "dragIMElement": "readonly"
+      "dragIMElement": "readonly",
+      "resizeElementTo": "readonly"
     }
   },
   "author": "CoherentLabs",

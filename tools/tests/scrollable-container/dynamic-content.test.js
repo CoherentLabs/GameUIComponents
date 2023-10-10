@@ -56,6 +56,7 @@ describe('Scrollable Container Component', () => {
 
     it('Should show scrollbar if the content is changed and overflows', async () => {
         const scrollableContainer = document.querySelector('.guic-scrollable-container-wrapper');
+        resizeElementTo(scrollableContainer);
         let sliderStyle = {};
 
         showDynamicScrollbarContent(scrollableContainer);
@@ -71,6 +72,7 @@ describe('Scrollable Container Component', () => {
 
     it('Should hide scrollbar if the content is changed and does not overflow', async () => {
         const scrollableContainer = document.querySelector('.guic-scrollable-container-wrapper');
+        resizeElementTo(scrollableContainer);
         let sliderStyle = {};
 
         showDynamicScrollbarContent(scrollableContainer);
