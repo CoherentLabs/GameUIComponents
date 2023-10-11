@@ -66,8 +66,6 @@ describe('Menu Component Tests', () => {
         });
     });
 
-    /* global engine */
-    /* global setupDataBindingTest */
     if (engine?.isAttached) {
         describe('Menu Component (Gameface Data Binding Test)', () => {
             const templateName = 'model';

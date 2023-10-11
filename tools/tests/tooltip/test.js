@@ -189,8 +189,6 @@ describe('Tooltip component (async mode)', () => {
     });
 });
 
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Tooltip Component (Gameface Data Binding Test)', () => {
         const templateName = 'model';

@@ -102,8 +102,6 @@ describe('Radio Button Tests', () => {
         });
     });
 
-    /* global engine */
-    /* global setupDataBindingTest */
     if (engine?.isAttached) {
         describe('Radio Button Component (Gameface Data Binding Test)', () => {
             const templateName = 'model';

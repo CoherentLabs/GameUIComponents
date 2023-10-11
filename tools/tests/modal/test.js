@@ -42,8 +42,6 @@ describe('Modal Component', () => {
     });
 });
 
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Modal Component (Gameface Data Binding Test)', () => {
         const templateName = 'model';

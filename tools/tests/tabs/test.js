@@ -46,8 +46,6 @@ describe('Tabs Components', () => {
     });
 });
 
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Tabs Component (Gameface Data Binding Test)', () => {
         const templateName = 'model';
