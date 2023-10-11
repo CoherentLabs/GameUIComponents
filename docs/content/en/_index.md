@@ -1,5 +1,5 @@
 ---
-date: 2023-10-04
+date: 2023-10-11
 title: Components for Game User Interface
 draft: false
 ---
