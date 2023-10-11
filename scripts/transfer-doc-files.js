@@ -12,6 +12,8 @@ const PARAMS_FILE_DIRECTORY = path.join(__dirname, '../docs/config/_default/para
 const PACKAGE_FILE_DIRECTORY = path.join(__dirname, '../package.json');
 const docsVersionRegExp = /docsVersion = "([0-9]|\.)+"/;
 
+const DOC_FILES_LIB_API_DOCS_DIRECTORY = path.join(__dirname, '../docs/content/en/api-ref');
+
 const packageFile = require(PACKAGE_FILE_DIRECTORY);
 /**
  * @param {number} value
@@ -230,6 +232,15 @@ function updateDocVersion() {
     console.log(`Updated docs version to ${version}`);
 }
 
+/**
+ * Generate the API docs for the Components library and copy it
+ * in the documentation destination folder.
+ */
+function generateAndCopyAPIDocs() {
+    execSync('node generate-api-docs', { cwd: __dirname });
+    saveMarkdownWithFrontMatter('components-library', path.join(__dirname, '../lib', 'api.md'), DOC_FILES_LIB_API_DOCS_DIRECTORY);
+}
+
 
 /**
  * @returns {void}
@@ -242,6 +253,7 @@ function main() {
 
     if (args.indexOf('--rebuild') > -1) execSync(`npm run build:dev`, { stdio: 'inherit' });
     transferBundleAndStyles(component);
+    generateAndCopyAPIDocs();
     updateDocVersion();
 }
 
