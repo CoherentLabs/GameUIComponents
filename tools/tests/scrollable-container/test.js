@@ -63,8 +63,21 @@ Ut pretium mi in purus interdum, ut mattis tortor vulputate. Nunc eu blandit mag
 Nam at justo enim. Nam dictum facilisis mattis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce eget blandit ex, nec elementum erat. Vivamus purus purus, bibendum quis hendrerit sed, vehicula vitae arcu. Nam enim ligula, rutrum vitae imperdiet vitae, tristique id urna. Aenean rutrum sed nunc vel ultricies. Suspendisse iaculis, dolor vel blandit blandit, lacus tellus sodales nulla, id aliquam est nisl eu ligula. Nulla fermentum neque quis metus tristique scelerisque. Nulla aliquam vel libero sit amet mollis. Nulla ut consequat nisl. Proin eu dignissim nisi.
 </div>`;
 
+// eslint-disable-next-line require-jsdoc
+function manyScrollableContainerElements(number = 30) {
+    let result = '';
+    for (let i = 0; i < number; i++) {
+        result += '<div class="se">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>';
+    }
+    return result;
+}
+
 const dynamicScrollbarTemplate = `<gameface-scrollable-container class="guic-scrollable-container">
 <component-slot data-name="scrollable-content">${longContent}</component-slot>
+</gameface-scrollable-container>`;
+
+const multipleElementsTemplate = `<gameface-scrollable-container class="guic-scrollable-container">
+<component-slot data-name="scrollable-content">${manyScrollableContainerElements()}</component-slot>
 </gameface-scrollable-container>`;
 
 // eslint-disable-next-line max-lines-per-function
@@ -80,6 +93,8 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should show scrollbar if the content overflows', () => {
+        resizeElementTo(document.querySelector('.guic-scrollable-container-wrapper'));
+
         const style = getComputedStyle(document.querySelector('.guic-slider-component'));
 
         return createAsyncSpec(() => {
@@ -88,6 +103,8 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should scroll using the control buttons', async () => {
+        resizeElementTo(document.querySelector('.guic-scrollable-container-wrapper'));
+
         const handle = document.querySelector('.guic-slider-vertical-handle');
         const downButton = document.querySelector('.guic-slider-arrow-down');
 
@@ -98,6 +115,74 @@ describe('Scrollable Container Component', () => {
 
         await retryIfFails(async () => {
             assert(parseInt(getComputedStyle(handle).top) !== 0, 'The scrollbar handle is at the top.');
+        });
+    });
+
+    it('Should resize the slider to the correct size', async () => {
+        const CHANGED_CONTAINER_SIZE = 500;
+
+        const scrollableContainer = document.querySelector('.guic-scrollable-container-wrapper');
+        const sliderWrapper = document.querySelector('.guic-vertical-slider-wrapper');
+        resizeElementTo(scrollableContainer);
+
+        const downButton = document.querySelector('.guic-slider-arrow-down');
+        let sliderrClientRectHeight = 0;
+
+        await createAsyncSpec(() => {
+            downButton.dispatchEvent(new CustomEvent('mousedown', { bubbles: true }));
+        });
+
+        await createAsyncSpec(() => {
+            sliderrClientRectHeight = sliderWrapper.getBoundingClientRect().height;
+        });
+
+        return createAsyncSpec(() => {
+            assert.strictEqual(sliderrClientRectHeight, CHANGED_CONTAINER_SIZE, `The scrollable container height is not ${CHANGED_CONTAINER_SIZE}px.`);
+        });
+    });
+});
+
+// eslint-disable-next-line max-lines-per-function
+describe('Scrollable Container Component', () => {
+    afterAll(() => cleanTestPage('.scrollable-container-test-wrapper'));
+
+    beforeEach(async () => {
+        await setupScrollableContainer(multipleElementsTemplate);
+    });
+
+    // eslint-disable-next-line max-lines-per-function
+    it('Should check that the slider is scrolled to the bottom', async () => {
+        const scrollableContainer = document.querySelector('.guic-scrollable-container-wrapper');
+        const handle = document.querySelector('.handle');
+
+        let handlePosition = 0;
+        let downArrowOffsetTop = 0;
+
+        resizeElementTo(scrollableContainer);
+
+        const downButton = document.querySelector('.guic-slider-arrow-down');
+        await createAsyncSpec(() => {
+            downButton.dispatchEvent(new CustomEvent('mousedown', { bubbles: true }));
+        });
+
+        let handleHeight = 0;
+
+        await createAsyncSpec(() => {
+            handleHeight = parseInt(handle.getBoundingClientRect().height);
+        }, 50); // Make sure scrolling to the bottom has finished.
+
+        // The next assert of the test is commented because test seems to
+        // pass when running locally and fails on the buildbot / machine.
+        // Test can be re-written to use retryIfFails from actions.js
+        // instead of using 50 frames to wait for the scrolling.
+        // assert.notEqual(handleHeight, 0, 'Slider has no height and might not be initiated.');
+
+        // Parsing to integer to negate the precise number from the getBoundingClientRect().
+        handlePosition = parseInt(handle.offsetTop + handleHeight);
+        downArrowOffsetTop = document.querySelector('.down').offsetTop;
+
+        return createAsyncSpec(() => {
+            assert.strictEqual(handlePosition, downArrowOffsetTop, `The slider doesn't scroll to the bottom`);
         });
     });
 });
