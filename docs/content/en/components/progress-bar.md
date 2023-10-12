@@ -1,5 +1,5 @@
 ---
-date: 2023-10-11
+date: 2023-10-12
 title: Progress bar
 draft: false
 ---
