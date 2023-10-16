@@ -49,6 +49,7 @@ modules from the node_modules folder.
 To overwrite the default styles, simply create new rules for the class names that you wish to change and include them after the default styles.
 
 ### Classes you can override
+
 | Class Name | What it styles |
 |------------|----------------|
 |guic-stepper|The stepper element|
@@ -76,6 +77,7 @@ To use add to your html code the following
     <gameface-stepper-item>Impossible</gameface-stepper-item>
 </gameface-stepper>
 ```
+#### before v.4.0.0
 
 Add your stepper options using the `<gameface-stepper-item>` element. If there is one or no values, it will default to `true` and `false`.
 
@@ -84,6 +86,45 @@ To set a default selected value add the `selected` attribute to the `<gameface-s
 ```{.html}
     <gameface-stepper-item selected>Easy</gameface-stepper-item>
 ```
+
+#### after v.4.0.0
+
+To set a default value, add the `value` attribute to the `<gameface-stepper>` element, otherwise it will select the first option.
+
+```{.html}
+<gameface-stepper value="Legendary">
+    <gameface-stepper-item>Easy</gameface-stepper-item>
+    <gameface-stepper-item>Medium</gameface-stepper-item>
+    <gameface-stepper-item>Hard</gameface-stepper-item>
+    <gameface-stepper-item>Expert</gameface-stepper-item>
+    <gameface-stepper-item>Legendary</gameface-stepper-item>
+    <gameface-stepper-item>Impossible</gameface-stepper-item>
+</gameface-stepper>
+```
+
+## Dynamic properties
+
+You can change runtime some properties of the stepper. For example you can set a different value or change the options of the stepper.
+
+```javascript
+const stepper = document.querySelector('gameface-stepper');
+stepper.items = ['Creative', ...stepper.items]; // This will add the 'Creative' option to the stepper as a first one
+// This will change the value of the stepper to 'Medium'
+stepper.value = 'Medium' // or stepper.setAttribute('value', 'Medium');
+```
+
+### Notes
+
+1. Value is always a string that is a member of the `items` array. Setting a value from a different type or a string that is not a member of the `items` array will fallback to the first item of the `items` array. It is the same if the `gameface-stepper` has `value` attribute that is invalid on initialization. For example in the case below it will set `Easy` as a value to the stepper because the attribute `value` has value that is not `Easy` or `Medium`.
+
+    ```html
+    <gameface-stepper value="invalid">
+        <gameface-stepper-item>Easy</gameface-stepper-item>
+        <gameface-stepper-item>Medium</gameface-stepper-item>
+    </gameface-stepper>
+    ```
+
+2. Setting new options to the stepper component via `items` array should always happen with array with string values. Otherwise the operation will fail and not set the new items. Also if the current value of the stepper is not a member of the new options it will be automatically changed to the first option.
 
 ### Controling the stepper from the JavaScript code
 

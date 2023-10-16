@@ -101,8 +101,6 @@ describe('Automatic grid component', () => {
     });
 });
 
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Automatic Grid Component (Gameface Data Binding Test)', () => {
         const templateName = 'model';

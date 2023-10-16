@@ -79,8 +79,6 @@ describe('Progress Bar Tests', () => {
         });
     });
 
-    /* global engine */
-    /* global setupDataBindingTest */
     if (engine?.isAttached) {
         describe('Progress Bar Component (Gameface Data Binding Test)', () => {
             const templateName = 'model';

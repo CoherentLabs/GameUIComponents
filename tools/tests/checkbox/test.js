@@ -123,8 +123,6 @@ describe('Checkbox component with attributes', () => {
     });
 });
 
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Checkbox Component (Gameface Data Binding Test)', () => {
         const templateName = 'model';

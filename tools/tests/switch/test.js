@@ -185,8 +185,6 @@ describe('Switch Component', () => {
 });
 
 /* eslint-disable max-lines-per-function */
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Switch Component (Gameface Data Binding Test)', () => {
         const createSwitch = (template) => {
@@ -223,7 +221,7 @@ if (engine?.isAttached) {
 
         it(`Should dynamically change the state of switch`, async () => {
             const template = `
-            <gameface-switch data-bind-custom-attribute="{{model}}">
+            <gameface-switch data-bind-custom-attribute-switch="{{model}}">
                 <component-slot data-name="switch-unchecked">Unchecked text</component-slot>
                 <component-slot data-name="switch-checked">Checked text</component-slot>
             </gameface-switch>`;
@@ -240,7 +238,7 @@ if (engine?.isAttached) {
                 }
             }
 
-            engine.registerBindingAttribute('custom-attribute', CustomAttribute);
+            engine.registerBindingAttribute('custom-attribute-switch', CustomAttribute);
             const model = { disabled: false, type: 'inset', checked: false };
             await setupDataBindingTest('model', template, createSwitch, model);
             const switchToggle = document.querySelector('gameface-switch');

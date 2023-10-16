@@ -187,8 +187,6 @@ describe('Scrollable Container Component', () => {
     });
 });
 
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Scrollable Container Component (Gameface Data Binding Test)', () => {
         const templateName = 'model';

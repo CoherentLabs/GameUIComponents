@@ -140,8 +140,6 @@ describe('Radial Menu Tests', () => {
         });
     });
 
-    /* global engine */
-    /* global setupDataBindingTest */
     if (engine?.isAttached) {
         describe('Radial Menu Component (Gameface Data Binding Test)', () => {
             const templateName = 'model';

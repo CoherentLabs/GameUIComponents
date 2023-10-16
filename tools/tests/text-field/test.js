@@ -330,8 +330,6 @@ describe('Text field component', () => {
     }
 });
 
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     // eslint-disable-next-line max-lines-per-function
     describe('Text Field Component (Gameface Data Binding Test)', () => {
@@ -370,7 +368,7 @@ if (engine?.isAttached) {
         });
 
         it(`Should test text field with data-binding attributes`, async () => {
-            const template = `<gameface-text-field id="test1" type="text" label="Text:" data-bind-custom-attribute="{{model}}"></gameface-text-field>`;
+            const template = `<gameface-text-field id="test1" type="text" label="Text:" data-bind-custom-attribute-text-field="{{model}}"></gameface-text-field>`;
             // eslint-disable-next-line require-jsdoc
             class CustomAttribute {
                 // eslint-disable-next-line require-jsdoc
@@ -383,7 +381,7 @@ if (engine?.isAttached) {
                 }
             }
 
-            engine.registerBindingAttribute('custom-attribute', CustomAttribute);
+            engine.registerBindingAttribute('custom-attribute-text-field', CustomAttribute);
             const model = { value: 10, type: 'number', placeholder: 'Type a number', label: 'Number input' };
             await setupDataBindingTest('model', template, setupTextField, model);
             const textField = document.querySelector('gameface-text-field');

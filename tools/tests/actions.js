@@ -145,7 +145,6 @@ function initModel(modelName, model) {
     engine.updateWholeModel(currentModel);
 }
 
-/* global engine */
 /**
  * Creates a Gameface JS data bind model, creates the template with the
  * provided function and synchronizes the models to reflect the change.

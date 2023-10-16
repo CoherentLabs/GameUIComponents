@@ -1,5 +1,5 @@
 ---
-date: 2023-10-12
+date: 2023-10-16
 title: Scrollable container
 draft: false
 ---
@@ -48,6 +48,18 @@ import 'coherent-gameface-scrollable-container';
 Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
 modules from the node_modules folder.
 
+## Add the Styles
+
+~~~~{.css}
+<link rel="stylesheet" href="coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/horizontal.css">
+<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/vertical.css">
+~~~~
+
+To overwrite the default styles, simply create new rules for the class names that
+you wish to change and include them after the default styles.
+
 ## Manually showing and resizing the scrollbar
 
 If the scrollable container is hidden, you'll need to manually re-initialize the scrollbar once you show the scrollable container.
@@ -88,14 +100,6 @@ To automatically show, hide and resize the scrollbar set the `automatic` attribu
 
 `<gameface-scrollable-container class="scrollable-container-component fixed-width" automatic>`
 
-## Add the Styles
+## Specific Behavior
 
-~~~~{.css}
-<link rel="stylesheet" href="coherent-gameface-components-theme.css">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/horizontal.css">
-<link rel="stylesheet" href="node_modules/coherent-gameface-slider/styles/vertical.css">
-~~~~
-
-To overwrite the default styles, simply create new rules for the class names that
-you wish to change and include them after the default styles.
+- The used `gameface-slider` Component is always 100% of the size of the `gameface-scrollable-container` i.e. setting `height: 500px;` for `.guic-scrollable-container-wrapper` will size the slider wrapper to that size.

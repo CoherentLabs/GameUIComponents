@@ -35,7 +35,9 @@
       "interactionManager": "readonly",
       "mockEventObject": "readonly",
       "dragIMElement": "readonly",
-      "resizeElementTo": "readonly"
+      "resizeElementTo": "readonly",
+      "engine": "readonly",
+      "setupDataBindingTest": "readonly"
     }
   },
   "author": "CoherentLabs",

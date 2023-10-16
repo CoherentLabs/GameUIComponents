@@ -543,8 +543,6 @@ describe('Rangeslider component', () => {
     });
 });
 
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     // eslint-disable-next-line max-lines-per-function
     describe('Rangeslider Component (Gameface Data Binding Test)', () => {

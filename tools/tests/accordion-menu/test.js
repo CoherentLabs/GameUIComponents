@@ -172,8 +172,6 @@ describe('Accordion Menu component', () => {
 });
 
 /* eslint-disable max-lines-per-function */
-/* global engine */
-/* global setupDataBindingTest */
 if (engine?.isAttached) {
     describe('Accordion Menu Component (Gameface Data Binding Test)', () => {
         const createAccordionMenu = (template) => {
@@ -193,7 +191,7 @@ if (engine?.isAttached) {
         afterAll(() => cleanTestPage('.test-wrapper'));
 
         it(`Should have populated 2 elements`, async () => {
-            const templateName = 'accordionMenu';
+            const templateName = 'accordionMenuModel';
 
             const template = `
             <div data-bind-for="array:{{${templateName}.array}}">
@@ -220,9 +218,9 @@ if (engine?.isAttached) {
 
             const template = `
             <div data-bind-for="menu:{{${templateName}}}">
-                <gameface-accordion-menu data-bind-custom-attribute="{{menu.attributes}}">
+                <gameface-accordion-menu data-bind-custom-attribute-accordion-menu="{{menu.attributes}}">
                     <div data-bind-for="panel:{{menu.panels}}">
-                        <gameface-accordion-panel data-bind-custom-attribute="{{panel.attributes}}" slot="accordion-panel">
+                        <gameface-accordion-panel data-bind-custom-attribute-accordion-menu="{{panel.attributes}}" slot="accordion-panel">
                             <gameface-accordion-header data-bind-value="{{panel.header}}">Header Panel 1</gameface-accordion-header>
                             <gameface-accordion-content data-bind-value="{{panel.content}}">Content 1</gameface-accordion-content>
                         </gameface-accordion-panel>
@@ -242,7 +240,7 @@ if (engine?.isAttached) {
                 }
             }
 
-            engine.registerBindingAttribute('custom-attribute', CustomAttribute);
+            engine.registerBindingAttribute('custom-attribute-accordion-menu', CustomAttribute);
             const model = [
                 {
                     attributes: { multiple: false },
