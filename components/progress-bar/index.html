@@ -1,0 +1,60 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+	<link rel="stylesheet" href="./style.css">
+	<style>
+		body {
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			background-color: rgba(0, 0, 0, 0.5);
+			color: #fff;
+			font-size: 3vh;
+		}
+
+		.progress-bar-wrapper-one,
+		.progress-bar-wrapper-two,
+		.progress-bar-wrapper-three {
+			position: absolute;
+			top: 10vh;
+			width: 60%;
+			height: 15px;
+		}
+
+		.progress-bar-wrapper-two {
+			top: 20vh;
+		}
+
+		.progress-bar-wrapper-three {
+			top: 30vh;
+		}
+	</style>
+</head>
+<body class="guic-demo">
+
+<div class="progress-bar-wrapper-one">
+	<div>0% -> 100% with 2000ms animation duration.</div>
+	<gameface-progress-bar
+		id="progress-bar-one"
+		data-animation-duration="2000">
+	</gameface-progress-bar>
+</div>
+<div class="progress-bar-wrapper-two">
+	<div>0% -> 100% with no animation.</div>
+	<gameface-progress-bar
+		id="progress-bar-two">
+	</gameface-progress-bar>
+</div>
+<div class="progress-bar-wrapper-three">
+	<div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
+	<gameface-progress-bar
+		id="progress-bar-three"
+		data-animation-duration="1000">
+	</gameface-progress-bar>
+</div>
+</body>
+
+</html>

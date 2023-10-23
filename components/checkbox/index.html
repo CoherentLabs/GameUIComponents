@@ -1,0 +1,40 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+
+<body class="guic-demo">
+    <gameface-checkbox class="checkbox-component">
+        <component-slot data-name="checkbox-background">
+            <div class="guic-checkbox-background"></div>
+        </component-slot>
+        <component-slot data-name="checkbox-label">
+            <span class="guic-checkbox-label">Enable Music</span>
+        </component-slot>
+    </gameface-checkbox>
+    <gameface-checkbox class="checkbox-component" checked disabled>
+        <component-slot data-name="checkbox-background">
+            <div class="guic-checkbox-background"></div>
+        </component-slot>
+        <component-slot data-name="checkbox-label">
+            <span class="guic-checkbox-label">Enable Music 1</span>
+        </component-slot>
+    </gameface-checkbox>
+    <gameface-checkbox class="checkbox-component" name="test" value="1" disabled>
+        <component-slot data-name="checkbox-background">
+            <div class="guic-checkbox-background"></div>
+        </component-slot>
+        <component-slot data-name="checkbox-label">
+            <span class="guic-checkbox-label">Enable Music 2</span>
+        </component-slot>
+    </gameface-checkbox>
+</body>
+
+</html>

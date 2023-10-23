@@ -56,7 +56,6 @@ function create(name, directory) {
     name = `${name}`;
     directory = directory || process.cwd();
     const componentFolder = createFolder(path.join(directory), name);
-    const demoFolder = createFolder(componentFolder, 'demo');
 
     try {
         fs.readdirSync(templatesLocation).forEach((file) => {
@@ -80,11 +79,7 @@ function create(name, directory) {
 
             const fileContent = fillTemplate(data, templateVars);
 
-            if (filename !== 'demo.html' && filename !== 'demo.js') {
-                fs.writeFileSync(path.join(componentFolder, filename), fileContent, 'utf8');
-            } else {
-                fs.writeFileSync(path.join(demoFolder, filename), fileContent, 'utf8');
-            }
+            fs.writeFileSync(path.join(componentFolder, filename), fileContent, 'utf8');
         });
         console.log(`Created component ${name} in ${componentFolder}.`);
     } catch (error) {

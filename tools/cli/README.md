@@ -17,9 +17,8 @@ This will install the cli as a global module and will make it available from eve
 |---|---|---|---|
 |create-project               |Create a new project from template                 | `<template>` `<directory>`|`coherent-guic-cli create-project webpack ./my-folder`|
 |create | [name], [directory] |           Create a new component | `coherent-guic-cli create my-component ./my-folder`|
-|build |[--watch]        | start the server|`coherent-guic-cli build`|
-|start:demo| N/A|              Start a development server and host the demo|`coherent-guic-cli start:demo`|
-|build:demo| [--dev] |      Create a production bundle of the demo. |`coherent-guic-cli build:demo`|
+|build |   N/A     | Build the component. Creates the distributable files located in the /dist folder. |`coherent-guic-cli build`|
+|build:demo| [--watch] [--env prod | dev] |      Build the demo. Use --watch to start a development server with live reload for quick development iteration cycle. |`coherent-guic-cli build:demo`|
 |--help| N\A |      show help. |`coherent-guic-cli --help`|
 
 ## Usage

@@ -1,0 +1,81 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        .character-customization {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .save {
+            margin-left: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .disabled {
+            background-color: #eeeeee;
+            color: #7b7878;
+            pointer-events: none;
+        }
+
+        .guic-modal-button {
+            width: 100px;
+            height: 30px;
+            border: none;
+            background-color: #adacac;
+        }
+
+        .guic-modal-button:hover {
+            background-color: rgb(121, 123, 131);
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .confirmation-text {
+            text-align: center;
+        }
+
+        .controls {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body class="guic-demo">
+    <p>Chose a name for your character.</p>
+    <div class="character-customization">
+        <input for="name" type="text" />
+        <button type="button" class="guic-modal-button save disabled">Save</button>
+    </div>
+    <p class="name-text hidden">
+        <span>The name you chose is: </span>
+        <span class="name"></span>
+    </p>
+
+    <gameface-modal>
+        <div slot="header">
+                Character name selection
+        </div>
+        <div slot="body">
+            <div class="confirmation-text">Are you sure you want to save this name?</div>
+        </div>
+        <div slot="footer">
+            <div class="actions">
+                <button id="confirm" class="close guic-modal-button confirm controls">Yes</button>
+                <button class="close guic-modal-button discard controls">No</button>
+            </div>
+        </div>
+    </gameface-modal>
+</body>
+</html>

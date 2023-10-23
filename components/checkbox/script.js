@@ -18,7 +18,6 @@ class Checkbox extends CustomElementValidator {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
-
         this.template = template;
 
         this.stateSchema = {

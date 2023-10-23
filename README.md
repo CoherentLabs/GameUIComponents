@@ -81,10 +81,12 @@ All components are npm modules. Your component doesn't have to be an npm module.
 All Gameface JavaScript components are custom HTML elements. Each component has:
 * a JavaScript source file - the custom element's definition; where all the logic is implemented
 * a JavaScript index file - the entry file
-* an HTML file - the component's template;
+* a template.html file - the component's template;
 * a CSS file - the component's styles
 * a package.json file
 * a README markdown file - short documentation explaining what the component does and how it's used
+* an index.html file - the demo file
+* a demo.html file - the demo's source file
 * a demo folder - folder containing an example of the component
 
 ## Using without bundling
@@ -282,17 +284,20 @@ It should export either the development or the production CJS bundle:
 
 ```javascript
 if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./cjs/checkbox.production.min.js');
+    module.exports = require('./dist/checkbox.production.min.js');
 } else {
-    module.exports = require('./cjs/checkbox.development.js');
+    module.exports = require('./dist/checkbox.development.js');
 }
 ```
 
-Each component has a demo page. It is located in a /demo folder. Bundle the JavaScript file of the demo to make sure it can directly work in the browser. The demo.js file imports all dependencies and Rollup can resolves and bundles them.
+Each component has a demo page. It is located in the component's folder.The demo.js file imports all dependencies and Webpack bundles them into one `bundle.js` file.
 
 ```javascript
-import components from 'coherent-gameface-components';
-import checkbox from '../umd/checkbox.development.js'
+// import the source of the current component
+import './script.js'; 
+// import any other dependencies
+import 'coherent-gameface-switch'; 
+import 'coherent-gameface-form-control';
 ```
 
 The demo.html file should import the bundle.js and use the custom element:
@@ -304,16 +309,17 @@ The demo.html file should import the bundle.js and use the custom element:
 </body>
 ```
 
-Note that the demo files should have the names demo.js and demo.html for the JavaScript and html files respectively.
+Note that the demo files should have the names demo.js and index.html for the JavaScript and html files respectively.
 Make sure all files have the LICENSE notice at the top. Run `npm run add:copyright` to automatically add copyright notice to all files.
 
 To build the component run:
 
+```
     npm run rebuild
+```
 
-The newly created bundles are located in checkbox/umd and checkbox/cjs folders. To test if everything works open the demo.html file.
-
-If everything works, add a README.md file to the component folder and add a documentation page to the docs/ folder.
+The newly created bundles are located in checkbox/dist folder. To test if everything works open the demo.html file located in the `demo/` folder.
+Add a README.md file to the component folder and add a documentation page to the docs/ folder.
 
 # Adding styles
 

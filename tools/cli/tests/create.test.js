@@ -21,8 +21,10 @@ const componentFiles = {
         'script.js',
         'style.css',
         'template.html',
+        'index.html',
+        'demo.js',
     ],
-    demo: ['demo.html', 'demo.js'],
+    demo: ['index.html', 'demo.js'],
 };
 
 describe('create component test', () => {
@@ -47,7 +49,7 @@ describe('create component test', () => {
 
     test('Created the demo files', () => {
         // Check if the demo files were created
-        const hasDemoFiles = folderContainsFiles(path.join(componentSourcePath, 'demo'), componentFiles['demo']);
+        const hasDemoFiles = folderContainsFiles(componentSourcePath, componentFiles['demo']);
         expect(hasDemoFiles).toBe(true);
     });
 
@@ -62,7 +64,8 @@ describe('create component test', () => {
     test('Generates component demo files with valid content', () => {
         // Check if the generated demo files have valid content
         const componentFilesTree = folderToTree(componentSourcePath);
-        const isContentValid = filesHaveCorrectContent(path.join(componentSourcePath, 'demo'), componentFilesTree['demo']);
+
+        const isContentValid = filesHaveCorrectContent(componentSourcePath, componentFilesTree[componentName]);
 
         expect(isContentValid).toBe(true);
     });

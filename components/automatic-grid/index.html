@@ -1,0 +1,66 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="./node_modules/coherent-gameface-grid/dist/grid.production.min.css">
+<link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="./style.css">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+    }
+
+    .automatic-grid-component {
+        width: 80vw;
+    }
+
+    .guic-row {
+        margin: 0;
+    }
+
+    .guic-automatic-grid-container {
+        border-right: 3px solid black;
+        border-bottom: 3px solid black;
+    }
+
+    .guic-automatic-grid-cell {
+        border-top: 3px solid black;
+        border-left: 3px solid black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .box {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: cadetblue;
+        color: white;
+        font-size: 1.5rem;
+    }
+</style>
+
+<style>
+
+</style>
+
+<body class="guic-demo">
+    <gameface-automatic-grid class="automatic-grid-component" columns="7" rows="5" draggable>
+        <component-slot data-name="item" col="3" row="2" class="box">1</component-slot>
+        <component-slot data-name="item" col="3" row="2" class="box">2</component-slot>
+        <component-slot data-name="item" col="8" row="8" class="box">3</component-slot>
+        <component-slot data-name="item" class="box">4</component-slot>
+        <component-slot data-name="item" class="box">5</component-slot>
+        <component-slot data-name="item" class="box">6</component-slot>
+    </gameface-automatic-grid>
+</body>
+
+</html>

@@ -49,3 +49,5 @@ const itemsModel = {
         },
     ],
 };
+
+export default itemsModel;

@@ -12,22 +12,19 @@
  * to format the source here so that it's more readable.
 */
 
-exports.demohtml = `
+exports.indexhtml = `
     <!DOCTYPE html>
     <html lang="en">
     <body>
         <test-name class="test-name-component">
             <component-slot data-name="name">test-name</component-slot>
         </test-name>
-
-        <script src="./bundle.js"></script>
     </body>
     </html>
 `;
 
 exports.demojs = `
-    import components from 'coherent-gameface-components';
-    import TestName from '../script.js';
+    import TestName from './script.js';
     import { pm } from 'postmessage-polyfill';
     import { fetch as fetchPolyfill } from 'whatwg-fetch';
 
@@ -41,13 +38,11 @@ exports.demojs = `
 `;
 
 exports.indexjs = `
-    import TestName from './script.js';
-    import * as bundle from './dist/test-name.development.js';
-
-    export {
-        TestName,
-        bundle,
-    };
+    if (process.env.NODE_ENV === 'production') {
+        module.exports = require('./dist/test-name.production.min.js');
+    } else {
+        module.exports = require('./dist/test-name.development.js');
+    }
 `;
 
 exports.packagejson = `
@@ -87,12 +82,6 @@ exports.READMEmd = `
 
     ## Usage with UMD modules:
 
-    * import the components library:
-
-    ~~~~{.html}
-    <script src="./node_modules/coherent-gameface-components/umd/components.production.min.js"></script>
-    ~~~~
-
     * import the test-name component:
 
     ~~~~{.html}
@@ -111,29 +100,11 @@ exports.READMEmd = `
     which import the components and the test-name from the node_modules folder and import them like this:
 
     ~~~~{.js}
-    import components from 'coherent-gameface-components';
     import test-name from 'test-name';
     ~~~~
 
     Note that this approach requires a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/) to resolve the
-    modules from the node_modules folder. Alternatively you can import them directly from node_modules:
-
-    ~~~~{.js}
-    import components from './node_modules/coherent-gameface-components/umd/components.production.min.js';
-    import test-name from './node_modules/test-name/umd/test-name.production.min.js';
-    ~~~~
-
-    ## Usage with CJS modules:
-
-    * Import the components library:
-
-    ~~~~{.js}
-    const components = require('coherent-gameface-components');
-    const test-name = require('test-name');
-    ~~~~
-
-    The CommonJS(CJS) modules are used in a NodeJS environment, be sure to use a module
-    bundler in order to be use them in a browser.
+    modules from the node_modules folder.
 `;
 
 exports.scriptjs = `
