@@ -5,7 +5,7 @@ import { clamp, valueToPercent } from '../rangeSliderUtils';
 const SPACE_BETWEEN_GRID_POLS = 10;
 
 /**
- * This is the basic rangeslider which has single thumb and works with numeric values.
+ * This is the basic rangeslider which has two thumbs and works with array with numeric values.
  */
 export default class BasicTwoHandlesRangeSlider extends TwoHandlesRangeSliderBase {
     /**
@@ -19,6 +19,49 @@ export default class BasicTwoHandlesRangeSlider extends TwoHandlesRangeSliderBas
     connectedCallback() {
         this.initSliderState();
         this.loadTemplate();
+    }
+
+    /**
+     * Don't allow state values to be set outside of the min/max range.
+     * @param {array} valueArray
+     */
+    clampStateValues(valueArray) {
+        if (valueArray[0] < this.min) {
+            this.state.value[0] = this.min;
+        } else {
+            this.state.value[0] = valueArray[0];
+        }
+
+        if (valueArray[1] > this.max) {
+            this.state.value[1] = this.max;
+        } else {
+            this.state.value[1] = valueArray[1];
+        }
+    }
+
+    /**
+     * Will update UI of the rangeslider when its `value` attribute has changed
+     * @param {number[]} value
+     */
+    updateValueState(value) {
+        // This is needed because of the way attributeChangedCallback
+        // gets the value and is received here.
+        // E.g. rangeslider.value = [20, 50] - it gets to here as "20,50".
+        const valueArray = Array.from(value.split(','), Number);
+
+        // This allows using a number or array with one value from the setter.
+        if (!valueArray[1] && !Number.isNaN(valueArray[1])) valueArray[1] = this.state.value[1];
+
+        for (let i = 0; i < valueArray.length; i++) {
+            if (Number.isNaN(valueArray[i])) {
+                console.error('Setter for Rangeslider with two handles can only receive a number or an array of numbers.');
+                return;
+            }
+        }
+
+        this.clampStateValues(valueArray);
+
+        this.updateSliderPositionWithCurrentValue();
     }
 
     /** @inheritdoc */
@@ -64,10 +107,19 @@ export default class BasicTwoHandlesRangeSlider extends TwoHandlesRangeSliderBas
     }
 
     /** @inheritdoc */
+    getCurrentValuePercent() {
+        const valuesInPercent = [null, null];
+
+        for (let i = 0; i < valuesInPercent.length; i++) {
+            valuesInPercent[i] = valueToPercent(this.state.value[i], this.min, this.max);
+        }
+
+        return valuesInPercent;
+    }
+
+    /** @inheritdoc */
     updateSliderPositionWithCurrentValue() {
-        // TODO: Update the correct slider positions with the correct values percents as it is done in
-        // updateMinMaxState method in basicRangeslider.js
-        const percent = [0, 100];
+        const percent = this.getCurrentValuePercent();
         percent.forEach((p, i) => this.updateSliderPosition(p, i));
     }
 

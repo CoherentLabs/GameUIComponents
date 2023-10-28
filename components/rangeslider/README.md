@@ -57,7 +57,7 @@ You can use the following attributes to customize the rangeslider
 
 |Attribute   |Type   |Default   | Description   |Notes   |
 |---|---|---|---|---|
-|value   | Number   |0   | The initial value of the rangeslider   | If the value attribute is not set it defaults to the min value if set set.   |
+|value   | Number, Array (two handles)   |0   | The initial value of the rangeslider   | If the value attribute is not set it defaults to the min value if set set.   |
 |min   | Number  | 0   | The minimum value of the rangeslider  |  **Not working when the `values` attribute is set.**  |
 |max   | Number  | 100  | The maximum value of the rangeslider  |  **Not working when the `values` attribute is set.**  |
 |step   | Number  | 1  | The step of the handle  | **Not working when the `values` attribute is set.**  |
