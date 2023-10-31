@@ -52,7 +52,8 @@ module.exports = function (config) {
       'text-field/*.js',
       'accordion-menu/*.js',
       'interaction-manager/**/*.js',
-      'comprehensive-components-test/test.js'
+      'comprehensive-components-test/test.js',
+      'carousel/*.js',
     ],
     singleRun: true,
     retryLimit: 0,

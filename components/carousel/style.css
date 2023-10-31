@@ -1,0 +1,93 @@
+:root {
+    --guic-carousel-arrow-dimensions: 10px;
+    --guic-carousel-arrow-size: 4px;
+}
+
+gameface-carousel {
+    visibility: hidden;
+    display: block;
+    width: 200px;
+    height: 150px;
+}
+
+.guic-carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.guic-carousel-content-wrapper {
+    display: flex;
+    position: absolute;
+    left: 0px;
+    flex-direction: row;
+}
+
+.guic-carousel-dots {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.guic-carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 5px;
+    background-color: rgb(135, 199, 255);
+    cursor: pointer;
+}
+
+.guic-carousel-transparent {
+    opacity: 0;
+}
+
+.guic-carousel-arrow {
+    position: absolute;
+    height: 100%;
+    width: var(--guic-carousel-arrow-dimensions);
+}
+
+.guic-carousel-left-arrow {
+    left: 0;
+}
+
+.guic-carousel-right-arrow {
+    right: 0;
+}
+
+.guic-carousel-arrow-slot {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+}
+
+.guic-carousel-inner-arrow {
+    position: absolute;
+    border: solid white;
+    top: 50%;
+    width: var(--guic-carousel-arrow-dimensions);
+    height: var(--guic-carousel-arrow-dimensions);
+}
+
+.guic-carousel-inner-arrow-left {
+    left: 0px;
+    border-width: 0;
+    border-top-width: var(--guic-carousel-arrow-size);
+    border-left-width: var(--guic-carousel-arrow-size);
+    transform: rotate(-45deg);
+    transform-origin: 0% 0%;
+}
+
+.guic-carousel-inner-arrow-right {
+    left: 100%;
+    border-width: 0;
+    border-top-width: var(--guic-carousel-arrow-size);
+    border-left-width: var(--guic-carousel-arrow-size);
+    transform: rotate(135deg);
+    transform-origin: 0% 0%;
+}
+
+.guic-carousel-hidden {
+    display: none;
+}
