@@ -1,0 +1,447 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-checkbox/style.css">
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-radio-button/style.css">
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-switch/style.css">
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-rangeslider/styles/horizontal.css">
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-dropdown/style.css">
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-tooltip/style.css">
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-text-field/style.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .form-wrapper {
+            margin: 5px;
+            padding: 10px;
+            width: 300px;
+            border-width: 3px;
+            border-style: solid;
+            border-top-color: var(--default-color-blue);
+            border-left-color: var(--default-color-blue);
+            border-right-color: var(--default-color-blue);
+            border-bottom-color: var(--default-color-blue);
+            border-radius: 10px;
+        }
+
+        .form-element {
+            margin-bottom: 5px;
+        }
+
+        .guic-horizontal-rangeslider-wrapper {
+            width: 80%;
+            margin-left: 31px;
+        }
+
+        .guic-dropdown-selected-option {
+            width: 100%;
+        }
+
+        .guic-dropdown-options-container {
+            width: auto;
+            height: auto;
+        }
+
+        .guic-dropdown-options,
+        .guic-dropdown {
+            width: 100%;
+        }
+
+        gameface-dropdown {
+            width: 100%;
+            left: 0;
+            top: 0;
+            margin-left: 0;
+        }
+
+        .response {
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body class="guic-demo">
+    <div class="form-wrapper">
+        <h2>Custom validation</h2>
+        <gameface-form-control id="custom-validation-form" action="http://localhost:3000/user" method="get">
+            <div class="form-element">
+                <span>Username (native input):</span>
+                <input name="username" label="User name:" type="text" minlength="5" maxlength="20"></input>
+                <span id="username-error"></span>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="url" label="Website:" type="url"></gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="email" label="Email:" type="email"></gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="password" label="Password:" type="password" minlength="3" maxlength="10">
+                </gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="number" label="Age:" type="number" min="15" max="200" step="10">
+                </gameface-text-field>
+            </div>
+            <button class="form-element" type="submit">Register</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-custom-validation"></span>
+    </div>
+    <div class="form-wrapper">
+        <h2>Text Field</h2>
+        <gameface-form-control id="form-text-field" action="http://localhost:3000/user" method="get">
+            <div class="form-element">
+                <gameface-text-field name="text" label="User name:" type="text" minlength="5" maxlength="20">
+                </gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="url" pattern="https://.*" label="Website:" type="url"></gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="email" label="Email:" type="email"></gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="password" label="Password:" type="password" minlength="3" maxlength="10">
+                </gameface-text-field>
+            </div>
+            <div class="form-element">
+                <gameface-text-field name="number" label="Age:" type="number" min="15" max="200" step="10">
+                </gameface-text-field>
+            </div>
+            <button class="form-element" type="submit">Register</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-text-field-response"></span>
+        <script>
+            document.getElementById('form-text-field').addEventListener('loadend', (event) => {
+                document.getElementById('form-text-field-response').textContent = event.detail.target.response;
+            });
+        </script>
+    </div>
+    <div class="form-wrapper">
+        <h2>GET</h2>
+        <gameface-form-control onload="onRequestFinished(event);" action="http://localhost:3000/user" method="get">
+            <div class="form-element">
+                <span>User name:</span><input name="username" value="name" type="text" required />
+            </div>
+            <div class="form-element">
+                <span>Password:</span><input name="password" value="pass" type="password" required />
+            </div>
+            <div class="form-element">
+                <span class="label">Remember user</span>
+                <gameface-switch name="policy-agreement" value="accepted" type="text-inside">
+                    <component-slot data-name="switch-unchecked">No</component-slot>
+                    <component-slot data-name="switch-checked">Yes</component-slot>
+                </gameface-switch>
+            </div>
+            <div class="form-element">
+                <span class="label">What is more possible you to like?</span>
+                <gameface-dropdown name="poll" class="gameface-dropdown-component" id="dropdown-default">
+                    <dropdown-option value="cats" slot="option">Cats</dropdown-option>
+                    <dropdown-option value="dogs" slot="option">Dogs</dropdown-option>
+                    <dropdown-option value="giraffes" slot="option">Giraffes</dropdown-option>
+                    <dropdown-option value="lions" slot="option">Lions</dropdown-option>
+                    <dropdown-option value="eagles" slot="option">Eagles</dropdown-option>
+                    <dropdown-option value="parrots" slot="option">Parrots</dropdown-option>
+                </gameface-dropdown>
+            </div>
+            <button class="form-element" type="submit">Login</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-one-response"></span>
+        <script>
+            function onRequestFinished(event) {
+                document.getElementById('form-one-response').textContent = event.detail.target.response;
+            }
+        </script>
+    </div>
+    <div class="form-wrapper">
+        <h2>POST</h2>
+        <gameface-form-control id="post" action="http://localhost:3000/form-data" method="post">
+            <div class="form-element">
+                <span>User name:</span><input name="username" value="name" type="text" />
+            </div>
+            <div class="form-element">
+                <span>Password:</span><input name="password" value="password" type="password" />
+            </div>
+            <div class="form-element">
+                <span>User info:</span><textarea name="info">user info</textarea>
+            </div>
+            <div class="form-element">
+                <span>I am:</span>
+                <gameface-radio-group name="gender">
+                    <radio-button checked value="male">Male</radio-button>
+                    <radio-button value="female">Female</radio-button>
+                </gameface-radio-group>
+            </div>
+            <div class="form-element">
+                <span>What are your interests?</span>
+                <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
+                    <component-slot data-name="checkbox-background">
+                        <div class="guic-checkbox-background"></div>
+                    </component-slot>
+                    <component-slot data-name="checkbox-label">
+                        <span class="guic-checkbox-label">Music</span>
+                    </component-slot>
+                </gameface-checkbox>
+                <gameface-checkbox name="user-interests" value="coding" class="checkbox-component form-element">
+                    <component-slot data-name="checkbox-background">
+                        <div class="guic-checkbox-background"></div>
+                    </component-slot>
+                    <component-slot data-name="checkbox-label">
+                        <span class="guic-checkbox-label">Coding</span>
+                    </component-slot>
+                </gameface-checkbox>
+            </div>
+
+            <div class="form-element">
+                <span>What is your skill level:</span>
+                <gameface-rangeslider name="skill-level" orientation="horizontal" grid thumb value="Beginner"
+                    values='["Beginner", "Average", "Skilled", "Specialist", "Expert"]' step="20">
+                </gameface-rangeslider>
+            </div>
+            <button class="form-element" type="submit" name="register-btn" value="register">Register</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-two-response"></span>
+        <script>
+            document.getElementById('post').addEventListener('loadend', (event) => {
+                document.getElementById('form-two-response').textContent = event.detail.target.response;
+            })
+        </script>
+    </div>
+    <div class="form-wrapper">
+        <h2>Prevent form from submitting</h2>
+        <gameface-form-control id="prevented-form" action="http://localhost:3000/form-data" method="post">
+            <button class="form-element" type="submit">Click me!</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-three-response"></span>
+        <script>
+            const preventForm = document.getElementById('prevented-form');
+            preventForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                console.log('Prevented default');
+            });
+            preventForm.addEventListener('loadend', (event) => {
+                document.getElementById('form-three-response').textContent = event.detail.target.response;
+            })
+        </script>
+    </div>
+    <div class="form-wrapper">
+        <h2>Prevent form from submitting inline</h2>
+        <gameface-form-control id="prevented-form-inline" onload="onInlineRequestFinished"
+            onsubmit="preventSubmit(event)" action="http://localhost:3000/form-data" method="post">
+            <button class="form-element" type="submit">Click me!</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-four-response"></span>
+        <script>
+            function preventSubmit(event) {
+                event.preventDefault();
+                console.log('Prevented default');
+            }
+            function onInlineRequestFinished(event) {
+                document.getElementById('form-four-response').textContent = event.detail.target.response;
+            }
+        </script>
+    </div>
+    <div class="form-wrapper">
+        <h2>Checkbox cases</h2>
+        <gameface-form-control id="checkbox-test" action="http://localhost:3000/user" method="get">
+            <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
+                <component-slot data-name="checkbox-background">
+                    <div class="guic-checkbox-background"></div>
+                </component-slot>
+                <component-slot data-name="checkbox-label">
+                    <span class="guic-checkbox-label">1</span>
+                </component-slot>
+            </gameface-checkbox>
+            <!-- Should be skipped when form is submitted because it is disabled -->
+            <gameface-checkbox disabled name="user-interests" value="coding" class="checkbox-component form-element">
+                <component-slot data-name="checkbox-background">
+                    <div class="guic-checkbox-background"></div>
+                </component-slot>
+                <component-slot data-name="checkbox-label">
+                    <span class="guic-checkbox-label">Disabled</span>
+                </component-slot>
+            </gameface-checkbox>
+            <!-- Should send "no" as value if it is checked -->
+            <gameface-checkbox name="user-interests" class="checkbox-component form-element">
+                <component-slot data-name="checkbox-background">
+                    <div class="guic-checkbox-background"></div>
+                </component-slot>
+                <component-slot data-name="checkbox-label">
+                    <span class="guic-checkbox-label">No value</span>
+                </component-slot>
+            </gameface-checkbox>
+            <button class="form-element" type="submit">Submit</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-five-response"></span>
+        <script>
+            document.getElementById('checkbox-test').addEventListener('loadend', (event) => {
+                document.getElementById('form-five-response').textContent = event.detail.target.response;
+            })
+        </script>
+    </div>
+    <div class="form-wrapper">
+        <h2>Radio group cases</h2>
+        <gameface-form-control id="radio-test" action="http://localhost:3000/user" method="get">
+            <div class="form-element">
+                <span>Normal:</span>
+                <gameface-radio-group name="option1">
+                    <radio-button checked value="1">1</radio-button>
+                    <radio-button value="2">2</radio-button>
+                    <radio-button value="3">3</radio-button>
+                </gameface-radio-group>
+            </div>
+            <!-- Should be skipped when form is submitted because it is disabled -->
+            <div class="form-element">
+                <span>Disabled group:</span>
+                <gameface-radio-group disabled name="option2" class="form-element">
+                    <radio-button checked value="1">1</radio-button>
+                    <radio-button disabled value="2">2</radio-button>
+                    <radio-button value="3">3</radio-button>
+                </gameface-radio-group>
+            </div>
+            <!-- Should send "on" as value if it is checked -->
+            <div class="form-element">
+                <span>No value:</span>
+                <gameface-radio-group name="option3" class="form-element">
+                    <radio-button checked>1</radio-button>
+                    <radio-button>2</radio-button>
+                    <radio-button>3</radio-button>
+                </gameface-radio-group>
+            </div>
+            <!-- Should send nothing because there are no checked elements -->
+            <div class="form-element">
+                <span>No checked:</span>
+                <gameface-radio-group name="option4" class="form-element">
+                    <radio-button value="1">1</radio-button>
+                    <radio-button value="2">2</radio-button>
+                    <radio-button value="3">3</radio-button>
+                </gameface-radio-group>
+            </div>
+            <!-- Should send 3 because it will not check the disabled button with value 2 -->
+            <div class="form-element">
+                <span>Disabled button:</span>
+                <gameface-radio-group name="option5" class="form-element">
+                    <radio-button value="1">1</radio-button>
+                    <radio-button checked disabled value="2">2</radio-button>
+                    <radio-button checked value="3">3</radio-button>
+                </gameface-radio-group>
+            </div>
+            <!-- Should send nothing because there are no checked elements -->
+            <div class="form-element">
+                <span>Disabled button with value:</span>
+                <gameface-radio-group name="option6" class="form-element">
+                    <radio-button value="1">1</radio-button>
+                    <radio-button checked disabled value="2">2</radio-button>
+                    <radio-button value="3">3</radio-button>
+                </gameface-radio-group>
+            </div>
+            <button class="form-element" type="submit">Submit</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-six-response"></span>
+        <script>
+            document.getElementById('radio-test').addEventListener('loadend', (event) => {
+                document.getElementById('form-six-response').textContent = event.detail.target.response;
+            })
+        </script>
+    </div>
+    <div class="form-wrapper">
+        <h2>Switch cases</h2>
+        <gameface-form-control id="switch-test" action="http://localhost:3000/user" method="get">
+            <div class="form-element">
+                <span class="label">Normal</span>
+                <gameface-switch name="option1" value="option1-checked" type="text-inside">
+                    <component-slot data-name="switch-unchecked">No</component-slot>
+                    <component-slot data-name="switch-checked">Yes</component-slot>
+                </gameface-switch>
+            </div>
+            <!-- Should be skipped when form is submitted because it is disabled -->
+            <div class="form-element">
+                <span class="label">Disabled</span>
+                <gameface-switch disabled name="option2" value="option2-checked" type="text-inside">
+                    <component-slot data-name="switch-unchecked">No</component-slot>
+                    <component-slot data-name="switch-checked">Yes</component-slot>
+                </gameface-switch>
+            </div>
+            <!-- Should send "no" as value if it is checked -->
+            <div class="form-element">
+                <span class="label">No value</span>
+                <gameface-switch name="option3" type="text-inside">
+                    <component-slot data-name="switch-unchecked">No</component-slot>
+                    <component-slot data-name="switch-checked">Yes</component-slot>
+                </gameface-switch>
+            </div>
+            <button class="form-element" type="submit">Submit</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-seven-response"></span>
+        <script>
+            document.getElementById('switch-test').addEventListener('loadend', (event) => {
+                document.getElementById('form-seven-response').textContent = event.detail.target.response;
+            })
+        </script>
+    </div>
+    <div class="form-wrapper">
+        <h2>Drop down cases</h2>
+        <gameface-form-control id="dropdown-test" action="http://localhost:3000/user" method="get">
+            <div class="form-element">
+                <span class="label">Normal</span>
+                <gameface-dropdown name="option1" class="gameface-dropdown-component" id="dropdown-default">
+                    <dropdown-option value="1" slot="option">One</dropdown-option>
+                    <dropdown-option value="2" slot="option">Two</dropdown-option>
+                </gameface-dropdown>
+            </div>
+            <div class="form-element">
+                <span class="label">No values</span>
+                <gameface-dropdown name="option2" class="gameface-dropdown-component" id="dropdown-default">
+                    <dropdown-option slot="option">One</dropdown-option>
+                    <dropdown-option slot="option" selected>Two</dropdown-option>
+                </gameface-dropdown>
+            </div>
+            <div class="form-element">
+                <span class="label">Disabled dropdown</span>
+                <gameface-dropdown name="option3" disabled class="gameface-dropdown-component" id="dropdown-default">
+                    <dropdown-option slot="option">One</dropdown-option>
+                    <dropdown-option slot="option" disabled selected>Two</dropdown-option>
+                </gameface-dropdown>
+            </div>
+            <div class="form-element">
+                <span class="label">Disabled option</span>
+                <gameface-dropdown name="option4" class="gameface-dropdown-component" id="dropdown-default">
+                    <dropdown-option slot="option">One</dropdown-option>
+                    <dropdown-option slot="option" disabled selected>Two</dropdown-option>
+                </gameface-dropdown>
+            </div>
+            <div class="form-element">
+                <span class="label">Multiple select</span>
+                <gameface-dropdown name="option5" class="gameface-dropdown-component" id="dropdown-default" multiple
+                    collapsable>
+                    <dropdown-option value="1" slot="option" selected>One</dropdown-option>
+                    <dropdown-option slot="option" selected>Two</dropdown-option>
+                    <dropdown-option value="3" slot="option" disabled selected>Three</dropdown-option>
+                </gameface-dropdown>
+            </div>
+            <button class="form-element" type="submit">Submit</button>
+        </gameface-form-control>
+        <h3>Response data:</h3>
+        <span class="response" id="form-eight-response"></span>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-label {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .inner-button {
+            width: 100px;
+            height: 30px;
+            border: 1px;
+            border-style: solid;
+            border-color: #ebebeb;
+            background-color: var(--default-color-gray);
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .custom-buttons radio-button  {
+            padding-left: 0px;
+            margin-left: 0px;
+        }
+
+        radio-button[aria-checked="true"] .inner-button {
+            background-color: var(--default-color-blue);
+        }
+    </style>
+</head>
+
+<body class="guic-demo">
+
+    <div class="section">
+        <div class="section-label">Disabled and checked:</div>
+        <gameface-radio-group>
+            <radio-button value="1">1</radio-button>
+                <radio-button checked disabled value="2">2</radio-button>
+                <radio-button checked value="3">3</radio-button>
+        </gameface-radio-group>
+    </div>
+    <div class="section">
+        <div class="section-label">Targeting System:</div>
+        <gameface-radio-group>
+            <radio-button>Tab Targeting</radio-button>
+            <radio-button checked>Action Combat</radio-button>
+        </gameface-radio-group>
+    </div>
+    <div class="section">
+        <div class="section-label">Mode</div>
+        <gameface-radio-group controls-disabled>
+            <radio-button>Fullscreen</radio-button>
+            <radio-button checked>Windowed</radio-button>
+        </gameface-radio-group>
+    </div>
+    <div class="section">
+        <div class="section-label">HUD Elements Placement:</div>
+        <gameface-radio-group>
+            <radio-button checked>Locked (Default)</radio-button>
+            <radio-button>Grid Slots (Sticky)</radio-button>
+            <radio-button>Unlocked</radio-button>
+        </gameface-radio-group>
+    </div>
+    <div class="section">
+        <div class="section-label">Custom Radio Buttons:</div>
+        <gameface-radio-group class="custom-buttons">
+            <radio-button checked controls-disabled>
+                <div slot="radio-button-content" class="inner-button"><span>OFF</span></div>
+            </radio-button>
+            <radio-button controls-disabled>
+                <div slot="radio-button-content" class="inner-button"><span>ON</span></div>
+            </radio-button>
+        </gameface-radio-group>
+    </div>
+</body>
+
+</html>

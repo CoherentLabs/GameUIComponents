@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const { getComponentDirectories } = require('./utils');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /**
  * Calls buildForTargets for all components and passes all environments
@@ -22,20 +23,22 @@ function buildAllDemos() {
         if (!fs.existsSync(pathToDemo)) continue;
         webpack({
             mode: mode,
-            entry: path.join(pathToDemo, 'demo.js'),
-            devtool: mode === 'development' ? 'inline-source-map' : false,
+            entry: path.resolve(path.join(__dirname, '../components', component, 'demo.js')),
             module: {
                 rules: [
-                    {
-                        test: /\.css$/i,
-                        use: ['style-loader', 'css-loader'],
-                    },
                     {
                         test: /\.html$/i,
                         loader: 'html-loader',
                     },
                 ],
             },
+            plugins: [
+                new HtmlWebpackPlugin({
+                    inject: 'body',
+                    filename: 'demo.html',
+                    template: path.resolve(path.join(__dirname, '../components', component, 'index.html')),
+                }),
+            ],
             output: {
                 path: pathToDemo,
                 filename: 'bundle.js',

@@ -8,5 +8,7 @@ esm/
 **.tgz
 components/**/bundle.js
 components/**/dist.js
+components/**/demo/**.css
+components/**/demo/demo.html
 .eslintcache
 docs/hugo_stats.json

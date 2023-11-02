@@ -1,0 +1,85 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="./style.css">
+
+<style>
+    body {
+        background-color: white;
+    }
+
+    .flex-box {
+        display: flex;
+    }
+
+    .container {
+        width: 49vw;
+        padding: 0 20px;
+    }
+</style>
+
+<body class="guic-demo">
+    <div class="flex-box">
+        <div class="container">
+            <h2>Single</h2>
+            <gameface-accordion-menu>
+                <gameface-accordion-panel slot="accordion-panel" expanded>
+                    <gameface-accordion-header>Long Text</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque molestias, laudantium sapiente, veritatis
+                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic quisquam, a tenetur eaque asperiores
+                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione. Debitis totam deleniti quibusdam hic.
+                    </gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel" disabled>
+                    <gameface-accordion-header>Disabled Closed</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel" disabled expanded>
+                    <gameface-accordion-header>Disabled Open</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel">
+                    <gameface-accordion-header>Short Text</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+            </gameface-accordion-menu>
+        </div>
+        <div class="container">
+            <h2>Multiple</h2>
+            <gameface-accordion-menu multiple>
+                <gameface-accordion-panel slot="accordion-panel" expanded>
+                    <gameface-accordion-header>Long Text</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Dolores ea ipsam accusantium quasi placeat illo incidunt corrupti iste molestiae aut itaque molestias, laudantium sapiente, veritatis
+                        repudiandae rem, aspernatur dolore quisquam? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic quisquam, a tenetur eaque asperiores
+                        praesentium, obcaecati nostrum doloremque labore tempora maxime dolorum quas libero ratione. Debitis totam deleniti quibusdam hic.
+                    </gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel" disabled>
+                    <gameface-accordion-header>Disabled Closed</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel" disabled expanded>
+                    <gameface-accordion-header>Disabled Open</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+                <gameface-accordion-panel slot="accordion-panel" expanded>
+                    <gameface-accordion-header>Short Text</gameface-accordion-header>
+                    <gameface-accordion-content>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, in! At nesciunt earum ea deserunt architecto animi quod
+                        neque dicta asperiores. Error aliquid facilis hic in culpa quisquam temporibus aliquam.</gameface-accordion-content>
+                </gameface-accordion-panel>
+            </gameface-accordion-menu>
+        </div>
+    </div>
+</body>
+
+</html>

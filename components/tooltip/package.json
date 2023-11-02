@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-tooltip",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A tooltip component for Coherent Labs' Gameface.",
   "main": "index.js",
   "scripts": {

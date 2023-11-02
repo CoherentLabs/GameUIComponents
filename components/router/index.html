@@ -1,0 +1,109 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="./node_modules/coherent-gameface-switch/style.css">
+<style>
+    .menu {
+        display: flex;
+        align-items: center;
+        border: 1px solid #a5a3a3;
+        height: 25px;
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+
+    body {
+        background-color: #fff;
+    }
+
+    .active {
+        color: var(--default-color-blue);
+    }
+
+    .healers-menu {
+        display: flex;
+        height: 135px;
+        margin-bottom: 25px;
+    }
+
+    .avatar-container {
+        display: flex;
+        flex-direction: column;
+        width: 100px;
+    }
+
+    .avatar {
+        margin-bottom: 5px;
+        min-height: 50px;
+        height: 100px;
+        background-size: contain;
+        background-repeat: no-repeat no-repeat;
+    }
+
+    .avatar1 {
+        background-image: url(images/imgAvatar_2.png);
+    }
+
+    .avatar2 {
+        background-image: url(images/imgAvatar_3.png);
+    }
+
+    .avatar3 {
+        background-image: url(images/imgAvatar_4.png);
+    }
+
+    .tanks-menu {
+        display: flex;
+        height: 135px;
+        margin-bottom: 25px;
+    }
+
+    .avatar-container {
+        display: flex;
+        flex-direction: column;
+        width: 100px;
+    }
+
+    .avatar {
+        margin-bottom: 5px;
+        min-height: 50px;
+        height: 100px;
+        background-size: contain;
+        background-repeat: no-repeat no-repeat;
+    }
+
+    .tank-avatar1 {
+        background-image: url(images/avatar1.png);
+    }
+
+    .tank-avatar2 {
+        background-image: url(images/avatar4.png);
+    }
+
+    .tank-avatar3 {
+        background-image: url(images/avatar5.png);
+    }
+</style>
+
+<body>
+    <gameface-switch type="text-inside">
+        <component-slot data-name="switch-unchecked">Browser History</component-slot>
+        <component-slot data-name="switch-checked">Hash History</component-slot>
+    </gameface-switch>
+    <div class="menu">
+        <gameface-route activeClass="active" class="active" to="/">Home</gameface-route>
+        <gameface-route activeClass="active" to="/start-game">Start Game</gameface-route>
+        <gameface-route activeClass="active" to="/heroes">Heroes</gameface-route>
+        <gameface-route activeClass="active" to="/missing">Missing Page</gameface-route>
+    </div>
+
+    <router-view></router-view>
+
+    <script>
+        window.routerHistory = 'hashHistory';
+    </script>
+</body>
+
+</html>

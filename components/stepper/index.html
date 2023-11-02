@@ -1,0 +1,58 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="./coherent-gameface-components-theme.css" />
+        <link rel="stylesheet" href="./style.css" />
+        <style>
+            body {
+                background-color: #ebebeb;
+            }
+
+            .stepper-flex {
+                display: flex;
+                width: 50vw;
+                justify-content: space-between;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Stepper component</h2>
+        <div class="stepper-flex">
+            <div>Choose your difficulty</div>
+            <gameface-stepper class="stepper-component">
+                <gameface-stepper-item>Easy</gameface-stepper-item>
+                <gameface-stepper-item>Medium</gameface-stepper-item>
+                <gameface-stepper-item>Hard</gameface-stepper-item>
+                <gameface-stepper-item>Expert</gameface-stepper-item>
+                <gameface-stepper-item>Legendary</gameface-stepper-item>
+                <gameface-stepper-item>Impossible</gameface-stepper-item>
+            </gameface-stepper>
+        </div>
+        <h2>Stepper component with value</h2>
+        <div class="stepper-flex">
+            <div>Choose your difficulty</div>
+            <gameface-stepper value="Legendary" class="stepper-component">
+                <gameface-stepper-item>Easy</gameface-stepper-item>
+                <gameface-stepper-item>Medium</gameface-stepper-item>
+                <gameface-stepper-item>Hard</gameface-stepper-item>
+                <gameface-stepper-item>Expert</gameface-stepper-item>
+                <gameface-stepper-item>Legendary</gameface-stepper-item>
+                <gameface-stepper-item>Impossible</gameface-stepper-item>
+            </gameface-stepper>
+        </div>
+
+        <h2>Use the arrow keys on your keyboard to move the selection</h2>
+        <div class="stepper-flex">
+            <div>Choose your difficulty</div>
+            <gameface-stepper class="stepper-component-keyboard">
+                <gameface-stepper-item>Easy</gameface-stepper-item>
+                <gameface-stepper-item>Medium</gameface-stepper-item>
+                <gameface-stepper-item>Hard</gameface-stepper-item>
+                <gameface-stepper-item>Expert</gameface-stepper-item>
+                <gameface-stepper-item>Legendary</gameface-stepper-item>
+                <gameface-stepper-item>Impossible</gameface-stepper-item>
+            </gameface-stepper>
+        </div>
+    </body>
+</html>

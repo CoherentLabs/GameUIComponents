@@ -1,0 +1,97 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="./menus/menu.css">
+    <link rel="stylesheet" href="./menus/bottom/bottom.css">
+    <link rel="stylesheet" href="./menus/left/left.css">
+    <link rel="stylesheet" href="./menus/right/right.css">
+    <style>
+        body {
+            background-color: grey;
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .left-menu,
+        .right-menu {
+            top: 20vh;
+        }
+    </style>
+</head>
+
+<body class="guic-demo">
+    <gameface-menu orientation="horizontal">
+        <menu-item slot="menu-item">Start Game</menu-item>
+        <menu-item slot="menu-item">
+            Settings
+            <gameface-left-menu>
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">
+                    Keyboard
+                    <gameface-left-menu>
+                        <menu-item slot="menu-item">Graphics</menu-item>
+                        <menu-item slot="menu-item">Keyboard</menu-item>
+                        <menu-item slot="menu-item">
+                            Mouse
+                            <gameface-left-menu>
+                                <menu-item slot="menu-item">Graphics</menu-item>
+                                <menu-item slot="menu-item">Keyboard</menu-item>
+                                <menu-item slot="menu-item">Mouse</menu-item>
+                            </gameface-left-menu>
+                        </menu-item>
+                    </gameface-left-menu>
+                </menu-item>
+                <menu-item slot="menu-item">
+                    Mouse
+                </menu-item>
+            </gameface-left-menu>
+        </menu-item>
+        <menu-item slot="menu-item" disabled>Hero Gallery</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+    </gameface-menu>
+
+
+    <gameface-left-menu class="left-menu">
+        <menu-item slot="menu-item">
+            Settings
+            <gameface-left-menu class="nested-menu-left-settings" orientation="vertical">
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">Keyboard</menu-item>
+                <menu-item slot="menu-item">Mouse</menu-item>
+            </gameface-left-menu>
+        </menu-item>
+    </gameface-left-menu>
+
+    <gameface-bottom-menu>
+        <menu-item slot="menu-item">About
+            <gameface-left-menu class="nested-menu-settings-bottom" orientation="vertical">
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">Keyboard</menu-item>
+                <menu-item slot="menu-item">Mouse</menu-item>
+            </gameface-left-menu>
+        </menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+    </gameface-bottom-menu>
+
+    <gameface-right-menu class="right-menu">
+        <menu-item slot="menu-item">About
+            <gameface-right-menu class="nested-menu-settings-right" orientation="vertical">
+                <menu-item slot="menu-item">Graphics</menu-item>
+                <menu-item slot="menu-item">Keyboard</menu-item>
+                <menu-item slot="menu-item">Mouse</menu-item>
+            </gameface-right-menu>
+        </menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+        <menu-item slot="menu-item">Credits</menu-item>
+    </gameface-right-menu>
+</body>
+
+</html>

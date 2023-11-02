@@ -1,0 +1,109 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .rows {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: absolute;
+            top: 200px;
+            width: 100%;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            padding: 10px;
+        }
+
+        .min-width-column {
+            min-width: 550px;
+        }
+
+        .auto,
+        .manual,
+        .async {
+            width: 150px;
+            text-align: center;
+            background-color: #6e6d6d;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title,
+        .button {
+            height: 40px;
+            background-color: var(--default-color-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button {
+            background-color: var(--default-color-gray);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="guic-demo">
+    <div class="rows">
+        <div class="column min-width-column">
+            <p>Show or hide automatically</p>
+            <div class="auto">Hover over me</div>
+        </div>
+        <div class="column">
+            <p>Show or hide manually using a callback</p>
+            <div class="manual">Click me</div>
+        </div>
+        <div class="column">
+            <p>Replace with dynamic content when available</p>
+            <div id="async" class="async">Hover over me</div>
+        </div>
+    </div>
+    <gameface-tooltip id="tutorial" target=".manual" on="click" position="bottom" off="click">
+        <div slot="message">
+            <div class="container">
+                <div class="title">Welcome!</div>
+                <div class="text">
+                    Hello, this is your first tutorial.
+                    Click the next button to continue.
+                </div>
+                <div class="button">Next</div>
+            </div>
+        </div>
+    </gameface-tooltip>
+    <gameface-tooltip target=".auto" on="mouseenter" position="left" off="mouseleave">
+        <div slot="message">Message on the left</div>
+    </gameface-tooltip>
+    <gameface-tooltip target=".auto" on="mouseenter" position="bottom" off="mouseleave">
+        <div slot="message">Message on the bottom</div>
+    </gameface-tooltip>
+    <gameface-tooltip target=".auto" on="mouseenter" position="right" off="mouseleave">
+        <div slot="message">Message on the right</div>
+    </gameface-tooltip>
+    <gameface-tooltip id="async-tooltip" target="#async" on="mouseenter" position="bottom" off="mouseleave" async>
+        <div slot="message"></div>
+    </gameface-tooltip>
+</body>
+
+</html>

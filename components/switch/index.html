@@ -1,0 +1,114 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+<link rel="stylesheet" href="./style.css">
+
+<style>
+    .row {
+        display: flex;
+    }
+
+    .cell {
+        width: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+    }
+</style>
+
+<body class="guic-demo">
+    <div class="row">
+        <div class="cell"></div>
+        <div class="cell">type="default"</div>
+        <div class="cell">type="inset"</div>
+        <div class="cell">type="text-inside"</div>
+    </div>
+    <div class="row">
+        <div class="cell">Unchecked</div>
+        <div class="cell">
+            <gameface-switch>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="cell">
+            <gameface-switch type="inset">
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="cell">
+            <gameface-switch type="text-inside">
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell">Checked</div>
+        <div class="cell">
+            <gameface-switch checked>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="cell">
+            <gameface-switch type="inset" checked>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="cell">
+            <gameface-switch type="text-inside" checked>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell">Unchecked disabled</div>
+        <div class="cell">
+            <gameface-switch disabled>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="cell">
+            <gameface-switch type="inset" disabled>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="cell">
+            <gameface-switch type="text-inside" disabled>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell">Checked disabled</div>
+        <div class="cell">
+            <gameface-switch disabled checked>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="cell">
+            <gameface-switch type="inset" disabled checked>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+        <div class="cell">
+            <gameface-switch type="text-inside" disabled checked>
+                <component-slot data-name="switch-unchecked">Off</component-slot>
+                <component-slot data-name="switch-checked">On</component-slot>
+            </gameface-switch>
+        </div>
+    </div>
+</body>
+
+</html>

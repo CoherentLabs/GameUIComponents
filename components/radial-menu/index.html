@@ -1,0 +1,45 @@
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+	<link rel="stylesheet" href="./style.css">
+	<style>
+		body {
+			width: 100vw;
+			height: 100vh;
+			margin: 0;
+			overflow: hidden;
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+
+		.radial-menu-component {
+			position: absolute;
+			left: 5vw;
+			top: 15vh;
+		}
+
+		.radial-menu-component-two {
+			position: absolute;
+			right: 5vw;
+			top: 15vh;
+		}
+	</style>
+</head>
+<body class="guic-demo">
+<!-- Provide the name of the object that holds the items in data-items attribute. -->
+<!-- Shift key to open. -->
+<gameface-radial-menu id="radial-menu-one"
+			 data-name="Radial Menu"
+			 data-change-event-name="radOneItemChanged"
+			 data-select-event-name="radOneItemSelected"
+			 data-open-key-code="shift"
+			 class="radial-menu-component"></gameface-radial-menu>
+<!-- Space key to open. -->
+<gameface-radial-menu id="radial-menu-two"
+			 data-name="Radial Menu 2"
+			 data-open-key-code="32"
+			 class="radial-menu-component-two"></gameface-radial-menu>
+</body>
+
+</html>

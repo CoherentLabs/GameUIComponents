@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-router",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "repository": {
@@ -14,6 +14,7 @@
   ],
   "dependencies": {
     "coherent-gameface-components": "^3.0.0",
+    "coherent-gameface-switch": "^3.1.0",
     "postmessage-polyfill": "1.0.0",
     "url-js": "^0.2.5",
     "whatwg-fetch": "3.4.1"
