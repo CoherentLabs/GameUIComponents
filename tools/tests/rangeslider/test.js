@@ -541,6 +541,84 @@ describe('Rangeslider component', () => {
 
         assert.equal(customHandleRight.textContent, 75);
     });
+
+    it('Should set values to two handle rangeslider', async () => {
+        const value = [120, 180];
+
+        await loadRangeslider({ min: 100, max: 200, twoHandles: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+
+        rangeSlider.value = value;
+
+        assert.equal(rangeSlider.value[0], value[0]);
+        assert.equal(rangeSlider.value[1], value[1]);
+    });
+
+    it('Should set values to two handle rangeslider with one provided number in array', async () => {
+        const INITIAL_AND_MAX__VALUE = 200;
+        const value = [120];
+
+        await loadRangeslider({ min: 100, max: INITIAL_AND_MAX__VALUE, twoHandles: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+
+        rangeSlider.value = value;
+
+        assert.equal(rangeSlider.value[0], value[0]);
+        assert.equal(rangeSlider.value[1], INITIAL_AND_MAX__VALUE);
+    });
+
+    it('Should set values to two handle rangeslider with one number provided value', async () => {
+        const INITIAL_AND_MAX__VALUE = 200;
+        const value = 120;
+
+        await loadRangeslider({ min: 100, max: INITIAL_AND_MAX__VALUE, twoHandles: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+
+        rangeSlider.value = value;
+
+        assert.equal(rangeSlider.value[0], value);
+        assert.equal(rangeSlider.value[1], INITIAL_AND_MAX__VALUE);
+    });
+
+    it('Should not set first value to two handle rangeslider to be more than the second', async () => {
+        const BIGGER_VALUE = 180;
+        const value = [BIGGER_VALUE, 120];
+
+        await loadRangeslider({ min: 100, max: 200, twoHandles: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+
+        rangeSlider.value = value;
+
+        assert.equal(rangeSlider.value[0], BIGGER_VALUE);
+        assert.equal(rangeSlider.value[1], BIGGER_VALUE);
+    });
+
+    it('Should not set values to two handle rangeslider if one is NaN', async () => {
+        const MIN = 100;
+        const MAX = 200;
+
+        await loadRangeslider({ min: MIN, max: MAX, twoHandles: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+
+        rangeSlider.value = [150, '100f'];
+
+        assert.equal(rangeSlider.value[0], MIN);
+        assert.equal(rangeSlider.value[1], MAX);
+    });
+
+    it('Should not set values to two handle rangeslider to more than min/max range', async () => {
+        const MIN = 100;
+        const MAX = 200;
+        const value = [80, 220];
+
+        await loadRangeslider({ min: MIN, max: MAX, twoHandles: true });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+
+        rangeSlider.value = value;
+
+        assert.equal(rangeSlider.value[0], MIN);
+        assert.equal(rangeSlider.value[1], MAX);
+    });
 });
 
 if (engine?.isAttached) {
