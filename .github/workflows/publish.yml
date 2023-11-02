@@ -14,13 +14,15 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.10.0]
+        node-version: [18.16.0]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - name: Setup Chrome
       uses: browser-actions/setup-chrome@v0.0.0
     - uses: actions/checkout@v2
+      with:
+          fetch-depth: 0
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -31,4 +33,5 @@ jobs:
     - run: npm run publish
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

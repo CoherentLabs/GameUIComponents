@@ -18,3 +18,8 @@ name = "npm"
   url = "https://github.com/CoherentLabs/GameUIComponents"
   post = "v0.1.0"
   weight = 11
+
+[[main]]
+  name = "Changelog"
+  url = "https://github.com/CoherentLabs/GameUIComponents/releases"
+  weight = 10

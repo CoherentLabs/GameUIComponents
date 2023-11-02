@@ -573,3 +573,22 @@ Instead of manually updating all the versions of the dependencies when you have 
 To use it first change the major version of all the modules that are updated (`coherent-gameface-component` for example as above) and then run `npm run update-versions` in the repo root.
 
 The script is going to check all the new updated versions and then iterate through all the components and reflect the update in the version of the dependencies as it is done manually [here](#major-update).
+
+## Generating releases when a new package version is published
+
+We are using an automated workflow that when a PR is merged to master and there are packages with updated versions they will be tagged to git, released on the github page with releases with relevant changelog, and published to npm.
+
+There are specifics about how the release notes(or changelog) are generated. In order for them to be properly generated and their content to be relevant to the merged changes, you need to follow the next steps:
+
+1. **Always tag your PRs with the listed tags.** If the PR does not have any tags, **no release notes will be generated** so don't miss this step if you want your changes to be described when they are released.
+   1. ignore-for-release - This tag is used when you want your changes from the PR to **not** be generated to the release notes. Use it when your changes are not affecting any component (for example if you have changed the readme of the repo or the script of a repo tool, or any .yml file, etc.).
+   2. major - This tag is used when you want your changes from the PR to be generated under the '**Breaking changes**' section of the release
+   3. minor - This tag is used when you want your changes from the PR to be generated under the '**Features**' section of the release
+   4. patch - This tag is used when you want your changes from the PR to be generated under the '**Bugfixes**' section of the release
+   5. dependencies - This tag is used when you want your changes from the PR to be generated under the '**Dependency updates**' section of the release. This tag is mostly used by the dependabot.
+   6. Any other tag will be skipped and will not take effect when generating release notes
+2. Make sure your PR title is descriptive enough. It will be used when the release notes are generated and will be added as a change entry to the notes. Also, when you are making a review to another person, review the PR title as well as it is going to be added to the release notes.
+3. Update the version in the package.json so the PR title is added as a release note to the released version. **If there are no updated package.json files mering the PR will not trigger the tagging, generating release notes, making a release to git and publishing the packages to npm.** If you are sure that the PR changes should not be added to any release **always** add the `ignore-for-release` tag to the PR.
+
+When the action ends it may produce new release/s to repo. You can navigate to them from [this](https://github.com/CoherentLabs/GameUIComponents/releases) page and edit their content/notes/changelog.
+For example, this should be done when breaking change release is done and there are a lot of details for the users that should be visible in the release notes.
