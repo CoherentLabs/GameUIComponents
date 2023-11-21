@@ -30,3 +30,18 @@ export function clamp(value, min, max) {
 export function createHash() {
     return (Math.random() + 1).toString(36).substring(7);
 }
+
+/**
+ * Get the distance between two points
+ * @param {number} x1
+ * @param {number} y1
+ * @param {number} x2
+ * @param {number} y2
+ * @returns {number}
+ */
+export function distanceBetweenTwoPoints(x1, y1, x2, y2) {
+    const a = x1 - x2;
+    const b = y1 - y2;
+
+    return Math.hypot(a, b);
+}
