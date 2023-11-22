@@ -196,14 +196,40 @@ export default class TwoHandlesRangeSliderBase extends RangeSliderBase {
     }
 
     /**
+     * Make a handle active by setting the correct class names
+     * @param {HTMLElement} handle
+     */
+    setActiveHandle(handle) {
+        handle.setAttribute('active', '');
+    }
+
+    /**
+     * Make a handle inactive by setting the correct class names
+     * @param {HTMLElement} handle
+     */
+    setInactiveHandle(handle) {
+        handle.removeAttribute('active');
+    }
+
+    /**
      * Executed on mousedown. Sets the handle to the clicked coordinates and attaches event listeners to the document
      * @param {MouseEvent} e
      */
     onMouseDown(e) {
         const percent = this.getHandlePercent(e);
 
-        // creates the active handle
-        this.activeHandle = this.getClosestHandleToMousePosition(percent);
+        const currentActiveHandle = this.handle[this.activeHandle];
+        if (currentActiveHandle) this.setInactiveHandle(currentActiveHandle);
+
+        const targetClassList = e.target?.classList;
+        if (targetClassList && (targetClassList.contains('guic-horizontal-rangeslider-handle') ||
+            targetClassList.contains('guic-vertical-rangeslider-handle')) ) {
+            targetClassList.contains('handle-1') ? this.activeHandle = 1 : this.activeHandle = 0;
+        } else {
+            this.activeHandle = this.getClosestHandleToMousePosition(percent);
+        }
+
+        this.setActiveHandle(this.handle[this.activeHandle]);
 
         this.updateSliderPosition(percent, this.activeHandle);
 
