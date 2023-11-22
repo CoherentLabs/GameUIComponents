@@ -14,6 +14,8 @@ After hugo is installed navigate to the /docs folder.
 
 Perform an `npm install` to install the npm modules.
 
+Open `GameUIComponents\docs\config\_default\config.toml` and set the `baseurl` to an empty string: `baseurl = ""`. Make sure to **revert this change** before committing.
+
 Now run:
 
 ```
@@ -33,6 +35,8 @@ To make a production build run:
 The result will be saved into the /public folder. Navigate there and start an http server:
 
 `http-server` or any web server of your choice.
+
+If you are making changes to the doks theme, check out [Doks theme development testing](#doks-theme-development-testing) to test the changes easier.
 
 # Adding a page
 
@@ -148,4 +152,21 @@ To edit the full search layout page you need to navigate to `layouts/search/sing
 {{ else -}}
   {{ $newFile := $newFile | minify | fingerprint "sha512" -}}
   <script src="{{ $newFile.RelPermalink }}" integrity="{{ $newFile.Data.Integrity }}" crossorigin="anonymous" defer></script>
+```
+
+## Doks theme development testing
+
+Now if you need to build the documentation with a different version of the theme - pass the `--themes-dir` parameter to `npm run build` or `npm run server` to specify the relative path to directory of the theme's location.\
+You can now directly make a change in the doks repository and test it, even before committing to the doks repository.
+
+### Build:
+```
+npm run build -- --themes-dir D:/Git/
+```
+
+> Make sure to add the first "--" hyphens so the command script takes the argument into account.
+
+### Run/Watch:
+```
+npm run build -- --dev --themes-dir D:/Git/
 ```
