@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import actions from './actions';
+import touchGestures from './touch-gestures';
 
 /**
  * Pan and zoom
@@ -57,6 +58,7 @@ class Zoom {
         this.zoomableElement.addEventListener('wheel', this.onWheel);
 
         this.registerActions();
+        this.addTouchEvents();
 
         this.zoomableElement.style.transformOrigin = 'top left';
 
@@ -124,6 +126,22 @@ class Zoom {
      */
     removeActions() {
         actions.remove(this.actionName);
+    }
+
+    /**
+     * Add pinch and stretch touch events
+     */
+    addTouchEvents() {
+        touchGestures.pinch({
+            element: this.zoomableElement,
+            callback: ({ pinchDelta, midpoint }) => {
+                actions.execute(this.actionName, {
+                    x: midpoint.x,
+                    y: midpoint.y,
+                    zoomDirection: Math.sign(pinchDelta) * -1,
+                });
+            },
+        });
     }
 
     /**

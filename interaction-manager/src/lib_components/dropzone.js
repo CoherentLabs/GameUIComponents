@@ -6,6 +6,7 @@
 import DragBase from '../utils/drag-base';
 import { createHash } from '../utils/utility-functions';
 import actions from './actions';
+import touchGestures from './touch-gestures';
 
 /**
  * Makes an element draggable
@@ -69,6 +70,7 @@ class Dropzone extends DragBase {
         });
 
         this.registerDragActions();
+        this.addTouchEvents();
 
         this.enabled = true;
     }
@@ -198,6 +200,50 @@ class Dropzone extends DragBase {
         actions.remove(this.actionName);
         actions.remove(this.automaticAction);
     }
+
+    /* eslint-disable max-lines-per-function*/
+
+    /**
+     * Adds touch events to the draggable elements
+     */
+    addTouchEvents() {
+        this.dropzones.forEach((dropzone) => {
+            dropzone.addEventListener('touchleave', event => console.log(event.target.classList[0]));
+        });
+        this.draggableElements.forEach((element) => {
+            touchGestures.drag({
+                element,
+                onDragStart: (event) => {
+                    this.onMouseDown({ currentTarget: event.currentTarget, clientX: event.x, clientY: event.y });
+                },
+                onDrag: ({ x, y }) => {
+                    this.onMouseMove({ clientX: x, clientY: y });
+                    const elementOver = document.elementFromPoint(x, y);
+                    let dropzone = this.options.dropzones.reduce((acc, dropzone) => {
+                        if (acc) return acc;
+                        acc = elementOver.closest(dropzone);
+                        return acc;
+                    }, null);
+
+                    if (!dropzone) {
+                        dropzone = this.dropzones.includes(elementOver) ? elementOver : null;
+                    }
+
+                    if (dropzone) {
+                        this.onMouseEnter({ currentTarget: dropzone });
+                        return;
+                    }
+
+                    this.onMouseLeave();
+                },
+                onDragEnd: () => {
+                    this.onMouseUp();
+                },
+            });
+        });
+    }
+
+    /* eslint-enable max-lines-per-function */
 
     /**
      * Automatically drags an element to a dropzone

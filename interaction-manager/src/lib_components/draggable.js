@@ -6,6 +6,7 @@
 import DragBase from '../utils/drag-base';
 import { clamp, createHash } from '../utils/utility-functions';
 import actions from './actions';
+import touchGestures from './touch-gestures';
 
 const AXIS = ['x', 'y'];
 /**
@@ -57,6 +58,7 @@ class Draggable extends DragBase {
         this.draggableElements.forEach(element => element.addEventListener('mousedown', this.onMouseDown));
 
         this.registerDragActions();
+        this.addTouchEvents();
         this.enabled = true;
     }
 
@@ -147,6 +149,26 @@ class Draggable extends DragBase {
      */
     removeDragActions() {
         actions.remove(this.actionName);
+    }
+
+    /**
+     * Add touch gestures to drag the element
+     */
+    addTouchEvents() {
+        this.draggableElements.forEach((element) => {
+            touchGestures.drag({
+                element,
+                onDragStart: (event) => {
+                    this.onMouseDown({ currentTarget: event.currentTarget, clientX: event.x, clientY: event.y });
+                },
+                onDrag: ({ x, y }) => {
+                    this.onMouseMove({ clientX: x, clientY: y });
+                },
+                onDragEnd: () => {
+                    this.onMouseUp();
+                },
+            });
+        });
     }
 
     /**

@@ -5,6 +5,7 @@
 
 import { createHash, toDeg } from '../utils/utility-functions';
 import actions from './actions';
+import touchGestures from './touch-gestures';
 
 const fullRotation = 360;
 const rotationOffset = 90;
@@ -51,6 +52,7 @@ class Rotate {
         this.rotatingElement.addEventListener('mousedown', this.onMouseDown);
 
         this.registerAction();
+        this.addTouchEvents();
 
         this.enabled = true;
     }
@@ -120,6 +122,24 @@ class Rotate {
      */
     removeActions() {
         actions.remove(this.actionName);
+    }
+
+    /**
+     * Add rotate touch events
+     */
+    addTouchEvents() {
+        touchGestures.drag({
+            element: this.rotatingElement,
+            onDragStart: ({ x, y }) => {
+                this.onMouseDown({ clientX: x, clientY: y });
+            },
+            onDrag: ({ x, y }) => {
+                this.onMouseMove({ clientX: x, clientY: y });
+            },
+            onDragEnd: () => {
+                this.onMouseUp();
+            },
+        });
     }
 
     /**

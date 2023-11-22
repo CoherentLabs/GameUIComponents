@@ -45,3 +45,18 @@ export function distanceBetweenTwoPoints(x1, y1, x2, y2) {
 
     return Math.hypot(a, b);
 }
+
+/**
+ * Calculates the midpoint between two points
+ * @param {number} x1
+ * @param {number} y1
+ * @param {number} x2
+ * @param {number} y2
+ * @returns {Object}
+ */
+export function getMidPoint(x1, y1, x2, y2) {
+    return {
+        x: (x1 + x2) / 2,
+        y: (y1 + y2) / 2,
+    };
+}
