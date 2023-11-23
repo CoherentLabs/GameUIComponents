@@ -16,7 +16,7 @@
     "coherent-gameface-components": "^3.0.0",
     "coherent-gameface-switch": "^3.1.0",
     "postmessage-polyfill": "1.0.0",
-    "url-js": "^0.2.5",
+    "url-js": "^2.1.0",
     "whatwg-fetch": "3.4.1"
   },
   "author": "CoherentLabs",
