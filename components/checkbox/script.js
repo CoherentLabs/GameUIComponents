@@ -4,6 +4,16 @@
  *--------------------------------------------------------------------------------------------*/
 import { Components } from 'coherent-gameface-components';
 import template from './template.html';
+import './cohtml.js';
+
+global.engine.createJSModel('model', {
+    visible: true,
+});
+
+global.updateModelTest = function (model) {
+    global.engine.updateWholeModel(model);
+    global.engine.synchronizeModels();
+};
 
 const components = new Components();
 const CustomElementValidator = components.CustomElementValidator;
@@ -187,9 +197,12 @@ class Checkbox extends CustomElementValidator {
     */
     init(data) {
         this.setupTemplate(data, () => {
+            debugger
             components.renderOnce(this);
             this.addEventListener('click', this.toggleChecked);
             this.initCheckboxState();
+
+            global.engine.synchronizeModels();
         });
     }
 

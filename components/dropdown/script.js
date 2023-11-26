@@ -8,8 +8,18 @@ import { Components } from 'coherent-gameface-components';
 const components = new Components();
 import 'coherent-gameface-scrollable-container';
 import template from './template.html';
+import './cohtml.js';
 
 const KEYCODES = components.KEYCODES;
+
+global.engine.createJSModel('model', {
+    visible: true,
+});
+
+global.updateModelTest = function (model) {
+    global.engine.updateWholeModel(model);
+    global.engine.synchronizeModels();
+};
 
 /**
  * Used to get the option element from an event target.
@@ -48,6 +58,7 @@ class GamefaceDropdown extends CustomElementValidator {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
+        console.log('-----', global.engine.TriggerEvent)
         this.multiple = false;
         this.collapsable = false;
 
@@ -396,6 +407,7 @@ class GamefaceDropdown extends CustomElementValidator {
 
             this.preselectOptions();
             this.attachEventListeners();
+            global.engine.synchronizeModels();
             this.isRendered = true;
         });
     }
