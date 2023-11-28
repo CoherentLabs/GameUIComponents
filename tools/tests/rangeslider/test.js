@@ -639,7 +639,7 @@ describe('Rangeslider component', () => {
         await dragSim(x, x + width, rangeslider);
         rangeslider.onMouseUp();
 
-        assert.equal(rightThumb.classList.contains('guic-rangeslider-handle-active'), true);
+        assert.equal(rightThumb.hasAttribute('active'), true);
 
         // move left thumb to the right-most position
         rangeslider.onMouseDown({ clientX: xLeftThumb, target: leftThumb });
@@ -647,7 +647,7 @@ describe('Rangeslider component', () => {
         await dragSim(x, x + width, rangeslider);
         rangeslider.onMouseUp();
 
-        assert.equal(leftThumb.classList.contains('guic-rangeslider-handle-active'), true);
+        assert.equal(leftThumb.hasAttribute('active'), true);
 
         // check if both thumbs are at the same position
         assert.equal(rightThumb.style.left, '100%');
