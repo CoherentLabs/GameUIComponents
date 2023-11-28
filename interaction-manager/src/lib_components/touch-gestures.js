@@ -7,6 +7,11 @@ import { distanceBetweenTwoPoints, getMidPoint, toDeg } from '../utils/utility-f
  * TouchGestures class that handles all of the touch interactions and gestures
  */
 class TouchGestures {
+    /**
+     * @typedef {Object} gestureReturnObject
+     * @property {function} gesture.remove - Removes the gesture and detaches the event listeners
+     */
+
     /* eslint-disable-next-line require-jsdoc */
     constructor() {
         this.activeTouches = new Map();
@@ -18,7 +23,7 @@ class TouchGestures {
      * @param {HTMLElement | string} options.element - Element you want to attach the touch event to
      * @param {function} options.callback - Function to be executed on touch
      * @param {number} [options.time=1000] - Time in milliseconds for the press
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     hold(options) {
         if (!options) return console.error('Options not provided for hold!');
@@ -66,7 +71,7 @@ class TouchGestures {
      * @param {number} [options.tapsNumber=1] - Number of taps necessary for the callback to be executed
      * @param {number} [options.tapTime=200] - Time in milliseconds between putting down the finger and lifting it up
      * @param {number} [options.betweenTapsTime=500] - Time in milliseconds between two sequential taps
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     tap(options) {
         if (!options) return console.error('Options not provided for tap!');
@@ -131,7 +136,7 @@ class TouchGestures {
      * @param {function} options.onDragStart - Function to be executed on drag start
      * @param {function} options.onDrag - Function to be executed on drag
      * @param {function} options.onDragEnd - Function to be executed on drag end
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     drag(options) {
         if (!options) return console.error('Options not provided for drag!');
@@ -184,7 +189,7 @@ class TouchGestures {
      * @param {HTMLElement | string} options.element - Element you want to attach the touch event to
      * @param {function} options.callback - Function to be executed on touch- Directions of the swipe
      * @param {number} options.touchNumber - Number of fingers necessary for the swipe
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     swipe(options) {
         if (!options) return console.error('Options not provided for swipe!');
@@ -269,7 +274,7 @@ class TouchGestures {
      * @param {Object} options
      * @param {HTMLElement | string} options.element - Element you want to attach the touch event to
      * @param {function} options.callback - Function to be executed on touch
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     pinch(options) {
         if (!options) return console.error('Options not provided for pinch!');
@@ -346,7 +351,7 @@ class TouchGestures {
      * @param {Object} options
      * @param {HTMLElement | string} options.element - Element you want to attach the touch event to
      * @param {function} options.callback - Function to be executed on touch
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     rotate(options) {
         if (!options) return console.error('Options not provided for rotate!');
