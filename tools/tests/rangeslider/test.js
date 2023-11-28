@@ -47,13 +47,16 @@ function loadRangeslider({ value, min, max, values, grid, thumb, twoHandles, ori
     });
 }
 
-const dragSim = (start, end, element) => {
+const dragSim = (start, end, element, direction = 1) => {
     return new Promise((resolve) => {
         const drag = (currX, endX) => {
             element.onMouseMove({ clientX: currX });
 
-            if (currX < endX) {
+            if (currX < endX && direction === 1) {
                 requestAnimationFrame(() => drag(currX + 1, endX));
+                return;
+            } else if (direction === -1 && currX > endX) {
+                requestAnimationFrame(() => drag(currX + -1, endX));
                 return;
             }
 
@@ -457,7 +460,7 @@ describe('Rangeslider component', () => {
         assert.equal(parseFloat(handles[1].style.left), 75);
     });
 
-    it('Should change handle positon and bar width when dragged', async () => {
+    it('Should change handle position and bar width when dragged', async () => {
         await loadRangeslider({});
         const rangeslider = document.querySelector('gameface-rangeslider');
         const rangesliderElement = rangeslider.querySelector('.guic-horizontal-rangeslider');
@@ -474,7 +477,7 @@ describe('Rangeslider component', () => {
         assert.equal(parseFloat(handle.style.left), 25);
     });
 
-    it('Should change thumb positon and value when dragged', async () => {
+    it('Should change thumb position and value when dragged', async () => {
         await loadRangeslider({ thumb: true });
         const rangeslider = document.querySelector('gameface-rangeslider');
         const rangesliderElement = rangeslider.querySelector('.guic-horizontal-rangeslider');
@@ -618,6 +621,47 @@ describe('Rangeslider component', () => {
 
         assert.equal(rangeSlider.value[0], MIN);
         assert.equal(rangeSlider.value[1], MAX);
+    });
+
+    it('Should change thumb position and value when dragged', async () => {
+        await loadRangeslider({ min: 100, max: 200, twoHandles: true });
+        const rangeslider = document.querySelector('gameface-rangeslider');
+        const rangesliderElement = rangeslider.querySelector('.guic-horizontal-rangeslider');
+        const leftThumb = rangeslider.querySelector('.handle-0');
+        const rightThumb = rangeslider.querySelector('.handle-1');
+
+        const { x, width } = rangesliderElement.getBoundingClientRect();
+        const { x: xLeftThumb } = leftThumb.getBoundingClientRect();
+        const { x: xRightThumb } = rightThumb.getBoundingClientRect();
+
+        // move right thumb to the right-most position
+        rangeslider.onMouseDown({ clientX: xRightThumb, target: rightThumb });
+        await dragSim(x, x + width, rangeslider);
+        rangeslider.onMouseUp();
+
+        assert.equal(rightThumb.classList.contains('guic-rangeslider-handle-active'), true);
+
+        // move left thumb to the right-most position
+        rangeslider.onMouseDown({ clientX: xLeftThumb, target: leftThumb });
+
+        await dragSim(x, x + width, rangeslider);
+        rangeslider.onMouseUp();
+
+        assert.equal(leftThumb.classList.contains('guic-rangeslider-handle-active'), true);
+
+        // check if both thumbs are at the same position
+        assert.equal(rightThumb.style.left, '100%');
+        assert.equal(leftThumb.style.left, '100%');
+
+        // drag from the right-most side and check if the dragged thumb is the active one
+        // which is also the one that was dragged last
+        const { x: xLeftThumbNewPosition } = leftThumb.getBoundingClientRect();
+        rangeslider.onMouseDown({ clientX: xLeftThumbNewPosition, target: leftThumb });
+
+        await dragSim(xLeftThumbNewPosition, x, rangeslider, -1);
+        rangeslider.onMouseUp();
+
+        assert.equal(leftThumb.style.left, '0%');
     });
 });
 
