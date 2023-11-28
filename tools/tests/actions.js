@@ -120,6 +120,33 @@ function dragIMElement(square, { x, y, target, currentTarget, startDragX, startD
 }
 
 /**
+ *
+ * @param {HTMLElement} element
+ * @param {string} eventType - type of touch event - touchstart, touchmove, touchend
+ * @param {Object} options
+ * @param {number} options.x
+ * @param {number} options.y
+ * @param {HTMLElement} options.currentTarget
+ * @param {HTMLElement} options.target
+ * @param {number} options.identifier
+ */
+function simulateTouch(element, eventType, { identifier, x = 0, y = 0, target }) {
+    target ||= element;
+    const event = document.createEvent('Event');
+    event.initEvent(eventType, true, true);
+
+    event.touches = [{
+        identifier,
+        clientX: x,
+        clientY: y,
+        target: element,
+        currentTarget: element,
+    }];
+
+    element.dispatchEvent(event);
+}
+
+/**
  * Will initialize the binding model or updates it if there is already registered
  * @param {string} modelName
  * @param {object} model
