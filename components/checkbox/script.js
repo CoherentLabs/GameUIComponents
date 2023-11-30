@@ -199,8 +199,8 @@ class Checkbox extends CustomElementValidator {
     */
     init(data) {
         this.setupTemplate(data, () => {
-            components.renderOnce(this);
-            // components.renderOnce(this, 'checkbox-template');
+            // components.renderOnce(this);
+            components.renderOnce(this, 'checkbox-template');
             this.addEventListener('click', this.toggleChecked);
             this.initCheckboxState();
         });

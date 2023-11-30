@@ -4,12 +4,24 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import './cohtml.js';
 import { Components } from 'coherent-gameface-components';
 const components = new Components();
 import 'coherent-gameface-scrollable-container';
 import template from './template.html';
 
 const KEYCODES = components.KEYCODES;
+
+
+window.engine.createJSModel('MyModel', {
+    visible: true,
+});
+
+window.toggleModelState = function () {
+    MyModel.visible = !MyModel.visible;
+    engine.updateWholeModel(MyModel);
+    engine.synchronizeModels();
+}
 
 /**
  * Used to get the option element from an event target.

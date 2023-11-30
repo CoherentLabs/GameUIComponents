@@ -6,6 +6,17 @@
 import { Components } from 'coherent-gameface-components';
 const components = new Components();
 import template from './template.html';
+import './cohtml.js';
+
+window.engine.createJSModel('MyModel', {
+    visible: true,
+});
+
+window.toggleModelState = function () {
+    MyModel.visible = !MyModel.visible;
+    global.engine.updateWholeModel(MyModel);
+    global.engine.synchronizeModels();
+};
 
 const BaseComponent = components.BaseComponent;
 
@@ -33,6 +44,7 @@ class Modal extends BaseComponent {
     */
     init(data) {
         this.setupTemplate(data, () => {
+            debugger
             components.renderOnce(this);
             this.attachEventListeners();
         });
