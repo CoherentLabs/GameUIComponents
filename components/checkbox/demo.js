@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
@@ -5,3 +6,26 @@
  *--------------------------------------------------------------------------------------------*/
 
 import Checkbox from './script.js';
+
+import { pm } from 'postmessage-polyfill';
+import { fetch as fetchPolyfill } from 'whatwg-fetch';
+
+window.postMessage = function (message) {
+    pm({
+        origin: 'http://127.0.0.1/:3000',
+        target: window,
+        data: message,
+    });
+};
+
+requestAnimationFrame(firstFrame);
+
+function firstFrame() {
+    animate();
+}
+
+function animate() {
+    // eslint-disable-next-line no-undef
+    toggleModelState();
+    requestAnimationFrame(animate);
+}

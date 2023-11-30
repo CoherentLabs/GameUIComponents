@@ -8,6 +8,18 @@ import template from './template.html';
 const components = new Components();
 const CustomElementValidator = components.CustomElementValidator;
 
+import './cohtml.js';
+
+window.engine.createJSModel('MyModel', {
+    visible: true,
+});
+
+window.toggleModelState = function () {
+    MyModel.visible = !MyModel.visible;
+    global.engine.updateWholeModel(MyModel);
+    global.engine.synchronizeModels();
+};
+
 /**
  * Class definition of the gameface checkbox custom element
  */
@@ -188,6 +200,7 @@ class Checkbox extends CustomElementValidator {
     init(data) {
         this.setupTemplate(data, () => {
             components.renderOnce(this);
+            // components.renderOnce(this, 'checkbox-template');
             this.addEventListener('click', this.toggleChecked);
             this.initCheckboxState();
         });
