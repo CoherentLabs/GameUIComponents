@@ -43,4 +43,4 @@ You can also download and load them as individual scripts
 
 ## Documentation
 
-For more information on how to use the `coherent-gameface-interaction-manager` you can refer to the [Documentation](https://coherentlabs.github.io/GameUIComponents/interaction-manager/installation/)
+For more information on how to use the `coherent-gameface-interaction-manager` you can refer to the [Documentation](https://coherentlabs.github.io/GameUIComponents/en/interaction-manager/installation/).
