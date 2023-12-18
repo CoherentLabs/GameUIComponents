@@ -58,7 +58,7 @@
     "css-loader": "^6.8.1",
     "esbuild": "^0.19.8",
     "esbuild-plugin-ifdef": "^1.0.1",
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
     "html-loader": "^4.2.0",
     "husky": "^4.3.8",
