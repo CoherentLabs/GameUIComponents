@@ -147,6 +147,21 @@ function simulateTouch(element, eventType, { identifier, x = 0, y = 0, target })
 }
 
 /**
+ * Waits for a timeout to complete before executing a callback function.
+ * @param {function} callback
+ * @param {number} milliseconds
+ * @returns {Promise}
+ */
+function timeout(callback, milliseconds) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            callback();
+            resolve();
+        }, milliseconds);
+    });
+}
+
+/**
  * Will initialize the binding model or updates it if there is already registered
  * @param {string} modelName
  * @param {object} model

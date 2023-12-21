@@ -42,7 +42,20 @@ class Zoom {
 
         this.onWheel = this.onWheel.bind(this);
 
+        this._touchEnabled = false;
+        this.touchEvents = null;
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -58,7 +71,6 @@ class Zoom {
         this.zoomableElement.addEventListener('wheel', this.onWheel);
 
         this.registerActions();
-        this.addTouchEvents();
 
         this.zoomableElement.style.transformOrigin = 'top left';
 
@@ -132,7 +144,7 @@ class Zoom {
      * Add pinch and stretch touch events
      */
     addTouchEvents() {
-        touchGestures.pinch({
+        this.touchEvents = touchGestures.pinch({
             element: this.zoomableElement,
             callback: ({ pinchDelta, midpoint }) => {
                 actions.execute(this.actionName, {
@@ -142,6 +154,14 @@ class Zoom {
                 });
             },
         });
+    }
+
+    /**
+     * Removes the touch events
+     */
+    removeTouchEvents() {
+        this.touchEvents.remove();
+        this.touchEvents = null;
     }
 
     /**

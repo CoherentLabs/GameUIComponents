@@ -45,7 +45,20 @@ class Dropzone extends DragBase {
         this.onMouseEnter = this.onMouseEnter.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
 
+        this._touchEnabled = false;
+        this.touchEvents = [];
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -70,7 +83,6 @@ class Dropzone extends DragBase {
         });
 
         this.registerDragActions();
-        this.addTouchEvents();
 
         this.enabled = true;
     }
@@ -207,43 +219,49 @@ class Dropzone extends DragBase {
      * Adds touch events to the draggable elements
      */
     addTouchEvents() {
-        this.dropzones.forEach((dropzone) => {
-            dropzone.addEventListener('touchleave', event => console.log(event.target.classList[0]));
-        });
         this.draggableElements.forEach((element) => {
-            touchGestures.drag({
-                element,
-                onDragStart: (event) => {
-                    this.onMouseDown({ currentTarget: event.currentTarget, clientX: event.x, clientY: event.y });
-                },
-                onDrag: ({ x, y }) => {
-                    this.onMouseMove({ clientX: x, clientY: y });
-                    const elementOver = document.elementFromPoint(x, y);
-                    let dropzone = this.options.dropzones.reduce((acc, dropzone) => {
-                        if (acc) return acc;
-                        acc = elementOver.closest(dropzone);
-                        return acc;
-                    }, null);
+            this.touchEvents.push(
+                touchGestures.drag({
+                    element,
+                    onDragStart: (event) => {
+                        this.onMouseDown({ currentTarget: event.currentTarget, clientX: event.x, clientY: event.y });
+                    },
+                    onDrag: ({ x, y }) => {
+                        this.onMouseMove({ clientX: x, clientY: y });
+                        const elementOver = document.elementFromPoint(x, y);
+                        let dropzone = this.options.dropzones.reduce((acc, dropzone) => {
+                            if (acc) return acc;
+                            return (acc = elementOver.closest(dropzone));
+                        }, null);
 
-                    if (!dropzone) {
-                        dropzone = this.dropzones.includes(elementOver) ? elementOver : null;
-                    }
+                        if (!dropzone) {
+                            dropzone = this.dropzones.includes(elementOver) ? elementOver : null;
+                        }
 
-                    if (dropzone) {
-                        this.onMouseEnter({ currentTarget: dropzone });
-                        return;
-                    }
+                        if (dropzone) {
+                            this.onMouseEnter({ currentTarget: dropzone });
+                            return;
+                        }
 
-                    this.onMouseLeave();
-                },
-                onDragEnd: () => {
-                    this.onMouseUp();
-                },
-            });
+                        this.onMouseLeave();
+                    },
+                    onDragEnd: () => {
+                        this.onMouseUp();
+                    },
+                })
+            );
         });
     }
 
     /* eslint-enable max-lines-per-function */
+
+    /**
+     * Removes the touch gestures
+     */
+    removeTouchEvents() {
+        this.touchEvents.forEach(event => event.remove());
+        this.touchEvents = [];
+    }
 
     /**
      * Automatically drags an element to a dropzone

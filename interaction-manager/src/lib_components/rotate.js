@@ -36,7 +36,20 @@ class Rotate {
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
 
+        this._touchEnabled = false;
+        this.touchEvents = null;
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -52,7 +65,6 @@ class Rotate {
         this.rotatingElement.addEventListener('mousedown', this.onMouseDown);
 
         this.registerAction();
-        this.addTouchEvents();
 
         this.enabled = true;
     }
@@ -128,7 +140,7 @@ class Rotate {
      * Add rotate touch events
      */
     addTouchEvents() {
-        touchGestures.drag({
+        this.touchEvents = touchGestures.drag({
             element: this.rotatingElement,
             onDragStart: ({ x, y }) => {
                 this.onMouseDown({ clientX: x, clientY: y });
@@ -140,6 +152,14 @@ class Rotate {
                 this.onMouseUp();
             },
         });
+    }
+
+    /**
+     * Removes the touch events
+     */
+    removeTouchEvents() {
+        this.touchEvents.remove();
+        this.touchEvents = null;
     }
 
     /**

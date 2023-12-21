@@ -295,7 +295,7 @@ The function called on rotate. Provides an angle between 0 and 360 degrees.
 
 ## Removing gestures
 
-To remove a gestures you will need to save it to variable and then call the `remove()` method.
+To remove a gesture you will need to save it to a variable and then call the `remove()` method.
 
 For Example
 
@@ -306,4 +306,18 @@ const tap = touchGestures.tap({
 })
 
 tap.remove();
+```
+
+## Enabling touch gestures for the other Interaction Manager modules
+
+Touch gestures are available in the other IM modules, however they need to be enabled. The process for each one is the same, you just need to do `IMmodule.touchEnabled = true` to enable them. Or set it to `false` to disable them.
+
+For Example
+
+```{.javascript}
+const square = new draggable({ element: '.square' });
+
+square.touchEnabled = true // You can now drag the square around using your fingers
+
+square.touchEnabled = false // To remove the touch events
 ```

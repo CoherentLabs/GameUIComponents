@@ -54,7 +54,20 @@ class Resize {
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
 
+        this._touchEnabled = false;
+        this.touchEvents = null;
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -71,7 +84,6 @@ class Resize {
 
         this.addEdges();
         this.registerActions();
-        this.addTouchEvents();
 
         this.enabled = true;
     }
@@ -148,7 +160,7 @@ class Resize {
      * Adds the touch events to fire the actions
      */
     addTouchEvents() {
-        touchGestures.drag({
+        this.touchEvents = touchGestures.drag({
             element: this.resizableElement,
             onDragStart: (event) => {
                 this.onMouseDown(event);
@@ -160,6 +172,14 @@ class Resize {
                 this.onMouseUp();
             },
         });
+    }
+
+    /**
+     * Removes the touch events
+     */
+    removeTouchEvents() {
+        this.touchEvents.remove();
+        this.touchEvents = null;
     }
 
     /**

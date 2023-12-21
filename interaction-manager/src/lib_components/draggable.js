@@ -41,7 +41,20 @@ class Draggable extends DragBase {
             bottom: Infinity,
         };
 
+        this._touchEnabled = false;
+        this.touchEvents = [];
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -58,7 +71,6 @@ class Draggable extends DragBase {
         this.draggableElements.forEach(element => element.addEventListener('mousedown', this.onMouseDown));
 
         this.registerDragActions();
-        this.addTouchEvents();
         this.enabled = true;
     }
 
@@ -156,19 +168,29 @@ class Draggable extends DragBase {
      */
     addTouchEvents() {
         this.draggableElements.forEach((element) => {
-            touchGestures.drag({
-                element,
-                onDragStart: (event) => {
-                    this.onMouseDown({ currentTarget: event.currentTarget, clientX: event.x, clientY: event.y });
-                },
-                onDrag: ({ x, y }) => {
-                    this.onMouseMove({ clientX: x, clientY: y });
-                },
-                onDragEnd: () => {
-                    this.onMouseUp();
-                },
-            });
+            this.touchEvents.push(
+                touchGestures.drag({
+                    element,
+                    onDragStart: (event) => {
+                        this.onMouseDown({ currentTarget: event.currentTarget, clientX: event.x, clientY: event.y });
+                    },
+                    onDrag: ({ x, y }) => {
+                        this.onMouseMove({ clientX: x, clientY: y });
+                    },
+                    onDragEnd: () => {
+                        this.onMouseUp();
+                    },
+                })
+            );
         });
+    }
+
+    /**
+     * Removes the touch gestures
+     */
+    removeTouchEvents() {
+        this.touchEvents.forEach(event => event.remove());
+        this.touchEvents = [];
     }
 
     /**

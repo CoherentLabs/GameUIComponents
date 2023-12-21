@@ -1,6 +1,8 @@
 /* eslint-disable new-cap */
 /* eslint-disable max-lines-per-function */
-/* global createIMElement, simulateTouch */
+/* global createIMElement, simulateTouch, timeout */
+
+// All tests disabled until SUP-3279 is fixed
 if (engine?.isAttached) {
     xdescribe('Tap', () => {
         beforeEach(async () => {
@@ -27,11 +29,9 @@ if (engine?.isAttached) {
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
 
-            await new Promise.resolve(
-                setTimeout(() => {
-                    simulateTouch(element, 'touchend', { identifier: 0 });
-                }, tapTime / 2)
-            );
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0 });
+            }, tapTime / 2);
 
             assert.isTrue(isTapped);
         });
@@ -53,19 +53,15 @@ if (engine?.isAttached) {
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
 
-            await new Promise.resolve(
-                setTimeout(() => {
-                    simulateTouch(element, 'touchend', { identifier: 0 });
-                }, tapTime / 2)
-            );
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0 });
+            }, tapTime / 2);
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
 
-            await new Promise.resolve(
-                setTimeout(() => {
-                    simulateTouch(element, 'touchend', { identifier: 0 });
-                }, tapTime / 2)
-            );
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0 });
+            }, tapTime / 2);
 
             assert.isTrue(isTapped);
         });
@@ -93,11 +89,9 @@ if (engine?.isAttached) {
             identifier: 0,
         });
 
-        await new Promise.resolve(
-            setTimeout(() => {
-                simulateTouch(element, 'touchend', { identifier: 0 });
-            }, tapTime + 1)
-        );
+        await timeout(() => {
+            simulateTouch(element, 'touchend', { identifier: 0 });
+        }, tapTime + 1);
 
         assert.isFalse(isTapped);
     });
@@ -119,21 +113,17 @@ if (engine?.isAttached) {
 
         simulateTouch(element, 'touchstart', { identifier: 0 });
 
-        await new Promise.resolve(
-            setTimeout(() => {
-                simulateTouch(element, 'touchend', { identifier: 0 });
-            }, tapTime + 1)
-        );
+        await timeout(() => {
+            simulateTouch(element, 'touchend', { identifier: 0 });
+        }, tapTime + 1);
 
-        await new Promise.resolve(setTimeout(() => {}, betweenTapsTime + 1));
+        await timeout(() => {}, betweenTapsTime + 1);
 
         simulateTouch(element, 'touchstart', { identifier: 0 });
 
-        await new Promise.resolve(
-            setTimeout(() => {
-                simulateTouch(element, 'touchend', { identifier: 0 });
-            }, tapTime + 1)
-        );
+        await timeout(() => {
+            simulateTouch(element, 'touchend', { identifier: 0 });
+        }, tapTime + 1);
 
         assert.isFalse(isTapped);
     });
@@ -155,7 +145,7 @@ if (engine?.isAttached) {
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
 
-            await new Promise.resolve(setTimeout(() => {}, time + 1));
+            await timeout(() => {}, time + 1);
 
             assert.isTrue(isHold);
         });
@@ -176,11 +166,9 @@ if (engine?.isAttached) {
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
 
-            await new Promise.resolve(
-                setTimeout(() => {
-                    simulateTouch(element, 'touchend', { identifier: 0 });
-                }, time / 2)
-            );
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0 });
+            }, time / 2);
 
             assert.isFalse(isHold);
         });
@@ -254,11 +242,10 @@ if (engine?.isAttached) {
             });
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
-            await new Promise.resolve(
-                setTimeout(() => {
-                    simulateTouch(element, 'touchend', { identifier: 0, x: 300, y: 0 });
-                }, 500)
-            );
+
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0, x: 300, y: 0 });
+            }, 500);
 
             assert.isTrue(isSwiped);
         });
@@ -276,11 +263,10 @@ if (engine?.isAttached) {
             });
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
-            await new Promise.resolve(
-                setTimeout(() => {
-                    simulateTouch(element, 'touchend', { identifier: 0, x: 300, y: 0 });
-                }, 1500)
-            );
+
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0, x: 300, y: 0 });
+            }, 1500);
 
             assert.isFalse(isSwiped);
         });
@@ -301,12 +287,11 @@ if (engine?.isAttached) {
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
             simulateTouch(element, 'touchstart', { identifier: 1 });
-            await new Promise.resolve(
-                setTimeout(() => {
-                    simulateTouch(element, 'touchend', { identifier: 0, x: 300, y: 0 });
-                    simulateTouch(element, 'touchend', { identifier: 1, x: 300, y: 0 });
-                }, 500)
-            );
+
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0, x: 300, y: 0 });
+                simulateTouch(element, 'touchend', { identifier: 1, x: 300, y: 0 });
+            }, 500);
 
             assert.isTrue(isSwiped);
         });
@@ -325,11 +310,10 @@ if (engine?.isAttached) {
             });
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
-            await new Promise.resolve(
-                setTimeout(() => {
-                    simulateTouch(element, 'touchend', { identifier: 0, x: 300, y: 0 });
-                }, 500)
-            );
+
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0, x: 300, y: 0 });
+            }, 500);
 
             assert.equal(direction, correctDirection);
         });

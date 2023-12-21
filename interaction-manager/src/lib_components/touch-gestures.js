@@ -3,6 +3,8 @@
 import { getDirection, getElement } from '../utils/gesture-utils';
 import { distanceBetweenTwoPoints, getMidPoint, toDeg } from '../utils/utility-functions';
 
+const MULTIPLE_TOUCHES_MIN_NUMBER = 2;
+
 /**
  * TouchGestures class that handles all of the touch interactions and gestures
  */
@@ -288,7 +290,7 @@ class TouchGestures {
         const onPinchStart = ({ touches }) => {
             this.activeTouches.set(touches[0].identifier, touches[0]);
 
-            if (this.activeTouches.size < 2) return;
+            if (this.activeTouches.size < MULTIPLE_TOUCHES_MIN_NUMBER) return;
 
             document.addEventListener('touchmove', onPinch);
             document.addEventListener('touchend', onPinchEnd);
@@ -302,7 +304,7 @@ class TouchGestures {
         };
 
         const onPinch = ({ touches }) => {
-            if (this.activeTouches.size !== 2) return;
+            if (this.activeTouches.size !== MULTIPLE_TOUCHES_MIN_NUMBER) return;
 
             this.activeTouches.set(touches[0].identifier, touches[0]);
 
@@ -363,7 +365,7 @@ class TouchGestures {
         if (!element) return console.error('Element not found!');
 
         const onRotate = ({ touches }) => {
-            if (this.activeTouches.size < 2) return;
+            if (this.activeTouches.size < MULTIPLE_TOUCHES_MIN_NUMBER) return;
 
             this.activeTouches.set(touches[0].identifier, touches[0]);
 
@@ -375,7 +377,7 @@ class TouchGestures {
         const onRotateStart = ({ touches }) => {
             this.activeTouches.set(touches[0].identifier, touches[0]);
 
-            if (this.activeTouches.size !== 2) return;
+            if (this.activeTouches.size !== MULTIPLE_TOUCHES_MIN_NUMBER) return;
 
             initialAngle = getAngle() - angle;
 
