@@ -1,12 +1,19 @@
 /* eslint-disable max-lines-per-function */
 
 import { getDirection, getElement } from '../utils/gesture-utils';
-import { distanceBetweenTwoPoints, toDeg } from '../utils/utility-functions';
+import { distanceBetweenTwoPoints, getMidPoint, toDeg } from '../utils/utility-functions';
+
+const MULTIPLE_TOUCHES_MIN_NUMBER = 2;
 
 /**
  * TouchGestures class that handles all of the touch interactions and gestures
  */
 class TouchGestures {
+    /**
+     * @typedef {Object} gestureReturnObject
+     * @property {function} gesture.remove - Removes the gesture and detaches the event listeners
+     */
+
     /* eslint-disable-next-line require-jsdoc */
     constructor() {
         this.activeTouches = new Map();
@@ -18,7 +25,7 @@ class TouchGestures {
      * @param {HTMLElement | string} options.element - Element you want to attach the touch event to
      * @param {function} options.callback - Function to be executed on touch
      * @param {number} [options.time=1000] - Time in milliseconds for the press
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     hold(options) {
         if (!options) return console.error('Options not provided for hold!');
@@ -66,7 +73,7 @@ class TouchGestures {
      * @param {number} [options.tapsNumber=1] - Number of taps necessary for the callback to be executed
      * @param {number} [options.tapTime=200] - Time in milliseconds between putting down the finger and lifting it up
      * @param {number} [options.betweenTapsTime=500] - Time in milliseconds between two sequential taps
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     tap(options) {
         if (!options) return console.error('Options not provided for tap!');
@@ -110,6 +117,7 @@ class TouchGestures {
         };
 
         element.addEventListener('touchstart', onTap);
+
         element.addEventListener('touchend', onTapEnd);
 
         return {
@@ -130,7 +138,7 @@ class TouchGestures {
      * @param {function} options.onDragStart - Function to be executed on drag start
      * @param {function} options.onDrag - Function to be executed on drag
      * @param {function} options.onDragEnd - Function to be executed on drag end
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     drag(options) {
         if (!options) return console.error('Options not provided for drag!');
@@ -138,6 +146,16 @@ class TouchGestures {
         const element = getElement(options.element);
 
         if (!element) return console.error('Element not found!');
+
+        const onDragStart = ({ touches, target, currentTarget }) => {
+            this.activeTouches.set(touches[0].identifier, touches[0]);
+
+            document.addEventListener('touchmove', onDrag);
+            document.addEventListener('touchend', onDragEnd);
+
+            if (!options.onDragStart) return;
+            options.onDragStart({ x: touches[0].clientX, y: touches[0].clientY, target, currentTarget });
+        };
 
         const onDrag = ({ touches }) => {
             if (!this.activeTouches.has(touches[0].identifier)) return;
@@ -153,16 +171,6 @@ class TouchGestures {
 
             if (!options.onDragEnd) return;
             options.onDragEnd({ x: touches[0].clientX, y: touches[0].clientY });
-        };
-
-        const onDragStart = ({ touches }) => {
-            this.activeTouches.set(touches[0].identifier, touches[0]);
-
-            document.addEventListener('touchmove', onDrag);
-            document.addEventListener('touchend', onDragEnd);
-
-            if (!options.onDragStart) return;
-            options.onDragStart({ x: touches[0].clientX, y: touches[0].clientY });
         };
 
         element.addEventListener('touchstart', onDragStart);
@@ -183,13 +191,12 @@ class TouchGestures {
      * @param {HTMLElement | string} options.element - Element you want to attach the touch event to
      * @param {function} options.callback - Function to be executed on touch- Directions of the swipe
      * @param {number} options.touchNumber - Number of fingers necessary for the swipe
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     swipe(options) {
         if (!options) return console.error('Options not provided for swipe!');
         let swipeTimer, direction, distance;
         let isSwipe = true;
-
         const SWIPE_MIN_DISTANCE = 100;
 
         options.touchNumber ||= 1;
@@ -197,6 +204,27 @@ class TouchGestures {
         const element = getElement(options.element);
 
         if (!element) return console.error('Element not found!');
+
+        const onSwipeStart = ({ touches }) => {
+            this.activeTouches.set(touches[0].identifier, touches[0]);
+
+            if (this.activeTouches.size > options.touchNumber) {
+                // If the user has added two swipes with different fingers this way we can differentiate them
+                document.removeEventListener('touchmove', onSwipe);
+                document.removeEventListener('touchend', onSwipeEnd);
+            }
+
+            if (this.activeTouches.size !== options.touchNumber) return;
+
+            swipeTimer = setTimeout(() => {
+                isSwipe = false;
+                clearTimeout(swipeTimer);
+                swipeTimer = null;
+            }, 1000);
+
+            document.addEventListener('touchmove', onSwipe);
+            document.addEventListener('touchend', onSwipeEnd);
+        };
 
         const onSwipe = ({ touches }) => {
             if (!this.activeTouches.has(touches[0].identifier)) return;
@@ -231,27 +259,6 @@ class TouchGestures {
             return isSwipe && options.callback && direction && distance > SWIPE_MIN_DISTANCE;
         };
 
-        const onSwipeStart = ({ touches }) => {
-            this.activeTouches.set(touches[0].identifier, touches[0]);
-
-            if (this.activeTouches.size > options.touchNumber) {
-                // If the user has added two swipes with different fingers this way we can differentiate them
-                document.removeEventListener('touchmove', onSwipe);
-                document.removeEventListener('touchend', onSwipeEnd);
-            }
-
-            if (this.activeTouches.size !== options.touchNumber) return;
-
-            swipeTimer = setTimeout(() => {
-                isSwipe = false;
-                clearTimeout(swipeTimer);
-                swipeTimer = null;
-            }, 1000);
-
-            document.addEventListener('touchmove', onSwipe);
-            document.addEventListener('touchend', onSwipeEnd);
-        };
-
         element.addEventListener('touchstart', onSwipeStart);
 
         return {
@@ -269,7 +276,7 @@ class TouchGestures {
      * @param {Object} options
      * @param {HTMLElement | string} options.element - Element you want to attach the touch event to
      * @param {function} options.callback - Function to be executed on touch
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     pinch(options) {
         if (!options) return console.error('Options not provided for pinch!');
@@ -280,8 +287,24 @@ class TouchGestures {
 
         if (!element) return console.error('Element not found!');
 
+        const onPinchStart = ({ touches }) => {
+            this.activeTouches.set(touches[0].identifier, touches[0]);
+
+            if (this.activeTouches.size < MULTIPLE_TOUCHES_MIN_NUMBER) return;
+
+            document.addEventListener('touchmove', onPinch);
+            document.addEventListener('touchend', onPinchEnd);
+
+            distance = distanceBetweenTwoPoints(
+                this.activeTouches.get(0).clientX,
+                this.activeTouches.get(0).clientY,
+                this.activeTouches.get(1).clientX,
+                this.activeTouches.get(1).clientY
+            );
+        };
+
         const onPinch = ({ touches }) => {
-            if (this.activeTouches.size < 2) return;
+            if (this.activeTouches.size !== MULTIPLE_TOUCHES_MIN_NUMBER) return;
 
             this.activeTouches.set(touches[0].identifier, touches[0]);
 
@@ -295,30 +318,22 @@ class TouchGestures {
             const pinchDelta = Math.sign(newDistance - distance) * PINCH_DELTA_NUMBER;
             distance = newDistance;
 
-            if (options.callback) options.callback(pinchDelta);
-        };
-        const onPinchEnd = ({ touches }) => {
-            this.activeTouches.delete(touches[0].identifier);
-
-            if (this.activeTouches.size !== 0) return;
-            document.removeEventListener('touchmove', onPinch);
-            document.removeEventListener('touchend', onPinchEnd);
-        };
-
-        const onPinchStart = ({ touches }) => {
-            this.activeTouches.set(touches[0].identifier, touches[0]);
-
-            if (this.activeTouches.size !== 2) return;
-
-            document.addEventListener('touchmove', onPinch);
-            document.addEventListener('touchend', onPinchEnd);
-
-            distance = distanceBetweenTwoPoints(
+            const midpoint = getMidPoint(
                 this.activeTouches.get(0).clientX,
                 this.activeTouches.get(0).clientY,
                 this.activeTouches.get(1).clientX,
                 this.activeTouches.get(1).clientY
             );
+
+            if (options.callback) options.callback({ pinchDelta, midpoint });
+        };
+        const onPinchEnd = ({ touches }) => {
+            this.activeTouches.delete(touches[0].identifier);
+
+            if (this.activeTouches.size !== 0) return;
+
+            document.removeEventListener('touchmove', onPinch);
+            document.removeEventListener('touchend', onPinchEnd);
         };
 
         element.addEventListener('touchstart', onPinchStart);
@@ -338,7 +353,7 @@ class TouchGestures {
      * @param {Object} options
      * @param {HTMLElement | string} options.element - Element you want to attach the touch event to
      * @param {function} options.callback - Function to be executed on touch
-     * @returns {void}
+     * @returns {gestureReturnObject}
      */
     rotate(options) {
         if (!options) return console.error('Options not provided for rotate!');
@@ -350,7 +365,7 @@ class TouchGestures {
         if (!element) return console.error('Element not found!');
 
         const onRotate = ({ touches }) => {
-            if (this.activeTouches.size < 2) return;
+            if (this.activeTouches.size < MULTIPLE_TOUCHES_MIN_NUMBER) return;
 
             this.activeTouches.set(touches[0].identifier, touches[0]);
 
@@ -358,23 +373,23 @@ class TouchGestures {
 
             if (options.callback) options.callback(angle);
         };
-        const onRotateEnd = ({ touches }) => {
-            this.activeTouches.delete(touches[0].identifier);
-
-            if (this.activeTouches.size !== 0) return;
-            document.removeEventListener('touchmove', onRotate);
-            document.removeEventListener('touchend', onRotateEnd);
-        };
 
         const onRotateStart = ({ touches }) => {
             this.activeTouches.set(touches[0].identifier, touches[0]);
 
-            if (this.activeTouches.size !== 2) return;
+            if (this.activeTouches.size !== MULTIPLE_TOUCHES_MIN_NUMBER) return;
 
             initialAngle = getAngle() - angle;
 
             document.addEventListener('touchmove', onRotate);
             document.addEventListener('touchend', onRotateEnd);
+        };
+
+        const onRotateEnd = ({ touches }) => {
+            this.activeTouches.delete(touches[0].identifier);
+
+            document.removeEventListener('touchmove', onRotate);
+            document.removeEventListener('touchend', onRotateEnd);
         };
 
         element.addEventListener('touchstart', onRotateStart);

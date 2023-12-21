@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import actions from './actions';
+import touchGestures from './touch-gestures';
 
 /**
  * Pan and zoom
@@ -41,7 +42,20 @@ class Zoom {
 
         this.onWheel = this.onWheel.bind(this);
 
+        this._touchEnabled = false;
+        this.touchEvents = null;
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -124,6 +138,30 @@ class Zoom {
      */
     removeActions() {
         actions.remove(this.actionName);
+    }
+
+    /**
+     * Add pinch and stretch touch events
+     */
+    addTouchEvents() {
+        this.touchEvents = touchGestures.pinch({
+            element: this.zoomableElement,
+            callback: ({ pinchDelta, midpoint }) => {
+                actions.execute(this.actionName, {
+                    x: midpoint.x,
+                    y: midpoint.y,
+                    zoomDirection: Math.sign(pinchDelta) * -1,
+                });
+            },
+        });
+    }
+
+    /**
+     * Removes the touch events
+     */
+    removeTouchEvents() {
+        this.touchEvents.remove();
+        this.touchEvents = null;
     }
 
     /**

@@ -29,9 +29,9 @@
             let scale = 1;
             touchGestures.pinch({
                 element: document.body,
-                callback: function (delta) {
+                callback: function ({pinchDelta}) {
                     const square = document.querySelector('.square');
-                    scale += delta / 1000;
+                    scale += pinchDelta / 1000;
                     square.style.transform = `scale(${scale})`;
                 },
             });

@@ -6,6 +6,7 @@
 import DragBase from '../utils/drag-base';
 import { createHash } from '../utils/utility-functions';
 import actions from './actions';
+import touchGestures from './touch-gestures';
 
 /**
  * Makes an element draggable
@@ -44,7 +45,20 @@ class Dropzone extends DragBase {
         this.onMouseEnter = this.onMouseEnter.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
 
+        this._touchEnabled = false;
+        this.touchEvents = [];
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -197,6 +211,56 @@ class Dropzone extends DragBase {
     removeActions() {
         actions.remove(this.actionName);
         actions.remove(this.automaticAction);
+    }
+
+    /* eslint-disable max-lines-per-function*/
+
+    /**
+     * Adds touch events to the draggable elements
+     */
+    addTouchEvents() {
+        this.draggableElements.forEach((element) => {
+            this.touchEvents.push(
+                touchGestures.drag({
+                    element,
+                    onDragStart: (event) => {
+                        this.onMouseDown({ currentTarget: event.currentTarget, clientX: event.x, clientY: event.y });
+                    },
+                    onDrag: ({ x, y }) => {
+                        this.onMouseMove({ clientX: x, clientY: y });
+                        const elementOver = document.elementFromPoint(x, y);
+                        let dropzone = this.options.dropzones.reduce((acc, dropzone) => {
+                            if (acc) return acc;
+                            return (acc = elementOver.closest(dropzone));
+                        }, null);
+
+                        if (!dropzone) {
+                            dropzone = this.dropzones.includes(elementOver) ? elementOver : null;
+                        }
+
+                        if (dropzone) {
+                            this.onMouseEnter({ currentTarget: dropzone });
+                            return;
+                        }
+
+                        this.onMouseLeave();
+                    },
+                    onDragEnd: () => {
+                        this.onMouseUp();
+                    },
+                })
+            );
+        });
+    }
+
+    /* eslint-enable max-lines-per-function */
+
+    /**
+     * Removes the touch gestures
+     */
+    removeTouchEvents() {
+        this.touchEvents.forEach(event => event.remove());
+        this.touchEvents = [];
     }
 
     /**

@@ -5,6 +5,7 @@
 
 import { clamp, createHash } from '../utils/utility-functions';
 import actions from './actions';
+import touchGestures from './touch-gestures';
 
 /**
  * Allows you to resize elements on the screen
@@ -53,7 +54,20 @@ class Resize {
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
 
+        this._touchEnabled = false;
+        this.touchEvents = null;
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -140,6 +154,32 @@ class Resize {
 
         document.removeEventListener('mousemove', this.onMouseMove);
         document.removeEventListener('mouseup', this.onMouseUp);
+    }
+
+    /**
+     * Adds the touch events to fire the actions
+     */
+    addTouchEvents() {
+        this.touchEvents = touchGestures.drag({
+            element: this.resizableElement,
+            onDragStart: (event) => {
+                this.onMouseDown(event);
+            },
+            onDrag: ({ x, y }) => {
+                this.onMouseMove({ clientX: x, clientY: y });
+            },
+            onDragEnd: () => {
+                this.onMouseUp();
+            },
+        });
+    }
+
+    /**
+     * Removes the touch events
+     */
+    removeTouchEvents() {
+        this.touchEvents.remove();
+        this.touchEvents = null;
     }
 
     /**
