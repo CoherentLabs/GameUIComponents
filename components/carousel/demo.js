@@ -6,6 +6,10 @@
 
 import Carousel from './script.js';
 
+import { pm } from 'postmessage-polyfill';
+import { fetch as fetchPolyfill } from 'whatwg-fetch';
+
+
 /**
  * Returns a random number between min (inclusive) and max (exclusive)
  * @param {number} min
@@ -55,3 +59,12 @@ document.querySelector('#change_page').addEventListener('keydown', (event) => {
     // enter
     if (event.keyCode === 13) document.querySelector('gameface-carousel').pageSize = Math.floor(event.currentTarget.value);
 });
+
+
+window.postMessage = function (message) {
+    pm({
+        origin: 'http://127.0.0.1/:3000',
+        target: window,
+        data: message,
+    });
+};
