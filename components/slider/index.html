@@ -2,17 +2,42 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
-        <link rel="stylesheet" href="./styles/horizontal.css">
-        <link rel="stylesheet" href="./styles/vertical.css">
+        <link rel="stylesheet" href="./coherent-gameface-components-theme.css" />
+        <link rel="stylesheet" href="./styles/horizontal.css" />
+        <link rel="stylesheet" href="./styles/vertical.css" />
         <style>
-            .horizontal-slider-component {
-                margin-left: 100px;
+            .guic-vertical-slider-wrapper {
+                height: 40vh;
+            }
+
+            .guic-slider-horizontal-slider {
+                width: 30vh;
+            }
+
+            .flex-container {
+                display: flex;
+            }
+
+            .avatar {
+                width: 30vh;
+                height: 40vh;
+                background-size: contain;
+                background-repeat: no-repeat no-repeat;
+                background-image: url(images/avatar.png);
             }
         </style>
     </head>
-<body class="guic-demo">
-    <gameface-slider class="slider-component" orientation="vertical"></gameface-slider>
-    <gameface-slider class="horizontal-slider-component" orientation="horizontal"></gameface-slider>
-</body>
+    <body class="guic-demo">
+        <div class="slider-container">
+            <h3 class="blur-text">Blur: 0</h3>
+            <div class="flex-container">
+                <gameface-slider class="slider-component" orientation="vertical"></gameface-slider>
+                <div class="avatar"></div>
+            </div>
+        </div>
+        <div class="slider-container">
+            <gameface-slider class="horizontal-slider-component" orientation="horizontal"></gameface-slider>
+            <h3 class="rotate-text">Hue Rotate: 0</h3>
+        </div>
+    </body>
 </html>
