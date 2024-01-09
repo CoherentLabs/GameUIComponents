@@ -23,7 +23,7 @@
     "coherent-gameface-text-field": "^3.0.0",
     "coherent-gameface-accordion-menu": "^3.0.0",
     "coherent-gameface-interaction-manager": "^1.0.4",
-    "coherent-gameface-carousel": "^1.0.0"
+    "coherent-gameface-carousel": "^1.1.0"
   },
   "eslintConfig": {
     "globals": {

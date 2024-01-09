@@ -11,6 +11,21 @@ import { fetch as fetchPolyfill } from 'whatwg-fetch';
 
 
 /**
+ * Create an HTML element that can be added as an item to the carousel
+ * @param {string} textContent
+ * @returns {HTMLElement}
+ */
+function createCarouselItem(textContent) {
+    const cItem = document.createElement('div');
+    cItem.textContent = textContent;
+    cItem.id=`box${textContent}`;
+    cItem.classList.add('box');
+    cItem.style.backgroundColor = `rgba(${getRandomArbitrary(1, 200)}, ${getRandomArbitrary(1, 200)}, ${getRandomArbitrary(1, 200)}, 1)`;
+
+    return cItem;
+}
+
+/**
  * Returns a random number between min (inclusive) and max (exclusive)
  * @param {number} min
  * @param {number} max
@@ -24,14 +39,8 @@ const logParagraph = document.querySelector('#log');
 
 // add element function
 document.querySelector('#add').addEventListener('click', () => {
-    const cItem = document.createElement('div');
     const numberText = document.querySelectorAll('.box').length + 1;
-    cItem.textContent = numberText;
-    cItem.id=`box${numberText}`;
-    cItem.classList.add('box');
-    cItem.style.backgroundColor = `rgba(${getRandomArbitrary(0, 255)}, ${getRandomArbitrary(0, 255)}, ${getRandomArbitrary(0, 255)}, 1)`;
-
-    document.querySelector('gameface-carousel').addItem(cItem);
+    document.querySelector('gameface-carousel').addItem(createCarouselItem(numberText));
 
     logParagraph.textContent = `
         Added Element at ${numberText} position.
@@ -58,6 +67,18 @@ document.querySelector('#remove').addEventListener('click', () => {
 document.querySelector('#change_page').addEventListener('keydown', (event) => {
     // enter
     if (event.keyCode === 13) document.querySelector('gameface-carousel').pageSize = Math.floor(event.currentTarget.value);
+});
+
+document.querySelector('#set-items').addEventListener('click', () => {
+    const items = [];
+
+    for (let i = 0; i < 10; i++) {
+        const numberText = i + '___element';
+        items.push(createCarouselItem(numberText));
+    }
+
+    logParagraph.textContent = `Added Elements.`;
+    document.querySelector('gameface-carousel').items = items;
 });
 
 

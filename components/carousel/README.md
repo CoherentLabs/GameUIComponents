@@ -53,6 +53,34 @@ modules from the node_modules folder.
 Public API
 ===================
 
+# Properties
+
+### currentItemIndex
+
+This is the index of the active item. It returns a number. You can set it and the carousel will scroll to the specified element. You must pass a number corresponding to an existing item in the carousel.
+
+~~~{.js}
+document.querySelector('gameface-carousel').currentItemIndex = 0;
+~~~
+
+### items
+
+Returns an array of HTMLElements - the carousel items. Setting it will **replace all** current items with the ones from the array.
+
+~~~{.js}
+document.querySelector('gameface-carousel').items = [HTMLElementInstance, HTMLElementInstance1, HTMLElementInstanceN, ...];
+~~~
+
+### currentPage
+
+Returns the index of the currently active page. Setting it will scroll the carousel to specified page.
+
+~~~{.js}
+document.querySelector('gameface-carousel').currentPage = 1;
+~~~
+
+### 
+
 # Available Slots
 ### carousel-content
 
