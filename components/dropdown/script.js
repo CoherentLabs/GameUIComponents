@@ -48,8 +48,8 @@ class GamefaceDropdown extends CustomElementValidator {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
-        this.multiple = false;
-        this.collapsable = false;
+        this._multiple = false;
+        this._collapsable = false;
 
         this.selectedOption = null;
         this.isOpened = false;
@@ -74,6 +74,28 @@ class GamefaceDropdown extends CustomElementValidator {
         this.init = this.init.bind(this);
     }
 
+    /** Returns if the dropdown is collapsable */
+    get collapsable() { return this._collapsable; }
+
+    /**
+     * Will change the dropdown collapsable state
+     * @param {boolean} value
+     */
+    set collapsable(value) {
+        value ? this.setAttribute('collapsable', '') : this.removeAttribute('collapsable');
+    }
+
+    /** Returns if the dropdown is multiple */
+    get multiple() { return this._multiple; }
+
+    /**
+     * Will change the dropdown multiple state
+     * @param {boolean} value
+     */
+    set multiple(value) {
+        value ? this.setAttribute('multiple', '') : this.removeAttribute('multiple');
+    }
+
     /**
      * Returns the text content of the selected dropdown-option.
      * @returns {String}
@@ -83,6 +105,24 @@ class GamefaceDropdown extends CustomElementValidator {
         if (this.selected) return this.selected.value || this.selected.textContent;
 
         return '';
+    }
+
+    /**
+     * Returns the text content of the selected dropdown-option.
+     * @param {string} value
+    */
+    set value(value) {
+        if (!value) {
+            this.setSelectedAndScroll(null);
+        } else {
+            const option = Array.from(this.allOptions).find(option => option.value === value);
+            if (!option) {
+                console.warn(`There is no '${value}' as an option to the dropdown. Will not set the new value`);
+            } else {
+                this.resetSelection();
+                this.setSelectedAndScroll(option, this.isOpened);
+            }
+        }
     }
 
     /**
@@ -383,8 +423,8 @@ class GamefaceDropdown extends CustomElementValidator {
             components.transferChildren(this, '.guic-dropdown-options', this.querySelectorAll('dropdown-option'));
 
             // Check the type after the component has rendered.
-            this.multiple = this.hasAttribute('multiple');
-            this.collapsable = this.hasAttribute('collapsable');
+            this._multiple = this.hasAttribute('multiple');
+            this._collapsable = this.hasAttribute('collapsable');
             // make this element focusable
             this.setAttribute('tabindex', '1');
 
@@ -428,12 +468,12 @@ class GamefaceDropdown extends CustomElementValidator {
             }
         } else if (name === 'multiple') {
             const multiple = newValue !== null;
-            this.multiple = multiple;
+            this._multiple = multiple;
             if (multiple && !this.collapsable) this.setupMultiple();
             if (!multiple) this.removeMultiple();
         } else if (name === 'collapsable') {
             const collapsable = newValue !== null;
-            this.collapsable = collapsable;
+            this._collapsable = collapsable;
             if (collapsable) return this.toggleHeader();
             this.removeCollapsable();
         }
