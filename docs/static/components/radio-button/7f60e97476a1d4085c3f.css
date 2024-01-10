@@ -1,0 +1,85 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+[role="radiogroup"] {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	height: 20px;
+}
+
+[role="radiogroup"]:focus {
+	outline: none;
+}
+
+[role="radio"] {
+	position: relative;
+	padding-left: 20px;
+	cursor: pointer;
+}
+
+[role="radio"] + [role="radio"] {
+	margin-left: 16px;
+}
+
+[role="radio"] .before,
+[role="radio"] .after {
+	position: absolute;
+	top: 50%;
+	left: 7px;
+	transform: translate(-50%, -50%);
+}
+
+[role="radio"] .before {
+	width: 14px;
+	height: 14px;
+	border: 1px solid #25a5d6;
+	border-radius: 100%;
+	background-image: linear-gradient(to bottom, #e6e6e6, #fff 60%);
+}
+
+[role="radio"][aria-checked="true"] .before {
+	background: #fff;
+}
+
+[role="radio"][aria-checked="true"] .after {
+	display: block;
+	border: 4px solid #25a5d6;
+	border-radius: 100%;
+}
+
+[role="radio"][aria-checked="mixed"]:active .before,
+[role="radio"][aria-checked="true"]:active .before {
+	background-image: linear-gradient(to bottom, #3a80e9, #25a5d6 60%);
+}
+
+[role="radio"]:hover .before {
+	border-color: #25a5d6;
+}
+
+[role="radio"]:focus {
+	outline: none;
+}
+
+[role="radio"]:focus .before {
+	width: 16px;
+	height: 16px;
+	box-sizing: content-box;
+	border-color: #25a5d6;
+	border-width: 2px;
+	border-radius: 100%;
+	box-shadow: inset 0 0 0 1px #3a80e9;
+}
+
+.guic-radio-button-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+radio-button[controls-disabled] .before,
+radio-button[controls-disabled] .after {
+    display: none;
+}

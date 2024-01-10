@@ -1,0 +1,86 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.guic-horizontal-rangeslider-wrapper {
+    width: 40vh;
+    display: flex;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    margin: 10vh;
+    user-select: none;
+}
+
+.guic-horizontal-rangeslider {
+    position: relative;
+    width: 100%;
+    height: 5px;
+    background-color:rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+}
+
+.guic-horizontal-rangeslider-handle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #00ccff;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.guic-horizontal-rangeslider-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 50%;
+    background-color: #0085a7;
+}
+
+.guic-horizontal-rangeslider-grid {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.guic-rangeslider-horizontal-grid-pol-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 2px;
+}
+
+.guic-rangeslider-horizontal-grid-pol {
+    height: 10px;
+    width: 2px;
+    background-color: black;
+}
+
+.guic-rangeslider-horizontal-grid-text {
+    color: black;
+    font-size: 0.8rem;
+}
+
+.guic-rangeslider-horizontal-pol-without-text {
+    height: 5px;
+}
+
+.guic-horizontal-rangeslider-thumb {
+    position: absolute;
+    top: -800%; /* Since the percent of the top property is based on the height of the parent, to position the handle above we need 8x the height */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0085a7;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
