@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            body {
+                width: 100vw;
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                background-color: white;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Press the screen and hold for 5 seconds to change the background color to a random one</h1>
+        <h1 class="countdown"></h1>
+        <script src="../../dist/touch-gestures.js"></script>
+        <script>
+            let count = 5;
+            let interval;
+            const countdown = document.querySelector('.countdown');
+
+            document.body.addEventListener('touchstart', () => {
+                countdown.innerHTML = count;
+
+                interval = setInterval(() => {
+                    count -= 1;
+                    countdown.innerHTML = count;
+                    if (count === 0) {
+                        clearInterval(interval);
+                        count = 5;
+                        countdown.innerHTML = 'Release';
+                    }
+                }, 1000);
+            });
+
+            document.body.addEventListener('touchend', () => {
+                clearInterval(interval);
+                count = 5;
+                countdown.innerHTML = '';
+            });
+
+            touchGestures.hold({
+                element: document.body,
+                callback: function () {
+                    const r = Math.floor(Math.random() * 255);
+                    const g = Math.floor(Math.random() * 255);
+                    const b = Math.floor(Math.random() * 255);
+
+                    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+                },
+                time: count * 1000,
+            });
+        </script>
+    </body>
+</html>

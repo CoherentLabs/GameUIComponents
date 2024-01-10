@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            body {
+                width: 100vw;
+                height: 100vh;
+                margin: 0;
+                padding: 0;
+                background-color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .square {
+                width: 300px;
+                height: 300px;
+                background-color: orange;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Pinch to enlarge or shrink the square</h1>
+        <div class="square"></div>
+        <script src="../../dist/touch-gestures.js"></script>
+        <script>
+            let scale = 1;
+            touchGestures.pinch({
+                element: document.body,
+                callback: function ({pinchDelta}) {
+                    const square = document.querySelector('.square');
+                    scale += pinchDelta / 1000;
+                    square.style.transform = `scale(${scale})`;
+                },
+            });
+        </script>
+    </body>
+</html>

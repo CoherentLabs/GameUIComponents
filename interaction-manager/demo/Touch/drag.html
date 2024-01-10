@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            body {
+                width: 100vw;
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                background-color: white;
+            }
+
+            .square {
+                width: 100px;
+                height: 100px;
+                background-color: orange;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Drag the square around the screen</h1>
+        <div class="square"></div>
+        <script src="../../dist/touch-gestures.js"></script>
+        <script>
+            let offsetX, offsetY;
+            const square = document.querySelector('.square');
+            touchGestures.drag({
+                element: square,
+                onDragStart: ({ x, y }) => {
+                    square.style.backgroundColor = 'red';
+
+                    const { x: squareX, y: squareY } = square.getBoundingClientRect();
+                    offsetX = x - squareX;
+                    offsetY = y - squareY;
+                },
+                onDrag: ({ x, y }) => {
+                    square.style.topPX = y - offsetY;
+                    square.style.leftPX = x - offsetX;
+                },
+                onDragEnd: () => {
+                    square.style.backgroundColor = '';
+                },
+            });
+        </script>
+    </body>
+</html>

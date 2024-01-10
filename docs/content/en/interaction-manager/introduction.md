@@ -32,11 +32,12 @@ The `coherent-gameface-interaction-manager` supports the following features:
 - Resize elements
 - Rotate elements
 - Pan and zoom
+- Touch Gestures - tap, hold, drag, swipe, pinch/stretch and zoom
 
 All of these features can be loaded individually from the `coherent-gameface-interaction-manager` library.
 
 ```{.javascript}
-import {keyboard, gamepad, actions, spatialNavigation, draggable, dropzone, resize, rotate, zoom} from 'coherent-gameface-interaction-manager`
+import {keyboard, gamepad, actions, spatialNavigation, draggable, dropzone, resize, rotate, zoom, touchGestures} from 'coherent-gameface-interaction-manager`
 ```
 
 You can also download and load them as individual scripts
