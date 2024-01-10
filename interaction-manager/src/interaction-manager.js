@@ -12,9 +12,10 @@ import dropzone from './lib_components/dropzone';
 import rotate from './lib_components/rotate';
 import resize from './lib_components/resize';
 import zoom from './lib_components/zoom';
+import touchGestures from './lib_components/touch-gestures';
 
 import IM from './utils/global-object';
 
 IM.init();
 
-export { keyboard, gamepad, actions, spatialNavigation, draggable, dropzone, rotate, resize, zoom };
+export { keyboard, gamepad, actions, spatialNavigation, draggable, dropzone, rotate, resize, zoom, touchGestures };

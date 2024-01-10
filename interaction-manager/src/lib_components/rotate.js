@@ -5,6 +5,7 @@
 
 import { createHash, toDeg } from '../utils/utility-functions';
 import actions from './actions';
+import touchGestures from './touch-gestures';
 
 const fullRotation = 360;
 const rotationOffset = 90;
@@ -35,7 +36,20 @@ class Rotate {
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
 
+        this._touchEnabled = false;
+        this.touchEvents = null;
+
         this.init();
+    }
+
+    /**
+     * Enables or disabled touch events
+     * @param {boolean} enabled
+     */
+    set touchEnabled(enabled) {
+        if (this._touchEnabled === enabled) return;
+        this._touchEnabled = enabled;
+        this._touchEnabled ? this.addTouchEvents() : this.removeTouchEvents();
     }
 
     /**
@@ -120,6 +134,32 @@ class Rotate {
      */
     removeActions() {
         actions.remove(this.actionName);
+    }
+
+    /**
+     * Add rotate touch events
+     */
+    addTouchEvents() {
+        this.touchEvents = touchGestures.drag({
+            element: this.rotatingElement,
+            onDragStart: ({ x, y }) => {
+                this.onMouseDown({ clientX: x, clientY: y });
+            },
+            onDrag: ({ x, y }) => {
+                this.onMouseMove({ clientX: x, clientY: y });
+            },
+            onDragEnd: () => {
+                this.onMouseUp();
+            },
+        });
+    }
+
+    /**
+     * Removes the touch events
+     */
+    removeTouchEvents() {
+        this.touchEvents.remove();
+        this.touchEvents = null;
     }
 
     /**
