@@ -11,7 +11,8 @@ import { pm } from 'postmessage-polyfill';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
 
 const progressBarOne = document.getElementById('progress-bar-one');
-progressBarOne.setProgress(100);
+progressBarOne.animDuration = 5000;
+progressBarOne.targetValue = 100;
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -24,13 +25,13 @@ let progressBarTwoValue = 0;
 
 setInterval(() => {
     (progressBarTwoValue < 100) ? progressBarTwoValue += 2 : progressBarTwoValue = 0;
-    progressBarTwo.setProgress(progressBarTwoValue);
+    progressBarTwo.targetValue = progressBarTwoValue;
 }, 100);
 
 const progressBarThree = document.getElementById('progress-bar-three');
 
 setInterval(() => {
-    progressBarThree.setProgress(getRandomInt(0, 100));
+    progressBarThree.targetValue = getRandomInt(0, 100);
 }, getRandomInt(250, 750));
 
 window.postMessage = function (message) {

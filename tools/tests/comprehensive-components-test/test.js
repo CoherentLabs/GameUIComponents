@@ -220,7 +220,7 @@ describe('Comprehensive Components test', () => {
         // move compact on the page otherwie the 100% height create too much scroll
         progressBar.firstElementChild.style.height = '20px';
         const filler = document.querySelector('.guic-progress-bar-filler');
-        progressBar.setProgress(targetValue);
+        progressBar.targetValue = targetValue;
 
         assert.equal(parseInt(filler.style.width), targetValue, `Progress Bar has not been set to ${targetValue}% width.`);
     });

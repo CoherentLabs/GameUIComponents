@@ -1,5 +1,5 @@
 ---
-date: 2024-1-10
+date: 2024-1-19
 title: Components library
 draft: false
 ---
@@ -321,6 +321,7 @@ Class that defines the Gameface components
     * [.transferChildren(element, targetContainerSelector, children)](#GamefaceComponents+transferChildren)
     * [.waitForFrames(callback, count)](#GamefaceComponents+waitForFrames) ⇒ <code>any</code>
     * [.isBrowserGameface()](#GamefaceComponents+isBrowserGameface) ⇒ <code>boolean</code>
+    * [.isNumberPositiveValidation(propName, value)](#GamefaceComponents+isNumberPositiveValidation) ⇒ <code>boolean</code>
 
 <a name="GamefaceComponents+importScript"></a>
 
@@ -542,6 +543,19 @@ Delay the execution of a callback function by n amount of frames.Used to retrie
 Checks if the current user agent is Cohtml
 
 **Kind**: instance method of [<code>GamefaceComponents</code>](#GamefaceComponents)  
+<a name="GamefaceComponents+isNumberPositiveValidation"></a>
+
+### gamefaceComponents.isNumberPositiveValidation(propName, value) ⇒ <code>boolean</code>
+Check if a value is a number and if not - log an error
+
+**Kind**: instance method of [<code>GamefaceComponents</code>](#GamefaceComponents)  
+**Returns**: <code>boolean</code> - - true if it is a number or a string that can be cast to number, false if not  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| propName | <code>string</code> | the name of the property that needs to be validated |
+| value | <code>any</code> |  |
+
 <a name="ComponentSlot"></a>
 
 ## ComponentSlot
