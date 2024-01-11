@@ -1,5 +1,5 @@
 ---
-date: 2023-11-01
+date: 2024-1-10
 title: Rangeslider
 draft: false
 ---

@@ -1,0 +1,173 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+:root {
+    --text-field-number-arrow-size: 8px;
+    --text-field-number-arrow-color: black;
+    --text-field-search-cross-size: 8px;
+    --text-field-search-cross-width: 4px;
+    --text-field-search-cross-color: black;
+    --text-field-font-size: 16px;
+    --text-field-font-family: "Droid Sans";
+    --text-field-padding-left: 5px;
+    --text-field-padding-right: 5px;
+}
+
+.guic-text-field-container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    text-align: left;
+}
+
+.guic-text-field-label {
+    margin-right: 10px;
+}
+
+.guic-search-remove,
+.guic-number-control {
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.guic-search-remove:hover {
+    --text-field-search-cross-color: var(--default-color-blue);
+}
+
+.guic-search-remove-right-line,
+.guic-search-remove-left-line {
+    position: relative;
+    border-radius: 20px;
+    width: 0px;
+    border-left-width: var(--text-field-search-cross-size);
+    border-left-color: var(--text-field-search-cross-color);
+    border-left-style: solid;
+
+    border-right-width: var(--text-field-search-cross-size);
+    border-right-color: var(--text-field-search-cross-color);
+    border-right-style: solid;
+
+    border-bottom-width: var(--text-field-search-cross-width);
+    border-bottom-color: var(--text-field-search-cross-color);
+    border-bottom-style: solid;
+}
+
+.guic-search-remove-right-line {
+    top: calc(var(--text-field-search-cross-width) /2);
+    transform: rotate(45deg);
+}
+
+.guic-search-remove-left-line {
+    top: calc(var(--text-field-search-cross-width) /-2);
+    transform: rotate(-45deg);
+}
+
+.guic-text-field-with-controls {
+    position: relative;
+    flex: 1;
+    height: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-style: solid;
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.guic-text-field,
+.guic-text-field-placeholder {
+    font-size: var(--text-field-font-size);
+    font-family: var(--text-field-font-family);
+    padding-right: var(--text-field-padding-right);
+    padding-left: var(--text-field-padding-left);
+    border: none;
+    background: transparent;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.guic-text-field {
+    flex: 1;
+    width: 100%;
+    position: relative;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.guic-text-field-placeholder {
+    position: absolute;
+    opacity: 0.5;
+    width: 98%;
+    white-space: pre;
+    cursor: text;
+    overflow-x: hidden;
+}
+
+.guic-hidden {
+    display: none;
+}
+
+.guic-text-field-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.guic-number-control {
+    position: relative;
+}
+
+.guic-number-increase,
+.guic-number-decrease {
+    position: relative;
+    width: 0;
+    height: 50%;
+}
+
+.guic-number-increase {
+    border-left-width: var(--text-field-number-arrow-size);
+    border-left-color: transparent;
+    border-left-style: solid;
+
+    border-right-width: var(--text-field-number-arrow-size);
+    border-right-color: transparent;
+    border-right-style: solid;
+
+    border-bottom-width: var(--text-field-number-arrow-size);
+    border-bottom-color: var(--text-field-number-arrow-color);
+    border-bottom-style: solid;
+    top: -0.1em;
+}
+
+.guic-number-increase:hover {
+    border-bottom-color: var(--default-color-blue);
+}
+
+.guic-number-decrease {
+    border-left-width: var(--text-field-number-arrow-size);
+    border-left-color: transparent;
+    border-left-style: solid;
+
+    border-right-width: var(--text-field-number-arrow-size);
+    border-right-color: transparent;
+    border-right-style: solid;
+
+    border-top-width: var(--text-field-number-arrow-size);
+    border-top-color: var(--text-field-number-arrow-color);
+    border-top-style: solid;
+
+    bottom: -0.1em;
+}
+
+.guic-number-decrease:hover {
+    border-top-color: var(--default-color-blue);
+}

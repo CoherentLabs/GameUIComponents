@@ -1,35 +1,52 @@
 ---
-date: 2023-10-16
+date: 2024-1-10
 title: Slider
 draft: false
 ---
 
-<!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+
+
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    {{<staticLink href="components/coherent-gameface-components-theme.css">}}
-    {{<staticLink href="components/slider/horizontal.css">}}
-    {{<staticLink href="components/slider/vertical.css">}}
-    <style>
-        body {
-            background-color: transparent;
-        }
-
-        .horizontal-slider-component {
-            margin-left: 100px;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="guic-demo">
-        <gameface-slider class="slider-component" orientation="vertical"></gameface-slider>
-        <gameface-slider class="horizontal-slider-component" orientation="horizontal"></gameface-slider>
-    </div>
-
-    {{<staticScript src="components/slider/bundle.js">}}
-</body>
-
+    <head>
+        {{<staticLink href="components/slider/50df50e542a787702c5e.css">}}
+        {{<staticLink href="components/slider/cba9b2f49efe81fef76e.css">}}
+        {{<staticLink href="components/slider/063fe38529416528477b.css">}}
+        <style>
+            .guic-vertical-slider-wrapper {
+                height: 40vh;
+            }
+            .guic-slider-horizontal-slider {
+                width: 30vh;
+            }
+            .flex-container {
+                display: flex;
+            }
+            .avatar {
+                width: 30vh;
+                height: 40vh;
+                background-size: contain;
+                background-repeat: no-repeat no-repeat;
+                background-image: url({{<staticUrl "images/avatar4.png">}});
+            }
+        </style>
+    </head>
+    <body class="guic-demo">
+        <div class="slider-container">
+            <h3 class="blur-text">Blur: 0</h3>
+            <div class="flex-container">
+                <gameface-slider class="slider-component" orientation="vertical"></gameface-slider>
+                <div class="avatar"></div>
+            </div>
+        </div>
+        <div class="slider-container">
+            <gameface-slider
+                class="horizontal-slider-component"
+                orientation="horizontal"
+            ></gameface-slider>
+            <h3 class="rotate-text">Hue Rotate: 0</h3>
+        </div>
+        {{<staticScript src="components/slider/bundle.js">}}
+    </body>
 </html>
