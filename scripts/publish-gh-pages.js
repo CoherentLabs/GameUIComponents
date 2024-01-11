@@ -40,8 +40,9 @@ function prepareDocs() {
 
 function transferDocs() {
     core.startGroup(`Transfer documentation to ${GH_PAGES_BRANCH}`);
+    core.info(`[INFO] Fetching repository...`);
+    exec(`git fetch --no-recurse-submodules`);
     core.info(`[INFO] Checking out ${GH_PAGES_BRANCH} branch`);
-    exec(`git fetch`);
     exec(`git checkout ${GH_PAGES_BRANCH}`);
     core.info(`Clearing the previous branch files`);
     exec('rm -rf *');
