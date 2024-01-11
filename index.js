@@ -67,16 +67,19 @@ baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
       showMoreResults(searchQuery);
     }, true)
 
-    const [resultIds, resultTitlesIds] = getIndexResults(index, searchQuery, searchDocumentsLimit);
+    const searchTokens = searchQuery.toLowerCase().trim().replace(/ +/g, ' ').split(' ');
+
+    const [resultIds, resultTitlesIds] = getIndexResults(index, [searchQuery, ...searchTokens], searchDocumentsLimit);
 
     if (!hasResultsForQuery(resultIds, resultTitlesIds, searchQuery)) return;
 
     // construct a list of suggestions
     constructTitleSuggestions(entries, resultTitlesIds, 'suggestion__description', true);
 
-    const RESULTS_PER_DOCUMENT_LIMIT = 3;
+    const RESULTS_PER_DOCUMENT_LIMIT = 5;
+
     // construct a list of suggestions
-    constructContentSuggestions(entries, searchQuery, resultIds, 'suggestion__description', true, RESULTS_PER_DOCUMENT_LIMIT);
+    constructContentSuggestions(entries, searchTokens, resultIds, 'suggestion__description', true, RESULTS_PER_DOCUMENT_LIMIT);
 
     if (entries.length) {
       for (const entry of entries) {

@@ -1,0 +1,93 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+    background-color: #ebebeb;
+}
+
+gameface-switch {
+    display: flex;
+}
+
+.guic-switch-toggle-container {
+    display: flex;
+    align-items: center;
+}
+
+.guic-switch-toggle-disabled {
+    filter: grayscale(0.2);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.guic-switch-toggle-false {
+    margin-right: 10px;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.guic-switch-toggle-true {
+    margin-left: 10px;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.guic-switch-toggle {
+    width: 30px;
+    height: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: rgb(180, 180, 180);
+    border-radius: 15px;
+    transition-property: background-color;
+    transition-duration: 0.4s;
+    box-sizing: border-box;
+}
+
+.guic-switch-toggle-inset {
+    height: 20px;
+    width: 35px;
+    border-radius: 15px;
+    border-right: 3px solid transparent;
+}
+
+.guic-switch-toggle-text-inside {
+    height: 22px;
+    border-radius: 10px;
+    width: auto;
+    border-right: 3px solid transparent;
+}
+
+.guic-switch-toggle-handle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    left: 6%;
+    transition-property: left, background-color, transform;
+    transition-duration: 0.2s;
+}
+
+.guic-switch-toggle-handle-default {
+    left: 0%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.guic-switch-toggle-checked {
+    background-color: rgba(36, 163, 214, 0.5);
+}
+
+
+.guic-switch-toggle-handle-checked {
+    background-color: rgb(36, 163, 214);
+    left: 100%;
+    transform: translateX(-100%);
+}
+
+.guic-switch-text-hidden {
+    opacity: 0;
+}

@@ -162,7 +162,10 @@ var pagination = document.getElementById('pagination');
 
     clearPrevResults();
     window.localStorage.setItem('searchQuery', searchQuery);
-    const [resultIds, resultTitlesIds] = getIndexResults(index, searchQuery);
+
+    const searchTokens = searchQuery.toLowerCase().trim().replace(/ +/g, ' ').split(' ');
+
+    const [resultIds, resultTitlesIds] = getIndexResults(index, [searchQuery, ...searchTokens]);
 
     if (!hasResultsForQuery(resultIds, resultTitlesIds, searchQuery)) return;
 
@@ -170,7 +173,7 @@ var pagination = document.getElementById('pagination');
     constructTitleSuggestions(entries, resultTitlesIds, 'suggestion__description_all');
 
     // construct a list of suggestions
-    constructContentSuggestions(entries, searchQuery, resultIds, 'suggestion__description_all');
+    constructContentSuggestions(entries, searchTokens, resultIds, 'suggestion__description_all');
 
     if (entries.length) {
       addPagination();

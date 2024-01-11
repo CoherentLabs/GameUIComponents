@@ -1,0 +1,50 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+ .guic-checkbox-wrapper {
+    position: relative;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.guic-checkbox-wrapper-inner {
+    background-color: var(--default-color-white);
+}
+
+.guic-checkbox-background {
+    box-sizing: border-box;
+    top: 0px;
+    width: 30px;
+    height: 30px;
+    border-width: 5px;
+    border-style: solid;
+    border-top-color: var(--default-color-gray);
+    border-right-color: var(--default-color-gray);
+    border-bottom-color: var(--default-color-gray);
+    border-left-color: var(--default-color-gray);
+}
+
+.guic-check-mark {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--default-color-blue);
+}
+
+.guic-checkbox-label {
+    position: relative;
+    padding-left: 10px;
+    line-height: 30px;
+    user-select: none;
+}
+
+.guic-checkbox-disabled {
+    filter: grayscale(0.2);
+    opacity: 0.5;
+    pointer-events: none;
+}
