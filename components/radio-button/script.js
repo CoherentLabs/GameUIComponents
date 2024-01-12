@@ -35,6 +35,21 @@ class GamefaceRadioGroup extends HTMLElement {
         return null;
     }
 
+    /**
+     * @param {string} value - the value of the radio button
+     */
+    set value(value) {
+        let isFound = false;
+        this.allButtons.forEach((button) => {
+            if (button.value === value && !button.disabled) {
+                isFound = true;
+                this.checkButton(button);
+            }
+        });
+
+        if (!isFound) console.warn(`No radio button with value ${value} found or the button is disabled.`);
+    }
+
     // eslint-disable-next-line require-jsdoc
     get disabled() {
         return this.hasAttribute('disabled');
@@ -216,7 +231,7 @@ class GamefaceRadioGroup extends HTMLElement {
  */
 class RadioButton extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
-    static get observedAttributes() { return ['checked', 'disabled', 'value']; }
+    static get observedAttributes() { return ['checked', 'disabled', 'value', 'name']; }
 
     // eslint-disable-next-line require-jsdoc
     constructor() {
@@ -230,12 +245,14 @@ class RadioButton extends BaseComponent {
             checked: { type: ['boolean'] },
             disabled: { type: ['boolean'] },
             value: { type: ['string'] },
+            name: { type: ['string'] },
         };
 
         this.state = {
             checked: false,
             disabled: false,
             value: 'on',
+            name: '',
         };
     }
 
@@ -276,6 +293,7 @@ class RadioButton extends BaseComponent {
             case 'disabled':
                 this.updateDisabledState(value !== null);
                 break;
+            case 'name':
             case 'value':
                 this.updateState(name, value);
                 break;
@@ -341,6 +359,17 @@ class RadioButton extends BaseComponent {
         } else {
             this.removeAttribute('disabled');
         }
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get name() {
+        return this.state.name;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set name(value) {
+        const trimmed = value.trim();
+        trimmed ? this.setAttribute('name', trimmed) : this.removeAttribute('name');
     }
 
     /**
