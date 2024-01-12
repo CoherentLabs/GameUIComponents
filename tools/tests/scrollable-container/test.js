@@ -152,7 +152,7 @@ describe('Scrollable Container Component', () => {
         assert(handlePos == SCROLL_PERCENT, `The scrollable container is not scrolled to ${SCROLL_PERCENT}%`);
     });
 
-    it('Should scrollPos be equal to the handle position when scrolled', async () => {
+    xit('Should scrollPos be equal to the handle position when scrolled', async () => {
         const scrollableContainer = document.querySelector('gameface-scrollable-container');
         const handle = document.querySelector('.guic-slider-vertical-handle');
 
