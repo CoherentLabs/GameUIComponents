@@ -27,7 +27,22 @@ class ScrollableContainer extends BaseComponent {
 
     // eslint-disable-next-line require-jsdoc
     set automatic(value) {
-        this._automatic = value;
+        value ? this.setAttribute('automatic', 'automatic') : this.removeAttribute('automatic');
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get scrollPos() {
+        return this._scrollPos;
+    }
+
+    /**
+     * Set the scroll position of the scrollable container.
+     * @param {number} value - the new scroll position in percents
+     */
+    set scrollPos(value) {
+        this._scrollPos = value;
+        // set the position of the scrollbar handle
+        this.scrollbar.handlePosition = this._scrollPos;
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -161,8 +176,6 @@ class ScrollableContainer extends BaseComponent {
     onScroll() {
         // get the scroll position in percents
         this.scrollPos = (this.scrollableContainer.scrollTop / this.scrollableContainer.scrollHeight) * 100;
-        // set the position of the scrollbar handle
-        this.scrollbar.handlePosition = this.scrollPos;
     }
 
     /**
@@ -203,6 +216,13 @@ class ScrollableContainer extends BaseComponent {
         }
 
         this.showScrollBar(this.scrollbar);
+        this.scrollbar.resize(this.scrollableContainer);
+    }
+
+    /**
+     * Resizes the scrollbar manually
+     */
+    resize() {
         this.scrollbar.resize(this.scrollableContainer);
     }
 }

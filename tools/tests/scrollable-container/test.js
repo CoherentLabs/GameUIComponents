@@ -140,6 +140,72 @@ describe('Scrollable Container Component', () => {
             assert.strictEqual(sliderrClientRectHeight, CHANGED_CONTAINER_SIZE, `The scrollable container height is not ${CHANGED_CONTAINER_SIZE}px.`);
         });
     });
+
+    it('Should scroll to scrollPos', async () => {
+        const SCROLL_PERCENT = 50;
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+        const handle = document.querySelector('.guic-slider-vertical-handle');
+
+        scrollableContainer.scrollPos = SCROLL_PERCENT;
+        const handlePos = parseInt(handle.style.top);
+
+        assert(handlePos == SCROLL_PERCENT, `The scrollable container is not scrolled to ${SCROLL_PERCENT}%`);
+    });
+
+    it('Should scrollPos be equal to the handle position when scrolled', async () => {
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+        const handle = document.querySelector('.guic-slider-vertical-handle');
+
+        const downButton = document.querySelector('.guic-slider-arrow-down');
+
+        await createAsyncSpec(() => {
+            downButton.dispatchEvent(new CustomEvent('mousedown', { bubbles: true }));
+        });
+
+        return createAsyncSpec(() => {
+            const handlePos = parseFloat(handle.style.top).toFixed(6); // The handle styles get truncated to 6 decimal places.
+
+            assert(scrollableContainer.scrollPos.toFixed(6) == handlePos, `The scrollable container is not scrolled to ${handlePos}%`);
+        });
+    });
+
+    it('Should set automatic attribute from property', async () => {
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+        scrollableContainer.automatic = true;
+
+        assert(scrollableContainer.hasAttribute('automatic'), 'The automatic attribute is not set.');
+    });
+
+    it('Should remove automatic attribute from property', async () => {
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+
+        scrollableContainer.setAttribute('automatic', 'automatic');
+
+        scrollableContainer.automatic = false;
+
+        assert(!scrollableContainer.hasAttribute('automatic'), 'The automatic attribute is not removed.');
+    });
+
+    it('Should manually resize the slider using the resize function', async () => {
+        let initialHandleSize;
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+        const scrollableContent = document.querySelector('[data-name="scrollable-content"]');
+        const handle = document.querySelector('.guic-slider-vertical-handle');
+
+        await createAsyncSpec(() => {
+            initialHandleSize = handle.getBoundingClientRect().height;
+        }, 5); // wait for slider to get the correct size
+
+        await createAsyncSpec(() => {
+            scrollableContent.textContent += scrollableContent.textContent;
+            scrollableContainer.resize();
+        });
+
+        return createAsyncSpec(() => {
+            const handleSize = handle.getBoundingClientRect().height;
+            assert(handleSize < initialHandleSize, 'The slider handle is not resized.');
+        }, 4);
+    });
 });
 
 // eslint-disable-next-line max-lines-per-function
