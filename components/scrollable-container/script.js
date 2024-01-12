@@ -35,7 +35,10 @@ class ScrollableContainer extends BaseComponent {
         return this._scrollPos;
     }
 
-    // eslint-disable-next-line require-jsdoc
+    /**
+     * Set the scroll position of the scrollable container.
+     * @param {number} value - the new scroll position in percents
+     */
     set scrollPos(value) {
         this._scrollPos = value;
         // set the position of the scrollbar handle
