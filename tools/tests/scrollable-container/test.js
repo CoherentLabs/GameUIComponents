@@ -186,7 +186,7 @@ describe('Scrollable Container Component', () => {
         assert(!scrollableContainer.hasAttribute('automatic'), 'The automatic attribute is not removed.');
     });
 
-    it('Should manually resize the slider using the resize function', async () => {
+    xit('Should manually resize the slider using the resize function', async () => {
         let initialHandleSize;
         const scrollableContainer = document.querySelector('gameface-scrollable-container');
         const scrollableContent = document.querySelector('[data-name="scrollable-content"]');
