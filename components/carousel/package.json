@@ -1,6 +1,6 @@
 {
     "name": "coherent-gameface-carousel",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "A component for Coherent Labs Gameface.",
     "main": "script.js",
     "repository": {

@@ -81,18 +81,27 @@ function setupCarousel(template) {
 }
 
 /**
+ * Create an HTML element that can be added as an item to the carousel
+ * @param {string} textContent
+ * @returns {HTMLElement}
+ */
+function createCarouselItem(textContent) {
+    const cItem = document.createElement('div');
+    cItem.textContent = textContent;
+    cItem.id=`box${textContent}`;
+    cItem.classList.add('box');
+    cItem.style.backgroundColor = 'red';
+
+    return cItem;
+}
+
+/**
  * Dynamically add an item to the carousel.
  * @param {HTMLElement} carousel
  */
 function addItem(carousel) {
-    const cItem = document.createElement('div');
     const numberText = document.querySelectorAll('.box').length + 1;
-    cItem.textContent = numberText;
-    cItem.id=`box${numberText}`;
-    cItem.classList.add('box');
-    cItem.style.backgroundColor = `#000`;
-
-    carousel.addItem(cItem);
+    carousel.addItem(createCarouselItem(numberText));
 }
 
 describe('Carousel component', () => {
@@ -212,5 +221,44 @@ describe('Carousel component', () => {
 
         assert(carousel.visibleItemsIndexes.length === 4, 'Carousel did not update the page size.');
         assert(dots.length === 2, 'Carousel did not update the length of the dots.');
+    });
+
+    it('Should set currentItemIndex', () => {
+        const carousel = document.querySelector('gameface-carousel');
+        carousel.currentItemIndex = 2;
+
+        assert(carousel.visibleItemsIndexes[0] === 2, 'Carousel did not update its active item.');
+    });
+
+    it('Should get currentItemIndex', () => {
+        const carousel = document.querySelector('gameface-carousel');
+        assert(carousel.currentItemIndex === 0, 'Carousel did not return correct active item.');
+    });
+
+    it('Should get items correctly', () => {
+        const carousel = document.querySelector('gameface-carousel');
+        assert(carousel.items.length === 8, 'Carousel did not return correct length for items.');
+    });
+
+    it('Should set items correctly', () => {
+        const carousel = document.querySelector('gameface-carousel');
+        carousel.items = [createCarouselItem('First Item'), createCarouselItem('Second Item')];
+
+        assert(carousel.items.length === 2, 'Carousel did not set items correctly.');
+        assert(carousel.items[0].textContent === 'First Item', `Carousel's first element is not correct.`);
+        assert(carousel.items[1].textContent === 'Second Item', `Carousel's second element is not correct.`);
+        assert(carousel.pagesCount === 1, `Carousel did not update its pages correctly.`);
+    });
+
+    it('Should get current page correctly', () => {
+        const carousel = document.querySelector('gameface-carousel');
+        assert(carousel.currentPage === 1, 'Carousel did not return correct current page.');
+    });
+
+    it('Should set current page correctly', () => {
+        const carousel = document.querySelector('gameface-carousel');
+        carousel.currentPage = 2;
+
+        assert(carousel.visibleItemsIndexes[0] === 2, 'Carousel did not update its current page.');
     });
 });

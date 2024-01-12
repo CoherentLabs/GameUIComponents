@@ -30,7 +30,8 @@ class Carousel extends BaseComponent {
 
         this._pageSize = 2;
         this._navArrowStepSize = 1;
-        this.currentItemIndex = 0;
+        this._currentItemIndex = 0;
+        this._currentPageIndex = 0;
         this.itemsDirection = 1;
     }
 
@@ -47,14 +48,7 @@ class Carousel extends BaseComponent {
             components.renderOnce(this);
 
             this.contentWrapper = this.querySelector(CONTENT_WRAPPER_SELECTOR);
-            components.waitForFrames(() => {
-                if (!this.items || !this.items[0]) return console.warn('No items were added to the carousel!');
-                const { width, height } = this.items[0].getBoundingClientRect();
-                this.itemWidth = width;
-                this.itemHeight = height;
-
-                this.resize();
-            });
+            components.waitForFrames(() => this.initSize());
             this.style.visibility = 'visible';
 
             this.createPaginationControls();
@@ -66,10 +60,23 @@ class Carousel extends BaseComponent {
     }
 
     /**
+     * Setup the sized of the carouse based on the items
+     * @returns {undefined}
+     */
+    initSize() {
+        if (!this.items || !this.items[0]) return console.warn('No items were added to the carousel!');
+        const { width, height } = this.items[0].getBoundingClientRect();
+        this.itemWidth = width;
+        this.itemHeight = height;
+
+        this.resize();
+    }
+
+    /**
      * Return the number of pages on the carousel.
      * Calculated runtime. Returns 0 if there are no items.
      */
-    get pages() {
+    get pagesCount() {
         return (this.items?.length / this.pageSize) || 0;
     }
 
@@ -78,6 +85,31 @@ class Carousel extends BaseComponent {
      */
     get items() {
         return this.querySelector(CONTENT_WRAPPER_SELECTOR).children;
+    }
+
+    /**
+     * Set the array of items to the carousel
+     * @param {Array<HTMLElement>} value
+     */
+    set items(value) {
+        this.contentWrapper.innerHTML = '';
+        if (!(value instanceof Array)) {
+            console.error(`Invalid type passed for items - it must be an array - received ${typeof value}`);
+            return;
+        }
+
+        value.forEach((element) => {
+            if (element instanceof HTMLElement) {
+                this.contentWrapper.appendChild(element);
+            } else {
+                console.warn(`${element} is not an HTMLElement! It will not be added it to the carousel.`);
+            }
+        });
+
+        components.waitForFrames(() => {
+            this.initSize();
+            this.createPaginationControls();
+        });
     }
 
     /**
@@ -147,6 +179,7 @@ class Carousel extends BaseComponent {
      */
     set currentItemIndex(value) {
         this._currentItemIndex = value;
+        this.moveTo(value);
     }
 
     /**
@@ -164,6 +197,27 @@ class Carousel extends BaseComponent {
         this._pageSize = value;
         this.resize();
         this.createPaginationControls();
+    }
+
+    /**
+     * Returns the current page
+     */
+    get currentPage() {
+        return Math.ceil(this.currentItemIndex / this.pageSize + 1);
+    }
+
+    /**
+     * Set the current page index
+     * Move the carousel to the specified page
+     * @param {number} value
+     */
+    set currentPage(value) {
+        if (value > this.pagesCount) value = this.pagesCount;
+        if (value < 0) value = 1;
+        this.moveTo(this.pageSize * value - this.pageSize);
+
+        this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
+        this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
     }
 
     /**
@@ -232,9 +286,8 @@ class Carousel extends BaseComponent {
      * @param {index} index - the position at which to add it.
      */
     addItem(node, index) {
-        const contentWrapper = this.querySelector(CONTENT_WRAPPER_SELECTOR);
         if (index === undefined || index < 0) {
-            contentWrapper.appendChild(node);
+            this.contentWrapper.appendChild(node);
         } else {
             const referenceNode = this.items[index - 1];
             referenceNode.parentNode.insertBefore(node, referenceNode);
@@ -265,7 +318,7 @@ class Carousel extends BaseComponent {
         if (this.overflows(previous)) previous = 0;
 
         this.currentItemIndex = previous;
-        this.moveTo(-this.currentItemIndex);
+        this.moveTo(this.currentItemIndex);
 
         this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
         this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
@@ -280,7 +333,7 @@ class Carousel extends BaseComponent {
 
         if (!this.overflows(next)) {
             this.currentItemIndex = next;
-            this.moveTo(-this.currentItemIndex);
+            this.moveTo(this.currentItemIndex);
         }
 
         this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
@@ -292,7 +345,11 @@ class Carousel extends BaseComponent {
      * @param {number} index
      */
     moveTo(index) {
-        this.contentWrapper.style.left = `${index * this.itemWidth}px`;
+        if (index < 0) index = 0;
+        if (index > this.itemsLength) index = this.itemsLength - this.pageSize;
+
+        this._currentItemIndex = index;
+        this.contentWrapper.style.left = `${-index * this.itemWidth}px`;
     }
 
     /**
@@ -303,7 +360,8 @@ class Carousel extends BaseComponent {
     createDot(page) {
         const dot = document.createElement('div');
         dot.classList.add('guic-carousel-dot');
-        dot.dataset.page = page;
+        // do not use 0 as page number
+        dot.dataset.page = page + 1;
 
         return dot;
     }
@@ -315,7 +373,7 @@ class Carousel extends BaseComponent {
         const container = this.querySelector(DOTS_CONTAINER_SELECTOR);
         container.innerHTML = '';
 
-        for (let i = 0; i < this.pages; i++) {
+        for (let i = 0; i < this.pagesCount; i++) {
             container.appendChild(this.createDot(i));
         }
 
@@ -332,10 +390,13 @@ class Carousel extends BaseComponent {
      * @param {Event} e
      */
     onClickOnNavDot(e) {
-        const page = e.currentTarget.dataset.page;
+        // page names start from 1 so we need to
+        // detract 1 to get the page index
+        const page = e.currentTarget.dataset.page - 1;
+        this._currentPage = page;
         this.currentItemIndex = (Number(page) * this.pageSize);
 
-        this.moveTo(-this.currentItemIndex);
+        this.moveTo(this.currentItemIndex);
         this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
         this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
     }
