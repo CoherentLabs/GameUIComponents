@@ -7,4 +7,4 @@ updates:
     target-branch: "master"
     # Labels on pull requests for security and version updates
     labels:
-      - "npm dependencies check"
+      - "dependencies"
