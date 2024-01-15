@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-dropdown",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "repository": {

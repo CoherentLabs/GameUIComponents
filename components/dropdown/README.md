@@ -34,12 +34,12 @@ To add options to the dropdown use the **dropdown-option** custom element:
 </gameface-dropdown>
 ~~~~
 
-To manually select an option use the setSelected(`<optionIndex>`) function.
+To manually select an option use the dropdown `value` setter.
 For example - to select the Giraffe option from the dropdown above call:
 
 ~~~~{.js}
 const dropdown = document.getElementById('my-dropdown');
-dropdown.setSelected(2);
+dropdown.value = 'Giraffe';
 ~~~~
 
 This is all! Load the file in Gameface to see the gameface-dropdown.
@@ -104,6 +104,14 @@ You can modify the dropdown and its options using HTML attributes. The `gameface
 - multiple - makes the dropdown multiple, enabling selecting more than one option
 - collapsable - specifies if the options' list should be always visible
 - disabled - makes the dropdown disabled
+
+Also these options are added as setters to the dropdown so you can runtime change the dropdown using JavaScript. For example:
+
+```javascript
+dropdown.multiple = true;
+dropdown.collapsable = true;
+dropdown.disabled = false;
+```
 
 The `dropdown-option` supports:
 
