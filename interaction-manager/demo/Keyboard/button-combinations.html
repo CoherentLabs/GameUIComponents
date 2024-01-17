@@ -101,7 +101,7 @@
                 callback: () => {
                     document.querySelector('.square').style.animationPlayState = 'running';
                 },
-                type: 'press',
+                type: ['press'],
             });
 
             keyboard.on({
@@ -109,7 +109,7 @@
                 callback: () => {
                     document.querySelector('.square').style.animationPlayState = 'paused';
                 },
-                type: 'press',
+                type: ['press'],
             });
 
             keyboard.on({
@@ -117,7 +117,7 @@
                 callback: () => {
                     document.querySelector('.square').style.animationDirection = 'normal';
                 },
-                type: 'press',
+                type: ['press'],
             });
 
             keyboard.on({
@@ -125,7 +125,7 @@
                 callback: () => {
                     document.querySelector('.square').style.animationDirection = 'reverse';
                 },
-                type: 'press',
+                type: ['press'],
             });
         </script>
     </body>

@@ -85,10 +85,10 @@ keyboard.on({
 Type:
 
 ```{.javascript}
-type type = ('press' | 'hold' | 'lift)
+type type = string[]
 ```
 
-The `type` property shows the type of key interaction that the callback will be triggered on.
+The `type` property shows the type of key interaction that the callback will be triggered on. You can pass the following interaction types: `press`, `hold` and `lift`.
 
 This example will trigger the callback on a key press. If you press and hold the key it will only trigger once.
 
@@ -96,7 +96,7 @@ This example will trigger the callback on a key press. If you press and hold the
 keyboard.on({
     keys: ['A', 'B', 'C'],
     callback: () => doSomething(),
-    type: 'press'
+    type: ['press']
 });
 ```
 
@@ -106,7 +106,7 @@ This example will trigger the callback when you hold the key. If you press the k
 keyboard.on({
     keys: ['A', 'B', 'C'],
     callback: () => doSomething(),
-    type: 'hold'
+    type: ['hold']
 });
 ```
 
@@ -116,7 +116,17 @@ This example will trigger the callback when you lift your finger from the key. T
 keyboard.on({
     keys: ['A', 'B', 'C'],
     callback: () => doSomething(),
-    type: 'lift'
+    type: ['lift']
+});
+```
+
+This example will trigger the callback when you press the key and also when you hold it.
+
+```{.javascript}
+keyboard.on({
+    keys: ['A', 'B', 'C'],
+    callback: () => doSomething(),
+    type: ['press', 'hold']
 });
 ```
 

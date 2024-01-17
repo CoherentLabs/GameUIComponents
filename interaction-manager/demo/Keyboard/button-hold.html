@@ -43,7 +43,7 @@
                     const b = Math.floor(Math.random() * 255);
                     square.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
                 },
-                type: 'press',
+                type: ['press'],
             });
 
             keyboard.on({
@@ -60,7 +60,7 @@
                     square.style.left = `${pos.x + direction.x}px`;
                     square.style.top = `${pos.y + direction.y}px`;
                 },
-                type: 'hold',
+                type: ['hold'],
             });
         </script>
     </body>

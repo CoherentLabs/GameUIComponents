@@ -16,7 +16,7 @@ describe('Keyboard', () => {
         interactionManager.keyboard.on({
             keys: singleKey,
             callback: () => {},
-            type: 'press',
+            type: ['press'],
         });
 
         const keyAction = _IM.getKeys(singleKey);
@@ -39,7 +39,7 @@ describe('Keyboard', () => {
             callback: () => {
                 hasExecuted = true;
             },
-            type: 'press',
+            type: ['press'],
         });
 
         singleKey.forEach((key) => {
@@ -58,7 +58,7 @@ describe('Keyboard', () => {
             callback: () => {
                 hasExecuted = true;
             },
-            type: 'press',
+            type: ['press'],
         });
 
         keyCombination.forEach((key) => {
@@ -78,7 +78,7 @@ describe('Keyboard', () => {
             callback: () => {
                 counter += 1;
             },
-            type: 'press',
+            type: ['press'],
         });
 
         singleKey.forEach((key) => {
@@ -99,7 +99,7 @@ describe('Keyboard', () => {
             callback: () => {
                 counter += 1;
             },
-            type: 'hold',
+            type: ['hold'],
         });
 
         singleKey.forEach((key) => {
@@ -121,7 +121,7 @@ describe('Keyboard', () => {
             callback: () => {
                 counter += 1;
             },
-            type: 'lift',
+            type: ['lift'],
         });
 
         singleKey.forEach((key) => {
@@ -131,5 +131,26 @@ describe('Keyboard', () => {
         interactionManager.keyboard.off(singleKey);
 
         assert.equal(counter, 1);
+    });
+
+    it('Should execute the same action on two or more types', () => {
+        let counter = 0;
+
+        interactionManager.keyboard.on({
+            keys: singleKey,
+            callback: () => {
+                counter += 1;
+            },
+            type: ['press', 'lift'],
+        });
+
+        singleKey.forEach((key) => {
+            simulateKeyDown(key);
+            simulateKeyUp(key);
+        });
+
+        interactionManager.keyboard.off(singleKey);
+
+        assert.equal(counter, 2);
     });
 });
