@@ -112,3 +112,11 @@ button.
 
 Mouse focusing works as well as keyboard navigation and focusing using the
 arrow keys and Enter or Space keys.
+
+To select a `<radio-button>` using code, you can do the following:
+```js
+const radioGroup = document.querySelector('gameface-radio-group');
+radioGroup.value = {{SOME_RADIO_BUTTON_VALUE}};
+```
+
+If the value you've set doesn't match any of the available radio button values it will return a warning. 
