@@ -30,7 +30,7 @@ describe('Radio Button Tests', () => {
         const template = `
         <gameface-radio-group>
             <radio-button value="one">1</radio-button>
-            <radio-button>2</radio-button>
+            <radio-button value="two">2</radio-button>
             <radio-button>3</radio-button>
         </gameface-radio-group>`;
 
@@ -67,7 +67,7 @@ describe('Radio Button Tests', () => {
         });
 
         it('Radio Button should have a working "value" getter. The value should be "on"', () => {
-            const radioButton = document.querySelectorAll('radio-button')[1];
+            const radioButton = document.querySelectorAll('radio-button')[2];
             assert.equal(radioButton.value, 'on', 'First radio-button has not been unchecked after checked.');
         });
 
@@ -99,6 +99,46 @@ describe('Radio Button Tests', () => {
             radioButtons[1].dispatchEvent(new KeyboardEvent('keydown', { keyCode: 37 })); // ArrowLeft
 
             assert.equal(radioButtons[0].checked, true, 'radio-button has not been checked by using ArrowLeft key.');
+        });
+
+        it('Should have name attribute changed from property', () => {
+            const NAME = 'newName';
+            const radioButton = document.querySelector('radio-button');
+            radioButton.name = NAME;
+
+            assert.equal(radioButton.getAttribute('name'), NAME, 'radio-button name attribute has not been changed.');
+        });
+
+        it('Should select correct button from radio group value', () => {
+            const SELECTED_VALUE = 'two';
+
+            const radioGroup = document.querySelector('gameface-radio-group');
+            const radioButtons = document.querySelectorAll('radio-button');
+            click(radioButtons[0]);
+            radioGroup.value = SELECTED_VALUE;
+
+            assert.isTrue(radioButtons[1].checked, 'the second radio button is not checked');
+        });
+
+        it('Shouldn\'t select disabled button from radio group value', () => {
+            const SELECTED_VALUE = 'two';
+
+            const radioGroup = document.querySelector('gameface-radio-group');
+            const radioButtons = document.querySelectorAll('radio-button');
+            click(radioButtons[0]);
+
+            radioButtons[1].disabled = true;
+            radioGroup.value = SELECTED_VALUE;
+
+            assert.notEqual(radioGroup.value, SELECTED_VALUE, 'the disabled radio button is selected');
+        });
+
+        it('Should set correct value on radio group from clicked radio button', () => {
+            const radioGroup = document.querySelector('gameface-radio-group');
+            const radioButtons = document.querySelectorAll('radio-button');
+            click(radioButtons[1]);
+
+            assert.equal(radioGroup.value, radioButtons[1].value, 'radio-group value has not been changed.');
         });
     });
 
