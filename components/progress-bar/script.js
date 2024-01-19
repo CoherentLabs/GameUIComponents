@@ -21,12 +21,49 @@ class ProgressBar extends BaseComponent {
 
         this.filler = {};
 
-        this.targetValue = 0;
-        this.animStartTime = 0;
+        this._targetValue = 0;
         this.currentRafInstanceId = 0;
         this.hasStarted = false;
         this.previousWidth = 0;
         this.init = this.init.bind(this);
+    }
+
+    /**
+     * Get the target value of the progress bar
+     */
+    get targetValue() {
+        return this._targetValue;
+    }
+
+    /**
+     * Set the target value that detirmines the length that the progress will reach
+     * @param {number|string} value
+     */
+    set targetValue(value) {
+        if (components.isNumberPositiveValidation('targetValue', value)) {
+            this._targetValue = value;
+        } else {
+            this._targetValue = 0;
+        }
+
+        this.setProgress();
+    }
+
+    /**
+     * Get the animDuration property
+     */
+    get animDuration() {
+        if (this._animDuration !== undefined) return this._animDuration;
+        if (!isNaN(parseInt(this.dataset.animationDuration))) return this.dataset.animationDuration;
+        return 0;
+    }
+
+    /**
+     * Set the animDuration
+     * @param {number|string} value
+     */
+    set animDuration(value) {
+        if (components.isNumberPositiveValidation('animDuration', value)) this._animDuration = value;
     }
 
     /**
@@ -40,7 +77,6 @@ class ProgressBar extends BaseComponent {
 
             // Get the filler element when the component is rendered.
             this.filler = this.querySelector('.guic-progress-bar-filler');
-            this.animDuration = parseInt(this.dataset.animationDuration) || 0;
         });
     }
 
@@ -98,11 +134,8 @@ class ProgressBar extends BaseComponent {
 
     /**
      * Start animating or directly set the width if no animation duration time is provided.
-     * @param {number} targetValue
      */
-    setProgress(targetValue) {
-        this.targetValue = targetValue;
-
+    setProgress() {
         if (this.targetValue < 0) {
             this.targetValue = 0;
         } else if (this.targetValue > 100) {

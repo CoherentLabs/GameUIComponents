@@ -45,7 +45,7 @@ to resolve the modules from the node_modules folder.
 
 # Configuration and Usage
 
-The progress-bar has `data-animation-duration` attribute by which the animation
+- The progress-bar has `data-animation-duration` attribute by which the animation
 duration between the start and the end target value is set. The value is
 expected to be a number and it is used as milliseconds.
 
@@ -55,8 +55,25 @@ setting the new progress.
 Here is an example:
 ```html
 <gameface-progress-bar
-	data-animation-duration="2000">
+  data-animation-duration="2000">
 </gameface-progress-bar>
+```
+
+You can also set it using the JS:
+
+```js
+const progressBarOne = document.getElementById('progress-bar-one');
+progressBarOne.animDuration = 5000;
+```
+
+- Another property is the `targetValue`
+
+Set `targetValue` to specify the progress that should be reached in percents.
+It is available via JS [object property accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors):
+
+```js
+const progressBarOne = document.getElementById('progress-bar-one');
+progressBarOne.targetValue = 100;
 ```
 
 ## Add the Styles
@@ -69,22 +86,8 @@ Here is an example:
 To overwrite the default styles, simply create new rules for the class names
 that you wish to change and include them after the default styles.
 
-Load the HTML file in Gameface to see the progress-bar.
-
-## Usage
-
-Taking into account the example code above and then:
-
-```js
-const progressBar = document.querySelector('gameface-progress-bar');
-// and set the progress with:
-progressBarOne.setProgress(100);
-```
-
 ## Specifications Overview
 
 - The progress can be set in ascending or descending order.
-- Works with and without an animation (through the `data-animation-duration`
-  attribute on the HTML element). 
-- Provide values between 0 and 100. This is the target `%` to which the bar will
-animate.
+- Works with and without an animation (through the `data-animation-duration` attribute on the HTML element).
+- Provide values between 0 and 100. This is the target `%` to which the bar will animate.
