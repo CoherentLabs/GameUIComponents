@@ -44,21 +44,26 @@ Interaction Manager</button><div class="collapse show" id=section-b043f711dcdefa
     keys: ['A', 'B', 'C'],
     callback: 'registered-action',
 });
-</code></pre><h4 id=type>type <a href=#type class=anchor aria-hidden=true>#</a></h4><p>Type:</p><pre><code class=language-{.javascript}>type type = ('press' | 'hold' | 'lift)
-</code></pre><p>The <code>type</code> property shows the type of key interaction that the callback will be triggered on.</p><p>This example will trigger the callback on a key press. If you press and hold the key it will only trigger once.</p><pre><code class=language-{.javascript}>keyboard.on({
+</code></pre><h4 id=type>type <a href=#type class=anchor aria-hidden=true>#</a></h4><p>Type:</p><pre><code class=language-{.javascript}>type type = string[]
+</code></pre><p>The <code>type</code> property shows the type of key interaction that the callback will be triggered on. You can pass the following interaction types: <code>press</code>, <code>hold</code> and <code>lift</code>.</p><p>This example will trigger the callback on a key press. If you press and hold the key it will only trigger once.</p><pre><code class=language-{.javascript}>keyboard.on({
     keys: ['A', 'B', 'C'],
     callback: () =&gt; doSomething(),
-    type: 'press'
+    type: ['press']
 });
 </code></pre><p>This example will trigger the callback when you hold the key. If you press the key and release it immediately it won&rsquo;t trigger anything.</p><pre><code class=language-{.javascript}>keyboard.on({
     keys: ['A', 'B', 'C'],
     callback: () =&gt; doSomething(),
-    type: 'hold'
+    type: ['hold']
 });
 </code></pre><p>This example will trigger the callback when you lift your finger from the key. The callback will only trigger when you release the keys.</p><pre><code class=language-{.javascript}>keyboard.on({
     keys: ['A', 'B', 'C'],
     callback: () =&gt; doSomething(),
-    type: 'lift'
+    type: ['lift']
+});
+</code></pre><p>This example will trigger the callback when you press the key and also when you hold it.</p><pre><code class=language-{.javascript}>keyboard.on({
+    keys: ['A', 'B', 'C'],
+    callback: () =&gt; doSomething(),
+    type: ['press', 'hold']
 });
 </code></pre><h2 id=offkeys>.off([keys]) <a href=#offkeys class=anchor aria-hidden=true>#</a></h2><p>Removes an already set up key combination.</p><h3 id=keys-1>keys <a href=#keys-1 class=anchor aria-hidden=true>#</a></h3><p>The keys array is an array of the keys involved in a key combination that you want to remove</p><p>For example if you have set up to use the &lsquo;A&rsquo;, &lsquo;B&rsquo; and &lsquo;C&rsquo; keys in a combination, you can remove the action by doing:</p><pre><code class=language-{.javascript}>keyboard.off(['A', 'B', 'C'])
 </code></pre><p>If you have added the key combination as keycodes or using the KEYS global object you need to remove them the same way:</p><pre><code class=language-{.javascript}>keyboard.off([65, 66, 67])
