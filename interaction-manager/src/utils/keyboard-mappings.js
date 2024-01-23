@@ -31,6 +31,7 @@ export default {
     HOME: 36,
     INSERT: 45,
     NUM_LOCK: 144,
+    NUMPAD_ENTER: 13,
     NUMPAD_DASH: 109,
     NUMPAD_STAR: 106,
     NUMPAD_DOT: 110,

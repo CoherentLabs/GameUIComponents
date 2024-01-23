@@ -27,7 +27,7 @@ class Keyboard {
      * @param {Object} options
      * @param {string[]} options.keys - Array of keys you want to use, allows only combination of modifier and regular keys
      * @param {function | string} options.callback - Function or action to be executed on the key combination
-     * @param {('press'|'hold'|'lift')} options.type - Type of key action you want to use.
+     * @param {string[]} options.type - Type of key action you want to use.
      * @returns {void}
      */
     on(options) {
@@ -51,15 +51,19 @@ class Keyboard {
             this.eventListenerAttached = true;
         }
 
-        const registeredKeys = IM.getKeys(options.keys);
+        if (!Array.isArray(options.type)) options.type = [options.type];
 
-        if (registeredKeys.length > 0 && registeredKeys.some(key => key.type === options.type)) {
-            return console.error('You are trying to overwrite an existing key combination! To do that, first remove it with .off([keys]) then add it again');
-        }
+        options.type.forEach((type) => {
+            const registeredKeys = IM.getKeys(options.keys);
 
-        if (options.type === 'lift' && options.keys.length > 1) return console.error('You can only have a single key trigger an action on lift');
+            if (registeredKeys.length > 0 && registeredKeys.some(key => key.type === type)) {
+                return console.error('You are trying to overwrite an existing key combination! To do that, first remove it with .off([keys]) then add it again');
+            }
 
-        _IM.keyboardFunctions.push(options);
+            if (type === 'lift' && options.keys.length > 1) return console.error('You can only have a single key trigger an action on lift');
+
+            _IM.keyboardFunctions.push({ ...options, type });
+        });
     }
 
     /**
