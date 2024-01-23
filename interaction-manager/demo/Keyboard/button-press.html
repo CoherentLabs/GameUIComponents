@@ -1,5 +1,6 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
-<html lang="en">
+<!DOCTYPE html>
+<html>
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -249,7 +250,7 @@
                     <div class="key" data-key="numpad_1">1</div>
                     <div class="key" data-key="numpad_2">2</div>
                     <div class="key" data-key="numpad_3">3</div>
-                    <div class="key mb-0" data-key="numpad_enter">enter</div>
+                    <div class="key mb-0" data-key="enter">enter</div>
                 </div>
             </div>
             <div class="row">
@@ -269,7 +270,7 @@
                 <div class="key-block">
                     <div class="key caps-lock-key" data-key="numpad_0">0</div>
                     <div class="key" data-key="numpad_dot">.</div>
-                    <div class="key mt-0" data-key="numpad_enter"></div>
+                    <div class="key mt-0" data-key="enter"></div>
                 </div>
             </div>
         </div>
@@ -282,7 +283,7 @@
                     callback: (event) => {
                         event.preventDefault();
                         const buttons = document.querySelectorAll(`[data-key="${key.toLowerCase()}"]`);
-                        
+
                         if (!buttons) return;
 
                         buttons.forEach((button) => button.classList.add('pressed'));
@@ -290,7 +291,6 @@
                     type: ['press'],
                 });
             });
-
         </script>
     </body>
 </html>
