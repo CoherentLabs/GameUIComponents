@@ -10,6 +10,18 @@ const multipleDropdownTemplate = `<gameface-dropdown multiple class="gameface-dr
 <dropdown-option slot="option">Parrot</dropdown-option>
 </gameface-dropdown>`;
 
+const multipleDropdownWithDisabledOptionsTemplate = `<gameface-dropdown multiple class="gameface-dropdown-component">
+<dropdown-option slot="option">Cat</dropdown-option>
+<dropdown-option slot="option">Parrot</dropdown-option>
+<dropdown-option slot="option">Parrot1</dropdown-option>
+<dropdown-option slot="option">Parrot2</dropdown-option>
+<dropdown-option slot="option">Parrot3</dropdown-option>
+<dropdown-option slot="option" disabled>Parrot4</dropdown-option>
+<dropdown-option slot="option">Parrot5</dropdown-option>
+<dropdown-option slot="option">Parrot6</dropdown-option>
+<dropdown-option slot="option">Parrot7</dropdown-option>
+</gameface-dropdown>`;
+
 const multipleDropdownCollapsableTemplate = `<gameface-dropdown multiple collapsable class="gameface-dropdown-component">
 <dropdown-option slot="option">Cat</dropdown-option>
 <dropdown-option slot="option">Parrot</dropdown-option>
@@ -255,6 +267,27 @@ describe('Multiple Dropdown Test', () => {
             await createAsyncSpec(() => {
                 assert.equal(selectedOptions.length, 2, 'The (pre)selected options are not 2.');
             });
+        });
+    });
+
+
+    describe('Multiple Dropdown Component (Disabled Options)', () => {
+        beforeEach(function (done) {
+            setupMultipleDropdownTestPage(multipleDropdownWithDisabledOptionsTemplate)
+                .then(done)
+                .catch(err => console.error(err));
+        });
+
+        it('Should select multiple elements using shift key and click', () => {
+            const dropdownWrapper = document.querySelector('.multiple-dropdown-test-wrapper');
+            const dropdown = dropdownWrapper.querySelector('gameface-dropdown');
+            const options = dropdown.querySelectorAll('dropdown-option');
+
+            dropdown.onClickOption(mockEventObject(options[2], true, true, true));
+            dropdown.onClickOption(mockEventObject(options[6], true, true, true));
+
+            assert(dropdown.selectedOptions.length === 4,
+                `Expected selected options length to be 4, got ${dropdown.selectedOptions.length}.`);
         });
     });
 });
