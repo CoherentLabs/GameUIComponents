@@ -776,7 +776,6 @@ class GamefaceDropdown extends CustomElementValidator {
     onMouseOut(option) {
         const index = this.indexOf(this.allOptions, option);
         if (this.multiple && this.selectedList.indexOf(index) > -1) return;
-        this.removeActiveClass(option);
     }
 
     /**
@@ -802,6 +801,10 @@ class GamefaceDropdown extends CustomElementValidator {
     onMouseOverOption(option) {
         const options = this.allOptions;
         if (!this.multiple) this.removeActiveClass(this.selected);
+
+        if (!(this.multiple && option.isAlreadySelected(this, options[this.hoveredElIndex]))) {
+            this.removeActiveClass(options[this.hoveredElIndex]);
+        }
         this.addActiveClass(option);
         this.hoveredElIndex = this.indexOf(options, option);
     }
