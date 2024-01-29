@@ -825,9 +825,9 @@ class GamefaceDropdown extends CustomElementValidator {
 
         if (event.shiftKey) {
             const fromIdx = this.enabledOptions.indexOf(this._pivotIndex);
-            const toIdx = Array.from(this.allOptions).indexOf(option);
+            const toIdx = this.enabledOptions.indexOf(Array.from(this.allOptions).indexOf(option));
             const direction = (fromIdx - toIdx) > 0 ? -1 : 1;
-            this.selectFromTo(fromIdx, this.enabledOptions.indexOf(toIdx), direction, true, false);
+            this.selectFromTo(fromIdx, toIdx, direction, true, false);
         }
 
         this.setSelectedAndScroll(option, false);
