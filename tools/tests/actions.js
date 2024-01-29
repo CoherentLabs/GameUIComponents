@@ -71,13 +71,15 @@ function cleanTestPage(selector) {
  * @param {HTMLElement} target
  * @param {boolean} bubbles
  * @param {boolean} ctrlKey
+ * @param {boolean} shiftKey
  * @returns {object}
  */
-function mockEventObject(target, bubbles = false, ctrlKey = false) {
+function mockEventObject(target, bubbles = false, ctrlKey = false, shiftKey = false) {
     return {
-        target: target,
-        ctrlKey: ctrlKey,
-        bubbles: bubbles,
+        target,
+        ctrlKey,
+        shiftKey,
+        bubbles,
         stopPropagation: () => { },
     };
 }

@@ -549,9 +549,11 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {number} end - the higher limit of the range.
      * @param {number} direction - the direction of the selection.
      * @param {boolean} reset - whether to reset the current selection or not:
+     * @param {boolean} scroll - whether to scroll to the selected element or not; useful if
+     * selecting using the keyboard, but disruptive if using the mouse
      * In a single selection we must reset the selected list, but in multiple we must not.
      */
-    selectFromTo(start, end, direction = 1, reset = true) {
+    selectFromTo(start, end, direction = 1, reset = true, scroll = true) {
         const enabledOptions = this.enabledOptions;
         const allOptions = this.allOptions;
 
@@ -565,7 +567,7 @@ class GamefaceDropdown extends CustomElementValidator {
             start += direction;
         } while (!this.isOutOfRange(start, end, direction));
 
-        this.scrollToSelectedElement();
+        if (scroll) this.scrollToSelectedElement();
     }
 
     /**
@@ -821,7 +823,14 @@ class GamefaceDropdown extends CustomElementValidator {
         if (!event.ctrlKey) this.selected = null;
         if (option.isAlreadySelected(this, option)) return this.deselect(option);
 
-        this.setSelectedAndScroll(option);
+        if (event.shiftKey) {
+            const fromIdx = this.enabledOptions.indexOf(this._pivotIndex);
+            const toIdx = this.enabledOptions.indexOf(Array.from(this.allOptions).indexOf(option));
+            const direction = (fromIdx - toIdx) > 0 ? -1 : 1;
+            this.selectFromTo(fromIdx, toIdx, direction, true, false);
+        }
+
+        this.setSelectedAndScroll(option, false);
         this.focus();
     }
 
@@ -893,6 +902,7 @@ class GamefaceDropdown extends CustomElementValidator {
     scrollToSelectedElement() {
         const scrollbleContainer = this.querySelector('.guic-scrollable-container');
         const option = this.querySelector('dropdown-option');
+        if (!option) return;
         const optionSize = option.getBoundingClientRect().height;
 
         // the scroll position in pixels is equal to the height of the selected
