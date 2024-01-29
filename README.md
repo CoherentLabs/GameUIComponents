@@ -3,9 +3,9 @@
 # Components for Game User Interface [![Run Tests](https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml/badge.svg?branch=master&event=push)](https://github.com/CoherentLabs/GameUIComponents/actions/workflows/node.js.yml)
 
 <!-- HEADER-END -->
-This is a suite of custom elements designed specifically for [Gameface](https://coherent-labs.com/products/coherent-gameface/). All components can also be used in Google Chrome. You can preview them by starting the demo. You can serve the root directory and open the demo.html file using an http-server of your choice. Or use the default setup in the package. All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them. You can also build them from source.
+This is a suite of custom elements designed specifically for [Gameface](https://coherent-labs.com/products/coherent-gameface/). All components can also be used in Google Chrome. All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them. You can also build them from source.
 
-# Running the Demo
+# Preview components demos
 
 Navigate to the root directory and run:
 
@@ -17,9 +17,9 @@ This will install a webpack server as well as all other dependencies. After that
 
 This will build all components. After that run:
 
-    npm run start:demo
+    npm run build:demo
 
-This will serve the files on http://localhost:8080. Load that url in the Gameface player or in Chrome and preview the components. You can change the port in the webpack.config.js file.
+This will build all the demos for all the components. Then you can navigate to the demo folder of any component and run the html file either in Gameface or Chrome.
 
 # Samples
 
@@ -39,7 +39,6 @@ These are the commands used to build and package the components.
 |build:documentation   |Build the components, the demos and the documentation.                       |[--rebuild][--rebuild], [--component][--component]|`npm run build:documentation -- --component checkbox`, `npm run build:documentation -- --rebuild`|
 |check:copyright       |Will check the files inside the *components* folder for copyright notice.    |N/A|`npm run check:copyright`|
 |add:copyright       |Will add copyright notice to files inside the *components* folder that are missing it. |N/A|`npm run add:copyright`|
-|start:demo            |Serve the demo project.                                                      |N/A|`npm run start:demo`|
 |test                  |Start Karma server on localhost:`<port>`/debug.html                             |N/A|`npm run test`|
 |test:Chrome           |Start Karma server and run the tests in Google Chrome.                       |N/A|`npm run test:Chrome`|
 |pack                  |Bundle the components to npm packages ready for publish.                     |N/A|`npm run pack`|
