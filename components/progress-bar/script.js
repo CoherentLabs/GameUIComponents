@@ -15,6 +15,9 @@ const BaseComponent = components.BaseComponent;
  */
 class ProgressBar extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
+    static get observedAttributes() { return ['target-value', 'animation-duration']; }
+
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
         this.template = template;
@@ -22,6 +25,8 @@ class ProgressBar extends BaseComponent {
         this.filler = {};
 
         this._targetValue = 0;
+        this._animDuration = 0;
+
         this.currentRafInstanceId = 0;
         this.hasStarted = false;
         this.previousWidth = 0;
@@ -32,6 +37,8 @@ class ProgressBar extends BaseComponent {
      * Get the target value of the progress bar
      */
     get targetValue() {
+        // TODO: validate?
+        if (this.hasAttribute('target-value')) return this.getAttribute('target-value');
         return this._targetValue;
     }
 
@@ -40,21 +47,20 @@ class ProgressBar extends BaseComponent {
      * @param {number|string} value
      */
     set targetValue(value) {
-        if (components.isNumberPositiveValidation('targetValue', value)) {
-            this._targetValue = value;
-        } else {
-            this._targetValue = 0;
-        }
-
-        this.setProgress();
+        const validValue = components.isNumberPositiveValidation('targetValue', value) ? value : 0;
+        this.setAttribute('target-value', validValue);
     }
 
     /**
      * Get the animDuration property
      */
     get animDuration() {
+        if (this.hasAttribute('animation-duration')) {
+            const animationDurationAttribute = parseInt(this.getAttribute('animation-duration'));
+            if (!isNaN(animationDurationAttribute)) return animationDurationAttribute;
+        }
+
         if (this._animDuration !== undefined) return this._animDuration;
-        if (!isNaN(parseInt(this.dataset.animationDuration))) return this.dataset.animationDuration;
         return 0;
     }
 
@@ -77,6 +83,9 @@ class ProgressBar extends BaseComponent {
 
             // Get the filler element when the component is rendered.
             this.filler = this.querySelector('.guic-progress-bar-filler');
+
+            // TODO: set initial values
+            this.setProgress();
         });
     }
 
@@ -121,11 +130,14 @@ class ProgressBar extends BaseComponent {
 
     /**
      * Initiating the animation while saving the initial width and the time the animation started.
+     * @param {boolean} fromBeginning - specify if the progress should start from the beginning as if
+     * the animation runs for the first time or from the current position(the default)
      */
-    startAnimation() {
+    startAnimation(fromBeginning = false) {
         this.currentRafInstanceId = requestAnimationFrame(() => {
             // Or zero if no width has been set yey.
             this.previousWidth = parseFloat(this.filler.style.width) || 0;
+            if (fromBeginning) this.previousWidth = 0;
             this.animStartTime = new Date().getTime();
 
             this.fill();
@@ -134,8 +146,12 @@ class ProgressBar extends BaseComponent {
 
     /**
      * Start animating or directly set the width if no animation duration time is provided.
+     * @param {boolean} fromBeginning - specify if the progress should start from the beginning as if
+     * the animation runs for the first time or from the current position(the default)
      */
-    setProgress() {
+    setProgress(fromBeginning = false) {
+        this.previousWidth = 0;
+
         if (this.targetValue < 0) {
             this.targetValue = 0;
         } else if (this.targetValue > 100) {
@@ -149,9 +165,30 @@ class ProgressBar extends BaseComponent {
             }
 
             this.hasStarted = true;
-            this.startAnimation();
+            this.startAnimation(fromBeginning);
         } else {
             this.filler.style.width = this.targetValue + '%';
+        }
+    }
+
+    /**
+     * Custom element lifecycle method. Called when an attribute is changed.
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string|boolean} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
+
+        if (name === 'target-value') {
+            this._targetValue = newValue;
+            this.setProgress();
+        }
+
+        if (name === 'animation-duration') {
+            // TODO: validate
+            this._animDuration = parseInt(newValue);
+            this.setProgress(true);
         }
     }
 }

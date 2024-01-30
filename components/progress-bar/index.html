@@ -17,7 +17,9 @@
 
 		.progress-bar-wrapper-one,
 		.progress-bar-wrapper-two,
-		.progress-bar-wrapper-three {
+		.progress-bar-wrapper-three,
+		.progress-bar-wrapper-four,
+		.progress-bar-wrapper-five {
 			position: absolute;
 			top: 10vh;
 			width: 60%;
@@ -31,6 +33,14 @@
 		.progress-bar-wrapper-three {
 			top: 30vh;
 		}
+
+		.progress-bar-wrapper-four {
+			top: 40vh;
+		}
+
+		.progress-bar-wrapper-five {
+			top: 50vh;
+		}
 	</style>
 </head>
 <body class="guic-demo">
@@ -39,7 +49,7 @@
 	<div>0% -> 100% with 2000ms animation duration.</div>
 	<gameface-progress-bar
 		id="progress-bar-one"
-		data-animation-duration="2000">
+		animation-duration="2000">
 	</gameface-progress-bar>
 </div>
 <div class="progress-bar-wrapper-two">
@@ -52,7 +62,24 @@
 	<div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
 	<gameface-progress-bar
 		id="progress-bar-three"
-		data-animation-duration="1000">
+		animation-duration="1000">
+	</gameface-progress-bar>
+</div>
+<div class="progress-bar-wrapper-four">
+	<div>Animation duration set using the animation-duration</div>
+	<gameface-progress-bar
+		id="progress-bar-four"
+		target-value="40"
+		animation-duration="1000">
+	</gameface-progress-bar>
+</div>
+
+<div class="progress-bar-wrapper-five">
+	<div>Target value set using the target-value attribute - 60%</div>
+	<gameface-progress-bar
+		id="progress-bar-five"
+		animation-duration="1000"
+		target-value="60">
 	</gameface-progress-bar>
 </div>
 </body>
