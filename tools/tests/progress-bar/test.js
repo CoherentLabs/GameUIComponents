@@ -8,8 +8,8 @@ const targetValue = 75;
 const animationTime = 100;
 
 const templateNoAnimation = `<gameface-progress-bar></gameface-progress-bar>`;
-
-const templateAnimation100ms = `<gameface-progress-bar data-animation-duration="${animationTime}"></gameface-progress-bar>`;
+const templateAnimation100ms = `<gameface-progress-bar animation-duration="${animationTime}"></gameface-progress-bar>`;
+const templateTargetValue = `<gameface-progress-bar animation-duration="${animationTime}" target-value="20"></gameface-progress-bar>`;
 
 /**
  * @param {string} template
@@ -76,6 +76,21 @@ describe('Progress Bar Tests', () => {
                     assert(intermediateWidthValue > 0 && intermediateWidthValue < targetValue, `Progress bar has not started an animation.`);
                 });
             }, animationTime / 4); // Get the value and validate while still running the animation.
+        });
+    });
+
+    describe('Progress Bar Component', () => {
+        beforeEach(async () => {
+            await setupProgressBar(templateTargetValue);
+        });
+
+        it(`Should update target value using the html attribute`, async () => {
+            const progressBar = document.querySelector('gameface-progress-bar');
+            const currentProgress = progressBar.targetValue;
+
+            progressBar.setAttribute('target-value', 40);
+
+            assert.notEqual(currentProgress, progressBar.targetValue);
         });
     });
 
