@@ -37,8 +37,12 @@ class ProgressBar extends BaseComponent {
      * Get the target value of the progress bar
      */
     get targetValue() {
-        // TODO: validate?
-        if (this.hasAttribute('target-value')) return this.getAttribute('target-value');
+        if (this.hasAttribute('target-value')) {
+            const targetValueAttribute = this.getAttribute('target-value');
+            // return negative value to indicate that target value is not valid
+            if (!components.isNumberPositiveValidation('target-value', targetValueAttribute)) return -1;
+            return targetValueAttribute;
+        }
         return this._targetValue;
     }
 
@@ -73,6 +77,19 @@ class ProgressBar extends BaseComponent {
     }
 
     /**
+     * Set the width of the progress bar in %
+     * @param {number} value
+     */
+    set _fillerWidth(value) {
+        this.filler.style.width = `${value}%`;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get _fillerWidth() {
+        return this.filler.style.width;
+    }
+
+    /**
      * Initialize the custom component.
      * Set template, attach event listeners, setup initial state etc.
      * @param {object} data
@@ -83,8 +100,6 @@ class ProgressBar extends BaseComponent {
 
             // Get the filler element when the component is rendered.
             this.filler = this.querySelector('.guic-progress-bar-filler');
-
-            // TODO: set initial values
             this.setProgress();
         });
     }
@@ -116,7 +131,7 @@ class ProgressBar extends BaseComponent {
         const currentProgress = Math.min(runTime / this.animDuration, 1);
         const targetWidth = this.interpolateBetweenWidths(currentProgress);
 
-        this.filler.style.width = targetWidth + '%';
+        this._fillerWidth = targetWidth;
 
         /* If the duration is not met yet, call raF again with the parameters. */
         if (runTime < this.animDuration) {
@@ -136,7 +151,7 @@ class ProgressBar extends BaseComponent {
     startAnimation(fromBeginning = false) {
         this.currentRafInstanceId = requestAnimationFrame(() => {
             // Or zero if no width has been set yey.
-            this.previousWidth = parseFloat(this.filler.style.width) || 0;
+            this.previousWidth = parseFloat(this._fillerWidth) || 0;
             if (fromBeginning) this.previousWidth = 0;
             this.animStartTime = new Date().getTime();
 
@@ -150,6 +165,12 @@ class ProgressBar extends BaseComponent {
      * the animation runs for the first time or from the current position(the default)
      */
     setProgress(fromBeginning = false) {
+        // invalid target value was passes
+        if (this.targetValue < 0) {
+            this._fillerWidth = 0;
+            return;
+        }
+
         this.previousWidth = 0;
 
         if (this.targetValue < 0) {
@@ -167,7 +188,7 @@ class ProgressBar extends BaseComponent {
             this.hasStarted = true;
             this.startAnimation(fromBeginning);
         } else {
-            this.filler.style.width = this.targetValue + '%';
+            this._fillerWidth = this.targetValue;
         }
     }
 
@@ -179,6 +200,7 @@ class ProgressBar extends BaseComponent {
      */
     attributeChangedCallback(name, oldValue, newValue) {
         if (!this.isRendered) return;
+        if (!components.isNumberPositiveValidation(name, newValue)) return;
 
         if (name === 'target-value') {
             this._targetValue = newValue;
@@ -186,7 +208,6 @@ class ProgressBar extends BaseComponent {
         }
 
         if (name === 'animation-duration') {
-            // TODO: validate
             this._animDuration = parseInt(newValue);
             this.setProgress(true);
         }
