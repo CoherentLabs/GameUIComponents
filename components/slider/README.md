@@ -48,3 +48,39 @@ modules from the node_modules folder.
 
 To overwrite the default styles, simply create new rules for the class names that
 you wish to change and include them after the default styles.
+
+## Updating the slider's state
+
+You are able to dynamically update the slider state for the following properties:
+
+* orientation - How the slider is oriented. Either 'horizontal' or 'vertical'.
+* step - The scroll step of the slider that is used when scrolling with the mouse. The value provided should be a number. Negative values are also accepted and they can be used to invert the scroll direction.
+
+You can set them via `setAttribute` or directly using the setters like `slider.orientation = 'horizontal'`.
+
+For example:
+
+```javascript
+const slider = document.querySelector('gameface-slider');
+
+slider.orientation = 'horizontal'; // or 'vertical'. If the passed value is not supported - the slider will fallback to default one - 'vertical'
+// Or
+slider.setAttribute('orientation', 'horizontal');
+
+slider.step = 20; // If you want to invert the mouse wheel you can set negative value. For example -20.
+// Or
+slider.setAttribute('step', '20');
+```
+
+You can get the current orientation or step in the following way:
+
+```javascript
+console.log(slider.orientation);
+console.log(slider.step);
+```
+
+You can also update the current handle position of the slider using the `scrollTo` method. It receives one argument that is the new position of the handle in percent.
+
+```javascript
+slider.scrollTo(50); // Will set the handle to position that is 50% of the available scroll bar area.
+```
