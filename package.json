@@ -59,7 +59,7 @@
     "esbuild-plugin-ifdef": "^1.0.1",
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
-    "html-loader": "^4.2.0",
+    "html-loader": "^5.0.0",
     "husky": "^4.3.8",
     "jsdoc-to-markdown": "^8.0.0",
     "karma": "^6.4.2",
