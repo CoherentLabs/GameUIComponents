@@ -183,6 +183,39 @@ describe('Dropdown Tests', () => {
             });
         });
 
+        it('Should scroll to the selected option when options list opens', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            const scrollableContainer = dropdown.querySelector('.guic-scrollable-container');
+            const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');
+
+            const option = dropdown.querySelector('dropdown-option');
+
+            let selectedIndex = 3;
+
+            // Check if the selected option is disabled. This is a fallback in case the template is changed.
+            const selectedOption = () => {
+                const option = dropdown.allOptions[selectedIndex];
+
+                if (option.disabled) {
+                    selectedIndex++;
+                    return selectedOption();
+                }
+
+                return option;
+            };
+
+            dropdown.value = selectedOption().textContent;
+
+            click(selectedElPlaceholder);
+
+            const optionSize = option.getBoundingClientRect().height;
+
+            return createAsyncSpec(() => {
+                const scrollInPX = Math.round(selectedIndex * optionSize);
+                assert(Math.round(scrollableContainer.scrollTop) === scrollInPX, `The scrollable container is not scrolled to the selected option.`);
+            });
+        });
+
         it('Should select using keyboard ARROW_DOWN and ARROW_UP keys', async () => {
             const dropdown = document.querySelector('gameface-dropdown');
             const selectedElPlaceholder = dropdown.querySelector('.guic-dropdown-selected-option');

@@ -100,7 +100,8 @@ dropdown-option {
 }
 
 .guic-dropdown-hidden {
-    display: none;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .guic-dropdown-disable-hover {

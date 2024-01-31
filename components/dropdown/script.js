@@ -900,23 +900,17 @@ class GamefaceDropdown extends CustomElementValidator {
      * Scrolls to the selected option element.
     */
     scrollToSelectedElement() {
-        const scrollbleContainer = this.querySelector('.guic-scrollable-container');
+        const scrollableContainer = this.querySelector('.guic-scrollable-container');
         const option = this.querySelector('dropdown-option');
         if (!option) return;
         const optionSize = option.getBoundingClientRect().height;
 
         // the scroll position in pixels is equal to the height of the selected
         // option multiplied by its index
-        clearTimeout(this.timeout);
-        document.body.classList.add('guic-dropdown-disable-hover');
 
         const scrollInPX = this.lastSelectedIndex * optionSize;
-        scrollbleContainer.scrollTop = scrollInPX;
-        scrollbleContainer.dispatchEvent(new CustomEvent('scroll'));
-
-        this.timeout = setTimeout(() => {
-            document.body.classList.remove('guic-dropdown-disable-hover');
-        }, 500);
+        scrollableContainer.scrollTop = scrollInPX;
+        scrollableContainer.dispatchEvent(new CustomEvent('scroll'));
     }
 }
 
