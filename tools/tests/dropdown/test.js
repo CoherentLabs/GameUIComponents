@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -83,6 +84,42 @@ const templatePreselectedOptions = `<gameface-dropdown class="gameface-dropdown-
 <dropdown-option slot="option" selected>Dog</dropdown-option>
 <dropdown-option slot="option" selected>Parrot</dropdown-option>
 <dropdown-option slot="option" selected>Last Parrot</dropdown-option>
+</gameface-dropdown>`;
+
+const templateWithPreselectedEmptyValue = `<gameface-dropdown class="gameface-dropdown-component" id="dropdown-default">
+<dropdown-option value="" selected>Select a pet</dropdown-option>
+<dropdown-option>Cat1</dropdown-option>
+<dropdown-option disabled>Cat1</dropdown-option>
+<dropdown-option disabled>Cat1</dropdown-option>
+<dropdown-option>Cat3</dropdown-option>
+<dropdown-option>Cat4</dropdown-option>
+<dropdown-option>Dog</dropdown-option>
+<dropdown-option>Giraffe</dropdown-option>
+<dropdown-option>Lion</dropdown-option>
+<dropdown-option disabled>Pig</dropdown-option>
+<dropdown-option>Eagle</dropdown-option>
+<dropdown-option>Parrot</dropdown-option>
+<dropdown-option disabled>Last Parrot</dropdown-option>
+<dropdown-option disabled>Last Parrota</dropdown-option>
+<dropdown-option>Last Parrot</dropdown-option>
+</gameface-dropdown>`;
+
+const templateWithEmptyValue = `<gameface-dropdown class="gameface-dropdown-component" id="dropdown-default">
+<dropdown-option value="">Select a pet</dropdown-option>
+<dropdown-option>Cat1</dropdown-option>
+<dropdown-option disabled>Cat1</dropdown-option>
+<dropdown-option disabled>Cat1</dropdown-option>
+<dropdown-option>Cat3</dropdown-option>
+<dropdown-option>Cat4</dropdown-option>
+<dropdown-option>Dog</dropdown-option>
+<dropdown-option>Giraffe</dropdown-option>
+<dropdown-option>Lion</dropdown-option>
+<dropdown-option disabled>Pig</dropdown-option>
+<dropdown-option>Eagle</dropdown-option>
+<dropdown-option>Parrot</dropdown-option>
+<dropdown-option disabled>Last Parrot</dropdown-option>
+<dropdown-option disabled>Last Parrota</dropdown-option>
+<dropdown-option>Last Parrot</dropdown-option>
 </gameface-dropdown>`;
 
 /**
@@ -440,6 +477,52 @@ describe('Dropdown Tests', () => {
                 assert.equal(selectedOptions[0].textContent, lastSelectedValue,
                     `The last option value has not been selected.`);
             });
+        });
+
+        it('Should be able to set value to an empty string in a dropdown that has __NO__ option with empty value', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            assert.notEqual(dropdown.value, '', 'Default option is the empty one.');
+
+            dropdown.value = '';
+            assert.equal(dropdown.value, '', 'Dropdown value is not an empty string');
+            assert.equal(dropdown.querySelector('.guic-dropdown-selected-option').textContent, '', 'Dropdown header value is not an empty string');
+        });
+
+        it('Should be able to set value to an empty string in a dropdown that has __NO__ option with empty value and then select a normal value', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            assert.notEqual(dropdown.value, '', 'Default option is the empty one.');
+
+            dropdown.value = '';
+            assert.equal(dropdown.value, '', 'Dropdown value is not an empty string');
+            assert.equal(dropdown.querySelector('.guic-dropdown-selected-option').textContent, '', 'Dropdown header value is not an empty string');
+
+            // we need to test this as there was a bug caused by the selection of the empty option
+            dropdown.value = 'Cat';
+            assert.equal(dropdown.value, 'Cat', 'Dropdown value is not Cat');
+            assert.equal(dropdown.querySelector('.guic-dropdown-selected-option').textContent, 'Cat', 'Dropdown header value is not Cat1');
+        });
+    });
+
+    describe('Dropdown Component Empty Value Pre-selected Tests', () => {
+        beforeEach(function (done) {
+            setupDropdownTestPage(templateWithPreselectedEmptyValue).then(done).catch(err => console.error(err));
+        });
+
+        it('Empty option should be pre-selected', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            assert.equal(dropdown.value, '', 'Default empty option was not selected');
+        });
+    });
+
+    describe('Dropdown Component Empty Value Set', () => {
+        beforeEach(function (done) {
+            setupDropdownTestPage(templateWithEmptyValue).then(done).catch(err => console.error(err));
+        });
+
+        it('Should be able to set value to an empty string in a dropdown that has option with empty value', async () => {
+            const dropdown = document.querySelector('gameface-dropdown');
+            dropdown.value = '';
+            assert.equal(dropdown.querySelector('.guic-dropdown-selected-option').textContent, 'Select a pet', 'Empty option was not selected.');
         });
     });
 });

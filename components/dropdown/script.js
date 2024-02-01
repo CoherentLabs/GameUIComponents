@@ -72,6 +72,9 @@ class GamefaceDropdown extends CustomElementValidator {
         this.onMouseOverOption = createOptionEventHandler(this.onMouseOverOption.bind(this));
         this.onMouseOut = createOptionEventHandler(this.onMouseOut.bind(this));
         this.init = this.init.bind(this);
+
+        this.emptyPlaceholderOption = this.createOption('');
+        this.isPlaceholderSelected = false;
     }
 
     /** Returns if the dropdown is collapsable */
@@ -102,7 +105,7 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     get value() {
         if (this.isFormElement() && this.multiple) return this.selectedOptions.map(el => el.value);
-        if (this.selected) return this.selected.value || this.selected.textContent;
+        if (this.selected) return this.selected.value;
 
         return '';
     }
@@ -112,16 +115,19 @@ class GamefaceDropdown extends CustomElementValidator {
      * @param {string} value
     */
     set value(value) {
-        if (!value) {
-            this.setSelectedAndScroll(null);
+        const trimmedValue = value.trim();
+
+        const option = Array.from(this.allOptions).find(option => option.value === trimmedValue);
+
+        if (!option && trimmedValue === '') {
+            this.updateSelectHeader(this.emptyPlaceholderOption);
+            this.resetSelection();
+            this.isPlaceholderSelected = true;
+        } else if (option) {
+            this.resetSelection();
+            this.setSelectedAndScroll(option, this.isOpened);
         } else {
-            const option = Array.from(this.allOptions).find(option => option.value === value);
-            if (!option) {
-                console.warn(`There is no '${value}' as an option to the dropdown. Will not set the new value`);
-            } else {
-                this.resetSelection();
-                this.setSelectedAndScroll(option, this.isOpened);
-            }
+            console.warn(`There is no '${trimmedValue}' as an option to the dropdown. Will not set the new value`);
         }
     }
 
@@ -203,6 +209,7 @@ class GamefaceDropdown extends CustomElementValidator {
      * @returns {HTMLElement}
     */
     get selected() {
+        if (this.isPlaceholderSelected) return this.emptyPlaceholderOption;
         const allOptions = this.allOptions;
         return allOptions[this.lastSelectedIndex] || allOptions[0];
     }
@@ -215,6 +222,17 @@ class GamefaceDropdown extends CustomElementValidator {
     */
     set selected(option) {
         this.setSelection(option);
+    }
+
+    /**
+     * Create an option element
+     * @param {string} value - the string value of the option
+     * @returns {HTMLElement}
+     */
+    createOption(value) {
+        const option = document.createElement('gameface-option');
+        option.value = value;
+        return option;
     }
 
     /**
@@ -292,11 +310,14 @@ class GamefaceDropdown extends CustomElementValidator {
      * 3. reset the values of the selectedList and the hoveredElIndex.
     */
     resetSelection() {
+        this.isPlaceholderSelected = false;
+
         for (const index of this.selectedList) {
             const option = this.allOptions[index];
             this.removeActiveClass(option);
             option.removeAttribute('selected');
         }
+
         this.selectedList = [];
         this.hoveredElIndex = 0;
     }
@@ -931,6 +952,7 @@ class DropdownOption extends HTMLElement {
 
     // eslint-disable-next-line require-jsdoc
     get value() {
+        if (this.hasAttribute('value')) return this.getAttribute('value');
         return this._value || this.textContent;
     }
 
@@ -966,7 +988,7 @@ class DropdownOption extends HTMLElement {
             if (!hasSelected && parent.deselect) parent.deselect(this, false);
         }
 
-        if (name === 'value') this._value = this.getAttribute('value') || this.textContent;
+        if (name === 'value') this._value = this.hasAttribute('value') ? this.getAttribute('value') : this.textContent;
     }
 
     // eslint-disable-next-line require-jsdoc
