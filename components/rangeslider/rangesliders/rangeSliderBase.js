@@ -395,7 +395,7 @@ export default class RangeSliderBase {
         // if there are thumbs
         this.state.thumb = this.rangeslider.hasAttribute('thumb');
 
-        this.state['pols-number'] = parseInt(this.rangeslider.getAttribute('pols-number')) || 4;
+        this.state['pols-number'] = parseInt(this.rangeslider.getAttribute('pols-number')) - 1 || 4;
 
         /**
          * The names of the units are different for the two slider types.

@@ -8,15 +8,24 @@ function addCustomElementValue(customHandle) {
     document.body.appendChild(customElementValue);
 }
 
+/* eslint-disable max-lines-per-function */
 /**
  * @param {Object} param0
  * @returns {Promise<void>}
  */
-function loadRangeslider({ value, min, max, values, grid, thumb, twoHandles, orientation,
+function loadRangeslider({ value,
+    min,
+    max,
+    values,
+    grid,
+    thumb,
+    twoHandles,
+    orientation,
     step,
     customHandle,
     customHandleLeft,
     customHandleRight,
+    polsNumber,
 }) {
     const attributes = [
         value ? `value="${value}"` : '',
@@ -26,6 +35,7 @@ function loadRangeslider({ value, min, max, values, grid, thumb, twoHandles, ori
         orientation ? `orientation="${orientation}"` : '',
         step ? `step="${step}"` : '',
         grid ? `grid` : '',
+        polsNumber ? `pols-number="${polsNumber}"` : '',
         thumb ? `thumb` : '',
         twoHandles ? `two-handles` : '',
         customHandle ? `custom-handle="${customHandle}"` : '',
@@ -46,6 +56,8 @@ function loadRangeslider({ value, min, max, values, grid, thumb, twoHandles, ori
         waitForStyles(resolve, 4);
     });
 }
+
+/* eslint-enable max-lines-per-function */
 
 const dragSim = (start, end, element, direction = 1) => {
     return new Promise((resolve) => {
@@ -325,6 +337,38 @@ describe('Rangeslider component', () => {
         rangeSlider.setAttribute('grid', '');
         const grid = document.querySelector('.guic-horizontal-rangeslider-grid');
         assert.exists(grid);
+    });
+
+    it('Should set pols number', async () => {
+        const polsNumber = 3;
+        const orientation = 'horizontal';
+        await loadRangeslider({ grid: true, polsNumber, orientation });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const pols = rangeSlider.querySelectorAll(`.guic-rangeslider-${orientation}-grid-text`);
+
+        assert.equal(pols.length, polsNumber);
+    });
+
+    it('Shouldn\'t set pols number if it is less than 2', async () => {
+        const polsNumber = 1;
+        const orientation = 'horizontal';
+        await loadRangeslider({ grid: true, polsNumber, orientation });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+        const pols = rangeSlider.querySelectorAll(`.guic-rangeslider-${orientation}-grid-text`);
+
+        assert.notEqual(pols.length, 1);
+    });
+
+    it('Should change dynamically pols number', async () => {
+        const polsNumber = 3;
+        const orientation = 'horizontal';
+        await loadRangeslider({ grid: true, orientation });
+        const rangeSlider = document.querySelector('gameface-rangeslider');
+
+        rangeSlider.setAttribute('pols-number', 3);
+        const pols = rangeSlider.querySelectorAll(`.guic-rangeslider-${orientation}-grid-text`);
+
+        assert.equal(pols.length, polsNumber);
     });
 
     it('Should have thumb', async () => {
@@ -650,8 +694,8 @@ describe('Rangeslider component', () => {
         assert.equal(leftThumb.hasAttribute('active'), true);
 
         // check if both thumbs are at the same position
-        assert.equal(rightThumb.style.left, '100%');
-        assert.equal(leftThumb.style.left, '100%');
+        assert.equal(parseInt(rightThumb.style.left) + '%', '100%');
+        assert.equal(parseInt(leftThumb.style.left) + '%', '100%');
 
         // drag from the right-most side and check if the dragged thumb is the active one
         // which is also the one that was dragged last
@@ -661,7 +705,7 @@ describe('Rangeslider component', () => {
         await dragSim(xLeftThumbNewPosition, x, rangeslider, -1);
         rangeslider.onMouseUp();
 
-        assert.equal(leftThumb.style.left, '0%');
+        assert.equal(parseInt(leftThumb.style.left) + '%', '0%');
     });
 });
 

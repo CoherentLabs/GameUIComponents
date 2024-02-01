@@ -62,6 +62,7 @@ You can use the following attributes to customize the rangeslider
 |max   | Number  | 100  | The maximum value of the rangeslider  |  **Not working when the `values` attribute is set.**  |
 |step   | Number  | 1  | The step of the handle  | **Not working when the `values` attribute is set.**  |
 |grid   | Boolean  | false  | Draws a grid with numbers or array entries  | To enable it you just need to put 'grid' as attribute   |
+|pols-number | Number | 5 | The number of pols the grid has | To use this you need to have 'grid' attribute set |
 |thumb   | Boolean  | false  | Draws a thumb with a value for each handle  | To enable it you just need to put 'thumb' as attribute   |
 |two-handles   | Boolean  | false  | Creates two handles to specify a range  | To enable it you just need to put 'two-handles' as attribute. **If enabled the `value` attribute is ignored**. **Not working when the `values` attribute is set.**  |
 |orientation   | String  | 'horizontal'  | Either 'horizontal' or 'vertical'  | Will change the orientation of the rangeslider to horizontal or vertical. |
@@ -210,6 +211,30 @@ const rangeslider = document.queryselector('gameface-rangeslider');
 console.log(rangeslider.grid);
 // or
 console.log(rangeslider.getAttribute('grid'));
+```
+
+### `polsNumber`
+
+You can set the `pols number` in the `grid` of the rangeslider by doing
+
+```javascript
+const rangeslider = document.queryselector('gameface-rangeslider');
+// either
+rangeslider.polsNumber = ${newValue};
+// or
+rangeslider.setAttribute('pols-number', ${newValue});
+```
+
+The `newValue` should **always** be a number above `1`
+
+You can get the `grid` of the rangeslider by doing
+
+```javascript
+const rangeslider = document.queryselector('gameface-rangeslider');
+// either
+console.log(rangeslider.polsNumber);
+// or
+console.log(rangeslider.getAttribute('pols-number'));
 ```
 
 ### `thumb`
