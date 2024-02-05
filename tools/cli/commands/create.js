@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const templatesLocation = path.join(__dirname, '../templates/component');
@@ -81,6 +82,10 @@ function create(name, directory) {
 
             fs.writeFileSync(path.join(componentFolder, filename), fileContent, 'utf8');
         });
+        console.log('Installing dependencies...');
+        execSync(`npm i`, { cwd: componentFolder });
+        console.log('Finished!');
+        console.log(`Created component ${name} in ${componentFolder}.`);
         console.log(`Created component ${name} in ${componentFolder}.`);
     } catch (error) {
         console.error(error);
@@ -88,7 +93,7 @@ function create(name, directory) {
 }
 
 
-exports.command = 'create [name] [directory]';
+exports.command = 'create-component [name] [directory]';
 exports.desc = 'Create a new component.';
 exports.builder = {
     name: {

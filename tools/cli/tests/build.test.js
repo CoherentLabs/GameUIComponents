@@ -20,7 +20,7 @@ describe('build component test', () => {
 
     test('Builds a component dist modules from source', () => {
         // create a component
-        execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
+        execSync(`node index.js create-component ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
 
         // install the component's dependencies
         execSync(`npm link coherent-gameface-components && npm i`, { cwd: componentSourcePath, stdio: 'inherit', encoding: 'utf8' });

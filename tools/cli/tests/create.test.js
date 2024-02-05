@@ -34,7 +34,7 @@ describe('create component test', () => {
 
     test('Creates a component with given name at a given folder', () => {
         // create a component
-        const result = execSync(`node index.js create ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
+        const result = execSync(`node index.js create-component ${componentName} ./${componentFolder}`, { encoding: 'utf8' });
         // Verify the output is correct
         const generatedInPath = path.join(process.cwd(), componentFolder, componentName);
         const expectedResult = `Created component ${componentName} in ${generatedInPath}.`;

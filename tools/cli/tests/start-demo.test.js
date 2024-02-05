@@ -24,10 +24,8 @@ describe('Start demo test', () => {
 
         // install the component's dependencies
         execSync(`npm link coherent-gameface-components && npm i`, { encoding: 'utf8', cwd: componentSourcePath, stdio: 'inherit' });
-        // the demo uses the UMD module of the component so we need to build the component first
-        execSync(`node ../../index.js build`, { encoding: 'utf8', cwd: componentSourcePath, stdio: 'inherit' });
         // serve the demo
-        const subprocess = exec(`node ../../index.js start:demo`, { encoding: 'utf8', cwd: componentSourcePath, stdio: 'inherit' });
+        const subprocess = exec(`node ../../index.js start-demo`, { encoding: 'utf8', cwd: componentSourcePath, stdio: 'inherit' });
         subprocess.on('error', (error) => {
             done(error);
         });

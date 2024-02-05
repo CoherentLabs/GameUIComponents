@@ -2,7 +2,6 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-/* eslint-disable max-lines-per-function */
 const path = require('path');
 const build = require('./handlers/build');
 
@@ -11,9 +10,11 @@ const ENVIRONMENTS = [
     'development',
 ];
 
-exports.command = 'build';
-exports.desc = 'Create the production and development packages.';
+exports.command = 'watch';
+exports.desc = 'Create the production and development packages and watch for file changes';
 exports.handler = function (argv) {
     const buildTargets = argv.env ? [argv.env] : ENVIRONMENTS;
+    // this command should always watch for file changes
+    argv.watch = true;
     build(buildTargets, (path.basename(process.cwd())), argv.watch);
 };

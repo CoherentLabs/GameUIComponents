@@ -15,11 +15,13 @@ This will install the cli as a global module and will make it available from eve
 
 |Command   |Description   |Arguments   |Usage   |
 |---|---|---|---|
-|create-project               |Create a new project from template                 | `<template>` `<directory>`|`coherent-guic-cli create-project webpack ./my-folder`|
-|create | [name], [directory] |           Create a new component | `coherent-guic-cli create my-component ./my-folder`|
-|build |   N/A     | Build the component. Creates the distributable files located in the /dist folder. |`coherent-guic-cli build`|
-|build:demo| [--watch] [--env prod | dev] |      Build the demo. Use --watch to start a development server with live reload for quick development iteration cycle. |`coherent-guic-cli build:demo`|
-|--help| N\A |      show help. |`coherent-guic-cli --help`|
+|create-project               |Create a new project from template.                 | `template>` `<directory>`|`coherent-guic-cli create-project webpack ./my-folder`|
+|create-component |          Create a new component. | [name], [directory]| `coherent-guic-cli create my-component ./my-folder`|
+|build | Build the component. Creates the distributable files located in the **/dist** folder. |  N/A     | `coherent-guic-cli build`|
+|watch | Build the component and watch for file changes. Creates the distributable files located in the **/dist** folder and rebuilds them on change. | N/A |`coherent-guic-cli watch`|
+|build-demo|     Build the demo. | N/A |`coherent-guic-cli build-demo`|
+|start-demo |      Start a development server and host the demo with live reload for quick development iteration cycle. | N/A |`coherent-guic-cli watch-demo`|
+|--help, -h|      Show help. | N/A | `coherent-guic-cli --help`|
 
 ## Usage
 
@@ -65,7 +67,7 @@ npm run dev
 You can use the CLI to create and develop custom components like the [Checkbox](https://coherentlabs.github.io/GameUIComponents/en/examples/checkbox/). It will setup the required environment for the development of a custom component. Use the create command to create a component:
 
 ```
-coherent-guic-cli create my-first-guic components
+coherent-guic-cli create-component my-first-guic components
 ```
 
 The create command accepts two positional arguments - the name of the component and its containing folder. The name of the component will be used for the registration of the custom HTML element and for the name of the component class. The create command will generate the following files:
@@ -122,9 +124,19 @@ class GamefaceMyFirstGuic extends BaseComponent {
 
 Note that the `gameface` prefix is added to the component name and to the containing folder.
 
-To build the component run:
 
-1. `npm i` in the component's folder to install the dependencies.
-2. `coherent-guic-cli build` to bundle the source of the component
-3. `coherent-guic-cli build:demo` and load the demo.html folder or
-4. `coherent-guic-cli start:demo` to start a development server that will host the demo page and watch for changes
+# Building the Demo
+
+Each component has `index.html` and `demo.js` files that demonstrate how to use it. You can create a production build of the demo using the `build-demo` command. It will generate the `bundle.js` and `index.html` files along with any other assets such as styles located in the **demo** folder. Load the `demo/demo.html` file in a web browser to see the component.
+
+```
+coherent-guic-cli build-demo
+```
+
+# Serve the Demo
+
+You can start a development server that hosts the demo. This allows you to easily make changes and quickly see them applied on the demo page as the live reload will automatically update the page.
+
+```
+coherent-guic-cli start-demo
+```
