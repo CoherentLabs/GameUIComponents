@@ -73,6 +73,8 @@ const progressBarOne = document.getElementById('progress-bar-one');
 progressBarOne.animDuration = 5000;
 ```
 
+Note that updating the `animation-duration` will start the animation from the beginning!
+
 ### target-value
 
 It specifies the progress that should be reached in percents.

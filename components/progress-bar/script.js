@@ -205,6 +205,7 @@ class ProgressBar extends BaseComponent {
         if (name === 'target-value') {
             this._targetValue = newValue;
             this.setProgress();
+            return;
         }
 
         if (name === 'animation-duration') {
