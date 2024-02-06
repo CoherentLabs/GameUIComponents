@@ -1,5 +1,5 @@
 ---
-date: 2024-1-10
+date: 2024-1-31
 title: Progress bar
 draft: false
 ---
@@ -10,82 +10,156 @@ draft: false
 
 <head>
 	{{<staticLink href="components/coherent-gameface-components-theme.css">}}
-	{{<staticLink href="components/progress-bar/style.css">}}
-	<style>
-		.page-wrapper {
-			position: relative;
-			font-size: 3vh;
-			height: 45vh;
+		{{<staticLink href="components/progress-bar/style.css">}}
+			<style>
+				.page-wrapper {
+					position: relative;
+					font-size: 3vh;
+					height: 45vh;
 
-		}
+				}
 
-		[data-dark-mode] .page-wrapper {
-			color: #dee2e6;
-		}
+				[data-dark-mode] .page-wrapper {
+					color: #dee2e6;
+				}
 
-		.progress-bar-wrapper-one,
-		.progress-bar-wrapper-two,
-		.progress-bar-wrapper-three {
-			position: absolute;
-			top: 0vh;
-			width: 100%;
-			height: 15px;
-		}
+				.progress-bar-wrapper-one,
+				.progress-bar-wrapper-two,
+				.progress-bar-wrapper-three,
+				.progress-bar-wrapper-four,
+				.progress-bar-wrapper-five {
+					width: 100%;
+					height: 15px;
+				}
 
-		.progress-bar-wrapper-two {
-			top: 10vh;
-		}
+				.grid {
+					width: 100%;
+					display: flex;
+					flex-direction: column;
+				}
 
-		.progress-bar-wrapper-three {
-			top: 20vh;
-		}
-	</style>
+				.row {
+					margin: 50px;
+				}
+
+				.controls {
+					height: 30px;
+					align-content: space-around;
+					margin-top: 20px;
+					display: flex;
+				}
+
+				.controls button {
+					margin-left: 10px;
+					padding-left: 10px;
+					padding-right: 10px;
+				}
+			</style>
 </head>
 
 <body>
-	<div class="page-wrapper guic-demo">
-		<div class="progress-bar-wrapper-one">
-			<div>0% -> 100% with 2000ms animation duration.</div>
-			<gameface-progress-bar id="progress-bar-one" data-animation-duration="2000">
-			</gameface-progress-bar>
+	<div class="grid">
+		<div class="row">
+			<div class="progress-bar-wrapper-one">
+				<div>0% -> 100% with 2000ms animation duration.</div>
+				<gameface-progress-bar id="progress-bar-one" animation-duration="2000">
+				</gameface-progress-bar>
+			</div>
 		</div>
-		<div class="progress-bar-wrapper-two">
-			<div>0% -> 100% with no animation.</div>
-			<gameface-progress-bar id="progress-bar-two">
-			</gameface-progress-bar>
+		<div class="row">
+			<div class="progress-bar-wrapper-two">
+				<div>0% -> 100% with no animation.</div>
+				<gameface-progress-bar id="progress-bar-two">
+				</gameface-progress-bar>
+			</div>
 		</div>
-		<div class="progress-bar-wrapper-three">
-			<div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
-			<gameface-progress-bar id="progress-bar-three" data-animation-duration="1000">
-			</gameface-progress-bar>
+		<div class="row">
+			<div class="progress-bar-wrapper-three">
+				<div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
+				<gameface-progress-bar id="progress-bar-three" animation-duration="1000">
+				</gameface-progress-bar>
+			</div>
+		</div>
+		<div class="row">
+			<div class="progress-bar-wrapper-four">
+				<div>Animation duration set using the animation-duration property</div>
+				<gameface-progress-bar id="progress-bar-four" target-value="40" animation-duration="1000">
+				</gameface-progress-bar>
+				<div class="controls">
+					<input type="text" class="anim-duration-input"> <button class="update-anim-duration">Update
+						animation-duration</button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="progress-bar-wrapper-five">
+				<div>Target value set using the target-value attribute - 60%</div>
+				<gameface-progress-bar id="progress-bar-five" animation-duration="1000" target-value="60">
+				</gameface-progress-bar>
+				<div class="controls">
+					<input type="text" class="target-value-input"> <button class="update-target-value">Update
+						target-value</button>
+				</div>
+			</div>
 		</div>
 	</div>
 	{{<staticScript src="components/progress-bar/bundle.js">}}
 
-	<script type="text/javascript">
-		const progressBarOne = document.getElementById('progress-bar-one');
-		progressBarOne.setProgress(100);
+		<script type="text/javascript">
+			const progressBarOne = document.getElementById('progress-bar-one');
+			progressBarOne.animDuration = 5000;
+			progressBarOne.targetValue = 100;
 
-		function getRandomInt(min, max) {
-			min = Math.ceil(min);
-			max = Math.floor(max);
-			return Math.floor(Math.random() * (max - min) + min);
-		}
+			function getRandomInt(min, max) {
+				min = Math.ceil(min);
+				max = Math.floor(max);
+				return Math.floor(Math.random() * (max - min) + min);
+			}
 
-		const progressBarTwo = document.getElementById('progress-bar-two');
-		let progressBarTwoValue = 0;
+			const progressBarTwo = document.getElementById('progress-bar-two');
+			let progressBarTwoValue = 0;
 
-		setInterval(() => {
-			(progressBarTwoValue < 100) ? progressBarTwoValue += 2 : progressBarTwoValue = 0;
-			progressBarTwo.setProgress(progressBarTwoValue);
-		}, 100);
+			setInterval(() => {
+				(progressBarTwoValue < 100) ? progressBarTwoValue += 2 : progressBarTwoValue = 0;
+				progressBarTwo.targetValue = progressBarTwoValue;
+			}, 100);
 
-		const progressBarThree = document.getElementById('progress-bar-three');
+			const progressBarThree = document.getElementById('progress-bar-three');
 
-		setInterval(() => {
-			progressBarThree.setProgress(getRandomInt(0, 100));
-		}, getRandomInt(250, 750));
-	</script>
+			setInterval(() => {
+				progressBarThree.targetValue = getRandomInt(0, 100);
+			}, getRandomInt(250, 750));
+
+			const progressBarFour = document.getElementById('progress-bar-four');
+
+			// animation duration controls
+			const updateAnimDurationAttrButton = document.querySelector('.update-anim-duration');
+			const animDurationInput = document.querySelector('.anim-duration-input');
+
+			updateAnimDurationAttrButton.addEventListener('click', () => {
+				progressBarFour.setAttribute('animation-duration', animDurationInput.value);
+			});
+
+			animDurationInput.addEventListener('keydown', (e) => {
+				// press enter
+				if (e.keyCode === 13) progressBarFour.setAttribute('animation-duration', e.currentTarget.value);
+			});
+
+			const progressBarFive = document.getElementById('progress-bar-five');
+
+			// target value controls
+			const updateTargetValueAttrButton = document.querySelector('.update-target-value');
+			const targetValueInput = document.querySelector('.target-value-input');
+
+			updateTargetValueAttrButton.addEventListener('click', () => {
+				progressBarFive.setAttribute('target-value', targetValueInput.value);
+			});
+
+			targetValueInput.addEventListener('keydown', (e) => {
+				// press enter
+				if (e.keyCode === 13) progressBarFive.setAttribute('target-value', e.currentTarget.value);
+			});
+		</script>
 </body>
 
 </html>

@@ -1,60 +1,100 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<link rel="stylesheet" href="./coherent-gameface-components-theme.css">
-	<link rel="stylesheet" href="./style.css">
-	<style>
-		body {
-			width: 100vw;
-			height: 100vh;
-			display: flex;
-			justify-content: center;
-			background-color: rgba(0, 0, 0, 0.5);
-			color: #fff;
-			font-size: 3vh;
-		}
+    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-size: 3vh;
+        }
 
-		.progress-bar-wrapper-one,
-		.progress-bar-wrapper-two,
-		.progress-bar-wrapper-three {
-			position: absolute;
-			top: 10vh;
-			width: 60%;
-			height: 15px;
-		}
+        .progress-bar-wrapper-one,
+        .progress-bar-wrapper-two,
+        .progress-bar-wrapper-three,
+        .progress-bar-wrapper-four,
+        .progress-bar-wrapper-five {
+            width: 100%;
+            height: 15px;
+        }
 
-		.progress-bar-wrapper-two {
-			top: 20vh;
-		}
+        .grid {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
 
-		.progress-bar-wrapper-three {
-			top: 30vh;
-		}
-	</style>
+        .row {
+            margin: 50px;
+        }
+
+        .controls {
+            height: 30px;
+            align-content: space-around;
+            margin-top: 20px;
+            display: flex;
+        }
+
+        .controls button {
+            margin-left: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    </style>
 </head>
+
 <body class="guic-demo">
 
-<div class="progress-bar-wrapper-one">
-	<div>0% -> 100% with 2000ms animation duration.</div>
-	<gameface-progress-bar
-		id="progress-bar-one"
-		data-animation-duration="2000">
-	</gameface-progress-bar>
-</div>
-<div class="progress-bar-wrapper-two">
-	<div>0% -> 100% with no animation.</div>
-	<gameface-progress-bar
-		id="progress-bar-two">
-	</gameface-progress-bar>
-</div>
-<div class="progress-bar-wrapper-three">
-	<div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
-	<gameface-progress-bar
-		id="progress-bar-three"
-		data-animation-duration="1000">
-	</gameface-progress-bar>
-</div>
+    <div class="grid">
+        <div class="row">
+            <div class="progress-bar-wrapper-one">
+                <div>0% -> 100% with 2000ms animation duration.</div>
+                <gameface-progress-bar id="progress-bar-one" animation-duration="2000">
+                </gameface-progress-bar>
+            </div>
+        </div>
+        <div class="row">
+            <div class="progress-bar-wrapper-two">
+                <div>0% -> 100% with no animation.</div>
+                <gameface-progress-bar id="progress-bar-two">
+                </gameface-progress-bar>
+            </div>
+        </div>
+        <div class="row">
+            <div class="progress-bar-wrapper-three">
+                <div>Random progress set on random interval between 250 and 750 ms with 1000ms animation duration.</div>
+                <gameface-progress-bar id="progress-bar-three" animation-duration="1000">
+                </gameface-progress-bar>
+            </div>
+        </div>
+        <div class="row">
+            <div class="progress-bar-wrapper-four">
+                <div>Animation duration set using the animation-duration property</div>
+                <gameface-progress-bar id="progress-bar-four" target-value="40" animation-duration="1000">
+                </gameface-progress-bar>
+                <div class="controls">
+                    <input type="text" class="anim-duration-input"> <button class="update-anim-duration">Update animation-duration</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="progress-bar-wrapper-five">
+                <div>Target value set using the target-value attribute - 60%</div>
+                <gameface-progress-bar id="progress-bar-five" animation-duration="1000" target-value="60">
+                </gameface-progress-bar>
+                <div class="controls">
+                    <input type="text" class="target-value-input"> <button class="update-target-value">Update target-value</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

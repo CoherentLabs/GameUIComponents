@@ -45,31 +45,52 @@ to resolve the modules from the node_modules folder.
 
 # Configuration and Usage
 
-- The progress-bar has `data-animation-duration` attribute by which the animation
-duration between the start and the end target value is set. The value is
-expected to be a number and it is used as milliseconds.
+## Attributes
+
+### animation-duration
+
+The progress-bar has `animation-duration` attribute by which the animation
+duration between the start and the end target value is set. The value must be a positive number and it is used as milliseconds.
 
 The attribute is optional and if not provided, there will be no animation when
 setting the new progress.
 
 Here is an example:
 ```html
-<gameface-progress-bar
-  data-animation-duration="2000">
-</gameface-progress-bar>
+<gameface-progress-bar animation-duration="2000"></gameface-progress-bar>
 ```
 
-You can also set it using the JS:
+You can update it using the [setAttribute method](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute):
+
+```js
+document.querySelector('gameface-progress-bar').setAttribute('animation-duration', 1000);
+```
+
+You can also set it using JS:
 
 ```js
 const progressBarOne = document.getElementById('progress-bar-one');
 progressBarOne.animDuration = 5000;
 ```
 
-- Another property is the `targetValue`
+Note that updating the `animation-duration` will start the animation from the beginning!
 
-Set `targetValue` to specify the progress that should be reached in percents.
-It is available via JS [object property accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors):
+### target-value
+
+It specifies the progress that should be reached in percents.
+You can use it as an HTML attribute:
+
+```html
+<gameface-progress-bar animation-duration="1000" target-value="60"></gameface-progress-bar>
+```
+
+You can update it using the [setAttribute method](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute):
+
+```js
+document.querySelector('gameface-progress-bar').setAttribute('target-value', 100);
+```
+
+Or set it using JS [object property accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors):
 
 ```js
 const progressBarOne = document.getElementById('progress-bar-one');

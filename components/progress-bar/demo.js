@@ -34,6 +34,36 @@ setInterval(() => {
     progressBarThree.targetValue = getRandomInt(0, 100);
 }, getRandomInt(250, 750));
 
+const progressBarFour = document.getElementById('progress-bar-four');
+
+// animation duration controls
+const updateAnimDurationAttrButton = document.querySelector('.update-anim-duration');
+const animDurationInput = document.querySelector('.anim-duration-input');
+
+updateAnimDurationAttrButton.addEventListener('click', () => {
+    progressBarFour.setAttribute('animation-duration', animDurationInput.value);
+});
+
+animDurationInput.addEventListener('keydown', (e) => {
+    // press enter
+    if (e.keyCode === 13) progressBarFour.setAttribute('animation-duration', e.currentTarget.value);
+});
+
+const progressBarFive = document.getElementById('progress-bar-five');
+
+// target value controls
+const updateTargetValueAttrButton = document.querySelector('.update-target-value');
+const targetValueInput = document.querySelector('.target-value-input');
+
+updateTargetValueAttrButton.addEventListener('click', () => {
+    progressBarFive.setAttribute('target-value', targetValueInput.value);
+});
+
+targetValueInput.addEventListener('keydown', (e) => {
+    // press enter
+    if (e.keyCode === 13) progressBarFive.setAttribute('target-value', e.currentTarget.value);
+});
+
 window.postMessage = function (message) {
     pm({
         origin: 'http://127.0.0.1/:3000',
