@@ -19,8 +19,8 @@ function buildAllDemos() {
 
     for (const component of components) {
         const pathToDemo = path.resolve(path.join(__dirname, '../components', component, 'demo'));
+        if (!fs.existsSync(pathToDemo)) fs.mkdirSync(pathToDemo);
 
-        if (!fs.existsSync(pathToDemo)) continue;
         webpack({
             mode: mode,
             entry: path.resolve(path.join(__dirname, '../components', component, 'demo.js')),

@@ -30,7 +30,7 @@ dropdown-option {
 }
 
 .guic-dropdown-selected-option {
-    border: 2px solid transparent;
+    border: 2px solid var(--default-color-gray);
     display: flex;
     align-items: center;
     height: 30px;
@@ -100,7 +100,8 @@ dropdown-option {
 }
 
 .guic-dropdown-hidden {
-    display: none;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .guic-dropdown-disable-hover {
