@@ -294,8 +294,13 @@ export default class RangeSliderBase {
      */
     updatePolsNumberState(value) {
         value = parseInt(value);
-        if (value < 2) value = 2;
         if (!this.rangeslider.isStatePropValid('pols-number', value)) return;
+        if (isNaN(value)) return console.warn('The number of pols should be a number.');
+
+        if (value < 2) {
+            value = 2;
+            console.warn('The number of pols should be greater than 1. Setting it to 2.');
+        }
         this.state['pols-number'] = value - 1;
 
         this.toggleGrid(true);
