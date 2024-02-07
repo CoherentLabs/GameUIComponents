@@ -1,5 +1,5 @@
 ---
-date: 2024-1-12
+date: 2024-2-07
 title: Carousel
 draft: false
 ---
@@ -148,6 +148,66 @@ Use the `pageSize` setter to change the number of simultaneously visible element
 document.querySelector('gameface-carousel').pageSize = 3;
 ~~~~
 
+# Navigating the carousel
+
+Sometimes it may be necessary to navigate the carousel programmatically. This can be achieved by using the `next()` and `previous()` properties of the carousel.
+
+For example if we want to use the mouse scroll to navigate:
+
+~~~~{.js}
+document.querySelector('gameface-carousel').addEventListener('wheel', (e) => {               
+    if (e.deltaY > 0) {
+        document.querySelector('gameface-carousel').next();
+    } else {
+        document.querySelector('gameface-carousel').previous();
+    }
+});
+~~~~
+
+Or if we want to use the left and right keyboard keys:
+
+~~~~{.js}
+document.addEventListener('keydown', (e) => {
+    if (e.keyCode === 39) {
+        document.querySelector('gameface-carousel').next();
+    }
+    
+    if (e.keyCode === 37) {
+        document.querySelector('gameface-carousel').previous();
+    }
+});
+~~~~
+
 # Limitations
 
 Currently all items in the carousel must have the same width and height otherwise the component will not be properly resized.
+
+# Usage with data-bindings (Coherent Gameface only)
+
+Using the carousel component with data-binding is straightforward.
+
+We add our data-bindings to the `<component-slot>` like this:
+
+
+~~~~{.html}
+<gameface-carousel class="carousel-component">
+    <div
+        slot="carousel-content"
+        class="box"
+        data-bind-for="item:{{carousel.items}}"
+    >
+    <div 
+        data-bind-value="{{item.id}}"
+        data-bind-style-background-color="{{item.color}}">
+        </div>
+    </div>
+</gameface-carousel>
+~~~~
+
+And then we need to re-render the controls:
+
+~~~~{.js}
+document.querySelector('gameface-carousel').rerenderControls();
+~~~~
+
+The reason that we do that is because, the carousel will intialize before the data-binding and the control won't be rendered properly. The same principle applies every time we change the number of elements in the model, since the carousel controls won't be changed automatically.
