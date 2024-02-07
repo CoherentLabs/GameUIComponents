@@ -144,6 +144,21 @@ export default class RangeSliderBase {
         value !== null ? this.rangeslider.setAttribute('custom-handle-right', value) : this.rangeslider.removeAttribute('custom-handle-right');
     }
 
+    // eslint-disable-next-line require-jsdoc
+    get polsNumber() {
+        return this.state['pols-number'] + 1;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set polsNumber(value) {
+        if (!this.grid) {
+            console.warn('You can\'t set polsNumber when grid is not enabled');
+            return;
+        }
+
+        this.rangeslider.setAttribute('pols-number', value);
+    }
+
     /**
      * Handler when attribute of rangeslider is changed
      * @param {string} name
@@ -159,12 +174,13 @@ export default class RangeSliderBase {
         this.updateAttributeState(name, oldValue, value);
     }
 
+    /* eslint-disable max-lines-per-function */
     /**
      * Will update the state properties linked with the checkbox attributes
      * @param {string} name
      * @param {string|boolean|array} oldValue
      * @param {string|boolean|array} value
-     */
+    */
     updateAttributeState(name, oldValue, value) {
         switch (name) {
             case 'values':
@@ -191,8 +207,13 @@ export default class RangeSliderBase {
             case 'custom-handle-left':
                 this.updateCustomHandleState(name, value);
                 break;
+            case 'pols-number':
+                this.updatePolsNumberState(value);
+                break;
         }
     }
+
+    /* eslint-enable max-lines-per-function */
 
     /**
      * Will update the target elements of the custom handles
@@ -265,6 +286,24 @@ export default class RangeSliderBase {
         if (!this.rangeslider.isStatePropValid('thumb', value)) return;
         this.state.thumb = value;
         this.toggleThumb(value);
+    }
+
+    /**
+     * @param {number} value
+     * @returns {void}
+     */
+    updatePolsNumberState(value) {
+        value = parseInt(value);
+        if (!this.rangeslider.isStatePropValid('pols-number', value)) return;
+        if (isNaN(value)) return console.warn('The number of pols should be a number.');
+
+        if (value < 2) {
+            value = 2;
+            console.warn('The number of pols should be greater than 1. Setting it to 2.');
+        }
+        this.state['pols-number'] = value - 1;
+
+        this.toggleGrid(true);
     }
 
     /**
@@ -360,6 +399,8 @@ export default class RangeSliderBase {
         this.state.grid = this.rangeslider.hasAttribute('grid');
         // if there are thumbs
         this.state.thumb = this.rangeslider.hasAttribute('thumb');
+
+        this.state['pols-number'] = parseInt(this.rangeslider.getAttribute('pols-number')) - 1 || 4;
 
         /**
          * The names of the units are different for the two slider types.

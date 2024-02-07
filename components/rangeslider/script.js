@@ -30,6 +30,7 @@ const stateSchema = {
     ['custom-handle']: { type: ['string'] },
     ['custom-handle-left']: { type: ['string'] },
     ['custom-handle-right']: { type: ['string'] },
+    ['pols-number']: { type: ['number'] },
 };
 
 /**
@@ -48,6 +49,7 @@ class Rangeslider extends CustomElementValidator {
         this.state = {
             orientation: 'horizontal',
             ['two-handles']: false,
+            ['pol-number']: 4,
         };
     }
 
@@ -89,6 +91,7 @@ class Rangeslider extends CustomElementValidator {
             case 'custom-handle':
             case 'custom-handle-right':
             case 'custom-handle-left':
+            case 'pols-number':
                 this.rangesliderObject.attributeChanged(name, oldValue, value);
                 break;
         }
@@ -269,6 +272,16 @@ class Rangeslider extends CustomElementValidator {
     // eslint-disable-next-line require-jsdoc
     set customHandleRight(value) {
         this.rangesliderObject.customHandleRight = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get polsNumber() {
+        return this.rangesliderObject.polsNumber;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set polsNumber(value) {
+        this.rangesliderObject.polsNumber = value;
     }
 
     /**

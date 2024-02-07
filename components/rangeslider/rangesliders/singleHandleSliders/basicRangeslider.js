@@ -70,12 +70,13 @@ export default class BasicRangeSlider extends SingleHandleRangeSliderBase {
     /** @inheritdoc */
     buildGrid() {
         // calculates the number of pols the grid will have based on the size of the slider
-        const numberOfPols = Math.round(this.wrapper[this.units.offset] / SPACE_BETWEEN_GRID_POLS / 4) * 4; // here we round to a number that is divisible by 4 and to make sure, the last pol has a number
+        // eslint-disable-next-line max-len
+        const numberOfPols = Math.round(this.wrapper[this.units.offset] / SPACE_BETWEEN_GRID_POLS / this.state['pols-number']) * this.state['pols-number']; // here we round to a number that is divisible by 4 and to make sure, the last pol has a number
         const grid = document.createElement('div');
         grid.classList.add(`guic-${this.rangeslider.orientation}-rangeslider-grid`);
         for (let i = 0; i <= numberOfPols; i++) {
             // each forth poll will be larger with a value added
-            if (i % (numberOfPols / 4) === 0) {
+            if (i % (numberOfPols / this.state['pols-number']) === 0) {
                 grid.appendChild(
                     this.createGridPol(
                         parseFloat((parseInt(this.min) + (this.max - this.min) * (i / numberOfPols)).toFixed(2))
