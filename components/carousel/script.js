@@ -311,7 +311,7 @@ class Carousel extends BaseComponent {
      * Move the carousel to the previous element.
      * @param {number} pageSize
      */
-    previous(pageSize) {
+    previous(pageSize = 1) {
         const itemsLength = this.items.length;
         let previous = (this.currentItemIndex - pageSize + itemsLength) % itemsLength;
 
@@ -328,7 +328,7 @@ class Carousel extends BaseComponent {
      * Move the carousel to the next element.
      * @param {number} pageSize
      */
-    next(pageSize) {
+    next(pageSize = 1) {
         const next = (this.currentItemIndex + pageSize) % this.items.length;
 
         if (!this.overflows(next)) {
@@ -419,6 +419,16 @@ class Carousel extends BaseComponent {
 
         singleNextButton.addEventListener('click', _ => this.next(1));
         singlePreviousButton.addEventListener('click', _ => this.previous(1));
+    }
+
+    /**
+     * Rerender the carousel controls - dots and arrows
+     */
+    rerenderControls() {
+        this.createPaginationControls();
+
+        this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
+        this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
     }
 }
 components.defineCustomElement('gameface-carousel', Carousel);
