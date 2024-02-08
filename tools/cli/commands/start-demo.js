@@ -4,8 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 const buildDemo = require('./handlers/demo');
 
-exports.command = 'build-demo';
-exports.desc = 'Create a minified bundle of the demo.';
+exports.command = 'start-demo';
+exports.desc = 'Start a development server and watch for file changed and rebuild automatically.';
 exports.handler = function (argv) {
+    // this command should always watch for file changes
+    argv.watch = true;
     buildDemo(argv);
 };
