@@ -18,6 +18,9 @@ const BaseComponent = components.BaseComponent;
  * confuse with the standard input type slider HTML element.
 */
 class Slider extends BaseComponent {
+    // eslint-disable-next-line require-jsdoc
+    static get observedAttributes() { return ['step', 'orientation']; }
+
     /**
      * Set the position of the slider's handler.
      * @param {number} value - the new value in percents.
@@ -47,9 +50,20 @@ class Slider extends BaseComponent {
     }
 
     // eslint-disable-next-line require-jsdoc
+    get step() { return this.state.step; }
+
+    // eslint-disable-next-line require-jsdoc
+    set step(value) { this.setAttribute('step', value); }
+
+    // eslint-disable-next-line require-jsdoc
+    get orientation() { return this.state.orientation; }
+
+    // eslint-disable-next-line require-jsdoc
+    set orientation(value) { this.setAttribute('orientation', value); }
+
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
-
 
         this.onSlideUp = (e) => { this.onSlideWithArrorws(-1); };
         this.onSlideDown = (e) => { this.onSlideWithArrorws(1); };
@@ -59,8 +73,88 @@ class Slider extends BaseComponent {
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.init = this.init.bind(this);
+
+        this.state = {
+            orientation: 'vertical',
+            step: 10,
+        };
+
+        this.stateSchema = {
+            orientation: { type: ['string'] },
+            step: { type: ['number'] },
+        };
     }
 
+    /**
+     * Custom element lifecycle method. Called when an attribute is changed.
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string|boolean} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
+
+        this.updateAttributeState(name, oldValue, newValue);
+    }
+
+    /**
+     * Will update the state properties
+     * @param {string} name
+     * @param {string} oldValue
+     * @param {string} value
+     */
+    updateAttributeState(name, oldValue, value) {
+        // Prevent state updates if the value is the same especially when orientation is changed because then the whole component will be re-rendered
+        if (oldValue === value) return;
+
+        switch (name) {
+            case 'step':
+                this.updateState('step', parseFloat(value));
+                break;
+            case 'orientation':
+                this.updateOrientationState(value);
+                break;
+        }
+    }
+
+    /**
+     * Update the slider's state.
+     * @param {string} name - the name of the prop
+     * @param {string | boolean} value - the value of the the prop
+     * @returns {void}
+     */
+    updateState(name, value) {
+        if (!this.isStatePropValid(name, value)) return;
+        this.state[name] = value;
+    }
+
+    /**
+     * Will update the slider when orientation attribute is changed
+     * @param {boolean} value
+     */
+    updateOrientationState(value) {
+        this.checkOrientationValueValidity(value);
+        this.reRender();
+    }
+
+    /**
+     * Will verify that the orientation has valid value and will fallback if not
+     * @param {string} value
+     */
+    checkOrientationValueValidity(value) {
+        if (!['vertical', 'horizontal'].includes(value)) {
+            console.warn(`'${value}' is not a valid orientation. It should be either 'horizontal' or 'vertical'. Will fallback to 'vertical'`);
+        }
+    }
+
+    /**
+     * Will re-render the component from scratch
+     */
+    reRender() {
+        this.template = undefined;
+        this.isRendered = false;
+        this.connectedCallback();
+    }
 
     /**
      * Initialize the custom component.
@@ -82,12 +176,13 @@ class Slider extends BaseComponent {
     */
     connectedCallback() {
         // the amount of units that the slider will be updated
-        this.step = this.getAttribute('step') || 10;
+        this.state.step = this.getAttribute('step') || 10;
         // the initial position of the handle
         this._handlePosition = 0;
 
         // vertical or horizontal
-        this.orientation = this.getAttribute('orientation') || 'vertical';
+        this.state.orientation = this.getAttribute('orientation');
+        if (!['vertical', 'horizontal'].includes(this.orientation)) this.state.orientation = 'vertical';
         // use the template for the current slider orientation
         this.template = (this.orientation === 'vertical') ? verticalTemplate : horizontalTemplate;
         /**

@@ -32,6 +32,7 @@ module.exports = function (config) {
       { pattern: 'define-engine.js', served: true },
       { pattern: '../../../cohtml.js', served: true },
       { pattern: 'comprehensive-components-test/templates.js', served: true },
+      'slider/*.js',
       'scrollable-container/*.js',
       'checkbox/*.js',
       'dropdown/*.js',
