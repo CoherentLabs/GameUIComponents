@@ -22,7 +22,7 @@ exports.folderToTree = (folderPath, tree = {}) => {
     for (const file of filesInFolder) {
         const filePath = path.join(folderPath, file);
 
-        if (file === 'node_modules') continue;
+        if (file === 'node_modules' || file === 'package-lock.json') continue;
 
         if (!fs.lstatSync(filePath).isDirectory()) {
             tree[root].push(file);

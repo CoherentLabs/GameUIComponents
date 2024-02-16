@@ -7,6 +7,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const templatesLocation = path.join(__dirname, '../templates/component');
+const reservedCustomElNames = ['annotation-xml', 'color-profile', 'font-face', 'font-face-src', 'font-face-uri', 'font-face-format', 'font-face-name', 'missing-glyph'];
 
 /**
  * Will create folder in some directory
@@ -49,12 +50,41 @@ function toUpperCamelCase(words) {
 }
 
 /**
+ * Validate if a name is valid custom element name
+ * @param {string} name
+ * @returns {boolean}
+ */
+function isNameValid(name) {
+    const wordsBetweenHyphensRegExp = new RegExp(/(?<=[a-z]-)[a-z]+/);
+    const specialCharactersRegExp = new RegExp(/\?|!|<|>|@|#|\$|%|\^|&|\*|\(|\)|\+|\[|\]|~/g);
+
+    if (specialCharactersRegExp.test(name)) {
+        console.error(`Custom element's name must not contain any of the following characters - ?  !  <  >  @  #  $  %  ^  &  *  (  )  +  [  ] ~. Current name uses ${name.match(specialCharactersRegExp).join(' ')}`);
+        return false;
+    }
+
+    if (!wordsBetweenHyphensRegExp.test(name)) {
+        console.error(`Custom element's name must contain at least two lowercase words separated by a hyphen.`);
+        return false;
+    }
+
+    if (reservedCustomElNames.indexOf(name) > -1) {
+        console.error(`Custom element's name must not be one of the following: ${reservedCustomElNames.join(', ')}`);
+        return false;
+    }
+
+    return true;
+}
+
+/**
  * Will create a component with a specific name into specific directory
  * @param {string} name
  * @param {string} directory
  */
 function create(name, directory) {
-    name = `${name}`;
+    name = `${name.toLowerCase()}`;
+    if (!isNameValid(name)) return;
+
     directory = directory || process.cwd();
     const componentFolder = createFolder(path.join(directory), name);
 
