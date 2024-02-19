@@ -20,7 +20,7 @@ This will install the cli as a global module and will make it available from eve
 |build | Build the component. Creates the distributable files located in the **/dist** folder. |  N/A     | `coherent-guic-cli build`|
 |watch | Build the component and watch for file changes. Creates the distributable files located in the **/dist** folder and rebuilds them on change. | N/A |`coherent-guic-cli watch`|
 |build-demo|     Build the demo. | N/A |`coherent-guic-cli build-demo`|
-|start-demo |      Start a development server and host the demo with live reload for quick development iteration cycle. | N/A |`coherent-guic-cli watch-demo`|
+|start-demo |      Start a development server and host the demo with live reload for quick development iteration cycle. | N/A |`coherent-guic-cli start-demo`|
 |--help, -h|      Show help. | N/A | `coherent-guic-cli --help`|
 
 ## Usage
