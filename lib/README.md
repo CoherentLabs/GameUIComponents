@@ -1,6 +1,13 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
 Component library which supports the creation and usage of custom elements. Provides a way to encapsulate a component specific functionality and reuse it. Similar to the [Web Components suite](https://developer.mozilla.org/en-US/docs/Web/Web_Components). Exports a `Components` class that can be instantiated.
 
+The fundamental idea in the Component System is the same as in the standard Web Components. However, there are some key points that make them different.
+
+* `<template>` elements are replaced with traditional HTML tags such as `<div>`s
+* templates are loaded using file loader or defined as string literals
+* [`<slot>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) elements are replaced by custom `<component-slot>` elements
+* styles are manually imported `<link>` tags in the `<head>` of the document
+
 Installation
 ===================
 
