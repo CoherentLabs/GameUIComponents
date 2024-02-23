@@ -70,7 +70,24 @@ You can use the CLI to create and develop custom components like the [Checkbox](
 coherent-guic-cli create-component my-first-guic components
 ```
 
-The create command accepts two positional arguments - the name of the component and its containing folder. The name of the component will be used for the registration of the custom HTML element and for the name of the component class. The create command will generate the following files:
+The create command accepts two positional arguments - the name of the component and its containing folder.
+The name must:
+
+- start with an ASCII lowercase letter (a-z)
+- contain a hyphen
+- not contain any ASCII uppercase letters
+- not contain certain other characters such as `?  !  <  >  @  #  $  %  ^  &  *  (  )  +  [  ] ~`
+- not be any of:
+    - annotation-xml
+    - color-profile
+    - font-face
+    - font-face-src
+    - font-face-uri
+    - font-face-format
+    - font-face-name
+    - missing-glyph
+ 
+ The name of the component will be used for the registration of the custom HTML element and for the name of the component class. The create command will generate the following files:
 
 ```
 \components:
