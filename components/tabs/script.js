@@ -81,7 +81,7 @@ class Tabs extends BaseComponent {
      * @returns {Array<TabHeading>} - the tabs of the tab component.
     */
     getAllTabs() {
-        return Array.from(this.getElementsByTagName('tab-heading'));
+        return Array.from(this.querySelector('.guic-tabs-header').querySelectorAll('tab-heading'));
     }
 
     /**
@@ -89,7 +89,12 @@ class Tabs extends BaseComponent {
      * @returns {Array<TabPanel>} - the panels of the tab component.
     */
     getAllPanels() {
-        return Array.from(this.getElementsByTagName('tab-panel'));
+        const panels = [];
+        const tabsPanels = this.querySelector(`.guic-tabs-panel`);
+        Array.from(tabsPanels.children).forEach((child) => {
+            if (child instanceof TabPanel) panels.push(child);
+        });
+        return panels;
     }
 
     /**
@@ -111,7 +116,7 @@ class Tabs extends BaseComponent {
     attachEventListeners() {
         this.addEventListener('keydown', this.onKeyDown);
 
-        const tabHeadings = this.querySelectorAll('tab-heading');
+        const tabHeadings = this.getAllTabs();
 
         for (const tabHeading of tabHeadings) {
             tabHeading.addEventListener('click', this.onClick);
