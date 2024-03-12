@@ -81,7 +81,7 @@ class Tabs extends BaseComponent {
      * @returns {Array<TabHeading>} - the tabs of the tab component.
     */
     getAllTabs() {
-        return Array.from(this.getElementsByTagName('tab-heading'));
+        return Array.from(this.querySelector('.guic-tabs-header').querySelectorAll('tab-heading'));
     }
 
     /**
@@ -89,7 +89,16 @@ class Tabs extends BaseComponent {
      * @returns {Array<TabPanel>} - the panels of the tab component.
     */
     getAllPanels() {
-        return Array.from(this.getElementsByTagName('tab-panel'));
+        const panels = [];
+        let tabsPanel = this.querySelector(`.guic-tabs-panel`);
+        // If is used <gameface-tabs> without filling the slots we need to get the children of the component-slot element
+        if (tabsPanel.children.length === 1 && tabsPanel.children[0].tagName === 'COMPONENT-SLOT') {
+            tabsPanel = tabsPanel.children[0];
+        }
+        Array.from(tabsPanel.children).forEach((child) => {
+            if (child instanceof TabPanel) panels.push(child);
+        });
+        return panels;
     }
 
     /**
@@ -111,7 +120,7 @@ class Tabs extends BaseComponent {
     attachEventListeners() {
         this.addEventListener('keydown', this.onKeyDown);
 
-        const tabHeadings = this.querySelectorAll('tab-heading');
+        const tabHeadings = this.getAllTabs();
 
         for (const tabHeading of tabHeadings) {
             tabHeading.addEventListener('click', this.onClick);
