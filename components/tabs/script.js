@@ -90,8 +90,12 @@ class Tabs extends BaseComponent {
     */
     getAllPanels() {
         const panels = [];
-        const tabsPanels = this.querySelector(`.guic-tabs-panel`);
-        Array.from(tabsPanels.children).forEach((child) => {
+        let tabsPanel = this.querySelector(`.guic-tabs-panel`);
+        // If is used <gameface-tabs> without filling the slots we need to get the children of the component-slot element
+        if (tabsPanel.children.length === 1 && tabsPanel.children[0].tagName === 'COMPONENT-SLOT') {
+            tabsPanel = tabsPanel.children[0];
+        }
+        Array.from(tabsPanel.children).forEach((child) => {
             if (child instanceof TabPanel) panels.push(child);
         });
         return panels;
