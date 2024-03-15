@@ -131,10 +131,9 @@ class Keyboard {
         const registeredKeys = IM.getKeys(keyPressed);
         if (registeredKeys.length === 0) return;
 
-        const registeredKey = registeredKeys.find(key => key.type === 'lift');
-        if (!registeredKey) return;
-
-        this.executeCallback(event, registeredKey);
+        registeredKeys.forEach((key) => {
+            if (key.type === 'lift' && key.keys.indexOf(keyPressed) !== -1) this.executeCallback(event, key);
+        });
     }
 
     /**
