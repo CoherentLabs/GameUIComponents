@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-stepper",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "repository": {
