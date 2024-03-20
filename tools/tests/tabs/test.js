@@ -101,6 +101,47 @@ describe('Nested Tabs Components', () => {
     });
 });
 
+describe('Tabs with scrollable container', () => {
+    const template = `
+    <gameface-tabs>
+        <tab-heading slot="tab">Chapter One</tab-heading>
+        <tab-panel slot="panel">Chapter One Content</tab-panel>
+        <tab-heading slot="tab">Chapter Two</tab-heading>
+        <tab-panel slot="panel">Chapter Two Content</tab-panel>
+        <tab-heading slot="tab">Chapter Three</tab-heading>
+        <tab-panel slot="panel">Chapter Three Content</tab-panel>
+        <tab-heading slot="tab">Chapter Four</tab-heading>
+        <tab-panel slot="panel">
+            <gameface-scrollable-container automatic>
+                <component-slot data-name="scrollable-content">
+                    <span style="font-size:1000px">Chapter Four Content</span>
+                </component-slot>
+            </gameface-scrollable-container>
+        </tab-panel>
+    </gameface-tabs>
+    `;
+
+    afterAll(() => cleanTestPage('gameface-tabs'));
+
+    beforeEach(async () => {
+        await setupTabs(template);
+    });
+
+    it('Should check if scrollable container is visible inside a tab panel', async () => {
+        const tabs = document.getElementsByTagName('tab-heading');
+        const tabWithScrollableContainer = tabs[3];
+        click(tabWithScrollableContainer, { bubbles: true });
+
+        const tabPanel = document.querySelector('tab-panel[selected="true"]');
+        assert(tabPanel.textContent.trim() === `Chapter Four Content`, `The tab with scrollable container has not been opened.`);
+
+        const style = getComputedStyle(tabPanel.querySelector('.guic-slider-component'));
+        return createAsyncSpec(() => {
+            assert(style.display === 'block', 'The scrollbar is not visible.');
+        });
+    });
+});
+
 if (engine?.isAttached) {
     describe('Tabs Component (Gameface Data Binding Test)', () => {
         const templateName = 'model';

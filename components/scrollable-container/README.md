@@ -81,6 +81,8 @@ const scrollableContainer = document.querySelector('.guic-scrollable-container')
 scrollableContainer.shouldShowScrollbar();
 ~~~~
 
+**Note: If an element that holds a scrollable container is initially hidden you need to force check if the scrollable container should be shown via the `shouldShowScrollbar` method when the element becomes visible. Otherwise, the slider of the scrollable container might not be visible.**
+
 If you need to hide the scrollbar - use the **hideScrollBar method** and pass it the scrollbar as an argument:
 
 ~~~~{.js}
