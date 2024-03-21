@@ -143,6 +143,9 @@ class Tabs extends BaseComponent {
         }
         newTab.selected = true;
         newPanel.selected = true;
+        // Show scrollbar inside the tabs panel because if the panel has been hidden then the scrollable container will be
+        // hidden as well and that is why here we force it to recalculate if it should be visible or not.
+        newPanel.querySelectorAll('gameface-scrollable-container').forEach(el => el.shouldShowScrollbar());
         newTab.focus();
     }
 
