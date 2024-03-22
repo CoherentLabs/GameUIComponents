@@ -218,8 +218,8 @@ class Slider extends BaseComponent {
      * @returns {number} - the size in pixels.
     */
     getElementSize(element) {
-        const unitsName = this.units.size;
-        return element.getBoundingClientRect()[unitsName];
+        const unitsName = this.units.offset;
+        return element[unitsName];
     }
 
     /**
