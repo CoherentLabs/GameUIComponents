@@ -201,8 +201,8 @@ class Stepper extends BaseComponent {
      * Detaches event listeners from the buttons
      */
     detachListeners() {
-        this.leftButton.removeEventListener('click', this.prev);
-        this.rightButton.removeEventListener('click', this.next);
+        this.leftButton && this.leftButton.removeEventListener('click', this.prev);
+        this.rightButton && this.rightButton.removeEventListener('click', this.next);
     }
 
     /**
