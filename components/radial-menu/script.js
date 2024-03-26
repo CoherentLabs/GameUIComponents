@@ -305,8 +305,6 @@ class RadialMenu extends BaseComponent {
         this.radialMenuTemplateWrapper = this.querySelector('.guic-radial-menu');
         this.itemSelector = this.querySelector('.guic-radial-menu-selector');
 
-        this.querySelector('.guic-radial-menu-center-text').textContent = this.dataset.name;
-
         this.populateItems();
         this.setSelectorSize();
         this.rotateElement(this.itemSelector, 0);
