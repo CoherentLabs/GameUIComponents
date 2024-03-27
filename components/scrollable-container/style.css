@@ -31,3 +31,7 @@ gameface-scrollable-container {
     display: block;
     height: 90vh;
 }
+
+[data-name="scrollable-content"] {
+    display: block;
+}
