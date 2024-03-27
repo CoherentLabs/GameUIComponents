@@ -45,7 +45,7 @@ class Slider extends BaseComponent {
      * @returns {number} - the value of the position.
     */
     get handlePositionPx() {
-        const sliderSize = this.slider.getBoundingClientRect()[this.units.size];
+        const sliderSize = this.slider[this.units.offset];
         return this.handlePosition / 100 * sliderSize;
     }
 
@@ -228,30 +228,38 @@ class Slider extends BaseComponent {
      * @param {HTMLElement} scrollableContainer
     */
     resize(scrollableContainer) {
-        components.waitForFrames(() => {
-            const scrollableContainerSize = this.getElementSize(scrollableContainer);
-            const sliderWrapper = this.querySelector(`.guic-${this.orientation}-slider-wrapper`);
+        const sliderWrapper = this.querySelector(`.guic-${this.orientation}-slider-wrapper`);
+        let scrollableContainerComponent = null;
+        // We do it like that because in Gameface such syntax - scrollableContainer?.parentElement?.parentElement; is not woking
+        if (scrollableContainer && scrollableContainer.parentElement) {
+            scrollableContainerComponent = scrollableContainer.parentElement;
+        }
+        if (scrollableContainerComponent && scrollableContainerComponent.parentElement) {
+            scrollableContainerComponent = scrollableContainerComponent.parentElement;
+        }
 
+        const scrollableContainerSize = this.getElementSize(scrollableContainer);
+        if (scrollableContainerComponent.tagName === 'GAMEFACE-SCROLLABLE-CONTAINER' && !scrollableContainerComponent.hasAttribute('fixed-slider-height')) {
             // set the slider wrapper to be as big as the scrollable container
             sliderWrapper.style.height = `${scrollableContainerSize}px`;
+        } else {
+            // remove height property from the slider if the fixed-slider-height attribute is set dynamically
+            sliderWrapper.style.height = '';
+        }
 
-            // get the size of the whole slider element
-            const sliderWrapperSize = this.getElementSize(sliderWrapper);
-            // get the size of the up or down buttons in px
-            const controlsSize = this.getElementSize(this.querySelector(`.guic-slider-${this.orientation}-arrow`));
-            // get the combined size of the up and down buttons in % of the sliderWrapperSize
-            const controlsSizePercent = controlsSize * 2 / sliderWrapperSize * 100;
-
+        // Wait 1 layout frame so the the new slider height has taken effect set from the prev lines
+        components.waitForFrames(() => {
             // get the size of the slider area
             const sliderSize = this.slider[this.units.offset];
             // get the size of the handle in percents relative to the current scroll(Height/Width)
             const handleSizePercent = (sliderSize / scrollableContainer[this.units.scroll]) * 100;
-            // get the size of the handle in px; exclude the controlsSizePercent from the whole size
-            const handleSize = (sliderSize / (100 - controlsSizePercent)) * handleSizePercent;
+            // get the size of the handle in px;
+            const handleSize = (scrollableContainerSize / 100) * handleSizePercent;
             // set the new size of the handle
             this.handle.style[this.units.size] = handleSize + 'px';
 
             this.scrollTo(this.handlePositionPx);
+            if (this.style.visibility === 'hidden') this.style.visibility = 'visible';
         });
     }
 
@@ -340,6 +348,24 @@ class Slider extends BaseComponent {
     onSlideWithArrorws(direction) {
         this.slidingWithArrows = true;
         this.interval = setInterval(() => this.scrollTo(this.getNextScrollPosition(direction, this.step)), 10);
+    }
+
+    /**
+     * Scrolls the a given position in percents.
+     * Used from the scrollable container
+     * @param {number} position
+    */
+    scrollToPercents(position) {
+        const handleRect = this.handle.getBoundingClientRect();
+        const sliderRect = this.slider.getBoundingClientRect();
+        const handleSizePercent = (handleRect[this.units.size] / sliderRect[this.units.size]) * 100;
+
+        // the slider range in percents is [0 - 100 - handleSizePercent]
+        // if the new position is outside of this range - snap the handle and
+        // scroll to the top or to the bottom
+        if (position < 0) position = 0;
+        if (position + handleSizePercent > 100) position = 100 - handleSizePercent;
+        this.handlePosition = position;
     }
 
     /**

@@ -72,11 +72,11 @@ function manyScrollableContainerElements(number = 30) {
     return result;
 }
 
-const dynamicScrollbarTemplate = `<gameface-scrollable-container class="guic-scrollable-container">
+const dynamicScrollbarTemplate = `<gameface-scrollable-container class="guic-scrollable-container-test">
 <component-slot data-name="scrollable-content">${longContent}</component-slot>
 </gameface-scrollable-container>`;
 
-const multipleElementsTemplate = `<gameface-scrollable-container class="guic-scrollable-container">
+const multipleElementsTemplate = `<gameface-scrollable-container class="guic-scrollable-container-test">
 <component-slot data-name="scrollable-content">${manyScrollableContainerElements()}</component-slot>
 </gameface-scrollable-container>`;
 
@@ -89,7 +89,7 @@ describe('Scrollable Container Component', () => {
     });
 
     it('Should be rendered', () => {
-        assert(document.querySelector('.guic-scrollable-container') !== null, 'Scrollable container is not rendered.');
+        assert(document.querySelector('.guic-scrollable-container-test') !== null, 'Scrollable container is not rendered.');
     });
 
     it('Should show scrollbar if the content overflows', () => {
@@ -121,23 +121,24 @@ describe('Scrollable Container Component', () => {
     it('Should resize the slider to the correct size', async () => {
         const CHANGED_CONTAINER_SIZE = 500;
 
-        const scrollableContainer = document.querySelector('.guic-scrollable-container-wrapper');
+        const scrollableContainer = document.querySelector('.guic-scrollable-container-test');
         const sliderWrapper = document.querySelector('.guic-vertical-slider-wrapper');
         resizeElementTo(scrollableContainer);
 
         const downButton = document.querySelector('.guic-slider-arrow-down');
-        let sliderrClientRectHeight = 0;
+        let sliderClientRectHeight = 0;
 
         await createAsyncSpec(() => {
             downButton.dispatchEvent(new CustomEvent('mousedown', { bubbles: true }));
+            scrollableContainer.resize();
         });
 
         await createAsyncSpec(() => {
-            sliderrClientRectHeight = sliderWrapper.getBoundingClientRect().height;
-        });
+            sliderClientRectHeight = sliderWrapper.getBoundingClientRect().height;
+        }, 6);
 
         return createAsyncSpec(() => {
-            assert.strictEqual(sliderrClientRectHeight, CHANGED_CONTAINER_SIZE, `The scrollable container height is not ${CHANGED_CONTAINER_SIZE}px.`);
+            assert.strictEqual(sliderClientRectHeight, CHANGED_CONTAINER_SIZE, `The scrollable container slider height is not ${CHANGED_CONTAINER_SIZE}px.`);
         });
     });
 
@@ -147,9 +148,10 @@ describe('Scrollable Container Component', () => {
         const handle = document.querySelector('.guic-slider-vertical-handle');
 
         scrollableContainer.scrollPos = SCROLL_PERCENT;
-        const handlePos = parseInt(handle.style.top);
-
-        assert(handlePos == SCROLL_PERCENT, `The scrollable container is not scrolled to ${SCROLL_PERCENT}%`);
+        await createAsyncSpec(() => {
+            const handlePos = parseInt(handle.style.top);
+            assert(handlePos == SCROLL_PERCENT, `The scrollable container is not scrolled to ${SCROLL_PERCENT}%`);
+        });
     });
 
     xit('Should scrollPos be equal to the handle position when scrolled', async () => {
@@ -259,7 +261,7 @@ if (engine?.isAttached) {
 
         const template = `
         <div data-bind-for="array:{{${templateName}.array}}">
-            <gameface-scrollable-container class="guic-scrollable-container">
+            <gameface-scrollable-container class="guic-scrollable-container-test">
                 <component-slot data-name="scrollable-content">Some text but not very long</component-slot>
             </gameface-scrollable-container>
         </div>`;

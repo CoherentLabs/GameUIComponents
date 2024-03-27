@@ -26,6 +26,22 @@ document.querySelector('.add-auto-attribute').addEventListener('click', () => {
     modeElement.textContent = 'Automatic';
 });
 
+const modeElementFixedSlider = document.getElementById('mode-fixed-slider');
+document.querySelector('.show-dynamic-content-fixed-slider').addEventListener('click', () => {
+    document.querySelector('.dynamic-content-fixed-slider').style.display = 'block';
+});
+document.querySelector('.hide-dynamic-content-fixed-slider').addEventListener('click', () => {
+    document.querySelector('.dynamic-content-fixed-slider').style.display = 'none';
+});
+document.querySelector('.remove-auto-attribute-fixed-slider').addEventListener('click', () => {
+    document.querySelector('.auto-fixed-slider').removeAttribute('automatic');
+    modeElementFixedSlider.textContent = 'Non automatic';
+});
+document.querySelector('.add-auto-attribute-fixed-slider').addEventListener('click', () => {
+    document.querySelector('.auto-fixed-slider').setAttribute('automatic', 'automatic');
+    modeElementFixedSlider.textContent = 'Automatic';
+});
+
 window.postMessage = function (message) {
     pm({
         origin: 'http://127.0.0.1/:3000',
