@@ -110,6 +110,7 @@ class ScrollableContainer extends BaseComponent {
         const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
 
         this.observer.observe(scrollableContent);
+        this.observer.observe(this);
     }
 
     /**
