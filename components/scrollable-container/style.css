@@ -16,7 +16,7 @@ body {
 .guic-scrollable-container-wrapper {
     position: relative;
     width: 80vw;
-    height: 90vh;
+    height: 100%;
     display: flex;
     flex-direction: row;
 }
@@ -25,4 +25,9 @@ body {
     width: 90%;
     overflow: scroll;
     background-color: #ebebeb;
+}
+
+gameface-scrollable-container {
+    display: block;
+    height: 90vh;
 }
