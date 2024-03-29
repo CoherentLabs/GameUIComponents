@@ -1,8 +1,10 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <div class="guic-radial-menu">
 	<div class="guic-radial-menu-center">
-		<div class="guic-radial-menu-center-bullseye"></div>
-		<div class="guic-radial-menu-center-text">Radial Menu</div>
+		<component-slot class="guic-radial-menu-center" data-name="radial-menu-center">
+			<div class="guic-radial-menu-center-bullseye"></div>
+			<div class="guic-radial-menu-center-text">Radial Menu</div>
+		</component-slot>
 		<div class="guic-radial-menu-center-bullseye-outer"></div>
 	</div>
 	<div class="guic-radial-menu-items">
