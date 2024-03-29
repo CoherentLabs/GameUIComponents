@@ -104,7 +104,7 @@ You can add an element with a background image for example:
 </gameface-radial-menu>
 ```
 
-Where the styles for `radial-menu-center-bullseye` and `radial-menu-center-image` and `radial-menu-center` are:
+The the styles for `radial-menu-center-bullseye`, `radial-menu-center-image` and `radial-menu-center` are:
 
 ```css
 .radial-menu-center-bullseye {
@@ -133,6 +133,8 @@ Where the styles for `radial-menu-center-bullseye` and `radial-menu-center-image
     align-items: center;
 }
 ```
+
+Note: Any additional elements in the **slot** should have a `position` property in order to be visible in this case i.e. to be higher in the stacking (context) order.
 
 ### Events
 
