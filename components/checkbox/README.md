@@ -74,3 +74,58 @@ To overwrite the default styles, simply create new rules for the class names tha
 you wish to change and include them after the default styles.
 
 **You can put any custom styles inline or use class names and add an external file.**
+
+
+## Attributes
+
+You can customize the checkbox using the following attributes:
+
+|Attribute   |Type   |Default   | Description |
+|---|---|---|---|
+|checked  | Boolean   |false   | Whether the component is checked or not   |
+|disabled  | Boolean   |false   |  Whether the component is disabled or not  |
+|value  | String   | 'on'   | The value that will be returned from the `.value` getter or the value that will be send if the checkbox is submitted in a form control |
+|name  | String   | ''   | The name that will be used as a key if the checkbox is submitted in a form control - `<name>:<value>` pair   |
+
+
+## Working with the Checkbox
+
+### Initial Setup
+
+You can configure the Checkbox's initial state declaratively setting the attributes in the HTML:
+
+```html
+<gameface-checkbox class="checkbox-component" checked disabled value="music-on">
+</gameface-checkbox>
+```
+
+### Updating the Attributes
+
+You can get or set the `value`, `name`, `checked` and `disabled` attributes of the checkbox using either JavaScript or the [DOM APIs](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute):
+
+#### With JavaScript:
+
+```js
+document.querySelector('gameface-checkbox').<attribute> = <value>;
+```
+
+Where \
+`<attribute> ::= disabled | checked` \
+`<value> ::= true | false`
+
+The `value` and `name` attributes are strings:
+
+```js
+document.querySelector('gameface-checkbox').value = 'play-music';
+```
+
+#### With DOM APIs:
+
+```js
+document.querySelector('gameface-checkbox').setAttribute('<attribute>', '<value>');
+document.querySelector('gameface-checkbox').removeAttribute('<attribute>');
+```
+
+Where \
+`<attribute> ::= disabled | checked | value` \
+`<value> ::= true | false | string`

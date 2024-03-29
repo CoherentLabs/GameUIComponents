@@ -96,7 +96,45 @@ To automatically show, hide and resize the scrollbar set the `automatic` attribu
 
 `<gameface-scrollable-container class="scrollable-container-component fixed-width" automatic>`
 
-## Set different height of the scrollable container
+## Manually scrolling scrollbar to position
+
+To scroll the scrollbar manually with JavaScript you can set the `scrollTop` of the scrollable container in `px` and then call the `onScroll` method of the scrollable container component.
+
+```javascript
+const scrollableContainerComponent = document.querySelector('gameface-scrollable-container');
+const scrollableContainer = scrollableContainerComponent.querySelector('.guic-scrollable-container');
+scrollableContainer.scrollTop = 100; // Will move the slider and content with 100px from the top.
+scrollableContainerComponent.onScroll();
+```
+
+This could be usefull if you want to implement scrolling to element functionality. To do that you can simply set the `scrollTop` of the container to the following value:
+
+```javascript
+const element = document.querySlector('.item') // This element should be inside the scrollable container's content added with the `<component-slot data-name="scrollable-content">`.
+const scrollableContainerComponent = document.querySelector('gameface-scrollable-container');
+const scrollableContainer = scrollableContainerComponent.querySelector('.guic-scrollable-container');
+scrollableContainer.scrollTop = element.offsetHeight - scrollableContainer.offsetHeight;
+scrollableContainerComponent.onScroll();
+```
+
+If you want to scroll the scrollbar to some percent of the whole scrollable area you can use the `scrollPos` method of the scrollable container component:
+
+```javascript
+const scrollableContainerComponent = document.querySelector('gameface-scrollable-container');
+scrollableContainerComponent.scrollPos = 50; // Will scroll to the middle of the scrollable area which is 50%
+```
+
+## Events
+
+Every time the scrollbar is scrolled it dispatches a custom event - `scroll`. You can listen for it if you need to react to the scrolling of the container just do:
+
+```js
+document.querySelector('gameface-scrollable-container').addEventListener('scroll', () => {
+    console.log('The content was scrolled.');
+});
+```
+
+## Specific Behavior
 
 If you want to change the default height of the scrollable container you can do this by CSS:
 
