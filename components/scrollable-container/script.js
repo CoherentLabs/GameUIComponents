@@ -10,6 +10,7 @@ import 'coherent-gameface-slider';
 import template from './template.html';
 
 const BaseComponent = components.BaseComponent;
+const fixedSliderHeightAttrString = 'fixed-slider-height';
 
 /**
  * Scrollable container. If it's content overflows a scrollbar will appear.
@@ -17,7 +18,7 @@ const BaseComponent = components.BaseComponent;
 class ScrollableContainer extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     static get observedAttributes() {
-        return ['automatic'];
+        return ['automatic', fixedSliderHeightAttrString];
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -42,13 +43,16 @@ class ScrollableContainer extends BaseComponent {
     set scrollPos(value) {
         this._scrollPos = value;
         // set the position of the scrollbar handle
-        this.scrollbar.handlePosition = this._scrollPos;
+        components.waitForFrames(() => this.scrollbar.scrollToPercents(this._scrollPos));
     }
 
     // eslint-disable-next-line require-jsdoc
     attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
+
         // boolean attributes' initial value is an empty string, so
         // we need to check if the old value was null
+        if (name === fixedSliderHeightAttrString) return this.shouldShowScrollbar();
         if (oldValue !== null && !newValue) this.removeMutationObserver();
         if (oldValue === null && newValue) this.initMutationObserver();
     }
@@ -72,8 +76,10 @@ class ScrollableContainer extends BaseComponent {
             // do the initial setup - add event listeners, assign members
 
             this.setup();
+            this.scrollbar.style.visibility = 'hidden';
             this.shouldShowScrollbar();
             if (this.automatic) this.initMutationObserver();
+            this.isRendered = true;
         });
     }
 
@@ -83,7 +89,7 @@ class ScrollableContainer extends BaseComponent {
     connectedCallback() {
         this.onScrollSlider = this.onScrollSlider.bind(this);
         this.onScroll = this.onScroll.bind(this);
-        this.onResize = this.onResize.bind(this);
+        this.resize = this.resize.bind(this);
         this.init = this.init.bind(this);
         this.setup = this.setup.bind(this);
         this.shouldShowScrollbar = this.shouldShowScrollbar.bind(this);
@@ -100,16 +106,12 @@ class ScrollableContainer extends BaseComponent {
      */
     initMutationObserver() {
         if (this.observer) this.removeMutationObserver();
-        this.observer = new MutationObserver(() => this.shouldShowScrollbar());
 
-        const options = {
-            attributes: true,
-            subtree: true,
-            childList: true,
-            attributesFilter: ['style', 'class'],
-        };
+        this.observer = new ResizeObserver(this.shouldShowScrollbar);
+        const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
 
-        this.observer.observe(this, options);
+        this.observer.observe(scrollableContent);
+        this.observer.observe(this);
     }
 
     /**
@@ -140,21 +142,14 @@ class ScrollableContainer extends BaseComponent {
      * and scroll of the scrollabe container.
     */
     addEventListeners() {
-        window.addEventListener('resize', this.onResize);
+        window.addEventListener('resize', this.resize);
         this.scrollbar.addEventListener('slider-scroll', this.onScrollSlider);
         this.scrollableContainer.addEventListener('scroll', this.onScroll);
     }
 
     // eslint-disable-next-line require-jsdoc
     removeEventListeners() {
-        window.removeEventListener('resize', this.onResize);
-    }
-
-    /**
-     * Called on window resize
-     */
-    onResize() {
-        this.scrollbar.resize(this.scrollableContainer);
+        window.removeEventListener('resize', this.resize);
     }
 
     /**
@@ -223,7 +218,7 @@ class ScrollableContainer extends BaseComponent {
      * Resizes the scrollbar manually
      */
     resize() {
-        this.scrollbar.resize(this.scrollableContainer);
+        this.shouldShowScrollbar();
     }
 }
 

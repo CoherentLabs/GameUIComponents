@@ -96,6 +96,37 @@ To automatically show, hide and resize the scrollbar set the `automatic` attribu
 
 `<gameface-scrollable-container class="scrollable-container-component fixed-width" automatic>`
 
-## Specific Behavior
+## Set different height of the scrollable container
 
-- The used `gameface-slider` Component is always 100% of the size of the `gameface-scrollable-container` i.e. setting `height: 500px;` for `.guic-scrollable-container-wrapper` will size the slider wrapper to that size.
+If you want to change the default height of the scrollable container you can do this by CSS:
+
+```CSS
+gameface-scrollable-container {
+    height: 80%; /* 80% of the parent container's height */
+}
+```
+
+Relative units are supported as well.
+
+## Fixed slider height
+
+The used `gameface-slider` component is always 100% of the size of the `gameface-scrollable-container`.
+
+If you wish to customize the slider within the scrollable container to maintain a fixed height rather than dynamically adjusting to the container's height, you can apply the `fixed-slider-height` attribute to the `gameface-scrollable-container`:
+
+`<gameface-scrollable-container fixed-slider-height></gameface-scrollable-container>`.
+
+Subsequently, you can define the slider's height by overriding the `.guic-vertical-slider-wrapper` class.
+
+For instance, in the demo of the scrollable container, a smaller slider height is set, and it is vertically centered along the Y axis using the following CSS:
+
+```CSS
+.guic-vertical-slider-wrapper {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 50%;
+}
+```
+
+![img](./docs-images/fixed-slider-height.png)
