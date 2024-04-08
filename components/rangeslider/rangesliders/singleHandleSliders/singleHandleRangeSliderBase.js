@@ -114,9 +114,9 @@ export default class SingleHandleRangeSliderBase extends RangeSliderBase {
      * @param {number} percent
      */
     setBarStyles(percent) {
-        this.handle.style[this.units.position] = `${this.rangeslider.orientation === 'vertical' ? 100 - percent : percent}%`;
+        if (this.handle) this.handle.style[this.units.position] = `${this.rangeslider.orientation === 'vertical' ? 100 - percent : percent}%`;
 
-        this.bar.style[this.units.size] = `${percent}%`;
+        if (this.bar) this.bar.style[this.units.size] = `${percent}%`;
     }
 
     /**
