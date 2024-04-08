@@ -1,5 +1,5 @@
 ---
-date: 2024-1-10
+date: 2024-4-08
 title: Radial menu
 draft: false
 ---
@@ -88,6 +88,60 @@ const radialMenuOne = document.getElementById('radial-menu-one');
 radialMenuOne.items = itemsModel.items;
 ```
 
+### Slots
+
+The `radial-menu-center` slot specifies the element in the middle of the menu. By default there is a circle background - bullseye and a text. You can customize them. Currently the slot in the template contains:
+
+```html
+<component-slot class="guic-radial-menu-center" data-name="radial-menu-center">
+    <div class="guic-radial-menu-center-bullseye"></div>
+    <div class="guic-radial-menu-center-text">Radial Menu</div>
+</component-slot>
+```
+
+You can add an element with a background image for example:
+
+```html
+<gameface-radial-menu id="radial-menu-one">
+    <div slot="radial-menu-center" class="radial-menu-center">
+        <div class="radial-menu-center-bullseye"></div>
+        <div class="radial-menu-center-image"></div>
+    </div>
+</gameface-radial-menu>
+```
+
+The the styles for `radial-menu-center-bullseye`, `radial-menu-center-image` and `radial-menu-center` are:
+
+```css
+.radial-menu-center-bullseye {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-color: #4a9cc5;
+    border-radius: 50%;
+}
+
+.radial-menu-center-image {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-image: url('./images/GameMessage_AchievmentIcon.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.radial-menu-center {
+    position: absolute;
+    width: 23.7vh;
+    height: 23.7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+```
+
+Note: Any additional elements in the **slot** should have a `position` property in order to be visible in this case i.e. to be higher in the stacking (context) order.
+
 ### Events
 
 * Provide the name of the event that will be emitted by the component (instance)
@@ -95,7 +149,7 @@ when another item is highlighted to the `data-change-event-name` attribute.
 
 * Provide the name of the event that will be emitted by the component (instance)
 when an item is selected to the `data-select-event-name` attribute.
-  
+
 A basic approach which allows executing code through the event and the code or
 the attached functions are decoupled from the component itself.
 
