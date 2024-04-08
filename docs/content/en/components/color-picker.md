@@ -1,3 +1,9 @@
+---
+date: 2024-4-08
+title: Color picker
+draft: false
+---
+
 <a href="https://www.npmjs.com/package/coherent-gameface-color-picker"><img src="http://img.shields.io/npm/v/coherent-gameface-color-picker.svg?style=flat-square"/></a>
 
 The gameface-color-picker is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.

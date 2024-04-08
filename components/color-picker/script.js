@@ -12,27 +12,26 @@ const BaseComponent = components.BaseComponent;
  */
 class ColorPicker extends BaseComponent {
     /* eslint-disable require-jsdoc */
+    static get observedAttributes() {
+        return ['value'];
+    }
+
     get value() {
         const value = hslaToHexAndRGB(this.hsla);
         return value;
     }
 
     set value(value) {
-        this.setAttribute('value', value);
+        const checkedValue = this.validateValue(value).HEX;
+        this.setAttribute('value', checkedValue);
+    }
 
-        const setValue = this.validateValue(value);
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.isRendered) return;
 
-        this.hsla = setValue;
-
-        this.hue = setValue.H;
-        this.alpha = setValue.A;
-
-        this.pickerCoords = { x: setValue.S, y: this.convertLigthnesToY(setValue.L, setValue.S) };
-
-        this.dispatchColorChangeEvent();
-        this.updateSliders();
-        this.updateColorPreview();
-        this.updateHandleStyle();
+        if (name === 'value') {
+            this.updateColorPickerState(newValue);
+        }
     }
 
     constructor() {
@@ -71,6 +70,7 @@ class ColorPicker extends BaseComponent {
             else this.value = 'rgba(0, 0, 0, 1)';
 
             this.attachEventListeners();
+            this.isRendered = true;
         });
     }
 
@@ -119,11 +119,11 @@ class ColorPicker extends BaseComponent {
      * @returns {boolean}
      */
     validateValue(value) {
-        const defaultColor = new ColorTranslator('rgba(0, 0, 0, 1)').HSLAObject;
+        const defaultColor = new ColorTranslator('rgba(0, 0, 0, 1)');
         let color;
 
         try {
-            color = new ColorTranslator(value).HSLAObject;
+            color = new ColorTranslator(value);
         } catch (error) {
             return defaultColor;
         }
@@ -207,6 +207,26 @@ class ColorPicker extends BaseComponent {
             L: lightness,
             A: this.alpha,
         };
+    }
+
+    /**
+     * Updates the color picker state based on the value attribute
+     * @param {string} value - the color value
+     */
+    updateColorPickerState(value) {
+        const setValue = this.validateValue(value).HSLAObject;
+
+        this.hsla = setValue;
+
+        this.hue = setValue.H;
+        this.alpha = setValue.A;
+
+        this.pickerCoords = { x: setValue.S, y: this.convertLigthnesToY(setValue.L, setValue.S) };
+
+        this.dispatchColorChangeEvent();
+        this.updateSliders();
+        this.updateColorPreview();
+        this.updateHandleStyle();
     }
 
     /**

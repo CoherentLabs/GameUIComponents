@@ -8,6 +8,7 @@
 import ColorPicker from './script.js';
 import { pm } from 'postmessage-polyfill';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
+import 'coherent-gameface-tooltip';
 
 window.postMessage = function (message) {
     pm({
@@ -16,3 +17,10 @@ window.postMessage = function (message) {
         data: message,
     });
 };
+
+const colorPicker = document.querySelector('#tooltip-color-picker');
+colorPicker.addEventListener('colorchange', (event) => {
+    const color = event.detail;
+    const colorPreview = document.querySelector('.color-preview');
+    colorPreview.style.backgroundColor = color.rgba;
+});

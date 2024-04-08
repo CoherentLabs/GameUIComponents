@@ -1,15 +1,20 @@
+---
+date: 2024-4-08
+title: Color picker
+draft: false
+---
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="./coherent-gameface-components-theme.css" />
-        <link rel="stylesheet" href="./node_modules/coherent-gameface-rangeslider/styles/horizontal.css" />
-        <link rel="stylesheet" href="./node_modules/coherent-gameface-tooltip/style.css" />
-        <link rel="stylesheet" href="./style.css" />
+        {{<staticLink href="components/color-picker/50df50e542a787702c5e.css">}}
+        {{<staticLink href="components/color-picker/5dfc85b4c9e2c23ba661.css">}}
+        {{<staticLink href="components/color-picker/a5516a214c2b350f5d32.css">}}
+        {{<staticLink href="components/color-picker/abb2faf4439b8c63c1bc.css">}}
         <style>
             body {
-                background-color: white;
+                background-color: #fff;
             }
-
             .color-picker-button {
                 display: flex;
                 justify-content: center;
@@ -17,13 +22,11 @@
                 width: 7vh;
                 height: 7vh;
             }
-
             .color-preview {
                 width: 5.5vh;
                 height: 5.5vh;
                 border-radius: 1vh;
             }
-
             gameface-tooltip {
                 background-color: transparent;
                 width: auto;
@@ -33,12 +36,10 @@
     <body>
         <gameface-color-picker class="color-picker-component"></gameface-color-picker>
         <h2>Using the color picker with the coherent-gameface-tooltip</h2>
-        <div class="color-picker-button">
-            <div class="color-preview"></div>
-        </div>
+        <div class="color-picker-button"><div class="color-preview"></div></div>
         <gameface-tooltip id="tutorial" target=".color-picker-button" on="click" position="right" off="click"
-            ><div slot="message">
-                <gameface-color-picker id="tooltip-color-picker"></gameface-color-picker></div
+            ><div slot="message"><gameface-color-picker id="tooltip-color-picker"></gameface-color-picker></div
         ></gameface-tooltip>
+        {{<staticScript src="components/color-picker/bundle.js">}}
     </body>
 </html>
