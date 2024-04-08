@@ -55,6 +55,7 @@ module.exports = function (config) {
       'interaction-manager/**/*.js',
       'comprehensive-components-test/test.js',
       'carousel/*.js',
+      'color-picker/*.js',
     ],
     singleRun: true,
     retryLimit: 0,
