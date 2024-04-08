@@ -41,7 +41,42 @@ components.KEYCODES object e.g. HOME, CTRL, SPACE.</p><h3 id=populate-items>Popu
 instance of the targeted radial menu on the <code>items</code> property like so:</p><pre><code class=language-js>const radialMenuOne = document.getElementById('radial-menu-one');
 // Provide the items.
 radialMenuOne.items = itemsModel.items;
-</code></pre><h3 id=events>Events <a href=#events class=anchor aria-hidden=true>#</a></h3><ul><li><p>Provide the name of the event that will be emitted by the component (instance)
+</code></pre><h3 id=slots>Slots <a href=#slots class=anchor aria-hidden=true>#</a></h3><p>The <code>radial-menu-center</code> slot specifies the element in the middle of the menu. By default there is a circle background - bullseye and a text. You can customize them. Currently the slot in the template contains:</p><pre><code class=language-html>&lt;component-slot class=&quot;guic-radial-menu-center&quot; data-name=&quot;radial-menu-center&quot;&gt;
+    &lt;div class=&quot;guic-radial-menu-center-bullseye&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;guic-radial-menu-center-text&quot;&gt;Radial Menu&lt;/div&gt;
+&lt;/component-slot&gt;
+</code></pre><p>You can add an element with a background image for example:</p><pre><code class=language-html>&lt;gameface-radial-menu id=&quot;radial-menu-one&quot;&gt;
+    &lt;div slot=&quot;radial-menu-center&quot; class=&quot;radial-menu-center&quot;&gt;
+        &lt;div class=&quot;radial-menu-center-bullseye&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;radial-menu-center-image&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/gameface-radial-menu&gt;
+</code></pre><p>The the styles for <code>radial-menu-center-bullseye</code>, <code>radial-menu-center-image</code> and <code>radial-menu-center</code> are:</p><pre><code class=language-css>.radial-menu-center-bullseye {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-color: #4a9cc5;
+    border-radius: 50%;
+}
+
+.radial-menu-center-image {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-image: url('./images/GameMessage_AchievmentIcon.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.radial-menu-center {
+    position: absolute;
+    width: 23.7vh;
+    height: 23.7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</code></pre><p>Note: Any additional elements in the <strong>slot</strong> should have a <code>position</code> property in order to be visible in this case i.e. to be higher in the stacking (context) order.</p><h3 id=events>Events <a href=#events class=anchor aria-hidden=true>#</a></h3><ul><li><p>Provide the name of the event that will be emitted by the component (instance)
 when another item is highlighted to the <code>data-change-event-name</code> attribute.</p></li><li><p>Provide the name of the event that will be emitted by the component (instance)
 when an item is selected to the <code>data-select-event-name</code> attribute.</p></li></ul><p>A basic approach which allows executing code through the event and the code or
 the attached functions are decoupled from the component itself.</p><h3 id=listener-for-opening>Listener for Opening <a href=#listener-for-opening class=anchor aria-hidden=true>#</a></h3><p>If case there is a need to disable the radial menu from opening, just get the
