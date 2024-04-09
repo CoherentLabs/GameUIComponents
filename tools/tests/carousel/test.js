@@ -88,7 +88,7 @@ function setupCarousel(template) {
 function createCarouselItem(textContent) {
     const cItem = document.createElement('div');
     cItem.textContent = textContent;
-    cItem.id=`box${textContent}`;
+    cItem.id = `box${textContent}`;
     cItem.classList.add('box');
     cItem.style.backgroundColor = 'red';
 
@@ -111,8 +111,11 @@ describe('Carousel component', () => {
         return await setupCarousel(carouselTemplate);
     });
 
-    it('Should be rendered', () => {
-        assert(document.querySelector('gameface-carousel') !== null, 'Carousel was not rendered.');
+    it('Should be rendered', async () => {
+        await createAsyncSpec(() => {
+            assert(document.querySelector('gameface-carousel') !== null, 'Carousel was not rendered.');
+            assert(document.querySelector('gameface-carousel .carousel-current-item').textContent === '0', 'Carousel has invalid active item.');
+        });
     });
 
     it('Should have only next arrow navigation visible', () => {
@@ -134,13 +137,14 @@ describe('Carousel component', () => {
     it('Should have only left arrow visible when on last page', () => {
         const carousel = document.querySelector('gameface-carousel');
         const dots = carousel.querySelectorAll('.guic-carousel-dot');
-        click(dots[dots.length-1]);
+        click(dots[dots.length - 1]);
 
         const leftArrow = carousel.querySelector('.guic-carousel-left-arrow');
         const rightArrow = carousel.querySelector('.guic-carousel-right-arrow');
 
         assert(rightArrow.classList.contains('guic-carousel-hidden') === true, 'Right arrow is visible when there is no way to navigate right.');
         assert(leftArrow.classList.contains('guic-carousel-hidden') === false, 'Left arrow is not visible.');
+        assert(document.querySelector('gameface-carousel .carousel-current-item').textContent === '6', 'Carousel has invalid active item.');
     });
 
     it('Should have the first and second elements visible', () => {
@@ -163,12 +167,14 @@ describe('Carousel component', () => {
 
         assert(carousel.visibleItemsIndexes[0] === 3, 'Right arrow navigation failed - the first visible element is not correct.');
         assert(carousel.visibleItemsIndexes[1] === 4, 'Right arrow navigation failed - the second initially visible element is not correct.');
+        assert(document.querySelector('gameface-carousel .carousel-current-item').textContent === '3', 'Carousel has invalid active item.');
 
         click(leftArrow);
         click(leftArrow);
 
         assert(carousel.visibleItemsIndexes[0] === 1, 'Left arrow navigation failed - The first visible element is not correct.');
         assert(carousel.visibleItemsIndexes[1] === 2, 'The second initially visible element is not correct.');
+        assert(document.querySelector('gameface-carousel .carousel-current-item').textContent === '1', 'Carousel has invalid active item.');
     });
 
     it('Should be able to dynamically add new elements to the carousel', () => {

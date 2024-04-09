@@ -70,6 +70,7 @@ class Carousel extends BaseComponent {
         this.itemHeight = height;
 
         this.resize();
+        this.toggleActiveClass(this.items[0], true);
     }
 
     /**
@@ -178,8 +179,11 @@ class Carousel extends BaseComponent {
      * @param {number} value
      */
     set currentItemIndex(value) {
+        const itemsElements = this.items;
+        this.toggleActiveClass(itemsElements[this.currentItemIndex], false);
         this._currentItemIndex = value;
         this.moveTo(value);
+        this.toggleActiveClass(itemsElements[this.currentItemIndex], true);
     }
 
     /**
@@ -218,6 +222,21 @@ class Carousel extends BaseComponent {
 
         this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
         this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
+    }
+
+    /**
+     * Will set/remove active class for a carousel item
+     * @param {HTMLElement} item
+     * @param {boolean} active
+     * @returns {undefined}
+     */
+    toggleActiveClass(item, active) {
+        if (!item) {
+            console.warn('Item argument is not valid for the "toggleActiveClass" method!');
+            return;
+        }
+
+        item.classList.toggle('carousel-current-item', active);
     }
 
     /**
