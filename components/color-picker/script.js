@@ -17,12 +17,11 @@ class ColorPicker extends BaseComponent {
     }
 
     get value() {
-        const value = hslaToHexAndRGB(this.hsla);
-        return value;
+        return hslaToHexAndRGB(this.hsla);
     }
 
     set value(value) {
-        const checkedValue = this.validateValue(value).HEX;
+        const checkedValue = this.processValue(value).HEX;
         this.setAttribute('value', checkedValue);
     }
 
@@ -57,7 +56,10 @@ class ColorPicker extends BaseComponent {
             this.mode = 'HEX';
 
             this.lsPicker = this.querySelector('.guic-ls-picker');
+
             this.lsPickerHandle = this.querySelector('.guic-ls-picker-handle');
+            this.lsPickerAttributeStyleMap = this.lsPickerHandle.attributeStyleMap;
+
             this.colorBox = this.querySelector('.guic-color-preview-box-color');
 
             this.huePicker = this.querySelector('.guic-hue-picker-slider');
@@ -66,8 +68,8 @@ class ColorPicker extends BaseComponent {
             this.colorInput = this.querySelector('.guic-color-preview-input');
             this.tabs = this.querySelectorAll('.guic-color-preview-tab');
 
-            if (this.hasAttribute) this.value = this.getAttribute('value');
-            else this.value = 'rgba(0, 0, 0, 1)';
+            this.value = this.getAttribute('value');
+
 
             this.attachEventListeners();
             this.isRendered = true;
@@ -103,7 +105,7 @@ class ColorPicker extends BaseComponent {
      * Detaches the event listeners for the component
      */
     detachEventListeners() {
-        if (!this.lsPicker) return;
+        if (!this.lsRendered) return;
 
         this.lsPicker.removeEventListener('mousedown', this.lsPickerDragStart);
         this.huePicker.removeEventListener('sliderupdate', this.huePickerUpdate);
@@ -118,7 +120,7 @@ class ColorPicker extends BaseComponent {
      * @param {string} value - the color value to be validated
      * @returns {boolean}
      */
-    validateValue(value) {
+    processValue(value) {
         const defaultColor = new ColorTranslator('rgba(0, 0, 0, 1)');
         let color;
 
@@ -138,9 +140,7 @@ class ColorPicker extends BaseComponent {
     lsPickerDragStart(e) {
         this.lsPickerRect = this.lsPicker.getBoundingClientRect();
 
-        this.setPickerCoordinates(e.clientX, e.clientY);
-        this.updateSelectedColor();
-        this.updateHandleStyle();
+        this.lsPickerDragMove(e);
 
         document.addEventListener('mousemove', this.lsPickerDragMove);
         document.addEventListener('mouseup', this.lsPickerDragEnd);
@@ -214,7 +214,7 @@ class ColorPicker extends BaseComponent {
      * @param {string} value - the color value
      */
     updateColorPickerState(value) {
-        const setValue = this.validateValue(value).HSLAObject;
+        const setValue = this.processValue(value).HSLAObject;
 
         this.hsla = setValue;
 
@@ -286,8 +286,9 @@ class ColorPicker extends BaseComponent {
      * Updates the handle position based on the handle values
      */
     updateHandleStyle() {
-        this.lsPickerHandle.style.left = this.pickerCoords.x + '%';
-        this.lsPickerHandle.style.top = this.pickerCoords.y + '%';
+        this.lsPickerAttributeStyleMap.set('top', CSS.percent(this.pickerCoords.y));
+        this.lsPickerAttributeStyleMap.set('left', CSS.percent(this.pickerCoords.x));
+
         this.lsPickerHandle.style.backgroundColor = hslaToHexAndRGB(this.hsla).rgba;
     }
 

@@ -12,7 +12,7 @@ npm i coherent-gameface-color-picker
 
 Usage
 ===================
-The color-picker component comes with UMD and CJS builds.
+The color-picker component comes with UMD builds.
 
 ## Usage with UMD modules:
 
@@ -25,7 +25,7 @@ The color-picker component comes with UMD and CJS builds.
 * add the gameface-color-picker component to your html:
 
 ~~~~{.html}
-<color-picker class="color-picker-component"></color-picker>
+<gameface-color-picker class="color-picker-component"></gameface-color-picker>
 ~~~~
 
 This is all! Load the file in Gameface to see the color-picker.

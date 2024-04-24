@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <link rel="stylesheet" href="./coherent-gameface-components-theme.css" />
         <link rel="stylesheet" href="./node_modules/coherent-gameface-rangeslider/styles/horizontal.css" />
@@ -30,15 +31,18 @@
             }
         </style>
     </head>
+
     <body>
         <gameface-color-picker class="color-picker-component"></gameface-color-picker>
         <h2>Using the color picker with the coherent-gameface-tooltip</h2>
         <div class="color-picker-button">
             <div class="color-preview"></div>
         </div>
-        <gameface-tooltip id="tutorial" target=".color-picker-button" on="click" position="right" off="click"
-            ><div slot="message">
-                <gameface-color-picker id="tooltip-color-picker"></gameface-color-picker></div
-        ></gameface-tooltip>
+        <gameface-tooltip id="tutorial" target=".color-picker-button" on="click" position="right" off="click">
+            <div slot="message">
+                <gameface-color-picker id="tooltip-color-picker"></gameface-color-picker>
+            </div>
+        </gameface-tooltip>
     </body>
+
 </html>

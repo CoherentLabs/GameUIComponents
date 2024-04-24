@@ -1,3 +1,6 @@
+const DEFAULT_COLOR = '#000000FF';
+const RED_COLOR = '#FF0000FF';
+
 /**
  * Loads the color picker component with the given value.
  * @param {Object} param0
@@ -15,6 +18,19 @@ function loadColorPicker({ value }) {
     });
 }
 
+/**
+ *
+ * @param {number} x
+ * @param {number} y
+ * @param {HTMLElement} colorPicker
+ */
+async function colorPickerClick(x, y, colorPicker) {
+    await createAsyncSpec(() => {
+        colorPicker.lsPickerDragStart({ clientX: x, clientY: y });
+        colorPicker.lsPickerDragEnd();
+    });
+}
+
 /* eslint-disable-next-line max-lines-per-function */
 describe('Color Picker', () => {
     afterEach(() => {
@@ -22,57 +38,51 @@ describe('Color Picker', () => {
     });
 
     it('should set the color picker value to the given value', async () => {
-        const value = '#FF0000FF';
-        await loadColorPicker({ value });
+        await loadColorPicker({ RED_COLOR });
 
         const colorPicker = document.querySelector('gameface-color-picker');
 
-        expect(colorPicker.value.hex).toBe(value);
+        expect(colorPicker.value.hex).toBe(RED_COLOR);
     });
 
     it('should set the color picker value to the default value if none is given', async () => {
-        const defaultValue = '#000000FF';
         await loadColorPicker({});
 
         const colorPicker = document.querySelector('gameface-color-picker');
 
-        expect(colorPicker.value.hex).toBe(defaultValue);
+        expect(colorPicker.value.hex).toBe(DEFAULT_COLOR);
     });
 
     it('should set the color picker value to the default value if an invalid value is given', async () => {
-        const defaultValue = '#000000FF';
         await loadColorPicker({ value: 'invalid' });
 
         const colorPicker = document.querySelector('gameface-color-picker');
 
-        expect(colorPicker.value.hex).toBe(defaultValue);
+        expect(colorPicker.value.hex).toBe(DEFAULT_COLOR);
     });
 
     it('should set the color picker value dynamically', async () => {
-        const value = '#FF0000FF';
         await loadColorPicker({});
 
         const colorPicker = document.querySelector('gameface-color-picker');
 
-        colorPicker.value = value;
+        colorPicker.value = RED_COLOR;
 
-        expect(colorPicker.value.hex).toBe(value);
+        expect(colorPicker.value.hex).toBe(RED_COLOR);
     });
 
     it('should set the color picker value to the default value if an invalid value is set', async () => {
         const value = 'invalid';
-        const defaultValue = '#000000FF';
         await loadColorPicker({});
 
         const colorPicker = document.querySelector('gameface-color-picker');
 
         colorPicker.value = value;
 
-        expect(colorPicker.value.hex).toBe(defaultValue);
+        expect(colorPicker.value.hex).toBe(DEFAULT_COLOR);
     });
 
     it('should set the color picker to the correct color when the color picker is clicked', async () => {
-        const value = '#FF0000FF';
         await loadColorPicker({});
 
         const colorPicker = document.querySelector('gameface-color-picker');
@@ -82,7 +92,7 @@ describe('Color Picker', () => {
         colorPicker.lsPickerDragStart({ clientX: x + width, clientY: y });
         colorPicker.lsPickerDragEnd();
 
-        expect(colorPicker.value.hex).toBe(value);
+        expect(colorPicker.value.hex).toBe(RED_COLOR);
     });
 
     it('should set the correct hue when the hue slider is changed', async () => {
@@ -106,8 +116,7 @@ describe('Color Picker', () => {
 
         const { x, y, width } = colorPicker.getBoundingClientRect();
 
-        colorPicker.lsPickerDragStart({ clientX: x + width, clientY: y });
-        colorPicker.lsPickerDragEnd();
+        await colorPickerClick(x + width, y, colorPicker);
 
         expect(colorPicker.hsla.S).toBe(saturation);
     });
@@ -122,23 +131,15 @@ describe('Color Picker', () => {
         const colorPicker = document.querySelector('gameface-color-picker');
         const { x, y, height, width } = colorPicker.getBoundingClientRect();
 
-        await createAsyncSpec(() => {
-            colorPicker.lsPickerDragStart({ clientX: x, clientY: y });
-            colorPicker.lsPickerDragEnd();
-            expect(colorPicker.hsla.L).toBe(lightness1);
-        });
+        await colorPickerClick(x, y, colorPicker);
+        expect(colorPicker.hsla.L).toBe(lightness1);
 
-        await createAsyncSpec(() => {
-            colorPicker.lsPickerDragStart({ clientX: x + width, clientY: y });
-            colorPicker.lsPickerDragEnd();
-            expect(colorPicker.hsla.L).toBe(lightness2);
-        });
+        await colorPickerClick(x + width, y, colorPicker);
+        expect(colorPicker.hsla.L).toBe(lightness2);
 
-        await createAsyncSpec(() => {
-            colorPicker.lsPickerDragStart({ clientX: x + width, clientY: y + height });
-            colorPicker.lsPickerDragEnd();
-            expect(colorPicker.hsla.L).toBe(lightness3);
-        });
+
+        await colorPickerClick(x + width, y + height, colorPicker);
+        expect(colorPicker.hsla.L).toBe(lightness3);
     });
 
     it('should set the correct alpha when the alpha slider is changed', async () => {
@@ -182,28 +183,26 @@ describe('Color Picker', () => {
     });
 
     it('should change the input value when the color picker value is changed', async () => {
-        const value = '#FF0000FF';
-        await loadColorPicker({ value });
+        await loadColorPicker({ RED_COLOR });
 
         const colorPicker = document.querySelector('gameface-color-picker');
 
         const input = colorPicker.querySelector('.guic-color-preview-input');
 
-        expect(input.value).toBe(value);
+        expect(input.value).toBe(RED_COLOR);
     });
 
     it('should change the color picker value when the input value is changed', async () => {
-        const value = '#FF0000FF';
         await loadColorPicker({});
 
         const colorPicker = document.querySelector('gameface-color-picker');
 
         const input = colorPicker.querySelector('.guic-color-preview-input');
 
-        input.value = value;
+        input.value = RED_COLOR;
 
         colorPicker.inputColor({ keyCode: 13 });
 
-        expect(colorPicker.value.hex).toBe(value);
+        expect(colorPicker.value.hex).toBe(RED_COLOR);
     });
 });
