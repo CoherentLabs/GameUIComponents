@@ -1,0 +1,28 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+gameface-tooltip {
+    position: absolute;
+    visibility: hidden;
+    background-color: var(--default-color-blue);
+    width: 150px;
+    padding: 10px;
+    border-radius: 10px;
+    overflow-wrap: break-word;
+}
+
+.guic-tooltip-show-animation {
+    animation: guic-tooltip-fadein 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes guic-tooltip-fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

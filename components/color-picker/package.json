@@ -1,0 +1,27 @@
+{
+    "name": "coherent-gameface-color-picker",
+    "version": "1.0.0",
+    "description": "A component for Coherent Labs Gameface.",
+    "main": "script.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/color-picker"
+    },
+    "keywords": [
+        "UI",
+        "Component"
+    ],
+    "dependencies": {
+        "coherent-gameface-components": "^3.0.1",
+        "coherent-gameface-rangeslider": "^3.3.0",
+        "coherent-gameface-tooltip": "^3.1.0",
+        "colortranslator": "4.1.0",
+        "postmessage-polyfill": "1.0.0",
+        "whatwg-fetch": "3.4.1"
+    },
+    "devDependencies": {
+        "html-loader": "^4.2.0"
+    },
+    "author": "CoherentLabs",
+    "license": "ISC"
+}

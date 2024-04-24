@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <link rel="stylesheet" href="./coherent-gameface-components-theme.css" />
+        <link rel="stylesheet" href="./node_modules/coherent-gameface-rangeslider/styles/horizontal.css" />
+        <link rel="stylesheet" href="./node_modules/coherent-gameface-tooltip/style.css" />
+        <link rel="stylesheet" href="./style.css" />
+        <style>
+            body {
+                background-color: white;
+            }
+
+            .color-picker-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 7vh;
+                height: 7vh;
+            }
+
+            .color-preview {
+                width: 5.5vh;
+                height: 5.5vh;
+                border-radius: 1vh;
+            }
+
+            gameface-tooltip {
+                background-color: transparent;
+                width: auto;
+            }
+        </style>
+    </head>
+
+    <body>
+        <gameface-color-picker class="color-picker-component"></gameface-color-picker>
+        <h2>Using the color picker with the coherent-gameface-tooltip</h2>
+        <div class="color-picker-button">
+            <div class="color-preview"></div>
+        </div>
+        <gameface-tooltip id="tutorial" target=".color-picker-button" on="click" position="right" off="click">
+            <div slot="message">
+                <gameface-color-picker id="tooltip-color-picker"></gameface-color-picker>
+            </div>
+        </gameface-tooltip>
+    </body>
+
+</html>
