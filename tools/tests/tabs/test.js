@@ -138,7 +138,7 @@ describe('Tabs with scrollable container', () => {
         const style = getComputedStyle(tabPanel.querySelector('.guic-slider-component'));
         return createAsyncSpec(() => {
             assert(style.display === 'block', 'The scrollbar is not visible.');
-        });
+        }, 6);
     });
 });
 

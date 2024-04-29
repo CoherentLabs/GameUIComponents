@@ -1,5 +1,5 @@
 ---
-date: 2024-2-07
+date: 2024-4-29
 title: Carousel
 draft: false
 ---
@@ -68,6 +68,8 @@ This is the index of the active item. It returns a number. You can set it and th
 ~~~{.js}
 document.querySelector('gameface-carousel').currentItemIndex = 0;
 ~~~
+
+When the `currentItemIndex` is modified, the carousel will automatically apply the `carousel-current-item` class to the active item. This class is available for styling purposes on the active item.
 
 ### items
 
