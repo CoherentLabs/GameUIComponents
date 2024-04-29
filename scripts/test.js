@@ -16,6 +16,8 @@ const IMFolder = path.join(INTERACTION_MANAGER_FOLDER, 'dist');
 const IMTestFolder = path.join(TESTS_FOLDER, 'interaction-manager');
 
 const components = fs.readdirSync(COMPONENTS_FOLDER);
+const FORMS_SERVER_PORT = 12345;
+const KARMA_PORT = 9876;
 
 /**
  * Checks if all the components are having packages and are not missing
@@ -66,6 +68,8 @@ function test(rebuild, browsersArg, noLink = false) {
     if (!areComponentsPackaged()) global.process.exit(1);
 
     execSync('npm i', { cwd: ROOT_FOLDER, stdio: 'inherit' });
+    execSync(`npx kill-port ${FORMS_SERVER_PORT}`, { cwd: ROOT_FOLDER, stdio: 'inherit' });
+    execSync(`npx kill-port ${KARMA_PORT}`, { cwd: ROOT_FOLDER, stdio: 'inherit' });
 
     const formsServer = spawn('node', ['forms-server.js'], { cwd: __dirname });
     formsServer.stdout.on('data', function (data) {

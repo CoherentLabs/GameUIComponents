@@ -59,16 +59,16 @@ function loadRangeslider({ value,
 
 /* eslint-enable max-lines-per-function */
 
-const dragSim = (start, end, element, direction = 1) => {
+const dragSim = (start, end, element, direction = 1, step = 1) => {
     return new Promise((resolve) => {
         const drag = (currX, endX) => {
             element.onMouseMove({ clientX: currX });
 
             if (currX < endX && direction === 1) {
-                requestAnimationFrame(() => drag(currX + 1, endX));
+                requestAnimationFrame(() => drag(currX + step, endX));
                 return;
             } else if (direction === -1 && currX > endX) {
-                requestAnimationFrame(() => drag(currX + -1, endX));
+                requestAnimationFrame(() => drag(currX + (-step), endX));
                 return;
             }
 
@@ -680,7 +680,7 @@ describe('Rangeslider component', () => {
 
         // move right thumb to the right-most position
         rangeslider.onMouseDown({ clientX: xRightThumb, target: rightThumb });
-        await dragSim(x, x + width, rangeslider);
+        await dragSim(x, x + width, rangeslider, void 0, 10);
         rangeslider.onMouseUp();
 
         assert.equal(rightThumb.hasAttribute('active'), true);
@@ -688,7 +688,7 @@ describe('Rangeslider component', () => {
         // move left thumb to the right-most position
         rangeslider.onMouseDown({ clientX: xLeftThumb, target: leftThumb });
 
-        await dragSim(x, x + width, rangeslider);
+        await dragSim(x, x + width, rangeslider, void 0, 10);
         rangeslider.onMouseUp();
 
         assert.equal(leftThumb.hasAttribute('active'), true);
@@ -702,7 +702,7 @@ describe('Rangeslider component', () => {
         const { x: xLeftThumbNewPosition } = leftThumb.getBoundingClientRect();
         rangeslider.onMouseDown({ clientX: xLeftThumbNewPosition, target: leftThumb });
 
-        await dragSim(xLeftThumbNewPosition, x, rangeslider, -1);
+        await dragSim(xLeftThumbNewPosition, x, rangeslider, -1, 10);
         rangeslider.onMouseUp();
 
         assert.equal(parseInt(leftThumb.style.left) + '%', '0%');

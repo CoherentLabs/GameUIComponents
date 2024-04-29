@@ -65,67 +65,67 @@ if (engine?.isAttached) {
 
             assert.isTrue(isTapped);
         });
-    });
 
-    it('shouldn\'t call the callback on long tap', async () => {
-        const element = document.querySelector('.square');
-        const tapTime = 200;
+        it('shouldn\'t call the callback on long tap', async () => {
+            const element = document.querySelector('.square');
+            const tapTime = 200;
 
-        let isTapped = false;
+            let isTapped = false;
 
-        interactionManager.touchGestures.tap({
-            element,
-            callback: () => {
-                isTapped = true;
-            },
-            tapTime,
+            interactionManager.touchGestures.tap({
+                element,
+                callback: () => {
+                    isTapped = true;
+                },
+                tapTime,
+            });
+
+            simulateTouch(element, 'touchstart', {
+                x: 0,
+                y: 0,
+                target: element,
+                currentTarget: element,
+                identifier: 0,
+            });
+
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0 });
+            }, tapTime + 1);
+
+            assert.isFalse(isTapped);
         });
 
-        simulateTouch(element, 'touchstart', {
-            x: 0,
-            y: 0,
-            target: element,
-            currentTarget: element,
-            identifier: 0,
+        it('shouldn\'t call the callback when there is too much time between taps', async () => {
+            const element = document.querySelector('.square');
+            const tapTime = 200;
+            const betweenTapsTime = 500;
+
+            let isTapped = false;
+
+            interactionManager.touchGestures.tap({
+                element,
+                callback: () => {
+                    isTapped = true;
+                },
+                tapTime,
+            });
+
+            simulateTouch(element, 'touchstart', { identifier: 0 });
+
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0 });
+            }, tapTime + 1);
+
+            await timeout(() => { }, betweenTapsTime + 1);
+
+            simulateTouch(element, 'touchstart', { identifier: 0 });
+
+            await timeout(() => {
+                simulateTouch(element, 'touchend', { identifier: 0 });
+            }, tapTime + 1);
+
+            assert.isFalse(isTapped);
         });
-
-        await timeout(() => {
-            simulateTouch(element, 'touchend', { identifier: 0 });
-        }, tapTime + 1);
-
-        assert.isFalse(isTapped);
-    });
-
-    it('shouldn\'t call the callback when there is too much time between taps', async () => {
-        const element = document.querySelector('.square');
-        const tapTime = 200;
-        const betweenTapsTime = 500;
-
-        let isTapped = false;
-
-        interactionManager.touchGestures.tap({
-            element,
-            callback: () => {
-                isTapped = true;
-            },
-            tapTime,
-        });
-
-        simulateTouch(element, 'touchstart', { identifier: 0 });
-
-        await timeout(() => {
-            simulateTouch(element, 'touchend', { identifier: 0 });
-        }, tapTime + 1);
-
-        await timeout(() => {}, betweenTapsTime + 1);
-
-        simulateTouch(element, 'touchstart', { identifier: 0 });
-
-        await timeout(() => {
-            simulateTouch(element, 'touchend', { identifier: 0 });
-        }, tapTime + 1);
-
-        assert.isFalse(isTapped);
     });
 
     xdescribe('Hold', () => {
@@ -145,7 +145,7 @@ if (engine?.isAttached) {
 
             simulateTouch(element, 'touchstart', { identifier: 0 });
 
-            await timeout(() => {}, time + 1);
+            await timeout(() => { }, time + 1);
 
             assert.isTrue(isHold);
         });
