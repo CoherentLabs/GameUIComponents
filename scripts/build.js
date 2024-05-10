@@ -108,7 +108,7 @@ function installDependencies(componentPath) {
 */
 async function buildEverything() {
     await buildComponentsLibrary();
-    const components = getComponentDirectories(['slider', 'scrollable-container', 'dropdown', 'tooltip', 'form-control']);
+    const components = getComponentDirectories(['range-slider', 'color-picker', 'slider', 'scrollable-container', 'dropdown', 'tooltip', 'form-control']);
 
     for (const component of components) {
         const componentPath = path.join(__dirname, '../components', component);

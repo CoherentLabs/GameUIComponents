@@ -22,7 +22,7 @@ async function setupRadialMenuTestPage(template) {
     await createAsyncSpec(() => {
         const radialMenus = document.querySelectorAll('.radial-menu-component');
         // Provide the items.
-        radialMenus.forEach(radialMenu => radialMenu.items = itemsModel.items );
+        radialMenus.forEach(radialMenu => radialMenu.items = itemsModel.items);
     });
 
     // the .items setter triggers a DOM change, so we wait a bit to make
@@ -66,7 +66,8 @@ describe('Radial Menu Tests', () => {
         });
 
         it('Should have the provided name', () => {
-            assert(document.querySelector('.guic-radial-menu-center-text').textContent === 'Radial Menu Name Test', 'The textContent of the radial menu is not "Radial Menu Name Test".');
+            const text = document.querySelector('.guic-radial-menu-center-text').textContent;
+            assert(text === 'Radial Menu Name Test', `The textContent of the radial menu is not "Radial Menu Name Test" and is ${text}.`);
         });
 
         it('Should have items and their count to be 8', () => {

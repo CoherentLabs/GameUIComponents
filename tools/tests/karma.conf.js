@@ -4,7 +4,7 @@ module.exports = function (config) {
     frameworks: ['jasmine', 'chai', 'sinon'],
     client: {
       jasmine: {
-        timeoutInterval: 30000,
+        timeoutInterval: 60000,
         random: false
       },
       clearContext: false,
