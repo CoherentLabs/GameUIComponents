@@ -34,7 +34,7 @@ setting the new progress.</p><p>Here is an example:</p><pre><code class=language
 </code></pre><p>You can update it using the <a href=https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute>setAttribute method</a>:</p><pre><code class=language-js>document.querySelector('gameface-progress-bar').setAttribute('animation-duration', 1000);
 </code></pre><p>You can also set it using JS:</p><pre><code class=language-js>const progressBarOne = document.getElementById('progress-bar-one');
 progressBarOne.animDuration = 5000;
-</code></pre><h3 id=target-value>target-value <a href=#target-value class=anchor aria-hidden=true>#</a></h3><p>It specifies the progress that should be reached in percents.
+</code></pre><p>Note that updating the <code>animation-duration</code> will start the animation from the beginning!</p><h3 id=target-value>target-value <a href=#target-value class=anchor aria-hidden=true>#</a></h3><p>It specifies the progress that should be reached in percents.
 You can use it as an HTML attribute:</p><pre><code class=language-html>&lt;gameface-progress-bar animation-duration=&quot;1000&quot; target-value=&quot;60&quot;&gt;&lt;/gameface-progress-bar&gt;
 </code></pre><p>You can update it using the <a href=https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute>setAttribute method</a>:</p><pre><code class=language-js>document.querySelector('gameface-progress-bar').setAttribute('target-value', 100);
 </code></pre><p>Or set it using JS <a href=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors>object property accessors</a>:</p><pre><code class=language-js>const progressBarOne = document.getElementById('progress-bar-one');
