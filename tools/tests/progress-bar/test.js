@@ -8,7 +8,7 @@ const targetValue = 75;
 const animationTime = 1000;
 
 const templateNoAnimation = `<gameface-progress-bar></gameface-progress-bar>`;
-const templateAnimation100ms = `<gameface-progress-bar animation-duration="${animationTime}"></gameface-progress-bar>`;
+const templateAnimation = `<gameface-progress-bar animation-duration="${animationTime}"></gameface-progress-bar>`;
 const templateTargetValue = `<gameface-progress-bar animation-duration="${animationTime}" target-value="20"></gameface-progress-bar>`;
 
 /**
@@ -60,7 +60,7 @@ describe('Progress Bar Component animations', () => {
     afterAll(() => cleanTestPage('.guic-progress-bar-wrapper'));
 
     beforeEach(async () => {
-        await setupProgressBar(templateAnimation100ms);
+        await setupProgressBar(templateAnimation);
     });
 
     it(`Should have an animation running.`, async () => {
