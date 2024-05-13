@@ -46,19 +46,6 @@ Note that this approach requires a module bundler like
 [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/)
 to resolve the modules from the node_modules folder.
 
-# Configuration and Usage
-
-The radio-button has `value` and `checked` getters and setters.
-Also each radio button has its own radio group element which is convenient.
-
-Here is an example:
-```html
-<gameface-radio-group>
-	<radio-button slot="radio-button">Tab Targeting</radio-button>
-	<radio-button slot="radio-button" checked>Action Combat</radio-button>
-</gameface-radio-group>
-```
-
 ## Add the Styles
 
 ~~~~{.css}
@@ -71,6 +58,56 @@ that you wish to change and include them after the default styles.
 
 Load the HTML file in Gameface to see the radio-button.
 You can also see an example in the demo folder of the component.
+
+# Configuration and Usage
+
+## Radio Group Attributes
+
+The `gameface-radio-group` element support the following attributes:
+
+|Attribute   |Type   |Default   | Description |
+|---|---|---|---|
+|value  | String   |N/A   | The value of the selected radio button  |
+|disabled  | Boolean   |false   |  Whether the whole group is disabled or not  |
+|value  | String   | 'on'   | The value that will be returned from the `.value` getter |
+|name  | String   | ''   | The name of the component|
+
+## Radio Button Attributes
+
+You can customize the radio button using the following attributes:
+
+|Attribute   |Type   |Default   | Description |
+|---|---|---|---|
+|checked  | Boolean   |false   | Whether the component is checked or not   |
+|disabled  | Boolean   |false   |  Whether the component is disabled or not  |
+|controls-disabled  | [Boolean HTML Attribute](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes)   |false   |  If present - hides the controls of the buttons, making it possible to add your custom  |
+|value  | String   | 'on'   | The value that will be returned from the `.value` getter |
+|name  | String   | ''   | The name of the component|
+
+### Initial Setup
+
+You can configure the `<radio-button>`'s initial state declaratively by setting the attributes in the HTML:
+
+```html
+<gameface-radio-group>
+	<radio-button slot="radio-button" disabled>Tab Targeting</radio-button>
+	<radio-button slot="radio-button" checked value="yes" name="subtitles">Action Combat</radio-button>
+</gameface-radio-group>
+```
+
+### Updating the Attributes
+
+You can update tge attributes using JavaScript or the [DOM APIs](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute).
+
+#### With JavaScript:
+
+```js
+document.querySelector('gameface-radio-group').allButtons[0].<attribute> = <value>;
+```
+
+Where \
+`<attribute> ::= disabled | checked | value | name` \
+`<value> ::= true | false | string`
 
 ## Custom Buttons
 

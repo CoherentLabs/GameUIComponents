@@ -47,6 +47,15 @@ modules from the node_modules folder.
 | `method`  | Yes      | `GET`, `POST` | `GET`         | Used to specify the HTTP method that will be used to send data when the form is submitted. **If the attribute is not added or with no valid value the form won't be published.** |
 | `action`  | No       | Any valid URL | `./`          | Used to specify where the form will send the data. **If the attribute is not added the data will be sent to the current page URL.**                                              |
 
+You can update the attributes using the [DOM APIs](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute):
+
+```js
+document.querySelector('gameface-form-control').setAttribute('<attribute>', '<value>');
+```
+
+Where \
+`<attribute> ::= method | action`
+
 ### Examples
 
 * `<gameface-form-control method="GET" action="http://localhost:12345/login"></gameface-form-control>` - Submitting this form will create a `GET` request with the form data and send it to the server that is available on `http://localhost:12345/login`.
