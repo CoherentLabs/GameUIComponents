@@ -8,6 +8,7 @@ import { Components } from 'coherent-gameface-components';
 const components = new Components();// eslint-disable-next-line no-unused-vars
 import 'coherent-gameface-slider';
 import template from './template.html';
+import { clamp } from './scrollable-container-utils';
 
 const BaseComponent = components.BaseComponent;
 const fixedSliderHeightAttrString = 'fixed-slider-height';
@@ -45,6 +46,55 @@ class ScrollableContainer extends BaseComponent {
         // set the position of the scrollbar handle
         components.waitForFrames(() => this.scrollbar.scrollToPercents(this._scrollPos));
     }
+
+    /* eslint-disable max-len */
+    /**
+     * Will scroll the container to a passed percents
+     * @param {string|number} value
+     * @returns {undefined}
+     */
+    scrollToPercents(value) {
+        value = parseFloat(value);
+        if (isNaN(value)) return console.error('The passed value to the scrollToPercents method should be number!');
+
+        this.scrollableContainer.scrollTop =
+            ((this.scrollableContainer.scrollHeight - this.scrollableContainer.offsetHeight) * clamp(value, 0, 100)) / 100;
+        this.onScroll();
+    }
+
+    /**
+     * Will scroll to some element inside the scrollable container. Based on the alignment the container will scroll to the element by position it
+     * on the top, bottom or centering it inside the visible area of the scrollable container.
+     * @param {HTMLElement} element
+     * @param {string} alignment
+     * @returns {undefined}
+     */
+    scrollToElement(element, alignment = 'start') {
+        if (!this.scrollableContainer.contains(element)) return console.error('The passed element should be inside the scrollable container\'s content added with the <component-slot data-name="scrollable-content">!');
+        const elementOffSetHeight = element.offsetHeight;
+        const elementOffSetTop = element.offsetTop;
+        const containerOffsetHeight = this.scrollableContainer.offsetHeight;
+
+        switch (alignment) {
+            case 'start':
+                this.scrollableContainer.scrollTop = elementOffSetTop;
+                break;
+            case 'center':
+                this.scrollableContainer.scrollTop = elementOffSetHeight / 2 + elementOffSetTop - containerOffsetHeight / 2;
+                break;
+            case 'end':
+                this.scrollableContainer.scrollTop = elementOffSetHeight + elementOffSetTop - containerOffsetHeight;
+                break;
+            default: {
+                console.error('The passed alignment argument is not valid. Possible values are "start", "center", "end".');
+                this.scrollableContainer.scrollTop = elementOffSetTop;
+            }
+        }
+
+        this.onScroll();
+    }
+
+    /* eslint-enable max-len */
 
     // eslint-disable-next-line require-jsdoc
     attributeChangedCallback(name, oldValue, newValue) {
