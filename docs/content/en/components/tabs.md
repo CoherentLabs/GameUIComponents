@@ -1,5 +1,5 @@
 ---
-date: 2024-1-10
+date: 2024-6-19
 title: Tabs
 draft: false
 ---
@@ -101,3 +101,31 @@ document.querySelector('[data-name="panel"]').appendChild(panel);
 
 To overwrite the default styles, simply create new rules for the class names that
 you wish to change and include them after the default styles.
+
+## Selecting a tab
+
+To set a tab as the default, add the `selected` attribute to the `tab-heading` that needs to be selected and its corresponding `tab-panel`.
+
+```html
+<gameface-tabs>
+    <tab-heading selected slot="tab">Chapter One</tab-heading>
+    <tab-panel selected slot="panel">Chapter One Content</tab-panel>
+    <tab-heading slot="tab">Chapter Two</tab-heading>
+    <tab-panel slot="panel">Chapter Two Content</tab-panel>
+    <tab-heading slot="tab">Chapter Three</tab-heading>
+    <tab-panel slot="panel">Chapter Three Content</tab-panel>
+    <tab-heading slot="tab">Chapter Four</tab-heading>
+    <tab-panel slot="panel">Chapter Four Content</tab-panel>
+</gameface-tabs>
+```
+
+**Ensure that only one `tab-heading` and one `tab-panel` have the `selected` attribute. Adding it to multiple tabs will cause more than one tab to be marked as selected, disrupting the visual display.**
+
+To select another tab using JavaScript, use the `selectTab` method. Pass a `tab-heading` as an argument, and it will open the corresponding `tab-panel`.
+
+```js
+const tabs = document.querySelector('gameface-tabs');
+const newTab = document.querySelectorAll('tab-heading')[1];
+
+tabs.selectTab(newTab);
+```
