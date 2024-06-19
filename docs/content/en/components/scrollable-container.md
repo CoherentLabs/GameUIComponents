@@ -1,5 +1,5 @@
 ---
-date: 2024-5-13
+date: 2024-6-19
 title: Scrollable container
 draft: false
 ---
@@ -104,6 +104,8 @@ To automatically show, hide and resize the scrollbar set the `automatic` attribu
 
 ## Manually scrolling scrollbar to position
 
+### Scroll to px
+
 To scroll the scrollbar manually with JavaScript you can set the `scrollTop` of the scrollable container in `px` and then call the `onScroll` method of the scrollable container component.
 
 ```javascript
@@ -113,21 +115,29 @@ scrollableContainer.scrollTop = 100; // Will move the slider and content with 10
 scrollableContainerComponent.onScroll();
 ```
 
-This could be usefull if you want to implement scrolling to element functionality. To do that you can simply set the `scrollTop` of the container to the following value:
+### Scroll to element
+
+If you want to scroll to an element that is inside the scrollable container you can use the `scrollToElement` method. It accepts two arguments:
+
+* **element (Required)** - The `HTMLElement` inside the `<component-slot data-name="scrollable-content">` element of the scrollable container.
+* **alignment (Optional. Default = 'start')** - The alignment of the element into the visible area of the scrollable container when the container is scrolled to the element. Either:
+  * **start** - Will align the element at the top of the container.
+  * **center** - Will align the element at the center of the container.
+  * **end** - Will align the element at the end of the container.
 
 ```javascript
 const element = document.querySlector('.item') // This element should be inside the scrollable container's content added with the `<component-slot data-name="scrollable-content">`.
 const scrollableContainerComponent = document.querySelector('gameface-scrollable-container');
-const scrollableContainer = scrollableContainerComponent.querySelector('.guic-scrollable-container');
-scrollableContainer.scrollTop = element.offsetHeight - scrollableContainer.offsetHeight;
-scrollableContainerComponent.onScroll();
+scrollableContainerComponent.scrollToElement(element);
 ```
 
-If you want to scroll the scrollbar to some percent of the whole scrollable area you can use the `scrollPos` method of the scrollable container component:
+### Scroll to percents
+
+If you want to scroll the scrollbar to some percent of the whole scrollable area you can use the `scrollToPercents` method of the scrollable container component:
 
 ```javascript
 const scrollableContainerComponent = document.querySelector('gameface-scrollable-container');
-scrollableContainerComponent.scrollPos = 50; // Will scroll to the middle of the scrollable area which is 50%
+scrollableContainerComponent.scrollToPercents(50); // Will scroll to the middle of the scrollable area which is 50%
 ```
 
 ## Events

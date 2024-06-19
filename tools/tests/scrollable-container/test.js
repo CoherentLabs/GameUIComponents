@@ -76,7 +76,7 @@ const dynamicScrollbarTemplate = `<gameface-scrollable-container class="guic-scr
 <component-slot data-name="scrollable-content">${longContent}</component-slot>
 </gameface-scrollable-container>`;
 
-const multipleElementsTemplate = `<gameface-scrollable-container class="guic-scrollable-container-test">
+const multipleElementsTemplate = `<gameface-scrollable-container automatic class="guic-scrollable-container-test">
 <component-slot data-name="scrollable-content">${manyScrollableContainerElements()}</component-slot>
 </gameface-scrollable-container>`;
 
@@ -142,7 +142,7 @@ describe('Scrollable Container Component', () => {
         });
     });
 
-    it('Should scroll to scrollPos', async () => {
+    it('Should scroll slider to scrollPos', async () => {
         const SCROLL_PERCENT = 50;
         const scrollableContainer = document.querySelector('gameface-scrollable-container');
         const handle = document.querySelector('.guic-slider-vertical-handle');
@@ -152,6 +152,18 @@ describe('Scrollable Container Component', () => {
             const handlePos = parseInt(handle.style.top);
             assert(handlePos == SCROLL_PERCENT, `The scrollable container is not scrolled to ${SCROLL_PERCENT}%`);
         });
+    });
+
+    it('Should scroll with scrollToPercents method', async () => {
+        const SCROLL_PERCENT = 50;
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+        const handle = document.querySelector('.guic-slider-vertical-handle');
+
+        scrollableContainer.scrollToPercents(SCROLL_PERCENT);
+        await createAsyncSpec(() => {
+            const handlePos = parseInt(handle.style.top);
+            assert(handlePos > 0, `The handle is not scrolled properly. It has been scrolled to: ${handlePos}`);
+        }, 7);
     });
 
     xit('Should scrollPos be equal to the handle position when scrolled', async () => {
@@ -218,15 +230,57 @@ describe('Scrollable Container Component', () => {
         await setupScrollableContainer(multipleElementsTemplate);
     });
 
+    it('Should scroll with scrollToElement method to start', async () => {
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+        resizeElementTo(scrollableContainer, 100);
+
+        await createAsyncSpec(() => {
+            const element = document.querySelectorAll('.se')[14];
+            scrollableContainer.scrollToElement(element);
+        }, 7);
+        await createAsyncSpec(() => {
+            const handle = document.querySelector('.guic-slider-vertical-handle');
+            const handlePos = parseInt(handle.style.top);
+            assert(handlePos > 0, `The scrollable container is not scrolled properly. Real handle pos: ${handlePos}`);
+        });
+    });
+
+    it('Should scroll with scrollToElement method to center', async () => {
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+        resizeElementTo(scrollableContainer, 100);
+
+        await createAsyncSpec(() => {
+            const element = document.querySelectorAll('.se')[14];
+            scrollableContainer.scrollToElement(element, 'center');
+        }, 7);
+        await createAsyncSpec(() => {
+            const handle = document.querySelector('.guic-slider-vertical-handle');
+            const handlePos = parseInt(handle.style.top);
+            assert(handlePos > 0, `The scrollable container is not scrolled properly. Real handle pos: ${handlePos}`);
+        });
+    });
+
+    it('Should scroll with scrollToElement method to end', async () => {
+        const scrollableContainer = document.querySelector('gameface-scrollable-container');
+        resizeElementTo(scrollableContainer, 100);
+
+        await createAsyncSpec(() => {
+            const element = document.querySelectorAll('.se')[14];
+            scrollableContainer.scrollToElement(element, 'end');
+        }, 7);
+        await createAsyncSpec(() => {
+            const handle = document.querySelector('.guic-slider-vertical-handle');
+            const handlePos = parseInt(handle.style.top);
+            assert(handlePos > 0, `The scrollable container is not scrolled properly. Real handle pos: ${handlePos}`);
+        });
+    });
+
     // eslint-disable-next-line max-lines-per-function
     it('Should check that the slider is scrolled to the bottom', async () => {
-        const scrollableContainer = document.querySelector('.guic-scrollable-container-wrapper');
         const handle = document.querySelector('.handle');
 
         let handlePosition = 0;
         let downArrowOffsetTop = 0;
-
-        resizeElementTo(scrollableContainer);
 
         const downButton = document.querySelector('.guic-slider-arrow-down');
         await createAsyncSpec(() => {
