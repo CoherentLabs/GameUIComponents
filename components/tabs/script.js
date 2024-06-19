@@ -241,22 +241,33 @@ class TabHeading extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        const value = this.hasAttribute('selected');
-        this.setAttribute('tabindex', value ? '0' : '-1');
+        if (!this.isRendered) return;
+
+        if (name === 'selected') this.updateSelectedState(newValue !== null);
     }
 
     get selected() {
-        return this.getAttribute('selected');
+        return this._selected;
     }
 
     set selected(value) {
         if (value) {
-            this.setAttribute('selected', value);
+            this.setAttribute('selected', '');
+        } else {
+            this.removeAttribute('selected');
+        }
+    }
+
+    updateSelectedState(value) {
+        this._selected = value;
+
+        if (value) {
             this.classList.add('guic-tabs-active-tab');
         } else {
             this.classList.remove('guic-tabs-active-tab');
-            this.removeAttribute('selected');
         }
+
+        this.setAttribute('tabindex', value ? '0' : '-1');
     }
 
     get index() {
@@ -271,13 +282,16 @@ class TabHeading extends HTMLElement {
     constructor() {
         super();
 
-        this.selected = false;
+        this._selected = false;
     }
 
     connectedCallback() {
         if (!this.index) {
             this.index = `${tabsCounter++}`;
         }
+
+        this.updateSelectedState(this.hasAttribute('selected'));
+        this.isRendered = true;
     }
     /* eslint-enable require-jsdoc */
 }
@@ -293,17 +307,27 @@ class TabPanel extends HTMLElement {
     }
 
     get selected() {
-        return this.getAttribute('selected');
+        return this._selected;
     }
 
     set selected(value) {
         if (value) {
-            this.setAttribute('selected', value);
+            this.setAttribute('selected', '');
+        } else {
+            this.removeAttribute('selected');
+        }
+    }
+
+    updateSelectedState(value) {
+        this._selected = value;
+
+        if (value) {
             this.classList.add('guic-tabs-active-panel');
         } else {
             this.classList.remove('guic-tabs-active-panel');
-            this.removeAttribute('selected');
         }
+
+        this.style.display = value ? 'block' : 'none';
     }
 
     get index() {
@@ -318,19 +342,22 @@ class TabPanel extends HTMLElement {
     constructor() {
         super();
 
-        this.selected = false;
+        this._selected = false;
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'selected') {
-            this.style.display = (newValue === 'true') ? 'block' : 'none';
-        }
+        if (!this.isRendered) return;
+
+        if (name === 'selected') this.updateSelectedState(newValue !== null);
     }
 
     connectedCallback() {
         if (!this.index) {
             this.index = `${panelsCounter++}`;
         }
+
+        this.updateSelectedState(this.hasAttribute('selected'));
+        this.isRendered = true;
     }
     /* eslint-enable require-jsdoc */
 }

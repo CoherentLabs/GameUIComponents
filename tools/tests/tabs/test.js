@@ -44,10 +44,10 @@ describe('Tabs Components', () => {
         const firstTab = tabs[0];
         const secondTab = tabs[1];
         click(firstTab, { bubbles: true });
-        assert(document.querySelector('tab-panel[selected="true"]').textContent === `${firstTab.textContent} Content`,
+        assert(document.querySelector('tab-panel[selected]').textContent === `${firstTab.textContent} Content`,
             `First tab's content is not correct`);
         click(secondTab, { bubbles: true });
-        assert(document.querySelector('tab-panel[selected="true"]').textContent === `${secondTab.textContent} Content`, `Second tab's content is not correct.`);
+        assert(document.querySelector('tab-panel[selected]').textContent === `${secondTab.textContent} Content`, `Second tab's content is not correct.`);
     });
 });
 
@@ -93,11 +93,11 @@ describe('Nested Tabs Components', () => {
         const secondTab = tabs[4];
         const thirdTab = tabs[5];
         click(firstTab, { bubbles: true });
-        assert(document.querySelector('tab-heading[selected="true"]').textContent === 'Chapter One', `First tab's header is not correct`);
+        assert(document.querySelector('tab-heading[selected]').textContent === 'Chapter One', `First tab's header is not correct`);
         click(secondTab, { bubbles: true });
-        assert(document.querySelectorAll('tab-panel[selected="true"]')[1].textContent === `Nested Chapter One Content`, `Second tab's content is not correct.`);
+        assert(document.querySelectorAll('tab-panel[selected]')[1].textContent === `Nested Chapter One Content`, `Second tab's content is not correct.`);
         click(thirdTab, { bubbles: true });
-        assert(document.querySelectorAll('tab-panel[selected="true"]')[1].textContent === `Nested Chapter Two Content`, `Third tab's content is not correct.`);
+        assert(document.querySelectorAll('tab-panel[selected]')[1].textContent === `Nested Chapter Two Content`, `Third tab's content is not correct.`);
     });
 });
 
@@ -132,7 +132,7 @@ describe('Tabs with scrollable container', () => {
         const tabWithScrollableContainer = tabs[3];
         click(tabWithScrollableContainer, { bubbles: true });
 
-        const tabPanel = document.querySelector('tab-panel[selected="true"]');
+        const tabPanel = document.querySelector('tab-panel[selected]');
         assert(tabPanel.textContent.trim() === `Chapter Four Content`, `The tab with scrollable container has not been opened.`);
 
         const style = getComputedStyle(tabPanel.querySelector('.guic-slider-component'));
