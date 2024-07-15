@@ -56,6 +56,8 @@ class Carousel extends BaseComponent {
 
             this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
             this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
+
+            this.isRendered = true;
         });
     }
 
