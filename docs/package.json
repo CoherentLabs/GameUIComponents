@@ -64,6 +64,6 @@
     "hugo": "0.92.0"
   },
   "dependencies": {
-    "vanilla-cookieconsent": "^2.8.0"
+    "vanilla-cookieconsent": "^3.0.1"
   }
 }
