@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-interaction-manager",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Library for the most common UI interactions",
   "main": "dist/interaction-manager.js",
   "module": "esm/interaction-manager.js",

@@ -91,6 +91,8 @@ class TouchGestures {
 
             clearTimeout(betweenTapsTimer);
 
+            isTap = true;
+
             tapTimer = setTimeout(() => {
                 isTap = false;
             }, options.tapTime || 200);
