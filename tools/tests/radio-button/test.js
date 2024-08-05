@@ -169,7 +169,7 @@ describe('Radio Button Tests', () => {
             assert.equal(radioGroup.children[2].getAttribute('aria-checked'), 'true', 'Next radio-button has not been checked.');
         });
 
-        it('Should check next available radio button', () => {
+        it('Should check previous available radio button', () => {
             const radioGroup = document.querySelector('gameface-radio-group');
             const radioButton = radioGroup.children[2];
             radioButton.checked = true;
