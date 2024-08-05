@@ -111,6 +111,28 @@ class GamefaceRadioGroup extends HTMLElement {
     }
 
     /**
+     * Sets the currently checked button to the previous one if it exists
+     * @returns {void}
+     */
+    checkPrev() {
+        if (this.disabled) return;
+
+        const checkedButton = this.previouslyCheckedElement;
+        this.setCheckedToPreviousItem(checkedButton);
+    }
+
+    /**
+     * Sets the currently checked button to the previous one if it exists
+     * @returns {void}
+     */
+    checkNext() {
+        if (this.disabled) return;
+
+        const checkedButton = this.previouslyCheckedElement;
+        this.setCheckedToNextItem(checkedButton);
+    }
+
+    /**
      * Will check the passed button inside the radio group
      * @param {HTMLElement} button
      * @returns {void}
