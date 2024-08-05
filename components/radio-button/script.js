@@ -105,7 +105,7 @@ class GamefaceRadioGroup extends HTMLElement {
 
         if (!nextSibling) return;
 
-        if (nextSibling.disabled) return this.setCheckedToPreviousItem(nextSibling);
+        if (nextSibling.disabled) return this.setCheckedToNextItem(nextSibling);
         nextSibling.checked = true;
         nextSibling.focus();
     }
