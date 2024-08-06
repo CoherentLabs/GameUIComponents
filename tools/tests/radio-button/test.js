@@ -156,7 +156,7 @@ describe('Radio Button Tests', () => {
             radioButton.checked = true;
             radioGroup.checkPrev();
             // Checking with 'true' because the attribute value is always a string.
-            assert.equal(radioButton.previousElementSibling.getAttribute('aria-checked'), 'true', 'Next radio-button has not been checked.');
+            assert.equal(radioButton.previousElementSibling.getAttribute('aria-checked'), 'true', 'Previous radio-button has not been checked.');
         });
 
         it('Should check next available radio button', () => {
@@ -176,7 +176,7 @@ describe('Radio Button Tests', () => {
             radioButton.previousElementSibling.disabled = true;
             radioGroup.checkPrev();
             // Checking with 'true' because the attribute value is always a string.
-            assert.equal(radioGroup.children[0].getAttribute('aria-checked'), 'true', 'Next radio-button has not been checked.');
+            assert.equal(radioGroup.children[0].getAttribute('aria-checked'), 'true', 'Previous radio-button has not been checked.');
         });
     });
 

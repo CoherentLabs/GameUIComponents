@@ -163,8 +163,8 @@ If the value you've set doesn't match any of the available radio button values i
 You can select adjacent `<radio-button>` elements using the `<gameface-radio-group>` methods:
 `checkPrev()` and `checkNext()`.
 
-If there are one or more following elements with the `disabled` attribute, 
-the methods will check the next available one.
+If there are one or more following elements with the `disabled` attribute, the methods will check 
+the next available one.
 
 To select the previous or next available `<radio-button>`, you can do the following:
 ```js

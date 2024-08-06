@@ -115,10 +115,7 @@ class GamefaceRadioGroup extends HTMLElement {
      * @returns {void}
      */
     checkPrev() {
-        if (this.disabled) return;
-
-        const checkedButton = this.previouslyCheckedElement;
-        this.setCheckedToPreviousItem(checkedButton);
+        this.setCheckedToPreviousItem(this.previouslyCheckedElement);
     }
 
     /**
@@ -126,10 +123,7 @@ class GamefaceRadioGroup extends HTMLElement {
      * @returns {void}
      */
     checkNext() {
-        if (this.disabled) return;
-
-        const checkedButton = this.previouslyCheckedElement;
-        this.setCheckedToNextItem(checkedButton);
+        this.setCheckedToNextItem(this.previouslyCheckedElement);
     }
 
     /**
