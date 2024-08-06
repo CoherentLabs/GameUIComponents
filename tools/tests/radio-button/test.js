@@ -140,6 +140,44 @@ describe('Radio Button Tests', () => {
 
             assert.equal(radioGroup.value, radioButtons[1].value, 'radio-group value has not been changed.');
         });
+
+        it('Should check next radio button', () => {
+            const radioGroup = document.querySelector('gameface-radio-group');
+            const radioButton = radioGroup.children[0];
+            radioButton.checked = true;
+            radioGroup.checkNext();
+            // Checking with 'true' because the attribute value is always a string.
+            assert.equal(radioButton.nextElementSibling.getAttribute('aria-checked'), 'true', 'Next radio-button has not been checked.');
+        });
+
+        it('Should check previous radio button', () => {
+            const radioGroup = document.querySelector('gameface-radio-group');
+            const radioButton = radioGroup.children[1];
+            radioButton.checked = true;
+            radioGroup.checkPrev();
+            // Checking with 'true' because the attribute value is always a string.
+            assert.equal(radioButton.previousElementSibling.getAttribute('aria-checked'), 'true', 'Previous radio-button has not been checked.');
+        });
+
+        it('Should check next available radio button', () => {
+            const radioGroup = document.querySelector('gameface-radio-group');
+            const radioButton = radioGroup.children[0];
+            radioButton.checked = true;
+            radioButton.nextElementSibling.disabled = true;
+            radioGroup.checkNext();
+            // Checking with 'true' because the attribute value is always a string.
+            assert.equal(radioGroup.children[2].getAttribute('aria-checked'), 'true', 'Next radio-button has not been checked.');
+        });
+
+        it('Should check previous available radio button', () => {
+            const radioGroup = document.querySelector('gameface-radio-group');
+            const radioButton = radioGroup.children[2];
+            radioButton.checked = true;
+            radioButton.previousElementSibling.disabled = true;
+            radioGroup.checkPrev();
+            // Checking with 'true' because the attribute value is always a string.
+            assert.equal(radioGroup.children[0].getAttribute('aria-checked'), 'true', 'Previous radio-button has not been checked.');
+        });
     });
 
     if (engine?.isAttached) {

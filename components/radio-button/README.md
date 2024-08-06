@@ -157,3 +157,21 @@ radioGroup.value = {{SOME_RADIO_BUTTON_VALUE}};
 ```
 
 If the value you've set doesn't match any of the available radio button values it will return a warning. 
+
+### Checking Previous or Next Button
+
+You can select adjacent `<radio-button>` elements using the `<gameface-radio-group>` methods:
+`checkPrev()` and `checkNext()`.
+
+If there are one or more following elements with the `disabled` attribute, the methods will check 
+the next available one.
+
+To select the previous or next available `<radio-button>`, you can do the following:
+```js
+const radioGroup = document.querySelector('gameface-radio-group');
+radioGroup.checkNext();
+//or
+radioGroup.checkPrev();
+```
+
+If there are no available elements to select, the currently checked one will remain selected.
