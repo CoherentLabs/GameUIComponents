@@ -47,7 +47,9 @@ class GamefaceToast extends BaseComponent {
         this.gravity = this.getAttribute('gravity') || 'top';
         this.position = this.getAttribute('position') || 'left';
         this.init = this.init.bind(this);
+
         if (!containersCreated) this.createToastContainers();
+        this.appendToastToContainer(this.gravity, this.position);
 
         components.loadResource(this)
             .then(this.init)
@@ -71,6 +73,21 @@ class GamefaceToast extends BaseComponent {
         });
 
         containersCreated = true;
+    }
+
+    /**
+     * Appends the toast to one of the containers depending on the gravity and position
+     * @param {string} gravity - top, bottom.
+     * @param {string} position - left, right, center
+    */
+    appendToastToContainer(gravity, position) {
+        const container = document.querySelector(`.guic-toast-container.${gravity}-${position}`);
+
+        if (container) {
+            container.appendChild(this);  // Append the current instance of the component to the container
+        } else {
+            console.error('No container found for the specified gravity and position');
+        }
     }
 }
 components.defineCustomElement('gameface-toast', GamefaceToast);
