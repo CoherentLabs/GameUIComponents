@@ -3,6 +3,32 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-body {
-    background-color: #ebebeb;
+.guic-toast{
+    position: relative;
+    visibility: visible;
+    background-color: var(--default-color-blue);
+    width: 250px;
+    padding: 10px;
+    border-radius: 10px;
+    overflow-wrap: break-word;
 }
+
+.guic-toast-close-x{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+    text-align: center;
+    z-index: 2;
+    line-height: 30px;
+    background-color: var(--default-color-blue);
+    color: var(--default-color-gray);
+}
+
+.guic-toast-close-x:hover {
+    background-color: var(--default-color-gray);
+    color: var(--default-color-blue);
+}
+

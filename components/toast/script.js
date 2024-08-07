@@ -10,7 +10,7 @@ const components = new Components();
 const BaseComponent = components.BaseComponent;
 
 /**
- * Class description
+ * Class definition of the gameface toast custom element
  */
 class GamefaceToast extends BaseComponent {
     /* eslint-disable require-jsdoc */
@@ -20,10 +20,24 @@ class GamefaceToast extends BaseComponent {
         this.init = this.init.bind(this);
     }
 
+    get message() {
+        return this._messageSlot.textContent;
+    }
+
+    set targetElement(element) {
+        this._targetElement = element;
+    }
+
+    get targetElement() {
+        return this._targetElement;
+    }
+
     init(data) {
         this.setupTemplate(data, () => {
             components.renderOnce(this);
             // attach event handlers here
+            this.attachEventListeners();
+            this._messageSlot = this.querySelector('.guic-toast').firstElementChild;
         });
     }
 
@@ -31,6 +45,10 @@ class GamefaceToast extends BaseComponent {
         components.loadResource(this)
             .then(this.init)
             .catch(err => console.error(err));
+    }
+
+    attachEventListeners() {
+        // TODO
     }
     /* eslint-enable require-jsdoc */
 }
