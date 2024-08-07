@@ -8,6 +8,8 @@ import template from './template.html';
 
 const components = new Components();
 const BaseComponent = components.BaseComponent;
+const TOAST_POSITIONS = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+let containersCreated = false;
 
 /**
  * Class definition of the gameface toast custom element
@@ -42,6 +44,11 @@ class GamefaceToast extends BaseComponent {
     }
 
     connectedCallback() {
+        this.gravity = this.getAttribute('gravity') || 'top';
+        this.position = this.getAttribute('position') || 'left';
+        this.init = this.init.bind(this);
+        if (!containersCreated) this.createToastContainers();
+
         components.loadResource(this)
             .then(this.init)
             .catch(err => console.error(err));
@@ -51,6 +58,20 @@ class GamefaceToast extends BaseComponent {
         // TODO
     }
     /* eslint-enable require-jsdoc */
+
+    /**
+     * Creates containers for all possible toast positions
+    */
+    createToastContainers() {
+        const body = document.querySelector('body');
+        TOAST_POSITIONS.forEach((containerPosition) => {
+            const toastContainer = document.createElement('div');
+            toastContainer.classList.add('guic-toast-container', containerPosition);
+            body.appendChild(toastContainer);
+        });
+
+        containersCreated = true;
+    }
 }
 components.defineCustomElement('gameface-toast', GamefaceToast);
 export default GamefaceToast;

@@ -3,6 +3,32 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+.guic-toast-container{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+}
+
+.guic-toast-container.top-left{
+    top: 15px;
+    left: 15px;
+}
+
+.guic-toast-container.top-right{
+    top: 15px;
+    right: 15px;
+}
+
+.guic-toast-container.bottom-left{
+    bottom: 15px;
+    left: 15px;
+}
+
+.guic-toast-container.bottom-right{
+    bottom: 15px;
+    right: 15px;
+}
+
 .guic-toast{
     position: relative;
     visibility: visible;
