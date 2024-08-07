@@ -1,0 +1,27 @@
+{
+  "name": "coherent-gameface-toast",
+  "version": "1.0.0",
+  "description": "A toast component for Coherent Labs' Gameface.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoherentLabs/GameUIComponents/tree/master/components/gameface-toast"
+  },
+  "keywords": [
+    "Toast",
+    "UI",
+    "Component"
+  ],
+  "dependencies": {
+    "coherent-gameface-components": "^3.0.1",
+    "postmessage-polyfill": "1.0.0",
+    "whatwg-fetch": "3.4.1"
+  },
+  "devDependencies": {
+    "html-loader": "^4.2.0"
+  },
+
+  "author": "CoherentLabs",
+  "license": "ISC"
+}
+  
