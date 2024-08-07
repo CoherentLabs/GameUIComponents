@@ -46,10 +46,11 @@ class GamefaceToast extends BaseComponent {
     connectedCallback() {
         this.gravity = this.getAttribute('gravity') || 'top';
         this.position = this.getAttribute('position') || 'left';
+        this.timeout = this.getAttribute('timeout') || 3000;
         this.init = this.init.bind(this);
 
         if (!containersCreated) this.createToastContainers();
-        this.appendToastToContainer(this.gravity, this.position);
+        setTimeout(() => this.hide(), this.timeout);
 
         components.loadResource(this)
             .then(this.init)
@@ -84,10 +85,26 @@ class GamefaceToast extends BaseComponent {
         const container = document.querySelector(`.guic-toast-container.${gravity}-${position}`);
 
         if (container) {
-            container.appendChild(this);  // Append the current instance of the component to the container
+            container.appendChild(this);
+            return;
         } else {
             console.error('No container found for the specified gravity and position');
         }
+    }
+
+    /**
+     * Displays the toast
+     */
+    show() {
+        this.appendToastToContainer(this.gravity, this.position);
+        this.firstElementChild.style.visibility = 'visible';
+    }
+
+    /**
+     * Hides the toast
+     */
+    hide() {
+        this.firstElementChild.style.visibility = 'hidden';
     }
 }
 components.defineCustomElement('gameface-toast', GamefaceToast);

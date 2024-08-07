@@ -31,7 +31,7 @@
 
 .guic-toast{
     position: relative;
-    visibility: visible;
+    visibility: hidden;
     background-color: var(--default-color-blue);
     width: 250px;
     padding: 10px;

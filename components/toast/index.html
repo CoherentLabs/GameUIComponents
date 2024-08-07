@@ -12,17 +12,28 @@
             height: 100vh;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 
 <body>
+    <button class="show">Show Toasts</button>
     <gameface-toast position="right" gravity="bottom">
         <component-slot data-name="message">gameface-toast</component-slot>
     </gameface-toast>
     <gameface-toast>
         <component-slot data-name="message">gameface-toast</component-slot>
     </gameface-toast>
+    <script>
+        const showBtn = document.querySelector('.show');
+        const toasts = document.querySelectorAll('gameface-toast');
+        showBtn.addEventListener('click', () => {
+            toasts.forEach((toast) => toast.show());
+        })
+    </script>
 </body>
 
 </html>
