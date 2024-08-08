@@ -29,8 +29,8 @@
     right: 15px;
 }
 
-.guic-toast{
-    position: relative;
+gameface-toast{
+    position: absolute;
     visibility: hidden;
     background-color: var(--default-color-blue);
     width: 250px;
