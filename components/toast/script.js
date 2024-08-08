@@ -22,6 +22,7 @@ class GamefaceToast extends BaseComponent {
         this.init = this.init.bind(this);
         this.hide = this.hide.bind(this);
         this.show = this.show.bind(this);
+        this.hideTimeOut = null;
         this._gravity = 'top';
         this._position = 'left';
     }
@@ -145,8 +146,10 @@ class GamefaceToast extends BaseComponent {
      * Setups the timeout of the toast, if missing attaches a close button
      */
     handleTimeOut() {
+        if (this.hideTimeOut) clearTimeout(this.hideTimeOut);
+
         if (this.timeout > 0) {
-            setTimeout(this.hide, this.timeout);
+            this.hideTimeOut = setTimeout(this.hide, this.timeout);
         } else {
             this.querySelector('.guic-toast-close-x').style.visibility='visible';
         }

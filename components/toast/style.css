@@ -74,17 +74,27 @@ gameface-toast{
     color: var(--default-color-white);
 }
 
+gameface-toast .guic-toast{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.guic-toast-message{
+    flex: 1 1 0;
+}
+
 .guic-toast-close-x{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
     visibility: hidden;
     width: 30px;
     height: 30px;
-    position: absolute;
-    right: 5px;
-    top: 5px;
     cursor: pointer;
     text-align: center;
     z-index: 2;
-    line-height: 30px;
     background-color: var(--default-color-blue);
     color: var(--default-color-gray);
 }
