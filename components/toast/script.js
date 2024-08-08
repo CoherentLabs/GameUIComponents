@@ -21,12 +21,17 @@ class GamefaceToast extends BaseComponent {
         this.template = template;
         this.init = this.init.bind(this);
         this.hide = this.hide.bind(this);
+        this.show = this.show.bind(this);
         this._gravity = 'top';
         this._position = 'left';
     }
 
     get message() {
         return this._messageSlot.textContent;
+    }
+
+    set message(value) {
+        this._messageSlot.innerHTML = value;
     }
 
     get targetElement() {
@@ -58,17 +63,18 @@ class GamefaceToast extends BaseComponent {
             components.renderOnce(this);
             // attach event handlers here
             this.attachEventListeners();
-            this._messageSlot = this.querySelector('.guic-toast').firstElementChild;
+            this._messageSlot = this.querySelector('.guic-toast').lastElementChild;
         });
     }
 
     connectedCallback() {
         this._gravity = this.getAttribute('gravity') || 'top';
         this._position = this.getAttribute('position') || 'left';
-        this.timeout = this.getAttribute('timeout') || 3000;
+        this.timeout = this.getAttribute('timeout') || 0;
+        this.elementSelector = this.getAttribute('target');
+        this.triggerElement = this.targetElement || document.querySelector(this.elementSelector);
 
         if (!containersCreated) this.createToastContainers();
-        setTimeout(this.hide, this.timeout);
 
         components.loadResource(this)
             .then(this.init)
@@ -79,6 +85,10 @@ class GamefaceToast extends BaseComponent {
         const closeButtons = this.querySelectorAll('.close');
         for (let i = 0; i < closeButtons.length; i++) {
             closeButtons[i].addEventListener('click', this.hide);
+        }
+
+        if (this.triggerElement) {
+            this.triggerElement.addEventListener('click', this.show);
         }
     }
     /* eslint-enable require-jsdoc */
@@ -118,16 +128,28 @@ class GamefaceToast extends BaseComponent {
      */
     show() {
         this.appendToastToContainer(this.gravity, this.position);
-        this.style.visibility = 'visible';
+        this.handleTimeOut();
         this.style.position = 'relative';
+        this.style.display = 'block';
     }
 
     /**
      * Hides the toast
      */
     hide() {
-        this.style.visibility = 'hidden';
+        this.style.display = 'none';
         this.parentElement.removeChild(this);
+    }
+
+    /**
+     * Setups the timeout of the toast, if missing attaches a close button
+     */
+    handleTimeOut() {
+        if (this.timeout > 0) {
+            setTimeout(this.hide, this.timeout);
+        } else {
+            this.querySelector('.guic-toast-close-x').style.visibility='visible';
+        }
     }
 }
 components.defineCustomElement('gameface-toast', GamefaceToast);

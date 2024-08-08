@@ -17,17 +17,37 @@
             justify-content: center;
             align-items: center;
         }
+
+        .target-test {
+            cursor: pointer;
+            padding: 10px;
+            background-color: aqua;
+            color: white;
+        }
     </style>
 </head>
 
 <body>
     <button class="show">Show Toasts</button>
-    <div class="move-right">Move toast to right</div>
-    <gameface-toast position="right" gravity="bottom" timeout="10000">
-        <component-slot data-name="message">gameface-toast 1</component-slot>
+    <div class="move-right">Change innerHTML</div>
+    <div class="target-test">Click me to open toast 3</div>
+    <gameface-toast position="right" gravity="bottom" timeout="3000">
+        <div slot="message">Timeout toast</div>
+    </gameface-toast>
+    <gameface-toast position="left" gravity="top">
+        <div slot="message">Timeout toast</div>
+    </gameface-toast>
+    <gameface-toast position="left" gravity="top">
+        <div slot="message">Timeout toast</div>
+    </gameface-toast>
+    <gameface-toast position="left" gravity="top">
+        <div slot="message">Timeout toast</div>
     </gameface-toast>
     <gameface-toast>
-        <component-slot data-name="message">gameface-toast 2</component-slot>
+        <component-slot data-name="message">Manual removal toast</component-slot>
+    </gameface-toast>
+    <gameface-toast position="right" gravity="top" timeout="3000" target=".target-test">
+        <div slot="message">Timeout toast 3</div>
     </gameface-toast>
     <script>
         const showBtn = document.querySelector('.show');
@@ -38,7 +58,11 @@
 
         const toastToRightBtn = document.querySelector('.move-right');
         toastToRightBtn.addEventListener('click', () => {
-            toasts.forEach((toast) => toast.position = 'left')
+            toasts.forEach((toast) => {
+                console.log(toast.message)
+                toast.message =
+                    `<div><ul><li>It</li><li>works!</li></ul></div>`
+            })
         })
     </script>
 </body>

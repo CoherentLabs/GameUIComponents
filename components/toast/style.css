@@ -32,11 +32,13 @@
 .guic-toast-container.bottom-left > gameface-toast,
 .guic-toast-container.bottom-right > gameface-toast{
     animation: slide-up 1s ease-in-out;
+    margin-top: 15px;
 }
 
 .guic-toast-container.top-left > gameface-toast,
 .guic-toast-container.top-right > gameface-toast{
     animation: slide-down 1s ease-in-out;
+    margin-bottom: 15px;
 }
 
 @keyframes slide-up {
@@ -63,15 +65,17 @@
 
 gameface-toast{
     position: absolute;
-    visibility: hidden;
+    display: none;
     background-color: var(--default-color-blue);
     width: 250px;
     padding: 10px;
     border-radius: 10px;
     overflow-wrap: break-word;
+    color: var(--default-color-white);
 }
 
 .guic-toast-close-x{
+    visibility: hidden;
     width: 30px;
     height: 30px;
     position: absolute;
