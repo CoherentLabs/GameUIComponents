@@ -9,34 +9,30 @@
     position: fixed;
 }
 
-.guic-toast-container.top-left{
+.guic-toast-top{
     top: 15px;
-    left: 15px;
 }
 
-.guic-toast-container.top-right{
-    top: 15px;
+.guic-toast-bottom{
+    bottom: 15px;
+}
+
+
+.guic-toast-right{
     right: 15px;
 }
 
-.guic-toast-container.bottom-left{
-    bottom: 15px;
+.guic-toast-left{
     left: 15px;
 }
 
-.guic-toast-container.bottom-right{
-    bottom: 15px;
-    right: 15px;
-}
 
-.guic-toast-container.bottom-left > gameface-toast,
-.guic-toast-container.bottom-right > gameface-toast{
+.guic-toast-container.guic-toast-bottom > gameface-toast{
     animation: guic-toast-slide-up 1s ease-in-out;
     margin-top: 15px;
 }
 
-.guic-toast-container.top-left > gameface-toast,
-.guic-toast-container.top-right > gameface-toast{
+.guic-toast-container.guic-toast-top > gameface-toast{
     animation: guic-toast-slide-down 1s ease-in-out;
     margin-bottom: 15px;
 }

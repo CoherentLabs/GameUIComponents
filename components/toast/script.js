@@ -8,7 +8,8 @@ import template from './template.html';
 
 const components = new Components();
 const BaseComponent = components.BaseComponent;
-const TOAST_POSITIONS = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+const TOAST_POSITIONS = ['top left', 'top right', 'bottom left', 'bottom right', 'top center', 'bottom center'];
+const classPrefix = 'guic-toast-';
 let containersCreated = false;
 
 /**
@@ -98,8 +99,9 @@ class GamefaceToast extends BaseComponent {
     createToastContainers() {
         const body = document.querySelector('body');
         TOAST_POSITIONS.forEach((containerPosition) => {
+            const [vertical, horizontal] = containerPosition.split(' ');
             const toastContainer = document.createElement('div');
-            toastContainer.classList.add('guic-toast-container', containerPosition);
+            toastContainer.classList.add('guic-toast-container', `${classPrefix}${vertical}`, `${classPrefix}${horizontal}`);
             body.appendChild(toastContainer);
         });
 
@@ -112,7 +114,7 @@ class GamefaceToast extends BaseComponent {
      * @param {string} position - left, right, center
     */
     appendToastToContainer(gravity, position) {
-        const container = document.querySelector(`.guic-toast-container.${gravity}-${position}`);
+        const container = document.querySelector(`.guic-toast-container.${classPrefix}${gravity}.${classPrefix}${position}`);
 
         if (container) {
             container.appendChild(this);
