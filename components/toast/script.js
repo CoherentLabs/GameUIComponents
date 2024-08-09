@@ -84,9 +84,6 @@ class GamefaceToast extends BaseComponent {
     }
 
     attachEventListeners() {
-        const closeButton = this.querySelector('.guic-toast-close-btn');
-        if (closeButton) closeButton.addEventListener('click', this.hide);
-
         if (this.triggerElement) {
             this.triggerElement.addEventListener('click', this.show);
         }
@@ -130,26 +127,39 @@ class GamefaceToast extends BaseComponent {
     show() {
         this.appendToastToContainer(this.gravity, this.position);
         this.handleTimeOut();
+        this.handleCloseButton();
         this.style.position = 'relative';
-        this.style.display = 'block';
+        this.style.visibility = 'visible';
     }
 
     /**
      * Hides the toast
      */
     hide() {
-        this.style.display = 'none';
-        this.parentElement.removeChild(this);
+        if (this.isConnected) {
+            this.style.visibility = 'hidden';
+            this.parentElement.removeChild(this);
+        }
     }
 
     /**
-     * Setups the timeout of the toast, if missing attaches a close button
+     * Setups the timeout of the toast
      */
     handleTimeOut() {
         if (this.hideTimeOut) clearTimeout(this.hideTimeOut);
 
         if (this.timeout > 0) {
             this.hideTimeOut = setTimeout(this.hide, this.timeout);
+        }
+    }
+
+    /**
+     * Setups the close button of the toast
+     */
+    handleCloseButton() {
+        const closeButton = this.querySelector('.guic-toast-close-btn');
+        if (closeButton.firstElementChild.clientWidth && closeButton.firstElementChild.clientHeight) {
+            closeButton.addEventListener('click', this.hide);
         }
     }
 }

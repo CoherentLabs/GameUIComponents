@@ -62,7 +62,7 @@
 
 gameface-toast{
     position: absolute;
-    display: none;
+    visibility: hidden;
     min-width: 100%;
 }
 

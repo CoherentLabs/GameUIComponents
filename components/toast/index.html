@@ -72,7 +72,7 @@
         <div slot="message" class="toast-prime">slotless toast</div>
     </gameface-toast>
 
-    <gameface-toast class="toast-bg" position="left" gravity="top" class="heart-toast">
+    <gameface-toast class="toast-bg" position="left" gravity="top">
         <div slot="message">Looooooooooong text</div>
         <div slot="close-btn" class="heart-toast-close"></div>
     </gameface-toast>
@@ -114,7 +114,6 @@
         const toastToRightBtn = document.querySelector('.move-right');
         toastToRightBtn.addEventListener('click', () => {
             toasts.forEach((toast) => {
-                console.log(toast.message)
                 toast.message =
                     `<div><ul><li>It</li><li>works!</li></ul></div>`
             })
