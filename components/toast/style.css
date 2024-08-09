@@ -31,17 +31,17 @@
 
 .guic-toast-container.bottom-left > gameface-toast,
 .guic-toast-container.bottom-right > gameface-toast{
-    animation: slide-up 1s ease-in-out;
+    animation: guic-toast-slide-up 1s ease-in-out;
     margin-top: 15px;
 }
 
 .guic-toast-container.top-left > gameface-toast,
 .guic-toast-container.top-right > gameface-toast{
-    animation: slide-down 1s ease-in-out;
+    animation: guic-toast-slide-down 1s ease-in-out;
     margin-bottom: 15px;
 }
 
-@keyframes slide-up {
+@keyframes guic-toast-slide-up {
     0% {
         transform: translateY(100%);
         opacity: 0;
@@ -52,7 +52,7 @@
     }
 }
 
-@keyframes slide-down {
+@keyframes guic-toast-slide-down {
     0% {
         transform: translateY(-100%);
         opacity: 0;
@@ -66,15 +66,9 @@
 gameface-toast{
     position: absolute;
     display: none;
-    background-color: var(--default-color-blue);
-    width: 250px;
-    padding: 10px;
-    border-radius: 10px;
-    overflow-wrap: break-word;
-    color: var(--default-color-white);
 }
 
-gameface-toast .guic-toast{
+.guic-toast{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -84,23 +78,15 @@ gameface-toast .guic-toast{
     flex: 1 1 0;
 }
 
-.guic-toast-close-x{
+.guic-toast-close-btn{
     display: flex;
     justify-content: center;
     align-items: center;
     align-self: flex-start;
-    visibility: hidden;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     text-align: center;
     z-index: 2;
-    background-color: var(--default-color-blue);
-    color: var(--default-color-gray);
-}
-
-.guic-toast-close-x:hover {
-    background-color: var(--default-color-gray);
-    color: var(--default-color-blue);
 }
 

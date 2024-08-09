@@ -24,6 +24,37 @@
             background-color: aqua;
             color: white;
         }
+
+        .toast-prime-container {
+            background: linear-gradient(to right, rgb(255, 95, 109), rgb(255, 195, 113));
+            color: white;
+            padding: 10px;
+        }
+
+        .toast-prime {
+            margin-right: 5px;
+        }
+
+        .toast-3 {
+            background-color: blueviolet;
+        }
+
+        .heart-toast-close {
+            width: 100%;
+            height: 100%;
+            background-image: url(../imgs/like.png);
+            animation: beat 1s linear infinite alternate;
+        }
+
+        @keyframes beat {
+            from {
+                transform: scale(0.8);
+            }
+
+            to {
+                transform: scale(1.2);
+            }
+        }
     </style>
 </head>
 
@@ -31,24 +62,33 @@
     <button class="show">Show Toasts</button>
     <div class="move-right">Change innerHTML</div>
     <div class="target-test">Click me to open toast 3</div>
-    <gameface-toast position="right" gravity="bottom" timeout="3000">
-        <div slot="message">Timeout toast</div>
+
+    <gameface-toast class="toast-prime-container" position="right" gravity="bottom" timeout="0">
+        <div slot="message" class="toast-prime">Timeout toast</div>
     </gameface-toast>
+
+    <gameface-toast position="left" gravity="top" class="heart-toast">
+        <div slot="message">Timeout toast</div>
+        <div slot="close-btn" class="heart-toast-close"></div>
+    </gameface-toast>
+
     <gameface-toast position="left" gravity="top">
         <div slot="message">Timeout toast</div>
+        <div slot="close-btn">x</div>
     </gameface-toast>
+
     <gameface-toast position="left" gravity="top">
-        <div slot="message">Timeout toast</div>
+        <div slot="close-btn">x</div>
     </gameface-toast>
-    <gameface-toast position="left" gravity="top">
-        <div slot="message">Timeout toast</div>
-    </gameface-toast>
+
     <gameface-toast>
         <component-slot data-name="message">Manual removal toast</component-slot>
     </gameface-toast>
-    <gameface-toast position="right" gravity="top" timeout="3000" target=".target-test">
+
+    <gameface-toast position="right" gravity="top" timeout="3000" target=".target-test" class="toast-3">
         <div slot="message">Timeout toast 3</div>
     </gameface-toast>
+
     <script>
         const showBtn = document.querySelector('.show');
         const toasts = document.querySelectorAll('gameface-toast');

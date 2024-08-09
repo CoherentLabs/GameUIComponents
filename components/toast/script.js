@@ -64,7 +64,7 @@ class GamefaceToast extends BaseComponent {
             components.renderOnce(this);
             // attach event handlers here
             this.attachEventListeners();
-            this._messageSlot = this.querySelector('.guic-toast').lastElementChild;
+            this._messageSlot = this.querySelector('.guic-toast-message').firstElementChild;
         });
     }
 
@@ -83,10 +83,8 @@ class GamefaceToast extends BaseComponent {
     }
 
     attachEventListeners() {
-        const closeButtons = this.querySelectorAll('.close');
-        for (let i = 0; i < closeButtons.length; i++) {
-            closeButtons[i].addEventListener('click', this.hide);
-        }
+        const closeButton = this.querySelector('.guic-toast-close-btn');
+        if (closeButton) closeButton.addEventListener('click', this.hide);
 
         if (this.triggerElement) {
             this.triggerElement.addEventListener('click', this.show);
@@ -150,8 +148,6 @@ class GamefaceToast extends BaseComponent {
 
         if (this.timeout > 0) {
             this.hideTimeOut = setTimeout(this.hide, this.timeout);
-        } else {
-            this.querySelector('.guic-toast-close-x').style.visibility='visible';
         }
     }
 }
