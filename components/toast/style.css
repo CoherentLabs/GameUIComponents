@@ -27,6 +27,10 @@
     left: 15px;
 }
 
+.guic-toast-center{
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 .guic-toast-container.guic-toast-bottom > gameface-toast{
     animation: guic-toast-slide-up 1s ease-in-out;
