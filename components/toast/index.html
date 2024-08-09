@@ -16,38 +16,47 @@
             height: 100vh;
             width: 100vw;
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
         }
 
-        .target-test {
+        .section {
+            margin-top: 20vh;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        button {
+            background-color: #6e6d6d;
+            color: var(--default-color-white);
+            padding: 10px 25px;
             cursor: pointer;
-            padding: 10px;
-            background-color: aqua;
+        }
+
+        .button-container {
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            max-width: 50vw;
+        }
+
+        .button-container>button {
+            margin-right: 15px;
+        }
+
+        .styled-toast {
+            background: linear-gradient(to right, #25a5d6, #6e6d6d);
             color: white;
-        }
-
-        .toast-prime-container,
-        .toast-bg {
-            background: linear-gradient(to right, rgb(255, 95, 109), rgb(255, 195, 113));
-            color: white;
             padding: 10px;
-        }
-
-        .toast-prime {
-            margin-right: 5px;
-        }
-
-        .toast-3 {
-            background-color: blueviolet;
+            border-radius: 10px;
         }
 
         .heart-toast-close {
             width: 100%;
             height: 100%;
-            background-image: url(../imgs/like.png);
+            background-image: url(imgs/like.png);
             animation: beat 1s linear infinite alternate;
         }
 
@@ -63,60 +72,56 @@
     </style>
 </head>
 
-<body>
-    <button class="show">Show Toasts</button>
-    <div class="move-right">Change innerHTML</div>
-    <div class="target-test">Click me to open toast 3</div>
+<body class="guic-demo">
+    <div class="section">
+        <h2>Toast component</h2>
+        <div class="button-container">
+            <button id="show-all">Show All Toasts</button>
+            <button id="top-right-btn">Show Top Right Toast</button>
+        </div>
+    </div>
 
-    <gameface-toast class="toast-prime-container" position="right" gravity="bottom" timeout="0">
-        <div slot="message" class="toast-prime">slotless toast</div>
+    <gameface-toast>
+        <div slot="message">I am a default toast!</div>
     </gameface-toast>
 
-    <gameface-toast class="toast-bg" position="left" gravity="top">
-        <div slot="message">Looooooooooong text</div>
+    <gameface-toast class="styled-toast" gravity="bottom" position="left">
+        <div slot="message">I am a positioned toast!</div>
+        <div slot="close-btn">x</div>
+    </gameface-toast>
+
+    <gameface-toast class="styled-toast" gravity="top" position="center" timeout="15000">
+        <div slot="message">I will disappear after 15 seconds or if you click my heart!</div>
         <div slot="close-btn" class="heart-toast-close"></div>
     </gameface-toast>
 
-    <gameface-toast class="toast-bg" position="left" gravity="top" timeout="5000">
-        <div slot="message">Shooooorter text</div>
+    <gameface-toast class="styled-toast" gravity="bottom" position="center" timeout="10000">
+        <div slot="message">I will disappear after 10 seconds!</div>
         <div slot="close-btn">x</div>
     </gameface-toast>
 
-    <gameface-toast class="toast-bg" position="left" gravity="top" timeout="10000">
+    <gameface-toast class="styled-toast" gravity="bottom" position="center">
+        <div slot="message">I am here to stay!</div>
+    </gameface-toast>
+
+    <gameface-toast class="styled-toast" gravity="top" position="right" timeout="5000" target="#top-right-btn">
+        <div slot="message">I have a target element</div>
         <div slot="close-btn">x</div>
     </gameface-toast>
 
-    <gameface-toast class="toast-bg">
-        <component-slot data-name="message">short</component-slot>
-    </gameface-toast>
-
-    <gameface-toast position="center" gravity="top">
-        <div slot="message">Center top toast</div>
-        <div slot="close-btn">x</div>
-    </gameface-toast>
-
-    <gameface-toast position="center" gravity="bottom">
-        <div slot="message">Center bottom toast</div>
-        <div slot="close-btn">x</div>
-    </gameface-toast>
-
-    <gameface-toast position="right" gravity="top" timeout="3000" target=".target-test" class="toast-3">
-        <div slot="message">Timeout toast 3</div>
+    <gameface-toast class="styled-toast hidden-toast" gravity="bottom" position="right" timeout="5000" target="h2">
+        <div slot="message">Hidden toast found!</div>
     </gameface-toast>
 
     <script>
-        const showBtn = document.querySelector('.show');
         const toasts = document.querySelectorAll('gameface-toast');
-        showBtn.addEventListener('click', () => {
-            toasts.forEach((toast) => toast.show());
-        })
-
-        const toastToRightBtn = document.querySelector('.move-right');
-        toastToRightBtn.addEventListener('click', () => {
+        const showAllBtn = document.getElementById('show-all');
+        showAllBtn.addEventListener('click', () => {
             toasts.forEach((toast) => {
-                toast.message =
-                    `<div><ul><li>It</li><li>works!</li></ul></div>`
-            })
+                if (!toast.classList.contains('hidden-toast')) {
+                    toast.show()
+                }
+            });
         })
     </script>
 </body>

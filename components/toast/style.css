@@ -7,8 +7,9 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    overflow-y: hidden;
+    overflow: hidden;
     width: 20%;
+    min-width: 100px;
 }
 
 .guic-toast-top{
@@ -34,12 +35,12 @@
 
 .guic-toast-container.guic-toast-bottom > gameface-toast{
     animation: guic-toast-slide-up 1s ease-in-out;
-    margin-top: 15px;
+    margin-top: 5px;
 }
 
 .guic-toast-container.guic-toast-top > gameface-toast{
     animation: guic-toast-slide-down 1s ease-in-out;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 @keyframes guic-toast-slide-up {
@@ -67,6 +68,9 @@
 gameface-toast{
     position: absolute;
     visibility: hidden;
+}
+
+.guic-toast-container gameface-toast{
     min-width: 100%;
 }
 
