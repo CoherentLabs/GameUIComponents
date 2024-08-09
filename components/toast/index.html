@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="./style.css">
     <title>Document</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             height: 100vh;
             width: 100vw;
@@ -25,7 +29,8 @@
             color: white;
         }
 
-        .toast-prime-container {
+        .toast-prime-container,
+        .toast-bg {
             background: linear-gradient(to right, rgb(255, 95, 109), rgb(255, 195, 113));
             color: white;
             padding: 10px;
@@ -64,17 +69,25 @@
     <div class="target-test">Click me to open toast 3</div>
 
     <gameface-toast class="toast-prime-container" position="right" gravity="bottom" timeout="0">
-        <div slot="message" class="toast-prime">Timeout toast</div>
+        <div slot="message" class="toast-prime">slotless toast</div>
     </gameface-toast>
 
-    <gameface-toast position="left" gravity="top" class="heart-toast">
-        <div slot="message">Timeout toast</div>
+    <gameface-toast class="toast-bg" position="left" gravity="top" class="heart-toast">
+        <div slot="message">Looooooooooong text</div>
         <div slot="close-btn" class="heart-toast-close"></div>
     </gameface-toast>
 
-    <gameface-toast position="left" gravity="top">
-        <div slot="message">Timeout toast</div>
+    <gameface-toast class="toast-bg" position="left" gravity="top" timeout="5000">
+        <div slot="message">Shooooorter text</div>
         <div slot="close-btn">x</div>
+    </gameface-toast>
+
+    <gameface-toast class="toast-bg" position="left" gravity="top" timeout="10000">
+        <div slot="close-btn">x</div>
+    </gameface-toast>
+
+    <gameface-toast class="toast-bg">
+        <component-slot data-name="message">short</component-slot>
     </gameface-toast>
 
     <gameface-toast position="center" gravity="top">
@@ -85,14 +98,6 @@
     <gameface-toast position="center" gravity="bottom">
         <div slot="message">Center bottom toast</div>
         <div slot="close-btn">x</div>
-    </gameface-toast>
-
-    <gameface-toast position="left" gravity="top">
-        <div slot="close-btn">x</div>
-    </gameface-toast>
-
-    <gameface-toast>
-        <component-slot data-name="message">Manual removal toast</component-slot>
     </gameface-toast>
 
     <gameface-toast position="right" gravity="top" timeout="3000" target=".target-test" class="toast-3">
