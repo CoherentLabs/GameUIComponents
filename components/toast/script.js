@@ -128,8 +128,7 @@ class GamefaceToast extends BaseComponent {
         this.appendToastToContainer(this.gravity, this.position);
         this.handleTimeOut();
         this.handleCloseButton();
-        this.style.position = 'relative';
-        this.style.visibility = 'visible';
+        this.classList.add('guic-toast-show');
     }
 
     /**
@@ -137,7 +136,7 @@ class GamefaceToast extends BaseComponent {
      */
     hide() {
         if (this.isConnected) {
-            this.style.visibility = 'hidden';
+            this.classList.remove('guic-toast-show');
             this.parentElement.removeChild(this);
         }
     }
