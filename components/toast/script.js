@@ -70,8 +70,8 @@ class GamefaceToast extends BaseComponent {
     }
 
     connectedCallback() {
-        this._gravity = this.getAttribute('gravity') || 'top';
-        this._position = this.getAttribute('position') || 'left';
+        this._gravity = this.getAttribute('gravity') || this._gravity;
+        this._position = this.getAttribute('position') || this._position;
         this.timeout = this.getAttribute('timeout') || 0;
         this.elementSelector = this.getAttribute('target');
         this.triggerElement = this.targetElement || document.querySelector(this.elementSelector);
