@@ -44,6 +44,7 @@
 
         .button-container>button {
             margin-right: 15px;
+            background-color: #6e6d6d;
         }
 
         .styled-toast {
@@ -82,6 +83,7 @@
         <div class="button-container">
             <button id="show-all">Show All Toasts</button>
             <button id="top-right-btn">Show Top Right Toast</button>
+            <button id="change-position-btn">Change positions</button>
         </div>
     </div>
 
@@ -130,6 +132,17 @@
                     toast.show()
                 }
             });
+        })
+
+        const allPositions = ['top left', 'top right', 'bottom left', 'bottom right', 'top center', 'bottom center'];
+        const changePositionBtn = document.getElementById('change-position-btn');
+        changePositionBtn.addEventListener('click', () => {
+            toasts.forEach((toast) => {
+                const [newGravity, newPosition] = allPositions[Math.floor(Math.random() * 6)].split(' ');
+                toast.gravity = newGravity;
+                toast.position = newPosition;
+                toast.show();
+            })
         })
     </script>
 </body>
