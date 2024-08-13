@@ -76,7 +76,7 @@ class GamefaceToast extends BaseComponent {
         this.position = this.getAttribute('position') || this._position;
         this.timeout = this.getAttribute('timeout') || 0;
         this.elementSelector = this.getAttribute('target');
-        this.triggerElement = this.targetElement || document.querySelector(this.elementSelector);
+        this._targetElement = this._targetElement || document.querySelector(this.elementSelector);
 
         if (!containersCreated) this.createToastContainers();
 
@@ -86,8 +86,8 @@ class GamefaceToast extends BaseComponent {
     }
 
     attachEventListeners() {
-        if (this.triggerElement) {
-            this.triggerElement.addEventListener('click', this.show);
+        if (this._targetElement ) {
+            this._targetElement.addEventListener('click', this.show);
         }
     }
     /* eslint-enable require-jsdoc */
