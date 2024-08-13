@@ -1,12 +1,17 @@
-const Jasmine = require('jasmine');
-const jasmine = new Jasmine();
-
 const toastTemplate = `
-<gameface-toast gravity="top" position="center" timeout="2000" target='.target'>
+<gameface-toast gravity="top" position="center" timeout="2000" target='.target' style="background-color: cyan; padding: 10px;">
 <div slot="message">Message on top center</div>
 <div slot="close-btn">x</div>
 </gameface-toast>
-<div class='target'>Click me to open a toast!</div>`;
+<div class='target' style='padding: 10px; border: 1px solid black; background-color: #6e6d6d;'>Click me to open a toast!</div>`;
+
+/** */
+function removeToasts() {
+    const toasts = document.querySelectorAll('gameface-toast');
+    for (let i = 0; i < toasts.length; i++) {
+        toasts[i].parentElement.removeChild(toasts[i]);
+    }
+}
 
 /**
  * @param {string} template
@@ -28,7 +33,8 @@ function setupToastTestPage(template) {
 
 // eslint-disable-next-line max-lines-per-function
 describe('Toast component', () => {
-    afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
+    afterAll(() => cleanTestPage('.test-wrapper'));
+    afterEach(() => removeToasts());
 
     beforeEach(async () => {
         await setupToastTestPage(toastTemplate);
@@ -72,7 +78,7 @@ describe('Toast component', () => {
 
     it('Should be hidden by the close button', () => {
         const toast = document.querySelector('gameface-toast');
-        const closeBtn = toast.lastElementChild;
+        const closeBtn = toast.querySelector('.guic-toast-close-btn');
         toast.show();
         click(closeBtn);
         // Check if the toast is still in the DOM
@@ -83,8 +89,9 @@ describe('Toast component', () => {
 
     it('Should not be hidden if close button is empty', () => {
         const toast = document.querySelector('gameface-toast');
-        const closeBtn = toast.lastElementChild;
-        closeBtn.innerHTML = '';
+        const closeBtn = toast.querySelector('.guic-toast-close-btn');
+        closeBtn.firstElementChild.innerHTML = '';
+
         toast.show();
         click(closeBtn);
         // Check if the toast is still in the DOM
@@ -98,7 +105,7 @@ describe('Toast component', () => {
         const target = document.querySelector('.target');
         click(target);
 
-        assert(toast.style.visibility === 'visible', 'Toast was not displayed');
+        assert.isTrue(toast.classList.contains('guic-toast-show'), 'Toast was not displayed');
     });
 
     it('Should change the toast\'s message (string).', () => {
@@ -114,35 +121,50 @@ describe('Toast component', () => {
         const newPosition = 'right';
         const newGravity = 'bottom';
 
-        toast.gravity = newPosition;
-        toast.position = newGravity;
+        toast.gravity = newGravity;
+        toast.position = newPosition;
+        toast.message = `Toast on ${newGravity} ${newPosition}`;
         toast.show();
-        const locationHasChanged = toast.gravity === newGravity && toast.position === newPosition;
 
+        const locationHasChanged = toast.gravity === newGravity && toast.position === newPosition;
         assert.isTrue(locationHasChanged, 'Toast location failed to change.');
     });
-});
 
-describe('Toast component', () => {
-    afterAll(() => cleanTestPage('.tooltip-test-wrapper'));
-
-    beforeEach(async () => {
-        await setupToastTestPage(toastTemplate);
-        jasmine.clock().install();
-    });
-
-    afterEach(() => {
-        jasmine.clock().uninstall();
-    });
-
-    it('Should be hidden after specified timeout', () => {
+    it('Should be hidden after specified timeout', async () => {
         const toast = document.querySelector('gameface-toast');
-        // show sets the timeout for hiding
         toast.show();
-        jasmine.clock().tick(2001);
-        // Check if the toast is still in the DOM
-        const isStillInDom = document.body.contains(toast);
-
+        let isStillInDom = true;
+        // eslint-disable-next-line no-undef
+        await timeout(() => {
+            isStillInDom = document.body.contains(toast);
+        }, 2001);
         assert.isFalse(isStillInDom, 'Toast should not be visible after 2000 ms');
     });
 });
+
+if (engine?.isAttached) {
+    describe('Toast Component (Gameface Data Binding Test)', () => {
+        const templateName = 'model';
+
+        const template = `
+        <div data-bind-for="array:{{${templateName}.array}}">
+        <gameface-toast target=".target" position="right" gravity="top" timeout="2000">
+            <div slot="message">Toast</div>
+        </gameface-toast>
+
+        <div class="target">target</div>
+        </div>`;
+
+        afterAll(() => cleanTestPage('.test-wrapper'));
+
+        beforeEach(async () => {
+            await setupDataBindingTest(templateName, template, setupToastTestPage);
+        });
+
+        it(`Should have populated 2 elements`, () => {
+            const expectedCount = 2;
+            const toastCount = document.querySelectorAll('gameface-toast').length;
+            assert.equal(toastCount, expectedCount, `Toasts found: ${toastCount}, should have been ${expectedCount}.`);
+        });
+    });
+}

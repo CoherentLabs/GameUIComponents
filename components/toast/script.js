@@ -50,6 +50,7 @@ class GamefaceToast extends BaseComponent {
 
     set position(value) {
         this._position = value;
+        this.setAttribute('position', value);
     }
 
     get gravity() {
@@ -58,6 +59,7 @@ class GamefaceToast extends BaseComponent {
 
     set gravity(value) {
         this._gravity = value;
+        this.setAttribute('gravity', value);
     }
 
     init(data) {
@@ -70,8 +72,8 @@ class GamefaceToast extends BaseComponent {
     }
 
     connectedCallback() {
-        this._gravity = this.getAttribute('gravity') || this._gravity;
-        this._position = this.getAttribute('position') || this._position;
+        this.gravity = this.getAttribute('gravity') || this._gravity;
+        this.position = this.getAttribute('position') || this._position;
         this.timeout = this.getAttribute('timeout') || 0;
         this.elementSelector = this.getAttribute('target');
         this.triggerElement = this.targetElement || document.querySelector(this.elementSelector);
