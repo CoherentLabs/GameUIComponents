@@ -1,5 +1,5 @@
 const toastTemplate = `
-<gameface-toast gravity="top" position="center" timeout="2000" target='.target' style="background-color: cyan; padding: 10px;">
+<gameface-toast gravity="top" position="center" timeout="10" target='.target' style="background-color: cyan; padding: 10px; animation-duration: 10ms;">
 <div slot="message">Message on top center</div>
 <div slot="close-btn">x</div>
 </gameface-toast>
@@ -66,23 +66,32 @@ describe('Toast component', () => {
         assert.isTrue(correctPosition, 'Toast isn\'t in the right container');
     });
 
-    it('Should not be visible after hide method is called', () => {
+    it('Should not be visible after hide method is called', async () => {
         const toast = document.querySelector('gameface-toast');
+        let isStillInDom = true;
+
         toast.show();
         toast.hide();
-        // Check if the toast is still in the DOM
-        const isStillInDom = document.body.contains(toast);
+
+        // eslint-disable-next-line no-undef
+        await timeout(() => {
+            isStillInDom = document.body.contains(toast);
+        }, 50);
 
         assert.isFalse(isStillInDom, 'Toast should be hidden.');
     });
 
-    it('Should be hidden by the close button', () => {
+    it('Should be hidden by the close button', async () => {
         const toast = document.querySelector('gameface-toast');
         const closeBtn = toast.querySelector('.guic-toast-close-btn');
+        let isStillInDom = true;
         toast.show();
         click(closeBtn);
-        // Check if the toast is still in the DOM
-        const isStillInDom = document.body.contains(toast);
+
+        // eslint-disable-next-line no-undef
+        await timeout(() => {
+            isStillInDom = document.body.contains(toast);
+        }, 50);
 
         assert.isFalse(isStillInDom, 'Toast should be hidden.');
     });
@@ -137,8 +146,8 @@ describe('Toast component', () => {
         // eslint-disable-next-line no-undef
         await timeout(() => {
             isStillInDom = document.body.contains(toast);
-        }, 2001);
-        assert.isFalse(isStillInDom, 'Toast should not be visible after 2000 ms');
+        }, 50);
+        assert.isFalse(isStillInDom, 'Toast should not be visible after the timout has run out.');
     });
 });
 

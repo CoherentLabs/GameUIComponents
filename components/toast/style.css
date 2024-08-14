@@ -33,12 +33,12 @@
     transform: translateX(-50%);
 }
 
-.guic-toast-container.guic-toast-bottom > gameface-toast{
+.guic-toast-bottom gameface-toast{
     animation: guic-toast-slide-up 1s ease-in-out;
     margin-top: 5px;
 }
 
-.guic-toast-container.guic-toast-top > gameface-toast{
+.guic-toast-top gameface-toast{
     animation: guic-toast-slide-down 1s ease-in-out;
     margin-bottom: 5px;
 }
@@ -73,6 +73,19 @@ gameface-toast{
 gameface-toast.guic-toast-show{
     position: relative;
     visibility: visible;
+}
+
+@keyframes  guic-toast-fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+gameface-toast.guic-toast-hide {
+    animation: guic-toast-fade-out 0.5s ease forwards;
 }
 
 .guic-toast-container gameface-toast{

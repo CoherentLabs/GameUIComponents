@@ -11,6 +11,7 @@ const BaseComponent = components.BaseComponent;
 const TOAST_POSITIONS = ['top left', 'top right', 'bottom left', 'bottom right', 'top center', 'bottom center'];
 const classPrefix = 'guic-toast-';
 let containersCreated = false;
+let animationEventAttached = false;
 
 /**
  * Class definition of the gameface toast custom element
@@ -89,6 +90,13 @@ class GamefaceToast extends BaseComponent {
         if (this._targetElement ) {
             this._targetElement.addEventListener('click', this.show);
         }
+
+        if (!animationEventAttached) {
+            document.addEventListener('animationend', (event) => {
+                if (event.animationName === 'guic-toast-fade-out') event.target.parentElement.removeChild(event.target);
+            });
+            animationEventAttached = true;
+        }
     }
     /* eslint-enable require-jsdoc */
 
@@ -131,16 +139,14 @@ class GamefaceToast extends BaseComponent {
         this.handleTimeOut();
         this.handleCloseButton();
         this.classList.add('guic-toast-show');
+        this.classList.remove('guic-toast-hide');
     }
 
     /**
      * Hides the toast
      */
     hide() {
-        if (this.isConnected) {
-            this.classList.remove('guic-toast-show');
-            this.parentElement.removeChild(this);
-        }
+        if (this.isConnected) this.classList.add('guic-toast-hide');
     }
 
     /**
