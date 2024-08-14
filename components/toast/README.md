@@ -64,6 +64,31 @@ you wish to change and include them after the default styles.
 |guic-toast-close-btn|The style while pressing the button|
 |guic-toast-top/bottom/right/left/center|The styles used on the containers for the positioning of the toasts|
 
+### Overriding the animations
+
+There are 2 default animations set:
+
+- **Slide Up/Down Animation**: By default, the toast uses slide-up and slide-down animations when shown. This behavior can be overridden by applying a custom class with a CSS specificity higher than `0,1,1` and defining your own animations. Alternatively, you can modify the existing animations named `guic-toast-slide-up` and `guic-toast-slide-down` in your CSS. For example:
+  ```css
+  gameface-toast.custom-toast-class {
+      animation-name: customSlideUp;
+  }
+  @keyframes customSlideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+  }
+- **Fade Out Animation**: The default fade-out animation can be overridden by using the `guic-toast-hide` class along with a custom animation named `guic-toast-fade-out`. Ensure that any custom animations maintain the same name (`guic-toast-fade-out`) as the component’s `hide` method is specifically designed to listen for this animation's end event. To effectively override the default, your custom CSS rules must have a specificity greater than `0,1,1`. Here’s how you could define a custom fade-out animation:
+  ```css
+  .custom-toast-class.guic-toast-hide {
+      animation-name: guic-toast-fade-out; /* Use the same name for compatibility */
+      animation-duration: 0.8s; /* Custom duration */
+  }
+  @keyframes guic-toast-fade-out {
+      from { opacity: 1; }
+      to { opacity: 0; }
+  }
+  ```
+
 Specifying the content
 =========================
 
