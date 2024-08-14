@@ -3,9 +3,6 @@ date: 2024-8-14
 title: Toast
 draft: false
 ---
-
-Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root
-for license information.
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,12 +13,17 @@ for license information.
     {{<staticLink href="components/toast/style.css">}}
       <title>Document</title>
       <style>
-        .section {
-          margin-top: 20vh;
-        }
-
         h2 {
           text-align: center;
+        }
+
+        gameface-toast {
+          z-index: 99999;
+        }
+
+        .guic-toast-container {
+          position: fixed;
+          z-index: 99998;
         }
 
         button {
@@ -39,7 +41,6 @@ for license information.
         }
 
         .button-container>button {
-          margin-right: 15px;
           background-color: #6e6d6d;
         }
 
@@ -74,7 +75,7 @@ for license information.
 </head>
 
 <body class="guic-demo">
-  <div class="section">
+  <div>
     <h2>Toast component</h2>
     <div class="button-container">
       <button id="show-all">Show All Toasts</button>
