@@ -1,0 +1,147 @@
+---
+date: 2024-8-14
+title: Toast
+draft: false
+---
+
+Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root
+for license information.
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{<staticLink href="components/coherent-gameface-components-theme.css">}}
+    {{<staticLink href="components/toast/style.css">}}
+      <title>Document</title>
+      <style>
+        .section {
+          margin-top: 20vh;
+        }
+
+        h2 {
+          text-align: center;
+        }
+
+        button {
+          background-color: #6e6d6d;
+          color: var(--default-color-white);
+          padding: 10px 25px;
+          cursor: pointer;
+        }
+
+        .button-container {
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          max-width: 50vw;
+        }
+
+        .button-container>button {
+          margin-right: 15px;
+          background-color: #6e6d6d;
+        }
+
+        .styled-toast {
+          background: linear-gradient(to right, #25a5d6, #6e6d6d);
+          color: white;
+          padding: 10px;
+          border-radius: 10px;
+        }
+
+        .heart-toast-close {
+          width: 100%;
+          height: 100%;
+          animation: beat 1s linear infinite alternate;
+          background-image: url({{<staticUrl "images/like.png">}});
+        }
+
+        .toast-with-heart .guic-toast-close-btn {
+          margin-left: 5px;
+        }
+
+        @keyframes beat {
+          from {
+            transform: scale(0.8);
+          }
+
+          to {
+            transform: scale(1.2);
+          }
+        }
+      </style>
+</head>
+
+<body class="guic-demo">
+  <div class="section">
+    <h2>Toast component</h2>
+    <div class="button-container">
+      <button id="show-all">Show All Toasts</button>
+      <button id="top-right-btn">Show Top Right Toast</button>
+      <button id="change-position-btn">Change positions</button>
+    </div>
+  </div>
+
+  <gameface-toast>
+    <div slot="message">I am a default toast!</div>
+  </gameface-toast>
+
+  <gameface-toast class="styled-toast" gravity="bottom" position="left">
+    <div slot="message">I am a positioned toast!</div>
+    <div slot="close-btn">x</div>
+  </gameface-toast>
+  <gameface-toast class="styled-toast" gravity="bottom" position="left">
+    <div slot="message">I am a toast with a slightly longer text that is much more meaningful...</div>
+    <div slot="close-btn">x</div>
+  </gameface-toast>
+
+  <gameface-toast class="styled-toast toast-with-heart" gravity="top" position="center" timeout="15000">
+    <div slot="message">I will disappear after 15 seconds or if you click my heart!</div>
+    <div slot="close-btn" class="heart-toast-close"></div>
+  </gameface-toast>
+
+  <gameface-toast class="styled-toast" gravity="bottom" position="center" timeout="10000">
+    <div slot="message">I will disappear after 10 seconds!</div>
+    <div slot="close-btn">x</div>
+  </gameface-toast>
+
+  <gameface-toast class="styled-toast" gravity="bottom" position="center">
+    <div slot="message">I am here to stay!</div>
+  </gameface-toast>
+
+  <gameface-toast class="styled-toast" gravity="top" position="right" timeout="5000" target="#top-right-btn">
+    <div slot="message">I have a target element</div>
+    <div slot="close-btn">x</div>
+  </gameface-toast>
+
+  <gameface-toast class="styled-toast hidden-toast" gravity="bottom" position="right" timeout="5000" target="h2">
+    <div slot="message">Hidden toast found!</div>
+  </gameface-toast>
+
+  <script>
+    const toasts = document.querySelectorAll('gameface-toast');
+    const showAllBtn = document.getElementById('show-all');
+    showAllBtn.addEventListener('click', () => {
+      toasts.forEach((toast) => {
+        if (!toast.classList.contains('hidden-toast')) {
+          toast.show()
+        }
+      });
+    })
+
+    const allPositions = ['top left', 'top right', 'bottom left', 'bottom right', 'top center', 'bottom center'];
+    const changePositionBtn = document.getElementById('change-position-btn');
+    changePositionBtn.addEventListener('click', () => {
+      toasts.forEach((toast) => {
+        const [newGravity, newPosition] = allPositions[Math.floor(Math.random() * 6)].split(' ');
+        toast.gravity = newGravity;
+        toast.position = newPosition;
+        toast.show();
+      })
+    })
+  </script>
+  {{<staticScript src="components/toast/bundle.js">}}
+</body>
+
+</html>
