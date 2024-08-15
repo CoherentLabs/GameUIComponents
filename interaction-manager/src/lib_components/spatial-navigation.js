@@ -27,6 +27,8 @@ class SpatialNavigation {
     constructor() {
         this.enabled = false;
         this.navigatableElements = { default: [] };
+        this.customKeys = [{}];
+        this.changeDefault = false;
     }
 
     /**
@@ -242,25 +244,66 @@ class SpatialNavigation {
 
     /**
      * Registers actions and adds them to the keyboard and gamepad objects
-     */
+    */
+    // eslint-disable-next-line max-lines-per-function, require-jsdoc
     registerKeyActions() {
-        directions.forEach((direction) => {
+        directions.forEach((direction, index) => {
             const callback = () => {
                 this.moveFocus(direction);
             };
             actions.register(`move-focus-${direction}`, callback);
 
-            keyboard.on({
-                keys: [`arrow_${direction}`],
-                callback: `move-focus-${direction}`,
-                type: 'press',
-            });
+            let keys = [[`arrow_${direction}`]];
+            let keyCount = 1;
+
+            if (this.customKeys.length !== 0) {
+                if (!this.changeDefault) {
+                    keyCount++;
+                    keys.push([Object.values(this.customKeys[direction])]);
+                } else if (this.customKeys.length < directions.length) {
+                    // to do
+                } else {
+                    keys = [[Object.values(this.customKeys[direction])]];
+                }
+            }
+
+            for (let i = 0; i < keyCount; i++) {
+                keyboard.on({
+                    keys: keys[i],
+                    callback: `move-focus-${direction}`,
+                    type: 'press',
+                });
+            }
 
             gamepad.on({
                 actions: [`playstation.d-pad-${direction}`],
                 callback: `move-focus-${direction}`,
             });
         });
+    }
+
+    /**
+     * Overwrites default direction keys with the specified ones
+     * @param {Object} customDirections
+     * @param {boolean} changeDefault
+     */
+    changeKeys(customDirections, changeDefault = false) {
+        if (Object.entries(customDirections).length === 0) return;
+
+        this.changeDefault = changeDefault;
+
+        for (let i = 0; i < directions.length; i++) {
+            const directionToMatch = directions[i];
+
+            for (const [direction, value] of Object.entries(customDirections)) {
+                if (direction === directionToMatch) {
+                    this.customKeys.push({ [direction]: value });
+                }
+            }
+        }
+
+        this.removeKeyActions();
+        this.registerKeyActions();
     }
 
     /**
