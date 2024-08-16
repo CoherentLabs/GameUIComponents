@@ -247,6 +247,7 @@ class SpatialNavigation {
     */
     registerKeyActions() {
         const hasCustomKeys = Object.entries(this.customKeys).length !== 0;
+
         directions.forEach((direction) => {
             const callback = () => {
                 this.moveFocus(direction);
@@ -288,15 +289,10 @@ class SpatialNavigation {
 
         this.changeDefault = changeDefault;
 
-        for (let i = 0; i < directions.length; i++) {
-            const directionToMatch = directions[i];
-
-            for (const [direction, value] of Object.entries(customDirections)) {
-                if (direction === directionToMatch) {
-                    this.customKeys = { ...this.customKeys, [direction]: value };
-                }
-            }
-        }
+        this.customKeys = {
+            ...this.customKeys,
+            ...customDirections,
+        };
 
         this.removeKeyActions();
         this.registerKeyActions();
