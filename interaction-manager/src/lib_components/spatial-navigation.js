@@ -245,7 +245,6 @@ class SpatialNavigation {
     /**
      * Registers actions and adds them to the keyboard and gamepad objects
     */
-    // eslint-disable-next-line max-lines-per-function, require-jsdoc
     registerKeyActions() {
         const hasCustomKeys = Object.entries(this.customKeys).length !== 0;
         directions.forEach((direction) => {
@@ -256,15 +255,11 @@ class SpatialNavigation {
 
             let keys = [[`arrow_${direction}`]];
 
-            if (hasCustomKeys) {
-                for (const key in this.customKeys) {
-                    if (this.changeDefault && key === direction) {
-                        keys = [[this.customKeys[key]]];
-                        break;
-                    } else if (!this.changeDefault && key === direction) {
-                        keys.push([this.customKeys[key]]);
-                        break;
-                    }
+            if (hasCustomKeys && this.customKeys[direction]) {
+                if (this.changeDefault) {
+                    keys = [[this.customKeys[direction]]];
+                } else {
+                    keys.push([this.customKeys[direction]]);
                 }
             }
 
