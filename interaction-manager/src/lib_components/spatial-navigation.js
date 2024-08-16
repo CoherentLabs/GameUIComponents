@@ -247,25 +247,28 @@ class SpatialNavigation {
     */
     // eslint-disable-next-line max-lines-per-function, require-jsdoc
     registerKeyActions() {
-        directions.forEach((direction, index) => {
+        const hasCustomKeys = Object.entries(this.customKeys).length !== 0;
+        directions.forEach((direction) => {
             const callback = () => {
                 this.moveFocus(direction);
             };
             actions.register(`move-focus-${direction}`, callback);
 
             let keys = [[`arrow_${direction}`]];
-            let keyCount = 1;
 
-            if (this.customKeys[index]) {
-                if (this.changeDefault && Object.keys(this.customKeys[index]).includes(direction)) {
-                    keys = [[this.customKeys[index][direction]]];
-                } else if (!this.changeDefault && Object.keys(this.customKeys[index]).includes(direction)) {
-                    keys.push([this.customKeys[index][direction]]);
-                    keyCount++;
+            if (hasCustomKeys) {
+                for (const key in this.customKeys) {
+                    if (this.changeDefault && key === direction) {
+                        keys = [[this.customKeys[key]]];
+                        break;
+                    } else if (!this.changeDefault && key === direction) {
+                        keys.push([this.customKeys[key]]);
+                        break;
+                    }
                 }
             }
 
-            for (let i = 0; i < keyCount; i++) {
+            for (let i = 0; i < keys.length; i++) {
                 keyboard.on({
                     keys: keys[i],
                     callback: `move-focus-${direction}`,
@@ -281,22 +284,21 @@ class SpatialNavigation {
     }
 
     /**
-     * Overwrites default direction keys with the specified ones
-     * @param {Object} customDirections
-     * @param {boolean} changeDefault
+     * Adds or override default direction keys with the specified ones
+     * @param {Object} customDirections - { up: 'W', left: 'A', right: 'D', down: 'S' }
+     * @param {boolean} changeDefault - Optional. If true, overrides the default keys. Defaults to false.
      */
     changeKeys(customDirections, changeDefault = false) {
         if (Object.entries(customDirections).length === 0) return;
 
         this.changeDefault = changeDefault;
 
-        // { up: 'W', left: 'A', right: 'D', down: 'S' }
         for (let i = 0; i < directions.length; i++) {
             const directionToMatch = directions[i];
 
             for (const [direction, value] of Object.entries(customDirections)) {
                 if (direction === directionToMatch) {
-                    this.customKeys = [...this.customKeys, { [direction]: value }];
+                    this.customKeys = { ...this.customKeys, [direction]: value };
                 }
             }
         }
