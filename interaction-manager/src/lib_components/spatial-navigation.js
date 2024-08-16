@@ -27,7 +27,7 @@ class SpatialNavigation {
     constructor() {
         this.enabled = false;
         this.navigatableElements = { default: [] };
-        this.customKeys = [{}];
+        this.customKeys = [];
         this.changeDefault = false;
     }
 
@@ -256,14 +256,12 @@ class SpatialNavigation {
             let keys = [[`arrow_${direction}`]];
             let keyCount = 1;
 
-            if (this.customKeys.length !== 0) {
-                if (!this.changeDefault) {
+            if (this.customKeys[index]) {
+                if (this.changeDefault && Object.keys(this.customKeys[index]).includes(direction)) {
+                    keys = [[this.customKeys[index][direction]]];
+                } else if (!this.changeDefault && Object.keys(this.customKeys[index]).includes(direction)) {
+                    keys.push([this.customKeys[index][direction]]);
                     keyCount++;
-                    keys.push([Object.values(this.customKeys[direction])]);
-                } else if (this.customKeys.length < directions.length) {
-                    // to do
-                } else {
-                    keys = [[Object.values(this.customKeys[direction])]];
                 }
             }
 
@@ -292,12 +290,13 @@ class SpatialNavigation {
 
         this.changeDefault = changeDefault;
 
+        // { up: 'W', left: 'A', right: 'D', down: 'S' }
         for (let i = 0; i < directions.length; i++) {
             const directionToMatch = directions[i];
 
             for (const [direction, value] of Object.entries(customDirections)) {
                 if (direction === directionToMatch) {
-                    this.customKeys.push({ [direction]: value });
+                    this.customKeys = [...this.customKeys, { [direction]: value }];
                 }
             }
         }
