@@ -282,13 +282,14 @@ class SpatialNavigation {
     /**
      * Adds or override default direction keys with the specified ones
      * @param {Object} customDirections - { up: 'W', left: 'A', right: 'D', down: 'S' }
-     * @param {boolean} changeDefault - Optional. If true, overrides the default keys. Defaults to false.
+     * @param {Object} options - Optional settings.
+     * @param {Boolean} options.changeDefault - If true, overrides the default navigation keys. Defaults to false.
      * @returns {void}
      */
-    changeKeys(customDirections, changeDefault = false) {
+    changeKeys(customDirections, options = { changeDefault: false }) {
         if (Object.entries(customDirections).length === 0) return;
 
-        this.changeDefault = changeDefault;
+        this.changeDefault = options.changeDefault;
 
         const incorrectDirections = Object.keys(customDirections).filter(direction => !directions.includes(direction));
         if (incorrectDirections.length > 0) return console.error(`The following directions: [${incorrectDirections.join(', ')}] you have entered are incorrect! `);
