@@ -10,8 +10,6 @@ const components = new Components();
 const BaseComponent = components.BaseComponent;
 const TOAST_POSITIONS = ['top left', 'top right', 'bottom left', 'bottom right', 'top center', 'bottom center'];
 const CLASS_PREFIX = 'guic-toast-';
-let containersCreated = false;
-let animationEventAttached = false;
 
 /**
  * Class definition of the gameface toast custom element
@@ -19,6 +17,7 @@ let animationEventAttached = false;
 class GamefaceToast extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     static get observedAttributes() { return ['gravity', 'position', 'target', 'timeout']; }
+    static wrapperContainers = [];
     /* eslint-disable require-jsdoc */
     constructor() {
         super();
@@ -28,8 +27,10 @@ class GamefaceToast extends BaseComponent {
 
         this.hide = this.hide.bind(this);
         this.show = this.show.bind(this);
+        this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
 
         this.hideTimeOut = null;
+        this.animationEventAttached = false;
 
         this.stateSchema = {
             gravity: { type: ['string'] },
@@ -87,8 +88,10 @@ class GamefaceToast extends BaseComponent {
             if (this.hasAttribute('target')) this.updateAttributeState('target', this.getAttribute('target'));
 
             this._messageSlot = this.querySelector('.guic-toast-message').firstElementChild;
+            this._closeButton = this.querySelector('.guic-toast-close-btn');
 
-            if (!containersCreated) this.createToastContainers();
+            if (GamefaceToast.wrapperContainers.length === 0) this.createToastContainers();
+
             // attach event handlers here
             this.attachEventListeners();
         });
@@ -100,13 +103,19 @@ class GamefaceToast extends BaseComponent {
             .catch(err => console.error(err));
     }
 
+    disconnectedCallback() {
+        this.detachListeners();
+    }
+
     attachEventListeners() {
-        if (!animationEventAttached) {
-            document.addEventListener('animationend', (event) => {
-                if (event.animationName === 'guic-toast-fade-out') event.target.parentElement.removeChild(event.target);
-            });
-            animationEventAttached = true;
+        if (!this.animationEventAttached) {
+            document.addEventListener('animationend', this.handleAnimationEnd);
+            this.animationEventAttached = true;
         }
+    }
+
+    detachListeners() {
+        document.removeEventListener('animationend', this.handleAnimationEnd);
     }
     /* eslint-enable require-jsdoc */
 
@@ -164,6 +173,7 @@ class GamefaceToast extends BaseComponent {
             this.state.target = document.querySelector(value);
         }
         this.state.target.addEventListener('click', this.show);
+        // TO DO cleanup of the old target listener
     }
 
     /**
@@ -176,9 +186,8 @@ class GamefaceToast extends BaseComponent {
             const toastContainer = document.createElement('div');
             toastContainer.classList.add('guic-toast-container', `${CLASS_PREFIX}${vertical}`, `${CLASS_PREFIX}${horizontal}`);
             body.appendChild(toastContainer);
+            GamefaceToast.wrapperContainers.push(toastContainer);
         });
-
-        containersCreated = true;
     }
 
     /**
@@ -192,8 +201,6 @@ class GamefaceToast extends BaseComponent {
         if (container) {
             container.appendChild(this);
             return;
-        } else {
-            console.error('No container found for the specified gravity and position');
         }
     }
 
@@ -230,9 +237,18 @@ class GamefaceToast extends BaseComponent {
      * Setups the close button of the toast
      */
     handleCloseButton() {
-        const closeButton = this.querySelector('.guic-toast-close-btn');
-        if (closeButton.firstElementChild.clientWidth && closeButton.firstElementChild.clientHeight) {
-            closeButton.addEventListener('click', this.hide);
+        if (this._closeButton.firstElementChild.clientWidth && this._closeButton.firstElementChild.clientHeight) {
+            this._closeButton.addEventListener('click', this.hide);
+        }
+    }
+
+    /**
+     * Handles animation event for removing toast from the DOM
+     * @param {AnimationEvent} event
+     */
+    handleAnimationEnd(event) {
+        if (event.animationName === 'guic-toast-fade-out') {
+            event.target.parentElement.removeChild(event.target);
         }
     }
 }
