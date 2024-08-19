@@ -8,7 +8,6 @@
     flex-direction: column;
     position: absolute;
     overflow-y: hidden;
-    overflow-x: visible;
     width: 300px;
 }
 
@@ -70,7 +69,7 @@ gameface-toast{
     visibility: hidden;
 }
 
-gameface-toast.guic-toast-show{
+.guic-toast-show{
     position: relative;
     visibility: visible;
 }

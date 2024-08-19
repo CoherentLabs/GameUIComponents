@@ -76,7 +76,7 @@
         ],
         "prefer-promise-reject-errors": "off",
         "linebreak-style": [
-            "error",
+            "warn",
             "windows"
         ],
         "object-curly-spacing": [

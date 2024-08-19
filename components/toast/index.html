@@ -125,26 +125,27 @@
     </gameface-toast>
 
     <script>
-        const toasts = document.querySelectorAll('gameface-toast');
+        const toasts = document.querySelectorAll('gameface-toast:not(.hidden-toast)');
         const showAllBtn = document.getElementById('show-all');
         showAllBtn.addEventListener('click', () => {
-            toasts.forEach((toast) => {
-                if (!toast.classList.contains('hidden-toast')) {
-                    toast.show()
-                }
-            });
+            toasts.forEach((toast) => { toast.show() });
         })
 
-        const allPositions = ['top left', 'top right', 'bottom left', 'bottom right', 'top center', 'bottom center'];
+        const positions = ['left', 'center', 'right'];
+        const gravity = ['top', 'bottom'];
+
         const changePositionBtn = document.getElementById('change-position-btn');
         changePositionBtn.addEventListener('click', () => {
             toasts.forEach((toast) => {
-                const [newGravity, newPosition] = allPositions[Math.floor(Math.random() * 6)].split(' ');
-                toast.gravity = newGravity;
-                toast.position = newPosition;
+                toast.gravity = getRandomElement(gravity);
+                toast.position = getRandomElement(positions);
                 toast.show();
             })
         })
+
+        function getRandomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
     </script>
 </body>
 
