@@ -43,7 +43,7 @@ describe('Toast component', () => {
     it('Should be visible after show method is called', () => {
         const toast = document.querySelector('gameface-toast');
         toast.show();
-        const isVisible = window.getComputedStyle(toast).visibility === 'visible';
+        const isVisible = toast.classList.contains('guic-toast-show');
 
         assert.isTrue(isVisible, 'Toast isn\'t visible.');
     });
@@ -51,10 +51,6 @@ describe('Toast component', () => {
     it('Should initialize position containers', () => {
         const toastContainers = document.querySelectorAll('.guic-toast-container');
         assert.exists(toastContainers, 'Toast containers haven\'t been initialized or are undefined.');
-    });
-
-    it('Should initialize position containers for all possible sides', () => {
-        const toastContainers = document.querySelectorAll('.guic-toast-container');
         assert.lengthOf(toastContainers, 6, 'Toast containers count does not match the expected number.');
     });
 
@@ -96,7 +92,7 @@ describe('Toast component', () => {
         assert.isFalse(isStillInDom, 'Toast should be hidden.');
     });
 
-    it('Should not be hidden if close button is empty', () => {
+    it('Should not be able to click close button if empty', () => {
         const toast = document.querySelector('gameface-toast');
         const closeBtn = toast.querySelector('.guic-toast-close-btn');
         closeBtn.firstElementChild.innerHTML = '';

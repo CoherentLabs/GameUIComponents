@@ -9,6 +9,7 @@
     position: absolute;
     overflow-y: hidden;
     width: 300px;
+    pointer-events: none;
 }
 
 .guic-toast-top{
@@ -32,12 +33,12 @@
     transform: translateX(-50%);
 }
 
-.guic-toast-bottom gameface-toast{
+.guic-toast-bottom > *{
     animation: guic-toast-slide-up 1s ease-in-out;
     margin-top: 5px;
 }
 
-.guic-toast-top gameface-toast{
+.guic-toast-top > *{
     animation: guic-toast-slide-down 1s ease-in-out;
     margin-bottom: 5px;
 }
@@ -65,13 +66,14 @@
 }
 
 gameface-toast{
-    position: absolute;
-    visibility: hidden;
+    display: none;
+    min-width: 75%;
+    max-width: 100%;
+    pointer-events: auto;
 }
 
 .guic-toast-show{
-    position: relative;
-    visibility: visible;
+    display: block;
 }
 
 @keyframes  guic-toast-fade-out {
@@ -83,13 +85,8 @@ gameface-toast{
     }
 }
 
-gameface-toast.guic-toast-hide {
+.guic-toast-hide {
     animation: guic-toast-fade-out 0.5s ease forwards;
-}
-
-.guic-toast-container gameface-toast{
-    min-width: 75%;
-    max-width: 100%;
 }
 
 .guic-toast{

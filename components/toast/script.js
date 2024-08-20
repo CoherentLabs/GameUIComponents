@@ -8,7 +8,8 @@ import template from './template.html';
 
 const components = new Components();
 const BaseComponent = components.BaseComponent;
-const TOAST_POSITIONS = ['top left', 'top right', 'bottom left', 'bottom right', 'top center', 'bottom center'];
+const POSITIONS = ['left', 'right', 'center'];
+const GRAVITY = ['top', 'bottom'];
 const CLASS_PREFIX = 'guic-toast-';
 
 /**
@@ -30,7 +31,7 @@ class GamefaceToast extends BaseComponent {
         this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
 
         this.hideTimeOut = null;
-        this.animationEventAttached = false;
+        this._previousTarget = null;
 
         this.stateSchema = {
             gravity: { type: ['string'] },
@@ -108,24 +109,20 @@ class GamefaceToast extends BaseComponent {
     }
 
     attachEventListeners() {
-        if (!this.animationEventAttached) {
-            document.addEventListener('animationend', this.handleAnimationEnd);
-            this.animationEventAttached = true;
-        }
+        this.addEventListener('animationend', this.handleAnimationEnd);
     }
 
     detachListeners() {
-        document.removeEventListener('animationend', this.handleAnimationEnd);
+        this.removeEventListener('animationend', this.handleAnimationEnd);
     }
     /* eslint-enable require-jsdoc */
 
     /**
      * Custom element lifecycle method. Called when an attribute is changed.
      * @param {string} name
-     * @param {string} oldValue
      * @param {string|boolean|array} newValue
      */
-    attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback(name, newValue) {
         if (!this.isRendered) return;
 
         this.updateAttributeState(name, newValue);
@@ -169,11 +166,24 @@ class GamefaceToast extends BaseComponent {
     updateTargetState(name, value) {
         if (!this.isStatePropValid(name, value)) return;
 
-        if (value instanceof HTMLElement === false) {
-            this.state.target = document.querySelector(value);
+        // if prev target is the same return
+        if (this._previousTarget === value) return;
+
+        // if there is a prev target remove listener
+        if (this._previousTarget) {
+            this._previousTarget.removeEventListener('click', this.show);
         }
-        this.state.target.addEventListener('click', this.show);
-        // TO DO cleanup of the old target listener
+
+        if (!(value instanceof HTMLElement)) {
+            this.state.target = document.querySelector(value);
+        } else {
+            this.state.target = value;
+        }
+
+        if (this.state.target) {
+            this.state.target.addEventListener('click', this.show);
+            this._previousTarget = this.state.target;
+        }
     }
 
     /**
@@ -181,12 +191,13 @@ class GamefaceToast extends BaseComponent {
     */
     createToastContainers() {
         const body = document.querySelector('body');
-        TOAST_POSITIONS.forEach((containerPosition) => {
-            const [vertical, horizontal] = containerPosition.split(' ');
-            const toastContainer = document.createElement('div');
-            toastContainer.classList.add('guic-toast-container', `${CLASS_PREFIX}${vertical}`, `${CLASS_PREFIX}${horizontal}`);
-            body.appendChild(toastContainer);
-            GamefaceToast.wrapperContainers.push(toastContainer);
+        GRAVITY.forEach((gravity) => {
+            POSITIONS.forEach((position) => {
+                const toastContainer = document.createElement('div');
+                toastContainer.classList.add('guic-toast-container', `${CLASS_PREFIX}${gravity}`, `${CLASS_PREFIX}${position}`);
+                body.appendChild(toastContainer);
+                GamefaceToast.wrapperContainers.push(toastContainer);
+            });
         });
     }
 
@@ -210,9 +221,9 @@ class GamefaceToast extends BaseComponent {
     show() {
         this.appendToastToContainer(this.state.gravity, this.state.position);
         this.handleTimeOut();
-        this.handleCloseButton();
         this.classList.add('guic-toast-show');
         this.classList.remove('guic-toast-hide');
+        this.handleCloseButton();
     }
 
     /**
@@ -236,10 +247,12 @@ class GamefaceToast extends BaseComponent {
     /**
      * Setups the close button of the toast
      */
-    handleCloseButton() {
-        if (this._closeButton.firstElementChild.clientWidth && this._closeButton.firstElementChild.clientHeight) {
-            this._closeButton.addEventListener('click', this.hide);
-        }
+    async handleCloseButton() {
+        await components.waitForFrames(() => {
+            if (this._closeButton.firstElementChild.clientWidth && this._closeButton.firstElementChild.clientHeight) {
+                this._closeButton.addEventListener('click', this.hide);
+            }
+        }, 2);
     }
 
     /**

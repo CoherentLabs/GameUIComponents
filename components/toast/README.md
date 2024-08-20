@@ -20,7 +20,7 @@ npm i coherent-gameface-toast
 * add the toast component to your html:
 
 ~~~~{.html}
-<gameface-toast gravity="top" position="center"    timeout="3000">
+<gameface-toast gravity="top" position="center" timeout="3000">
     <div slot="message">Hello!</div>
 </gameface-toast>
 ~~~~
@@ -109,8 +109,7 @@ Use the `close-btn` slot to include a close button in your toast:
 </gameface-toast>
 ~~~~
 
-Keep in mind that you **must** provide some content inside the slot, otherwise the close functionality of the button won't work. That's because the slot expects some content inside and then attaches the closing logic. If you don't specify a `close-btn` slot the toast will require manual removal (if timeout attribute is missing).
-
+Keep in mind that you **must** provide some content inside the slot, otherwise the close functionality of the button won't work. That's because the slot relies on content being present to attach the closing logic. If you omit the `close-btn` slot, you'll need to manually handle the toast's removal (if the timeout attribute is not set).
 
 Full list of the available attributes can be found [here](#Attributes).
 
@@ -128,16 +127,16 @@ To use the toast component you must first add the element in your html:
 
 To display the toast you have 2 options:
 1. Manually getting the toast with js and calling the toast method `show()`
-2. Specifying a target element with the `target` attribute with an element selector as the value of the attribute. When the target element is clicked the `show()` method will be called on the toast.
+2.  Using the `target` attribute to specify a target element by providing an element selector as its value. When the target element is clicked the `show()` method will be called on the toast.
 
-After the first call of the `show()` method 6 div containers will be created to host the toasts. The initialization of the containers will happen only the first time an instance of the toast component has been shown. These containers specify each place the toast can appear on and are implemented to allow for an easier way to stack toasts.
+After the first call of the `show()` method six containers will be created to host the toasts. The initialization of the containers will happen only the first time an instance of the toast component has been shown. These containers specify each place the toast can appear on and are implemented to allow for an easier way to stack toasts.
 
 ### Hiding the toast
 
 In most use cases toasts go away on their own after a while. 
 
 There are 2 different ways you can close the toast component:
-1. With a `timeout` attribute.
+1. Using the `timeout` attribute.
 2. Using the `close-btn` slot.
 
 Both can be present or absent at the same time. It depends only on which one you specify. The close button takes precedence over the timeout, meaning if a user clicks on it, the toast will immediately close, and it won't wait for the timeout to run out.
