@@ -85,6 +85,8 @@ class Tooltip extends BaseComponent {
             return;
         }
 
+        if (!this.targetElement) this.targetElement = this.triggerElement;
+
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
         this.resizeDebounced = this.debounce(this.onWindowResize);
 
