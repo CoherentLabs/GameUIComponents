@@ -122,6 +122,8 @@ class Stepper extends BaseComponent {
         this.setupTemplate(data, () => {
             components.renderOnce(this);
 
+            this.itemElements.forEach(item => this.appendChild(item));
+
             this.leftButton = this.querySelector('.guic-stepper-left');
             this.rightButton = this.querySelector('.guic-stepper-right');
             this.valueElement = this.querySelector('.guic-stepper-value');
