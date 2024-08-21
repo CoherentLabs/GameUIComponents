@@ -31,7 +31,6 @@ class GamefaceToast extends BaseComponent {
         this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
 
         this.hideTimeOut = null;
-        this._previousTarget = null;
 
         this.stateSchema = {
             gravity: { type: ['string'] },
@@ -169,23 +168,17 @@ class GamefaceToast extends BaseComponent {
     updateTargetState(name, value) {
         if (!this.isStatePropValid(name, value)) return;
 
-        // if prev target is the same return
-        if (this._previousTarget === value) return;
+        const newTarget = document.querySelector(value);
 
-        // if there is a prev target remove listener
-        if (this._previousTarget) {
-            this._previousTarget.removeEventListener('click', this.show);
+        if (this.state.target && newTarget) {
+            this.state.target.removeEventListener('click', this.show);
         }
 
-        if (!(value instanceof HTMLElement)) {
-            this.state.target = document.querySelector(value);
-        } else {
-            this.state.target = value;
-        }
-
-        if (this.state.target) {
+        if (newTarget) {
+            this.state.target = newTarget;
             this.state.target.addEventListener('click', this.show);
-            this._previousTarget = this.state.target;
+        } else {
+            console.error(`Can't find an element with the selector "${value}".`);
         }
     }
 

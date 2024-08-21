@@ -68,16 +68,16 @@ you wish to change and include them after the default styles.
 
 There are 2 default animations set:
 
-- **Slide Up/Down Animation**: By default, the toast uses slide-up and slide-down animations when shown. This behavior can be overridden by applying a custom class with a CSS specificity higher than `0,1,1` and defining your own animations. Alternatively, you can modify the existing animations named `guic-toast-slide-up` and `guic-toast-slide-down` in your CSS. For example:
+- **Slide Up/Down Animation**: By default, the toast uses slide-up and slide-down animations when shown. This behavior can be overridden by applying a custom class and defining your own animations. Alternatively, you can modify the existing animations named `guic-toast-slide-up` and `guic-toast-slide-down` in your CSS. For example:
   ```css
-  gameface-toast.custom-toast-class {
+  .custom-toast-class {
       animation-name: customSlideUp;
   }
   @keyframes customSlideUp {
       from { transform: translateY(100%); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
   }
-- **Fade Out Animation**: The default fade-out animation can be overridden by using the `guic-toast-hide` class along with a custom animation named `guic-toast-fade-out`. Ensure that any custom animations maintain the same name (`guic-toast-fade-out`) as the component’s `hide` method is specifically designed to listen for this animation's end event. To effectively override the default, your custom CSS rules must have a specificity greater than `0,1,1`. Here’s how you could define a custom fade-out animation:
+- **Fade Out Animation**: The default fade-out animation can be overridden by using the `guic-toast-hide` class along with a custom animation named `guic-toast-fade-out`. Ensure that any custom animations maintain the same name (`guic-toast-fade-out`) as the component’s `hide` method is specifically designed to listen for this animation's end event. Here’s how you could define a custom fade-out animation:
   ```css
   .custom-toast-class.guic-toast-hide {
       animation-name: guic-toast-fade-out; /* Use the same name for compatibility */
@@ -104,7 +104,7 @@ Use the `close-btn` slot to include a close button in your toast:
 
 ~~~~{.html}
 <gameface-toast class="styled-toast" gravity="top" position="right" timeout="5000">
-  <div slot="message">I have a target element</div>
+  <div slot="message">Hello</div>
   <div slot="close-btn">x</div>
 </gameface-toast>
 ~~~~
@@ -157,7 +157,7 @@ Both can be present or absent at the same time. It depends only on which one you
 | message  | getter/setter | Gets or sets the HTML content of the message slot. |
 | position | getter/setter | Gets or sets the toast's position. Returns the last set position and allows updating to a new position. |
 | gravity  | getter/setter | Gets or sets the toast's gravity. Returns the last set gravity and allows updating to a new gravity. |
-| target   | getter/setter | Gets or sets a reference to the target DOM element. Returns the currently set target element and allows updating to a new target element. |
+| target   | getter/setter | The getter returns a reference to the currently set target DOM element. The setter accepts a string selector, which it uses to find and set a new target DOM element in the document. If the selector does not match any elements, an error is logged and the target is not updated. |
 
 ### Methods
 
