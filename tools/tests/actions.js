@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* globals KEYS */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -254,3 +255,20 @@ function resizeElementTo(container, xySize = 500) {
     container.style.height = `${xySize}px`;
     container.style.width = `${xySize}px`;
 }
+
+/**
+ * Simulates keyboard press
+ * @param {string} key - The key to simulate pressing.
+ * @param {Boolean} repeat [repeat=false] - Indicates if the key press is a repeat event. Defaults to false.
+ */
+const simulateKeyDown = (key, repeat = false) => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: KEYS[key], repeat }));
+};
+
+/**
+ * Simulates a keyboard release event.
+ * @param {string} key - The key to simulate releasing.
+ */
+const simulateKeyUp = (key) => {
+    document.dispatchEvent(new KeyboardEvent('keyup', { keyCode: KEYS[key] }));
+};
