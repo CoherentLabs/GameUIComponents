@@ -95,6 +95,7 @@ class GamefaceToast extends BaseComponent {
 
             // attach event handlers here
             this.attachEventListeners();
+            this.isRendered = true;
         });
     }
 
@@ -106,6 +107,7 @@ class GamefaceToast extends BaseComponent {
 
     disconnectedCallback() {
         this.detachListeners();
+        this.isRendered = false;
     }
 
     attachEventListeners() {
@@ -120,9 +122,10 @@ class GamefaceToast extends BaseComponent {
     /**
      * Custom element lifecycle method. Called when an attribute is changed.
      * @param {string} name
+     * @param {string} oldValue
      * @param {string|boolean|array} newValue
      */
-    attributeChangedCallback(name, newValue) {
+    attributeChangedCallback(name, oldValue, newValue) {
         if (!this.isRendered) return;
 
         this.updateAttributeState(name, newValue);
@@ -219,10 +222,11 @@ class GamefaceToast extends BaseComponent {
      * Displays the toast
      */
     show() {
+        if (this.classList.contains('guic-toast-show')) return;
+
         this.appendToastToContainer(this.state.gravity, this.state.position);
         this.handleTimeOut();
         this.classList.add('guic-toast-show');
-        this.classList.remove('guic-toast-hide');
         this.handleCloseButton();
     }
 
@@ -261,7 +265,8 @@ class GamefaceToast extends BaseComponent {
      */
     handleAnimationEnd(event) {
         if (event.animationName === 'guic-toast-fade-out') {
-            event.target.parentElement.removeChild(event.target);
+            this.parentElement.removeChild(this);
+            this.classList.remove('guic-toast-show', 'guic-toast-hide');
         }
     }
 }
