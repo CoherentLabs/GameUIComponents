@@ -1,3 +1,5 @@
+import htmlImport from '@ayatkyo/vite-plugin-html-import';
+
 export default {
     // config options
     build: {
@@ -7,4 +9,5 @@ export default {
     optimizeDeps: {
         exclude: ['coherent-gameface-components'],
     },
+    plugins: [htmlImport()],
 };
