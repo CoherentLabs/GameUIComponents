@@ -1,6 +1,6 @@
 {
   "name": "coherent-guic-cli",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "A command line interface for creating Game UI Components for Gameface.",
   "main": "index.js",
   "scripts": {
