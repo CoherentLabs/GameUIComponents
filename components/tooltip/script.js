@@ -29,11 +29,14 @@ class Tooltip extends BaseComponent {
     }
 
     set targetElement(element) {
-        this._targetElement = element;
+        this.triggerElement = element;
+        if (!this.triggerElement) {
+            console.error(`An element with selector ${this.elementSelector} does not exit. Please make sure the selector is correct and the element exists.`);
+        }
     }
 
     get targetElement() {
-        return this._targetElement;
+        return this.triggerElement;
     }
 
     get overflows() {
@@ -79,11 +82,9 @@ class Tooltip extends BaseComponent {
         this.elementSelector = this.getAttribute('target');
         this.init = this.init.bind(this);
 
-        this.triggerElement = this.targetElement || document.querySelector(this.elementSelector);
-        if (!this.triggerElement) {
-            console.error(`An element with selector ${this.elementSelector} does not exit. Please make sure the selector is correct and the element exists.`);
-            return;
-        }
+        this.targetElement = this.targetElement || document.querySelector(this.elementSelector);
+
+        if (!this.targetElement) return;
 
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
         this.resizeDebounced = this.debounce(this.onWindowResize);
