@@ -43,7 +43,7 @@ function transferDocs() {
     core.info(`[INFO] Fetching repository...`);
     exec(`git fetch --no-recurse-submodules`);
     core.info(`[INFO] Checking out ${GH_PAGES_BRANCH} branch`);
-    exec(`git checkout ${GH_PAGES_BRANCH}`);
+    exec(`git checkout -f ${GH_PAGES_BRANCH} --`);
     core.info(`Clearing the previous branch files`);
     exec('rm -rf *');
     core.info(`Copying the documentation source from ${docsBuildDir} to the branch`);
