@@ -29,6 +29,8 @@ class SpatialNavigation {
         this.enabled = false;
         this.navigatableElements = { default: [] };
         this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
+        this.registeredKeys = new Set();
+        this.clearCurrentActiveKeys = false;
     }
 
     /**
@@ -252,17 +254,15 @@ class SpatialNavigation {
             };
             actions.register(`move-focus-${direction}`, callback);
 
-            const newKeys = this.activeKeys[direction];
-            const keys = [[newKeys[newKeys.length - 1]]];
+            const keys = this.activeKeys[direction].map(key => [key]);
 
             for (const key of keys) {
-                if (key[0]) {
-                    keyboard.on({
-                        keys: key,
-                        callback: `move-focus-${direction}`,
-                        type: 'press',
-                    });
-                }
+                keyboard.on({
+                    keys: key,
+                    callback: `move-focus-${direction}`,
+                    type: 'press',
+                });
+                this.registeredKeys.add(key[0]);
             }
 
             gamepad.on({
@@ -276,7 +276,8 @@ class SpatialNavigation {
      * Resets to the original keys state
      */
     resetKeys() {
-        this.removeKeyActions(true);
+        this.removeKeyActions();
+        this.registeredKeys.clear();
         this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
         this.registerKeyActions();
     }
@@ -295,10 +296,12 @@ class SpatialNavigation {
         const incorrectDirections = customKeysDirections.filter(direction => !directions.includes(direction));
         if (incorrectDirections.length > 0) return console.error(`The following directions: [${incorrectDirections.join(', ')}] you have entered are incorrect! `);
 
-        this.removeKeyActions(options.clearCurrentActiveKeys);
+        this.clearCurrentActiveKeys = options.clearCurrentActiveKeys;
 
-        for (const direction in customDirections) {
-            this.activeKeys[direction].push(customDirections[direction]);
+        this.removeKeyActions();
+
+        for (const direction in this.activeKeys) {
+            if (customDirections[direction]) this.activeKeys[direction].push(customDirections[direction]);
         }
 
         this.registerKeyActions();
@@ -306,15 +309,15 @@ class SpatialNavigation {
 
     /**
      * Removes the added actions
-     * @param {Boolean} clearAll Flag to specify if all keys should be removed
      */
-    removeKeyActions(clearAll) {
+    removeKeyActions() {
+        this.registeredKeys.forEach(key => keyboard.off([key]));
         directions.forEach((direction) => {
             actions.remove(`move-focus-${direction}`);
             gamepad.off([`playstation.d-pad-${direction}`]);
-            if (clearAll) {
-                this.activeKeys[direction].forEach(key => keyboard.off([key]));
+            if (this.clearCurrentActiveKeys ) {
                 this.activeKeys[direction] = [];
+                this.registeredKeys.clear();
             }
         });
     }
