@@ -127,12 +127,19 @@ Unfocuses the currently focused element in a navigatable area.
 ### changeKeys()
 
 ```js
-spatialNavigation.changeKeys({ up: 'W', down: 's', left: 'a', right: 'd' }, { changeDefault: true });
+spatialNavigation.changeKeys({ up: 'W', down: 's', left: 'a', right: 'd' }, { clearCurrentActiveKeys: true });
 ```
 
-Sets new keys for spatial navigation.  
+The method accepts an optional options object as a last argument. The available options are: 
+* `clearCurrentActiveKeys` - Boolean. Defaults to `false`. If `true`, it clears all other keys except the provided ones. If `false` the provided keys will just be added to the registered keys collection.
 
-Accepts an optional options object as the second argument with one option: `changeDefault`. Defaults to `false`. If `true`, it overrides the default navigation keys with the provided ones.
+### resetKeys()
+
+```js
+spatialNavigation.resetKeys();
+```
+
+Resets the navigation keys to their default settings, restoring the key bindings to the standard navigation keys (arrow_up, arrow_down, arrow_left, arrow_right).
 
 ## Actions
 

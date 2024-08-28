@@ -301,7 +301,11 @@ class SpatialNavigation {
         this.removeKeyActions();
 
         for (const direction in this.activeKeys) {
-            if (customDirections[direction]) this.activeKeys[direction].push(customDirections[direction]);
+            const newKey = customDirections[direction];
+
+            if (newKey && !this.activeKeys[direction].includes(newKey)) {
+                this.activeKeys[direction].push(newKey);
+            }
         }
 
         this.registerKeyActions();
