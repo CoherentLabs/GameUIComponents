@@ -126,7 +126,7 @@ Unfocuses the currently focused element in a navigatable area.
 
 ### changeKeys()
 
-```{.javascript}
+```js
 spatialNavigation.changeKeys({ up: 'W', down: 's', left: 'a', right: 'd' }, { changeDefault: true });
 ```
 
