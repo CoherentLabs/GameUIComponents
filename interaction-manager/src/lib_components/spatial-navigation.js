@@ -19,6 +19,7 @@ import keyboard from './keyboard';
 import gamepad from './gamepad';
 
 const directions = ['down', 'up', 'left', 'right'];
+const defaultKeysState = { up: ['arrow_up'], down: ['arrow_down'], right: ['arrow_right'], left: ['arrow_left'] };
 /**
  * Spatial Navigation for keyboard and controller
  */
@@ -27,8 +28,7 @@ class SpatialNavigation {
     constructor() {
         this.enabled = false;
         this.navigatableElements = { default: [] };
-        this.customKeys = { up: [], down: [], right: [], left: [] };
-        this.changeDefault = false;
+        this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
     }
 
     /**
@@ -55,7 +55,7 @@ class SpatialNavigation {
         this.enabled = false;
 
         this.navigatableElements = { default: [] };
-        this.removeKeyActions();
+        this.removeKeyActions(true);
     }
     /**
      * Add new elements to area or new area
@@ -252,14 +252,17 @@ class SpatialNavigation {
             };
             actions.register(`move-focus-${direction}`, callback);
 
-            const keys = this.getChangeFocusKeys(direction);
+            const newKeys = this.activeKeys[direction];
+            const keys = [[newKeys[newKeys.length - 1]]];
 
             for (const key of keys) {
-                keyboard.on({
-                    keys: key,
-                    callback: `move-focus-${direction}`,
-                    type: 'press',
-                });
+                if (key[0]) {
+                    keyboard.on({
+                        keys: key,
+                        callback: `move-focus-${direction}`,
+                        type: 'press',
+                    });
+                }
             }
 
             gamepad.on({
@@ -270,70 +273,49 @@ class SpatialNavigation {
     }
 
     /**
-     * Prepares an array with keys to pass to the keyboard class method `on` for adding key actions
-     * @param {string} direction - One of the four directions
-     * @returns {Array<Array<string>>} An array of arrays, where each inner array contains strings for keybinds (arrow_up, w)
+     * Resets to the original keys state
      */
-    getChangeFocusKeys(direction) {
-        let keys =[[`arrow_${direction}`]];
-        const currCustomKeys = this.customKeys[direction];
-
-        if (currCustomKeys.length !== 0) {
-            if (this.changeDefault) {
-                keys = [[currCustomKeys[currCustomKeys.length - 1]]];
-            } else {
-                keys = [];
-                keys.push(...currCustomKeys.map(key => [key]));
-            }
-        }
-
-        return keys;
+    resetKeys() {
+        this.removeKeyActions(true);
+        this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
+        this.registerKeyActions();
     }
 
     /**
      * Adds or override default direction keys with the specified ones
      * @param {Object} customDirections - { up: 'W', left: 'A', right: 'D', down: 'S' }
      * @param {Object} options - Optional settings.
-     * @param {Boolean} options.changeDefault - If true, overrides the default navigation keys. Defaults to false.
+     * @param {Boolean} options.clearCurrentActiveKeys - If true, overrides all keys. Defaults to false.
      * @returns {void}
      */
-    changeKeys(customDirections, options = { changeDefault: false }) {
+    changeKeys(customDirections, options = { clearCurrentActiveKeys: false }) {
         const customKeysDirections = Object.keys(customDirections);
         if (customKeysDirections.length === 0) return;
-
-        this.changeDefault = options.changeDefault;
 
         const incorrectDirections = customKeysDirections.filter(direction => !directions.includes(direction));
         if (incorrectDirections.length > 0) return console.error(`The following directions: [${incorrectDirections.join(', ')}] you have entered are incorrect! `);
 
-        directions.forEach((direction) => {
-            if (customDirections[direction]) {
-                this.customKeys[direction].push(customDirections[direction]);
-            }
-        });
+        this.removeKeyActions(options.clearCurrentActiveKeys);
 
-        this.removeKeyActions();
+        for (const direction in customDirections) {
+            this.activeKeys[direction].push(customDirections[direction]);
+        }
+
         this.registerKeyActions();
     }
 
-    // customDirections = { up: 'U', }
-    // customKeys = up: ["w"], left: [], down: [], right: []
-
     /**
      * Removes the added actions
+     * @param {Boolean} clearAll Flag to specify if all keys should be removed
      */
-    removeKeyActions() {
+    removeKeyActions(clearAll) {
         directions.forEach((direction) => {
             actions.remove(`move-focus-${direction}`);
             gamepad.off([`playstation.d-pad-${direction}`]);
-
-            _IM.keyboardFunctions.forEach((keyboardFunction) => {
-                if (keyboardFunction.callback === `move-focus-${direction}`) {
-                    // keyboardFunction.keys.forEach(key => keyboard.off(key));
-                    keyboard.off(keyboardFunction.keys);
-                    return;
-                }
-            });
+            if (clearAll) {
+                this.activeKeys[direction].forEach(key => keyboard.off([key]));
+                this.activeKeys[direction] = [];
+            }
         });
     }
 
