@@ -28,7 +28,6 @@ class SpatialNavigation {
     constructor() {
         this.enabled = false;
         this.navigatableElements = { default: [] };
-        this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
         this.registeredKeys = new Set();
         this.clearCurrentActiveKeys = false;
     }
@@ -45,6 +44,7 @@ class SpatialNavigation {
         this.enabled = true;
 
         this.add(navigatableElements);
+        this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
         this.registerKeyActions();
     }
 
@@ -57,7 +57,7 @@ class SpatialNavigation {
         this.enabled = false;
 
         this.navigatableElements = { default: [] };
-        this.removeKeyActions(true);
+        this.removeKeyActions();
     }
     /**
      * Add new elements to area or new area
@@ -277,7 +277,6 @@ class SpatialNavigation {
      */
     resetKeys() {
         this.removeKeyActions();
-        this.registeredKeys.clear();
         this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
         this.registerKeyActions();
     }
@@ -298,13 +297,13 @@ class SpatialNavigation {
 
         this.clearCurrentActiveKeys = options.clearCurrentActiveKeys;
 
-        this.removeKeyActions();
+        if (this.registeredKeys.size !== 0) this.removeKeyActions();
 
         for (const direction in this.activeKeys) {
             const newKey = customDirections[direction];
 
             if (newKey && !this.activeKeys[direction].includes(newKey)) {
-                this.activeKeys[direction].push(newKey);
+                this.activeKeys[direction].push(newKey.toUpperCase());
             }
         }
 
@@ -316,13 +315,12 @@ class SpatialNavigation {
      */
     removeKeyActions() {
         this.registeredKeys.forEach(key => keyboard.off([key]));
+        this.registeredKeys.clear();
+
         directions.forEach((direction) => {
             actions.remove(`move-focus-${direction}`);
             gamepad.off([`playstation.d-pad-${direction}`]);
-            if (this.clearCurrentActiveKeys ) {
-                this.activeKeys[direction] = [];
-                this.registeredKeys.clear();
-            }
+            if (this.clearCurrentActiveKeys ) this.activeKeys[direction] = [];
         });
     }
 

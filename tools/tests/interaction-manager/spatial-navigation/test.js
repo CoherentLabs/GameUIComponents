@@ -1,7 +1,7 @@
 /* globals simulateKeyDown, simulateKeyUp */
 /* eslint-disable new-cap */
 /* eslint-disable max-lines-per-function */
-const template = (squares = 6) => {
+const createTemplate = (squares = 6) => {
     const square = i => `<div class="square square-${i}" style="width: 100px; height: 100px; background-color: burlywood; box-sizing: border-box; border:1px solid black;">${i}</div>`;
 
     return `<div class="square-container" style="width: 305px; display: flex; flex-wrap: wrap;">
@@ -31,7 +31,7 @@ async function setupTestPage(template) {
 
 describe('Spatial navigation', () => {
     beforeEach(async () => {
-        await setupTestPage(template());
+        await setupTestPage(createTemplate());
         interactionManager.spatialNavigation.init([
             { area: 'squares', elements: ['.square'] },
         ]);
@@ -71,7 +71,6 @@ describe('Spatial navigation', () => {
         interactionManager.spatialNavigation.changeKeys({ up: 'W', down: 'S', left: 'A', right: 'D' });
         interactionManager.spatialNavigation.resetKeys();
 
-        // right, right, down, left, left, up => position 1
         ['arrow_right', 'arrow_right', 'arrow_down', 'arrow_left', 'arrow_left', 'arrow_up'].forEach((key) => {
             simulateKeyDown(key.toUpperCase());
             simulateKeyUp(key.toUpperCase());
