@@ -5,7 +5,7 @@ var search = document.getElementById('search');
 const form = document.getElementById('form-search');
 
 const MAX_LIMIT_PAGE_ENTRIES = 300; // https://github.com/nextapps-de/flexsearch#limit--offset
-const pagesCount = parseInt('67');
+const pagesCount = parseInt('69');
 // This value has impact on the search performance.
 const searchDocumentsLimit = (pagesCount > MAX_LIMIT_PAGE_ENTRIES) ? MAX_LIMIT_PAGE_ENTRIES : pagesCount;
 
