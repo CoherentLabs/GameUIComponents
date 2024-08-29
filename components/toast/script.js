@@ -170,16 +170,12 @@ class GamefaceToast extends BaseComponent {
 
         const newTarget = document.querySelector(value);
 
-        if (this.state.target && newTarget) {
-            this.state.target.removeEventListener('click', this.show);
-        }
+        if (!newTarget) return console.error(`Can't find an element with the selector "${value}".`);
 
-        if (newTarget) {
-            this.state.target = newTarget;
-            this.state.target.addEventListener('click', this.show);
-        } else {
-            console.error(`Can't find an element with the selector "${value}".`);
-        }
+        if (this.state.target) this.state.target.removeEventListener('click', this.show);
+
+        this.state.target = newTarget;
+        this.state.target.addEventListener('click', this.show);
     }
 
     /**
@@ -246,9 +242,8 @@ class GamefaceToast extends BaseComponent {
      */
     async handleCloseButton() {
         await components.waitForFrames(() => {
-            if (this._closeButton.firstElementChild.clientWidth && this._closeButton.firstElementChild.clientHeight) {
-                this._closeButton.addEventListener('click', this.hide);
-            }
+            const { clientWidth, clientHeight } = this._closeButton.firstElementChild;
+            if (clientWidth && clientHeight) this._closeButton.addEventListener('click', this.hide);
         }, 2);
     }
 

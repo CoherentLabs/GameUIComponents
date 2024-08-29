@@ -1,5 +1,5 @@
 ---
-date: 2024-8-21
+date: 2024-8-29
 title: Toast
 draft: false
 ---
@@ -133,7 +133,7 @@ To use the toast component you must first add the element in your html:
 
 To display the toast you have 2 options:
 1. Manually getting the toast with js and calling the toast method `show()`
-2.  Using the `target` attribute to specify a target element by providing an element selector as its value. When the target element is clicked the `show()` method will be called on the toast.
+2. Using the `target` attribute to specify a target element by providing an element selector as its value. When the target element is clicked the `show()` method will be called on the toast.
 
 After the first call of the `show()` method six containers will be created to host the toasts. The initialization of the containers will happen only the first time an instance of the toast component has been shown. These containers specify each place the toast can appear on and are implemented to allow for an easier way to stack toasts.
 
