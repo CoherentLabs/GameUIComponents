@@ -131,7 +131,7 @@ spatialNavigation.changeKeys({ up: 'W', down: 's', left: 'a', right: 'd' }, { cl
 ```
 
 The method accepts an optional options object as a last argument. The available options are: 
-* `clearCurrentActiveKeys` - Boolean. Defaults to `false`. If `true`, it clears all other keys except the provided ones. If `false` the provided keys will just be added to the registered keys collection.
+* `clearCurrentActiveKeys` - Boolean. Defaults to `false`. If `true`, it clears all other keys except the provided ones. If `false` оr not specified the provided keys will just be added to the registered keys collection.
 
 ### resetKeys()
 

@@ -254,15 +254,15 @@ class SpatialNavigation {
             };
             actions.register(`move-focus-${direction}`, callback);
 
-            const keys = this.activeKeys[direction].map(key => [key]);
+            const keys = this.activeKeys[direction];
 
             for (const key of keys) {
                 keyboard.on({
-                    keys: key,
+                    keys: [key],
                     callback: `move-focus-${direction}`,
                     type: 'press',
                 });
-                this.registeredKeys.add(key[0]);
+                this.registeredKeys.add(key);
             }
 
             gamepad.on({
@@ -297,12 +297,12 @@ class SpatialNavigation {
 
         this.clearCurrentActiveKeys = options.clearCurrentActiveKeys;
 
-        if (this.registeredKeys.size !== 0) this.removeKeyActions();
+        this.removeKeyActions();
 
         for (const direction in this.activeKeys) {
             const newKey = customDirections[direction];
 
-            if (newKey && !this.activeKeys[direction].includes(newKey)) {
+            if (typeof newKey === 'string' && !this.activeKeys[direction].includes(newKey)) {
                 this.activeKeys[direction].push(newKey.toUpperCase());
             }
         }
@@ -314,14 +314,16 @@ class SpatialNavigation {
      * Removes the added actions
      */
     removeKeyActions() {
-        this.registeredKeys.forEach(key => keyboard.off([key]));
-        this.registeredKeys.clear();
+        if (this.registeredKeys.size !== 0) {
+            this.registeredKeys.forEach(key => keyboard.off([key]));
+            this.registeredKeys.clear();
 
-        directions.forEach((direction) => {
-            actions.remove(`move-focus-${direction}`);
-            gamepad.off([`playstation.d-pad-${direction}`]);
-            if (this.clearCurrentActiveKeys ) this.activeKeys[direction] = [];
-        });
+            directions.forEach((direction) => {
+                actions.remove(`move-focus-${direction}`);
+                gamepad.off([`playstation.d-pad-${direction}`]);
+                if (this.clearCurrentActiveKeys ) this.activeKeys[direction] = [];
+            });
+        }
     }
 
     /**
