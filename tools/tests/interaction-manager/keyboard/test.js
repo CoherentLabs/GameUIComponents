@@ -5,6 +5,10 @@ const singleKey = ['A'];
 const keyCombination = ['B', 'C'];
 
 describe('Keyboard', () => {
+    afterAll(() => {
+        interactionManager.keyboard.off(singleKey);
+    });
+
     it('Should register key action', () => {
         interactionManager.keyboard.on({
             keys: singleKey,
