@@ -56,6 +56,7 @@ module.exports = function (config) {
       'comprehensive-components-test/test.js',
       'carousel/*.js',
       'color-picker/*.js',
+      'toast/*.js',
     ],
     singleRun: true,
     retryLimit: 0,

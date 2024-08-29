@@ -1,5 +1,5 @@
 ---
-date: 2024-6-19
+date: 2024-8-14
 title: Scrollable container
 draft: false
 ---
@@ -182,5 +182,3 @@ For instance, in the demo of the scrollable container, a smaller slider height i
     height: 50%;
 }
 ```
-
-![img](./docs-images/fixed-slider-height.png)
