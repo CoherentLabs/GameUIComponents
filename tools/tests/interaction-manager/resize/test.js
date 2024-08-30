@@ -8,6 +8,7 @@ describe('Resize', () => {
 
     afterEach(() => {
         cleanTestPage('.square');
+        cleanTestPage('.container');
     });
 
     it('Should create resize object', () => {

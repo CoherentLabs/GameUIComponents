@@ -54,7 +54,7 @@ Type:
 type area = string
 ```
 
-The name of the are you want to be navigatable
+The name of the area you want to be navigatable
 
 ##### elements
 
@@ -123,6 +123,23 @@ Switches to another area and focuses on the first element.
 ### clearFocus()
 
 Unfocuses the currently focused element in a navigatable area.
+
+### changeKeys()
+
+```js
+spatialNavigation.changeKeys({ up: 'W', down: 's', left: 'a', right: 'd' }, { clearCurrentActiveKeys: true });
+```
+
+The method accepts an optional options object as a last argument. The available options are: 
+* `clearCurrentActiveKeys` - Boolean. Defaults to `false`. If `true`, it clears all other keys except the provided ones. If `false` оr not specified the provided keys will just be added to the registered keys collection.
+
+### resetKeys()
+
+```js
+spatialNavigation.resetKeys();
+```
+
+Resets the navigation keys to their default settings, restoring the key bindings to the standard navigation keys (arrow_up, arrow_down, arrow_left, arrow_right).
 
 ## Actions
 

@@ -16,7 +16,7 @@ describe('Pan and Zoom', () => {
     });
 
     afterEach(() => {
-        cleanTestPage('.square');
+        cleanTestPage('.container');
     });
 
     it('Should create panzoom object', () => {

@@ -19,6 +19,7 @@ import keyboard from './keyboard';
 import gamepad from './gamepad';
 
 const directions = ['down', 'up', 'left', 'right'];
+const defaultKeysState = { up: ['arrow_up'], down: ['arrow_down'], right: ['arrow_right'], left: ['arrow_left'] };
 /**
  * Spatial Navigation for keyboard and controller
  */
@@ -27,6 +28,8 @@ class SpatialNavigation {
     constructor() {
         this.enabled = false;
         this.navigatableElements = { default: [] };
+        this.registeredKeys = new Set();
+        this.clearCurrentActiveKeys = false;
     }
 
     /**
@@ -41,6 +44,7 @@ class SpatialNavigation {
         this.enabled = true;
 
         this.add(navigatableElements);
+        this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
         this.registerKeyActions();
     }
 
@@ -242,7 +246,7 @@ class SpatialNavigation {
 
     /**
      * Registers actions and adds them to the keyboard and gamepad objects
-     */
+    */
     registerKeyActions() {
         directions.forEach((direction) => {
             const callback = () => {
@@ -250,11 +254,16 @@ class SpatialNavigation {
             };
             actions.register(`move-focus-${direction}`, callback);
 
-            keyboard.on({
-                keys: [`arrow_${direction}`],
-                callback: `move-focus-${direction}`,
-                type: 'press',
-            });
+            const keys = this.activeKeys[direction];
+
+            for (const key of keys) {
+                keyboard.on({
+                    keys: [key],
+                    callback: `move-focus-${direction}`,
+                    type: 'press',
+                });
+                this.registeredKeys.add(key);
+            }
 
             gamepad.on({
                 actions: [`playstation.d-pad-${direction}`],
@@ -264,14 +273,57 @@ class SpatialNavigation {
     }
 
     /**
+     * Resets to the original keys state
+     */
+    resetKeys() {
+        this.removeKeyActions();
+        this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
+        this.registerKeyActions();
+    }
+
+    /**
+     * Adds or override default direction keys with the specified ones
+     * @param {Object} customDirections - { up: 'W', left: 'A', right: 'D', down: 'S' }
+     * @param {Object} options - Optional settings.
+     * @param {Boolean} options.clearCurrentActiveKeys - If true, overrides all keys. Defaults to false.
+     * @returns {void}
+     */
+    changeKeys(customDirections, options = { clearCurrentActiveKeys: false }) {
+        const customKeysDirections = Object.keys(customDirections);
+        if (customKeysDirections.length === 0) return;
+
+        const incorrectDirections = customKeysDirections.filter(direction => !directions.includes(direction));
+        if (incorrectDirections.length > 0) return console.error(`The following directions: [${incorrectDirections.join(', ')}] you have entered are incorrect! `);
+
+        this.clearCurrentActiveKeys = options.clearCurrentActiveKeys;
+
+        this.removeKeyActions();
+
+        for (const direction in this.activeKeys) {
+            const newKey = customDirections[direction];
+
+            if (typeof newKey === 'string' && !this.activeKeys[direction].includes(newKey)) {
+                this.activeKeys[direction].push(newKey.toUpperCase());
+            }
+        }
+
+        this.registerKeyActions();
+    }
+
+    /**
      * Removes the added actions
      */
     removeKeyActions() {
-        directions.forEach((direction) => {
-            actions.remove(`move-focus-${direction}`);
-            keyboard.off([`arrow_${direction}`]);
-            gamepad.off([`playstation.d-pad-${direction}`]);
-        });
+        if (this.registeredKeys.size !== 0) {
+            this.registeredKeys.forEach(key => keyboard.off([key]));
+            this.registeredKeys.clear();
+
+            directions.forEach((direction) => {
+                actions.remove(`move-focus-${direction}`);
+                gamepad.off([`playstation.d-pad-${direction}`]);
+                if (this.clearCurrentActiveKeys ) this.activeKeys[direction] = [];
+            });
+        }
     }
 
     /**

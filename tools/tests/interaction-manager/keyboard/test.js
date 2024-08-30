@@ -1,17 +1,14 @@
-/* globals KEYS, _IM */
+/* globals _IM, simulateKeyDown, simulateKeyUp */
 /* eslint-disable max-lines-per-function */
-const simulateKeyDown = (key, repeat = false) => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: KEYS[key], repeat }));
-};
-
-const simulateKeyUp = (key) => {
-    document.dispatchEvent(new KeyboardEvent('keyup', { keyCode: KEYS[key] }));
-};
 
 const singleKey = ['A'];
 const keyCombination = ['B', 'C'];
 
 describe('Keyboard', () => {
+    afterAll(() => {
+        interactionManager.keyboard.off(singleKey);
+    });
+
     it('Should register key action', () => {
         interactionManager.keyboard.on({
             keys: singleKey,
