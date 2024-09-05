@@ -161,7 +161,7 @@ class GamefaceToast extends BaseComponent {
         const newValue = parseInt(value);
         if (isNaN(newValue)) return console.error(`Property timeout can not be of type - NaN. Allowed types are: ${this.stateSchema['timeout'].type.join(',')}`);
 
-        this.updateState('timeout', parseInt(value));
+        this.updateState('timeout', newValue);
         this.handleTimeOut();
     }
 
