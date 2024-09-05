@@ -2,9 +2,8 @@
  * @param {Object} param
  * @returns {Promise<void>}
  */
-async function loadToast({ gravity, position, timeout, target, closeButton }) {
+async function loadToast({ position, timeout, target, closeButton }) {
     const attributes = [
-        gravity ? `gravity="${gravity}"` : '',
         position ? `position="${position}"` : '',
         timeout ? `timeout="${timeout}"` : '',
         target ? `target="${target}"` : '',
@@ -82,7 +81,7 @@ describe('Toast component', () => {
     });
 
     it('Should place toast in the correct container', async () => {
-        await loadToast({ gravity: 'top', position: 'center' });
+        await loadToast({ position: 'top-center' });
         const toast = document.querySelector('gameface-toast');
         toast.show();
         const correctPosition = toast.parentElement.classList.contains('guic-toast-top', 'guic-toast-center');
@@ -106,7 +105,7 @@ describe('Toast component', () => {
     });
 
     it('Should be hidden by the close button', async () => {
-        await loadToast({ gravity: 'bottom', position: 'right', target: 'target' });
+        await loadToast({ position: 'bottom-right', target: 'target' });
         const toast = document.querySelector('gameface-toast');
         let isStillInDom = true;
 
@@ -152,15 +151,13 @@ describe('Toast component', () => {
     });
 
     it('Should change toast\'s location', async () => {
-        const newPosition = 'right';
-        const newGravity = 'bottom';
-        await loadToast({ position: 'center', gravity: 'top' });
+        const newPosition = 'bottom-right';
+        await loadToast({ position: 'top-center' });
         const toast = document.querySelector('gameface-toast');
 
-        toast.gravity = newGravity;
         toast.position = newPosition;
 
-        const locationHasChanged = toast.gravity === newGravity && toast.position === newPosition;
+        const locationHasChanged = toast.position === newPosition;
         assert.isTrue(locationHasChanged, 'Toast location failed to change.');
     });
 
@@ -202,7 +199,7 @@ if (engine?.isAttached) {
 
         const template = `
         <div data-bind-for="array:{{${templateName}.array}}">
-        <gameface-toast target=".target" position="right" gravity="top" timeout="2000">
+        <gameface-toast target=".target" position="top-right" timeout="2000">
             <div slot="message">Toast</div>
         </gameface-toast>
 
