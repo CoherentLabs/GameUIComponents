@@ -82,8 +82,8 @@ class GamefaceToast extends BaseComponent {
     init(data) {
         this.setupTemplate(data, () => {
             components.renderOnce(this);
-            if (this.hasAttribute('gravity')) this.updateAttributeState('gravity', this.getAttribute('gravity'));
-            if (this.hasAttribute('position')) this.updateAttributeState('position', this.getAttribute('position'));
+            if (this.hasAttribute('gravity')) this.updateState('gravity', this.getAttribute('gravity'));
+            if (this.hasAttribute('position')) this.updateState('position', this.getAttribute('position'));
             if (this.hasAttribute('timeout')) this.updateAttributeState('timeout', parseInt(this.getAttribute('timeout')) || 0);
             if (this.hasAttribute('target')) this.updateAttributeState('target', this.getAttribute('target'));
 
@@ -139,6 +139,9 @@ class GamefaceToast extends BaseComponent {
         switch (name) {
             case 'position':
             case 'gravity':
+                this.updateState(name, value);
+                this.appendToastToContainer(this.gravity, this.position);
+                break;
             case 'timeout':
                 this.updateState(name, value);
                 break;
