@@ -20,7 +20,7 @@ npm i coherent-gameface-toast
 * add the toast component to your html:
 
 ~~~~{.html}
-<gameface-toast gravity="top" position="center" timeout="3000">
+<gameface-toast position="top-center" timeout="3000">
     <div slot="message">Hello!</div>
 </gameface-toast>
 ~~~~
@@ -95,7 +95,7 @@ Specifying the content
 Use the `message` slot to specify the message of the toast.
 
 ~~~~{.html}
-<gameface-toast gravity="top" position="left">
+<gameface-toast position="top-left">
     <div slot="message">Toast on top left</div>
 </gameface-toast>
 ~~~~
@@ -103,7 +103,7 @@ Use the `message` slot to specify the message of the toast.
 Use the `close-btn` slot to include a close button in your toast:
 
 ~~~~{.html}
-<gameface-toast class="styled-toast" gravity="top" position="right" timeout="5000">
+<gameface-toast class="styled-toast" position="top-right" timeout="5000">
   <div slot="message">Hello</div>
   <div slot="close-btn">x</div>
 </gameface-toast>
@@ -118,7 +118,7 @@ Full list of the available attributes can be found [here](#Attributes).
 To use the toast component you must first add the element in your html:
 
 ```{.html}
-<gameface-toast gravity="top" position="right" timeout="5000">
+<gameface-toast position="top-right" timeout="5000">
   <div slot="message">I am a positioned toast!</div>
   <div slot="close-btn">x</div>
 </gameface-toast>
@@ -143,12 +143,11 @@ Both can be present or absent at the same time. It depends only on which one you
 
 ### Attributes
 
-| Attribute | Type      | Default | Accepted values             | Description                                                                                         |
-| --------- | --------- | ------- | ----------------------------| --------------------------------------------------------------------------------------------------- |
-| position  | string    | left    | `left`, `right`, `center`   | Specify the horizontal position of the toast                                                        |
-| gravity   | String    | top     | `top`, `bottom`             | Specify the vertical position of the toast                                                          |
-| timeout   | Number    | N/A     | Any positive integer        | Specify the time after which the `hide` method of the toast will be triggered                       |
-| target    | DOMString | N/A     | Any                         | Specify the element which when clicked on will trigger the `show` method of the toast               |
+| Attribute | Type      | Default  | Accepted values             | Description                                                                                         |
+| --------- | --------- | -------- | ----------------------------| --------------------------------------------------------------------------------------------------- |
+| position  | string    | top-left | `top-left`, `top-right`, `top-center`, `bottom-left`, `bottom-right`, `bottom-center` | Specify the vertical and horizontal position of the toast.|
+| timeout   | Number    | N/A      | Any positive integer        | Specify the time after which the `hide` method of the toast will be triggered                       |
+| target    | DOMString | N/A      | Any                         | Specify the element which when clicked on will trigger the `show` method of the toast               |
 
 ### Properties
 
@@ -156,12 +155,11 @@ Both can be present or absent at the same time. It depends only on which one you
 |----------|---------------|----------------------------------------------------|
 | message  | getter/setter | Gets or sets the HTML content of the message slot. |
 | position | getter/setter | Gets or sets the toast's position. Returns the last set position and allows updating to a new position. |
-| gravity  | getter/setter | Gets or sets the toast's gravity. Returns the last set gravity and allows updating to a new gravity. |
 | target   | getter/setter | The getter returns a reference to the currently set target DOM element. The setter accepts a string selector, which it uses to find and set a new target DOM element in the document. If the selector does not match any elements, an error is logged and the target is not updated. |
 
 ### Methods
 
 | Method | Parameters | Description                                            |
 |--------|------------|--------------------------------------------------------|
-| show   | None       | Initializes and displays the toast. This includes appending the toast to a container based on its `gravity` and `position`, handling timeout logic, initializing the close button, and adding a class to make the toast visible. Does not create containers if they are already created. |
+| show   | None       | Initializes and displays the toast. This includes appending the toast to a container based on its `position`, handling timeout logic, initializing the close button, and adding a class to make the toast visible. Does not create containers if they are already created. If the toast is already visible calling `show()` again wouldn't reshow the toast. To do that call the `hide` method first. |
 | hide   | None       | Hides the toast by removing the visibility class and then removing the toast element from the DOM. |

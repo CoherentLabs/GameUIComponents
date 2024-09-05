@@ -17,7 +17,7 @@ const CLASS_PREFIX = 'guic-toast-';
  */
 class GamefaceToast extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
-    static get observedAttributes() { return ['gravity', 'position', 'target', 'timeout']; }
+    static get observedAttributes() { return ['position', 'target', 'timeout']; }
     static wrapperContainers = [];
     /* eslint-disable require-jsdoc */
     constructor() {
@@ -33,15 +33,13 @@ class GamefaceToast extends BaseComponent {
         this.hideTimeOut = null;
 
         this.stateSchema = {
-            gravity: { type: ['string'] },
             position: { type: ['string'] },
             target: { type: ['string', 'object'] },
             timeout: { type: ['number'] },
         };
 
         this.state = {
-            gravity: 'top',
-            position: 'left',
+            position: 'top-left',
             target: null,
             timeout: 0,
         };
@@ -71,19 +69,22 @@ class GamefaceToast extends BaseComponent {
         this.setAttribute('position', value);
     }
 
-    get gravity() {
-        return this.state.gravity;
+    get timeout() {
+        return this.state.timeout;
     }
 
-    set gravity(value) {
-        this.setAttribute('gravity', value);
+    set timeout(value) {
+        this.setAttribute('timeout', value);
+    }
+
+    get visible() {
+        return this.classList.contains('guic-toast-show');
     }
 
     init(data) {
         this.setupTemplate(data, () => {
             components.renderOnce(this);
-            if (this.hasAttribute('gravity')) this.updateAttributeState('gravity', this.getAttribute('gravity'));
-            if (this.hasAttribute('position')) this.updateAttributeState('position', this.getAttribute('position'));
+            if (this.hasAttribute('position')) this.updatePositionState(this.getAttribute('position'));
             if (this.hasAttribute('timeout')) this.updateAttributeState('timeout', parseInt(this.getAttribute('timeout')) || 0);
             if (this.hasAttribute('target')) this.updateAttributeState('target', this.getAttribute('target'));
 
@@ -127,25 +128,58 @@ class GamefaceToast extends BaseComponent {
     attributeChangedCallback(name, oldValue, newValue) {
         if (!this.isRendered) return;
 
-        this.updateAttributeState(name, newValue);
+        this.updateAttributeState(name, newValue, oldValue);
     }
 
     /**
      * Will update the state properties linked with the checkbox attributes
      * @param {string} name
      * @param {string|boolean|array} value
+     * @param {string|boolean|array} oldValue
      */
-    updateAttributeState(name, value) {
+    updateAttributeState(name, value, oldValue) {
         switch (name) {
             case 'position':
-            case 'gravity':
+                this.updatePositionState(value, oldValue);
+                this.appendToastToContainer();
+                break;
             case 'timeout':
-                this.updateState(name, value);
+                this.updateTimeoutState(value);
                 break;
             case 'target':
                 this.updateTargetState(name, value);
                 break;
         }
+    }
+
+    /**
+     * Will update the toast's timeout state
+     * @param {string} value
+     * @returns {void}
+     */
+    updateTimeoutState(value) {
+        const newValue = parseInt(value);
+        if (isNaN(newValue)) return console.error(`Property timeout can not be of type - NaN. Allowed types are: ${this.stateSchema['timeout'].type.join(',')}`);
+
+        this.updateState('timeout', newValue);
+        this.handleTimeOut();
+    }
+
+    /**
+     * Updates the toast's position state and checks if the position attribute has correct value.
+     * @param {string} newValue - Should be some of top-left, top-right, top-center, bottom-left, bottom-right, bottom-center
+     * @param {string} oldValue
+     * @returns {void}
+     */
+    updatePositionState(newValue, oldValue) {
+        if (newValue === oldValue || !newValue) return;
+
+        const [gravity, position] = newValue.split('-');
+        if (!GRAVITY.includes(gravity) || !POSITIONS.includes(position)) {
+            return console.warn(`${gravity}-${position} is not valid position property. Use the following syntax - "top/bottom-left/right/center"`);
+        }
+
+        this.updateState('position', newValue);
     }
 
     /**
@@ -194,28 +228,27 @@ class GamefaceToast extends BaseComponent {
     }
 
     /**
-     * Appends the toast to one of the containers depending on the gravity and position
-     * @param {string} gravity - top, bottom.
-     * @param {string} position - left, right, center
+     * Appends the toast to one of the containers depending on the  position
+     * @param {string} position - top-left, top-right, top-center, bottom-left, bottom-right, bottom-center
     */
-    appendToastToContainer(gravity, position) {
+    appendToastToContainer() {
+        const [gravity, position] = this.position.split('-');
         const container = document.querySelector(`.guic-toast-container.${CLASS_PREFIX}${gravity}.${CLASS_PREFIX}${position}`);
+        if (!container) return;
 
-        if (container) {
-            container.appendChild(this);
-            return;
-        }
+        container.appendChild(this);
+        this.handleCloseButton();
     }
 
     /**
      * Displays the toast
      */
     show() {
-        if (this.classList.contains('guic-toast-show')) return;
+        if (this.visible) return;
 
-        this.appendToastToContainer(this.state.gravity, this.state.position);
-        this.handleTimeOut();
+        this.appendToastToContainer();
         this.classList.add('guic-toast-show');
+        this.handleTimeOut();
         this.handleCloseButton();
     }
 
@@ -223,6 +256,7 @@ class GamefaceToast extends BaseComponent {
      * Hides the toast
      */
     hide() {
+        clearTimeout(this.hideTimeOut);
         if (this.isRendered) this.classList.add('guic-toast-hide');
     }
 
@@ -230,6 +264,8 @@ class GamefaceToast extends BaseComponent {
      * Setups the timeout of the toast
      */
     handleTimeOut() {
+        if (!this.visible) return;
+
         if (this.hideTimeOut) clearTimeout(this.hideTimeOut);
 
         if (this.state.timeout > 0) {
@@ -253,7 +289,6 @@ class GamefaceToast extends BaseComponent {
      */
     handleAnimationEnd(event) {
         if (event.animationName === 'guic-toast-fade-out') {
-            this.parentElement.removeChild(this);
             this.classList.remove('guic-toast-show', 'guic-toast-hide');
         }
     }

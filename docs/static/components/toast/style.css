@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-.guic-toast-container{
+.guic-toast-container {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -12,33 +12,33 @@
     pointer-events: none;
 }
 
-.guic-toast-top{
+.guic-toast-top {
     top: 15px;
 }
 
-.guic-toast-bottom{
+.guic-toast-bottom {
     bottom: 15px;
 }
 
-.guic-toast-right{
+.guic-toast-right {
     right: 15px;
 }
 
-.guic-toast-left{
+.guic-toast-left {
     left: 15px;
 }
 
-.guic-toast-center{
+.guic-toast-center {
     left: 50%;
     transform: translateX(-50%);
 }
 
-.guic-toast-bottom > *{
+.guic-toast-bottom>* {
     animation: guic-toast-slide-up 1s ease-in-out;
     margin-top: 5px;
 }
 
-.guic-toast-top > *{
+.guic-toast-top>* {
     animation: guic-toast-slide-down 1s ease-in-out;
     margin-bottom: 5px;
 }
@@ -48,6 +48,7 @@
         transform: translateY(100%);
         opacity: 0;
     }
+
     100% {
         transform: translateY(0%);
         opacity: 1;
@@ -59,27 +60,29 @@
         transform: translateY(-100%);
         opacity: 0;
     }
+
     100% {
         transform: translateY(0%);
         opacity: 1;
     }
 }
 
-gameface-toast{
+gameface-toast {
     display: none;
     min-width: 75%;
     max-width: 100%;
     pointer-events: auto;
 }
 
-.guic-toast-show{
+.guic-toast-show {
     display: block;
 }
 
-@keyframes  guic-toast-fade-out {
+@keyframes guic-toast-fade-out {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
@@ -89,17 +92,17 @@ gameface-toast{
     animation: guic-toast-fade-out 0.5s ease forwards;
 }
 
-.guic-toast{
+.guic-toast {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.guic-toast-message{
+.guic-toast-message {
     flex: 1 1 0;
 }
 
-.guic-toast-close-btn{
+.guic-toast-close-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -110,4 +113,3 @@ gameface-toast{
     text-align: center;
     z-index: 2;
 }
-

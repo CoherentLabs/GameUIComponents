@@ -4,9 +4,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
-    <link rel="stylesheet" href="./style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <link
+        rel="stylesheet"
+        href="./coherent-gameface-components-theme.css"
+    >
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
     <title>Document</title>
     <style>
         * {
@@ -92,36 +101,65 @@
         <div slot="message">I am a default toast!</div>
     </gameface-toast>
 
-    <gameface-toast class="styled-toast visible-toast" gravity="bottom" position="left">
+    <gameface-toast
+        class="styled-toast visible-toast"
+        position="bottom-left"
+    >
         <div slot="message">I am a positioned toast!</div>
         <div slot="close-btn">x</div>
     </gameface-toast>
-    <gameface-toast class="styled-toast visible-toast" gravity="bottom" position="left">
+    <gameface-toast
+        class="styled-toast visible-toast"
+        position="bottom-left"
+    >
         <div slot="message">I am a toast with a slightly longer text that is much more meaningful...</div>
         <div slot="close-btn">x</div>
     </gameface-toast>
 
-    <gameface-toast class="styled-toast toast-with-heart visible-toast" gravity="top" position="center" timeout="15000">
+    <gameface-toast
+        class="styled-toast toast-with-heart visible-toast"
+        position="top-center"
+        timeout="15000"
+    >
         <div slot="message">I will disappear after 15 seconds or if you click my heart!</div>
-        <div slot="close-btn" class="heart-toast-close"></div>
+        <div
+            slot="close-btn"
+            class="heart-toast-close"
+        ></div>
     </gameface-toast>
 
-    <gameface-toast class="styled-toast visible-toast" gravity="bottom" position="center" timeout="10000">
+    <gameface-toast
+        class="styled-toast visible-toast"
+        position="bottom-center"
+        timeout="10000"
+    >
         <div slot="message">I will disappear after 10 seconds!</div>
         <div slot="close-btn">x</div>
     </gameface-toast>
 
-    <gameface-toast class="styled-toast visible-toast" gravity="bottom" position="center">
+    <gameface-toast
+        class="styled-toast visible-toast"
+        position="bottom-center"
+    >
         <div slot="message">I am here to stay!</div>
     </gameface-toast>
 
-    <gameface-toast class="styled-toast visible-toast" gravity="top" position="right" timeout="5000"
-        target="#top-right-btn">
+    <gameface-toast
+        class="styled-toast visible-toast"
+        position="top-right"
+        timeout="5000"
+        target="#top-right-btn"
+    >
         <div slot="message">I have a target element</div>
         <div slot="close-btn">x</div>
     </gameface-toast>
 
-    <gameface-toast class="styled-toast hidden-toast" gravity="bottom" position="right" timeout="5000" target="h2">
+    <gameface-toast
+        class="styled-toast hidden-toast"
+        position="bottom-right"
+        timeout="5000"
+        target="h2"
+    >
         <div slot="message">Hidden toast found!</div>
     </gameface-toast>
 
@@ -137,11 +175,7 @@
 
         const changePositionBtn = document.getElementById('change-position-btn');
         changePositionBtn.addEventListener('click', () => {
-            toasts.forEach((toast) => {
-                toast.gravity = getRandomElement(gravity);
-                toast.position = getRandomElement(positions);
-                toast.show();
-            })
+            toasts.forEach((toast) => toast.position = `${getRandomElement(gravity)}-${getRandomElement(positions)}`)
         })
 
         function getRandomElement(arr) {
