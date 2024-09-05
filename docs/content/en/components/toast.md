@@ -1,5 +1,5 @@
 ---
-date: 2024-8-29
+date: 2024-9-05
 title: Toast
 draft: false
 ---
@@ -169,5 +169,5 @@ Both can be present or absent at the same time. It depends only on which one you
 
 | Method | Parameters | Description                                            |
 |--------|------------|--------------------------------------------------------|
-| show   | None       | Initializes and displays the toast. This includes appending the toast to a container based on its `gravity` and `position`, handling timeout logic, initializing the close button, and adding a class to make the toast visible. Does not create containers if they are already created. |
+| show   | None       | Initializes and displays the toast. This includes appending the toast to a container based on its `gravity` and `position`, handling timeout logic, initializing the close button, and adding a class to make the toast visible. Does not create containers if they are already created. If the toast is already visible calling `show()` again wouldn't reshow the toast. To do that call the `hide` method first. |
 | hide   | None       | Hides the toast by removing the visibility class and then removing the toast element from the DOM. |
