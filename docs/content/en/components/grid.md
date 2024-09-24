@@ -27,7 +27,7 @@ First you need to import the grid library:
 Or if you use a css-loader:
 
 ~~~~~{.js}
-import grid from 'coherent-gameface-grid/styles.css';
+import grid from 'coherent-gameface-grid/style.css';
 ~~~~~
 
 The grid is made up of rows and columns. It is like a table. Each cell has a responsive width. The grid can have 12 columns. The width is specified by the class name - guic-col-6 is a column which takes half the width of a row. To create a row add a div with class name guic-row:
