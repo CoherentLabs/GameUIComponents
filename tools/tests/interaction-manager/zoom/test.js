@@ -16,7 +16,6 @@ describe('Pan and Zoom', () => {
     });
 
     afterEach(() => {
-        cleanTestPage('.square');
         cleanTestPage('.container');
     });
 
@@ -80,8 +79,11 @@ describe('Pan and Zoom', () => {
 
         const { left, top } = zoomElement.getBoundingClientRect();
 
-        assert.equal((initialLeft - offset * 0.1).toFixed(0), left.toFixed(0));
-        assert.equal((initialTop - offset * 0.1).toFixed(0), top.toFixed(0));
+        const expectedLeft = initialLeft - offset * 0.1;
+        const expectedTop = initialTop - offset * 0.1;
+
+        assert.approximately(left, expectedLeft, 1);
+        assert.approximately(top, expectedTop, 1);
     });
 
     it('Should not zoom out less than the min zoom', async () => {
