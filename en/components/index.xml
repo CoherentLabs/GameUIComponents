@@ -31,7 +31,7 @@ Installation # npm i coherent-gameface-grid
 Usage # First you need to import the grid library:
 &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;&amp;lt;path_to_grid.css&amp;gt;&amp;quot;&amp;gt;
 Or if you use a css-loader:
-import grid from 'coherent-gameface-grid';
+import grid from 'coherent-gameface-grid/style.css';
 The grid is made up of rows and columns. It is like a table. Each cell has a responsive width.</description></item><item><title>Menu</title><link>https://CoherentLabs.github.io/GameUIComponents/en/components/menu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://CoherentLabs.github.io/GameUIComponents/en/components/menu/</guid><description>The gameface-menu is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 Installation # npm i coherent-gameface-menu Usage with UMD: # &amp;lt;script src=&amp;quot;./node_modules/coherent-gameface-menu/dist/menu.production.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; add the menu component to your html: &amp;lt;gameface-menu&amp;gt;&amp;lt;/gameface-menu&amp;gt; This is all! Load the file in Gameface to see the menu.
 Usage with JavaScript: # If you wish to import the GamefaceMenu using JavaScript you can remove the script tag and import it like this:</description></item><item><title>Modal</title><link>https://CoherentLabs.github.io/GameUIComponents/en/components/modal/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://CoherentLabs.github.io/GameUIComponents/en/components/modal/</guid><description>The modal is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
