@@ -5,7 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./dist/gameface-toast.production.min.js');
+    module.exports = require('./dist/toast.production.min.js');
 } else {
-    module.exports = require('./dist/gameface-toast.development.js');
+    module.exports = require('./dist/toast.development.js');
 }

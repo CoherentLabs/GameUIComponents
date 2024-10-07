@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-toast",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A toast component for Coherent Labs' Gameface.",
   "main": "index.js",
   "repository": {
