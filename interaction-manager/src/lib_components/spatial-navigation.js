@@ -199,13 +199,59 @@ class SpatialNavigation {
     moveFocus(direction) {
         if (!this.enabled) return;
 
-        // debugger
         const focusableGroup = this.getFocusableGroup();
         const { x, y } = document.activeElement.getBoundingClientRect();
 
         if (focusableGroup.length === 0) return;
 
-        let nextFocusableElement = focusableGroup.reduce((acc, el) => {
+        const currentAxisGroup = this.filterGroupByCurrentAxis(direction, focusableGroup, x, y);
+
+        let nextFocusableElement;
+        if (currentAxisGroup.length > 0) {
+            nextFocusableElement = this.findNextElement(direction, currentAxisGroup, x, y);
+
+            if (!nextFocusableElement) {
+                nextFocusableElement = this.getClosestToEdge(direction, currentAxisGroup, { x, y });
+            }
+        } else {
+            nextFocusableElement = this.findNextElement(direction, focusableGroup, x, y);
+
+            if (!nextFocusableElement) {
+                nextFocusableElement = this.getClosestToEdge(direction, focusableGroup, { x, y });
+            }
+        }
+
+        nextFocusableElement.element.focus();
+    }
+
+    /** Filters the focusable group by the relevant axis
+    * @param {string} direction
+    * @param {Array} focusableGroup
+    * @param {number} x
+    * @param {number} y
+    * @returns {Array}
+    */
+    filterGroupByCurrentAxis(direction, focusableGroup, x, y) {
+        return focusableGroup.filter((element) => {
+            if (direction === 'left' || direction === 'right') {
+                // Allow elements that are close to the current Y axis.
+                return Math.abs(element.y - y) < element.height;
+            } else {
+                // Allow elements that are close to the current X axis.
+                return Math.abs(element.x - x) < element.width;
+            }
+        });
+    }
+
+    /** Returns the next element to focus within the group
+    * @param {string} direction
+    * @param {Array} focusableGroup
+    * @param {number} x
+    * @param {number} y
+    * @returns {Object}
+    */
+    findNextElement(direction, focusableGroup, x, y) {
+        return focusableGroup.reduce((acc, el) => {
             const deltaX = el.x - x;
             const deltaY = el.y - y;
             const angle = toDeg(Math.atan2(deltaY, deltaX));
@@ -213,37 +259,13 @@ class SpatialNavigation {
             if (this.getDirectionAngle(direction, angle)) {
                 if (!acc) acc = el;
 
-                const newDistance = this.calculateDistance(direction, deltaX, deltaY);
-                const oldDistance = this.calculateDistance(direction, acc.x - x, acc.y - y);
+                const newDistance = Math.hypot(deltaX, deltaY);
+                const oldDistance = Math.hypot(acc.x - x, acc.y - y);
                 acc = newDistance < oldDistance ? el : acc;
             }
 
             return acc;
         }, null);
-
-        if (!nextFocusableElement) nextFocusableElement = this.getClosestToEdge(direction, focusableGroup, { x, y });
-
-        nextFocusableElement.element.focus();
-    }
-
-    /**
-     * Calculates the new distance by applying a bias for the corresponding direction
-     * @param {string} direction
-     * @param {number} deltaX
-     * @param {number} deltaY
-     * @returns {number}
-     */
-    calculateDistance(direction, deltaX, deltaY) {
-        switch (direction) {
-            case 'down':
-                return Math.hypot(deltaX * 1.5, deltaY); // Bias to prioritize vertical movement (deltaY)
-            case 'up':
-                return Math.hypot(deltaX * 1.5, deltaY);
-            case 'right':
-                return Math.hypot(deltaX, deltaY * 1.5); // Bias to prioritize horizontal movement (deltaX)
-            case 'left':
-                return Math.hypot(deltaX, deltaY * 1.5);
-        }
     }
 
     /**
