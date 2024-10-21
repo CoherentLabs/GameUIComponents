@@ -181,8 +181,8 @@ class SpatialNavigation {
                     oldDistance = Math.hypot(acc.x, acc.y - focusedElement.y);
                     break;
                 case 'left':
-                    newDistance = Math.hypot(window.innerWidth - el.x, el.y - focusedElement.y);
-                    oldDistance = Math.hypot(window.innerWidth - acc.x, acc.y - focusedElement.y);
+                    newDistance = Math.hypot(window.innerWidth - el.x - el.width, el.y - focusedElement.y);
+                    oldDistance = Math.hypot(window.innerWidth - acc.x - acc.width, acc.y - focusedElement.y);
                     break;
             }
             acc = newDistance < oldDistance ? el : acc;
@@ -199,6 +199,7 @@ class SpatialNavigation {
     moveFocus(direction) {
         if (!this.enabled) return;
 
+        // debugger
         const focusableGroup = this.getFocusableGroup();
         const { x, y } = document.activeElement.getBoundingClientRect();
 
@@ -212,8 +213,8 @@ class SpatialNavigation {
             if (this.getDirectionAngle(direction, angle)) {
                 if (!acc) acc = el;
 
-                const newDistance = Math.hypot(deltaX, deltaY);
-                const oldDistance = Math.hypot(acc.y - y, acc.x - x);
+                const newDistance = this.calculateDistance(direction, deltaX, deltaY);
+                const oldDistance = this.calculateDistance(direction, acc.x - x, acc.y - y);
                 acc = newDistance < oldDistance ? el : acc;
             }
 
@@ -223,6 +224,26 @@ class SpatialNavigation {
         if (!nextFocusableElement) nextFocusableElement = this.getClosestToEdge(direction, focusableGroup, { x, y });
 
         nextFocusableElement.element.focus();
+    }
+
+    /**
+     * Calculates the new distance by applying a bias for the corresponding direction
+     * @param {string} direction
+     * @param {number} deltaX
+     * @param {number} deltaY
+     * @returns {number}
+     */
+    calculateDistance(direction, deltaX, deltaY) {
+        switch (direction) {
+            case 'down':
+                return Math.hypot(deltaX * 1.5, deltaY); // Bias to prioritize vertical movement (deltaY)
+            case 'up':
+                return Math.hypot(deltaX * 1.5, deltaY);
+            case 'right':
+                return Math.hypot(deltaX, deltaY * 1.5); // Bias to prioritize horizontal movement (deltaX)
+            case 'left':
+                return Math.hypot(deltaX, deltaY * 1.5);
+        }
     }
 
     /**
