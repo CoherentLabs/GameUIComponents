@@ -21,7 +21,7 @@ class Gamepad {
         this.onGamepadConnected = this.onGamepadConnected.bind(this);
         this.sanitizeAction = this.sanitizeAction.bind(this);
 
-        this.lessSensitive = false;
+        this.pollingInterval = 200;
     }
 
     /**
@@ -119,12 +119,7 @@ class Gamepad {
             this.handleJoysticks(gamepad.axes);
         });
 
-        if (this.lessSensitive) {
-            setTimeout(this.startPolling.bind(this), 100);
-            return;
-        }
-
-        requestAnimationFrame(() => this.startPolling());
+        setTimeout(this.startPolling.bind(this), this.pollingInterval);
     }
 
     /**
