@@ -27,7 +27,7 @@ Initializes the spatial navigation.
 
 #### navigatableElement
 
-The navigatableElement can either be a string with an element selector
+The `navigatableElement` can either be a string with an element selector.
 
 ```{.javascript}
 spatialNavigation.init(['.square']);
@@ -48,12 +48,22 @@ This will create different areas to separate the navigation. If you pass only a 
 
 #### Overlap (optional)
 
-The `init` method takes an optional second argument, `overlap`, which accepts a value between 0.01 and 1. The default value is 0.5 (50%). It specifies the percentage of acceptable overlap between the current element and a potential element for navigation.
+The `init` method takes an optional second argument, `overlap`, which accepts a value between 0.01 and 1. The default value is 0.5 (50%). It specifies the percentage of acceptable overlap between the current element and the next potential element for navigation.
 
 If you want the elements to overlap perfectly (without any offset) in order to navigate between them, set the overlap value to 1 (100%).
 
 ```{.javascript}
 spatialNavigation.init(['.square'], 1);
+```
+
+**If you set a value less than 0 or greater than 1, the default value (0.5) will be used**
+
+{{<figure src="/images/spatial-navigation-offset-example.png">}}
+
+In the following example, when navigating to the right, `square 3` will be skipped because it has a Y-offset of `51%`, and the overlap parameter was not specified when calling the `init` method (defaulting to 0.5, or 50%). By specifying an overlap value of `0.55`, `square 3` will be considered a valid target, and moving right will focus on `square 3`.
+
+```{.javascript}
+spatialNavigation.init(['.square'], 0.55);
 ```
 
 ##### area

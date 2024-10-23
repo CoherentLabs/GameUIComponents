@@ -49,7 +49,7 @@ class SpatialNavigation {
         this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
         this.registerKeyActions();
 
-        if (overlap) {
+        if (overlap && 0 <= overlap && overlap <= 1) {
             this.overlapPercentage = overlap;
         }
     }
@@ -213,16 +213,12 @@ class SpatialNavigation {
 
         const currentAxisGroup = this.filterGroupByCurrentAxis(direction, focusableGroup, { x, y, width, height });
 
-        let nextFocusableElement;
-        if (currentAxisGroup.length > 0) {
-            nextFocusableElement = this.findNextElement(direction, currentAxisGroup, x, y);
+        if (!currentAxisGroup.length) return;
 
-            if (!nextFocusableElement) {
-                nextFocusableElement = this.getClosestToEdge(direction, currentAxisGroup, { x, y });
-            }
+        const nextFocusableElement = this.findNextElement(direction, currentAxisGroup, x, y);
+        if (nextFocusableElement) return nextFocusableElement.element.focus();
 
-            nextFocusableElement.element.focus();
-        }
+        this.getClosestToEdge(direction, currentAxisGroup, { x, y }).element.focus();
     }
 
     /** Filters the focusable group by the relevant axis by chacking for same axis overlap
@@ -233,26 +229,42 @@ class SpatialNavigation {
     */
     filterGroupByCurrentAxis(direction, focusableGroup, currentElement) {
         return focusableGroup.filter((element) => {
-            if (direction === 'left' || direction === 'right') {
-                const lowerBoundary = Math.min(currentElement.y + currentElement.height, element.y + element.height);
-                const topBoundary = Math.max(currentElement.y, element.y);
+            if (direction === 'left' || direction === 'right') return this.isOverlappingX(currentElement, element);
 
-                const verticalOverlap = Math.max(0, (lowerBoundary - topBoundary));
-                const minHeight = Math.min(currentElement.height, element.height);
-                const overlapPercentage = verticalOverlap / minHeight;
-
-                return overlapPercentage >= this.overlapPercentage;
-            } else {
-                const rightBoundary = Math.min(currentElement.x + currentElement.width, element.x + element.width);
-                const leftBoundary = Math.max(currentElement.x, element.x);
-
-                const horizontalOverlap = Math.max(0, rightBoundary - leftBoundary);
-                const minWidth = Math.min(currentElement.width, element.width);
-                const overlapPercentage = horizontalOverlap / minWidth;
-
-                return overlapPercentage >= this.overlapPercentage;
-            }
+            return this.isOverlappingY(currentElement, element);
         });
+    }
+
+    /** Compares the Y coordinates of two elements and checks for overlap by the specified overlap value
+    * @param {Object} currentElement
+    * @param {Object} nextElement
+    * @returns {boolean}
+    */
+    isOverlappingX(currentElement, nextElement) {
+        const lowerBoundary = Math.min(currentElement.y + currentElement.height, nextElement.y + nextElement.height);
+        const topBoundary = Math.max(currentElement.y, nextElement.y);
+
+        const verticalOverlap = Math.max(0, (lowerBoundary - topBoundary));
+        const minHeight = Math.min(currentElement.height, nextElement.height);
+        const overlapPercentage = verticalOverlap / minHeight;
+
+        return overlapPercentage >= this.overlapPercentage;
+    }
+
+    /** Compares the X coordinates of two elements and checks for overlap by the specified overlap value
+    * @param {Object} currentElement
+    * @param {Object} nextElement
+    * @returns {boolean}
+    */
+    isOverlappingY(currentElement, nextElement) {
+        const rightBoundary = Math.min(currentElement.x + currentElement.width, nextElement.x + nextElement.width);
+        const leftBoundary = Math.max(currentElement.x, nextElement.x);
+
+        const horizontalOverlap = Math.max(0, rightBoundary - leftBoundary);
+        const minWidth = Math.min(currentElement.width, nextElement.width);
+        const overlapPercentage = horizontalOverlap / minWidth;
+
+        return overlapPercentage >= this.overlapPercentage;
     }
 
     /** Returns the next element to focus within the group
@@ -315,7 +327,7 @@ class SpatialNavigation {
                 keyboard.on({
                     keys: [key],
                     callback: `move-focus-${direction}`,
-                    type: 'press',
+                    type: ['press', 'hold'],
                 });
                 this.registeredKeys.add(key);
             }
