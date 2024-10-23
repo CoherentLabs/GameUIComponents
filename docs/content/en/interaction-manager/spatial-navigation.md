@@ -27,7 +27,7 @@ Initializes the spatial navigation.
 
 #### navigatableElement
 
-The navigatableElement can either be a string with a element selector
+The navigatableElement can either be a string with an element selector
 
 ```{.javascript}
 spatialNavigation.init(['.square']);
@@ -45,6 +45,16 @@ spatialNavigation.init([
 This will create different areas to separate the navigation. If you pass only a selector, it will be saved to the default area.
 
 <object data="{{<staticUrl "interaction-manager/SpatialNavigation/grid-elemens-areas.html">}}" width="1050" height="700"></object>
+
+#### Overlap (optional)
+
+The `init` method takes an optional second argument, `overlap`, which accepts a value between 0.01 and 1. The default value is 0.5 (50%). It specifies the percentage of acceptable overlap between the current element and a potential element for navigation.
+
+If you want the elements to overlap perfectly (without any offset) in order to navigate between them, set the overlap value to 1 (100%).
+
+```{.javascript}
+spatialNavigation.init(['.square'], 1);
+```
 
 ##### area
 

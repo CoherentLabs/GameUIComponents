@@ -64,6 +64,7 @@ class SpatialNavigation {
 
         this.navigatableElements = { default: [] };
         this.removeKeyActions();
+        this.overlapPercentage = 0.5;
     }
     /**
      * Add new elements to area or new area
@@ -240,7 +241,7 @@ class SpatialNavigation {
                 const minHeight = Math.min(currentElement.height, element.height);
                 const overlapPercentage = verticalOverlap / minHeight;
 
-                return overlapPercentage > this.overlapPercentage;
+                return overlapPercentage >= this.overlapPercentage;
             } else {
                 const rightBoundary = Math.min(currentElement.x + currentElement.width, element.x + element.width);
                 const leftBoundary = Math.max(currentElement.x, element.x);
@@ -249,7 +250,7 @@ class SpatialNavigation {
                 const minWidth = Math.min(currentElement.width, element.width);
                 const overlapPercentage = horizontalOverlap / minWidth;
 
-                return overlapPercentage > this.overlapPercentage;
+                return overlapPercentage >= this.overlapPercentage;
             }
         });
     }
