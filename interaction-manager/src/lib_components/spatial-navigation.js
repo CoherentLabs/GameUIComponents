@@ -30,6 +30,7 @@ class SpatialNavigation {
         this.navigatableElements = { default: [] };
         this.registeredKeys = new Set();
         this.clearCurrentActiveKeys = false;
+        this.overlapPercentage = 0.5;
     }
 
     /**
@@ -37,15 +38,20 @@ class SpatialNavigation {
      * @param {string[]|Object[]} navigatableElements
      * @param {string} navigatableElements[].area
      * @param {string[]} navigatableElements[].elements
+     * @param {number} overlap
      * @returns {void}
      */
-    init(navigatableElements = []) {
+    init(navigatableElements = [], overlap) {
         if (this.enabled) return;
         this.enabled = true;
 
         this.add(navigatableElements);
         this.activeKeys = JSON.parse(JSON.stringify(defaultKeysState));
         this.registerKeyActions();
+
+        if (overlap) {
+            this.overlapPercentage = overlap;
+        }
     }
 
     /**
@@ -200,11 +206,11 @@ class SpatialNavigation {
         if (!this.enabled) return;
 
         const focusableGroup = this.getFocusableGroup();
-        const { x, y } = document.activeElement.getBoundingClientRect();
+        const { x, y, width, height } = document.activeElement.getBoundingClientRect();
 
         if (focusableGroup.length === 0) return;
 
-        const currentAxisGroup = this.filterGroupByCurrentAxis(direction, focusableGroup, x, y);
+        const currentAxisGroup = this.filterGroupByCurrentAxis(direction, focusableGroup, { x, y, width, height });
 
         let nextFocusableElement;
         if (currentAxisGroup.length > 0) {
@@ -213,32 +219,37 @@ class SpatialNavigation {
             if (!nextFocusableElement) {
                 nextFocusableElement = this.getClosestToEdge(direction, currentAxisGroup, { x, y });
             }
-        } else {
-            nextFocusableElement = this.findNextElement(direction, focusableGroup, x, y);
 
-            if (!nextFocusableElement) {
-                nextFocusableElement = this.getClosestToEdge(direction, focusableGroup, { x, y });
-            }
+            nextFocusableElement.element.focus();
         }
-
-        nextFocusableElement.element.focus();
     }
 
-    /** Filters the focusable group by the relevant axis
+    /** Filters the focusable group by the relevant axis by chacking for same axis overlap
     * @param {string} direction
     * @param {Array} focusableGroup
-    * @param {number} x
-    * @param {number} y
+    * @param {Object} currentElement
     * @returns {Array}
     */
-    filterGroupByCurrentAxis(direction, focusableGroup, x, y) {
+    filterGroupByCurrentAxis(direction, focusableGroup, currentElement) {
         return focusableGroup.filter((element) => {
             if (direction === 'left' || direction === 'right') {
-                // Allow elements that are close to the current Y axis.
-                return Math.abs(element.y - y) < element.height;
+                const lowerBoundary = Math.min(currentElement.y + currentElement.height, element.y + element.height);
+                const topBoundary = Math.max(currentElement.y, element.y);
+
+                const verticalOverlap = Math.max(0, (lowerBoundary - topBoundary));
+                const minHeight = Math.min(currentElement.height, element.height);
+                const overlapPercentage = verticalOverlap / minHeight;
+
+                return overlapPercentage > this.overlapPercentage;
             } else {
-                // Allow elements that are close to the current X axis.
-                return Math.abs(element.x - x) < element.width;
+                const rightBoundary = Math.min(currentElement.x + currentElement.width, element.x + element.width);
+                const leftBoundary = Math.max(currentElement.x, element.x);
+
+                const horizontalOverlap = Math.max(0, rightBoundary - leftBoundary);
+                const minWidth = Math.min(currentElement.width, element.width);
+                const overlapPercentage = horizontalOverlap / minWidth;
+
+                return overlapPercentage > this.overlapPercentage;
             }
         });
     }
