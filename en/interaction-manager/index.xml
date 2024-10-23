@@ -23,7 +23,7 @@ gamepad.enabled = true; to disable the gamepad, just change the enabled property
 Basic implementation # spatialNavigation.init(['.square']); Click on an element and move the focus with your keyboard arrow keys:
 If you add a disabled property to a navigatable element it will skip it when moving the focus
 API # init([navigatableElement]) # Initializes the spatial navigation.
-navigatableElement # The navigatableElement can either be a string with a element selector
+navigatableElement # The navigatableElement can either be a string with an element selector.
 spatialNavigation.init(['.square']); or a navigatableArea object</description></item><item><title>Draggable</title><link>https://CoherentLabs.github.io/GameUIComponents/en/interaction-manager/draggable/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://CoherentLabs.github.io/GameUIComponents/en/interaction-manager/draggable/</guid><description>Allows you to drag around elements on the screen.
 Usage # new draggable(draggableOptions); Basic implementation # const square = new draggable({ element: '.square' });
 dragableOptions # element # Type:
