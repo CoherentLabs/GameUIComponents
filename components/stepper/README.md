@@ -145,3 +145,18 @@ document.addEventListener('keydown', (e) => {
     }
 });
 ```
+
+### Accessing and modifying the stepper value
+
+You can easily get the current value of the stepper by accessing the `value` property like:
+
+```javascript
+const stepperValue = document.querySelector('gameface-stepper').value;
+```
+
+And if you ever need to manually set the current value of the stepper, you can do it like so:
+```javascript
+document.querySelector('gameface-stepper').value = "Impossible";
+//The new value must always be a member of the items array 
+// If "Impossible" is not part of the array, the value will default to the first item.
+``` 

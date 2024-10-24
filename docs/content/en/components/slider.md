@@ -1,5 +1,5 @@
 ---
-date: 2024-2-08
+date: 2024-10-24
 title: Slider
 draft: false
 ---
@@ -89,4 +89,15 @@ You can also update the current handle position of the slider using the `scrollT
 
 ```javascript
 slider.scrollTo(50); // Will set the handle to position that is 50% of the available scroll bar area.
+```
+
+## Events
+
+The `scrollTo` method dispatches a custom `slider-scroll` event, which can be listened to if something needs to be done on scroll
+
+```javascript
+document.querySelector('gameface-slider').addEventListener('slider-scroll', (event) => {
+    const newHandlePosition = event.detail.handlePosition; // The new handle position
+    //Do something here
+})
 ```

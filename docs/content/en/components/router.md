@@ -1,5 +1,5 @@
 ---
-date: 2024-1-10
+date: 2024-10-24
 title: Router
 draft: false
 ---
@@ -120,7 +120,7 @@ You can apply the `activeClass` to multiple `<gameface-route>` elements by addin
 </div>
 ```
 
-If you have both `activeClass` on the wrapper an on some individual elements, those routes that don't have own `activeClass` will inherit it from the parent element and those that have will use their own:
+If you have both `activeClass` on the wrapper and on some individual elements, those routes that don't have own `activeClass` will inherit it from the parent element and those that have will use their own:
 
 ```
 <div activeClass="green">
@@ -288,8 +288,8 @@ const config = {
 
 ## Intercepting Navigation
 
-If you would like to prevent the navigation at some point, you can pass a onBeforeNavigation function
-that will be executed as the name suggests - before navigation. The onBeforeNavigation receives a callback
+If you would like to prevent the navigation at some point, you can pass a `onBeforeNavigation` function
+that will be executed as the name suggests - before navigation. The `onBeforeNavigation` receives a callback
 as a first parameter. This is the navigation callback that was intercepted. To continue the navigation you
 must call the callback. The second parameter are the callback params:
 
@@ -305,7 +305,7 @@ And pass this callback to the router:
 const router = new Router({}, myHistory, preventNavigation);
 ~~~~
 
-**Just like the history, only the main router can receive a preventNavigation callback.**
+**Just like the history, only the main router can receive a `preventNavigation` callback.**
 
 
 ## Manually updating the History
