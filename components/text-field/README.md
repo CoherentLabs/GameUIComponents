@@ -135,7 +135,7 @@ All the available properties that can be changed runtime are:
 
 # Example
 
-You can check the `demo.html` where can be found a lot of examples with the `gameface-text-field`. There you can find:
+"You can check the `demo.html` file, which contains many examples of how to use the `gameface-text-field` component. There you will find:
 
 * How to use all the available `gameface-text-field` attributes.
 * How to customize the default `gameface-text-field` elements.
