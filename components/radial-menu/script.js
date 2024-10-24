@@ -46,6 +46,11 @@ class RadialMenu extends BaseComponent {
         return this._items;
     }
 
+    // eslint-disable-next-line require-jsdoc
+    get selectedItem() {
+        return this._items[this.currentSegmentId];
+    }
+
     /**
      * Initialize the custom component.
      * Set template, attach event listeners, setup initial state etc.
