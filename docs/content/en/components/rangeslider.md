@@ -1,5 +1,5 @@
 ---
-date: 2024-2-01
+date: 2024-10-24
 title: Rangeslider
 draft: false
 ---
@@ -56,6 +56,18 @@ To use simply add
 ~~~~
 
 to your html file.
+
+### Listening for slider update change
+
+To listen for changes in the rangeslider you can attach an event listener to the `sliderUpdate` event
+
+```javascript
+const volumeControl = document.querySelector('.example-volume-control');
+
+volumeControl.addEventListener('sliderUpdate', ({ detail }) => { // detail is the value returned by the rangeslider
+    // Logic here
+})
+```
 
 ## Rangeslider attributes
 
