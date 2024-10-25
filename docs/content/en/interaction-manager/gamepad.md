@@ -15,6 +15,15 @@ gamepad.enabled = true;
 
 to disable the gamepad, just change the `enabled` property to `false`.
 
+## Changing the polling interval
+
+In order to get the correct information from the Gamepad API, we need to poll the data at an interval. By default this interval is 100ms, but you can change it by doing
+
+```{.javascript}
+gamepad.pollingInterval = 200;
+```
+Which will change the interval to 200ms. 
+
 ## .on([gamepadAction])
 
 The `.on` call allows you to set up listeners for your gamepad actions.
@@ -106,6 +115,22 @@ The available aliases are
 ```
 
 {{< alert icon="❗" text="Currently it's not possible to combine a joystick action with another joystick or button action" />}}
+
+#### type
+
+Type
+
+```{.javascript}
+type type = ('press' | 'hold')
+```
+
+The type of action to execute. 
+
+Choosing `press` will trigger the action once if you press and then release the button. Using `hold` on the other hand will trigger the action constantly until you release the button.
+
+The default value for type is `hold`.
+
+{{< alert icon="❗" text="Currently it's not possible to set a type 'press' on a joystick action" />}}
 
 #### callback
 
