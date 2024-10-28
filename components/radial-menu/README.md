@@ -149,7 +149,14 @@ the attached functions are decoupled from the component itself.
 
 #### Getting the selected element
 
-To retrieve the currently selected item whenever an item is selected, you need to listen for the custom event that is emitted when a selection is made. You can do this by adding an event listener for the event specified in the `data-select-event-name attribute`.
+To retrieve the currently selected item whenever an item is selected, you need to listen for the custom event that is emitted when a selection is made. You can do this by adding an event listener for the event specified in the `data-select-event-name` attribute.
+
+```html
+<gameface-radial-menu
+	data-select-event-name="itemSelected"
+	data-open-key-code="SHIFT">
+</gameface-radial-menu> 
+```
 
 ```javascript
 radialMenu.addEventListener('itemSelected', (event) => {
