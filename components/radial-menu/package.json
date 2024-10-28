@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-radial-menu",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "repository": {

@@ -119,7 +119,7 @@ Use the `addItem` method to add a new item:
 const carouselItem = document.createElement('div');
 carouselItem.textContent = 'Hello, there!';
 
-document.querySelector('gameface-carousel').addItem(cItem);
+document.querySelector('gameface-carousel').addItem(carouselItem);
 ~~~~
 
 # Removing items from the carousel
@@ -206,4 +206,4 @@ And then we need to re-render the controls:
 document.querySelector('gameface-carousel').rerenderControls();
 ~~~~
 
-The reason that we do that is because, the carousel will intialize before the data-binding and the control won't be rendered properly. The same principle applies every time we change the number of elements in the model, since the carousel controls won't be changed automatically.
+The reason we do that is because, the carousel will intialize before the data-binding and the control won't be rendered properly. The same principle applies every time we change the number of elements in the model, since the carousel controls won't be changed automatically.

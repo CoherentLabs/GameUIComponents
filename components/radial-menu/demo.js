@@ -27,8 +27,8 @@ setTimeout(() => {
 
     radialMenuOne.addEventListener('radOneItemSelected', () => {
         console.log(
-            ('Item <' + radialMenuOne.items[radialMenuOne.currentSegmentId].name + '>' +
-                ' with id: ' + radialMenuOne.items[radialMenuOne.currentSegmentId].id +
+            ('Item <' + radialMenuOne.selectedItem.name + '>' +
+                ' with id: ' + radialMenuOne.selectedItem.id +
                 ' in segment #' + radialMenuOne.currentSegmentId) + ' selected');
     });
 }, 0);

@@ -97,7 +97,7 @@ You can configure the `<radio-button>`'s initial state declaratively by setting 
 
 ### Updating the Attributes
 
-You can update tge attributes using JavaScript or the [DOM APIs](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute).
+You can update the attributes using JavaScript or the [DOM APIs](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute).
 
 #### With JavaScript:
 
@@ -144,7 +144,7 @@ On top of using the `radioButton.checked` and `radioButton.checked` you can
 get one of the `<gameface-radio-group>` Elements and call `radioGroup.allButtons`
 which will return an Array of all `<radio-button>` Elements.
 
-When a radio-button as a `checked` attribute, this will be the initially checked
+When a radio-button has a `checked` attribute, this will be the initially checked
 button.
 
 Mouse focusing works as well as keyboard navigation and focusing using the
