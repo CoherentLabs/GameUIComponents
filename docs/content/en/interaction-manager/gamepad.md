@@ -17,12 +17,12 @@ to disable the gamepad, just change the `enabled` property to `false`.
 
 ## Changing the polling interval
 
-In order to get the correct information from the Gamepad API, we need to poll the data at an interval. By default this interval is 100ms, but you can change it by doing
+In order to get the correct information from the Gamepad API, we need to poll the data at an interval. By default this interval is 200ms, but you can change it by doing
 
 ```{.javascript}
-gamepad.pollingInterval = 200;
+gamepad.pollingInterval = 400;
 ```
-Which will change the interval to 200ms. 
+Which will change the interval to 400ms. 
 
 ## .on([gamepadAction])
 
@@ -178,19 +178,3 @@ gamepad.off(['left.joystick']);
 You will need to provide the exact actions you have registered in order to remove them.
 
 For example if you have registered an action using a `playstation` alias, you will also need to remove it using the same alias.
-
-## lessSensitive
-
-Type:
-
-```{.javascript}
-type lessSensitive = boolean
-```
-
-`default: false`
-
-If you want to make the joystick less sensitive to movement you can enable the `lessSensitive` option
-
-```{.javascript}
-gamepad.lessSensitive = true;
-```
