@@ -42,10 +42,23 @@ class IM {
     /**
      *
      * @param {Array} actions Array of actions
+     * @param {string} type Type of action
      * @returns {Object} Action from the _IM global object
      */
-    getGamepadAction(actions) {
-        return _IM.gamepadFunctions.find(gpFunc => gpFunc.actions.every(action => actions.includes(action)));
+    getGamepadAction({ actions, type }) {
+        return _IM.gamepadFunctions.find((gpFunc) => {
+            return (gpFunc.actions.every(action => actions.includes(action)) && gpFunc.type === type);
+        });
+    }
+
+    /**
+     *
+     * @param {Array} actions Array of actions
+     * @param {string} type Type of action
+     * @returns {Object} Action from the _IM global object
+     */
+    getGamepadActions(actions) {
+        return _IM.gamepadFunctions.filter(gpFunc => gpFunc.actions.every(action => actions.includes(action)));
     }
 
     /**

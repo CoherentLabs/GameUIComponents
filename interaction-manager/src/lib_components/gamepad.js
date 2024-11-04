@@ -8,6 +8,8 @@ import IM from '../utils/global-object';
 import Actions from './actions';
 
 const AXIS_THRESHOLD = 0.9;
+const ACTION_TYPES = ['press', 'hold'];
+
 /**
  * Gamepad class that handles all gamepad interactions
  */
@@ -21,7 +23,9 @@ class Gamepad {
         this.onGamepadConnected = this.onGamepadConnected.bind(this);
         this.sanitizeAction = this.sanitizeAction.bind(this);
 
-        this.lessSensitive = false;
+        this.pollingInterval = 200;
+
+        this._pressedAction = null;
     }
 
     /**
@@ -65,6 +69,7 @@ class Gamepad {
      *
      * @param {Object} options
      * @param {string[] | number[]} options.actions - Action to trigger the callback. Can be name of button or joystick
+     * @param {'press' | 'hold'} options.type - The type of action to trigger the callback. The available options are hold and press.
      * @param {function} options.callback - Callback to trigger on the set action
      * @param {number} options.gamepadNumber - The number of the gamepad that you want to trigger the callback on. Use -1 for all gamepads
      * @returns {void}
@@ -74,11 +79,17 @@ class Gamepad {
 
         const isAxisAlias = this.mappings.axisAliases.some(alias => options.actions.includes(alias));
 
+        if (!options.type || !ACTION_TYPES.includes(options.type)) options.type = 'hold';
+
+        if (options.type === 'press' && isAxisAlias) {
+            return console.error(`You can't use an axis action with a 'press' type!`);
+        }
+
         if (options.actions.length > 1 && isAxisAlias) {
             return console.error(`You can't use an axis action in a combination with a button action`);
         }
 
-        if (IM.getGamepadAction(options.actions)) {
+        if (IM.getGamepadAction(options)) {
             return console.error(
                 'You have already registered a callback for this action. If you want to overwrite it, remove it first with .off([actions])'
             );
@@ -119,12 +130,7 @@ class Gamepad {
             this.handleJoysticks(gamepad.axes);
         });
 
-        if (this.lessSensitive) {
-            setTimeout(this.startPolling.bind(this), 100);
-            return;
-        }
-
-        requestAnimationFrame(() => this.startPolling());
+        setTimeout(this.startPolling.bind(this), this.pollingInterval);
     }
 
     /**
@@ -144,10 +150,24 @@ class Gamepad {
             { buttonIndexes: [], buttons: [] }
         );
 
-        const gamepadAction = IM.getGamepadAction(pressedButtons.buttonIndexes);
-        if (!gamepadAction) return;
+        const gamepadActions = IM.getGamepadActions(pressedButtons.buttonIndexes);
+        if (!gamepadActions.length === 0) return;
 
-        this.executeCallback(gamepadAction, pressedButtons.buttons);
+        if (this._pressedAction) {
+            if (!gamepadActions.includes(this._pressedAction)) {
+                this.executeCallback(this._pressedAction, this._pressedAction.actions);
+            }
+            this._pressedAction = null;
+        }
+
+        gamepadActions.forEach((gamepadAction) => {
+            if (gamepadAction.type === 'press') {
+                this._pressedAction = gamepadAction;
+                return;
+            }
+
+            this.executeCallback(gamepadAction, pressedButtons.buttons);
+        });
     }
 
     /* eslint-disable max-lines-per-function */
