@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-/* global itemsModel */
+/* global itemsModel, itemsModel2 */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -137,6 +137,15 @@ describe('Radial Menu Tests', () => {
 
             return createAsyncSpec(() => {
                 assert(selectedState === true, 'selectedState is not true.');
+            });
+        });
+
+        it('Should successfully replace items and remove old ones from DOM', () => {
+            const radialMenu = document.querySelector('gameface-radial-menu');
+            radialMenu.items = itemsModel2.items;
+
+            return createAsyncSpec(() => {
+                assert(document.querySelectorAll('.guic-radial-menu-item').length === 3, 'The length of .radial-menu-item elements is not 3.');
             });
         });
     });
