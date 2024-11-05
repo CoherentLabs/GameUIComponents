@@ -112,7 +112,7 @@ class RadialMenu extends BaseComponent {
         this.segmentDegrees = 360 / this.itemsCount;
 
         const itemsSelectorElement = this.querySelector('.guic-radial-menu-selector');
-        itemsElement.innerHTML = '';
+        itemsElement.textContent = '';
         itemsElement.appendChild(itemsSelectorElement);
 
         for (let i = 0; i < this.itemsCount; i++) {

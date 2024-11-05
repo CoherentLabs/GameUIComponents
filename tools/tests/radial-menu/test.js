@@ -142,10 +142,11 @@ describe('Radial Menu Tests', () => {
 
         it('Should successfully replace items and remove old ones from DOM', () => {
             const radialMenu = document.querySelector('gameface-radial-menu');
+            const newItemsLength = itemsModel2.items.length;
             radialMenu.items = itemsModel2.items;
 
             return createAsyncSpec(() => {
-                assert(document.querySelectorAll('.guic-radial-menu-item').length === 3, 'The length of .radial-menu-item elements is not 3.');
+                assert(document.querySelectorAll('.guic-radial-menu-item').length === newItemsLength, `The length of .radial-menu-item elements is not ${newItemsLength}.`);
             });
         });
     });
