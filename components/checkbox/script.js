@@ -78,7 +78,7 @@ class Checkbox extends CustomElementValidator {
      */
     updateCheckedState(value) {
         this.updateState('checked', value);
-        this.querySelector('[data-name="check-mark"]').style.display = value ? 'block' : 'none';
+        this.shadowRoot.querySelector('[name="checkbox-mark"]').style.display = value ? 'block' : 'none';
     }
 
     // eslint-disable-next-line require-jsdoc

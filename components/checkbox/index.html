@@ -12,28 +12,24 @@
 
 <body class="guic-demo">
     <gameface-checkbox class="checkbox-component">
-        <component-slot data-name="checkbox-background">
-            <div class="guic-checkbox-background"></div>
-        </component-slot>
-        <component-slot data-name="checkbox-label">
-            <span class="guic-checkbox-label">Enable Music</span>
-        </component-slot>
+    </gameface-checkbox>
+    <gameface-checkbox class="checkbox-component">
+        <div slot="checkbox-background" class="guic-checkbox-background"></div>
+        <span slot="checkbox-label" class="guic-checkbox-label">Enable Music</span>
+    </gameface-checkbox>
+    <gameface-checkbox class="checkbox-component" checked>
+        <div slot="checkbox-background" class="guic-checkbox-background"></div>
+        <div slot="checkbox-mark" class="guic-checkbox-mark"></div>
+        <span slot="checkbox-label" class="guic-checkbox-label">Enable Music 1</span>
     </gameface-checkbox>
     <gameface-checkbox class="checkbox-component" checked disabled>
-        <component-slot data-name="checkbox-background">
-            <div class="guic-checkbox-background"></div>
-        </component-slot>
-        <component-slot data-name="checkbox-label">
-            <span class="guic-checkbox-label">Enable Music 1</span>
-        </component-slot>
+        <div slot="checkbox-background" class="guic-checkbox-background"></div>
+        <div slot="checkbox-mark" class="guic-checkbox-mark"></div>
+        <span slot="checkbox-label" class="guic-checkbox-label">Enable Music 1</span>
     </gameface-checkbox>
     <gameface-checkbox class="checkbox-component" name="test" value="1" disabled>
-        <component-slot data-name="checkbox-background">
-            <div class="guic-checkbox-background"></div>
-        </component-slot>
-        <component-slot data-name="checkbox-label">
-            <span class="guic-checkbox-label">Enable Music 2</span>
-        </component-slot>
+        <span slot="checkbox-label" class="guic-checkbox-label">Enable Music 2</span>
+        <div slot="checkbox-mark" class="guic-checkbox-mark"></div>
     </gameface-checkbox>
 </body>
 
