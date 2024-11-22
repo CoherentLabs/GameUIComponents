@@ -38,6 +38,7 @@ class Stepper extends BaseComponent {
     }
 
     set value(value) {
+        this.dispatchEvent(new CustomEvent('stepperupdate', { detail: value }));
         this.setAttribute('value', value);
     }
 
