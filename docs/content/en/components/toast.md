@@ -1,5 +1,5 @@
 ---
-date: 2024-9-05
+date: 2025-1-07
 title: Toast
 draft: false
 ---
@@ -94,6 +94,22 @@ There are 2 default animations set:
       to { opacity: 0; }
   }
   ```
+
+#### Common pitfall - Toast not disappearing
+
+When overriding the animations with your custom CSS, beware of style specificity. If you put a new class with a new `animation-name` property, when the toast triggers its `hide()` method, it will apply the class `guic-toast-hide`, and it's possible that your custom styles' specificity will be higher, and the toast won't disappear. To avoid such behavior, it's best to directly specify the `guic-toast-hide` class even if you won't change its behavior.
+
+```css
+.custom-new-animation {
+  animation-name: slide-in-retrigger;
+  animation-duration: 0.5s;
+}
+
+/* Explicitly typed to avoid being overridden */
+.guic-toast-hide {
+  animation-name: guic-toast-fade-out;
+}
+```
 
 Specifying the content
 =========================
