@@ -43,7 +43,16 @@ you wish to change and include them after the default styles.</p><p><strong>You 
     from { opacity: 1; }
     to { opacity: 0; }
 }
-</code></pre></li></ul><h1 id=specifying-the-content>Specifying the content <a href=#specifying-the-content class=anchor aria-hidden=true>#</a></h1><p>Use the <code>message</code> slot to specify the message of the toast.</p><pre><code class=language-{.html}>&lt;gameface-toast position=&quot;top-left&quot;&gt;
+</code></pre></li></ul><h4 id=common-pitfall---toast-not-disappearing>Common pitfall - Toast not disappearing <a href=#common-pitfall---toast-not-disappearing class=anchor aria-hidden=true>#</a></h4><p>When overriding the animations with your custom CSS, beware of style specificity. If you put a new class with a new <code>animation-name</code> property, when the toast triggers its <code>hide()</code> method, it will apply the class <code>guic-toast-hide</code>, and it&rsquo;s possible that your custom styles' specificity will be higher, and the toast won&rsquo;t disappear. To avoid such behavior, it&rsquo;s best to directly specify the <code>guic-toast-hide</code> class even if you won&rsquo;t change its behavior.</p><pre><code class=language-css>.custom-new-animation {
+  animation-name: slide-in-retrigger;
+  animation-duration: 0.5s;
+}
+
+/* Explicitly typed to avoid being overridden */
+.guic-toast-hide {
+  animation-name: guic-toast-fade-out;
+}
+</code></pre><h1 id=specifying-the-content>Specifying the content <a href=#specifying-the-content class=anchor aria-hidden=true>#</a></h1><p>Use the <code>message</code> slot to specify the message of the toast.</p><pre><code class=language-{.html}>&lt;gameface-toast position=&quot;top-left&quot;&gt;
     &lt;div slot=&quot;message&quot;&gt;Toast on top left&lt;/div&gt;
 &lt;/gameface-toast&gt;
 </code></pre><p>Use the <code>close-btn</code> slot to include a close button in your toast:</p><pre><code class=language-{.html}>&lt;gameface-toast class=&quot;styled-toast&quot; position=&quot;top-right&quot; timeout=&quot;5000&quot;&gt;
