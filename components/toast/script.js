@@ -89,6 +89,7 @@ class GamefaceToast extends BaseComponent {
             if (this.hasAttribute('position')) this.updatePositionState(this.getAttribute('position'));
             if (this.hasAttribute('timeout')) this.updateAttributeState('timeout', parseInt(this.getAttribute('timeout')) || 0);
             if (this.hasAttribute('target')) this.updateAttributeState('target', this.getAttribute('target'));
+            // We set isAppended to true here because when the toast is reappended to the DOM the init method runs again
             if (this.parentElement.classList.contains('guic-toast-container')) this.state.isAppended = true;
 
             this._messageSlot = this.querySelector('.guic-toast-message').firstElementChild;
