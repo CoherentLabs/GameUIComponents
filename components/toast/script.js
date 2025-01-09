@@ -36,12 +36,14 @@ class GamefaceToast extends BaseComponent {
             position: { type: ['string'] },
             target: { type: ['string', 'object'] },
             timeout: { type: ['number'] },
+            isAppended: { type: ['boolean'] },
         };
 
         this.state = {
             position: 'top-left',
             target: null,
             timeout: 0,
+            isAppended: false,
         };
     }
 
@@ -87,6 +89,8 @@ class GamefaceToast extends BaseComponent {
             if (this.hasAttribute('position')) this.updatePositionState(this.getAttribute('position'));
             if (this.hasAttribute('timeout')) this.updateAttributeState('timeout', parseInt(this.getAttribute('timeout')) || 0);
             if (this.hasAttribute('target')) this.updateAttributeState('target', this.getAttribute('target'));
+            // We set isAppended to true here because when the toast is reappended to the DOM the init method runs again
+            if (this.parentElement.classList.contains('guic-toast-container')) this.state.isAppended = true;
 
             this._messageSlot = this.querySelector('.guic-toast-message').firstElementChild;
             this._closeButton = this.querySelector('.guic-toast-close-btn');
@@ -179,6 +183,7 @@ class GamefaceToast extends BaseComponent {
             return console.warn(`${gravity}-${position} is not valid position property. Use the following syntax - "top/bottom-left/right/center"`);
         }
 
+        this.state.isAppended = false;
         this.updateState('position', newValue);
     }
 
@@ -228,10 +233,12 @@ class GamefaceToast extends BaseComponent {
     }
 
     /**
-     * Appends the toast to one of the containers depending on the  position
+     * Appends the toast to one of the containers depending on the position
      * @param {string} position - top-left, top-right, top-center, bottom-left, bottom-right, bottom-center
     */
     appendToastToContainer() {
+        if (this.state.isAppended) return;
+
         const [gravity, position] = this.position.split('-');
         const container = document.querySelector(`.guic-toast-container.${CLASS_PREFIX}${gravity}.${CLASS_PREFIX}${position}`);
         if (!container) return;
@@ -244,12 +251,11 @@ class GamefaceToast extends BaseComponent {
      * Displays the toast
      */
     show() {
-        if (this.visible) return;
+        if (this.visible) this.classList.remove('guic-toast-show');
 
         this.appendToastToContainer();
         this.classList.add('guic-toast-show');
         this.handleTimeOut();
-        this.handleCloseButton();
     }
 
     /**
