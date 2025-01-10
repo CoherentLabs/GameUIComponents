@@ -31,6 +31,7 @@ class SpatialNavigation {
         this.registeredKeys = new Set();
         this.clearCurrentActiveKeys = false;
         this.overlapPercentage = 0.5;
+        this.lastFocusedElement = null;
     }
 
     /**
@@ -65,6 +66,7 @@ class SpatialNavigation {
         this.navigatableElements = { default: [] };
         this.removeKeyActions();
         this.overlapPercentage = 0.5;
+        this.lastFocusedElement = null;
     }
     /**
      * Add new elements to area or new area
@@ -142,16 +144,15 @@ class SpatialNavigation {
     }
 
     /**
-     * Checks if the current focused element is within a group and returns the rest of the elements in the group
+     * Checks if the passed element is within a group and returns the rest of the elements in the group
+     * @param {HTMLElement} targetElement
      * @returns {NavigationObject[]}
      */
-    getFocusableGroup() {
-        const focusedElement = document.activeElement;
-
+    getFocusableGroup(targetElement) {
         return Object.values(this.navigatableElements).reduce((acc, el) => {
-            if (el.includes(focusedElement)) {
+            if (el.includes(targetElement)) {
                 acc = el.reduce((accumulator, element) => {
-                    if (element !== focusedElement && !element.hasAttribute('disabled')) {
+                    if (element !== targetElement && !element.hasAttribute('disabled')) {
                         const { x, y, height, width } = element.getBoundingClientRect();
                         accumulator.push({ element, x, y, height, width });
                     }
@@ -206,8 +207,12 @@ class SpatialNavigation {
     moveFocus(direction) {
         if (!this.enabled) return;
 
-        const focusableGroup = this.getFocusableGroup();
-        const { x, y, width, height } = document.activeElement.getBoundingClientRect();
+        const activeElement = this.isActiveElementInGroup(document.activeElement) ?
+            document.activeElement : this.lastFocusedElement;
+
+        const focusableGroup = this.getFocusableGroup(activeElement);
+
+        const { x, y, width, height } = activeElement.getBoundingClientRect();
 
         if (focusableGroup.length === 0) return;
 
@@ -215,10 +220,16 @@ class SpatialNavigation {
 
         if (!currentAxisGroup.length) return;
 
-        const nextFocusableElement = this.findNextElement(direction, currentAxisGroup, x, y);
-        if (nextFocusableElement) return nextFocusableElement.element.focus();
+        let nextFocusableElement = this.findNextElement(direction, currentAxisGroup, x, y);
 
-        this.getClosestToEdge(direction, currentAxisGroup, { x, y }).element.focus();
+        if (!nextFocusableElement) {
+            nextFocusableElement = this.getClosestToEdge(direction, currentAxisGroup, { x, y });
+        }
+
+        if (nextFocusableElement) {
+            nextFocusableElement.element.focus();
+            this.lastFocusedElement = nextFocusableElement.element;
+        }
     }
 
     /** Filters the focusable group by the relevant axis by chacking for same axis overlap
@@ -403,7 +414,9 @@ class SpatialNavigation {
         if (!navigatableElements || navigatableElements.length === 0) {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
+
         navigatableElements[0].focus();
+        this.lastFocusedElement = navigatableElements[0];
     }
 
     /**
@@ -418,7 +431,9 @@ class SpatialNavigation {
         if (!navigatableElements || navigatableElements.length === 0) {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
-        navigatableElements.slice(-1)[0].focus();
+        const lastFocusableELement = navigatableElements.slice(-1)[0];
+        lastFocusableELement.focus();
+        this.lastFocusedElement = lastFocusableELement;
     }
 
     /**
