@@ -1,4 +1,4 @@
-/* globals simulateKeyDown, simulateKeyUp */
+/* globals simulateKeyPress */
 /* eslint-disable new-cap */
 /* eslint-disable max-lines-per-function */
 const createTemplate = (squares = 6) => {
@@ -49,8 +49,7 @@ describe('Spatial navigation', () => {
 
         // right, right, down, left, left, up => position 1
         ['D', 'D', 'S', 'A', 'A', 'W'].forEach((key) => {
-            simulateKeyDown(key.toUpperCase());
-            simulateKeyUp(key.toUpperCase());
+            simulateKeyPress(key.toUpperCase());
         });
         assert.strictEqual(document.activeElement, expectedActiveEl, `Expected the active element to be '.square-1' after navigating with custom keys, but found '${document.activeElement.className}' instead.`);
     });
@@ -61,8 +60,7 @@ describe('Spatial navigation', () => {
 
         // right, right, down, left, left, up => position 1
         ['L', 'L', 'K', 'J', 'J', 'I'].forEach((key) => {
-            simulateKeyDown(key.toUpperCase());
-            simulateKeyUp(key.toUpperCase());
+            simulateKeyPress(key.toUpperCase());
         });
         assert.strictEqual(document.activeElement, expectedActiveEl, `Expected the active element to be '.square-1' after navigating with custom keys, but found '${document.activeElement.className}' instead.`);
     });
@@ -72,8 +70,7 @@ describe('Spatial navigation', () => {
         interactionManager.spatialNavigation.resetKeys();
 
         ['arrow_right', 'arrow_right', 'arrow_down', 'arrow_left', 'arrow_left', 'arrow_up'].forEach((key) => {
-            simulateKeyDown(key.toUpperCase());
-            simulateKeyUp(key.toUpperCase());
+            simulateKeyPress(key.toUpperCase());
         });
         assert.strictEqual(document.activeElement, expectedActiveEl, `Expected the active element to be '.square-1' after navigating with custom keys, but found '${document.activeElement.className}' instead.`);
     });
@@ -82,9 +79,16 @@ describe('Spatial navigation', () => {
         interactionManager.spatialNavigation.changeKeys({ down: 'S' }, { clearCurrentActiveKeys: true });
 
         ['S', 'S', 'arrow_up', 'arrow_right'].forEach((key) => {
-            simulateKeyDown(key.toUpperCase());
-            simulateKeyUp(key.toUpperCase());
+            simulateKeyPress(key.toUpperCase());
         });
         assert.strictEqual(document.activeElement, expectedActiveEl, `Expected the active element to be '.square-1' after navigating with custom keys, but found '${document.activeElement.className}' instead.`);
+    });
+
+    it('Should continue movement from last focused item after losing focus on the area', () => {
+        simulateKeyPress('ARROW_RIGHT');
+        document.activeElement.blur();
+        simulateKeyPress('ARROW_LEFT');
+
+        assert.strictEqual(document.activeElement, expectedActiveEl, `Expected the active element to be '.square-1' but found '${document.activeElement.className}' instead.`);
     });
 });

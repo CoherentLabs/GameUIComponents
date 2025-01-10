@@ -272,3 +272,12 @@ const simulateKeyDown = (key, repeat = false) => {
 const simulateKeyUp = (key) => {
     document.dispatchEvent(new KeyboardEvent('keyup', { keyCode: KEYS[key] }));
 };
+
+/**
+ * Simulates a keyboard press event.
+ * @param {string} key - The key to simulate pressing.
+ */
+const simulateKeyPress = (key) => {
+    simulateKeyDown(key);
+    simulateKeyUp(key);
+};
