@@ -207,8 +207,7 @@ class SpatialNavigation {
     moveFocus(direction) {
         if (!this.enabled) return;
 
-        const activeElement = this.isActiveElementInGroup(document.activeElement) ?
-            document.activeElement : this.lastFocusedElement;
+        const activeElement = this.checkActiveElementInGroup();
 
         const focusableGroup = this.getFocusableGroup(activeElement);
 
@@ -415,8 +414,8 @@ class SpatialNavigation {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
 
-        navigatableElements[0].focus();
         this.lastFocusedElement = navigatableElements[0];
+        this.lastFocusedElement.focus();
     }
 
     /**
@@ -431,9 +430,9 @@ class SpatialNavigation {
         if (!navigatableElements || navigatableElements.length === 0) {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
-        const lastFocusableELement = navigatableElements.slice(-1)[0];
-        lastFocusableELement.focus();
-        this.lastFocusedElement = lastFocusableELement;
+
+        this.lastFocusedElement = navigatableElements.slice(-1)[0];
+        this.lastFocusedElement.focus();
     }
 
     /**
@@ -450,6 +449,14 @@ class SpatialNavigation {
      */
     isActiveElementInGroup() {
         return Object.values(this.navigatableElements).some(group => group.includes(document.activeElement));
+    }
+
+    /**
+     * Checks if the active element is within a group and returns the last focused element if it isn't.
+     * @returns {HTMLElement}
+     */
+    checkActiveElementInGroup() {
+        return this.isActiveElementInGroup(document.activeElement) ? document.activeElement : this.lastFocusedElement;
     }
 
     /**
