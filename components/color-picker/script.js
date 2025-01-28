@@ -42,6 +42,9 @@ class ColorPicker extends BaseComponent {
         this.lsPickerDragMove = this.lsPickerDragMove.bind(this);
         this.lsPickerDragEnd = this.lsPickerDragEnd.bind(this);
 
+        this.lsPickerTouchStart = this.lsPickerTouchStart.bind(this);
+        this.lsPickerTouchEnd = this.lsPickerTouchEnd.bind(this);
+
         this.huePickerUpdate = this.huePickerUpdate.bind(this);
         this.alphaPickerUpdate = this.alphaPickerUpdate.bind(this);
 
@@ -93,6 +96,7 @@ class ColorPicker extends BaseComponent {
      */
     attachEventListeners() {
         this.lsPicker.addEventListener('mousedown', this.lsPickerDragStart);
+        this.lsPicker.addEventListener('touchstart', this.lsPickerTouchStart);
         this.huePicker.addEventListener('sliderupdate', this.huePickerUpdate);
         this.alphaPicker.addEventListener('sliderupdate', this.alphaPickerUpdate);
         this.tabs.forEach((tab) => {
@@ -108,6 +112,7 @@ class ColorPicker extends BaseComponent {
         if (!this.lsRendered) return;
 
         this.lsPicker.removeEventListener('mousedown', this.lsPickerDragStart);
+        this.lsPicker.removeEventListener('touchstart', this.lsPickerTouchStart);
         this.huePicker.removeEventListener('sliderupdate', this.huePickerUpdate);
         this.alphaPicker.removeEventListener('sliderupdate', this.alphaPickerUpdate);
         this.tabs.forEach((tab) => {
@@ -147,11 +152,27 @@ class ColorPicker extends BaseComponent {
     }
 
     /**
+     * Handles the touch start event on the color picker
+     * @param {TouchEvent} e
+     */
+    lsPickerTouchStart(e) {
+        if (e.touches.length > 1) return;
+
+        this.lsPickerRect = this.lsPicker.getBoundingClientRect();
+
+        this.lsPickerDragMove(e.touches[0]);
+
+        document.addEventListener('touchmove', this.lsPickerDragMove);
+        document.addEventListener('touchend', this.lsPickerTouchEnd);
+    }
+
+    /**
      * Handles the mouse move event on the color picker
      * @param {MouseEvent} e
      */
     lsPickerDragMove(e) {
-        this.setPickerCoordinates(e.clientX, e.clientY);
+        const move = e.touches ? e.touches[0] : e;
+        this.setPickerCoordinates(move.clientX, move.clientY);
         this.updateSelectedColor();
         this.updateHandleStyle();
     }
@@ -162,6 +183,14 @@ class ColorPicker extends BaseComponent {
     lsPickerDragEnd() {
         document.removeEventListener('mousemove', this.lsPickerDragMove);
         document.removeEventListener('mouseup', this.lsPickerDragEnd);
+    }
+
+    /**
+     * Handles the touch end event on the color picker
+     */
+    lsPickerTouchEnd() {
+        document.removeEventListener('touchmove', this.lsPickerDragMove);
+        document.removeEventListener('touchend', this.lsPickerTouchEnd);
     }
 
     /**

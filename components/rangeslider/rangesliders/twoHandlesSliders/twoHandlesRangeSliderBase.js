@@ -21,6 +21,9 @@ export default class TwoHandlesRangeSliderBase extends RangeSliderBase {
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
 
+        this.onTouchDown = this.onTouchDown.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+
         this.state = {
             min: 0,
             max: 100,
@@ -239,6 +242,35 @@ export default class TwoHandlesRangeSliderBase extends RangeSliderBase {
     }
 
     /**
+     * Executed on touchdown. Sets the handle to the touched coordinates and attaches event listeners to the document
+     * @param {TouchEvent} e
+     */
+    onTouchDown(e) {
+        if (e.touches.length > 1) return;
+
+        const percent = this.getHandlePercent(e.touches[0]);
+
+        const currentActiveHandle = this.handle[this.activeHandle];
+        if (currentActiveHandle) this.setInactiveHandle(currentActiveHandle);
+
+        const targetClassList = e.target?.classList;
+        if (targetClassList && (targetClassList.contains('guic-horizontal-rangeslider-handle') ||
+            targetClassList.contains('guic-vertical-rangeslider-handle')) ) {
+            targetClassList.contains('handle-1') ? this.activeHandle = 1 : this.activeHandle = 0;
+        } else {
+            this.activeHandle = this.getClosestHandleToMousePosition(percent);
+        }
+
+        this.setActiveHandle(this.handle[this.activeHandle]);
+
+        this.updateSliderPosition(percent, this.activeHandle);
+
+        // attaching event listeners on mousedown so we don't have them attached all the time
+        document.addEventListener('touchmove', this.onTouchMove);
+        document.addEventListener('touchend', this.onTouchEnd);
+    }
+
+    /**
      * Moving the handle with the mouse
      * @param {MouseEvent} e
      */
@@ -246,5 +278,14 @@ export default class TwoHandlesRangeSliderBase extends RangeSliderBase {
         const percent = this.getHandlePercent(e);
 
         this.updateSliderPosition(percent, this.activeHandle);
+    }
+
+    /**
+     * Moving the handle with the touch
+     * @param {TouchEvent} e
+     */
+    onTouchMove(e) {
+        e.preventDefault();
+        this.onMouseMove(e.touches[0]);
     }
 }

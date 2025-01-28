@@ -21,6 +21,9 @@ export default class SingleHandleRangeSliderBase extends RangeSliderBase {
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
 
+        this.onTouchDown = this.onTouchDown.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+
         this.state = {
             min: 0,
             max: 100,
@@ -144,6 +147,21 @@ export default class SingleHandleRangeSliderBase extends RangeSliderBase {
     }
 
     /**
+     * Executed on touchdown. Sets the handle to the touched coordinates and attaches event listeners to the document
+     * @param {TouchEvent} e
+     */
+    onTouchDown(e) {
+        if (e.touches.length > 1) return;
+
+        const percent = this.getHandlePercent(e.touches[0]);
+        this.updateSliderPosition(percent);
+
+        // attaching event listeners on mousedown so we don't have them attached all the time
+        document.addEventListener('touchmove', this.onTouchMove);
+        document.addEventListener('touchend', this.onTouchEnd);
+    }
+
+    /**
      * Moving the handle with the mouse
      * @param {MouseEvent} e
      */
@@ -151,5 +169,14 @@ export default class SingleHandleRangeSliderBase extends RangeSliderBase {
         const percent = this.getHandlePercent(e);
 
         this.updateSliderPosition(percent);
+    }
+
+    /**
+     * Moving the handle with the finger
+     * @param {TouchEvent} e
+     */
+    onTouchMove(e) {
+        e.preventDefault();
+        this.onMouseMove(e.touches[0]);
     }
 }

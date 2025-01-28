@@ -1,6 +1,6 @@
 {
     "name": "coherent-gameface-color-picker",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "A component for Coherent Labs Gameface.",
     "main": "script.js",
     "repository": {
@@ -13,7 +13,7 @@
     ],
     "dependencies": {
         "coherent-gameface-components": "^3.0.1",
-        "coherent-gameface-rangeslider": "^3.3.0",
+        "coherent-gameface-rangeslider": "^3.4.0",
         "coherent-gameface-tooltip": "^3.1.0",
         "colortranslator": "4.1.0",
         "postmessage-polyfill": "1.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-rangeslider",
-  "version": "3.3.2",
+  "version": "3.4.0",
   "description": "A component for Coherent Labs Gameface.",
   "main": "index.js",
   "repository": {
