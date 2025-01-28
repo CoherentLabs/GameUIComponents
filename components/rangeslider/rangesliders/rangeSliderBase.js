@@ -24,6 +24,7 @@ export default class RangeSliderBase {
         }
         this.rangeslider = rangeslider;
         this.onMouseUp = this.onMouseUp.bind(this);
+        this.onTouchEnd = this.onTouchEnd.bind(this);
         this.init = this.init.bind(this);
     }
 
@@ -504,6 +505,7 @@ export default class RangeSliderBase {
      */
     attachEventListener() {
         this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
+        this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-wrapper`).addEventListener('touchstart', this.onTouchDown);
     }
 
     /**
@@ -512,5 +514,13 @@ export default class RangeSliderBase {
     onMouseUp() {
         document.removeEventListener('mousemove', this.onMouseMove);
         document.removeEventListener('mouseup', this.onMouseUp);
+    }
+
+    /**
+     * Removes the event listeners that we attach in onTouchDown
+     */
+    onTouchEnd() {
+        document.removeEventListener('touchmove', this.onTouchMove);
+        document.removeEventListener('touchend', this.onTouchEnd);
     }
 }
