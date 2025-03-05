@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./style.css">
+    <!-- <link rel="stylesheet" href="./style.css"> -->
     <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
     <style>
         .container {
@@ -229,6 +229,14 @@
             <gameface-text-field class="custom-text-field-styles" type="number" label="Number:"></gameface-text-field>
         </div>
     </div>
+    <script src="./script.js"></script>
+    <script>
+        document.querySelector('#test1').addEventListener('change', event => console.log('change event', event.target.value));
+        document.querySelector('#test1').addEventListener('blur', event => console.log('blur event', event.target.value));
+        document.querySelector('#test1').addEventListener('focus', event => console.log('focus event', event.target.value));
+        document.querySelector('#test1').addEventListener('input', event => console.log('input event', event.target.value));
+        document.querySelector('#test1').addEventListener('click', event => console.log('click event', event.currentTarget.value));
+    </script>
 </body>
 
 </html>

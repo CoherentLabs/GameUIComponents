@@ -3,9 +3,88 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import template from './template.html';
+import { components } from '../../lib/components.js';
+// const components = new Components();
+// import template from './template.html';
+const template = `
+<style>
+:host {
+    position: relative;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+:host + :host {
+    margin-left: 16px;
+}
+
+.before,
+.after {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    transform: translate(-50%, -50%);
+}
+
+.before {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #25a5d6;
+    border-radius: 100%;
+    background-image: linear-gradient(to bottom, #e6e6e6, #fff 60%);
+}
+
+:host([checked]) .before {
+    background: #fff;
+}
+
+:host([checked]) .after {
+    display: block;
+    border: 4px solid #25a5d6;
+    border-radius: 100%;
+}
+
+:host([aria-checked="mixed"]:active) .before,
+:host([aria-checked="true"]:active) .before {
+    background-image: linear-gradient(to bottom, #3a80e9, #25a5d6 60%);
+}
+
+:host(:hover) .before {
+    border-color: #25a5d6;
+}
+
+:host(:focus) {
+    outline: none;
+}
+
+:host(:focus) .before {
+    width: 16px;
+    height: 16px;
+    box-sizing: content-box;
+    border-color: #25a5d6;
+    border-width: 2px;
+    border-radius: 100%;
+    box-shadow: inset 0 0 0 1px #3a80e9;
+}
+
+.guic-radio-button-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+:host([controls-disabled] .before,
+:host([controls-disabled]) .after {
+    display: none;
+}
+</style>
+<div class="radio-button">
+    <slot name="radio-button-content"></slot>
+    <div class="radio-button-text"></div>
+    <div class="before"></div>
+    <div class="after"></div>
+</div>
+
+`;
 
 const KEYCODES = components.KEYCODES;
 const BaseComponent = components.BaseComponent;
@@ -17,7 +96,6 @@ class GamefaceRadioGroup extends HTMLElement {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
-
         this.previouslyCheckedElement = null;
     }
 
@@ -325,10 +403,10 @@ class RadioButton extends BaseComponent {
         this.updateState('disabled', value);
 
         if (value) {
-            this.firstChild.classList.add('guic-radio-button-disabled');
+            this.buttonContainer.classList.add('guic-radio-button-disabled');
             this.setAttribute('tabindex', '-1');
         } else {
-            this.firstChild.classList.remove('guic-radio-button-disabled');
+            this.buttonContainer.classList.remove('guic-radio-button-disabled');
             this.setAttribute('tabindex', '0');
         }
     }
@@ -399,25 +477,31 @@ class RadioButton extends BaseComponent {
         // use text content if there is no slot
         if (!hasSlots) radioButtonText = this.textContent;
 
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
-            this.textElement = this.querySelector('.radio-button-text');
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        this.buttonContainer = this.shadowRoot.querySelector('.radio-button');
+        // this.setupTemplate(data, () => {
+        //     components.renderOnce(this);
+        components.waitForFrames(() => {
+            this.textElement = this.shadowRoot.querySelector('.radio-button-text');
             if (!hasSlots) this.textElement.textContent = radioButtonText;
             // Apply the user set text
             if (this.hasAttribute('checked')) this.updateAttributeState('checked', true);
             if (this.hasAttribute('disabled')) this.updateAttributeState('disabled', true);
             if (this.hasAttribute('value')) this.updateAttributeState('value', this.getAttribute('value'));
         });
+        // });
     }
 
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
         // Get the text set from the user before applying the template.
         this.radioGroup = this.parentElement;
-
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        this.init();
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 }
 

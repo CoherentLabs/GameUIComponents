@@ -4,9 +4,137 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import template from './template.html';
+import { components } from '../../lib/components.js';
+// const components = new Components();
+// import template from './template.html';
+
+const template = `
+<style>
+:host {
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.guic-radial-menu {
+    position: relative;
+    width: 71.5vh;
+    height: 71.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:host(.guic-radial-menu-open) {
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.guic-radial-menu-center {
+    position: absolute;
+    width: 23.7vh;
+    height: 23.7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.guic-radial-menu-center-bullseye {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.guic-radial-menu-center-text {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'RC-Regular';
+    font-size: 3vh;
+    text-align: center;
+}
+
+.guic-radial-menu-center-bullseye-outer {
+    width: 100%;
+    height: 100%;
+    border: 1.5vh solid #fff;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.guic-radial-menu-items {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.guic-radial-menu-item {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.guic-radial-menu-item-icon {
+    position: absolute;
+    width: 10vh;
+    height: 10vh;
+    top: 5vh;
+    background-position: 50% 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.guic-radial-menu-selector {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.guic-radial-menu-selector-bg-1,
+.guic-radial-menu-selector-bg-2 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.guic-radial-menu-selector-bg-1 {
+    border: 16.5vh solid rgba(37, 165, 214, 0.85);
+}
+
+.guic-radial-menu-selector-bg-2 {
+    border: 8.25vh solid rgba(255, 255, 255, 0.75);
+}
+</style>
+<div class="guic-radial-menu">
+    <div class="guic-radial-menu-center">
+        <slot class="guic-radial-menu-center" name="radial-menu-center">
+            <div class="guic-radial-menu-center-bullseye"></div>
+            <div class="guic-radial-menu-center-text">Radial Menu</div>
+        </slot>
+        <div class="guic-radial-menu-center-bullseye-outer"></div>
+    </div>
+    <div class="guic-radial-menu-items">
+        <div class="guic-radial-menu-selector">
+            <div class="guic-radial-menu-selector-bg-1">
+                <div class="guic-radial-menu-selector-bg-2"></div>
+            </div>
+        </div>
+    </div>
+</div>`;
 
 const BaseComponent = components.BaseComponent;
 
@@ -57,16 +185,20 @@ class RadialMenu extends BaseComponent {
      * @param {object} data
     */
     init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
-        });
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        // this.setupTemplate(data, () => {
+        //     components.renderOnce(this);
+        // });
     }
 
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        this.init();
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -108,10 +240,10 @@ class RadialMenu extends BaseComponent {
      * Add the menu items
      */
     populateItems() {
-        const itemsElement = this.getElementsByClassName('guic-radial-menu-items')[0];
+        const itemsElement = this.shadowRoot.querySelector('.guic-radial-menu-items');
         this.segmentDegrees = 360 / this.itemsCount;
 
-        const itemsSelectorElement = this.querySelector('.guic-radial-menu-selector');
+        const itemsSelectorElement = this.shadowRoot.querySelector('.guic-radial-menu-selector');
         itemsElement.textContent = '';
         itemsElement.appendChild(itemsSelectorElement);
 
@@ -311,10 +443,10 @@ class RadialMenu extends BaseComponent {
         this.selectAndClose = this.selectAndClose.bind(this);
         this.updateRadialMenuCenterXY = this.updateRadialMenuCenterXY.bind(this);
 
-        this.radialMenuTemplateWrapper = this.querySelector('.guic-radial-menu');
-        this.itemSelector = this.querySelector('.guic-radial-menu-selector');
+        this.radialMenuTemplateWrapper = this.shadowRoot.querySelector('.guic-radial-menu');
+        this.itemSelector = this.shadowRoot.querySelector('.guic-radial-menu-selector');
 
-        const centerText = this.querySelector('.guic-radial-menu-center-text');
+        const centerText = this.shadowRoot.querySelector('.guic-radial-menu-center-text');
         if (centerText) centerText.textContent = this.dataset.name;
 
         this.populateItems();

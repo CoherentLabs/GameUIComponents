@@ -1,9 +1,9 @@
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import { orientationUnitsNames } from '../orientationUnitsNames';
-import { validateCustomHandle, valueToPercent } from './rangeSliderUtils';
+// import { Components } from 'coherent-gameface-components';
+// const components = new Components();
+import { orientationUnitsNames } from '../orientationUnitsNames.js';
+import { validateCustomHandle, valueToPercent } from './rangeSliderUtils.js';
 // eslint-disable-next-line no-unused-vars
-import Rangeslider from '../script';
+import Rangeslider from '../script.js';
 
 const customHandleVariableNames = {
     SINGLE: 'customHandle',
@@ -347,10 +347,11 @@ export default class RangeSliderBase {
             this.rangeslider.template = this.getTemplate(this.rangeslider.orientation);
         }
 
-        components
-            .loadResource(this.rangeslider)
-            .then(this.init)
-            .catch(err => console.error(JSON.stringify(err)));
+        this.init();
+        // components
+        //     .loadResource(this.rangeslider)
+        //     .then(this.init)
+        //     .catch(err => console.error(JSON.stringify(err)));
     }
 
     /**
@@ -359,20 +360,23 @@ export default class RangeSliderBase {
      * @param {object} data
     */
     init(data) {
-        this.rangeslider.setupTemplate(data, () => {
-            components.renderOnce(this.rangeslider);
-            // do the initial setup - add event listeners, assign members
-            this.setup();
-        });
+        const shadow = this.rangeslider.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.rangeslider.template;
+        this.rangeslider.isRendered = true;
+        // this.rangeslider.setupTemplate(data, () => {
+        //     components.renderOnce(this.rangeslider);
+        // do the initial setup - add event listeners, assign members
+        this.setup();
+        // });
     }
 
     /**
      * Will setup the slider
      */
     setupSlider() {
-        this.wrapper = this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-wrapper`);
-        this.rangesliderEl = this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider`);
-        this.bar = this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-bar`);
+        this.wrapper = this.rangeslider.shadowRoot.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-wrapper`);
+        this.rangesliderEl = this.rangeslider.shadowRoot.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider`);
+        this.bar = this.rangeslider.shadowRoot.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-bar`);
 
         this.setMinAndMax();
         this.setHandleValues();
@@ -504,8 +508,8 @@ export default class RangeSliderBase {
      * Attaches the event listener
      */
     attachEventListener() {
-        this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
-        this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-wrapper`).addEventListener('touchstart', this.onTouchDown);
+        this.rangeslider.shadowRoot.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-wrapper`).addEventListener('mousedown', this.onMouseDown);
+        this.rangeslider.shadowRoot.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-wrapper`).addEventListener('touchstart', this.onTouchDown);
     }
 
     /**

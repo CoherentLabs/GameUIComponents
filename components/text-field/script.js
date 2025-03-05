@@ -4,13 +4,200 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import template from './template.html';
+import { components } from '../../lib/components.js';
+// const components = new Components();
+// import template from './template.html';
 
 const TextFieldValidator = components.TextFieldValidator;
 const CustomElementValidator = components.CustomElementValidator;
 
+const template = `
+<style>
+:host {
+    --text-field-number-arrow-size: 8px;
+    --text-field-number-arrow-color: black;
+    --text-field-search-cross-size: 8px;
+    --text-field-search-cross-width: 4px;
+    --text-field-search-cross-color: black;
+    --text-field-font-size: 16px;
+    --text-field-font-family: "Droid Sans";
+    --text-field-padding-left: 5px;
+    --text-field-padding-right: 5px;
+}
+
+.guic-text-field-container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    text-align: left;
+}
+
+.guic-text-field-label {
+    margin-right: 10px;
+}
+
+.guic-search-remove,
+.guic-number-control {
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.guic-search-remove:hover {
+    --text-field-search-cross-color: var(--default-color-blue);
+}
+
+.guic-search-remove-right-line,
+.guic-search-remove-left-line {
+    position: relative;
+    border-radius: 20px;
+    width: 0px;
+    border-left-width: var(--text-field-search-cross-size);
+    border-left-color: var(--text-field-search-cross-color);
+    border-left-style: solid;
+
+    border-right-width: var(--text-field-search-cross-size);
+    border-right-color: var(--text-field-search-cross-color);
+    border-right-style: solid;
+
+    border-bottom-width: var(--text-field-search-cross-width);
+    border-bottom-color: var(--text-field-search-cross-color);
+    border-bottom-style: solid;
+}
+
+.guic-search-remove-right-line {
+    top: calc(var(--text-field-search-cross-width) /2);
+    transform: rotate(45deg);
+}
+
+.guic-search-remove-left-line {
+    top: calc(var(--text-field-search-cross-width) /-2);
+    transform: rotate(-45deg);
+}
+
+.guic-text-field-with-controls {
+    position: relative;
+    flex: 1;
+    height: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-style: solid;
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.guic-text-field,
+.guic-text-field-placeholder {
+    font-size: var(--text-field-font-size);
+    font-family: var(--text-field-font-family);
+    padding-right: var(--text-field-padding-right);
+    padding-left: var(--text-field-padding-left);
+    border: none;
+    background: transparent;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.guic-text-field {
+    flex: 1;
+    width: 100%;
+    position: relative;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.guic-text-field-placeholder {
+    position: absolute;
+    opacity: 0.5;
+    width: 98%;
+    white-space: pre;
+    cursor: text;
+    overflow-x: hidden;
+}
+
+.guic-hidden {
+    display: none;
+}
+
+.guic-text-field-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.guic-number-control {
+    position: relative;
+}
+
+.guic-number-increase,
+.guic-number-decrease {
+    position: relative;
+    width: 0;
+    height: 50%;
+}
+
+.guic-number-increase {
+    border-left-width: var(--text-field-number-arrow-size);
+    border-left-color: transparent;
+    border-left-style: solid;
+
+    border-right-width: var(--text-field-number-arrow-size);
+    border-right-color: transparent;
+    border-right-style: solid;
+
+    border-bottom-width: var(--text-field-number-arrow-size);
+    border-bottom-color: var(--text-field-number-arrow-color);
+    border-bottom-style: solid;
+    top: -0.1em;
+}
+
+.guic-number-increase:hover {
+    border-bottom-color: var(--default-color-blue);
+}
+
+.guic-number-decrease {
+    border-left-width: var(--text-field-number-arrow-size);
+    border-left-color: transparent;
+    border-left-style: solid;
+
+    border-right-width: var(--text-field-number-arrow-size);
+    border-right-color: transparent;
+    border-right-style: solid;
+
+    border-top-width: var(--text-field-number-arrow-size);
+    border-top-color: var(--text-field-number-arrow-color);
+    border-top-style: solid;
+
+    bottom: -0.1em;
+}
+
+.guic-number-decrease:hover {
+    border-top-color: var(--default-color-blue);
+}
+</style>
+<div class="guic-text-field-container">
+    <span class="guic-text-field-label"></span>
+    <div class="guic-text-field-with-controls">
+        <input class="guic-text-field" type="text" />
+        <div class="guic-text-field-placeholder guic-hidden"></div>
+        <div class="guic-search-remove guic-hidden">
+            <div class="guic-search-remove-right-line"></div>
+            <div class="guic-search-remove-left-line"></div>
+        </div>
+        <div class="guic-number-control guic-hidden">
+            <div class="guic-number-increase"></div>
+            <div class="guic-number-decrease"></div>
+        </div>
+    </div>
+</div>
+`;
 const supportedTextFieldTypes = {
     TEXT: 'text',
     PASSWORD: 'password',
@@ -430,16 +617,20 @@ class TextField extends CustomElementValidator {
      * @param {object} data
     */
     init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
-            this.initTextField();
-        });
+        // this.setupTemplate(data, () => {
+        //     components.renderOnce(this);
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        this.initTextField();
+        // });
     }
 
     connectedCallback() {
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        this.init();
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     /* eslint-enable require-jsdoc */
@@ -732,14 +923,14 @@ class TextField extends CustomElementValidator {
      * Cache the component elements
      */
     initTextFieldElements() {
-        this.componentContainer = this.querySelector('.guic-text-field-container');
-        this.inputElement = this.querySelector('.guic-text-field');
-        this.labelElement = this.querySelector('.guic-text-field-label');
-        this.searchRemoveElement = this.querySelector('.guic-search-remove');
-        this.numberControlElement = this.querySelector('.guic-number-control');
-        this.placeholderElement = this.querySelector('.guic-text-field-placeholder');
-        this.increaseInputValueElement = this.querySelector('.guic-number-increase');
-        this.decreaseInputValueElement = this.querySelector('.guic-number-decrease');
+        this.componentContainer = this.shadowRoot.querySelector('.guic-text-field-container');
+        this.inputElement = this.shadowRoot.querySelector('.guic-text-field');
+        this.labelElement = this.shadowRoot.querySelector('.guic-text-field-label');
+        this.searchRemoveElement = this.shadowRoot.querySelector('.guic-search-remove');
+        this.numberControlElement = this.shadowRoot.querySelector('.guic-number-control');
+        this.placeholderElement = this.shadowRoot.querySelector('.guic-text-field-placeholder');
+        this.increaseInputValueElement = this.shadowRoot.querySelector('.guic-number-increase');
+        this.decreaseInputValueElement = this.shadowRoot.querySelector('.guic-number-decrease');
     }
 
     /**
@@ -756,5 +947,5 @@ class TextField extends CustomElementValidator {
         }
     }
 }
-components.defineCustomElement('gameface-text-field', TextField);
-export default TextField;
+customElements.define('gameface-text-field', TextField);
+// export default TextField;

@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 /* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
@@ -5,13 +6,129 @@
  *--------------------------------------------------------------------------------------------*/
 
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
+import { components } from '../../lib/components.js';
+// const components = new Components();
 
-import textInside from './templates/text-inside-template.html';
-import textOutside from './templates/text-outside-template.html';
+// import textInside from './templates/text-inside-template.html';
+// import textOutside from './templates/text-outside-template.html';
 const CustomElementValidator = components.CustomElementValidator;
 
+const styles = `
+gameface-switch {
+    display: flex;
+}
+
+.guic-switch-toggle-container {
+    display: flex;
+    align-items: center;
+}
+
+.guic-switch-toggle-disabled {
+    filter: grayscale(0.2);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.guic-switch-toggle-false {
+    margin-right: 10px;
+    opacity: 1;
+    transition: opacity 0.2s;
+    ponter-events: none;
+}
+
+.guic-switch-toggle-true {
+    margin-left: 10px;
+    opacity: 1;
+    transition: opacity 0.2s;
+    ponter-events: none;
+}
+
+.guic-switch-toggle {
+    width: 30px;
+    height: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: rgb(180, 180, 180);
+    border-radius: 15px;
+    transition-property: background-color;
+    transition-duration: 0.4s;
+    box-sizing: border-box;
+}
+
+.guic-switch-toggle-inset {
+    height: 20px;
+    width: 35px;
+    border-radius: 15px;
+    border-right: 3px solid transparent;
+}
+
+.guic-switch-toggle-text-inside {
+    height: 22px;
+    border-radius: 10px;
+    width: auto;
+    border-right: 3px solid transparent;
+}
+
+.guic-switch-toggle-handle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    left: 6%;
+    transition-property: left, background-color, transform;
+    transition-duration: 0.2s;
+}
+
+.guic-switch-toggle-handle-default {
+    left: 0%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.guic-switch-toggle-checked {
+    background-color: rgba(36, 163, 214, 0.5);
+}
+
+
+.guic-switch-toggle-handle-checked {
+    background-color: rgb(36, 163, 214);
+    left: 100%;
+    transform: translateX(-100%);
+}
+
+.guic-switch-text-hidden {
+    opacity: 0;
+}
+`;
+
+const textInsideTemplate = `<style>${styles}</style>
+<div class="guic-switch-toggle-container">
+    <div class="guic-switch-toggle guic-switch-toggle-text-inside">
+        <div class="guic-switch-toggle-true guic-switch-text-hidden">
+            <slot name="switch-checked"></slot>
+        </div>
+        <div class="guic-switch-toggle-false">
+            <slot name="switch-unchecked"></slot>
+        </div>
+        <div class="guic-switch-toggle-handle"></div>
+    </div>
+</div>
+`;
+
+const textOutsideTemplate = `<style>${styles}</style>
+<div class="guic-switch-toggle-container">
+    <div class="guic-switch-toggle-false">
+        <slot name="switch-unchecked"></slot>
+    </div>
+    <div class="guic-switch-toggle">
+        <div class="guic-switch-toggle-handle"></div>
+    </div>
+    <div class="guic-switch-toggle-true">
+        <slot name="switch-checked"></slot>
+    </div>
+</div>
+`;
 /**
  * Switch component, that allows you to switch between true and false
  */
@@ -159,18 +276,18 @@ class Switch extends CustomElementValidator {
      * @param {object} data
     */
     init(data) {
-        this.setupTemplate(data, () => {
-            // Render the template
-            components.renderOnce(this);
+        // this.setupTemplate(data, () => {
+        // Render the template
+        // components.renderOnce(this);
 
-            // Set the elements of the switch we'll be changing depending if it's checked or not
-            this._switch = this.querySelector('.guic-switch-toggle');
-            this._handle = this.querySelector('.guic-switch-toggle-handle');
-            this._textChecked = this.querySelector('.guic-switch-toggle-true');
-            this._textUnchecked = this.querySelector('.guic-switch-toggle-false');
-
-            this.setup();
-        });
+        // Set the elements of the switch we'll be changing depending if it's checked or not
+        this._switch = this.shadowRoot.querySelector('.guic-switch-toggle');
+        this._handle = this.shadowRoot.querySelector('.guic-switch-toggle-handle');
+        this._textChecked = this.shadowRoot.querySelector('.guic-switch-toggle-true');
+        this._textUnchecked = this.shadowRoot.querySelector('.guic-switch-toggle-false');
+        this._container = this.shadowRoot.querySelector('.guic-switch-toggle-container');
+        this.setup();
+        // });
     }
 
     /**
@@ -189,13 +306,16 @@ class Switch extends CustomElementValidator {
         this._isTextInside = this.state.type === 'text-inside';
 
         // Set the template based if the text is inside or outside
-        this.template = this._isTextInside ? textInside : textOutside;
-
+        this.template = this._isTextInside ? textInsideTemplate : textOutsideTemplate;
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        this.init();
         // Load the template
-        components
-            .loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        // components
+        //     .loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     /**
@@ -239,9 +359,31 @@ class Switch extends CustomElementValidator {
 
     // eslint-disable-next-line require-jsdoc
     attachEventListeners() {
-        this.firstChild.addEventListener('mousedown', this.onClick);
+        this._container.addEventListener('mousedown', this.onClick);
     }
 
+
+    isStatePropValid(name, value) {
+        const schemaProperty = this.stateSchema[name];
+
+        if (!schemaProperty) {
+            console.error(`A property ${name} does not exist on type ${this.tagName.toLowerCase()}!`);
+            return false;
+        }
+
+        const type = typeof value;
+        if (schemaProperty.type.includes('array')) {
+            const isArray = Array.isArray(value);
+            if (isArray) return true;
+        }
+
+        if (!schemaProperty.type.includes(type)) {
+            console.error(`Property ${name} can not be of type - ${type}. Allowed types are: ${schemaProperty.type.join(',')}`);
+            return false;
+        }
+
+        return true;
+    }
     /**
      * Changes the styles of the switch and if it's checked
      */
@@ -268,8 +410,8 @@ class Switch extends CustomElementValidator {
      * @param {boolean} disabled
      */
     toggleDisabled(disabled = false) {
-        this.firstChild.classList.toggle('guic-switch-toggle-disabled', disabled);
+        this._container.classList.toggle('guic-switch-toggle-disabled', disabled);
     }
 }
-components.defineCustomElement('gameface-switch', Switch);
+customElements.define('gameface-switch', Switch);
 export default Switch;

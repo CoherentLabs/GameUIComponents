@@ -1,22 +1,26 @@
+/* eslint-disable require-jsdoc */
+/* eslint-disable max-lines-per-function */
 /* eslint-disable linebreak-style */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();// eslint-disable-next-line no-unused-vars
-import 'coherent-gameface-slider';
-import template from './template.html';
-import { clamp } from './scrollable-container-utils';
-
-const BaseComponent = components.BaseComponent;
+// import { Components } from 'coherent-gameface-components';
+// const components = new Components();// eslint-disable-next-line no-unused-vars
+// import 'coherent-gameface-slider';
+// import template from './template.html';
+// import { clamp } from './scrollable-container-utils';
+import './slider.js';
+function clamp(val, min, max) {
+    return Math.min(Math.max(val, min), max);
+}
+// const BaseComponent = components.BaseComponent;
 const fixedSliderHeightAttrString = 'fixed-slider-height';
-
 /**
  * Scrollable container. If it's content overflows a scrollbar will appear.
 */
-class ScrollableContainer extends BaseComponent {
+class ScrollableContainer extends HTMLElement {
     // eslint-disable-next-line require-jsdoc
     static get observedAttributes() {
         return ['automatic', fixedSliderHeightAttrString];
@@ -44,7 +48,14 @@ class ScrollableContainer extends BaseComponent {
     set scrollPos(value) {
         this._scrollPos = value;
         // set the position of the scrollbar handle
-        components.waitForFrames(() => this.scrollbar.scrollToPercents(this._scrollPos));
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => {
+                    this.scrollbar.scrollToPercents(this._scrollPos);
+                });
+            });
+        });
+        // components.waitForFrames(() => this.scrollbar.scrollToPercents(this._scrollPos));
     }
 
     /* eslint-disable max-len */
@@ -110,8 +121,8 @@ class ScrollableContainer extends BaseComponent {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         super();
-        this.template = template;
-        this.url = '/components/scrollable-container/template.html';
+        // this.template = template;
+        // this.url = '/components/scrollable-container/template.html';
     }
 
     /**
@@ -120,17 +131,56 @@ class ScrollableContainer extends BaseComponent {
      * @param {object} data
     */
     init(data) {
-        this.setupTemplate(data, () => {
-            // render the component
-            components.renderOnce(this);
-            // do the initial setup - add event listeners, assign members
+        // this.setupTemplate(data, () => {
+        //     // render the component
+        //     components.renderOnce(this);
+        // do the initial setup - add event listeners, assign members
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = `
+<style>
+.guic-slider-component,
+.guic-vertical-slider-component {
+    width: 10%;
+    display: none;
+}
 
-            this.setup();
-            this.scrollbar.style.visibility = 'hidden';
-            this.shouldShowScrollbar();
-            if (this.automatic) this.initMutationObserver();
-            this.isRendered = true;
-        });
+.guic-scrollable-container-wrapper {
+    position: relative;
+    width: 80vw;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.guic-scrollable-container {
+    width: 90%;
+    overflow: scroll;
+    background-color: #ebebeb;
+}
+
+gameface-scrollable-container {
+    display: block;
+    height: 90vh;
+}
+
+[data-name="scrollable-content"] {
+    display: block;
+}
+</style>
+<div class="guic-scrollable-container-wrapper">
+    <div class="guic-scrollable-container">
+      <slot name="scrollable-content"></slot>
+    </div>
+    <gameface-slider class="guic-slider-component" orientation="vertical"></gameface-slider>
+</div>
+`;
+
+        this.setup();
+        this.scrollbar.style.visibility = 'hidden';
+        this.shouldShowScrollbar();
+        if (this.automatic) this.initMutationObserver();
+        this.isRendered = true;
+        // });
     }
 
     /**
@@ -146,9 +196,10 @@ class ScrollableContainer extends BaseComponent {
         this.shouldShowScrollbarCallback = this.shouldShowScrollbarCallback.bind(this);
 
         // load the template
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
+        this.init();
     }
 
     /**
@@ -158,7 +209,7 @@ class ScrollableContainer extends BaseComponent {
         if (this.observer) this.removeMutationObserver();
 
         this.observer = new ResizeObserver(this.shouldShowScrollbar);
-        const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
+        const scrollableContent = this.shadowRoot.querySelector('slot[name="scrollable-content"]');
 
         this.observer.observe(scrollableContent);
         this.observer.observe(this);
@@ -176,9 +227,9 @@ class ScrollableContainer extends BaseComponent {
      * Set the scrollableContainer  and scrollbar members and attach event listeners.
     */
     setup() {
-        this.scrollableContainer = this.getElementsByClassName('guic-scrollable-container')[0];
-        this.scrollbar = this.getElementsByClassName('guic-slider-component')[0];
-        if (!components.isBrowserGameface()) this.scrollableContainer.classList.add('guic-native-scroll-disabled');
+        this.scrollableContainer = this.shadowRoot.querySelector('.guic-scrollable-container');
+        this.scrollbar = this.shadowRoot.querySelector('.guic-slider-component');
+        // if (!components.isBrowserGameface()) this.scrollableContainer.classList.add('guic-native-scroll-disabled');
         this.addEventListeners();
     }
 
@@ -219,6 +270,7 @@ class ScrollableContainer extends BaseComponent {
      * Called on scroll event of the scrollable container.
      */
     onScroll() {
+        console.log('a');
         // get the scroll position in percents
         this.scrollPos = (this.scrollableContainer.scrollTop / this.scrollableContainer.scrollHeight) * 100;
     }
@@ -245,7 +297,14 @@ class ScrollableContainer extends BaseComponent {
      * For example this.scrollableContainer.classList.add('some-class').
     */
     shouldShowScrollbar() {
-        components.waitForFrames(this.shouldShowScrollbarCallback);
+        // components.waitForFrames(this.shouldShowScrollbarCallback);
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => {
+                    this.shouldShowScrollbarCallback();
+                });
+            });
+        });
     }
 
     /**
@@ -253,7 +312,7 @@ class ScrollableContainer extends BaseComponent {
      * @returns {void}
      */
     shouldShowScrollbarCallback() {
-        const scrollableContent = this.querySelector('[data-name="scrollable-content"]');
+        const scrollableContent = this.shadowRoot.querySelector('slot[name="scrollable-content"]');
         const scrollableContentRect = scrollableContent.getBoundingClientRect();
         const boundingRect = this.getBoundingClientRect();
         if (scrollableContentRect.height <= boundingRect.height) {
@@ -275,25 +334,25 @@ class ScrollableContainer extends BaseComponent {
 /**
  * Will add styles for the non Coherent browsers that are disabling the native scrollbar
  */
-function addDisabledNativeScrollbarStyles() {
-    const style = document.createElement('style');
-    style.innerHTML = `
-        .guic-native-scroll-disabled {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .guic-native-scroll-disabled::-webkit-scrollbar {
-            display: none;
-        }`;
-    document.head.appendChild(style);
-}
+// function addDisabledNativeScrollbarStyles() {
+//     const style = document.createElement('style');
+//     style.innerHTML = `
+//         .guic-native-scroll-disabled {
+//             -ms-overflow-style: none;
+//             scrollbar-width: none;
+//         }
+//         .guic-native-scroll-disabled::-webkit-scrollbar {
+//             display: none;
+//         }`;
+//     document.head.appendChild(style);
+// }
 
-if (!components.isBrowserGameface() && !components.nativeScrollDisabledStylesAdded) {
-    addDisabledNativeScrollbarStyles();
-    // We are doing this to prevent readdition of the styles needed for the native scrollbar to not be visible.
-    // This problem is produced when multiple components have the scrollable container bundled.
-    components.nativeScrollDisabledStylesAdded = true;
-}
+// if (!components.isBrowserGameface() && !components.nativeScrollDisabledStylesAdded) {
+//     addDisabledNativeScrollbarStyles();
+//     // We are doing this to prevent readdition of the styles needed for the native scrollbar to not be visible.
+//     // This problem is produced when multiple components have the scrollable container bundled.
+//     components.nativeScrollDisabledStylesAdded = true;
+// }
 
-components.defineCustomElement('gameface-scrollable-container', ScrollableContainer);
-export default ScrollableContainer;
+customElements.define('gameface-scrollable-container', ScrollableContainer);
+// export default ScrollableContainer;

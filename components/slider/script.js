@@ -4,20 +4,179 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import verticalTemplate from './templates/vertical.html';
-import horizontalTemplate from './templates/horizontal.html';
-import { orientationUnitsNames } from './orientationUnitsNames';
+// import { Components } from 'coherent-gameface-components';
+// const components = new Components();
+// import verticalTemplate from './templates/vertical.html';
+// import horizontalTemplate from './templates/horizontal.html';
+import { orientationUnitsNames } from './orientationUnitsNames.js';
 
-const BaseComponent = components.BaseComponent;
+// const orientationUnitsNames = new Map([
+//     ['vertical', {
+//         mouseAxisCoords: 'clientY',
+//         size: 'height',
+//         sizePX: 'heightPX',
+//         position: 'top',
+//         scroll: 'scrollHeight',
+//         offset: 'offsetHeight',
+//     }],
+//     ['horizontal', {
+//         mouseAxisCoords: 'clientX',
+//         size: 'width',
+//         sizePX: 'widthPX',
+//         position: 'left',
+//         scroll: 'scrollWidth',
+//         offset: 'offsetWidth',
+//     }],
+// ]);
+// const BaseComponent = components.BaseComponent;
+const templateHorizontal = `
+<style>
+    .guic-horizontal-slider-wrapper {
+        width: 90vh;
+        display: flex;
+        flex-direction: row;
+        max-height: 15px;
+    }
 
+    .guic-slider-horizontal-arrow {
+        height: 15px;
+        width: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f1f1;
+    }
+
+    .guic-slider-arrow-right {
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+
+        border-left: 5px solid #505050;
+    }
+
+    .guic-slider-arrow-left {
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+
+        border-right: 5px solid #505050;
+    }
+
+    .guic-slider-horizontal-arrow:hover {
+        background-color: #c1c1c1;
+    }
+
+    .guic-slider-horizontal-slider {
+        width: 90%;
+        background-color: #f1f1f1;
+    }
+
+    .guic-slider-horizontal-handle {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 50px;
+        background-color: #c1c1c1;
+        cursor: pointer;
+    }
+
+    .guic-slider-horizontal-handle:hover {
+        background-color: #787878;
+    }
+</style>
+<div class="guic-horizontal-slider-wrapper">
+    <div class="guic-slider-horizontal-arrow up">
+        <div class="guic-slider-arrow-left"></div>
+    </div>
+    <div class="guic-slider-horizontal-slider">
+        <div class="guic-slider-horizontal-handle handle"></div>
+    </div>
+    <div class="guic-slider-horizontal-arrow down">
+        <div class="guic-slider-arrow-right"></div>
+    </div>
+</div>
+`;
+const templateVertical = `
+<!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<style>
+    .guic-vertical-slider-wrapper {
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        max-width: 15px;
+    }
+
+    .guic-slider-vertical-arrow {
+        height: 15px;
+        width: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f1f1;
+    }
+
+    .guic-slider-vertical-arrow:hover {
+        background-color: #c1c1c1;
+    }
+
+    .guic-slider-arrow-up {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+
+        border-bottom: 5px solid #505050;
+    }
+
+    .guic-slider-arrow-down {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+
+        border-top: 5px solid #505050;
+    }
+
+    .guic-slider-vertical-slider {
+        background-color: #f1f1f1;
+        flex: 1;
+    }
+
+    .guic-slider-vertical-handle {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 50px;
+        background-color: #c1c1c1;
+        cursor: pointer;
+    }
+
+    .guic-slider-vertical-handle:hover {
+        background-color: #787878;
+    }
+</style>
+<div class="guic-vertical-slider-wrapper">
+    <div class="guic-slider-vertical-arrow up">
+        <div class="guic-slider-arrow-up"></div>
+    </div>
+    <div class="guic-slider-vertical-slider">
+        <div class="guic-slider-vertical-handle handle"></div>
+    </div>
+    <div class="guic-slider-vertical-arrow down">
+        <div class="guic-slider-arrow-down"></div>
+    </div>
+</div>`;
 /**
  * Slider component; can be independently or as a building block of another
  * component - for example a scrollbar. This is a custom slider control, do not
  * confuse with the standard input type slider HTML element.
 */
-class Slider extends BaseComponent {
+class Slider extends HTMLElement {
     // eslint-disable-next-line require-jsdoc
     static get observedAttributes() { return ['step', 'orientation']; }
 
@@ -162,12 +321,11 @@ class Slider extends BaseComponent {
      * @param {object} data
     */
     init(data) {
-        this.setupTemplate(data, () => {
-            // render the template
-            components.renderOnce(this);
-            // do the initial setup - add event listeners, assign members
-            this.setup();
-        });
+        // this.setupTemplate(data, () => {
+        // render the template
+        // components.renderOnce(this);
+        // do the initial setup - add event listeners, assign members
+        // });
     }
 
 
@@ -184,26 +342,29 @@ class Slider extends BaseComponent {
         this.state.orientation = this.getAttribute('orientation');
         if (!['vertical', 'horizontal'].includes(this.orientation)) this.state.orientation = 'vertical';
         // use the template for the current slider orientation
-        this.template = (this.orientation === 'vertical') ? verticalTemplate : horizontalTemplate;
+        this.template = (this.orientation === 'vertical') ? templateVertical : templateHorizontal;
         /**
          * The names of the units are different for the two slider types.
          * ['clientY', 'height', 'heightPX', 'top', 'scrollHeight] for vertical and
          * ['clientX', 'width', 'widthPX', 'left', 'scrollWidth] for horizontal
         */
         this.units = orientationUnitsNames.get(this.orientation);
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.setup();
 
         // Load the template
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     /**
      * Set the slider and handle members and add event listeners.
     */
     setup() {
-        this.slider = this.getElementsByClassName(`guic-slider-${this.orientation}-slider`)[0];
-        this.handle = this.getElementsByClassName(`guic-slider-${this.orientation}-handle`)[0];
+        this.slider = this.shadowRoot.querySelector(`.guic-slider-${this.orientation}-slider`);
+        this.handle = this.shadowRoot.querySelector(`.guic-slider-${this.orientation}-handle`);
 
         this.attachEventListeners();
     }
@@ -228,7 +389,7 @@ class Slider extends BaseComponent {
      * @param {HTMLElement} scrollableContainer
     */
     resize(scrollableContainer) {
-        const sliderWrapper = this.querySelector(`.guic-${this.orientation}-slider-wrapper`);
+        const sliderWrapper = this.shadowRoot.querySelector(`.guic-${this.orientation}-slider-wrapper`);
         let scrollableContainerComponent = null;
         // We do it like that because in Gameface such syntax - scrollableContainer?.parentElement?.parentElement; is not woking
         if (scrollableContainer && scrollableContainer.parentElement) {
@@ -248,19 +409,25 @@ class Slider extends BaseComponent {
         }
 
         // Wait 1 layout frame so the the new slider height has taken effect set from the prev lines
-        components.waitForFrames(() => {
-            // get the size of the slider area
-            const sliderSize = this.slider[this.units.offset];
-            // get the size of the handle in percents relative to the current scroll(Height/Width)
-            const handleSizePercent = (sliderSize / scrollableContainer[this.units.scroll]) * 100;
-            // get the size of the handle in px;
-            const handleSize = (scrollableContainerSize / 100) * handleSizePercent;
-            // set the new size of the handle
-            this.handle.style[this.units.size] = handleSize + 'px';
+        // components.waitForFrames(() => {
+        // get the size of the slider area
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => {
+                    const sliderSize = this.slider[this.units.offset];
+                    // get the size of the handle in percents relative to the current scroll(Height/Width)
+                    const handleSizePercent = (sliderSize / scrollableContainer[this.units.scroll]) * 100;
+                    // get the size of the handle in px;
+                    const handleSize = (scrollableContainerSize / 100) * handleSizePercent;
+                    // set the new size of the handle
+                    this.handle.style[this.units.size] = handleSize + 'px';
 
-            this.scrollTo(this.handlePositionPx);
-            if (this.style.visibility === 'hidden') this.style.visibility = 'visible';
+                    this.scrollTo(this.handlePositionPx);
+                    if (this.style.visibility === 'hidden') this.style.visibility = 'visible';
+                });
+            });
         });
+        // });
     }
 
     /**
@@ -280,8 +447,8 @@ class Slider extends BaseComponent {
         this.slider.addEventListener('click', this.onClick);
         this.slider.addEventListener('wheel', this.onWheel);
         this.handle.addEventListener('mousedown', this.onMouseDown);
-        this.querySelector('.up').addEventListener('mousedown', this.onSlideUp);
-        this.querySelector('.down').addEventListener('mousedown', this.onSlideDown);
+        this.shadowRoot.querySelector('.up').addEventListener('mousedown', this.onSlideUp);
+        this.shadowRoot.querySelector('.down').addEventListener('mousedown', this.onSlideDown);
 
         // document listeners
         document.addEventListener('mousemove', this.onMouseMove);
@@ -427,5 +594,5 @@ class Slider extends BaseComponent {
     }
 }
 
-components.defineCustomElement('gameface-slider', Slider);
-export default Slider;
+customElements.define('gameface-slider', Slider);
+// export default Slider;

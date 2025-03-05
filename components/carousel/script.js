@@ -1,10 +1,13 @@
-import { Components } from 'coherent-gameface-components';
-import template from './template.html';
+/* eslint-disable max-lines-per-function */
+// import { Components } from 'coherent-gameface-components';
+import { components } from '../../lib/components.js';
 
-const components = new Components();
+// import template from './template.html';
+
+// const components = new Components();
 const BaseComponent = components.BaseComponent;
 
-const CONTENT_WRAPPER_SELECTOR = '.guic-carousel-content-wrapper';
+const CONTENT_WRAPPER_SELECTOR = 'slot[name="carousel-content"]';
 const DOTS_CONTAINER_SELECTOR = '.guic-carousel-dots';
 const DOT_SELECTOR = '.guic-carousel-dot';
 const CAROUSEL_SELECTOR = '.guic-carousel';
@@ -18,6 +21,7 @@ const DIRECTIONS = {
     RIGHT: 1,
 };
 
+
 /**
  * Class description
  */
@@ -25,8 +29,68 @@ class Carousel extends BaseComponent {
     /* eslint-disable-next-line require-jsdoc */
     constructor() {
         super();
-        this.template = template;
-        this.init = this.init.bind(this);
+        this.template = `
+        <link rel="stylesheet" href="./style.css">
+        <style>
+                .box {
+                    width: 100px;
+                    height: 100px;
+                }
+
+                #box0 {
+                    background-color: rgb(170, 215, 255);
+                }
+
+                #box1 {
+                    background-color: rgb(51, 162, 240);
+                }
+
+                #box2 {
+                    background-color: rgb(159, 235, 152);
+                }
+
+                #box3 {
+                    background-color: rgb(255, 243, 154);
+                }
+
+                #box4 {
+                    background-color: rgb(246, 230, 7);
+                }
+
+                #box5 {
+                    background-color: rgb(246, 173, 136);
+                }
+
+                #box6 {
+                    background-color: rgb(254, 103, 9);
+                }
+
+                #box7 {
+                    background-color: rgb(149, 254, 200);
+                }
+
+                #box8 {
+                    background-color: rgb(142, 251, 157);
+                }
+        </style>
+        <div class="guic-carousel">
+            <div class="guic-carousel-content-wrapper">
+                <slot name="carousel-content"></slot>
+            </div>
+            <div class="guic-carousel-btn-next guic-carousel-arrow guic-carousel-right-arrow">
+                <slot name="carousel-next" class="guic-carousel-arrow-slot">
+                    <div class="guic-carousel-inner-arrow guic-carousel-inner-arrow-right"></div>
+                </slot>
+            </div>
+            <div class="guic-carousel-btn-prev guic-carousel-arrow guic-carousel-left-arrow">
+                <slot name="carousel-previous" class="guic-carousel-arrow-slot">
+                    <div class="guic-carousel-inner-arrow guic-carousel-inner-arrow-left"></div>
+                </slot>
+            </div>
+        </div>
+        <div class="guic-carousel-dots"></div>
+        `;
+        // this.init = this.init.bind(this);
 
         this._pageSize = 2;
         this._navArrowStepSize = 1;
@@ -37,29 +101,48 @@ class Carousel extends BaseComponent {
 
     /* eslint-disable-next-line require-jsdoc */
     connectedCallback() {
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+
+        this.contentWrapper = this.shadowRoot.querySelector(CONTENT_WRAPPER_SELECTOR);
+        // window.requestAnimationFrame(() => {
+        //     window.requestAnimationFrame(() => {
+        //         window.requestAnimationFrame(() => {
+        this.initSize();
+
+        this.style.visibility = 'visible';
+
+        this.createPaginationControls();
+        this.attachControlButtonsListeners();
+
+        this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
+        this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
+        //         });
+        //     });
+        // });
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     /* eslint-disable-next-line require-jsdoc */
-    init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
+    // init(data) {
+    //     this.setupTemplate(data, () => {
+    //         components.renderOnce(this);
 
-            this.contentWrapper = this.querySelector(CONTENT_WRAPPER_SELECTOR);
-            components.waitForFrames(() => this.initSize());
-            this.style.visibility = 'visible';
+    //         this.contentWrapper = this.shadowRoot.querySelector(CONTENT_WRAPPER_SELECTOR);
+    //         components.waitForFrames(() => this.initSize());
+    //         this.style.visibility = 'visible';
 
-            this.createPaginationControls();
-            this.attachControlButtonsListeners();
+    //         this.createPaginationControls();
+    //         this.attachControlButtonsListeners();
 
-            this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
-            this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
+    //         this.shouldShowNavArrow(DIRECTIONS.RIGHT, this.nextStepIndex(this.navArrowStepSize));
+    //         this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
 
-            this.isRendered = true;
-        });
-    }
+    //         this.isRendered = true;
+    //     });
+    // }
 
     /**
      * Setup the sized of the carouse based on the items
@@ -68,6 +151,7 @@ class Carousel extends BaseComponent {
     initSize() {
         if (!this.items || !this.items[0]) return console.warn('No items were added to the carousel!');
         const { width, height } = this.items[0].getBoundingClientRect();
+        console.log(width, height);
         this.itemWidth = width;
         this.itemHeight = height;
 
@@ -87,7 +171,7 @@ class Carousel extends BaseComponent {
      * Return all carousel items.
      */
     get items() {
-        return this.querySelector(CONTENT_WRAPPER_SELECTOR).children;
+        return this.shadowRoot.querySelector(CONTENT_WRAPPER_SELECTOR).assignedElements();
     }
 
     /**
@@ -109,9 +193,13 @@ class Carousel extends BaseComponent {
             }
         });
 
-        components.waitForFrames(() => {
-            this.initSize();
-            this.createPaginationControls();
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => {
+                    this.initSize();
+                    this.createPaginationControls();
+                });
+            });
         });
     }
 
@@ -143,14 +231,14 @@ class Carousel extends BaseComponent {
      * Return the left navigation arrow HTML Element.
      */
     get leftArrow() {
-        return document.querySelector(PREV_ARROW_SELECTOR);
+        return this.shadowRoot.querySelector(PREV_ARROW_SELECTOR);
     }
 
     /**
      * Return the right navigation arrow HTML Element.
      */
     get rightArrow() {
-        return document.querySelector(NEXT_ARROW_SELECTOR);
+        return this.shadowRoot.querySelector(NEXT_ARROW_SELECTOR);
     }
 
     /**
@@ -307,14 +395,15 @@ class Carousel extends BaseComponent {
      * @param {index} index - the position at which to add it.
      */
     addItem(node, index) {
-        if (index === undefined || index < 0) {
-            this.contentWrapper.appendChild(node);
-        } else {
-            const referenceNode = this.items[index - 1];
-            referenceNode.parentNode.insertBefore(node, referenceNode);
-        }
+        this.appendChild(node);
+        // if (index === undefined || index < 0) {
+        // } else {
+        //     const referenceNode = this.items[index - 1];
+        //     referenceNode.parentNode.insertBefore(node, referenceNode);
+        // }
 
-        this.createPaginationControls();
+        this.rerenderControls();
+        // this.createPaginationControls();
     }
 
     /**
@@ -323,9 +412,9 @@ class Carousel extends BaseComponent {
      */
     removeItem(index = 0) {
         const items = this.items;
-        const itemsArr = Array.from(items);
-        itemsArr[index].remove();
-        this.createPaginationControls();
+        // const itemsArr = Array.from(items);
+        items[index].remove();
+        this.rerenderControls();
     }
 
     /**
@@ -391,7 +480,7 @@ class Carousel extends BaseComponent {
      * Create the pagination controls - the dots and attach click event handlers
      */
     createPaginationControls() {
-        const container = this.querySelector(DOTS_CONTAINER_SELECTOR);
+        const container = this.shadowRoot.querySelector(DOTS_CONTAINER_SELECTOR);
         container.innerHTML = '';
 
         for (let i = 0; i < this.pagesCount; i++) {
@@ -426,8 +515,8 @@ class Carousel extends BaseComponent {
      * Resize the carousel based on the size of the elements.
      */
     resize() {
-        this.querySelector(CAROUSEL_SELECTOR).style.width = this.pageSize * this.itemWidth + 'px';
-        this.querySelector(CAROUSEL_SELECTOR).style.height = this.itemHeight + 'px';
+        this.shadowRoot.querySelector(CAROUSEL_SELECTOR).style.width = this.pageSize * this.itemWidth + 'px';
+        this.shadowRoot.querySelector(CAROUSEL_SELECTOR).style.height = this.itemHeight + 'px';
         this.style.width = this.pageSize * this.itemWidth + 'px';
     }
 
@@ -435,8 +524,8 @@ class Carousel extends BaseComponent {
      * Attach the event handlers of the control buttons - next, previous
      */
     attachControlButtonsListeners() {
-        const singleNextButton = this.querySelector(NEXT_BTN_SELECTOR);
-        const singlePreviousButton = this.querySelector(PREV_BTN_SELECTOR);
+        const singleNextButton = this.shadowRoot.querySelector(NEXT_BTN_SELECTOR);
+        const singlePreviousButton = this.shadowRoot.querySelector(PREV_BTN_SELECTOR);
 
         singleNextButton.addEventListener('click', _ => this.next(1));
         singlePreviousButton.addEventListener('click', _ => this.previous(1));
@@ -452,5 +541,5 @@ class Carousel extends BaseComponent {
         this.shouldShowNavArrow(DIRECTIONS.LEFT, this.prevStepIndex(this.navArrowStepSize));
     }
 }
+
 components.defineCustomElement('gameface-carousel', Carousel);
-export default Carousel;

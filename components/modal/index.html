@@ -3,8 +3,11 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
-    <link rel="stylesheet" href="./style.css">
+    <link
+        rel="stylesheet"
+        href="./coherent-gameface-components-theme.css"
+    >
+    <!-- <link rel="stylesheet" href="./style.css"> -->
     <style>
         .character-customization {
             display: flex;
@@ -55,8 +58,14 @@
 <body class="guic-demo">
     <p>Chose a name for your character.</p>
     <div class="character-customization">
-        <input for="name" type="text" />
-        <button type="button" class="guic-modal-button save disabled">Save</button>
+        <input
+            for="name"
+            type="text"
+        />
+        <button
+            type="button"
+            class="guic-modal-button save disabled"
+        >Save</button>
     </div>
     <p class="name-text hidden">
         <span>The name you chose is: </span>
@@ -65,17 +74,79 @@
 
     <gameface-modal>
         <div slot="header">
-                Character name selection
+            Character name selection
         </div>
         <div slot="body">
             <div class="confirmation-text">Are you sure you want to save this name?</div>
         </div>
         <div slot="footer">
             <div class="actions">
-                <button id="confirm" class="close guic-modal-button confirm controls">Yes</button>
+                <button
+                    id="confirm"
+                    class="close guic-modal-button confirm controls"
+                >Yes</button>
                 <button class="close guic-modal-button discard controls">No</button>
             </div>
         </div>
     </gameface-modal>
+    <script
+        type="module"
+        src="./script.js"
+    ></script>
+    <script>
+        class Demo {
+            // eslint-disable-next-line require-jsdoc
+            constructor() {
+                this.saveButton = document.querySelector('.save');
+                this.confirmButton = document.querySelector('#confirm');
+                this.nameField = document.querySelector('input[for="name"]');
+
+                this.attachEventListeners();
+            }
+
+            /**
+             * Handler when the save button is clicked
+             */
+            onSaveName() {
+                document.getElementsByTagName('gameface-modal')[0].style.display = 'flex';
+            }
+
+            /**
+             * Attach listeners to all the modal buttons
+             */
+            attachEventListeners() {
+                this.confirmButton.addEventListener('click', this.onConfirm);
+
+                this.nameField.addEventListener('keyup', (e) => {
+                    if (this.nameField.value) {
+                        this.saveButton.classList.remove('disabled');
+                        this.saveButton.addEventListener('click', this.onSaveName);
+                        return;
+                    }
+                    this.saveButton.removeEventListener('click', this.onSaveName);
+                    this.saveButton.classList.add('disabled');
+                });
+            }
+
+            /**
+             * Handler when the confirm button is clicked
+             * @returns {void}
+             */
+            onConfirm() {
+                const modal = document.getElementsByTagName('gameface-modal')[0];
+                const nameText = document.querySelector('.name-text');
+                const nameField = document.querySelector('input[for="name"]');
+
+                if (!nameText || !nameField) return modal.close();
+                document.querySelector('.name').textContent = nameField.value;
+                modal.close();
+
+                nameText.classList.remove('hidden');
+                nameText.querySelector('.name').textContent = nameField.value;
+            }
+        }
+        const demo = new Demo();
+    </script>
 </body>
+
 </html>

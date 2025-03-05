@@ -1,9 +1,13 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<link rel="stylesheet" href="./coherent-gameface-components-theme.css">
-	<link rel="stylesheet" href="./style.css">
+	<link
+		rel="stylesheet"
+		href="./coherent-gameface-components-theme.css"
+	>
+	<!-- <link rel="stylesheet" href="./style.css"> -->
 	<style>
 		body {
 			width: 100vw;
@@ -32,12 +36,12 @@
 			background-color: #4a9cc5;
 			border-radius: 50%;
 		}
-		
+
 		.radial-menu-center-image {
 			position: absolute;
 			width: 80%;
 			height: 80%;
-			background-image: url('./images/GameMessage_AchievmentIcon.png');
+			background-image: url('./demo/images/GameMessage_AchievmentIcon.png');
 			background-size: cover;
 			background-repeat: no-repeat;
 		}
@@ -56,28 +60,108 @@
 		}
 	</style>
 </head>
+
 <body class="guic-demo">
-<!-- Provide the name of the object that holds the items in data-items attribute. -->
-<!-- Shift key to open. -->
-<p>Press Shift key to open a radial menu with custom center part</p>
-<p>Press Space key to open the default radial menu</p>
-<gameface-radial-menu id="radial-menu-one"
-			 data-name="Radial Menu"
-			 data-change-event-name="radOneItemChanged"
-			 data-select-event-name="radOneItemSelected"
-			 data-open-key-code="shift"
-			 class="radial-menu-component">
-			 <div slot="radial-menu-center" class="radial-menu-center">
-				<div class="radial-menu-center-bullseye"></div>
-				<div class="radial-menu-center-image"></div>
-			</div>
-			</gameface-radial-menu>
-<!-- Space key to open. -->
-<gameface-radial-menu id="radial-menu-two"
-			 data-name="Radial Menu 2"
-			 data-open-key-code="32"
-			 class="radial-menu-component-two">
-</gameface-radial-menu>
+	<!-- Provide the name of the object that holds the items in data-items attribute. -->
+	<!-- Shift key to open. -->
+	<p>Press Shift key to open a radial menu with custom center part</p>
+	<p>Press Space key to open the default radial menu</p>
+	<gameface-radial-menu
+		id="radial-menu-one"
+		data-name="Radial Menu"
+		data-change-event-name="radOneItemChanged"
+		data-select-event-name="radOneItemSelected"
+		data-open-key-code="shift"
+		class="radial-menu-component"
+	>
+		<div
+			slot="radial-menu-center"
+			class="radial-menu-center"
+		>
+			<div class="radial-menu-center-bullseye"></div>
+			<div class="radial-menu-center-image"></div>
+		</div>
+	</gameface-radial-menu>
+	<!-- Space key to open. -->
+	<gameface-radial-menu
+		id="radial-menu-two"
+		data-name="Radial Menu 2"
+		data-open-key-code="32"
+		class="radial-menu-component-two"
+	>
+	</gameface-radial-menu>
+	<script
+		src="./script.js"
+		type="module"
+	></script>
+	<script>
+		const itemsModel = {
+			items: [
+				{
+					id: '125',
+					name: 'Pistol X0RG',
+					imagePath: './demo/images/weapon1.png',
+				},
+				{
+					id: '421',
+					name: 'Shotgun SBud',
+					imagePath: './demo/images/weapon2.png',
+				},
+				{
+					id: '735',
+					name: 'Assault Brawl D0G',
+					imagePath: './demo/images/weapon3.png',
+				},
+				{
+					id: '234',
+					name: 'Laser Pistol G0RG',
+					imagePath: './demo/images/weapon4.png',
+				},
+				{
+					id: '635',
+					name: 'Big Fancy Gun V04',
+					imagePath: './demo/images/weapon5.png',
+				},
+				{
+					id: '872',
+					name: 'Snippy Flagger',
+					imagePath: './demo/images/weapon6.png',
+				},
+				{
+					id: '446',
+					name: 'Slide-Action DBud',
+					imagePath: './demo/images/weapon2.png',
+				},
+				{
+					id: '247',
+					name: 'Laser Blagger',
+					imagePath: './demo/images/weapon4.png',
+				},
+			],
+		};
+		setTimeout(() => {
+			const radialMenuOne = document.getElementById('radial-menu-one');
+			// Provide the items.
+			radialMenuOne.items = itemsModel.items;
+
+			const radialMenuTwo = document.getElementById('radial-menu-two');
+			// Provide the items.
+			radialMenuTwo.items = itemsModel.items;
+
+
+			// Listen to the same event names provided in the related attributes.
+			radialMenuOne.addEventListener('radOneItemChanged', () => {
+				console.log(`Highlighted item has changed.`);
+			});
+
+			radialMenuOne.addEventListener('radOneItemSelected', () => {
+				console.log(
+					('Item <' + radialMenuOne.selectedItem.name + '>' +
+						' with id: ' + radialMenuOne.selectedItem.id +
+						' in segment #' + radialMenuOne.currentSegmentId) + ' selected');
+			});
+		}, 100);
+	</script>
 </body>
 
 </html>

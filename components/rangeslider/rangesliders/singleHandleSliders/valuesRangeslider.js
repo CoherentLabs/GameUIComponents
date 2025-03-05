@@ -1,7 +1,7 @@
-import SingleHandleRangeSliderBase from './singleHandleRangeSliderBase';
+import SingleHandleRangeSliderBase from './singleHandleRangeSliderBase.js';
 // eslint-disable-next-line no-unused-vars
-import Rangeslider from '../../script';
-import { clamp } from '../rangeSliderUtils';
+import Rangeslider from '../../script.js';
+import { clamp } from '../rangeSliderUtils.js';
 
 /**
  * This is the rangeslider with values array which has single thumb and works with string values.

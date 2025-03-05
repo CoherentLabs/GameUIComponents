@@ -15,7 +15,7 @@ gameface-carousel {
     overflow: hidden;
 }
 
-.guic-carousel-content-wrapper {
+.guic-carousel-content-wrapper, [name="carousel-content"] {
     display: flex;
     position: absolute;
     left: 0px;

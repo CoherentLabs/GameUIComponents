@@ -4,11 +4,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import 'coherent-gameface-tooltip';
-import errorMessages from './errorMessages';
-import 'url-search-params-polyfill';
+import { components } from '../../lib/components.js';
+import '../tooltip/script.js';
+import errorMessages from './errorMessages.js';
+import './node_modules/url-search-params-polyfill/index.js';
 
 const NativeElementValidator = components.NativeElementValidator;
 

@@ -2,7 +2,10 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./style.css">
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
     <style>
         .box {
             width: 100px;
@@ -49,21 +52,131 @@
 
 <body>
     <gameface-carousel class="carousel-component">
-            <div slot="carousel-content" class="box" id="box0">0</div>
-            <div slot="carousel-content" class="box" id="box1">1</div>
-            <div slot="carousel-content" class="box" id="box2">2</div>
-            <div slot="carousel-content" class="box" id="box3">3</div>
-            <div slot="carousel-content" class="box" id="box4">4</div>
-            <div slot="carousel-content" class="box" id="box5">5</div>
-            <div slot="carousel-content" class="box" id="box6">6</div>
-            <div slot="carousel-content" class="box" id="box7">7</div>
+        <div
+            slot="carousel-content"
+            class="box"
+            id="box0"
+        >0</div>
+        <div
+            slot="carousel-content"
+            class="box"
+            id="box1"
+        >1</div>
+        <div
+            slot="carousel-content"
+            class="box"
+            id="box2"
+        >2</div>
+        <div
+            slot="carousel-content"
+            class="box"
+            id="box3"
+        >3</div>
+        <div
+            slot="carousel-content"
+            class="box"
+            id="box4"
+        >4</div>
+        <div
+            slot="carousel-content"
+            class="box"
+            id="box5"
+        >5</div>
+        <div
+            slot="carousel-content"
+            class="box"
+            id="box6"
+        >6</div>
+        <div
+            slot="carousel-content"
+            class="box"
+            id="box7"
+        >7</div>
     </gameface-carousel>
 
     <button id="add">Add Element</button>
     <button id="set-items">Set Elements</button>
     <button id="remove">Remove Element</button>
-    Page Size: <input id="change_page" placeholder="update page size"/>
+    Page Size: <input
+        id="change_page"
+        placeholder="update page size"
+    />
     <p id="log">No Logs!</p>
+    <script type="module" src="./script.js"></script>
+    <script>
+
+        /**
+         * Create an HTML element that can be added as an item to the carousel
+         * @param {string} textContent
+         * @returns {HTMLElement}
+         */
+        function createCarouselItem(textContent) {
+            const cItem = document.createElement('div');
+            cItem.textContent = textContent;
+            cItem.id = `box${textContent}`;
+            cItem.classList.add('box');
+            cItem.setAttribute('slot', 'carousel-content');
+            cItem.style.backgroundColor = `rgba(${getRandomArbitrary(1, 200)}, ${getRandomArbitrary(1, 200)}, ${getRandomArbitrary(1, 200)}, 1)`;
+
+            return cItem;
+        }
+
+        /**
+         * Returns a random number between min (inclusive) and max (exclusive)
+         * @param {number} min
+         * @param {number} max
+         * @returns {number}
+         */
+        function getRandomArbitrary(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        const logParagraph = document.querySelector('#log');
+
+        // add element function
+        document.querySelector('#add').addEventListener('click', () => {
+            const numberText = document.querySelectorAll('.box').length + 1;
+            document.querySelector('gameface-carousel').addItem(createCarouselItem(numberText));
+
+            logParagraph.textContent = `
+        Added Element at ${numberText} position.
+    `;
+        });
+
+        // remove element function
+        document.querySelector('#remove').addEventListener('click', () => {
+            const allItems = document.querySelectorAll('.box');
+            const allItemsLength = allItems.length;
+
+            const idxToRemove = Math.floor(getRandomArbitrary(0, allItemsLength - 1));
+            const itemToRemove = allItems[idxToRemove];
+            const itemText = itemToRemove.textContent;
+
+            document.querySelector('gameface-carousel').removeItem(idxToRemove);
+
+            logParagraph.textContent = `
+        Removed Element with number ${itemText}.
+    `;
+        });
+
+        // update page size function
+        document.querySelector('#change_page').addEventListener('keydown', (event) => {
+            // enter
+            if (event.keyCode === 13) document.querySelector('gameface-carousel').pageSize = Math.floor(event.currentTarget.value);
+        });
+
+        document.querySelector('#set-items').addEventListener('click', () => {
+            const items = [];
+
+            for (let i = 0; i < 10; i++) {
+                const numberText = i + '___element';
+                items.push(createCarouselItem(numberText));
+            }
+
+            logParagraph.textContent = `Added Elements.`;
+            document.querySelector('gameface-carousel').items = items;
+        });
+    </script>
 </body>
 
 </html>

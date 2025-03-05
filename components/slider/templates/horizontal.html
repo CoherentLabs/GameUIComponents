@@ -1,8 +1,70 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
+<style>
+    .guic-horizontal-slider-wrapper {
+        width: 90vh;
+        display: flex;
+        flex-direction: row;
+        max-height: 15px;
+    }
+
+    .guic-slider-horizontal-arrow {
+        height: 15px;
+        width: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f1f1;
+    }
+
+    .guic-slider-arrow-right {
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+
+        border-left: 5px solid #505050;
+    }
+
+    .guic-slider-arrow-left {
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+
+        border-right: 5px solid #505050;
+    }
+
+    .guic-slider-horizontal-arrow:hover {
+        background-color: #c1c1c1;
+    }
+
+    .guic-slider-horizontal-slider {
+        width: 90%;
+        background-color: #f1f1f1;
+    }
+
+    .guic-slider-horizontal-handle {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 50px;
+        background-color: #c1c1c1;
+        cursor: pointer;
+    }
+
+    .guic-slider-horizontal-handle:hover {
+        background-color: #787878;
+    }
+</style>
 <div class="guic-horizontal-slider-wrapper">
-    <div class="guic-slider-horizontal-arrow up"><div class="guic-slider-arrow-left"></div></div>
+    <div class="guic-slider-horizontal-arrow up">
+        <div class="guic-slider-arrow-left"></div>
+    </div>
     <div class="guic-slider-horizontal-slider">
         <div class="guic-slider-horizontal-handle handle"></div>
     </div>
-    <div class="guic-slider-horizontal-arrow down"><div class="guic-slider-arrow-right"></div></div>
+    <div class="guic-slider-horizontal-arrow down">
+        <div class="guic-slider-arrow-right"></div>
+    </div>
 </div>

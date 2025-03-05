@@ -4,15 +4,16 @@
 
 <head>
     <link rel="stylesheet" href="./coherent-gameface-components-theme.css">
-    <link rel="stylesheet" href="./node_modules/coherent-gameface-checkbox/style.css">
+    <!-- <link rel="stylesheet" href="./node_modules/coherent-gameface-checkbox/style.css">
     <link rel="stylesheet" href="./node_modules/coherent-gameface-radio-button/style.css">
     <link rel="stylesheet" href="./node_modules/coherent-gameface-switch/style.css">
     <link rel="stylesheet" href="./node_modules/coherent-gameface-rangeslider/styles/horizontal.css">
-    <link rel="stylesheet" href="./node_modules/coherent-gameface-dropdown/style.css">
     <link rel="stylesheet" href="./node_modules/coherent-gameface-tooltip/style.css">
-    <link rel="stylesheet" href="./node_modules/coherent-gameface-text-field/style.css">
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-text-field/style.css"> -->
+    <link rel="stylesheet" href="./node_modules/coherent-gameface-dropdown/style.css">
     <style>
         body {
+        background-color: white;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -140,8 +141,8 @@
             <div class="form-element">
                 <span class="label">Remember user</span>
                 <gameface-switch name="policy-agreement" value="accepted" type="text-inside">
-                    <component-slot data-name="switch-unchecked">No</component-slot>
-                    <component-slot data-name="switch-checked">Yes</component-slot>
+                    <slot name="switch-unchecked">No</slot>
+                    <slot name="switch-checked">Yes</slot>
                 </gameface-switch>
             </div>
             <div class="form-element">
@@ -187,20 +188,12 @@
             <div class="form-element">
                 <span>What are your interests?</span>
                 <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
-                    <component-slot data-name="checkbox-background">
-                        <div class="guic-checkbox-background"></div>
-                    </component-slot>
-                    <component-slot data-name="checkbox-label">
-                        <span class="guic-checkbox-label">Music</span>
-                    </component-slot>
+                    <div slot="checkbox-background" class="guic-checkbox-background"></div>
+                    <span slot="checkbox-label" class="guic-checkbox-label">Music</span>
                 </gameface-checkbox>
                 <gameface-checkbox name="user-interests" value="coding" class="checkbox-component form-element">
-                    <component-slot data-name="checkbox-background">
-                        <div class="guic-checkbox-background"></div>
-                    </component-slot>
-                    <component-slot data-name="checkbox-label">
-                        <span class="guic-checkbox-label">Coding</span>
-                    </component-slot>
+                    <div slot="checkbox-background" class="guic-checkbox-background"></div>
+                    <span slot="checkbox-label" class="guic-checkbox-label">Coding</span>
                 </gameface-checkbox>
             </div>
 
@@ -260,30 +253,18 @@
         <h2>Checkbox cases</h2>
         <gameface-form-control id="checkbox-test" action="http://localhost:3000/user" method="get">
             <gameface-checkbox name="user-interests" value="music" class="checkbox-component form-element">
-                <component-slot data-name="checkbox-background">
-                    <div class="guic-checkbox-background"></div>
-                </component-slot>
-                <component-slot data-name="checkbox-label">
-                    <span class="guic-checkbox-label">1</span>
-                </component-slot>
+                <div slot="checkbox-background" class="guic-checkbox-background"></div>
+                <span slot="checkbox-label" class="guic-checkbox-label">1</span>
             </gameface-checkbox>
             <!-- Should be skipped when form is submitted because it is disabled -->
             <gameface-checkbox disabled name="user-interests" value="coding" class="checkbox-component form-element">
-                <component-slot data-name="checkbox-background">
-                    <div class="guic-checkbox-background"></div>
-                </component-slot>
-                <component-slot data-name="checkbox-label">
-                    <span class="guic-checkbox-label">Disabled</span>
-                </component-slot>
+                <div slot="checkbox-background" class="guic-checkbox-background"></div>
+                <span slot="checkbox-label" class="guic-checkbox-label">Disabled</span>
             </gameface-checkbox>
             <!-- Should send "no" as value if it is checked -->
             <gameface-checkbox name="user-interests" class="checkbox-component form-element">
-                <component-slot data-name="checkbox-background">
-                    <div class="guic-checkbox-background"></div>
-                </component-slot>
-                <component-slot data-name="checkbox-label">
-                    <span class="guic-checkbox-label">No value</span>
-                </component-slot>
+                <div slot="checkbox-background" class="guic-checkbox-background"></div>
+                <span slot="checkbox-label" class="guic-checkbox-label">No value</span>
             </gameface-checkbox>
             <button class="form-element" type="submit">Submit</button>
         </gameface-form-control>
@@ -367,24 +348,24 @@
             <div class="form-element">
                 <span class="label">Normal</span>
                 <gameface-switch name="option1" value="option1-checked" type="text-inside">
-                    <component-slot data-name="switch-unchecked">No</component-slot>
-                    <component-slot data-name="switch-checked">Yes</component-slot>
+                    <span slot="switch-unchecked">No</span>
+                    <span slot="switch-checked">Yes</span>
                 </gameface-switch>
             </div>
             <!-- Should be skipped when form is submitted because it is disabled -->
             <div class="form-element">
                 <span class="label">Disabled</span>
                 <gameface-switch disabled name="option2" value="option2-checked" type="text-inside">
-                    <component-slot data-name="switch-unchecked">No</component-slot>
-                    <component-slot data-name="switch-checked">Yes</component-slot>
+                    <span slot="switch-unchecked">No</span>
+                    <span slot="switch-checked">Yes</span>
                 </gameface-switch>
             </div>
             <!-- Should send "no" as value if it is checked -->
             <div class="form-element">
                 <span class="label">No value</span>
                 <gameface-switch name="option3" type="text-inside">
-                    <component-slot data-name="switch-unchecked">No</component-slot>
-                    <component-slot data-name="switch-checked">Yes</component-slot>
+                    <span slot="switch-unchecked">No</span>
+                    <span slot="switch-checked">Yes</span>
                 </gameface-switch>
             </div>
             <button class="form-element" type="submit">Submit</button>
@@ -442,6 +423,106 @@
         <h3>Response data:</h3>
         <span class="response" id="form-eight-response"></span>
     </div>
+    <script src="../dropdown/dist/dropdown.development.js"></script>
+    <script src="../checkbox/script.js" type="module"></script>
+    <script src="../radio-button/script.js" type="module"></script>
+    <script src="../switch/script.js" type="module"></script>
+    <script src="../rangeslider/script.js" type="module"></script>
+    <script src="../tooltip/script.js" type="module"></script>
+    <script src="../text-field/script.js" type="module"></script>
+    <script src="./script.js" type="module"></script>
+    <script>
+        setTimeout(()=>{
+
+            document.getElementById('dropdown-test').addEventListener('loadend', (event) => {
+                document.getElementById('form-eight-response').textContent = event.detail.target.response;
+            });
+
+            // Custom validators should be set after the components library is added!
+
+            const form = document.getElementById('custom-validation-form');
+
+            form.addEventListener('loadend', (event) => {
+                document.getElementById('form-custom-validation').textContent = event.detail.target.response;
+            });
+
+
+            let serverError = false;
+            let serverNotReachable = false;
+
+            // Will set custom validators for the form element with name attribute that has value - "username"
+            form.setCustomValidators('username', {
+                // There is no required attribute to the form element so we can add validation about it here
+                valueMissing: {
+                    method: element => !element.value,
+                    errorMessage: () => 'The username is required! ',
+                },
+                // We can change the default message on the 'tooShort' preset validator
+                tooShort: {
+                    errorMessage: element => `The username should have more than ${element.getAttribute('minlength')} symbols typed! `,
+                },
+                // Async validator that checks if the user is already added to the database by making a request to the server
+                nameExists: {
+                    method: async (element) => {
+                        if (!element.value) return false;
+
+                        serverError = false;
+                        serverNotReachable = false;
+                        return new Promise((resolve) => {
+                            const xhr = new XMLHttpRequest();
+                            xhr.open('GET', `http://localhost:3000/user-exists?username=${element.value}`);
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.onload = event => resolve(event.target.response === 'true');
+                            xhr.onerror = () => {
+                                serverError = true;
+                                return resolve(true);
+                            };
+                            xhr.timeout = 1000;
+                            xhr.ontimeout = () => {
+                                serverNotReachable = true;
+                                return resolve(true);
+                            },
+                            xhr.send();
+                        });
+                    },
+                    errorMessage: (element) => {
+                        if (serverNotReachable) return 'Unable to reach the server! ';
+                        if (serverError) return 'Unable to reach the server due an error! ';
+
+                        return `"${element.value}" already used! Please use another one! `;
+                    },
+                },
+            });
+            // We can change where the error message can be displayed for the user name
+            // By default the error will be visible in a tooltip displayed next to the form element
+            form.setCustomDisplayErrorElement('username', '#username-error');
+
+            // We can set a custom validation of the form element with a custom method and a message
+            form.setCustomValidators('url', {
+                notStartingWithHttpProtocol: {
+                    method: element => !element.value.startsWith('http://') && !element.value.startsWith('https://'),
+                    errorMessage: () => 'The url should start with "http://" or "https://"!',
+                },
+            });
+
+            form.setCustomValidators('email', {
+                // We can remove the preset error message if the preset validator for email fails
+                // That will also remove the tooltip because no error messages should be visible even if the check fails
+                badEmail: {
+                    errorMessage: () => '',
+                },
+            });
+
+            window.postMessage = function (message) {
+                pm({
+                    origin: 'http://127.0.0.1/:3000',
+                    target: window,
+                    data: message,
+                });
+            };
+        },100)
+
+    </script>
 </body>
 
 </html>

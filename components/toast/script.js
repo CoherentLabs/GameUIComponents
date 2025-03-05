@@ -1,16 +1,138 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable require-jsdoc */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-import template from './template.html';
+import { components } from '../../lib/components.js';
+// import template from './template.html';
 
-const components = new Components();
+// const components = new Components();
 const BaseComponent = components.BaseComponent;
 const POSITIONS = ['left', 'right', 'center'];
 const GRAVITY = ['top', 'bottom'];
 const CLASS_PREFIX = 'guic-toast-';
+
+const template = `
+<style>
+.guic-toast-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    overflow-y: hidden;
+    width: 300px;
+    pointer-events: none;
+}
+
+.guic-toast-top {
+    top: 15px;
+}
+
+.guic-toast-bottom {
+    bottom: 15px;
+}
+
+.guic-toast-right {
+    right: 15px;
+}
+
+.guic-toast-left {
+    left: 15px;
+}
+
+.guic-toast-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.guic-toast-bottom>* {
+    animation: guic-toast-slide-up 1s ease-in-out;
+    margin-top: 5px;
+}
+
+.guic-toast-top>* {
+    animation: guic-toast-slide-down 1s ease-in-out;
+    margin-bottom: 5px;
+}
+
+@keyframes guic-toast-slide-up {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes guic-toast-slide-down {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+:host {
+    display: none;
+    min-width: 75%;
+    max-width: 100%;
+    pointer-events: auto;
+}
+
+:host.guic-toast-show {
+    display: block;
+}
+
+@keyframes guic-toast-fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+:host.guic-toast-hide {
+    animation: guic-toast-fade-out 0.5s ease forwards;
+}
+
+.guic-toast {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.guic-toast-message {
+    flex: 1 1 0;
+}
+
+.guic-toast-close-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    text-align: center;
+    z-index: 2;
+}
+</style>
+<div class="guic-toast">
+    <div class="guic-toast-message">
+        <slot name="message"></slot>
+    </div>
+    <slot class="guic-toast-close-btn" name="close-btn"></slot>
+</div>`;
 
 /**
  * Class definition of the gameface toast custom element
@@ -84,29 +206,31 @@ class GamefaceToast extends BaseComponent {
     }
 
     init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
-            if (this.hasAttribute('position')) this.updatePositionState(this.getAttribute('position'));
-            if (this.hasAttribute('timeout')) this.updateAttributeState('timeout', parseInt(this.getAttribute('timeout')) || 0);
-            if (this.hasAttribute('target')) this.updateAttributeState('target', this.getAttribute('target'));
-            // We set isAppended to true here because when the toast is reappended to the DOM the init method runs again
-            if (this.parentElement.classList.contains('guic-toast-container')) this.state.isAppended = true;
+        // this.setupTemplate(data, () => {
+        // components.renderOnce(this);
+        if (this.hasAttribute('position')) this.updatePositionState(this.getAttribute('position'));
+        if (this.hasAttribute('timeout')) this.updateAttributeState('timeout', parseInt(this.getAttribute('timeout')) || 0);
+        if (this.hasAttribute('target')) this.updateAttributeState('target', this.getAttribute('target'));
+        // We set isAppended to true here because when the toast is reappended to the DOM the init method runs again
+        if (this.parentElement.classList.contains('guic-toast-container')) this.state.isAppended = true;
 
-            this._messageSlot = this.querySelector('.guic-toast-message').firstElementChild;
-            this._closeButton = this.querySelector('.guic-toast-close-btn');
+        if (GamefaceToast.wrapperContainers.length === 0) this.createToastContainers();
 
-            if (GamefaceToast.wrapperContainers.length === 0) this.createToastContainers();
-
-            // attach event handlers here
-            this.attachEventListeners();
-            this.isRendered = true;
-        });
+        // attach event handlers here
+        const shadow = this.shadowRoot || this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        this._messageSlot = this.shadowRoot.querySelector('slot[name="message"]');
+        this._closeButton = this.shadowRoot.querySelector('.guic-toast-close-btn').assignedNodes()[0];
+        this.attachEventListeners();
+        // });
     }
 
     connectedCallback() {
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        this.init();
+        // components.loadResource(this)
+        // .then(this.init)
+        // .catch(err => console.error(err));
     }
 
     disconnectedCallback() {
@@ -283,10 +407,15 @@ class GamefaceToast extends BaseComponent {
      * Setups the close button of the toast
      */
     async handleCloseButton() {
-        await components.waitForFrames(() => {
-            const { clientWidth, clientHeight } = this._closeButton.firstElementChild;
-            if (clientWidth && clientHeight) this._closeButton.addEventListener('click', this.hide);
-        }, 2);
+        if (!this._closeButton) return;
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+                const { clientWidth, clientHeight } = this._closeButton;
+                if (clientWidth && clientHeight) this._closeButton.addEventListener('click', this.hide);
+            });
+        });
+        // await components.waitForFrames(() => {
+        // }, 2);
     }
 
     /**
@@ -299,5 +428,5 @@ class GamefaceToast extends BaseComponent {
         }
     }
 }
-components.defineCustomElement('gameface-toast', GamefaceToast);
-export default GamefaceToast;
+customElements.define('gameface-toast', GamefaceToast);
+// export default GamefaceToast;

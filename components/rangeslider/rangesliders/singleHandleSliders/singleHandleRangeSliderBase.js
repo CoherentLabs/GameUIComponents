@@ -1,10 +1,205 @@
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import verticalTemplate from '../../templates/vertical.html';
-import horizontalTemplate from '../../templates/horizontal.html';
+import { components } from '../../../../lib/components.js';
+// const components = new Components();
+// import verticalTemplate from '../../templates/vertical.html';
+// import horizontalTemplate from '../../templates/horizontal.html';
 // eslint-disable-next-line no-unused-vars
-import Rangeslider from '../../script';
-import RangeSliderBase from '../rangesliderBase';
+import Rangeslider from '../../script.js';
+import RangeSliderBase from '../rangesliderBase.js';
+
+const commonStyles = `
+.handle-0[active],
+.handle-1[active] {
+    border-style: solid;
+    border-width: 2px;
+    border-color: #0085a7;
+    z-index: 10;
+}`;
+
+const verticalTemplate = `
+<style>
+${commonStyles}
+.guic-vertical-rangeslider-wrapper {
+    width: 5vh;
+    display: flex;
+    height: 40vh;
+    margin: 10vh;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+}
+
+.guic-vertical-rangeslider {
+    position: relative;
+    width: 5px;
+    height: 100%;
+    background-color:rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.guic-vertical-rangeslider-handle {
+    position: absolute;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #00ccff;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.guic-vertical-rangeslider-bar {
+    position: absolute;
+    top: 100%;
+    left: 0px;
+    height: 50%;
+    width: 100%;
+    background-color: #0085a7;
+    transform: translateY(-100%);
+}
+
+.guic-vertical-rangeslider-grid {
+    display: flex;
+    flex-direction: column-reverse;
+    position: absolute;
+    left: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.guic-rangeslider-vertical-grid-pol-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 2px;
+}
+
+.guic-rangeslider-vertical-grid-pol {
+    width: 10px;
+    height: 2px;
+    background-color: black;
+}
+
+.guic-rangeslider-vertical-grid-text {
+    color: black;
+    font-size: 0.8rem;
+}
+
+.guic-rangeslider-vertical-pol-without-text {
+    width: 5px;
+}
+
+.guic-vertical-rangeslider-thumb {
+    position: absolute;
+    right: 300%; /* Since the percent of the left/right property is based on the width of the parent, to position the handle to the left we need 3x the width */
+    transform: translateY(-50%);
+    background-color: #0085a7;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+</style>
+<div class="guic-vertical-rangeslider-wrapper">
+    <div class="guic-vertical-rangeslider">
+        <div class="guic-vertical-rangeslider-bar"></div>
+        <div class="guic-vertical-rangeslider-handle"></div>
+    </div>
+</div>
+`;
+
+const horizontalTemplate = `
+<style>
+${commonStyles}
+.guic-horizontal-rangeslider-wrapper {
+    width: 40vh;
+    display: flex;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    margin: 10vh;
+    user-select: none;
+}
+
+.guic-horizontal-rangeslider {
+    position: relative;
+    width: 100%;
+    height: 5px;
+    background-color:rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+}
+
+.guic-horizontal-rangeslider-handle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #00ccff;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.guic-horizontal-rangeslider-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 50%;
+    background-color: #0085a7;
+}
+
+.guic-horizontal-rangeslider-grid {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.guic-rangeslider-horizontal-grid-pol-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 2px;
+}
+
+.guic-rangeslider-horizontal-grid-pol {
+    height: 10px;
+    width: 2px;
+    background-color: black;
+}
+
+.guic-rangeslider-horizontal-grid-text {
+    color: black;
+    font-size: 0.8rem;
+}
+
+.guic-rangeslider-horizontal-pol-without-text {
+    height: 5px;
+}
+
+.guic-horizontal-rangeslider-thumb {
+    position: absolute;
+    top: -800%; /* Since the percent of the top property is based on the height of the parent, to position the handle above we need 8x the height */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0085a7;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+</style>
+<div class="guic-horizontal-rangeslider-wrapper">
+    <div class="guic-horizontal-rangeslider">
+        <div class="guic-horizontal-rangeslider-bar"></div>
+        <div class="guic-horizontal-rangeslider-handle"></div>
+    </div>
+</div>
+`;
 
 /**
  * This class holds common methods and data for all the rangesliders with a single handle
@@ -76,7 +271,7 @@ export default class SingleHandleRangeSliderBase extends RangeSliderBase {
      */
     setup() {
         components.waitForFrames(() => {
-            this.handle = this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-handle`);
+            this.handle = this.rangeslider.shadowRoot.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-handle`);
             this.setupSlider();
         }, 3);
     }
@@ -89,7 +284,7 @@ export default class SingleHandleRangeSliderBase extends RangeSliderBase {
         if (this.thumb) {
             this.buildThumb(this.value);
 
-            this.thumbElement = this.rangeslider.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-thumb`);
+            this.thumbElement = this.rangeslider.shadowRoot.querySelector(`.guic-${this.rangeslider.orientation}-rangeslider-thumb`);
         }
     }
 

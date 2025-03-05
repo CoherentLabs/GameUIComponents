@@ -4,12 +4,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import BasicRangeSlider from './rangesliders/singleHandleSliders/basicRangeslider';
-import ValuesRangeSlider from './rangesliders/singleHandleSliders/valuesRangeslider';
-import BasicTwoHandlesRangeSlider from './rangesliders/twoHandlesSliders/basicTwoHandlesRangeSlider';
-import { checkOrientation } from './rangesliders/rangeSliderUtils';
+import { components } from '../../lib/components.js';
+// const components = new Components();
+import BasicRangeSlider from './rangesliders/singleHandleSliders/basicRangeslider.js';
+import ValuesRangeSlider from './rangesliders/singleHandleSliders/valuesRangeslider.js';
+import BasicTwoHandlesRangeSlider from './rangesliders/twoHandlesSliders/basicTwoHandlesRangeSlider.js';
+import { checkOrientation } from './rangesliders/rangeSliderUtils.js';
 
 const RANGE_SLIDERS_TYPES = {
     BASIC: 'basic',

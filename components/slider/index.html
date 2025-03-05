@@ -1,43 +1,71 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="./coherent-gameface-components-theme.css" />
-        <link rel="stylesheet" href="./styles/horizontal.css" />
-        <link rel="stylesheet" href="./styles/vertical.css" />
-        <style>
-            .guic-vertical-slider-wrapper {
-                height: 40vh;
-            }
 
-            .guic-slider-horizontal-slider {
-                width: 30vh;
-            }
+<head>
+    <link
+        rel="stylesheet"
+        href="./coherent-gameface-components-theme.css"
+    />
+    <!-- <link rel="stylesheet" href="./styles/horizontal.css" />
+        <link rel="stylesheet" href="./styles/vertical.css" /> -->
+    <style>
+        .guic-vertical-slider-wrapper {
+            height: 40vh;
+        }
 
-            .flex-container {
-                display: flex;
-            }
+        .guic-slider-horizontal-slider {
+            width: 30vh;
+        }
 
-            .avatar {
-                width: 30vh;
-                height: 40vh;
-                background-size: contain;
-                background-repeat: no-repeat no-repeat;
-                background-image: url(images/avatar.png);
-            }
-        </style>
-    </head>
-    <body class="guic-demo">
-        <div class="slider-container">
-            <h3 class="blur-text">Blur: 0</h3>
-            <div class="flex-container">
-                <gameface-slider class="slider-component" orientation="vertical"></gameface-slider>
-                <div class="avatar"></div>
-            </div>
+        .flex-container {
+            display: flex;
+        }
+
+        .avatar {
+            width: 30vh;
+            height: 40vh;
+            background-size: contain;
+            background-repeat: no-repeat no-repeat;
+            background-image: url(./demo/images/avatar.png);
+        }
+    </style>
+</head>
+
+<body class="guic-demo">
+    <div class="slider-container">
+        <h3 class="blur-text">Blur: 0</h3>
+        <div class="flex-container">
+            <gameface-slider
+                class="slider-component"
+                orientation="vertical"
+            ></gameface-slider>
+            <div class="avatar"></div>
         </div>
-        <div class="slider-container">
-            <gameface-slider class="horizontal-slider-component" orientation="horizontal"></gameface-slider>
-            <h3 class="rotate-text">Hue Rotate: 0</h3>
-        </div>
-    </body>
+    </div>
+    <div class="slider-container">
+        <gameface-slider
+            class="horizontal-slider-component"
+            orientation="horizontal"
+        ></gameface-slider>
+        <h3 class="rotate-text">Hue Rotate: 0</h3>
+    </div>
+    <script type="module" src="./script.js"></script>
+    <script>
+        let blur = 0;
+        let hueRotate = 0;
+        document.querySelector('.slider-component').addEventListener('slider-scroll', (e) => {
+            blur = e.detail.handlePosition / 10;
+            document.querySelector('.blur-text').innerHTML = `Blur: ${blur}`;
+            document.querySelector('.avatar').style.filter = `blur(${blur}px) hue-rotate(${hueRotate}deg)`;
+        });
+
+        document.querySelector('.horizontal-slider-component').addEventListener('slider-scroll', (e) => {
+            hueRotate = e.detail.handlePosition * 3.6;
+            document.querySelector('.rotate-text').innerHTML = `Hue Rotate: ${hueRotate}`;
+            document.querySelector('.avatar').style.filter = `blur(${blur}px) hue-rotate(${hueRotate}deg)`;
+        });
+    </script>
+</body>
+
 </html>

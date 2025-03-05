@@ -4,9 +4,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import template from './template.html';
+// import { Components } from 'coherent-gameface-components';
+// const components = new Components();
+// import template from './template.html';
+import { components } from '../../lib/components.js';
+
+const templateCSS = `
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style-grid.css">
+`;
+
+const templateHTML = `
+<div class="guic-automatic-grid">
+    <div class="guic-automatic-grid-container"></div>
+    <slot name="item"></slot>
+</div>
+`;
 
 const maxColumns = 12; // Max number of columns as it's based on the grid component
 const BaseComponent = components.BaseComponent;
@@ -34,34 +47,18 @@ class AutomaticGrid extends BaseComponent {
 
     /**
      * @constructor
+     * @param {string} additionalStyles
      */
-    constructor() {
+    constructor(additionalStyles) {
         super();
         // use the template to create the base grid
-        this.template = template;
+        // this.template = template;
+        // const additionalStyles = document.querySelector('[data-automatic-grid]');
+        this.template = templateCSS + `<style>${additionalStyles}</style>` + templateHTML;
 
         this.dragStart = this.dragStart.bind(this);
         this.dragMove = this.dragMove.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
-        this.init = this.init.bind(this);
-    }
-
-    /**
-    * Initialize the custom component.
-    * Set template, attach event listeners, setup initial state etc.
-    * @param {object} data
-   */
-    init(data) {
-        this.setupTemplate(data, () => {
-            // render the template
-            components.renderOnce(this);
-
-            // Get the grid container, where all of the cells will be
-            this._gridContainer = this.querySelector('.guic-automatic-grid-container');
-
-            this.buildGrid();
-            this.addItemsToCells();
-        });
     }
 
     /**
@@ -82,10 +79,13 @@ class AutomaticGrid extends BaseComponent {
         // The array of cells
         this._cells = [];
 
-        // Load the template
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+
+        this._gridContainer = this.shadowRoot.querySelector('.guic-automatic-grid-container');
+
+        this.buildGrid();
+        this.addItemsToCells();
     }
 
     /**
@@ -104,6 +104,7 @@ class AutomaticGrid extends BaseComponent {
             const element = document.createElement('div');
 
             element.classList.add('guic-automatic-grid-cell');
+            element.setAttribute('part', 'cell');
             element.classList.add(`guic-col-${AutomaticGrid.formatFloat(maxColumns / this._columns)}`); // We add the grid class to each cell based on the number of columns
 
             element.dataset.col = (i % this._columns) + 1; // We set the cell column so that it's available if we need it later. +1 so that columns don't start from 0
@@ -122,7 +123,15 @@ class AutomaticGrid extends BaseComponent {
      */
     addItemsToCells() {
         // The items we have added to the grid
-        const items = Array.from(this.querySelectorAll('component-slot'));
+        const items = Array.from(this.querySelectorAll('[slot="item"]'));
+        // items.forEach((item) => {
+        //     item.addEventListener('mouseup', (event) => {
+        //         this.dispatchEvent(new MouseEvent('mouseup', {
+        //             bubbles: true,
+        //             composed: true,
+        //         }));
+        //     });
+        // });
 
         // We check if an item has data-bind-for and we skip adding the items before the data-binding. After data-binding the attribute is "data-bind-meta-for"
         if (items.findIndex(item => item.hasAttribute('data-bind-for')) >= 0) return;
@@ -189,6 +198,7 @@ class AutomaticGrid extends BaseComponent {
     dragStart(event) {
         // We set the draggedItem to the one we are dragging so it can be used in other functions.
         this._draggedItem = event.currentTarget;
+        // const target = this.shadowRoot.elementFromPoint(event.clientX, event.clientY);
 
         // Calculate offsetX and offsetY from the top left corner of the dragged item
         const offsetX = event.clientX - this._draggedItem.getBoundingClientRect().x;
@@ -223,19 +233,20 @@ class AutomaticGrid extends BaseComponent {
      * @param {HTMLEvent} event
      */
     dragEnd(event) {
+        const target = this.shadowRoot.elementFromPoint(event.clientX, event.clientY);
+
         // Removes the class that was added when the drag started
         this._draggedItem.classList.remove('guic-dragged');
 
-        this.dropItem(event.target);
+        this.dropItem(target);
 
         // Reset the registry point to the top left
         this._draggedItem.style.transform = `translateX(0) translateY(0)`;
 
-        // Removes the dragged item
-        this._draggedItem = null;
-
         document.removeEventListener('mousemove', this.dragMove);
         document.removeEventListener('mouseup', this.dragEnd);
+        // Removes the dragged item
+        this._draggedItem = null;
     }
 
     /**
@@ -281,4 +292,4 @@ class AutomaticGrid extends BaseComponent {
 }
 
 components.defineCustomElement('gameface-automatic-grid', AutomaticGrid);
-export default AutomaticGrid;
+// customElements.define('gameface-automatic-grid', AutomaticGrid);

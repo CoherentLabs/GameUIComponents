@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="./coherent-gameface-components-theme.css" />
-        <link rel="stylesheet" href="./style.css" />
+        <!-- <link rel="stylesheet" href="./style.css" /> -->
         <style>
             body {
                 background-color: #ebebeb;
@@ -54,5 +54,9 @@
                 <gameface-stepper-item>Impossible</gameface-stepper-item>
             </gameface-stepper>
         </div>
+        <script type="module" src="./script.js"></script>
+        <script>
+            document.querySelector('gameface-stepper').addEventListener('stepperupdate', (event) => console.log(event.detail));
+        </script>
     </body>
 </html>

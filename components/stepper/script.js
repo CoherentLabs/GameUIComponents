@@ -3,12 +3,79 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import template from './template.html';
-
+// import { Components } from 'coherent-gameface-components';
+// const components = new Components();
+// import template from './template.html';
+// console.log(template)
+import { components } from '../../lib/components.js';
 const { BaseComponent } = components;
 
+const template = `
+<style>
+    gameface-stepper {
+        display: flex;
+    }
+
+    gameface-stepper-item {
+        display: none;
+    }
+
+    .guic-stepper {
+        display: flex;
+        border-width: 1px;
+        border-style: solid;
+        border-color: lightgray;
+        font-size: 16px;
+        height: 3vmax;
+        overflow: hidden;
+    }
+
+    .guic-stepper-button {
+        color: var(--default-color-blue);
+        position: relative;
+        font-size: 1.2rem;
+        width: 3vmax;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .guic-stepper-button:hover {
+        background-color: var(--default-color-gray);
+    }
+
+    .guic-stepper-button:active {
+        background-color: var(--default-color-blue);
+        color: var(--default-color-white);
+    }
+
+    .guic-stepper-left::after {
+        content: '<';
+        position: absolute;
+    }
+
+    .guic-stepper-right::after {
+        content: '>';
+        position: absolute;
+    }
+
+    .guic-stepper-value {
+        color: black;
+        min-width: 7vmax;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-transform: uppercase;
+    }
+</style>
+<div class="guic-stepper">
+    <div class="guic-stepper-button guic-stepper-left"></div>
+    <div class="guic-stepper-value"></div>
+    <div class="guic-stepper-button guic-stepper-right"></div>
+</div>
+`;
 /**
  * Class description
  */
@@ -90,6 +157,28 @@ class Stepper extends BaseComponent {
         if (name === 'value') this.updateValueState(newValue);
     }
 
+    isStatePropValid(name, value) {
+        const schemaProperty = this.stateSchema[name];
+
+        if (!schemaProperty) {
+            console.error(`A property ${name} does not exist on type ${this.tagName.toLowerCase()}!`);
+            return false;
+        }
+
+        const type = typeof value;
+        if (schemaProperty.type.includes('array')) {
+            const isArray = Array.isArray(value);
+            if (isArray) return true;
+        }
+
+        if (!schemaProperty.type.includes(type)) {
+            console.error(`Property ${name} can not be of type - ${type}. Allowed types are: ${schemaProperty.type.join(',')}`);
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Update the stepper's state.
      * @param {string} name - the name of the prop
@@ -120,34 +209,37 @@ class Stepper extends BaseComponent {
     }
 
     init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
+        // this.setupTemplate(data, () => {
+        // components.renderOnce(this);
 
-            this.itemElements.forEach(item => this.appendChild(item));
+        this.itemElements.forEach(item => this.shadowRoot.appendChild(item));
 
-            this.leftButton = this.querySelector('.guic-stepper-left');
-            this.rightButton = this.querySelector('.guic-stepper-right');
-            this.valueElement = this.querySelector('.guic-stepper-value');
-            const valueAttr = this.getAttribute('value');
-            // If there is no `value` attribute then set the stepper value to default
-            if (valueAttr === null) this.value = this.items[0];
-            // Try to update the state with the passed value and if it is invalid set the stepper value to default
-            else if (!this.updateValueState(valueAttr)) {
-                console.warn(`Will set the first item from the items array as value - '${this.items[0]}'`);
-                this.value = this.items[0];
-            }
-            this.attachListeners();
-        });
+        this.leftButton = this.shadowRoot.querySelector('.guic-stepper-left');
+        this.rightButton = this.shadowRoot.querySelector('.guic-stepper-right');
+        this.valueElement = this.shadowRoot.querySelector('.guic-stepper-value');
+        const valueAttr = this.getAttribute('value');
+        // If there is no `value` attribute then set the stepper value to default
+        if (valueAttr === null) this.value = this.items[0];
+        // Try to update the state with the passed value and if it is invalid set the stepper value to default
+        else if (!this.updateValueState(valueAttr)) {
+            console.warn(`Will set the first item from the items array as value - '${this.items[0]}'`);
+            this.value = this.items[0];
+        }
+        this.attachListeners();
+        // });
     }
 
     connectedCallback() {
         this.itemElements = Array.from(this.querySelectorAll('gameface-stepper-item'));
         this._items = this.getItems();
-
-        components
-            .loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        this.init();
+        // components
+        //     .loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     disconnectedCallback() {
@@ -228,5 +320,5 @@ class Stepper extends BaseComponent {
         this.value = this.items[this.selectedIndex + 1];
     }
 }
-components.defineCustomElement('gameface-stepper', Stepper);
+customElements.define('gameface-stepper', Stepper);
 export default Stepper;

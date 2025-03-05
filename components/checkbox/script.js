@@ -2,11 +2,72 @@
  *  Copyright (c) Coherent Labs AD. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { Components } from 'coherent-gameface-components';
-import template from './template.html';
+import { components } from '../../lib/components.js';
+const { CustomElementValidator } = components;
 
-const components = new Components();
-const CustomElementValidator = components.CustomElementValidator;
+const template = `
+<style>
+.guic-checkbox-wrapper {
+    position: relative;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.guic-checkbox-wrapper-inner {
+    background-color: var(--default-color-white);
+}
+
+.guic-checkbox-background {
+    box-sizing: border-box;
+    top: 0px;
+    width: 30px;
+    height: 30px;
+    border-width: 5px;
+    border-style: solid;
+    border-top-color: var(--default-color-gray);
+    border-right-color: var(--default-color-gray);
+    border-bottom-color: var(--default-color-gray);
+    border-left-color: var(--default-color-gray);
+}
+
+.guic-check-mark {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--default-color-blue);
+}
+
+.guic-checkbox-label {
+    position: relative;
+    padding-left: 10px;
+    line-height: 30px;
+    user-select: none;
+}
+
+.guic-checkbox-disabled {
+    filter: grayscale(0.2);
+    opacity: 0.5;
+    pointer-events: none;
+}
+</style>
+<div class="guic-checkbox-wrapper">
+    <div class="guic-checkbox-wrapper-inner">
+        <slot class="guic-checkbox-background" name="checkbox-background">
+            <div></div>
+        </slot>
+        <slot class="guic-check-mark" name="check-mark" style="display: none;">
+            <div></div>
+        </slot>
+    </div>
+    <slot class="guic-checkbox-label" name="checkbox-label"><span>Click me!</span></slot>
+</div>
+`;
+
+// const components = new Components();
+// const CustomElementValidator = components.CustomElementValidator;
 
 /**
  * Class definition of the gameface checkbox custom element
@@ -78,7 +139,7 @@ class Checkbox extends CustomElementValidator {
      */
     updateCheckedState(value) {
         this.updateState('checked', value);
-        this.querySelector('[data-name="check-mark"]').style.display = value ? 'block' : 'none';
+        this.shadowRoot.querySelector('slot[name="check-mark"]').style.display = value ? 'block' : 'none';
     }
 
     // eslint-disable-next-line require-jsdoc
@@ -134,10 +195,10 @@ class Checkbox extends CustomElementValidator {
         this.updateState('disabled', value);
 
         if (value) {
-            this.firstChild.classList.add('guic-checkbox-disabled');
+            this.componentWrapper.classList.add('guic-checkbox-disabled');
             this.setAttribute('tabindex', '-1');
         } else {
-            this.firstChild.classList.remove('guic-checkbox-disabled');
+            this.componentWrapper.classList.remove('guic-checkbox-disabled');
             this.setAttribute('tabindex', '0');
         }
     }
@@ -186,18 +247,23 @@ class Checkbox extends CustomElementValidator {
      * @param {object} data
     */
     init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
-            this.addEventListener('click', this.toggleChecked);
-            this.initCheckboxState();
-        });
+        // this.setupTemplate(data, () => {
+        // components.renderOnce(this);
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        this.componentWrapper = this.shadowRoot.querySelector('.guic-checkbox-wrapper');
+        this.addEventListener('click', this.toggleChecked);
+        this.initCheckboxState();
+        // });
     }
 
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        this.init();
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     /**

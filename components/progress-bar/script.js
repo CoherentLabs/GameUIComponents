@@ -4,10 +4,30 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import template from './template.html';
+import { components } from '../../lib/components.js';
+// const components = new Components();
+// import template from './template.html';
+const template = `
+<style>
+.guic-progress-bar {
+    border: 2px solid;
+    border-top-color: var(--default-color-gray);
+    border-right-color: var(--default-color-gray);
+    border-bottom-color: var(--default-color-gray);
+    border-left-color: var(--default-color-gray);
+    height: 100%;
+    width: 100%;
+}
 
+.guic-progress-bar-filler {
+    height: 100%;
+    background-color: var(--default-color-blue);
+}
+</style>
+<div class="guic-progress-bar">
+    <div class="guic-progress-bar-filler"></div>
+</div>
+`;
 const BaseComponent = components.BaseComponent;
 
 /**
@@ -95,20 +115,23 @@ class ProgressBar extends BaseComponent {
      * @param {object} data
     */
     init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
-
-            // Get the filler element when the component is rendered.
-            this.filler = this.querySelector('.guic-progress-bar-filler');
-            this.setProgress();
-        });
+        // this.setupTemplate(data, () => {
+        // components.renderOnce(this);
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        // Get the filler element when the component is rendered.
+        this.filler = this.shadowRoot.querySelector('.guic-progress-bar-filler');
+        this.setProgress();
+        // });
     }
 
     // eslint-disable-next-line require-jsdoc
     connectedCallback() {
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        this.init();
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     /**

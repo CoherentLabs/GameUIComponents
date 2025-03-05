@@ -1,7 +1,7 @@
-import TwoHandlesRangeSliderBase from './twoHandlesRangeSliderBase';
+import TwoHandlesRangeSliderBase from './twoHandlesRangeSliderBase.js';
 // eslint-disable-next-line no-unused-vars
-import Rangeslider from '../../script';
-import { clamp, valueToPercent } from '../rangeSliderUtils';
+import Rangeslider from '../../script.js';
+import { clamp, valueToPercent } from '../rangeSliderUtils.js';
 const SPACE_BETWEEN_GRID_POLS = 10;
 
 /**

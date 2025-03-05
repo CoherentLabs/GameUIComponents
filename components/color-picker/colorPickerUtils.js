@@ -1,4 +1,4 @@
-import hexTransperancies from './hexTransperancies';
+import hexTransperancies from './hexTransperancies.js';
 
 /**
  * Clamp a value between a minimum and maximum value.

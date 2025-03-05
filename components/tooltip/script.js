@@ -3,18 +3,47 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Components } from 'coherent-gameface-components';
-const components = new Components();
-import template from './template.html';
+// import { Components } from 'coherent-gameface-components';
+// const components = new Components();
+// import template from './template.html';
 const TOOLTIP_MARGIN = 5;
 const TOOLTIP_POSITIONS = ['top', 'bottom', 'left', 'right'];
 const NOT_A_PROMISE_ERROR = 'The value in async mode must be a function that returns a promise.';
-const BaseComponent = components.BaseComponent;
+// const BaseComponent = components.BaseComponent;
+const template = `
+<style>
+:host {
+    position: absolute;
+    visibility: hidden;
+    background-color: var(--default-color-blue);
+    width: 150px;
+    padding: 10px;
+    border-radius: 10px;
+    overflow-wrap: break-word;
+}
 
+.guic-tooltip-show-animation {
+    animation: guic-tooltip-fadein 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes guic-tooltip-fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+</style>
+<div class="guic-tooltip">
+    <slot name="message"></slot>
+</div>
+`;
 /**
  * Class definition of the gameface tooltip custom element
  */
-class Tooltip extends BaseComponent {
+class Tooltip extends HTMLElement {
     /* eslint-disable require-jsdoc */
     constructor() {
         super();
@@ -68,11 +97,11 @@ class Tooltip extends BaseComponent {
      * @param {object} data
     */
     init(data) {
-        this.setupTemplate(data, () => {
-            components.renderOnce(this);
-            this.attachEventListeners();
-            this._messageSlot = this.querySelector('.guic-tooltip').firstElementChild;
-        });
+        // this.setupTemplate(data, () => {
+        // components.renderOnce(this);
+        this.attachEventListeners();
+        this._messageSlot = this.shadowRoot.querySelector('slot[name="message"]').assignedNodes()[0];
+        // });
     }
 
     connectedCallback() {
@@ -88,10 +117,13 @@ class Tooltip extends BaseComponent {
 
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
         this.resizeDebounced = this.debounce(this.onWindowResize);
-
-        components.loadResource(this)
-            .then(this.init)
-            .catch(err => console.error(err));
+        const shadow = this.attachShadow({ mode: 'open' });
+        shadow.innerHTML = this.template;
+        this.isRendered = true;
+        this.init();
+        // components.loadResource(this)
+        //     .then(this.init)
+        //     .catch(err => console.error(err));
     }
 
     onWindowResize() {
@@ -337,6 +369,6 @@ class Tooltip extends BaseComponent {
     }
 }
 
-components.defineCustomElement('gameface-tooltip', Tooltip);
+customElements.define('gameface-tooltip', Tooltip);
 
-export default Tooltip;
+// export default Tooltip;

@@ -13,32 +13,33 @@
         rel="stylesheet"
         href="./coherent-gameface-components-theme.css"
     >
-    <link
+    <!-- <link
         rel="stylesheet"
         href="./style.css"
-    >
+    > -->
 </head>
 
 <body class="guic-demo">
     <gameface-tabs>
-        <tab-heading slot="tab">Chapter One</tab-heading>
-        <tab-panel slot="panel">
+        <span slot="tab">Chapter One</span>
+        <div slot="panel">
             <gameface-tabs>
-                <tab-heading slot="tab">Nested Chapter One</tab-heading>
-                <tab-panel slot="panel">Nested Chapter One Content</tab-panel>
-                <tab-heading slot="tab">Nested Chapter Two</tab-heading>
-                <tab-panel slot="panel">Nested Chapter Two Content</tab-panel>
-                <tab-heading slot="tab">Nested Chapter Three</tab-heading>
-                <tab-panel slot="panel">Nested Chapter Three Content</tab-panel>
+                <span slot="tab">Nested Chapter One</span>
+                <div slot="panel">Nested Chapter One Content</div>
+                <span slot="tab">Nested Chapter Two</span>
+                <div slot="panel">Nested Chapter Two Content</div>
+                <span slot="tab">Nested Chapter Three</span>
+                <div slot="panel">Nested Chapter Three Content</div>
             </gameface-tabs>
-        </tab-panel>
-        <tab-heading slot="tab">Chapter Two</tab-heading>
-        <tab-panel slot="panel">Chapter Two Content</tab-panel>
-        <tab-heading slot="tab">Chapter Three</tab-heading>
-        <tab-panel slot="panel">Chapter Three Content</tab-panel>
-        <tab-heading slot="tab">Chapter Four</tab-heading>
-        <tab-panel slot="panel">Chapter Four Content</tab-panel>
+        </div>
+        <span slot="tab">Chapter Two</span>
+        <div slot="panel">Chapter Two Content</div>
+        <span slot="tab">Chapter Three</span>
+        <div slot="panel">Chapter Three Content</div>
+        <span slot="tab">Chapter Four</span>
+        <div slot="panel">Chapter Four Content</div>
     </gameface-tabs>
+    <script src="./script.js"></script>
 </body>
 
 </html>

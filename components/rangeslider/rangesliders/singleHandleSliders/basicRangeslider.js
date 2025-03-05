@@ -1,7 +1,7 @@
-import SingleHandleRangeSliderBase from './singleHandleRangeSliderBase';
+import SingleHandleRangeSliderBase from './singleHandleRangeSliderBase.js';
 // eslint-disable-next-line no-unused-vars
-import Rangeslider from '../../script';
-import { clamp, valueToPercent } from '../rangeSliderUtils';
+import Rangeslider from '../../script.js';
+import { clamp, valueToPercent } from '../rangeSliderUtils.js';
 const SPACE_BETWEEN_GRID_POLS = 10;
 
 /**
@@ -113,7 +113,6 @@ export default class BasicRangeSlider extends SingleHandleRangeSliderBase {
             this.value = newValue;
             return;
         }
-
         this.setBarStyles(percent);
         this.setThumbPosition(percent);
         this.updateCustomHandles();

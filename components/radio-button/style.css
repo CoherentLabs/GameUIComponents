@@ -21,9 +21,9 @@
 	cursor: pointer;
 }
 
-[role="radio"] + [role="radio"] {
+/* [role="radio"] + [role="radio"] {
 	margin-left: 16px;
-}
+} */
 
 [role="radio"] .before,
 [role="radio"] .after {
