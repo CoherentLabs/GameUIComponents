@@ -81,11 +81,14 @@ class Keyboard {
             ),
         ];
 
-        const keyCombinationIndex = IM.getKeysIndex(keys);
+        let keyCombinationCount = IM.getKeys(keys).length;
+        if (keyCombinationCount === 0) return console.error('You are trying to remove a non-existent key combination!');
 
-        if (keyCombinationIndex === -1) return console.error('You are trying to remove a non-existent key combination!');
-
-        _IM.keyboardFunctions.splice(keyCombinationIndex, 1);
+        while (keyCombinationCount > 0) {
+            const keyCombinationIndex = IM.getKeysIndex(keys);
+            _IM.keyboardFunctions.splice(keyCombinationIndex, 1);
+            keyCombinationCount--;
+        }
 
         if (_IM.keyboardFunctions.length === 0) {
             document.removeEventListener('keydown', this.onKeyDown);
