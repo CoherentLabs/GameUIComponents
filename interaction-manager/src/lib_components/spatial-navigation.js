@@ -27,11 +27,12 @@ class SpatialNavigation {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         this.enabled = false;
-        this.navigatableElements = { default: [] };
+        this.navigatableElements = { default: { elements: [], distance: 0 } };
         this.registeredKeys = new Set();
         this.clearCurrentActiveKeys = false;
         this.overlapPercentage = 0.5;
         this.lastFocusedElement = null;
+        this.overflow = { x: 0, y: 0 };
     }
 
     /**
@@ -63,7 +64,7 @@ class SpatialNavigation {
         if (!this.enabled) return;
         this.enabled = false;
 
-        this.navigatableElements = { default: [] };
+        this.navigatableElements = { default: { elements: [], distance: 0 } };
         this.removeKeyActions();
         this.overlapPercentage = 0.5;
         this.lastFocusedElement = null;
@@ -109,7 +110,8 @@ class SpatialNavigation {
 
         domElements.forEach(this.makeFocusable);
 
-        this.navigatableElements.default.push(...domElements);
+        this.navigatableElements.default.elements.push(...domElements);
+        this.navigatableElements.default.distance = this.getElementsDistance(this.navigatableElements.default.elements);
     }
 
     /**
@@ -130,9 +132,49 @@ class SpatialNavigation {
 
         if (domElements.length === 0) return console.error(`${navArea.elements.join(', ')} are either not a correct selectors or the elements are not present in the DOM.`);
 
-        if (!this.navigatableElements[navArea.area]) this.navigatableElements[navArea.area] = [];
+        if (!this.navigatableElements[navArea.area]) {
+            this.navigatableElements[navArea.area] = { elements: [], distance: 0 };
+        }
 
-        this.navigatableElements[navArea.area].push(...domElements);
+        this.navigatableElements[navArea.area].elements.push(...domElements);
+        this.navigatableElements[navArea.area].distance = this.getElementsDistance(domElements);
+    }
+
+    /**
+     * Calculates the distance between the provided elements and return the max distance
+     * @param {HTMLElement[]} elements
+     * @returns {number} - The max distance between the elements
+     */
+    getElementsDistance(elements) {
+        const distances = elements.map((el) => {
+            const { x, y } = el.getBoundingClientRect();
+            return Math.hypot(x, y);
+        });
+
+        this.setOverflowValues(elements[0].parentElement);
+
+        return Math.max(...distances);
+    }
+
+    /**
+     * Calculates the distance between the provided elements and return the max distance
+     * @param {HTMLElement[]} element
+     * @returns {number} - The max distance between the elements
+     */
+    setOverflowValues(element) {
+        if (!element) return null; // Base case: reached the root
+
+        const { scrollWidth, scrollHeight } = element;
+        const overflowX = Math.max(0, scrollWidth - window.innerWidth);
+        const overflowY = Math.max(0, scrollHeight - window.innerHeight);
+
+        if (overflowX > 0 || overflowY > 0) {
+            this.overflow = { x: overflowX, y: overflowY };
+            return;
+        }
+
+        // Recursively check the parent element
+        return this.setOverflowValues(element.parentElement);
     }
 
     /**
@@ -144,23 +186,37 @@ class SpatialNavigation {
     }
 
     /**
+     * Returns the valid focusable elements in the navigatable area
+     * @param {HTMLElement} targetElement
+     * @param {HTMLElement[]} elements
+     * @param {number} distance
+     * @returns {NavigationObject[]}
+     */
+    getFocusableGroup(targetElement, elements, distance) {
+        return elements.reduce((accumulator, element) => {
+            if (element !== targetElement && !element.hasAttribute('disabled')) {
+                const { x, y, height, width } = element.getBoundingClientRect();
+                accumulator.push({
+                    element,
+                    x: x + distance,
+                    y: y + distance,
+                    height,
+                    width,
+                });
+            }
+            return accumulator;
+        }, []);
+    }
+
+    /**
      * Checks if the passed element is within a group and returns the rest of the elements in the group
      * @param {HTMLElement} targetElement
      * @returns {NavigationObject[]}
      */
-    getFocusableGroup(targetElement) {
-        return Object.values(this.navigatableElements).reduce((acc, el) => {
-            if (el.includes(targetElement)) {
-                acc = el.reduce((accumulator, element) => {
-                    if (element !== targetElement && !element.hasAttribute('disabled')) {
-                        const { x, y, height, width } = element.getBoundingClientRect();
-                        accumulator.push({ element, x, y, height, width });
-                    }
-                    return accumulator;
-                }, []);
-            }
-            return acc;
-        }, []);
+    getCurrentArea(targetElement) {
+        return Object.values(this.navigatableElements).find((area) => {
+            if (area.elements.includes(targetElement)) return true;
+        });
     }
 
     /**
@@ -170,10 +226,14 @@ class SpatialNavigation {
      * @param {Object} focusedElement
      * @param {number} focusedElement.x
      * @param {number} focusedElement.y
+     * @param {number} distance
      * @returns {NavigationObject}
      */
-    getClosestToEdge(direction, elements, focusedElement) {
+    getClosestToEdge(direction, elements, focusedElement, distance) {
         let newDistance, oldDistance;
+        const bottomEdge = window.innerHeight + distance + this.overflow.y;
+        const rightEdge = window.innerWidth + distance + this.overflow.x;
+
         return elements.reduce((acc, el) => {
             switch (direction) {
                 case 'down':
@@ -181,16 +241,16 @@ class SpatialNavigation {
                     oldDistance = Math.hypot(acc.x - focusedElement.x, acc.y);
                     break;
                 case 'up':
-                    newDistance = Math.hypot(el.x - focusedElement.x, window.innerHeight - el.y);
-                    oldDistance = Math.hypot(acc.x - focusedElement.x, window.innerHeight - acc.y);
+                    newDistance = Math.hypot(el.x - focusedElement.x, bottomEdge - el.y);
+                    oldDistance = Math.hypot(acc.x - focusedElement.x, bottomEdge - acc.y);
                     break;
                 case 'right':
                     newDistance = Math.hypot(el.x, el.y - focusedElement.y);
                     oldDistance = Math.hypot(acc.x, acc.y - focusedElement.y);
                     break;
                 case 'left':
-                    newDistance = Math.hypot(window.innerWidth - el.x - el.width, el.y - focusedElement.y);
-                    oldDistance = Math.hypot(window.innerWidth - acc.x - acc.width, acc.y - focusedElement.y);
+                    newDistance = Math.hypot(rightEdge - el.x, el.y - focusedElement.y);
+                    oldDistance = Math.hypot(rightEdge - acc.x, acc.y - focusedElement.y);
                     break;
             }
             acc = newDistance < oldDistance ? el : acc;
@@ -209,20 +269,32 @@ class SpatialNavigation {
 
         const activeElement = this.checkActiveElementInGroup();
 
-        const focusableGroup = this.getFocusableGroup(activeElement);
+        const currentArea = this.getCurrentArea(activeElement);
+        if (!currentArea) return console.error('The active element is not in a focusable area!');
+
+        const distance = currentArea.distance;
+        const focusableGroup = this.getFocusableGroup(activeElement, currentArea.elements, distance);
 
         const { x, y, width, height } = activeElement.getBoundingClientRect();
 
+        const adjustedDimensions = {
+            x: x + distance,
+            y: y + distance,
+            width,
+            height,
+        };
+
         if (focusableGroup.length === 0) return;
 
-        const currentAxisGroup = this.filterGroupByCurrentAxis(direction, focusableGroup, { x, y, width, height });
+        const currentAxisGroup = this.filterGroupByCurrentAxis(direction, focusableGroup, adjustedDimensions);
 
         if (!currentAxisGroup.length) return;
 
-        let nextFocusableElement = this.findNextElement(direction, currentAxisGroup, x, y);
+        let nextFocusableElement = this.findNextElement(
+            direction, currentAxisGroup, adjustedDimensions.x, adjustedDimensions.y);
 
         if (!nextFocusableElement) {
-            nextFocusableElement = this.getClosestToEdge(direction, currentAxisGroup, { x, y });
+            nextFocusableElement = this.getClosestToEdge(direction, currentAxisGroup, adjustedDimensions, distance);
         }
 
         if (nextFocusableElement) {
@@ -414,7 +486,7 @@ class SpatialNavigation {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
 
-        this.lastFocusedElement = navigatableElements[0];
+        this.lastFocusedElement = navigatableElements.elements[0];
         this.lastFocusedElement.focus();
     }
 
@@ -431,7 +503,7 @@ class SpatialNavigation {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
 
-        this.lastFocusedElement = navigatableElements.slice(-1)[0];
+        this.lastFocusedElement = navigatableElements.elements.slice(-1)[0];
         this.lastFocusedElement.focus();
     }
 
@@ -448,7 +520,7 @@ class SpatialNavigation {
      * @returns {boolean}
      */
     isActiveElementInGroup() {
-        return Object.values(this.navigatableElements).some(group => group.includes(document.activeElement));
+        return Object.values(this.navigatableElements).some(group => group.elements.includes(document.activeElement));
     }
 
     /**
