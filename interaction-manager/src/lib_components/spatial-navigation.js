@@ -92,9 +92,9 @@ class SpatialNavigation {
 
         if (!this.navigatableElements[area]) return console.error(`The area '${area}' you are trying to remove doesn't exist`);
 
-        this.navigatableElements[area].forEach(element => element.removeAttribute('tabindex'));
+        this.navigatableElements[area].elements.forEach(element => element.removeAttribute('tabindex'));
 
-        this.navigatableElements[area].length = 0;
+        this.navigatableElements[area] = {};
     }
 
     /**
@@ -153,12 +153,11 @@ class SpatialNavigation {
      * @returns {number} - The max distance between the elements
      */
     getElementsDistance(elements) {
-        const distances = elements.map((el) => {
+        return elements.reduce((acc, el) => {
             const { x, y } = el.getBoundingClientRect();
-            return Math.hypot(x, y);
-        });
-
-        return Math.max(...distances);
+            const distance = Math.hypot(x, y);
+            return acc < distance ? distance : acc;
+        }, 0);
     }
 
     /**
