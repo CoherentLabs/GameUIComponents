@@ -53,7 +53,7 @@
   "homepage": "https://github.com/CoherentLabs/GameUIComponents#readme",
   "devDependencies": {
     "babel-loader": "^9.1.3",
-    "chai": "^4.3.10",
+    "chai": "^5.1.1",
     "css-loader": "^6.10.0",
     "esbuild": "^0.20.2",
     "esbuild-plugin-ifdef": "^1.0.1",
