@@ -157,9 +157,9 @@ class SpatialNavigation {
     }
 
     /**
-     * Calculates the distance between the provided elements and return the max distance
-     * @param {HTMLElement[]} element
-     * @returns {number} - The max distance between the elements
+     * Recursively checks for overflow in the parent elements and sets the global overflow values
+     * @param {HTMLElement} element - The element to check for overflow
+     * @returns {HTMLElement|null} - Next element to check for overflow
      */
     setOverflowValues(element) {
         if (!element) return null; // Base case: reached the root
@@ -272,8 +272,8 @@ class SpatialNavigation {
         const currentArea = this.getCurrentArea(activeElement);
         if (!currentArea) return console.error('The active element is not in a focusable area!');
 
-        const distance = currentArea.distance;
-        const focusableGroup = this.getFocusableGroup(activeElement, currentArea.elements, distance);
+        const { elements, distance } = currentArea;
+        const focusableGroup = this.getFocusableGroup(activeElement, elements, distance);
 
         const { x, y, width, height } = activeElement.getBoundingClientRect();
 
