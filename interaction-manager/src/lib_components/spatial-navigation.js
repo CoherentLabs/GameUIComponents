@@ -27,12 +27,11 @@ class SpatialNavigation {
     // eslint-disable-next-line require-jsdoc
     constructor() {
         this.enabled = false;
-        this.navigatableElements = { default: { elements: [], distance: 0 } };
+        this.navigatableElements = { default: { elements: [], distance: 0, overflow: { x: 0, y: 0 } } };
         this.registeredKeys = new Set();
         this.clearCurrentActiveKeys = false;
         this.overlapPercentage = 0.5;
         this.lastFocusedElement = null;
-        this.overflow = { x: 0, y: 0 };
     }
 
     /**
@@ -64,7 +63,7 @@ class SpatialNavigation {
         if (!this.enabled) return;
         this.enabled = false;
 
-        this.navigatableElements = { default: { elements: [], distance: 0 } };
+        this.navigatableElements = { default: { elements: [], distance: 0, overflow: { x: 0, y: 0 } } };
         this.removeKeyActions();
         this.overlapPercentage = 0.5;
         this.lastFocusedElement = null;
@@ -110,8 +109,7 @@ class SpatialNavigation {
 
         domElements.forEach(this.makeFocusable);
 
-        this.navigatableElements.default.elements.push(...domElements);
-        this.navigatableElements.default.distance = this.getElementsDistance(this.navigatableElements.default.elements);
+        this.setNavigationAreaProperties('default', domElements);
     }
 
     /**
@@ -136,8 +134,17 @@ class SpatialNavigation {
             this.navigatableElements[navArea.area] = { elements: [], distance: 0 };
         }
 
-        this.navigatableElements[navArea.area].elements.push(...domElements);
-        this.navigatableElements[navArea.area].distance = this.getElementsDistance(domElements);
+        this.setNavigationAreaProperties(navArea.area, domElements);
+    }
+
+    /**
+     * @param {string} area - The area to set the properties for
+     * @param {HTMLElement[]} domElements - The elements to be added to the area
+     */
+    setNavigationAreaProperties(area, domElements) {
+        this.navigatableElements[area].elements.push(...domElements);
+        this.navigatableElements[area].distance = this.getElementsDistance(this.navigatableElements[area].elements);
+        this.navigatableElements[area].overflow = this.setOverflowValues(domElements[0].parentElement);
     }
 
     /**
@@ -151,29 +158,25 @@ class SpatialNavigation {
             return Math.hypot(x, y);
         });
 
-        this.setOverflowValues(elements[0].parentElement);
-
         return Math.max(...distances);
     }
 
     /**
-     * Recursively checks for overflow in the parent elements and sets the global overflow values
+     * Recursively checks for overflow in the parent elements and sets the area overflow values
      * @param {HTMLElement} element - The element to check for overflow
-     * @returns {HTMLElement|null} - Next element to check for overflow
+     * @returns {{x: number, y: number}|HTMLElement} - Next element to check for overflow or object with the overflow values
      */
     setOverflowValues(element) {
-        if (!element) return null; // Base case: reached the root
+        if (!element) return { x: 0, y: 0 };
 
         const { scrollWidth, scrollHeight } = element;
         const overflowX = Math.max(0, scrollWidth - window.innerWidth);
         const overflowY = Math.max(0, scrollHeight - window.innerHeight);
 
         if (overflowX > 0 || overflowY > 0) {
-            this.overflow = { x: overflowX, y: overflowY };
-            return;
+            return { x: overflowX, y: overflowY };
         }
 
-        // Recursively check the parent element
         return this.setOverflowValues(element.parentElement);
     }
 
@@ -227,12 +230,13 @@ class SpatialNavigation {
      * @param {number} focusedElement.x
      * @param {number} focusedElement.y
      * @param {number} distance
+     * @param {{x: number, y: number}} overflow
      * @returns {NavigationObject}
      */
-    getClosestToEdge(direction, elements, focusedElement, distance) {
+    getClosestToEdge(direction, elements, focusedElement, distance, overflow) {
         let newDistance, oldDistance;
-        const bottomEdge = window.innerHeight + distance + this.overflow.y;
-        const rightEdge = window.innerWidth + distance + this.overflow.x;
+        const bottomEdge = window.innerHeight + distance + overflow.y;
+        const rightEdge = window.innerWidth + distance + overflow.x;
 
         return elements.reduce((acc, el) => {
             switch (direction) {
@@ -272,7 +276,7 @@ class SpatialNavigation {
         const currentArea = this.getCurrentArea(activeElement);
         if (!currentArea) return console.error('The active element is not in a focusable area!');
 
-        const { elements, distance } = currentArea;
+        const { elements, distance, overflow } = currentArea;
         const focusableGroup = this.getFocusableGroup(activeElement, elements, distance);
 
         const { x, y, width, height } = activeElement.getBoundingClientRect();
@@ -294,7 +298,9 @@ class SpatialNavigation {
             direction, currentAxisGroup, adjustedDimensions.x, adjustedDimensions.y);
 
         if (!nextFocusableElement) {
-            nextFocusableElement = this.getClosestToEdge(direction, currentAxisGroup, adjustedDimensions, distance);
+            nextFocusableElement = this.getClosestToEdge(
+                direction, currentAxisGroup, adjustedDimensions, distance, overflow
+            );
         }
 
         if (nextFocusableElement) {
@@ -481,12 +487,15 @@ class SpatialNavigation {
      * @returns {void}
      */
     focusFirst(area = 'default') {
-        const navigatableElements = this.navigatableElements[area];
+        const navigatableElements = this.navigatableElements[area].elements;
         if (!navigatableElements || navigatableElements.length === 0) {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
 
-        this.lastFocusedElement = navigatableElements.elements[0];
+        this.lastFocusedElement = navigatableElements.find(el => !el.hasAttribute('disabled'));
+        if (!this.lastFocusedElement) {
+            return console.error(`The area '${area}' you are trying to focus doesn't have any focusable elements`);
+        }
         this.lastFocusedElement.focus();
     }
 
@@ -498,12 +507,23 @@ class SpatialNavigation {
     focusLast(area = 'default') {
         if (!this.enabled) return;
 
-        const navigatableElements = this.navigatableElements[area];
+        const navigatableElements = this.navigatableElements[area].elements;
         if (!navigatableElements || navigatableElements.length === 0) {
             return console.error(`The area '${area}' you are trying to focus doesn't exist or the spatial navigation hasn't been initialized`);
         }
 
-        this.lastFocusedElement = navigatableElements.elements.slice(-1)[0];
+        let element;
+        for (let i = navigatableElements.length - 1; i >= 0; i--) {
+            if (!navigatableElements[i].hasAttribute('disabled')) {
+                element = navigatableElements[i];
+                break;
+            }
+        }
+
+        this.lastFocusedElement = element;
+        if (!this.lastFocusedElement) {
+            return console.error(`The area '${area}' you are trying to focus doesn't have any focusable elements`);
+        }
         this.lastFocusedElement.focus();
     }
 
