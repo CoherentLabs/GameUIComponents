@@ -21,7 +21,7 @@ describe('Gamepad', () => {
             callback: () => {},
         });
 
-        const gamepadAction = _IM.getGamepadAction(registeredGamepadButtons);
+        const gamepadAction = _IM.getGamepadAction({ actions: registeredGamepadButtons, type: 'hold' });
 
         assert.exists(gamepadAction);
     });

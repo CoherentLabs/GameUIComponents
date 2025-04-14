@@ -47,7 +47,10 @@ class IM {
      */
     getGamepadAction({ actions, type }) {
         return _IM.gamepadFunctions.find((gpFunc) => {
-            return (gpFunc.actions.every(action => actions.includes(action)) && gpFunc.type === type);
+            return (
+                gpFunc.actions.every(action => actions.includes(action)) &&
+                gpFunc.type === type && gpFunc.actions.length === actions.length
+            );
         });
     }
 
@@ -58,7 +61,10 @@ class IM {
      * @returns {Object} Action from the _IM global object
      */
     getGamepadActions(actions) {
-        return _IM.gamepadFunctions.filter(gpFunc => gpFunc.actions.every(action => actions.includes(action)));
+        return _IM.gamepadFunctions.filter(
+            gpFunc => gpFunc.actions.every(action => actions.includes(action)) &&
+            gpFunc.actions.length === actions.length
+        );
     }
 
     /**
