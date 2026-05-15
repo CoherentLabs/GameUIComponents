@@ -105,6 +105,8 @@ async function createRelease(tag) {
  * @param {string} folder
  */
 async function publish(component, folder = COMPONENTS_PATH) {
+    if (execSync(`npm view ${component} deprecated`, { encoding: 'utf8' })) return console.warn(`Package ${component} is deprecated. Won't publish!`);
+
     try {
         const { version, name } = JSON.parse(fs.readFileSync(path.join(folder, component, 'package.json')));
         const tag = `${name}@${version}`;
@@ -117,6 +119,7 @@ async function publish(component, folder = COMPONENTS_PATH) {
 
         await createRelease(tag);
         execSync(`npm publish`, { cwd: path.join(folder, component), encoding: 'utf8', stdio: 'inherit' });
+        execSync(`npm deprecate ${name} "This package is deprecated and no longer maintained. Please migrate to the new Gameface UI at https://gameface-ui.coherent-labs.com/"`, { encoding: 'utf8', stdio: 'inherit' });
         console.log(`Successfully published ${component}.`);
     } catch (err) {
         console.error(err);
@@ -129,7 +132,6 @@ async function main() {
     try {
         if (shouldUpdate('lib', LIBRARY_PATH)) await publish('lib', LIBRARY_PATH);
         if (shouldUpdate('cli', CLI_PATH)) await publish('cli', CLI_PATH);
-        if (shouldUpdate('interaction-manager', LIBRARY_PATH)) await publish('interaction-manager', LIBRARY_PATH);
 
         const components = fs.readdirSync(COMPONENTS_PATH);
         for (const component of components) {
