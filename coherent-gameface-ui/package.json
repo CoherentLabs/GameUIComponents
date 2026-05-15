@@ -1,6 +1,6 @@
 {
   "name": "coherent-gameface-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A suite of components for Game UI",
   "main": "index.js",
   "scripts": {

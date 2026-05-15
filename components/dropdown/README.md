@@ -2,6 +2,14 @@
 
 <a href="https://www.npmjs.com/package/coherent-gameface-dropdown"><img src="http://img.shields.io/npm/v/coherent-gameface-dropdown.svg?style=flat-square"/></a>
 
+<div style="background-color: rgba(255, 229, 100, 0.3); border-left: 5px solid #e5c100; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+  <h3 style="margin-top: 0">⚠️ Package Deprecated</h3>
+  <p style=" margin-bottom: 0;">
+    This legacy package has been deprecated in favor of the updated Gameface UI suite. 
+    Please switch to the official framework at <a href="https://gameface-ui.coherent-labs.com/" style=" font-weight: bold; text-decoration: underline;">Gameface UI</a>.
+  </p>
+</div>
+
 The gameface-dropdown is part of the Gameface custom components suite.
 
 Installation
