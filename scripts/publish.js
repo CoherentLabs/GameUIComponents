@@ -105,10 +105,9 @@ async function createRelease(tag) {
  * @param {string} folder
  */
 async function publish(component, folder = COMPONENTS_PATH) {
-    if (execSync(`npm view ${component} deprecated`, { encoding: 'utf8' })) return console.warn(`Package ${component} is deprecated. Won't publish!`);
-
     try {
         const { version, name } = JSON.parse(fs.readFileSync(path.join(folder, component, 'package.json')));
+        if (execSync(`npm view ${name} deprecated`, { encoding: 'utf8' })) return console.warn(`Package ${component} is deprecated. Won't publish!`);
         const tag = `${name}@${version}`;
 
         if (execSync(`git tag -l ${tag}`) === '') {
