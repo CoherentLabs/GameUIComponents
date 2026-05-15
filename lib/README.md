@@ -1,4 +1,13 @@
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+
+<div style="background-color: rgba(255, 229, 100, 0.3); border-left: 5px solid #e5c100; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+  <h3 style="margin-top: 0">⚠️ Package Deprecated</h3>
+  <p style=" margin-bottom: 0;">
+    This legacy package has been deprecated in favor of the updated Gameface UI suite. 
+    Please switch to the official framework at <a href="https://gameface-ui.coherent-labs.com/" style=" font-weight: bold; text-decoration: underline;">Gameface UI</a>.
+  </p>
+</div>
+
 Component library which supports the creation and usage of custom elements. Provides a way to encapsulate a component specific functionality and reuse it. Similar to the [Web Components suite](https://developer.mozilla.org/en-US/docs/Web/Web_Components). Exports a `Components` class that can be instantiated.
 
 The fundamental idea in the Component System is the same as in the standard Web Components. However, there are some key points that make them different.

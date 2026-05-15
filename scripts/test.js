@@ -63,7 +63,6 @@ function linkDependencies() {
 function test(rebuild, browsersArg, noLink = false) {
     if (rebuild) {
         execSync('npm run build:dev', { cwd: ROOT_FOLDER, stdio: 'inherit' });
-        execSync('npm run build:im', { cwd: ROOT_FOLDER, stdio: 'inherit' });
     }
     if (!areComponentsPackaged()) global.process.exit(1);
 
