@@ -1,5 +1,5 @@
 ---
-date: 2024-1-10
+date: 2026-5-15
 title: Accordion menu
 draft: false
 ---
@@ -7,6 +7,14 @@ draft: false
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 
 <a href="https://www.npmjs.com/package/coherent-gameface-accordion-menu"><img src="http://img.shields.io/npm/v/coherent-gameface-accordion-menu.svg?style=flat-square"/></a>
+
+<div style="background-color: rgba(255, 229, 100, 0.3); border-left: 5px solid #e5c100; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+  <h3 style="margin-top: 0">⚠️ Package Deprecated</h3>
+  <p style=" margin-bottom: 0;">
+    This legacy package has been deprecated in favor of the updated Gameface UI suite. 
+    Please switch to the official framework at <a href="https://gameface-ui.coherent-labs.com/" style=" font-weight: bold; text-decoration: underline;">Gameface UI</a>.
+  </p>
+</div>
 
 The accordion-menu is part of the Gameface custom components suite. As most of the components in this suite it uses slots to allow dynamic content.
 

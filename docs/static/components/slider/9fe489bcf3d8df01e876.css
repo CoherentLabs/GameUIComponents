@@ -1,0 +1,64 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+    background-color: #FFF;
+}
+
+.guic-vertical-slider-wrapper {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 15px;
+}
+
+.guic-slider-vertical-arrow {
+    height: 15px;
+    width: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
+}
+
+.guic-slider-vertical-arrow:hover {
+    background-color: #c1c1c1;
+}
+
+.guic-slider-arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-bottom: 5px solid #505050;
+}
+
+.guic-slider-arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-top: 5px solid #505050;
+}
+
+.guic-slider-vertical-slider {
+    background-color: #f1f1f1;
+    flex: 1;
+}
+
+.guic-slider-vertical-handle {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: #c1c1c1;
+    cursor: pointer;
+}
+
+.guic-slider-vertical-handle:hover {
+    background-color: #787878;
+}

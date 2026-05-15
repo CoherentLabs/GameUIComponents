@@ -1,10 +1,18 @@
 ---
-date: 2025-1-07
+date: 2026-5-15
 title: Components for Game User Interface
 draft: false
 ---
 
 <!--Copyright (c) Coherent Labs AD. All rights reserved. -->
+
+<div style="background-color: rgba(255, 229, 100, 0.3); border-left: 5px solid #e5c100; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+  <h3 style="margin-top: 0">⚠️ Package Deprecated</h3>
+  <p style=" margin-bottom: 0;">
+    This legacy package has been deprecated in favor of the updated Gameface UI suite. 
+    Please switch to the official framework at <a href="https://gameface-ui.coherent-labs.com/" style=" font-weight: bold; text-decoration: underline;">Gameface UI</a>.
+  </p>
+</div>
 
 This is a suite of custom elements designed specifically for [Gameface](https://coherent-labs.com/products/coherent-gameface/). All components can also be used in Google Chrome. All components are npm packages available in the npm registry. Use `npm i coherent-gameface-<component-name>` to install any of them. You can also build them from source.
 

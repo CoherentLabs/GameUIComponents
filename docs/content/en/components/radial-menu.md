@@ -1,5 +1,5 @@
 ---
-date: 2024-10-24
+date: 2026-5-15
 title: Radial menu
 draft: false
 ---
@@ -7,6 +7,14 @@ draft: false
 <!--Copyright (c) Coherent Labs AD. All rights reserved. Licensed under the MIT License. See License.txt in the project root for license information. -->
 
 <a href="https://www.npmjs.com/package/coherent-gameface-radial-menu"><img src="http://img.shields.io/npm/v/coherent-gameface-radial-menu.svg?style=flat-square"/></a>
+
+<div style="background-color: rgba(255, 229, 100, 0.3); border-left: 5px solid #e5c100; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+  <h3 style="margin-top: 0">⚠️ Package Deprecated</h3>
+  <p style=" margin-bottom: 0;">
+    This legacy package has been deprecated in favor of the updated Gameface UI suite. 
+    Please switch to the official framework at <a href="https://gameface-ui.coherent-labs.com/" style=" font-weight: bold; text-decoration: underline;">Gameface UI</a>.
+  </p>
+</div>
 
 The radial-menu is part of the Gameface custom Components suite.
 
@@ -155,7 +163,14 @@ the attached functions are decoupled from the component itself.
 
 #### Getting the selected element
 
-To retrieve the currently selected item whenever an item is selected, you need to listen for the custom event that is emitted when a selection is made. You can do this by adding an event listener for the event specified in the `data-select-event-name attribute`.
+To retrieve the currently selected item whenever an item is selected, you need to listen for the custom event that is emitted when a selection is made. You can do this by adding an event listener for the event specified in the `data-select-event-name` attribute.
+
+```html
+<gameface-radial-menu
+	data-select-event-name="itemSelected"
+	data-open-key-code="SHIFT">
+</gameface-radial-menu> 
+```
 
 ```javascript
 radialMenu.addEventListener('itemSelected', (event) => {
