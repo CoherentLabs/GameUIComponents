@@ -1,0 +1,57 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Coherent Labs AD. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.guic-tabs-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.guic-tabs-header {
+    display: flex;
+    flex-direction: row;
+}
+
+tab-heading {
+    margin-right : 2px;
+    padding: 10px;
+    border-width: 3px;
+    border-style: solid;
+    cursor: pointer;
+	box-sizing: border-box;
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
+}
+
+.guic-tabs-active-tab {
+    border-bottom: none;
+    background-color: var(--default-color-gray);
+}
+
+.guic-tabs-active-panel {
+    display: block;
+}
+
+tab-panel {
+    position: relative;
+    top: -3px;
+    border-width: 2px;
+    border-style: solid;
+    padding: 10px;
+    height: 500px;
+    display: none;
+    box-sizing: border-box;
+    border-top-color: var(--default-color-blue);
+    border-right-color: var(--default-color-blue);
+    border-bottom-color: var(--default-color-blue);
+    border-left-color: var(--default-color-blue);
+    background-color: var(--default-color-white);
+}
+
+gameface-tabs {
+    display: flex;
+}

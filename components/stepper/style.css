@@ -7,6 +7,10 @@ gameface-stepper {
     display: flex;
 }
 
+gameface-stepper-item {
+    display: none;
+}
+
 .guic-stepper {
     display: flex;
     border-width: 1px;
